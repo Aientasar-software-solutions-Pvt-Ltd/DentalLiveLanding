@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dental-Live Mail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"/>
+  <style>
+  section {
+  padding: 5rem 0;
+  }
+  @media (min-width: 320px) and (max-width: 991px){
+  section {
+  padding: 2rem 0;
+  }}
+
+  @media screen and (min-width:1400px) {.box .nav-pills .nav-link {width: 235px!important;  } }
+  @media (min-width: 768px){.flex-md-row { flex-direction: row!important;}}
+  @media (min-width: 576px){.card-group {flex-flow: row wrap;}}
+  .animation-one {
+        -webkit-animation: move-one 7s ease-in-out infinite;
+        animation: move-one 7s ease-in-out infinite;
+        animation-delay: 0.5s
+    }
+    @keyframes move-one {
+        0% {
+            -webkit-transform: translateX(0) translateY(5px);
+            transform: translateX(0) translateY(5px)
+        }
+        50% {
+            -webkit-transform: translateX(0) translateY(-5px);
+            transform: translateX(0) translateY(-5px)
+        }
+        100% {
+            -webkit-transform: translateX(0) translateY(5px);
+            transform: translateX(0) translateY(5px)
+        }
+    }
+      @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    -ms-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInLeft {0% { opacity: 0;-webkit-transform: translateX(-20px);-ms-transform: translateX(-20px); transform: translateX(-20px);
+  }100% { opacity: 1;-webkit-transform: translateX(0);-ms-transform: translateX(0); transform: translateX(0);}} @keyframes fadeInRight {0% { opacity: 0; -webkit-transform: translateX(20px); -ms-transform: translateX(20px);transform: translateX(20px);
+  }100% {opacity: 1;-webkit-transform: translateX(0);-ms-transform: translateX(0);transform: translateX(0);}}
+    
+#carouselExampleCaptions  .carousel-indicators .active {opacity: 1!important;}
+#carouselExampleCaptions  .carousel-indicators [data-bs-target] {opacity: 0.8;box-sizing: content-box;flex: 0 1 auto;width: auto;}  
+.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover, .carousel-control-prev-icon:focus, .carousel-control-next-icon:focus { text-decoration: none;border-radius: 20px;background-color: #00d9cc;opacity: 1;}
+/* .carousel-control-next, .carousel-control-prev ,.owl-prev,.owl-next  {position: initial;display: inline;width: auto;} */
+.carousel-dark .carousel-control-next-icon, .carousel-dark .carousel-control-prev-icon {filter: none;}.carousel-control-prev,  .carousel-control-next {color: #3d3d3d ;opacity: 1;}
+.carousel-control-prev-icon, .carousel-control-next-icon , .owl-prev, .owl-next {border-radius: 20px;background-image: none;color: #fff;font-size: 14px;background-color: #dedee4;height: 32px;line-height: 32px;width: 32px;}  
+.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {opacity: 0.85;}
+/* .carousel-control-prev, .owl-prev {left: 40%;top: 110%;}
+.carousel-control-next ,.owl-next {right: 40%;top: 110%;} */
+.carousel-dark .carousel-indicators [data-bs-target] {opacity: 1; background-color:transparent;}
+.carousel-indicators { justify-content: initial; position: relative; margin-left: 0px; margin-right: 0px; top: 0;}
+.carousel-indicators [data-bs-target] { box-sizing: border-box;height:auto !important;text-indent:0;  }
+      
+::-webkit-scrollbar { width:4px;}
+::-webkit-scrollbar-thumb { background: #0170d2;border-radius: 50px;}
+.owl-prev .fa, .owl-next .fa ,  .carousel-control-prev-icon .fa,  .carousel-control-next-icon .fa{font-size: smaller;color: white; }
+.owl-theme .owl-nav [class*=owl-] {border-radius: 50%;background: #D6D6D6!important;}
+#owl-demo-four .owl-nav [class*='owl-']:hover ,#owl-demo-four .owl-nav [class*='owl-']:focus {border: 2px solid #07D5E8;background: #07D5E8!important;color: #ffffff!important}
+
+.nav-pills .nav-link{font-family: Sintony;font-size: 16px;font-style: normal;color: #5D6A7E;text-align: center;padding: 20px;height: 65px;width: 200px;border-radius: 5px;font-weight: 400;text-transform: capitalize;border: 1px solid #C9D6D5!important;}
+.nav-pills .nav-link:hover{color:#fdfdfd!important; background-color:#0070D2!important; }
+.nav-pills .nav-link img:last-child,
+.nav-pills .nav-link.active img:first-child,
+.nav-pills .nav-link:hover img:first-child { display: none;}
+.nav-pills .nav-link.active img:last-child,
+.nav-pills .nav-link:hover img:last-child { display: inline-block; }
+
+.scrolling-wrapper::-webkit-scrollbar { display: none;-webkit-overflow-scrolling: touch;-ms-overflow-style: none;}
+
+.avatar.avatar-circle {border-radius: 50%;}
+.avatar { position: relative; display: inline-block; width: 3.125rem; height: 3.125rem;min-width: 3.125rem; border-radius: 0.375rem;}
+.avatar.avatar-circle .avatar-img,
+.avatar.avatar-circle .avatar-initials { border-radius: 50%;}
+.avatar-ex-lg { width: 6.25rem; min-width: 6.25rem;  height: 6.25rem;border: 1px solid #00d9cc;}
+
+.pricing-table {box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); position: relative; background-color: #ffffff; border-radius: 10px;transition: 0.5s all ease;}
+.pricing-table:hover { box-shadow: 0px 4px 50px #D0D6DE;z-index: index 99999 !important;}
+
+
+    
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span { background-color: #00d9cc; width: 25px;}
+#owl-demo-six .owl-dots .owl-dot span,
+#owl-demo-six .owl-dots .owl-dot.active span,
+#owl-demo-six .owl-dots .owl-dot:hover span { background-color: #fff; } 
+</style>
+</head>
+<body >
+ 
+  <header class="w-100 overflow-hidden main_landing">
+      <nav class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" data-wow-delay="0.4s"  style=" background-color: #fff !important;">
+          <div class="container">
+              <a class="navbar-brand" href="index.html"><img src="assets/Logo_Dark.png" /></a>
+              <button class="navbar-toggler collapsed" data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false">
+                  <span class="navbar-toggler-icon"> <i class="fa fa-bars"></i></span>
+              </button>
+              <div class="collapse navbar-collapse mt-1" id="collapsibleNavbar">
+                  <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                      <li class="nav-item">
+                          <a class="nav-link bold" href="#Products" style="color:#011A3E;">Products</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link bold" href="#Solutions" style="color: #011A3E;">Solutions</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link bold" href="#Plans" style="color: #011A3E;">Plans</a>
+                      </li>
+                  </ul>
+                  <div class="dropdown-divider"></div>
+                  <ul class="navbar-nav mb-md-0 ml-auto">
+                      <li class="nav-item">
+                        <a href="https://d1eqbgsf09hz76.cloudfront.net/login" target="_blank" class="btn btn-primary me-2 my-1" style="height: 40px;line-height: 12px;">Login</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="https://d1eqbgsf09hz76.cloudfront.net/signup" target="_blank" class="btn btn-dark my-1" style="height: 40px;line-height: 12px;">Sign Up </a>                 
+                        </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <nav class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" data-wow-delay="0.4s"  style="height: 50px;">
+          <div class="container">
+              <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                  <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                      <li class="nav-item me-5">
+                        <a class="nav-link bold" href="DentalLiveMail.html" style="color: #011A3E;">Dental Live Mail</a>                  
+                        </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+   
+      </div>
+   
+  </header>
+
+<section>
+  <div class="container">
+    <div class="d-flex row   align-items-md-center justify-content-between">
+        <div class="col-md-6 col-sm-12">
+            <div class="wow fadeInUp mt-md-5" data-wow-delay="0.6s">
+                <h3 class=" fw-bold " style="color: #011A3E;"><span style="color: #0070D2;">An AudioVisual Platform to illustrate</span>  
+                  your most complex treatment plans to patients</h3>
+                  <div class="action-btn mt-5 align-items-center d-block d-sm-flex d-lg-flex d-md-flex">
+                    <a href="https://d1eqbgsf09hz76.cloudfront.net/login" target="_blank" class="btn btn-dark me-3" style="padding: 14px 28px;">Try Now</a>
+                    <a href="https://d1eqbgsf09hz76.cloudfront.net/login" target="_blank" class="body1 text-decoration-none  d-inline-flex align-items-center  mt-3 mt-lg-0 mt-md-0" style="color: #011A3E ;"> 
+                       30 Days FREE Trial </a>
+                </div>
+              
+            </div>
+        </div>
+        <div class="d-none d-md-block col-md-6">
+          <div class="appie-hero-thumb">
+            <img  src="asset/video-conference-people-group.png" style="transform: translateZ(0);"  class=" wow fadeInUp " data-wow-delay="0.8s"/>
+          </div>
+        </div>
+    
+      </div>
+  </div>
+       
+    </div>
+  </section>
+  <!-- main section -->
+  <main class="overflow-hidden w-100">
+
+      <!-- Products  -->
+      <section  class="wheel-banner" id="wheel-banner-area">
+        <div class="container">
+          <div class="row"> 
+            <div class="col-md-6">
+              <div class="circle">
+                <div class="dotted-line">
+                 
+                    <svg  width="500" height="500"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="316" height="316" viewBox="0 0 316 316" fill="none">
+                      <g filter="url(#filter0_d_1:2)">
+                      <path d="M158 266C217.647 266 266 217.647 266 158C266 98.3532 217.647 50 158 50C98.3532 50 50 98.3532 50 158C50 217.647 98.3532 266 158 266Z" fill="#EFF3F7"/>
+                      <rect x="87" y="147" width="142" height="21" fill="url(#pattern0)"/>
+                      </g>
+                      <defs>
+                      <filter id="filter0_d_1:2" x="0" y="0" width="316" height="316" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                      <feOffset/>
+                      <feGaussianBlur stdDeviation="25"/>
+                      <feColorMatrix type="matrix" values="0 0 0 0 0.815686 0 0 0 0 0.839216 0 0 0 0 0.870588 0 0 0 1 0"/>
+                      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1:2"/>
+                      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1:2" result="shape"/>
+                      </filter>
+                      <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                      <use xlink:href="#image0_1:2" transform="scale(0.00704225 0.047619)"/>
+                      </pattern>
+                      <image id="image0_1:2" width="142" height="21" xlink:href="data:image/png;base64,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"/>
+                      </defs>
+                      </svg>
+                    <ul class="social-icons">
+                        <li>
+                          <img data-index="1" src="asset/icon.png"  /></li>
+                        <li>
+                          <img data-index="3" src="asset/icontwo.png"  /></li>
+                        <li>
+                          <img data-index="8" src="asset/iconthree.png"  /></li>
+                        <li >
+                          <img data-index="4" src="asset/icon.png"   /></li>
+                         <li>
+                          <img data-index="6" src="asset/icontwo.png"  /></li>
+                        <li>
+                          <img data-index="7" src="asset/iconthree.png"  /></li>
+                        <li>
+                          <img data-index="2" src="asset/icon.png"  /></li>
+                        <li>
+                          <img data-index="5" src="asset/icontwo.png"  /></li>
+                        <p>Video
+                          Message</p>
+                        <p>Secure
+                          by Hippa</p>
+                        <p>Video Conference</p>
+                        <p >Patient-Centric eMails</p>
+                        <p>Chat</p>
+                        <p>Audio
+                          Message</p>
+                        <p>Meetings</p>
+                        <p>Screen Share</p>
+                    </ul>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div style="margin-top:209px;">
+                <h4 class="card-text mt-2 wow fadeInLeft" data-wow-delay="0.2s" style="color: #354053;">Have more time for the actual dentistry! </h4>
+                
+              <p class="my-4 body1 text-justify wow fadeInLeft" data-wow-delay="0.3s" style="color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                
+                Enjoy Screen sharing like features. Address patients queries regarding treatment plans and care via explanatory videos or screen-sharing messages. 
+              </p>
+
+          </div>
+            </div>
+
+          </div>
+         
+      </div>
+      </section>
+      
+     
+      <section  class="seo-banner-area" style="background-color: #c7e1ff4d;">
+        <div class="container" id="Products">
+       
+            <div class="d-flex row align-items-center justify-content-between">
+                <div class="col-12 col-md-5 order-md-first order-last  ">
+                  <img class="wow fadeInLeft mb-4" src="asset/maillogo.png">
+                    <p class="my-4 body1 text-justify wow fadeInLeft" data-wow-delay="0.3s" style="color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                      DentalLive Mail provides a HIPAA-compliant audio-video mailing solution for all your patient-centric dental correspondence. Audio, video and screen share recording features in one single platform.  
+                    </p>
+                    <div class="wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                    <p class="body1 my-4 ">
+                        <a href="DentalLiveMail.html" class="read-more-btn underline" style="color: #0070d2;">
+                            Learn more about product
+                            <i class="fa fa-arrow-right" aria-hidden="true" style="font-size: small;"></i>
+                        </a>
+                    </p>
+                    <div class="d-flex">
+                    <a href="https://d1eqbgsf09hz76.cloudfront.net/signup/dmail" target="_blank"><button type="button" class="btn btn-dark me-2 btn-3 border-0" style="Width:150px;Height:50px;box-shadow: 0px 4px 20px #c3d2ff00;">Try Now</button>
+                    </a>
+                     <a href="https://d1eqbgsf09hz76.cloudfront.net/signup/dmail" target="_blank"> <button type="button" class="btn btn-outline-primary " style="Width:150px;Height:50px;box-shadow: 0px 4px 20px #c3d2ff00;">Buy Now</button>
+                     </a>
+                    </div>
+                </div>
+              </div>
+                <div class="col-12 col-md-7  mb-5 mb-lg-0">
+                  <div class="seo-img-contant">
+                    <div class="seo-banner-img">
+                    <img src="asset/mail.png" alt="Image">
+                    </div>
+                    <div class="seo-img">
+                    <img src="asset/circle.png" class="seo-img-2" alt="Image">
+                    </div>
+                  
+                    </div>             
+             </div>
+            </div>
+    
+          </div>
+        </section>
+        <section  >
+          <div class="container">
+          <div class="d-flex row align-items-center justify-content-between ">
+            <div class="col-md-6  mb-5 mb-lg-0">
+              <div class="Talk-img-content">
+                <div class="Talk-banner-img">
+                <img src="asset/talk.png" alt="Image">
+                </div>
+                <div class="Talk-img">
+                <img src="asset/talkimg.png" class="Talk-img-2" alt="Image">
+                </div>
+              
+                </div>           
+               </div>
+            <div class="col-md-5 justify-content-between ">
+              <img class="wow fadeInLeft mb-4" src="asset/talklogo.png">
+              <p class="my-4 body1 text-justify wow fadeInLeft" data-wow-delay="0.3s" style="color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                Dental Live  presents a system that just makes sense… I am passionate and committed and does not accept a standard of care that is not in the patients’ best interest and Dental Live help me to do so  
+              </p>
+              <div class="wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+              <p class="body1 my-4 ">
+                  <a href="DentalLiveMail.html" class="read-more-btn underline" style="color: #0070d2;">
+                      Learn more about product
+                      <i class="fa fa-arrow-right" aria-hidden="true" style="font-size: small;"></i>
+                  </a>
+              </p>
+              <div class="d-flex">
+              <a href="https://d1eqbgsf09hz76.cloudfront.net/signup/dmail" target="_blank"><button type="button" class="btn btn-dark me-2 btn-3 border-0" style="Width:150px;Height:50px;box-shadow: 0px 4px 20px #c3d2ff00;">Try Now</button>
+              </a>
+               <a href="https://d1eqbgsf09hz76.cloudfront.net/signup/dmail" target="_blank"> <button type="button" class="btn btn-outline-primary " style="Width:150px;Height:50px;box-shadow: 0px 4px 20px #c3d2ff00;">Buy Now</button>
+               </a>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+        </section>
+      
+
+     
+      <!-- Products End  -->
+          <!-- Plans and pricing -->
+          <section >
+            <div class="container justify-content-center " id="Plans">
+              <div class="row">
+                <div class="col-lg-12 mb-4 pb-2">
+                  <h1 class="h1 text-center mb-4 wow fadeInUp" data-wow-delay="0.1s" style="font-weight: 600; color: rgb(22, 48, 91); visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">Packages </h1>
+                   </div>
+             </div>
+                
+            </div>
+            <div class="container justify-content-center ">
+              <div class="row justify-content-center pb-4">
+                <div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xl-4 mb-2">
+                    <div class="card pricing-table p-2 bg-color-two " style="border: 1px solid #EFF3F7;">
+                      <div class="card-header" style="background-color:#ffffff;border-bottom: 1px solid #616f8112;">
+                        <h4 class="card-text mt-2" style="color: #354053;">Basic</h4>
+
+                      </div>
+                        <div class="card-body">
+                          <img class="mt-2 mb-4" src="asset/maillogom.png">                   
+                           
+                            <p class="h5 my-3">$14.99 - USD/ month</p>
+                            <ul class="ul" style="margin-left:-10px;">
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>                  
+                                   <label class="form-check-label" for="price_check1">Single User</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check2">Single Practice Location</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check3">One Single User</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check3">20 GB Of Data</label>
+                                </div>
+                              </li>
+                             
+                              
+                            </ul>
+                            <div >
+                              <a href="#" class="btn btn-dark  mt-2 mb-2 border-0" style="padding: 14px 30px;">Buy Now</a>
+                          </div> 
+                      </div>
+                    </div>
+                    
+                </div>
+                <div class="col-12 col-sm-9 col-md-6 col-lg-5 col-xl-4 mb-2">
+                    <div class="card pricing-table p-2  " style="border: 1px solid #EFF3F7;">
+                      <div class="card-header" style="background-color:#ffffff;border-bottom: 1px solid #616f8112;">
+                        <h4 class="card-text mt-2" style="color: #354053;">Standard</h4>
+
+                      </div>
+                        <div class="card-body">
+                          <span class="d-flex">
+                          <img class="mt-2 mb-4" src="asset/maillogom.png"> &nbsp; &nbsp;<span style="font-size: 24px;color: #F7517F;">+</span>  &nbsp;  &nbsp;    
+                             <img class=" mb-4" src="asset/talklogom.png">                                   
+                        </span>
+                         <p class="h5 my-3">$14.99 - USD/ month</p>
+                            <ul class="ul" style="margin-left:-10px;">
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>                  
+                                   <label class="form-check-label" for="price_check1">Single User</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check2">Single Practice Location</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check3">One Single User</label>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="form-check">
+                                  <i class="fa fa-check "></i>   
+                                  <label class="form-check-label" for="price_check3">20 GB Of Data</label>
+                                </div>
+                              </li>
+                              
+                              
+                            </ul>
+                            <div >
+                            <a href="#" class="btn btn-primary btn-2  mt-2 mb-2 border-0" style="background-color: #0070D2;padding: 14px 30px;">Buy Now</a>
+                            </div> 
+                      </div>
+                      <div class="dot-shape-bg position-absolute  bg-color" style="z-index: -1;">
+                        <img src="asset/leafthree.png" alt="shape">
+                    </div>
+                    </div>
+                  
+                </div>
+            </div>
+            </div> 
+            
+            
+            </section>
+    
+    <!-- Plans and pricing end -->
+      <!-- Testimonials -->
+      <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-4 pb-2">
+                 <h1 class="h1 text-center mb-4  wow fadeInUp" style="font-weight: 600; color: rgb(22, 48, 91); visibility: visible; animation-name: fadeInUp;">Reviews</h1>
+               </div>
+             </div> 
+             <div class="row">
+            
+         <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">       
+             <div class="carousel-inner wow fadeInUp" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;overflow: visible;">
+                 <div class="carousel-item active ">
+                <div class="d-flex row align-items-center d-flex justify-content-center">
+                  <div class="col-md-8">
+                  <div class="testimonial">
+                    <div class="pic">
+                        <img src="asset/testimonial1.png" alt="">
+                    </div>
+                    <div class="testimonial-content">
+                       
+                        <p class="description body1">
+                          These tools are brilliant and have enabled us to give a human touch to remote communication. Thank you, I would highly recommend this product.
+                        </p>
+                        <h5 class="title body2 mb-0">Dr. Douglas Szeto   </h4>
+                          <span class="post" style="color:#1991EB">Dentist</span>
+                    </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              
+                    <div class="carousel-item">
+                      <div class="d-flex row align-items-center d-flex justify-content-center">
+                        <div class="col-md-8">
+                        <div class="testimonial">
+                          <div class="pic">
+                              <img src="asset/testimonial2.png" alt="">
+                          </div>
+                          <div class="testimonial-content">
+                             
+                              <p class="description body1">
+                                With DentalLive Mail being HIPAA-compliant, I don’t have to worry about my patients’ data being unsecured. Surely recommend this to all health professionals who want peace of mind!
+                              </p>
+                              <h5 class="title body2 mb-0">Dr. Douglas Szeto   </h4>
+                                <span class="post" style="color:#1991EB">Dentist   </span>
+                          </div>
+                      </div>
+                      </div></div>
+                        </div>
+                       
+                         
+                             <div class="carousel-item">
+                              <div class="d-flex row align-items-center d-flex justify-content-center">
+                                <div class="col-md-8">
+                                <div class="testimonial">
+                                  <div class="pic">
+                                      <img src="asset/testimonial1.png" alt="">
+                                  </div>
+                                  <div class="testimonial-content">
+                                     
+                                      <p class="description body1">
+                                        I never realized, but my practice has been needing something like DentalLive Mail for a very long time! You probably also need it, you just don’t know it yet.
+                                      </p>
+                                      <h5 class="title body2 mb-0">Dr. Douglas Szeto   </h4>
+                                        <span class="post" style="color:#1991EB">Dentist   </span>
+                                  </div>
+                              </div>
+                              </div></div>
+                                </div>
+               
+              
+            </div>
+            <div class="d-flex" style="justify-content:center;">
+            <a class="carousel-control-prev me-2" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"><i class="fa fa-chevron-right"></i></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+             
+             
+            
+           </div>
+           </div>
+       
+    </div>
+    
+</section>
+    
+       
+
+      <!-- Testimonials end -->
+
+      <!-- Subscribe  -->
+      <section class="Subscribe-banner-area">
+          <div class="container bg-color-three">
+              <div class="d-flex row align-items-center justify-content-center ">
+                 
+                  <div class="col-lg-7 col-md-8">
+                    <div class="py-2 text-center ">
+                      <h4 class=" wow fadeInUp py-4" data-wow-delay="0.2s">Subscribe to get <span style="font-weight: 600;"> FREE Trial DENTAL LIVE Planner </span> special features!</h4>
+                      <div class="d-flex  align-items-center justify-content-center flex-column"  >
+                      <form  >
+                        <div class="d-flex align-items-center justify-content-center flex-column flex-xs-row" style="flex-direction: row !important;"> 
+                          <input type="email" class="form-control wow fadeInUp " data-wow-delay="0.3s" placeholder="Enter Your Email "  />
+                          <button type="submit" class="btn btn-primary ms-2 Readmore_btn wow fadeInUp" data-wow-delay="0.4s" >Subscribe</button>
+                        </div>
+                       </form>
+                    </div>
+                  </div>
+                </div>
+             
+          </div>
+      </div>
+    </section>
+      <!-- Subscribe end  -->
+  </main>
+
+  <!-- main section end -->
+  <!-- Footer-->
+
+  
+
+  <footer class="container-fluid   text-light" style="background-color:#011A3E">
+      <div class="container footer">
+      <div class="row ">
+          <div class="col-12 col-md-3 pt-5 pb-md-4">
+              <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.1s">
+                <li><a class="text-muted body2" href="DentalLiveMail.html" style="color: #AEB4BF;">Dental LIVE Mail</a></li> 
+                <li><a class="text-muted body2" href="DentalLiveMail.html"  style="color: #AEB4BF;">Dental LIVE Talk</a></li> 
+               </ul>
+          </div>
+          <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+              <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.2s">
+                  <li><a class="text-muted body2" href="#">Call us @ 999 999 9999</a></li>
+                  <li><a class="text-muted body2" href="#">support@ dental live .com</a></li>
+              </ul>
+          </div>
+          <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+            <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.3s">
+              <li><a class="text-muted body2" href="#">Become  Vendor</a></li>
+              <li><a class="text-muted body2" href="#">FAQ’s</a></li>
+          </ul>
+          
+          </div>
+          <div class="col-12 col-md-3 pt-4 ">
+            <div class=" wow fadeInUp" data-wow-delay="0.4s">
+                <img src="assets/safe-and-secure.png"  />
+                <img src="assets/logo_footer3.png" />
+            </div>
+        </div>
+        <div>
+
+        </div>
+      </div>
+    </div>
+      <div class="my-2 footer-bottom" style="border-top:1px solid #354053;">
+        <div class="container ">
+          <div class="row pt-4">
+            <div class="col-md-4 pb-4">
+              <img src="asset/LogoFooter.png" class="wow fadeInUp" data-wow-delay="0.5s">
+            </div>
+
+
+            <div class="col-md-4 ">
+              <div class=" wow fadeInUp" data-wow-delay="0.6s">
+              <i class="fa fa-facebook-square" aria-hidden="true"></i>
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </div>
+          </div>
+            <div class="col-md-4 ">
+              <div class="pt-2">
+               <p class="text-secondary small wow fadeInUp" data-wow-delay="0.7s">
+                © All Rights Reserved
+                 Terms of Use  |  Privacy Policy
+                </p>
+          </div>
+          
+       </div>
+      </div>
+      </div>
+      </div>
+     
+  </div>
+  </footer>
+
+
+  <!-- Footer end-->
+  <div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
+  
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+  <script>
+   $(function(){
+new WOW().init(); 
+
+});
+ </script>
+  <script>
+    var myCarousel = document.querySelector('#carouselExampleDark')
+    var carousel = new bootstrap.Carousel(myCarousel, {
+        loop:true,
+        interval: 9000,
+        wrap: true
+    })
+ 
+</script>
+<script>
+     var myCarousel = document.querySelector('#carouselExampleCaptions')
+    var carousel = new bootstrap.Carousel(myCarousel, {
+        loop:true,
+        interval: 9000,
+        wrap: true
+    })
+
+   
+</script>
+  <script type="text/javascript">
+     
+
+      $(document).ready(function () {
+          $("#owl-demo-six").owlCarousel({
+            // animateIn: 'fadeIn',
+            //  animateOut: 'fadeOut',
+            autoplay:true,
+            autoplayTimeout:8000,
+           
+              dots: true,
+              items: 1,
+              itemsDesktop: false,
+              itemsDesktopSmall: false,
+              itemsTablet: false,
+              itemsMobile: false,
+              loop: true,
+          });
+      
+      });
+      $(function () {
+          $(window).on("scroll", function () {
+              var scrolled = $(window).scrollTop();
+              if (scrolled > 600) $(".go-top").addClass("active");
+              if (scrolled < 600) $(".go-top").removeClass("active");
+          });
+          $(".go-top").on("click", function () {
+              $("html, body").animate({ scrollTop: "0" }, 500);
+          });
+      });
+  </script>
+</body>
+
+
+
+</html>
