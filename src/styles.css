@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~animate.css/animate.min.css';
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css';
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~wowjs/css/libs/animate.css';
+
+@import 'assets/css/boxicons.min.css';
+@import 'assets/css/font-awesome.min.css';
+@import 'assets/css/style.css';

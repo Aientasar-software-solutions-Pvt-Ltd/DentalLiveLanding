@@ -1,0 +1,23 @@
+.nav.panel-tabs li a.active {
+	  background: #F7F9FB;
+	  box-shadow: 0px 4px 50px #D0D6DE;
+}
+.nav.panel-tabs a {
+  background: #F7F9FB;
+  border-radius: 15px;
+
+}
+.tabs-menu ul li a {
+	padding: 10px 12px 11px 13px;
+	display: block;
+}
+.tabs-menu ul li a {
+	padding: 10px 20px !important;
+}
+
+section {
+  padding: 5rem 0;
+}
+.text-primary{
+	color:#0070D2 !important;
+}
