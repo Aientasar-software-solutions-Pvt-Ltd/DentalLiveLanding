@@ -1,0 +1,419 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Milestones
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<h3>Milestones</h3>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		<a routerLink="/milestones/milestone-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Milestone</a>
+	</div>
+</div>
+<div class="row align-items-center">
+	<div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="d-flex justify-content-between align-items-center flex-wrap">
+					<div class="my-2">
+						<h5 class="body1 card-title mb-0">List of Milestones</h5>
+					</div>
+					<div class="d-flex align-items-center flex-wrap">
+						<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
+						<div class="search search-md">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th data-orderable="false">   
+									<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
+										<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</th>
+								<th class="body2">OWNER</th>
+								<th class="body2">TITLE</th>
+								<th class="body2">STATUS</th>
+								<th class="body2">MILESTONE DUE DATE</th>
+								<th class="body2" data-orderable="false">ACTIONS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">C</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Colin</span>
+											<span class="body2 d-block">General Dentist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Disinfecting </span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-info body2">Pending</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>  
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr> 
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">S</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Simon Sais</span>
+											<span class="body2 d-block">General Dentist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Aesthetic Restoration</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2">Accepted</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">M</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Mario Speedwagon</span>
+											<span class="body2 d-block">General Dentist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Removable Partial Dentures</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-warning body2">Declined</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">C</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Colin</span>
+											<span class="body2 d-block">General Dentist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dental Implants</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2">Accepted</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">L</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Liza Doolittle</span>
+											<span class="body2 d-block">Specialist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Full-Mouth Rehabilitation</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2">Accepted</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr> 
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">C</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Colin</span>
+											<span class="body2 d-block">General Dentist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Disinfecting</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2">Accepted</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+									   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2">A</span>
+										<div class="ps-2">
+											<span class="body2 d-block">Aida Bugg</span>
+											<span class="body2 d-block">Specialist</span>
+										</div>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Aesthetic Restoration</span>
+								</td>                     
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2">Accepted</span>
+										<small class="text-muted d-block">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td> 
+								<td>
+									<div class="d-flex">
+										<a routerLink="/milestones/milestone-edit" class="me-1">
+											<i class="material-icons text-bright-blue">edit</i>
+										</a>
+										<a routerLink="/milestones/milestone-details" class="me-1">
+											<i class="material-icons fs-4 text-light-green">
+												visibility
+											</i>
+										</a>
+										<a routerLink="#" class="me-1">
+											<i class="material-icons fs-4 text-danger">close</i>
+										</a>
+									</div>
+								</td>
+							</tr> 
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+ 
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row gy-3">
+					<div class="col-md-12">
+						<select class="form-select" placeholder="search">
+							<option disabled="" selected="">Sort By</option>
+							<option>Patients</option>
+							<option>Cases</option>
+							<option>Last Modified</option>
+							<option>Date Created</option>
+						</select>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Patients Name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Patient Id" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Case Name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="form-label body2 text-dark">Search by Date:</label>
+					</div>
+					<div class="col-md-6 "> 
+						<label class="form-label body2 text-dark">From</label>
+						<input type="date" class="form-control">
+					</div>
+					<div class="col-md-6"> 
+						<label class="form-label body2 text-dark">To</label>
+						<input type="date" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,265 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/invitations">Invitations</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Work Order Invites
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<h3>Work Order Invites</h3>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Work Order Invites</h5>
+					</div>
+					<div class="col-md-7">
+						<div class="d-flex align-items-center flex-wrap justify-content-end">
+							<button class="btn filter-btn my-2 me-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
+							<div class="search search-md">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2">OWNER</th>
+								<th class="body2">WORK ORDER TITLE</th>
+								<th class="body2">CREATED DATE</th>
+								<th class="body2" data-orderable="false">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dareen Leow</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dee End</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">L</span>
+										<span class="body2">Liza Doolittle</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">M</span>
+										<span class="body2">Mario Speedwagon</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row gy-3">
+					<div class="col-md-12">
+						<select class="form-select" placeholder="search" >
+							<option disabled selected>Sort By</option>
+							<option>Status</option>
+							<option>Last modified</option>
+							<option>Date created</option>
+						</select>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Patients name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by case name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="form-label body2 text-dark">Search by Date:</label>
+					</div>
+					<div class="col-md-6 "> 
+						<label class="form-label body2 text-dark">From</label>
+						<input type="date" class="form-control ">
+					</div>
+					<div class="col-md-6"> 
+						<label class="form-label body2 text-dark">To</label>
+						<input type="date" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~animate.css/animate.min.css';
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css';
+@import '~ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+@import '~@fullcalendar/bootstrap5/main.css';
+@import '~wowjs/css/libs/animate.css';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Rakkas&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Sintony:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import '~@ctrl/ngx-emoji-mart/picker';
+/* You can add global styles to this file, and also import other style files */
+@import '~video.js/dist/video-js.css';
+@import '~videojs-record/dist/css/videojs.record.css';
+
+@import 'assets/css/boxicons.min.css';
+@import 'assets/css/font-awesome.min.css';
+@import 'assets/css/style.css';
+

@@ -1,0 +1,83 @@
+.accordion-header_border :before {
+	border-top-left-radius: 80px;
+	border-bottom-left-radius: 80px;
+	top: 0;
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 6px;
+	height: 100%;
+	height:  -webkit-fill-available;
+	background-color: #0070D2;
+	margin-top: 0;
+}
+.nav.panel-tabs li a.active {
+	background: #F7F9FB;
+	box-shadow: 0px 4px 50px #D0D6DE;
+}
+.nav.panel-tabs a {
+  background: #F7F9FB;
+  border-radius: 15px;
+
+}
+.tabs-menu ul li a {
+	padding: 10px 12px 11px 13px;
+	display: block;
+}
+.tabs-menu ul li a {
+	padding: 10px 20px !important;
+}
+@media (max-width:575px){
+	.nav.panel-tabs a img{
+		height:35px;
+	}
+}
+
+.accordion-item {
+  background-color: #ebf5fb00!important;
+}
+section {
+  padding: 5rem 0;
+}
+button:focus{box-shadow:none!important;}
+.accordion-button {
+  color: #6c757d;
+}
+.accordion-button:after {
+background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+.accordion-button[aria-expanded="true"] {
+  color: #222222;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+.accordion-button.style1, .accordion-button.style2{
+	padding-left:40px;
+	box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
+	line-height:1.7;
+}
+.accordion-button.style1:after, .accordion-button.style2:after{
+	background-image: url(src/assets/images/right-arrow.png);
+	transform: rotate(0deg);
+}
+.accordion-button.style2:before {
+  background-color: #00D9CC;
+}
+.subscriptions-list li{
+	position:relative;
+	list-style:none;
+	display:flex;
+	color:#5D6A7E;
+	margin-bottom:15px;
+}
+.subscriptions-list li:before {
+  margin-top: 2px;
+  margin-right: 5px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  content: "";
+  background-image: url(src/assets/images/right-arrow.png);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  transition: transform .2s ease-in-out;
+}

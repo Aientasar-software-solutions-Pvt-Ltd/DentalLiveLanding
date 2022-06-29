@@ -1,0 +1,608 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Invitations
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<h3>Invitations</h3>
+	</div>	
+	<div class="col-md-6"> 
+		
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Work Order Invitations</h5>
+					</div> 
+					<div class="col-md-7 text-end">
+						<a routerLink="/invitations/work-order-invitation-list" class="btn btn-default me-2">
+							View All
+						</a>
+					</div>
+				</div>
+            </div>
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2">Owner</th>
+								<th class="body2">WORK ORDER TITLE</th>
+								<th class="body2">CREATED DATE</th>
+								<th class="body2">ACTIONS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Gum Disease Treatment</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dareen Leow</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Deep Teeth Cleaning</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dental Braces</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dental Braces</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/work-orders/work-order-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+	<div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Referral Invitaions</h5>
+					</div> 
+					<div class="col-md-7 text-end">
+						<a routerLink="/invitations/referral-invitation-list" class="btn btn-default me-2">
+							View All
+						</a>
+					</div>
+				</div>
+            </div>
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2">OWNER</th>
+								<th class="body2">SEND / RECIEVED</th>
+								<th class="body2">REFERRAL TITLE</th>
+								<th class="body2">CREATED DATE</th>
+								<th class="body2">Actions </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>  
+								</td>
+								<td>
+									<span class="body2">Gum Disease Treatment</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/referral/referral-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/referral/referral-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dareen Leow</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>  
+								</td>
+								<td>
+									<span class="body2">Deep Teeth Cleaning</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/referral/referral-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/referral/referral-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-success body2">Received</span>       
+								</td>
+								<td>
+									<span class="body2">Dental Braces</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/referral/referral-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/referral/referral-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>          
+								</td>
+								<td>
+									<span class="body2">Dental Braces</span> 
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>
+								</td>                
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/referral/referral-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/referral/referral-details">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmBox()">Delete</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Case Invitations</h5>
+					</div>
+					<div class="col-md-7 text-end">
+						<a routerLink="/invitations/case-invitation-list" class="btn btn-default me-2">
+							View All
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2">OWNER</th>
+								<th class="body2">SEND / RECIEVED</th>
+								<th class="body2">REFERRAL TITLE</th>
+								<th class="body2">RECIEVED DATE</th>
+								<th class="body2">PATIENT NAME </th>
+								<th class="body2">CASE TITLE</th>
+								<th class="body2">STATUS</th>
+								<th class="body2" data-orderable="false">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>  
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2 px-2">Accepted</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dareen Leow</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>  
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-info body2 px-2">Pending</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>                     
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">D</span>
+										<span class="body2">Dee End</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-success body2">Received</span>       
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-success body2 px-2">Accepted</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>                     
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">L</span>
+										<span class="body2">Liza Doolittle</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-info body2">Send</span>          
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>                     
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">A</span>
+										<span class="body2">Aida Bugg</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-success body2">Received</span>          
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>                     
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">M</span>
+										<span class="body2">Mario Speedwagon</span>
+									</div>
+								</td>
+								<td>
+									<span class="text-success body2">Received</span>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>            
+								</td>
+								<td>
+									<span class="body2">29/02/2020</span>    
+								</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon my-2 me-2">C</span>
+										<span class="body2">Colin Sik</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
+										<small class="text-muted">Created on : 14/APR/20</small>
+									</div>                     
+								</td>
+								<td>
+									<div class="dropdown">
+										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+										</a>
+										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
+											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
+											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

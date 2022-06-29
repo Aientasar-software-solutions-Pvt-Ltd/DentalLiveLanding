@@ -1,0 +1,21 @@
+.wrapper.toggle-content{margin-left: 50px;}
+.wrapper { padding: 30px 30px; transition: all 0.3s ease-out;margin-top:68px;}
+.clearfix:after {content: "";display: block;clear: both;}
+/* Small devices (tablets)
+==========================*/
+@media (min-width: 768px) {
+}
+/* Medium devices (desktops)
+==========================*/
+@media (min-width: 992px) {
+  body {
+    overflow-y: scroll;
+  }
+  .wrapper {
+    margin-left: 68px;
+  }
+
+  .wrapper__minify {
+    margin-left: 220px;
+  }
+}

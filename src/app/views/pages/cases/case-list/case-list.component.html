@@ -1,0 +1,990 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Cases
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<h3>Cases</h3>
+	</div>
+	<div class="col-md-6 text-end"> 
+		<a routerLink="/cases/case-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Case</a>
+	</div>
+</div>
+<div class="row align-items-center">
+	<div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="d-flex justify-content-between align-items-center flex-wrap">
+					<div class="my-2">
+						<h5 class="body1 card-title mb-0">List of Cases</h5>
+					</div>
+					<div class="d-flex align-items-center flex-wrap">
+						<div class="nav nav-pills nav-justified tabview me-3">
+							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'myCases'" (click)="tabContent('myCases')">My Cases</a>
+							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'colleaguesCases'" (click)="tabContent('colleaguesCases')">Colleagues Cases</a>
+						</div>
+						<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
+						<div class="search search-md">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3">
+				<div *ngIf="id === 'myCases'">
+					<div class="table-responsive">
+						<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+							<thead class="thead-light text-uppercase">
+								<tr>
+									<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
+									<th class="body2">PATIENT NAME</th>
+									<th class="body2">CASE TITLE</th>
+									<th class="body2">STATUS</th>
+									<th class="body2">MEMBERS</th>
+									<th class="body2" data-orderable="false">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image3.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image3.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Aactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Dee End</span>
+										</div>
+									</td>			 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td> 
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div *ngIf="id === 'colleaguesCases'">
+					<div class="table-responsive">
+						<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+							<thead class="thead-light text-uppercase">
+								<tr>
+									<th style="width: 15px;" data-orderable="false">&nbsp; </th>
+									<th class="body2">PATIENT NAME</th>
+									<th class="body2">CASE TITLE</th>
+									<th class="body2">STATUS</th>
+									<th class="body2">MEMBERS</th>
+									<th class="body2" data-orderable="false">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image3.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image3.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Aactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Danial Doolittle</span>
+										</div>
+									</td>		 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td>
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+										</div>
+									</td>
+									<td>
+										<div>
+											<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+											<span class="avatar-icon">D</span>
+											<span class="body2 ms-1">Dee End</span>
+										</div>
+									</td>			 
+									<td>  
+										<span class="body2">Dareen Leo Root Canel report</span>                
+									</td>
+									<td>
+										<div>
+											<span class="badge rounded-pill badge-success body2">Active</span><br/>
+											<small class="text-muted">Created on : 14/APR/2020</small>
+										</div>
+									</td> 
+									<td>
+										<ul class="avatar-list">
+											<li class="avatar-item"><span class="avatar-icon">J</span></li>
+											<li class="avatar-item"><span class="avatar-icon">D</span></li>
+											<li class="avatar-item"><span class="avatar-icon">S</span></li>
+											<li class="avatar-item"><span class="avatar-icon">R</span></li>
+											<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										</ul>
+									</td>
+									<td>
+										<div class="d-flex">
+											<a routerLink="/master">
+												<i class="material-icons text-light-green">visibility</i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+ 
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row gy-3">
+					<div class="col-md-12">
+						<select class="form-select" placeholder="search">
+							<option disabled="" selected="">Sort By</option>
+							<option>Patients</option>
+							<option>Cases</option>
+							<option>Last Modified</option>
+							<option>Date Created</option>
+						</select>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Patients Name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search by Case Name" >
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="form-label body2 text-dark">Search by Date:</label>
+					</div>
+					<div class="col-md-6 "> 
+						<label class="form-label body2 text-dark">From</label>
+						<input type="date" class="form-control">
+					</div>
+					<div class="col-md-6"> 
+						<label class="form-label body2 text-dark">To</label>
+						<input type="date" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+.accordion-header_border :before {
+	border-top-left-radius: 80px;
+	top: 0;
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 6px;
+	height:  -webkit-fill-available;
+	background-color: #0070D2;
+	margin-top: 0;
+}
+.nav.panel-tabs li a.active {
+	background: #F7F9FB;
+	box-shadow: 0px 4px 50px #D0D6DE;
+}
+.nav.panel-tabs a {
+  background: #F7F9FB;
+  border-radius: 15px;
+
+}
+.tabs-menu ul li a {
+	padding: 10px 12px 11px 13px;
+	display: block;
+}
+.tabs-menu ul li a {
+	padding: 10px 20px !important;
+}
+
+  .accordion-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #6c757d;
+  background-color:#00000000!important;
+  border-radius: 0;
+  overflow-anchor: none;
+}
+.accordion-button::after {
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url(src/assets/images/downarrow.png);
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform .2s ease-in-out;
+}
+.accordion-button:not(.collapsed) {
+  color: #5D6A7E;
+  background-color: #e7f1ff;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+.accordion-button:not(.collapsed)::after {
+  background-image: url(src/assets/images/downarrow.png);
+  transform: rotate(-180deg);
+}
+.accordion-item {
+  background-color: #ebf5fb00!important;
+}
+section {
+  padding: 5rem 0;
+}

@@ -1,0 +1,104 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases">Cases</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases/case-add">Add Cases</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases/case-add-invite-members">Invite Members</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Add Task
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<div class="d-inline-block">
+			<h3>Add Task</h3>
+		</div>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		
+	</div>
+</div>
+
+<div class="row pt-2">
+    <div class="col-md-10">
+		<div class="card shadow-sm">
+			<div class="card-body">
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<form>
+							<div class="row">
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Title </label>
+										<input type="text" class="form-control" placeholder="Enter Title here ">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Start Date</label>
+										<input class="form-control" name="startDate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date">
+										<owl-date-time [pickerType]="'calendar'" #sd></owl-date-time>
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Due Date & Time</label>
+										<input class="form-control" name="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time">
+										<owl-date-time #dt1></owl-date-time>
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Status</label>
+										<select class="form-select">
+											<option value="">Select</option>
+											<option value="1" selected="">New</option>
+											<option value="2">Pending</option>
+											<option value="3">Completed</option>
+											<option value="4">In Process</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Assign Member</label>
+										<ng-select [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select">
+										</ng-select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 mb-2">
+									<button type="button" class="btn btn-default mt-1 me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
+									<button type="button" class="btn btn-pink mt-1 me-2">Cancel</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<h6 class="text-dark mb-3">Would you like to go?</h6>
+				<div class="d-flex justify-content-between">
+					<a class="btn btn-secondary me-2" routerLink="/cases/case-list" data-bs-dismiss="modal">Skip</a>
+					<a class="btn btn-default me-2" routerLink="/cases/case-add-file-upload" data-bs-dismiss="modal">Next</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

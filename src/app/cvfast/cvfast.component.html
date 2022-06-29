@@ -1,0 +1,191 @@
+  <div class="m-3 shadow p-3 mb-5 bg-body rounded">
+    <div class="row">
+      <div class="row contentArea">
+        <div [hidden]="!showScreen" class="col-md-12 mb-4">
+          <p class="body2" style="color:#6E81A4;">Record Screen</p>
+          <div class="position-relative">
+            <video id="screenPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
+            <button type='button' style="background-color: #01579B;color:white" [hidden]="pipEnabled || StepScreen==1"
+              (click)="togglePictureInPicture()" class="btn mb-2 small position-absolute top-0 end-0"><i
+                class="fa fa-video-camera" aria-hidden="true"></i></button>
+          </div>
+          <div class="row gx-0 justify-content-between">
+            <button type='button' *ngIf="StepScreen==1" (click)="screenPlayer.record().getDevice();StepScreen=2"
+              class="btn-primary btn mb-2 small col-md-12">Start Screen</button>
+            <button *ngIf="StepScreen==2" type='button' (click)="screenPlayer.record().reset();StepScreen=1"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button type='button' *ngIf="StepScreen==2" (click)="screenPlayer.record().start();StepScreen=3"
+              class="btn btn-primary mb-2 small  col-md-6">Record</button>
+            <button type='button' *ngIf="StepScreen==3" style="background-color: #EF6C00;"
+              (click)="screenPlayer.record().pause();StepScreen=4"
+              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
+            <button type='button' *ngIf="StepScreen==4" style="background-color: #EF6C00;"
+              (click)="screenPlayer.record().resume();StepScreen=3"
+              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
+            <button type='button' *ngIf="StepScreen==3 || StepScreen==4" style="background-color: #b00020;"
+              (click)="screenPlayer.record().stop();StepScreen=5"
+              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
+            <input [disabled]="latestScreenRecord==null" type="text" [hidden]="StepScreen!=5"
+              class="form-control col-md-12 mb-2" #screenName placeholder="Screen Record Name">
+            <button [disabled]="latestScreenRecord==null" *ngIf="StepScreen==5" type='button'
+              (click)="latestScreenRecord = null;screenPlayer.record().reset(); screenName.value ? '' : null;StepScreen=1;"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button [disabled]="latestScreenRecord==null" type='button' *ngIf="StepScreen==5"
+              (click)="addScreen();"
+              class="btn btn-primary mb-2 small col-md-6">Add
+              Screen</button>
+          </div>
+        </div>
+        <div [hidden]="!showAudio" class="col-md-12 mb-4">
+          <p class="body2" style="color:#6E81A4;">Record Audio</p>
+          <audio id="audioPlayer" class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></audio>
+          <div class="row gx-0 justify-content-between">
+            <button type='button' *ngIf="StepAudio==1" (click)="audioPlayer.record().getDevice();StepAudio=2"
+              class="btn-primary btn mb-2 small col-md-12">Open Audio</button>
+            <button *ngIf="StepAudio==2" type='button' (click)="audioPlayer.record().reset();StepAudio=1"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button type='button' *ngIf="StepAudio==2" (click)="audioPlayer.record().start();StepAudio=3"
+              class="btn btn-primary mb-2 small  col-md-6">Record</button>
+            <button type='button' *ngIf="StepAudio==3" style="background-color: #EF6C00;"
+              (click)="audioPlayer.record().pause();StepAudio=4"
+              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
+            <button type='button' *ngIf="StepAudio==4" style="background-color: #EF6C00;"
+              (click)="audioPlayer.record().resume();StepAudio=3"
+              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
+            <button type='button' *ngIf="StepAudio==3 || StepAudio==4" style="background-color: #b00020;"
+              (click)="audioPlayer.record().stop();StepAudio=5"
+              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
+            <input [disabled]="latestAudioRecord==null" type="text" [hidden]="StepAudio!=5"
+              class="form-control col-md-12 mb-2" #audioName placeholder="Audio Record Name">
+            <button [disabled]="latestAudioRecord==null" *ngIf="StepAudio==5" type='button'
+              (click)="latestAudioRecord = null; audioPlayer.record().reset();audioName.value ? '' : null;StepAudio=1;"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button [disabled]="latestAudioRecord==null" type='button' *ngIf="StepAudio==5"
+              (click)="addAudio();"
+              class="btn btn-primary mb-2 small col-md-6">Add
+              Audio</button>
+          </div>
+        </div>
+        <div [hidden]="!showVideo" class="col-md-12 mb-4 ">
+          <p class="body2" style="color:#6E81A4;">Record Video</p>
+          <video id="videoPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
+          <div class="row gx-0 justify-content-between">
+            <button type='button' *ngIf="StepVideo==1" (click)="VideoPlayer.record().getDevice();StepVideo=2"
+              class="btn-primary btn mb-2 small col-md-12">Open Camera</button>
+            <button *ngIf="StepVideo==2" type='button' (click)="VideoPlayer.record().reset();StepVideo=1"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button type='button' *ngIf="StepVideo==2" (click)="VideoPlayer.record().start();StepVideo=3"
+              class="btn btn-primary mb-2 small  col-md-6">Record</button>
+            <button type='button' *ngIf="StepVideo==3" style="background-color: #EF6C00;"
+              (click)="VideoPlayer.record().pause();StepVideo=4"
+              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
+            <button type='button' *ngIf="StepVideo==4" style="background-color: #EF6C00;"
+              (click)="VideoPlayer.record().resume();StepVideo=3"
+              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
+            <button type='button' *ngIf="StepVideo==3 || StepVideo==4" style="background-color: #b00020;"
+              (click)="VideoPlayer.record().stop();StepVideo=5"
+              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
+            <input type="text" [disabled]="latestVideoRecord==null" [hidden]="StepVideo!=5"
+              class="form-control col-md-12 mb-2" #videoName placeholder="Video Record Name">
+            <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
+              (click)="VideoPlayer.record().reset();latestVideoRecord = null;StepVideo=1;videoName.value=''"
+              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
+            <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
+              (click)="addVideo();"
+              class="btn btn-primary mb-2 small col-md-6">Add
+              Video</button>
+          </div>
+        </div>
+        <div [hidden]="!showCamera" class="col-md-12 mb-4 position-relative">
+          <h6 [hidden]="pic" class="position-absolute w-100 text-center top-50">Initialising camera....please wait....
+          </h6>
+          <video [hidden]="pic" id="webcam" autoplay playsinline style="width: 100%;" width="640" height="480"></video>
+          <canvas [hidden]="!pic" style="width: 80%;display: block;margin: auto;margin-bottom: 1em;" #canvas id="canvas"
+            width="70%" height="480"></canvas>
+          <button type='button' *ngIf="StepCamera==1" (click)="StepCamera=2;takePicture(canvas);"
+            class="btn-primary btn mb-2 small col-md-12">Take snap</button>
+          <button type='button' *ngIf="StepCamera==2" (click)="addPicture();pic=null;StepCamera=1"
+            class="btn-primary btn mb-2 small col-md-12">Save photo</button>
+          <button type='button' *ngIf="StepCamera==2" (click)="pic=null;StepCamera=1"
+            class="btn-primary btn mb-2 small col-md-12">Discard</button>
+        </div>
+        <div [hidden]="!showAttachments" class="col-md-12 mb-4">
+          <div class="row mt-4 ">
+            <h6>Attachments</h6>
+            <div class="card col-md-12 mb-4 rounded p-5">
+              <label class="d-block text-center fw-bold my-3 animate__animated  animate__faster animate__fadeInDown"
+                *ngIf="attachmentFiles && attachmentFiles.length==0">No files added,Click the below button to add
+                files.</label>
+              <ul class="list-group">
+                <li *ngFor="let files of attachmentFiles;let i=index" #attachment
+                  class="animate__animated  animate__faster animate__lightSpeedInLeft list-group-item">
+                  <label>{{files['name']}}</label>
+                  <strong (click)="removeFiles(i,attachment)" style="cursor: pointer;"
+                    class="float-end text-danger">Delete</strong>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="d-none">
+          <video id="popupVideoPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
+        </div>
+      </div>
+      <div class="d-flex flex-column" style="border: #ddd 2px;">
+        <div class="mb-3">
+          <textarea (keyup)="autoGrowTextZone($event)" style="resize: none;" rows="2" [(ngModel)]="baseText"
+            class="form-control" placeholder="Enter text here"></textarea>
+        </div>
+        <div class="col-12 mb-3">
+          <ul class="list-group">
+            <li *ngFor="let files of attachmentFiles;let i=index" #attachment
+              class="animate__animated  animate__faster animate__lightSpeedInLeft list-group-item">
+              <label>{{files['name']}}</label>
+              <strong (click)="removeFiles(i,attachment)" style="cursor: pointer;"
+                class="float-end text-danger">Delete</strong>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <button (click)="processFiles()" class="btn btn-primary px-3" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Post" type="button">
+            Post
+          </button>
+          <button (click)="resetAll('showVideo')" class="btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Video recording" type="button">
+            <i [ngClass]="{'text-primary': showVideo}" class='bx bxs-video'></i>
+          </button>
+          <button (click)="resetAll('showAudio')" class="btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Audio recording" type="button">
+            <i [ngClass]="{'text-primary': showAudio}" class='bx bxs-microphone'></i>
+          </button>
+          <button (click)="resetAll('showScreen')" class="btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Screen share" type="button">
+            <i [ngClass]="{'text-primary': showScreen}" class='bx bxs-up-arrow-square'></i>
+          </button>
+          <button (click)="resetAll('showCamera');" class="btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Camera" type="button">
+            <i [ngClass]="{'text-primary': showCamera}" class='bx bxs-camera'></i>
+          </button>
+          <button class="position-relative btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Emojis" type="button">
+            <i [ngClass]="{'text-primary': showEmoji}" (click)="showEmoji=!showEmoji" class='bx bxs-smile'></i>
+            <div style="position: absolute;left: -17em;margin-top: 2em;">
+              <emoji-mart *ngIf="showEmoji" (emojiClick)="addEmoji($event);"></emoji-mart>
+            </div>
+          </button>
+          <button class="position-relative btn bg-transparent text-secondary" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Attachments" type="button">
+            <div class="custom-file">
+              <input type="file"
+                accept="audio/*,video/*,image/*,application/msword, application/vnd.ms-excel,application/pdf"
+                (change)="loadFiles($event)" multiple class="d-none custom-file-input" id="selectedFiles">
+              <label for="selectedFiles"> <i [ngClass]="{'text-primary': showAttachments}"
+                  class='bx bxs-file-plus'></i></label>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

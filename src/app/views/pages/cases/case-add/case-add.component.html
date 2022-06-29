@@ -1,0 +1,398 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases">Cases</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Add Case
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<div class="d-inline-block">
+			<h3>Add Case</h3>
+		</div>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		
+	</div>
+</div>
+
+<div class="row pt-2">
+    <div class="col-md-10">
+		<div class="card shadow-sm">
+			<div class="card-body">
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<form>
+							<div class="row">
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Patient Name</label>
+										<input type="text" class="form-control" value="" name="patientName" value="Danial Doolittle">
+									</div>
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Case Title</label>
+										<input type="text" class="form-control" value="" name="caseTitle">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4 text-center">
+										<label class="form-label body2 text-dark">Patient Image</label>
+										<div class="justify-content-center p-md-2 mt-3">
+											<div class="capture">
+												<img src="assets/images/avatar3.png" alt="" class="mb-2 rounded-circle" width="100px" height="100px"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Description </label>
+										<textarea rows="2" class="form-control" value="" name="description"></textarea>
+									</div>
+								</div>
+								<div class="col-md-12"> 
+									<div>
+										<label class="form-label body2 text-dark">Case Type</label>
+										<!-- <input type="text" class="form-control" value="" name="caseType"> -->
+										<div class="row">
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" id="casetype" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype"> General Dentistry</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype1" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype1"> Endodontics</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype2" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype2"> Dental Pediatrics</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype3" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype3"> Prosthodontics</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype4" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype4"> Oral Surgery</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype5" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype5"> Lab</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype6" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype6"> Periodontics</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype7" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype7"> Oral Pathology</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype8" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype8"> Dentures</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype9" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype9"> Orthodontics</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype10" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype10"> Oral Radiology</label>
+												</div>
+											</div>
+											<div class="col-6 col-sm-4 col-md-3 mb-2">
+												<div class="form-check form-check-inline mb-3 me-3">
+													<input class="form-check-input" id="casetype11" name="casetype" type="checkbox" />
+													<label class="form-check-label" for="casetype11"> Hygiene</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 mb-2">
+									<button type="button" class="btn btn-default mt-1 me-2" (click)="actionMethod($event)">Save</button> 
+									<a routerLink="#" class="btn btn-pink mt-1 me-2">Cancel</a>
+									<button routerLink="/cases/case-add-invite-members" class="btn btn-light-green mt-1 me-2" [disabled]="btnState">Invite Members</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="inviteMembers" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title body1" id="inviteMembersLabel">Invite Members</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<!--<div class="d-flex flex-column">
+					 <div class="nav mb-4">
+						<a [class.active]="id === 'inviteMembers' || id === 'addMembers'" (click)="tabContent('inviteMembers')" class="btn btn-light-cyan my-1 me-2">
+							<i class="bx bx-plus me-2"></i> Add Members
+						</a>
+						<a [class.active]="id === 'addNonMembers'" (click)="tabContent('addNonMembers')" class="btn btn-light-cyan my-1 me-2"> 
+							<i class="bx bx-plus me-2"></i> Add Non Members
+						</a>
+					</div> 
+					<div *ngIf="id === 'inviteMembers'">
+						<form>
+							<div class="table-responsive">
+								<table class="table table-hover table-nowrap align-middle">
+									<thead class="thead-light">
+										<tr style="text-transform:uppercase;">
+											<th style="width: 15px;">   
+												<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
+													<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</th>
+											<th class="body2">MEMBER NAME</th>
+											<th class="body2">MEMBER TYPE</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex mt-1">
+													<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Colin</span>
+														<span class="body2 d-block">General Dentist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i> Home </span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex">
+													<img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Simon Sais</span>
+														<span class="body2 d-block">General Dentist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr> 
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex">
+													<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Mario Speedwagon</span>
+														<span class="body2 d-block">General Dentist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex mt-1">
+													<img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Colin</span>
+														<span class="body2 d-block">General Dentist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex">
+													<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Liza Doolittle</span>
+														<span class="body2 d-block">Specialist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex">
+													<img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Colin</span>
+														<span class="body2 d-block">General Dentist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="form-check form-check-inline">
+												  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+												</div>
+											</td>
+											<td>
+												<div class="d-flex">
+													<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
+													<div class="ps-2">
+														<span class="body2 d-block">Aida Bugg</span>
+														<span class="body2 d-block">Specialist</span>
+													</div>
+												</div>
+											</td>
+											<td>
+												<span class="body2" ><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="d-flex flex-wrap align-items-center text-center justify-content-center">
+								<a class="btn btn-default m-1" (click)="tabContent('addMembers')">Next</a>
+								<button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</form>
+					</div>
+					<div *ngIf="id === 'addNonMembers'">
+						<form>
+							<div>
+								<div class="row">
+									<div class="col-md-12"> 
+										<div class="mb-3 row">
+											<label  class="col-sm-3 col-form-label">Email Address  :</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="email" name="emailAddress">           
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12"> 
+										<div class="mb-3">
+											<textarea class="form-control " placeholder="Enter Message" id="floatingTextarea2" style="height: 100px"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="d-flex flex-wrap align-items-center text-center justify-content-center">
+								<a class="btn btn-default m-1" data-bs-dismiss="modal">Send E-Mail</a>
+								<button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</form>
+					</div>
+					<div *ngIf="id === 'addMembers'">
+						<form>
+							<div>
+								<div class="row">
+									<div class="col-md-12"> 
+										<div class="mb-3 row">
+											<label  class="col-sm-3 col-form-label">Message Title  :</label>
+											<div class="col-sm-9">
+												<input class="form-control" type="text" name="messageTitle">        
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12"> 
+										<div class="mb-3">
+											<textarea class="form-control " placeholder="Enter Description" id="floatingTextarea2" style="height: 100px"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="d-flex flex-wrap align-items-center text-center justify-content-center">
+								<a class="btn btn-default m-1" data-bs-dismiss="modal">Send Invite</a>
+								<button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</form>
+					</div>
+				</div>-->
+				<div class="row gy-3">
+					<div class="col-md-12">
+						<div class="search">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search here" />
+						</div>
+					</div>
+					<div class="col-md-12 text-end">
+						<button type="button" class="btn btn-default btn-sm px-2"><i class="bx bx-plus me-0"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer text-center justify-content-center border-top-0">
+				<a class="btn btn-default" data-bs-dismiss="modal">Save</a>
+				<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>

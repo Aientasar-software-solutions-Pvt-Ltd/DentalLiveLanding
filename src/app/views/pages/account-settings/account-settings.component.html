@@ -1,0 +1,164 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Account Settings
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-12">
+		<h3>Account Settings</h3>
+	</div>	
+</div>
+
+<div class="row  pt-2">
+	<div class="col-md-10">
+		<div class="card" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
+			<div class="card-header card-header_border bg-white">
+				<p class="body1 card-title mt-2">Update Profile</p>
+			</div>
+			<div class="card-body">
+				<form>
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">First Name</label>
+										<input type="text"  class="form-control" name="firstName">
+									</div>
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Last Name</label>
+										<input type="text"  class="form-control" name="lastName">
+									</div>
+								</div>
+								<!--<div class="col-md-6">
+									<div class="profile-img justify-content-center p-md-2 text-center">
+										<div class="capture">
+											<img src="assets/images/avatar3.png" alt="" class="mb-2">
+										</div>
+										<a class="body2" href="#" style="color:#0070D2;">Remove picture</a>
+									</div>
+								</div>-->
+							  
+							  
+								<div class="col-md-6"> 
+									 <div class="mb-4">
+										<label class="form-label body2 text-dark">Add Profile Picture</label>
+										<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
+									</div> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Phone Number</label>
+										<input type="text"  class="form-control" name="phoneNumber">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Email</label>
+										<input type="email"  class="form-control" name="email">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Organisation Name</label>
+										<input type="text"  class="form-control" name="organisation">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Address</label>
+										<textarea rows="2" class="form-control" name="address"></textarea>
+									</div>
+								</div>
+								<!-- 
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Address 1</label>
+										<input type="text"  class="form-control" name="addressOne">
+									</div>
+								</div>
+
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Town/City</label>
+										<input type="text"  class="form-control" name="townCity">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Country</label>
+										<input type="text"  class="form-control" name="Country">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Post Code</label>
+										<input type="text"  class="form-control" name="postCode">
+									</div>
+								</div>
+								<div class="col-md-6"> 
+									<div class="mb-3">
+										<p class="form-label body2 text-dark">MAX % Commission : <span> 25%</span></p>
+									</div>
+								</div> -->
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-12 mt-2">
+									<button type="submit" class="btn btn-default mb-2 me-2" style="padding:10px 31px;"> 
+										Update
+									</button>       
+									<a routerLink="#" class="btn btn-outline-primary mb-2 " style="padding:10px 31px;">
+										Cancel
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-10 mt-4">
+		<div class="card border-0" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
+			<div class="card-header card-header_border bg-white">
+				<p class="body1 card-title mt-2">Change Password</p>
+			</div>
+			<div class="card-body">
+				<form>
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6"> 
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Old password </label>
+										<input type="password"  class="form-control" name="oldPassword">
+									</div>
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">New Password </label>
+										<input type="password"  class="form-control" name="newPassword">
+									</div>
+									<div class="mb-4">
+										<label  class="form-label body2 text-dark">Confirm Password</label>
+										<input type="password"  class="form-control" name="confirmPassword">
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-12 mt-2">
+									<button type="submit" class="btn btn-default mb-2 me-2" style="padding:10px 31px;"> 
+										Update
+									</button> 
+									<a routerLink="#" class="btn btn-outline-primary mb-2 " style="padding:10px 31px;">
+										Cancel
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

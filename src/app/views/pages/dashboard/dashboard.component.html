@@ -1,0 +1,245 @@
+<ol class="breadcrumb">
+	 <!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<h3 class="fw-bold">Dashboard</h3>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		<a routerLink="/cases/case-add" class="btn btn-pink me-2 my-1">
+			<i class="bx bx-briefcase-alt"></i> Start a Case
+		</a> 
+		<a routerLink="/patients/patient-add" class="btn btn-default my-1">
+			<i class="bx bx-plus-circle"></i> Add Patient 
+		</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 col-sm-12 col-lg-7">
+		<div class="row gy-4">
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<a routerLink="/cases/case-list">
+					<div class="card dashboard-card">
+						<div class="card-body">
+							<div class="float-start">
+								<i class="bx bx-refresh dicon"></i>
+								<h5>Case Updates</h5>
+							</div>
+							<div class="counter"><span>30</span></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<a routerLink="/work-orders/work-orders">
+					<div class="card dashboard-card2">
+						<div class="card-body">
+							<div class="float-start">
+								<i class="bx bx-briefcase-alt dicon"></i>
+								<h5>Work Orders</h5>
+							</div>
+							<div class="counter"><span>20</span></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<a routerLink="/invitations/invitations">
+					<div class="card dashboard-card3">
+						<div class="card-body">
+							<div class="float-start">
+								<i class="bx bx-file dicon"></i>
+								<h5>Invitations</h5>
+							</div>
+							<div class="counter"><span>8</span></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<a routerLink="#">
+					<div class="card dashboard-card4">
+						<div class="card-body">
+							<div class="float-start">
+								<i class="bx bxs-inbox dicon"></i>
+								<h5>Inbox</h5>
+							</div>
+							<div class="counter"><span>15</span></div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="card shadow-sm mt-4">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-7 col-md-7 align-self-center">
+						<h5 class="body1 card-title my-2">Upcoming Meetings</h5>
+					</div>
+					<div class="col-5 col-md-5">
+						<div class="d-flex flex-wrap align-items-center justify-content-end">
+							<a routerLink="#" class="btn btn-light-green my-1 py-1 px-2">View All</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-1">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle mb-2">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2" width="65%">MEETING TITLE</th>
+								<th class="body2" width="35%">MEETING DATE/TIME</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Root Canal Treatment</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 20 2022,  12:30 PM</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Teeth Cleanings</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 20 2022,  12:30 PM</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Teeth Whitening</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 19 2022,  01:00 PM</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Fillings</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 15 2022 ,  10:30 AM</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Crowns</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 12 2022,  11:30 AM</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-sm-12 col-lg-5">
+		<div class="card shadow-sm mt-4 mt-lg-0">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-7 col-md-7 align-self-center">
+						<h5 class="body1 card-title my-2">Milestones Alert</h5>
+					</div>
+					<div class="col-5 col-md-5">
+						<div class="d-flex flex-wrap align-items-center justify-content-end">
+							<a routerLink="#" class="btn btn-light-green my-1 py-1 px-2">View All</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-1">
+				<div class="table-responsive">
+					<table class="table table-hover table-nowrap align-middle mb-2">
+						<thead class="thead-light">
+							<tr style="text-transform:uppercase;">
+								<th class="body2" width="50%">MILESTONE NAME</th>
+								<th class="body2" width="50%">MILESTION DATE</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Prosthodontics</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 21 2022</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Endodontics</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 20 2022</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Periodontics</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 19 2022</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Dental Hygiene</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 12 2022</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="d-flex align-items-center">
+										<span class="avatar-icon avatar-vs"></span>
+										<span class="ps-2 body2 d-block">Oral Surgery</span>
+									</div>
+								</td>
+								<td>
+									<span class="body2 text-muted">April 15 2022</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

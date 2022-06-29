@@ -1,0 +1,469 @@
+<header class="w-100 overflow-hidden main_landing header-style">
+	<nav class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" data-wow-delay="0.4s"  style=" background-color: #fff !important;">
+		<div class="container">
+			<a class="navbar-brand" routerLink="/"><img src="assets/images/Logo_Dark.png" /></a>
+			<div class="text-center hipaa-logo">
+				<img src="assets/images/hipaa-logo.png" class="minlg" />
+				<img src="assets/images/logo_footer3.png" class="maxmd" />
+			</div>
+			<button class="navbar-toggler collapsed" data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false">
+				<span class="navbar-toggler-icon"> <i class="fa fa-bars"></i></span>
+			</button>
+			<div class="collapse navbar-collapse mt-1" id="collapsibleNavbar">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link bold" routerLink="/" fragment="Products" style="color:#011A3E;">Products</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link bold" routerLink="/solutions" routerLinkActive="active" style="color: #011A3E;">Solutions</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link bold" routerLink="/" fragment="Plans" style="color: #011A3E;">Plans</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link bold" routerLink="/become-vendor" routerLinkActive="active" style="color: #011A3E;">Vendor</a>
+					</li>
+				</ul>
+				<div class="dropdown-divider"></div>
+				<div class="text-center social wow fadeInUp me-md-2 me-lg-4" data-wow-delay="0.6s">
+					<a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i class="bx bxl-facebook-circle" aria-hidden="true"></i></a>
+					<a href="https://www.twitter.com/dentallivemail" target="_blank" title="Twitter"><i class="bx bxl-twitter" aria-hidden="true"></i></a>
+					<a href="https://www.instagram.com/dentallive" target="_blank" title="Instagram"><i class="bx bxl-instagram" aria-hidden="true"></i></a>
+				</div>
+				<ul class="navbar-nav mb-md-0 ml-auto">
+					<li class="nav-item">
+					  <a routerLink="/auth/login" routerLinkActive="active" class="btn btn-primary me-2 my-1">Login</a>
+					</li>
+					<li class="nav-item">
+					  <a routerLink="/auth/signup" routerLinkActive="active" class="btn btn-dark my-1">Sign Up </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<nav class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" data-wow-delay="0.4s"  style="height: 50px;">
+		<div class="container">
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item ">
+						<a class="nav-link bold" routerLink="/" fragment="Products" style="color: #011A3E;">Dental LIVE Mail</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link bold" routerLink="/" fragment="DentalTalk" style="color: #011A3E;">Dental LIVE Talk</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+<main class="overflow-hidden w-100">
+	<section style="padding: 1rem 0;background:#EFF3F7;" id="contact" #contact>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7">
+					<h1 class="h2 mb-0 fw-bold wow fadeInUp text-dark" data-wow-delay="0.2s">Contact Us</h1>
+				</div> 
+			</div>
+		</div>
+	</section>
+	
+	<section class="sign-up-in-section pt-5" >
+		<div class="container">
+			<div class="row gx-0 justify-content-between">
+				<div class="col-xl-6 col-lg-5 col-md-12 order-1 order-lg-0 align-self-center">
+					<div class="contact-info">
+						<h4 class="contact-info-heading">Office in Canada</h4>
+						<div class="contact-locations">
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/location-marker.png" alt="">
+                                    </div>
+								</div>
+								<h6>ATP Group Inc. <br/>6175 Highway 7, Unit 2B<br/> Woodbridge, ON - Canada - L4H 0P6 <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/phone-icon.png" alt="">
+                                    </div>
+								</div>
+								<h6>+ (1) 289 474-5200 <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/envelope-icon.png" alt="">
+                                    </div>
+								</div>
+								<h6>support@dentallive.com <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-7 col-md-12 order-0 order-lg-1">
+					<div class="p-4 p-sm-5 mb-5 mb-lg-0 mt-xl-0" style="border-radius: 15px;box-shadow: 0px 4px 50px #D0D6DE;background-color: #fffefe80;" >
+						<form (ngSubmit)="createProduct();" [formGroup]="contactform"  #contactForm="ngForm" class="contact-form">	
+							<div *ngIf="success">
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+								  Thank you for contact us!
+								  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+							</div>
+							<div class="row gx-3">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control" formControlName="first_name" id="first_name" name="first_name" [(ngModel)]="product.first_name" [ngClass]="{ 'ng-touched': submitted }" maxlength="80"  placeholder="First Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control" formControlName="last_name" id="last_name" name="last_name" [(ngModel)]="product.last_name" [ngClass]="{ 'ng-touched': submitted }" maxlength="50" placeholder="Last Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="email" id="email_id" maxlength="150" name="email_id" [(ngModel)]="product.email_id" class="form-control" formControlName="email_id" [ngClass]="{ 'ng-touched': submitted }" placeholder="Email Address *" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control"  minlength="10" maxlength="13" id="mobile_no" name="mobile_no" [(ngModel)]="product.mobile_no" formControlName="mobile_no" placeholder="Phone" (keypress)="numberOnly($event)">
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="mb-3">
+										<input type="text" class="form-control" id="job_title" name="job_title" [(ngModel)]="product.job_title" formControlName="job_title" [ngClass]="{ 'ng-touched': submitted }"  maxlength="150" placeholder="Job Title Company Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control"  maxlength="50" id="company_size" name="company_size" [(ngModel)]="product.company_size" formControlName="company_size"  placeholder="Company Size">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<select class="form-select"  id="country" name="country" [(ngModel)]="product.country" formControlName="country">
+											<option value="" [selected]="true">Select Country</option>
+											<option value="Afghanistan">Afghanistan</option>
+											<option value="Albania">Albania</option>
+											<option value="Algeria">Algeria</option>
+											<option value="American Samoa">American Samoa</option>
+											<option value="Andorra">Andorra</option>
+											<option value="Angola">Angola</option>
+											<option value="Anguilla">Anguilla</option>
+											<option value="Antarctica">Antarctica</option>
+											<option value="Antigua and Barbuda">Antigua and Barbuda</option>
+											<option value="Argentina">Argentina</option>
+											<option value="Armenia">Armenia</option>
+											<option value="Aruba">Aruba</option>
+											<option value="Australia">Australia</option>
+											<option value="Austria">Austria</option>
+											<option value="Azerbaijan">Azerbaijan</option>
+											<option value="Bahamas">Bahamas</option>
+											<option value="Bahrain">Bahrain</option>
+											<option value="Bangladesh">Bangladesh</option>
+											<option value="Barbados">Barbados</option>
+											<option value="Belarus">Belarus</option>
+											<option value="Belgium">Belgium</option>
+											<option value="Belize">Belize</option>
+											<option value="Benin">Benin</option>
+											<option value="Bermuda">Bermuda</option>
+											<option value="Bhutan">Bhutan</option>
+											<option value="Bolivia">Bolivia</option>
+											<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+											<option value="Botswana">Botswana</option>
+											<option value="Bouvet Island">Bouvet Island</option>
+											<option value="Brazil">Brazil</option>
+											<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+											<option value="Brunei Darussalam">Brunei Darussalam</option>
+											<option value="Bulgaria">Bulgaria</option>
+											<option value="Burkina Faso">Burkina Faso</option>
+											<option value="Burundi">Burundi</option>
+											<option value="Cambodia">Cambodia</option>
+											<option value="Cameroon">Cameroon</option>
+											<option value="Canada">Canada</option>
+											<option value="Cape Verde">Cape Verde</option>
+											<option value="Cayman Islands">Cayman Islands</option>
+											<option value="Central African Republic">Central African Republic</option>
+											<option value="Chad">Chad</option>
+											<option value="Chile">Chile</option>
+											<option value="China">China</option>
+											<option value="Christmas Island">Christmas Island</option>
+											<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+											<option value="Colombia">Colombia</option>
+											<option value="Comoros">Comoros</option>
+											<option value="Congo">Congo</option>
+											<option value="Congo, the Democratic Republic of the">Congo, the Democratic Republic of the</option>
+											<option value="Cook Islands">Cook Islands</option>
+											<option value="Costa Rica">Costa Rica</option>
+											<option value="Cote D'Ivoire">Cote D'Ivoire</option>
+											<option value="Croatia">Croatia</option>
+											<option value="Cuba">Cuba</option>
+											<option value="Cyprus">Cyprus</option>
+											<option value="Czech Republic">Czech Republic</option>
+											<option value="Denmark">Denmark</option>
+											<option value="Djibouti">Djibouti</option>
+											<option value="Dominica">Dominica</option>
+											<option value="Dominican Republic">Dominican Republic</option>
+											<option value="Ecuador">Ecuador</option>
+											<option value="Egypt">Egypt</option>
+											<option value="El Salvador">El Salvador</option>
+											<option value="Equatorial Guinea">Equatorial Guinea</option>
+											<option value="Eritrea">Eritrea</option>
+											<option value="Estonia">Estonia</option>
+											<option value="Ethiopia">Ethiopia</option>
+											<option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+											<option value="Faroe Islands">Faroe Islands</option>
+											<option value="Fiji">Fiji</option>
+											<option value="Finland">Finland</option>
+											<option value="France">France</option>
+											<option value="French Guiana">French Guiana</option>
+											<option value="French Polynesia">French Polynesia</option>
+											<option value="French Southern Territories">French Southern Territories</option>
+											<option value="Gabon">Gabon</option>
+											<option value="Gambia">Gambia</option>
+											<option value="Georgia">Georgia</option>
+											<option value="Germany">Germany</option>
+											<option value="Ghana">Ghana</option>
+											<option value="Gibraltar">Gibraltar</option>
+											<option value="Greece">Greece</option>
+											<option value="Greenland">Greenland</option>
+											<option value="Grenada">Grenada</option>
+											<option value="Guadeloupe">Guadeloupe</option>
+											<option value="Guam">Guam</option>
+											<option value="Guatemala">Guatemala</option>
+											<option value="Guinea">Guinea</option>
+											<option value="Guinea-Bissau">Guinea-Bissau</option>
+											<option value="Guyana">Guyana</option>
+											<option value="Haiti">Haiti</option>
+											<option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
+											<option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+											<option value="Honduras">Honduras</option>
+											<option value="Hong Kong">Hong Kong</option>
+											<option value="Hungary">Hungary</option>
+											<option value="Iceland">Iceland</option>
+											<option value="India">India</option>
+											<option value="Indonesia">Indonesia</option>
+											<option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
+											<option value="Iraq">Iraq</option>
+											<option value="Ireland">Ireland</option>
+											<option value="Israel">Israel</option>
+											<option value="Italy">Italy</option>
+											<option value="Jamaica">Jamaica</option>
+											<option value="Japan">Japan</option>
+											<option value="Jordan">Jordan</option>
+											<option value="Kazakhstan">Kazakhstan</option>
+											<option value="Kenya">Kenya</option>
+											<option value="Kiribati">Kiribati</option>
+											<option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+											<option value="Korea, Republic of">Korea, Republic of</option>
+											<option value="Kuwait">Kuwait</option>
+											<option value="Kyrgyzstan">Kyrgyzstan</option>
+											<option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+											<option value="Latvia">Latvia</option>
+											<option value="Lebanon">Lebanon</option>
+											<option value="Lesotho">Lesotho</option>
+											<option value="Liberia">Liberia</option>
+											<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+											<option value="Liechtenstein">Liechtenstein</option>
+											<option value="Lithuania">Lithuania</option>
+											<option value="Luxembourg">Luxembourg</option>
+											<option value="Macao">Macao</option>
+											<option value="Macedonia, the Former Yugoslav Republic of">Macedonia, the Former Yugoslav Republic of</option>
+											<option value="Madagascar">Madagascar</option>
+											<option value="Malawi">Malawi</option>
+											<option value="Malaysia">Malaysia</option>
+											<option value="Maldives">Maldives</option>
+											<option value="Mali">Mali</option>
+											<option value="Malta">Malta</option>
+											<option value="Marshall Islands">Marshall Islands</option>
+											<option value="Martinique">Martinique</option>
+											<option value="Mauritania">Mauritania</option>
+											<option value="Mauritius">Mauritius</option>
+											<option value="Mayotte">Mayotte</option>
+											<option value="Mexico">Mexico</option>
+											<option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+											<option value="Moldova, Republic of">Moldova, Republic of</option>
+											<option value="Monaco">Monaco</option>
+											<option value="Mongolia">Mongolia</option>
+											<option value="Montserrat">Montserrat</option>
+											<option value="Morocco">Morocco</option>
+											<option value="Mozambique">Mozambique</option>
+											<option value="Myanmar">Myanmar</option>
+											<option value="Namibia">Namibia</option>
+											<option value="Nauru">Nauru</option>
+											<option value="Nepal">Nepal</option>
+											<option value="Netherlands">Netherlands</option>
+											<option value="Netherlands Antilles">Netherlands Antilles</option>
+											<option value="New Caledonia">New Caledonia</option>
+											<option value="New Zealand">New Zealand</option>
+											<option value="Nicaragua">Nicaragua</option>
+											<option value="Niger">Niger</option>
+											<option value="Nigeria">Nigeria</option>
+											<option value="Niue">Niue</option>
+											<option value="Norfolk Island">Norfolk Island</option>
+											<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+											<option value="Norway">Norway</option>
+											<option value="Oman">Oman</option>
+											<option value="Pakistan">Pakistan</option>
+											<option value="Palau">Palau</option>
+											<option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
+											<option value="Panama">Panama</option>
+											<option value="Papua New Guinea">Papua New Guinea</option>
+											<option value="Paraguay">Paraguay</option>
+											<option value="Peru">Peru</option>
+											<option value="Philippines">Philippines</option>
+											<option value="Pitcairn">Pitcairn</option>
+											<option value="Poland">Poland</option>
+											<option value="Portugal">Portugal</option>
+											<option value="Puerto Rico">Puerto Rico</option>
+											<option value="Qatar">Qatar</option>
+											<option value="Reunion">Reunion</option>
+											<option value="Romania">Romania</option>
+											<option value="Russian Federation">Russian Federation</option>
+											<option value="Rwanda">Rwanda</option>
+											<option value="Saint Helena">Saint Helena</option>
+											<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+											<option value="Saint Lucia">Saint Lucia</option>
+											<option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+											<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+											<option value="Samoa">Samoa</option>
+											<option value="San Marino">San Marino</option>
+											<option value="Sao Tome and Principe">Sao Tome and Principe</option>
+											<option value="Saudi Arabia">Saudi Arabia</option>
+											<option value="Senegal">Senegal</option>
+											<option value="Serbia and Montenegro">Serbia and Montenegro</option>
+											<option value="Seychelles">Seychelles</option>
+											<option value="Sierra Leone">Sierra Leone</option>
+											<option value="Singapore">Singapore</option>
+											<option value="Slovakia">Slovakia</option>
+											<option value="Slovenia">Slovenia</option>
+											<option value="Solomon Islands">Solomon Islands</option>
+											<option value="Somalia">Somalia</option>
+											<option value="South Africa">South Africa</option>
+											<option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
+											<option value="Spain">Spain</option>
+											<option value="Sri Lanka">Sri Lanka</option>
+											<option value="Sudan">Sudan</option>
+											<option value="Suriname">Suriname</option>
+											<option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
+											<option value="Swaziland">Swaziland</option>
+											<option value="Sweden">Sweden</option>
+											<option value="Switzerland">Switzerland</option>
+											<option value="Syrian Arab Republic">Syrian Arab Republic</option>
+											<option value="Taiwan, Province of China">Taiwan, Province of China</option>
+											<option value="Tajikistan">Tajikistan</option>
+											<option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
+											<option value="Thailand">Thailand</option>
+											<option value="Timor-Leste">Timor-Leste</option>
+											<option value="Togo">Togo</option>
+											<option value="Tokelau">Tokelau</option>
+											<option value="Tonga">Tonga</option>
+											<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+											<option value="Tunisia">Tunisia</option>
+											<option value="Turkey">Turkey</option>
+											<option value="Turkmenistan">Turkmenistan</option>
+											<option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+											<option value="Tuvalu">Tuvalu</option>
+											<option value="Uganda">Uganda</option>
+											<option value="Ukraine">Ukraine</option>
+											<option value="United Arab Emirates">United Arab Emirates</option>
+											<option value="United Kingdom">United Kingdom</option>
+											<option value="United States">United States</option>
+											<option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
+											<option value="Uruguay">Uruguay</option>
+											<option value="Uzbekistan">Uzbekistan</option>
+											<option value="Vanuatu">Vanuatu</option>
+											<option value="Venezuela">Venezuela</option>
+											<option value="Viet Nam">Viet Nam</option>
+											<option value="Virgin Islands, British">Virgin Islands, British</option>
+											<option value="Virgin Islands, U.s">Virgin Islands, U.s.</option>
+											<option value="Wallis and Futuna">Wallis and Futuna</option>
+											<option value="Western Sahara">Western Sahara</option>
+											<option value="Yemen">Yemen</option>
+											<option value="Zambia">Zambia</option>
+											<option value="Zimbabwe">Zimbabwe</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="mb-3">
+										<textarea rows="2" class="form-control"  maxlength="500" id="description" name="description" [(ngModel)]="product.description" formControlName="description" [ngClass]="{ 'ng-touched': submitted }"  placeholder="Question *"></textarea>
+									</div>
+								</div>
+								
+								<div class="col-12">
+									<button type="submit" class="btn btn-dark mt-4 d-block">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<!-- Footer-->
+<footer class="container-fluid" style="color: #5D6A7E;">
+	<div class="container footer">
+		<div class="row">
+			<div class="col-12 col-md-3 pt-5 pb-md-4">
+				<h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.1s" style="color: #011A3E;">Products</h5>
+				<ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.1s">
+					<li class="mb-3"><a class="text-muted body2" routerLink="/" fragment="Products" style="color: #AEB4BF;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"/></a></li> 
+					<li><a class="text-muted body2" routerLink="/" fragment="DentalTalk" style="color: #AEB4BF;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"/></a></li>
+				</ul>
+			</div>
+			<div class="col-12 col-md-3 pt-md-5 pb-md-4">
+				<h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.3s" style="color: #011A3E;">Contact</h5>
+				<ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.2s">
+					<li><span class="text-muted body2">Call Us: +1 289 474-5200</span></li>
+					<li>Email Us: <a class="text-muted body2" href="mailto:support@dentallive.com;">support@dentallive.com</a></li>
+				</ul>
+			</div>
+			<div class="col-12 col-md-3 pt-md-5 pb-md-4">
+				<h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.3s" style="color: #011A3E;">Links</h5>
+				<ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.3s">
+					<li><a class="text-muted body2" routerLink="/contact-us" fragment="contact" (click)="scroll(contact)">Contact Us</a></li>
+					<li><a class="text-muted body2" routerLink="/become-vendor">Become Vendor</a></li>
+					<li><a class="text-muted body2" routerLink="/solutions">Solutions</a></li>
+					<li><a class="text-muted body2" routerLink="/faq">FAQ's</a></li>
+					<li><a class="text-muted body2" routerLink="/privacy-policy">Privacy Policy</a></li>
+					<li><a class="text-muted body2" routerLink="/terms-of-use">Terms and Conditions</a></li>
+				</ul>
+			</div>
+			<div class="col-12 col-md-3 pt-4 ">
+				<div class=" wow fadeInUp" data-wow-delay="0.4s">
+					<img src="assets/images/safe-and-secure.png"  />
+					<img src="assets/images/logo_footer3.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="my-2 footer-bottom" style="border-top:1px solid #D0D6DE;">
+		<div class="container ">
+			<div class="row pt-4">
+				<div class="col-md-4 pb-4">
+					<a routerLink="/"><img src="assets/images/Logo_Dark.png" class="wow fadeInUp" data-wow-delay="0.5s"></a>
+				</div>
+				<div class="col-md-3">
+					<div class="text-center social wow fadeInUp" data-wow-delay="0.6s">
+						<a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i class="bx bxl-facebook-circle" aria-hidden="true"></i></a>
+						<a href="https://www.twitter.com/dentallivemail" target="_blank" title="Twitter"><i class="bx bxl-twitter" aria-hidden="true"></i></a>
+						<a href="https://www.instagram.com/dentallive" target="_blank" title="Instagram"><i class="bx bxl-instagram" aria-hidden="true"></i></a>
+					</div>
+				</div>
+				<div class="col-md-5 text-md-end text-center">
+					<div class="pt-2">
+						<p class="text-secondary small wow fadeInUp" data-wow-delay="0.7s"> &copy; {{ currentYear }} Dental live All Rights Reserved</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- Footer end-->
+
+<div ngxScrollTop [ngxScrollTopMode]="'classic'" class="go-top active"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>

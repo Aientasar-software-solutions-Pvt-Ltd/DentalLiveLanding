@@ -1,0 +1,704 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/referral">Referral</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Referral Details
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<div class="d-inline-block">
+			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+				<div class="progress progress-sm mt-2">
+					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+			</h3>
+		</div>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		
+	</div>
+</div>
+
+<div class="row align-items-center pt-2">
+	<div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Referral Details</h5>
+					</div>
+					<div class="col-md-7 text-end">
+						<!-- <a routerLink="/referral/referral-add-members" class="btn btn-default"> 
+						  <i class="bx bx-plus" aria-hidden="true"></i>
+						  Add Member
+						</a>  -->
+						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back</a>
+					</div>
+					<div class="col-md-5">
+						<div class="panel panel-primary mt-3"> 
+							<div class="tab-menu-heading"> 
+								<div class="tabs-menu"> 
+									<!-- Tabs -->
+									<ul class="nav panel-tabs"> 
+										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab1'" (click)="tabContent('tab1')">Details</a></li> 
+										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab2'" (click)="tabContent('tab2')">Thread</a></li> 
+										<!-- <li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab3'" (click)="tabContent('tab3')">Members</a></li>  -->
+									</ul> 
+								</div> 
+							</div>
+						</div>    
+					</div>
+					<div class="col-md-7 text-end">
+						<div class="avatar-list justify-content-end mt-2">
+							<span class="avatar-icon my-1 ms-2">C</span>
+							<span class="avatar-icon my-1 ms-2">M</span>
+						</div>
+					</div>
+				</div>         
+			</div>
+			<div>
+				<div *ngIf="id === 'tab1'">  
+					<div class="card-body">
+						<div class="row mt-2">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-8"> 
+										<div class="mb-3 row">
+											<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" value="Jeffery Lorence" aria-label="readonly input example" readonly>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8"> 
+										<div class="mb-3 row">
+											<label for="staticEmail" class="col-sm-3 col-form-label">Title</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" value="Crown Requirment " aria-label="readonly input example" readonly>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-2"> 
+										<div class="mb-4">
+											<label class="form-label body2 text-gray">Due Date</label>
+											<input type="text" readonly class="form-control-plaintext"  value="23, August, 2021">
+										</div>
+									</div>
+									<div class="col-md-2"> 
+										<div class="mb-4">
+											<label class="form-label body2 text-gray">Accepted Date</label>
+											<input type="text" readonly class="form-control-plaintext"  value="23, August, 2021">
+										</div>
+									</div>
+									<div class="col-md-12"> 
+										<div class="mb-3 row">
+											<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
+											<div class="col-sm-10">
+												<div class="card bg-primary" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
+													<div class="card-body">
+														<p class="text-light body1">
+														  Dr. Perrine Gillot 
+														</p>
+														<p class="text-light body2">Hi Jene,
+														  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached below is UI Guide plz check.
+														  Thanks </p>
+													</div>
+												</div>         
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12"> 
+										<div class="mb-3 row">
+											<label for="staticEmail" class="col-sm-2 col-form-label">Referral Form</label>
+											<div class="col-sm-10">
+												<div class="card " style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #EFF3F7;">
+													<div class="card-body">
+														<img src="assets/images/UIToothGuide.png">
+													</div>
+												</div>         
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 my-2 mx-1">
+								<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate">
+									<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
+								</button>
+								<a routerLink="#" class="btn btn-secondary">
+									Cancel
+								</a> 
+							</div>
+						</div>
+					</div> 
+				</div>
+				<div *ngIf="id === 'tab2'">  
+					<div class="card-body">
+						<div class="row py-2 border-bottom px-2">
+							<div class="col-md-4 col-lg-6 d-flex">
+								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
+									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
+									Mario Speedwagon  
+								</div>
+							</div>
+							<div class="col-md-8 col-lg-6 text-end ">
+								<div class="row">
+									<div class="col-md-10"> 
+										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+									</div>
+									<div class="col-md-2">   
+										<i class="material-icons me-2" style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
+										<i class="material-icons" style="color:#D0D6DE;">more_vert</i>
+									</div>
+								</div>                     
+							</div>
+							<div class="col-md-12 mt-2 rounded">
+								<p class="body2 ms-5">
+									I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.Thanks 
+								</p>
+							</div>
+						</div>
+					   
+						<div class="row py-2 border-bottom px-2">
+							<div class="col-md-4 col-lg-6 d-flex">
+							  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
+								   <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
+								   Jene Hiden 
+							  </div> 
+							</div>
+							<div class="col-md-8 col-lg-6 text-end ">
+								<div class="row">
+									<div class="col-md-10"> 
+										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+									</div>
+									<div class="col-md-2">   
+										<i class="material-icons me-2" style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
+										<i class="material-icons" style="color:#D0D6DE;">more_vert</i>
+									</div>
+								</div>                     
+							</div>
+							<div class="mt-2 col-md-12" [class.show]="show">
+								<p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral :  Invitation Send</p>
+								<div class="flex p-2">
+									<div class="flex flex-col mx-5">
+										<div class="relative flex-grow flex justify-center">
+											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
+										</div>
+									</div>
+									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+										<div class="row pt-2">
+											<div class="col-md-4">
+												<div class="capture d-sm-flex d-block ">
+													<a routerLink="#">
+														<img src="assets/images/CircleM.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/>
+													</a>
+													<p class="body2  ms-3">Dee Lee     
+														<br>   Endodontist 
+												   </p>
+												   <span class="badge badge-pill badge-success body2 me-2">Active</span>
+												</div>
+											</div>
+										 
+											<div class="col-md-4">
+												<p class="body2 mb-0" style="color: #5D6A7E;">Referral
+												</p>
+												<p class="body2">Removing of the infected pulp...</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<ng-container *ngIf="show">
+									<div class="flex p-2">
+										<div class="flex flex-col mx-5">
+										  <div class="relative flex-grow flex justify-center">
+											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
+										  </div>
+										</div>
+										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+										  <div class="row pt-2">
+											<div class="col-md-4">
+											  <div class="capture d-sm-flex d-block ">
+												<a href="#">
+											  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
+											  <p class="body2  ms-3">Jene Hiden 
+												<br>  General Specialist
+												 </p>
+												 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
+											</div>
+											  
+											</div>
+										   
+											<div class="col-md-4">
+											  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
+												</p>
+												<p class="body2 ">
+												  Removing of the infected pulp...
+												   </p>
+											</div>
+										  </div>
+										</div>
+									  </div>
+								</ng-container>
+								<a href="javascript:void(0);" (click)="show = !show"><p class="body2 ms-5" style="color:#5D6A7E">{{ show ? 'Hide Detail': 'Show Detail' }}</p></a>
+							</div>
+						</div>
+						
+						<div class="row py-2 border-bottom px-2">
+							<div class="col-md-4 col-lg-6 d-flex">
+								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
+									<img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
+									Dee Lee  
+								</div> 
+							</div>
+							<div class="col-md-8 col-lg-6 text-end">
+								<div class="row">
+									<div class="col-md-10"> 
+										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+									</div>
+									<div class="col-md-2">   
+										<i class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
+										<i class="material-icons " style="color:#D0D6DE;">more_vert</i>
+									</div>
+								</div>                     
+							</div>
+							<div class="mt-2 col-md-12" [class.show1]="show">
+							  <p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral : Invitation Received     </p>
+							  <div class="flex p-2">
+								<div class="flex flex-col mx-5">
+								  <div class="relative flex-grow flex justify-center">
+									<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
+								  </div>
+								</div>
+								<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+								  <div class="row pt-2">
+									<div class="col-md-4">
+									  <div class="capture d-sm-flex d-block ">
+										<a href="#">
+									  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
+									  <p class="body2  ms-3">Jene Hiden 
+										<br>  General Specialist
+										 </p>
+										 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
+									</div>
+									  
+									</div>
+								   
+									<div class="col-md-4">
+									  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
+										</p>
+										<p class="body2 ">
+										  Removing of the infected pulp...
+										   </p>
+									</div>
+								  </div>
+								</div>
+							  </div>
+							  <ng-container *ngIf="show1">
+								<div class="flex p-2">
+									<div class="flex flex-col mx-5">
+									  <div class="relative flex-grow flex justify-center">
+										<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
+									  </div>
+									</div>
+									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+									  <div class="row pt-2">
+										<div class="col-md-4">
+										  <div class="capture d-sm-flex d-block ">
+											<a href="#">
+										  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
+										  <p class="body2  ms-3">Jene Hiden 
+											<br>  General Specialist
+											 </p>
+											 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
+										</div>
+										  
+										</div>
+									   
+										<div class="col-md-4">
+										  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
+											</p>
+											<p class="body2 ">
+											  Removing of the infected pulp...
+											   </p>
+										</div>
+									  </div>
+									</div>
+								  </div>
+							  </ng-container>
+							  <a href="javascript:void(0);" (click)="show1 = !show1"><p class="body2 ms-5" style="color:#5D6A7E">{{ show1 ? 'Hide Detail': 'Show Detail' }}</p></a>
+							</div>
+						</div>
+						<div class="row py-2 border-bottom px-2">
+							<div class="col-md-4 col-lg-6 d-flex">
+								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
+									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
+									Sophia 
+								</div>
+							</div>
+							<div class="col-md-8 col-lg-6 text-end ">
+							  <div class="row">
+								<div class="col-md-10">
+								   <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+								</div>
+								<div class="col-md-2">   
+								  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
+								  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+								</div>
+							  </div>                     
+							</div>
+							<div class=" mt-2 col-md-12">
+								<div class="ms-5">
+									<p class="body2 mb-0 " style="color: #1991EB;">
+									 
+									  Voice Message
+									</p>
+									<p class="body2" style="color: #5D6A7E;"> <i class="bx bx-microphone"></i>Voice message (01:15) </p>
+								 
+								  <div class="mt-2 mb-2">
+									<span class="body2 p-2 rounded-pill" style="color: #1991EB;
+									background: rgba(201, 226, 255, 0.5);"><i class="bx bx-file"></i>
+									  Files (x2)
+									</span>
+									<span class="body2 p-2 ms-2 rounded-pill" style="color: #F7517F;background-color: #FEEEF2;;"> <i class="bx bxs-image"></i>Photo</span>
+								  </div>
+								</div>
+							</div>
+						</div>
+						<div class="row py-2 px-2">
+							<div class="col-md-4 col-lg-6 d-flex">
+								  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
+								<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 " width="36px" height="36px"/>
+								Mario Speedwagon  </div>
+								 
+							</div>
+							<div class="col-md-8 col-lg-6 text-end ">
+								<div class="row">
+									<div class="col-md-10">
+									   <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+									</div>
+									<div class="col-md-2">   
+									  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
+									  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+									</div>
+								</div>                     
+							</div>
+							<div class="mt-2 col-md-12">
+								<div class="ms-5">
+									<p class="body2 " style="color: #5D6A7E;">
+									  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.
+									  Thanks 
+									</p>
+									<div class="mt-2">
+									  <span class="body2 p-2 rounded-pill" style="color: #00D9CC;background: rgba(0, 217, 204, 0.2);"><i class="bx bx-film"></i>
+									   Video (x3)
+									  </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer" style="background-color: #F7F9FB;">
+						<div class="input-group">
+							<button id="genMeetLink" class="border-0" tooltip="Google Docs"><a href="https://docs.google.com/document/u/0/create" target="_blank" class="text-dark"><i class="bx bx-file" style="font-size:larger;"></i></a></button>
+							<button id="genMeetLink" class="border-0" tooltip="Google Meet"><a href="https://meet.google.com/new" target="_blank" class="text-dark"><span class="material-icons">video_call</span></a></button>
+							<button class="border-0 text-dark"><i class="bx bxs-image"></i></button>
+
+							<button id="linkCopy" class="text-dark border-0" style="color: #011A3E;"><span class="material-icons">link</span></button>
+						   
+							<input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+							<span class="input-group-btn">
+								<button class="border-0" style="box-shadow: 4px 4px 25px rgba(42, 139, 242, 0.15), 2px 2px 25px rgba(42, 139, 242, 0.05), 4px 6px 10px rgba(42, 139, 242, 0.15);outline:none; width: 3rem;height: 3rem; border-radius: 50%; margin-left: 0.4rem;background-color: #0070D2;
+								cursor: pointer;"><i class="bx bxl-telegram pt-1" style="color:  #FFFFFF;font-size: larger;"></i></button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--<div *ngIf="id === 'tab3'">  
+					<div class="card-body p-0 pb-3">
+						<div class="table-responsive">
+							<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top:0px !important;">
+								<thead class="thead-light">
+									<tr style="text-transform:uppercase;">
+										<th width="15px">   
+											<div class="form-check form-check-inline mb-0" style="min-height: auto;">
+												<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</th>
+										<th class="body2">MEMBER NAME</th>
+										<th class="body2">MEMBER TYPE</th>
+										<th class="body2">STATUS</th>
+										<th class="body2">ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-warning body2">Rejected</span>
+												<small class="d-block text-muted">Created on : 14/APR/2020</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-purple">Accept Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Simon Sais</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr> 
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Mario Speedwagon</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr> 
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Liza Doolittle</span>
+													<span class="body2 d-block">Specialist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Aida Bugg</span>
+													<span class="body2 d-block">Specialist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="updateDate" tabindex="-1" aria-labelledby="updateDateLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title body1" id="updateDateLabel">Update Due Date</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row gy-3">
+					<div class="col-md-12"> 
+						<label class="form-label body2 text-dark">Choose Due Date</label>
+						<input type="date" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>

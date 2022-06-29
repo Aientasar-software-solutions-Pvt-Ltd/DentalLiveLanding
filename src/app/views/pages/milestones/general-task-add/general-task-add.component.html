@@ -1,0 +1,97 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/milestones">Milestones</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Add General Task
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<div class="d-inline-block">
+			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+				<div class="progress progress-sm mt-2">
+					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+			</h3>
+		</div>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		
+	</div>
+</div>
+
+<div class="row align-items-center pt-2">
+	<div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header border-bottom-0 bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+						<h5 class="body1 card-title my-2">Add General Task</h5>
+					</div>
+					<div class="col-md-7 text-end"> 
+						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
+					</div>
+				</div>   
+			</div>
+			<div class="card-body" style="background: #E4F0FF;">
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-4"> 
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Title </label>
+									<input type="text" class="form-control" placeholder="Enter Title here ">
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Start Date</label>
+									<input class="form-control" name="startDate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date">
+									<owl-date-time [pickerType]="'calendar'" #sd></owl-date-time>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Due Date & Time</label>
+									<input class="form-control" name="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time">
+									<owl-date-time #dt1></owl-date-time>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Status</label>
+									<select class="form-select">
+										<option value="">Select</option>
+										<option value="1" selected="">New</option>
+										<option value="2">Pending</option>
+										<option value="3">Completed</option>
+										<option value="4">In Process</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4"> 
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Assign Member</label>
+									<ng-select [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select">
+									</ng-select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12 mt-3">
+		<a routerLink="#" class="btn btn-default me-2">
+			<i class="bx bx-save"></i>
+			Save  
+		</a> 
+		<button type="button" class="btn btn-secondary">Cancel</button> 
+	</div>
+</div>
