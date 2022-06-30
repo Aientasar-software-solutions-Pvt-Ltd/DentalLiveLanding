@@ -17,7 +17,7 @@ const routes: Routes = [
     path: '',
     component: AuthComponent,
     children: [
-	  {
+      {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'
@@ -37,10 +37,10 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-	FormsModule,
-	SocialLoginModule,
-	RouterModule.forChild(routes),
-	ReactiveFormsModule
+    FormsModule,
+    SocialLoginModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ],
   providers: [
     {
@@ -51,15 +51,15 @@ const routes: Routes = [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              'clientId'
+              '791590883710-6qpkgpv988sbhgsu8dih0jo7ju993ock.apps.googleusercontent.com'
             )
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('clientId')
+            provider: new FacebookLoginProvider('860555611481538')
           }
         ],
-        onError: (err) => {
+        onError: (err: any) => {
           console.error(err);
         }
       } as SocialAuthServiceConfig,
