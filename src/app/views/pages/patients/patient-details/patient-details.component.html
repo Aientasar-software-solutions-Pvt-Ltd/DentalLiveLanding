@@ -25,36 +25,37 @@
 							<div class="col-md-3 col-lg-3 col-xl-2">
 								<div class="profile-img justify-content-center p-md-2">
 									<div class="capture">
-										<img src="assets/images/avatar3.png" alt="" class="mb-2">
+										<img src="{{this.patientImg}}" alt="" class="mb-2">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-9 col-lg-9 col-xl-10">
 								<!-- <p class="h5 mt-2 fw-bold pb-2 text-primary" style="border-bottom: 1px dashed #0070D2;">Diana Hiden </p> -->
-								<div class="row">
+								<div class="row"  >
 									<div class="col-md-5">
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Patient ID</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="#2456789">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.patientId}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Reference ID</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="#2456789">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.refId}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Date of Birth</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="7/28/2021">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.dob | date:'dd/MM/yyyy'}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Gender  </label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Female">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Male" *ngIf="(this.tabledata.gender == 0)">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Female" *ngIf="(this.tabledata.gender == 1)">
 											</div>
 										</div>
 									</div>
@@ -62,25 +63,25 @@
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Insurance Policy No.</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="104655646448744">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.insurance.policyno}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Insurance Co.</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Canada LIFE Dental Insurance">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.insurance.carrier}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Email</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="junejac@gmail.com">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.email}}">
 											</div>
 										</div>
 										<div class="mb-1 row">
 											<label class="col-sm-5 col-form-label body2">Phone Number</label>
 											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="+14378861569">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.phone}}">
 											</div>
 										</div>
 									</div>
@@ -105,7 +106,7 @@
 						<a routerLink="/patients/patient-case-list" class="btn btn-light border me-2 mb-2">
 							View All
 						</a>
-						<a routerLink="/cases/case-add" class="btn btn-light-green me-2 mb-2">
+						<a href="javascript:void(0);" (click)="addcases()" class="btn btn-light-green me-2 mb-2">
 							<i class="bx bx-briefcase-alt"></i> Add Case
 						</a>
 						<a routerLink="#" class="btn btn-pink me-2 mb-2">

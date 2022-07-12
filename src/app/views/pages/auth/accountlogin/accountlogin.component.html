@@ -1,6 +1,6 @@
 <section id="header">
   <nav class="px-4 navbar navbar-expand-md bg-white navbar-dark fixed-top">
-    <a class="navbar-brand" href="https://qa.dentallive.com/">
+    <a class="navbar-brand" href="/">
       <img src="assets/images/Logo_Dark.png">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -11,10 +11,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav ms-md-auto">
         <li class="nav-item">
-          <a routerLink="/login" class="nav-link" style="color:#F7517F ">Login</a>
+          <a routerLink="/auth/login" class="nav-link" style="color:#F7517F ">Login</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/signup" class="nav-link" style="color:#282C33;">Sign up</a>
+          <a routerLink="/auth/signup" class="nav-link" style="color:#282C33;">Sign up</a>
         </li>
       </ul>
     </div>
@@ -73,11 +73,11 @@
                   <small role="button" class="float-end mt-2" *ngIf="password.type=='text'"
                     (click)="password.type='password'">Hide
                     Password</small>
-                  <a *ngIf="isuser.checked" routerLink="/forget" style="color: #1991EB;"
+                  <a *ngIf="isuser.checked" routerLink="/auth/forget" style="color: #1991EB;"
                     class="body2 fw-bold d-block mt-2">
                     Forgot Password?
                   </a>
-                  <a *ngIf="issubuser.checked" routerLink="/subforget" style="color: #1991EB;"
+                  <a *ngIf="issubuser.checked" routerLink="/auth/subforget" style="color: #1991EB;"
                     class="body2 fw-bold d-block mt-2">
                     Forgot Password?
                   </a>
@@ -90,7 +90,7 @@
             </div>
             <div *ngIf="isuser.checked" class="mb-2">
               <span class="body1" style="color: #5D6A7E;">New user? <a class="fw-bold"
-                  style="color:#00D9CC;text-decoration: none;" href="/signup">Sign
+                  style="color:#00D9CC;text-decoration: none;" href="/auth/signup">Sign
                   Up</a></span>
             </div>
             <div *ngIf="isuser.checked" class="my-4 text-center body1 orLine position-relative" style="color: #5D6A7E;">
@@ -104,9 +104,9 @@
               <button type="button" (click)="signInWithGoogle()" class="social-media-section w-100">
                 <span class="fa fa-google"></span><span class="align-self-centered">Continue with Google</span>
               </button>
-               <button type="button" class="social-media-section w-100">
+              <!--<button type="button" class="social-media-section w-100">
                 <span class="fa fa-linkedin"></span><span class="align-self-centered">Continue with LinkedIn</span>
-              </button>
+              </button>-->
             </div>
           </form>
         </div>

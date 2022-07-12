@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountloginComponent } from './accountlogin/accountlogin.component';
 import { AuthComponent } from './auth.component';
+import { AccountsignupComponent } from './accountsignup/accountsignup.component';
+import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
@@ -25,6 +27,14 @@ const routes: Routes = [
       {
         path: 'login',
         component: AccountloginComponent
+      },
+      {
+        path: 'signup',
+        component: AccountsignupComponent
+      },
+      {
+        path: 'forget',
+        component: ForgetpasswordComponent
       }
     ]
   },
@@ -34,6 +44,8 @@ const routes: Routes = [
   declarations: [
     AuthComponent,
     AccountloginComponent,
+    AccountsignupComponent,
+    ForgetpasswordComponent,
   ],
   imports: [
     CommonModule,

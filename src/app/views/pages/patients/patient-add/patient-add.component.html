@@ -22,89 +22,93 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<form> 
+						<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)"> 
 							<div class="row">
 								<div class="col-md-6"> 
 									<div class="mb-4">
-									  <label class="form-label body2 text-dark">First Name</label>
-									  <input type="text" class="form-control" name="firstName">
+									  <label class="form-label body2 text-dark">First Name <span class="text-danger">*</span></label>
+									  <input type="text" required class="form-control" maxlength="40" ngModel name="firstName" id="firstName">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
-									  <label class="form-label body2 text-dark">Last Name</label>
-									  <input type="text" class="form-control" name="lastName">
+									  <label class="form-label body2 text-dark">Last Name <span class="text-danger">*</span></label>
+									  <input type="text" required class="form-control" maxlength="40" ngModel name="lastName" id="lastName">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Reference ID</label>
-									  <input type="text" class="form-control" name="referenceID">
+									  <input type="text" class="form-control" maxlength="30" ngModel name="refId" id="refId">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Patient Image</label>
-									  <input type="file" class="form-control" style="line-height: 2.2;background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
+									  <input type="file" name="image" accept="image/*" (change)="loadFiles($event)" id="image" ngModel class="form-control" style="line-height: 2.2;background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Gender</label>
 										<div>
-											<select class="form-select">
-												<option value="Male">Male</option>
-												<option value="Female">Female</option>
+											<select class="form-select" name="gender" ngModel="0" id="gender">
+												<option value="0">Male</option>
+												<option value="1">Female</option>
 											</select>
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
-										<label class="form-label body2 text-dark">DOB</label>
-										<input type="date" class="form-control" name="DateofBirth">
+										<label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
+										<input type="date" required class="form-control" name="dob" ngModel id="dob">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
-										<label class="form-label body2 text-dark">Email</label>
-										<input type="email" class="form-control" name="emailId">
+										<label class="form-label body2 text-dark">Email <span class="text-danger">*</span></label>
+										<input type="email" class="form-control" maxlength="150" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" ngModel required name="email" id="email">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Phone Number</label>
-										<input type="text" class="form-control" name="phoneNumber">
+										<input type="tel" class="form-control" maxlength="10" minlength="10" (keypress)="numberOnly($event)" name="phone" ngModel id="phone">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Address</label>
-										<textarea rows="2" class="form-control" name="address"></textarea>
+										<textarea rows="2" class="form-control" ngModel name="address" id="address"></textarea>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">City</label>
-										<input type="text" class="form-control" name="city">
+										<input type="text" class="form-control" ngModel name="city" maxlength="100" id="city">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
-										<label class="form-label body2 text-dark">State/Province</label>
-										<input type="text" class="form-control" name="state">
+										<label class="form-label body2 text-dark">State/Province <span class="text-danger">*</span></label>
+										<input type="text" required class="form-control" ngModel name="residingState" maxlength="100" id="residingState">
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Notes</label>
-										<input type="text" class="form-control" name="notes">
+										<input type="hidden" class="form-control" ngModel name="notes" id="notes">
+										<app-cvfast></app-cvfast>
+										<input type="hidden" class="form-control" ngModel={{this.Medication}} name="medication" id="medication">
+										<input type="hidden" class="form-control" ngModel={{this.Insurance}} name="insurance" id="insurance">
+										<input type="hidden" class="form-control" ngModel={{this.patiantStatus}} name="patiantStatus" id="patiantStatus">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 mb-2">
-									<button routerLink="/patients/patients-list" class="btn btn-default mt-1 me-2">
+									<button type="submit" class="btn btn-default mt-1 me-2">
 									  Save
 									</button>
 									<button routerLink="/patients/patients-list" class="btn btn-pink mt-1 me-2">
@@ -134,60 +138,62 @@
 <div class="modal fade" id="addInsuranceModal" tabindex="-1" aria-labelledby="addInsuranceModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h6 class="modal-title" id="addInsuranceModalLabel">Add Insurance</h6>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-12">
-					  <div class="mb-3">
-						<label class="form-label body2">Insurance Carrier Name</label>
-						<input type="text" class="form-control" >
-					  </div>
-					</div>
-					<div class="col-md-12">
-					  <div class="mb-3">
-						<label class="form-label body2">Employer</label>
-						<input type="text" class="form-control" >
-					  </div>
-					</div>
-					<div class="col-md-12">
-					  <div class="mb-3">
-						<label class="form-label body2">Insurance Policy No</label>
-						<input type="text" class="form-control" >
-					  </div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-						  <label class="form-label body2">Group</label>
-						  <input type="text" class="form-control" >
+			<form #insuranceForm="ngForm" id="insuranceForm" (ngSubmit)="onSubmitInsurance(insuranceForm)"> 
+				<div class="modal-header">
+					<h6 class="modal-title" id="addInsuranceModalLabel">Add Insurance</h6>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+						  <div class="mb-3">
+							<label class="form-label body2">Insurance Carrier Name</label>
+							<input type="text" ngModel name="carrier" id="carrier" class="form-control" >
+						  </div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-						  <label class="form-label body2">Policy Holder</label>
-						  <input type="text" class="form-control" >
+						<div class="col-md-12">
+						  <div class="mb-3">
+							<label class="form-label body2">Employer</label>
+							<input type="text" ngModel name="employer" id="employer" class="form-control" >
+						  </div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-						  <label class="form-label body2">Effective Date</label>
-						  <input type="date" class="form-control" >
+						<div class="col-md-12">
+						  <div class="mb-3">
+							<label class="form-label body2">Insurance Policy No</label>
+							<input type="text" ngModel name="policyno" id="policyno" class="form-control" >
+						  </div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-						  <label class="form-label body2">Notes</label>
-						  <textarea rows="2" class="form-control" name="notes"></textarea>
+						<div class="col-md-12">
+							<div class="mb-3">
+							  <label class="form-label body2">Group</label>
+							  <input type="text" ngModel name="group" id="group" class="form-control" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="mb-3">
+							  <label class="form-label body2">Policy Holder</label>
+							  <input type="text" ngModel name="policyholder" id="policyholder" class="form-control" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="mb-3">
+							  <label class="form-label body2">Effective Date</label>
+							  <input type="date" ngModel name="policydate" id="policydate" class="form-control" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="mb-3">
+							  <label class="form-label body2">Notes</label>
+							  <textarea rows="2" class="form-control"  ngModel name="noteinc" id="noteinc"></textarea>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Save</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Save</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -201,136 +207,24 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form (ngSubmit)="logValue()">
+				<form #medicationForm="ngForm" id="medicationForm" (ngSubmit)="onSubmitMedication(medicationForm)"> 
 					<section class="repeatsec">
-						<div class="repeatbox mb-3 p-3">
-							<div class="mb-3 row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Medication 1 <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-10">
-									<input type="text" class="form-control" name="medication_1" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="dosage_1" placeholder=""/>
-								</div>
-								<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="duration_1" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
-										<div class="col-sm-8 col-lg-10">
-											<textarea rows="2" class="form-control" name="notes_1" placeholder=""></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="repeatbox mb-3 p-3">
-							<div class="mb-3 row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Medication 2 <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-10">
-									<input type="text" class="form-control" name="medication_2" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="dosage_2" placeholder=""/>
-								</div>
-								<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="duration_2" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
-										<div class="col-sm-8 col-lg-10">
-											<textarea rows="2" class="form-control" name="notes_2" placeholder=""></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="repeatbox mb-3 p-3">
-							<div class="mb-3 row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Medication 3 <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-10">
-									<input type="text" class="form-control" name="medication_3" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="dosage_3" placeholder=""/>
-								</div>
-								<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="duration_3" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
-										<div class="col-sm-8 col-lg-10">
-											<textarea rows="2" class="form-control" name="notes_3" placeholder=""></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="repeatbox mb-3 p-3">
-							<div class="mb-3 row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Medication 4 <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-10">
-									<input type="text" class="form-control" name="medication_4" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="dosage_4" placeholder=""/>
-								</div>
-								<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
-								<div class="col-sm-8 col-lg-4 mb-3">
-									<input type="text" class="form-control" name="duration_4" placeholder=""/>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
-										<div class="col-sm-8 col-lg-10">
-											<textarea rows="2" class="form-control" name="notes_4" placeholder=""></textarea>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						<ng-container *ngFor="let medication of medications; let i = index;">
 							<div class="repeatbox mb-3 p-3">
 								<div class="mb-3 row">
-									<label class="col-sm-4 col-lg-2 col-form-label">Medication {{i+4 + 1}} <span class="text-danger">*</span></label>
+									<label class="col-sm-4 col-lg-2 col-form-label">Medication {{i + 1}} <span class="text-danger">*</span></label>
 									<div class="col-sm-8 col-lg-10">
-										<input type="text" class="form-control" (ngModel)="medication.medication" name="medication_{{medication.id}}" placeholder=""/>
+										<input type="text" class="form-control" required (ngModel)="medication.medication" name="medication_{{medication.id}}" id="medication_{{medication.id}}" placeholder=""/>
 									</div>
 								</div>
 								<div class="row">
 									<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
 									<div class="col-sm-8 col-lg-4 mb-3">
-										<input type="text" class="form-control" (ngModel)="medication.dosage" name="dosage_{{medication.id}}" placeholder=""/>
+										<input type="text" class="form-control" required (ngModel)="medication.dosage" name="dosage_{{medication.id}}" id="dosage_{{medication.id}}" placeholder=""/>
 									</div>
 									<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
 									<div class="col-sm-8 col-lg-4 mb-3">
-										<input type="text" class="form-control" (ngModel)="medication.duration" name="duration_{{medication.id}}" placeholder=""/>
+										<input type="text" class="form-control" required (ngModel)="medication.duration" name="duration_{{medication.id}}" id="duration_{{medication.id}}" placeholder=""/>
 									</div>
 								</div>
 								<div class="row">
@@ -338,14 +232,15 @@
 										<div class="row">
 											<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
 											<div class="col-sm-8 col-lg-10">
-												<textarea rows="2" class="form-control" (ngModel)="medication.notes" name="notes_{{medication.id}}" placeholder=""></textarea>
+												<textarea rows="2" class="form-control" (ngModel)="medication.notes" name="notes_{{medication.id}}" id="notes_{{medication.id}}" placeholder=""></textarea>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="text-end mb-3 remove-button">
-								<button type="button" class="btn btn-pink btn-sm px-2" (click)="removeMedication(i)"><i class="bx bx-trash me-0"></i></button>
+								<button type="button" *ngIf="(i > 4)" class="btn btn-pink btn-sm px-2" (click)="removeMedication(i)"><i class="bx bx-trash me-0"></i></button>
+								<span>&nbsp;</span>
 							</div>
 						</ng-container>
 						<div class="text-end mb-3 add-button">
@@ -353,7 +248,7 @@
 						</div>
 					</section>
 					<div class="d-flex flex-wrap align-items-center justify-content-start">
-						<button type="submit" class="btn btn-default m-1" data-bs-dismiss="modal">Save</button>
+						<button type="submit" class="btn btn-default m-1" [disabled]="!medicationForm.form.valid"  data-bs-dismiss="modal">Save</button>
 						<button type="button" class="btn btn-secondary m-1" data-bs-dismiss="modal">Cancel</button>
 					</div>
 				</form>

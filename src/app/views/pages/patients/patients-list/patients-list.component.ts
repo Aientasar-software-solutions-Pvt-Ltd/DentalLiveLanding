@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import swal from 'sweetalert2';
+import { NgForm } from '@angular/forms';
+import { ApiDataService } from '../../users/api-data.service';
+import { UtilityService } from '../../users/utility.service';
+import { AccdetailsService } from '../../accdetails.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patients-list',
@@ -17,66 +23,139 @@ export class PatientsListComponent implements OnInit {
 	}
 	
 	dtOptions: DataTables.Settings = {};
-  constructor() { 
+  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { 
 	this.masterSelected = false;
-	this.tabledata = [
-        {id:1,name: 'Ajay', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-20',isSelected:false},
-        {id:2,name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-17',isSelected:false},
-        {id:3,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-17',isSelected:false},
-        {id:4,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-17',isSelected:false},
-        {id:5,name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-14',isSelected:false},
-        {id:6,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-13',isSelected:false},
-        {id:7,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-13',isSelected:false},
-        {id:8,name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-11',isSelected:false},
-        {id:9,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-09',isSelected:false},
-        {id:10,name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com', date:'2021-07-01',isSelected:false},
-    ];
-      /*this.checklist = [
-        {id:1,value:'Elenor Anderson',isSelected:false},
-        {id:2,value:'Caden Kunze',isSelected:true},
-        {id:3,value:'Ms. Hortense Zulauf',isSelected:true},
-        {id:4,value:'Grady Reichert',isSelected:false},
-        {id:5,value:'Dejon Olson',isSelected:false},
-        {id:6,value:'Jamir Pfannerstill',isSelected:false},
-        {id:7,value:'Aracely Renner DVM',isSelected:false},
-        {id:8,value:'Genoveva Luettgen',isSelected:false}
-      ];*/
-     // this.getCheckedItemList();
   }
 
   ngOnInit(): void {
-    this.dtOptions = {
+	this.getallpatiant();
+	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
-      pagingType: 'full_numbers',
+	  pagingType: 'full_numbers',
 	  pageLength: 10,
-      processing: true,
+	  processing: true,
 	  responsive: true,
 	  language: {
-          search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
+		  search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
 		  lengthMenu: "Items per page _MENU_",
-          info: "_START_ - _END_ of _TOTAL_",
+		  info: "_START_ - _END_ of _TOTAL_",
 		  paginate: {
 			first : "<i class='bx bx-first-page'></i>",
 			previous: "<i class='bx bx-chevron-left'></i>",
 			next: "<i class='bx bx-chevron-right'></i>",
 			last : "<i class='bx bx-last-page'></i>"
 			},
-      },
+	  },
 	  /*columnDefs: [
-            { orderable: false, targets: 0 },
-            { orderable: false, targets: 5 },
-        ]*/
-    };
-	/*$('.searchdata').on( 'keyup', function (ret :any) {
-        var v = ret.target.value;  // getting search input value
-        $('#dataTables').DataTable().search(v).draw();
-    });*/
+			{ orderable: false, targets: 0 },
+			{ orderable: false, targets: 5 },
+		]*/
+	};
   }
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	
+	getallpatiant() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userPatients.ApiUrl;
+		this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				this.tabledata = JSON.parse(Response.toString());
+				//alert(JSON.stringify(this.tabledata[0].isActive));
+			}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
+	editpatiant(patientId: any) {
+		sessionStorage.setItem('patientId', patientId);
+		this.router.navigate(['/patients/patient-edit']);
+	}
+	viewpatiant(patientId: any) {
+		sessionStorage.setItem('patientId', patientId);
+		this.router.navigate(['patients/patient-details']);
+	}
+	deletepatiant(patientId: any) {
+		let url = this.utility.apiData.userPatients.ApiUrl;
+		this.dataService.deletePatientData(url, patientId).subscribe(Response => {
+			swal.fire("Patient deleted successfully");
+			this.getallpatiant();
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+	}
+	onSubmit(form: NgForm) {
+		let url = this.utility.apiData.userPatients.ApiUrl;
+		let strName = form.value.firstName;
+		let patiantName =strName.split(' ');
+		if(patiantName[0] != '')
+		{
+			url += "?firstName="+patiantName[0];
+		}
+		if(patiantName.length > 1)
+		{
+			if(patiantName[1] != '')
+			{
+				if(patiantName[0] != '')
+				{
+					url += "&lastName="+patiantName[1];
+				}
+				else
+				{
+					url += "?lastName="+patiantName[1];
+				}
+			}
+		}
+		if(form.value.dateFrom != '')
+		{
+			if(patiantName[0] != '' || (patiantName.length > 1))
+			{ 
+				url += "&dateFrom="+Date.parse(form.value.dateFrom);
+			}
+			else
+			{
+				url += "?dateFrom="+Date.parse(form.value.dateFrom);
+			}
+		}
+		if(form.value.dateTo != '')
+		{
+			if(patiantName[0] != '' || form.value.dateFrom != '')
+			{
+				url += "&dateTo="+Date.parse(form.value.dateTo);
+			}
+			else
+			{
+				url += "?dateTo="+Date.parse(form.value.dateTo);
+			}
+		}
+		this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.tabledata = JSON.parse(Response.toString());
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal.fire('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal.fire('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal.fire('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal.fire(error.error);
+			  else
+				swal.fire('Unable to login, please try again');
+			});
+	  };
 	
   // The master checkbox will check/ uncheck all items
   checkUncheckAll() {

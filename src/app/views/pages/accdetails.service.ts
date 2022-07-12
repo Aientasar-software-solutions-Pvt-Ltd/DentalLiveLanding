@@ -22,8 +22,7 @@ export class AccdetailsService {
       }
     } catch (e) { }
     sessionStorage.removeItem("usr");
-    if (redirect)
-      this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
     return false;
   }
 }

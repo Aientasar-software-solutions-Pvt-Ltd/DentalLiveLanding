@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from "angular-datatables";
 import { PatientsComponent } from './patients.component';
 import { PatientsListComponent } from './patients-list/patients-list.component';
@@ -8,7 +9,7 @@ import { PatientDetailsComponent } from './patient-details/patient-details.compo
 import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { PatientCaseListComponent } from './patient-case-list/patient-case-list.component';
 import { PatientAddComponent } from './patient-add/patient-add.component';
-
+import { Cvfast } from '../../../cvfast/cvfast.component';
 const routes: Routes = [
   {
     path: '',
@@ -50,12 +51,16 @@ const routes: Routes = [
     PatientDetailsComponent,
     PatientEditComponent,
     PatientCaseListComponent,
+    Cvfast,
     PatientAddComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
 	RouterModule.forChild(routes),
-	DataTablesModule
-  ]
+	DataTablesModule,
+    ReactiveFormsModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PatientsModule { }

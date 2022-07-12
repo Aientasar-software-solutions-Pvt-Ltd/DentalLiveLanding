@@ -32,10 +32,8 @@ export class AccountService {
   }
   login() {
     let user = this.usr.getUserDetails(false);
-    swal.fire("Login initiated...please wait...", {
-      buttons: [false, false],
-      closeOnClickOutside: false,
-    });
+    swal.fire({ type: 'success', title: 'Login initiated...please wait...', 
+            showConfirmButton: false,allowOutsideClick: false, timer: 2000 });
     let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
     this.permAuth.isAdmin = true;
     if (user.Subuser) {
@@ -44,13 +42,11 @@ export class AccountService {
     }
     this.dataService.getallData(url, true).subscribe(Response => {
       if (Response) Response = JSON.parse(Response.toString());
-      swal.fire.close();
+      //swal.fire.close();
       this.permAuth.isPristine = false;
       this.permAuth.products = Response['products'];
       this.permAuth.permissions = Response['permissions'];
-      if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['mail/packages']);
-      else if (this.permAuth.products.length == 1 && this.permAuth.products[0] == "Meet") this.router.navigate(['mail/talk']);
-      else this.router.navigate(['mail']);
+      this.router.navigate(['dashboard']);
     }, (error) => {
       swal.fire("Unable to login, please try again");
       return false;

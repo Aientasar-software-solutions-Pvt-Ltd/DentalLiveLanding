@@ -36,6 +36,9 @@ export class ApiDataService {
   deleteData(url, id) {
     return this.http.delete(url + `?id=${id}`);
   }
+  deletePatientData(url, patientId) {
+    return this.http.delete(url + `?patientId=${patientId}`);
+  }
 
   deleteAll(url) {
     return this.http.delete(url);

@@ -1,7 +1,7 @@
 <section id="header">
   <nav class="px-4 navbar navbar-expand-md bg-white navbar-dark fixed-top">
-    <a class="navbar-brand" href="https://qa.dentallive.com/">
-      <img src="../../assets/Logo_Dark.png">
+    <a class="navbar-brand" href="/">
+      <img src="assets/images/Logo_Dark.png">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon">
@@ -11,10 +11,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav ms-md-auto">
         <li class="nav-item">
-          <a routerLink="/login" class="nav-link" style="color:#282C33">Login</a>
+          <a routerLink="/auth/login" class="nav-link" style="color:#282C33">Login</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/signup" class="nav-link" style="color:#F7517F;">Sign up</a>
+          <a routerLink="/auth/signup" class="nav-link" style="color:#F7517F;">Sign up</a>
         </li>
       </ul>
     </div>
@@ -29,9 +29,9 @@
 
           <div *ngIf="sending" class="row">
             <div class="col-md-12">
-              <lottie-player class=" mt-3 m-auto"
+              <!-- <lottie-player class=" mt-3 m-auto"
                 src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-                background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player> -->
               <h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
             </div>
           </div>
@@ -99,7 +99,7 @@
             </div>
             <div class="mb-3">
               <span class="body1" style="color: #5D6A7E;">Already a member? <a class="fw-bold"
-                  style="color:#00D9CC;text-decoration: none;" href="/login">Sign
+                  style="color:#00D9CC;text-decoration: none;" href="/auth/login">Sign
                   In</a></span>
             </div>
             <div class="my-4 text-center body1 orLine position-relative" style="color: #5D6A7E;">
