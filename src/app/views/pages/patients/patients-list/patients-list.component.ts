@@ -64,7 +64,7 @@ export class PatientsListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				this.tabledata = JSON.parse(Response.toString());
+				this.tabledata = JSON.parse(Response.toString()).reverse();
 				//alert(JSON.stringify(this.tabledata[0].isActive));
 			}
 		}, (error) => {
@@ -139,7 +139,7 @@ export class PatientsListComponent implements OnInit {
 			.subscribe(Response => {
 				if (Response)
 				{
-					this.tabledata = JSON.parse(Response.toString());
+					this.tabledata = JSON.parse(Response.toString()).reverse();
 				}
 			}, error => {
 			  if (error.status === 404)
@@ -153,7 +153,7 @@ export class PatientsListComponent implements OnInit {
 			  else if (error.status === 428)
 				swal.fire(error.error);
 			  else
-				swal.fire('Unable to login, please try again');
+				swal.fire('Unable to fetch the data, please try again');
 			});
 	  };
 	

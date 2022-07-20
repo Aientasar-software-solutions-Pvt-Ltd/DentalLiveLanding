@@ -166,7 +166,7 @@ public medications: any[] = [{
 		  else if (error.status === 428)
 			Swal.fire(error.error);
 		  else
-			Swal.fire('Unable to login, please try again');
+			Swal.fire('Unable to fetch the data, please try again');
 		});
 	}
 	setcvFast()
@@ -194,7 +194,7 @@ public medications: any[] = [{
 		  else if (error.status === 428)
 			Swal.fire(error.error);
 		  else
-			Swal.fire('Unable to login, please try again');
+			Swal.fire('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -283,24 +283,39 @@ public medications: any[] = [{
 		this.jsonObj['insurance'] = JSON.parse(this.objInsurance);
 		this.jsonObj['medication'] = this.medicationsArray;
 		//alert(JSON.stringify(this.jsonObj));
-		this.dataService.putData(this.utility.apiData.userPatients.ApiUrl, JSON.stringify(this.jsonObj))
+		//alert(JSON.stringify(this.medicationsArray));
+		this.dataService.putData(this.utility.apiData.userPatients.ApiUrl, JSON.stringify(this.jsonObj), true)
 			.subscribe(Response => {
 			  if (Response) Response = JSON.parse(Response.toString());
 			  Swal.fire('Patient updated successfully');
 			  this.router.navigate(['patients/patients-list']);
 			}, error => {
 			  if (error.status === 404)
+			  {
 				Swal.fire('E-Mail ID does not exists,please signup to continue');
+			  }
 			  else if (error.status === 403)
+			  {
 				Swal.fire('Account Disabled,contact Dental-Live');
+			  }
 			  else if (error.status === 400)
+			  {
 				Swal.fire('Wrong Password,please try again');
+			  }
 			  else if (error.status === 401)
+			  {
 				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  }
 			  else if (error.status === 428)
+			  {
 				Swal.fire(error.error);
+			  }
 			  else
-				Swal.fire('Unable to login, please try again');
+			  {
+				let   errormsg = error;
+			  alert(JSON.stringify(errormsg));
+				Swal.fire('Unable to fetch the data, please try again');
+			  }
 			});
 	}
 	removeImage()
@@ -348,9 +363,15 @@ public medications: any[] = [{
   }
 
   removeMedication(i: number): void {
-	 this.objMedicationLength.splice(i, 1);
-    //this.medications.splice(i, 1);
 	if (this.medicationsArray.length > 1) this.medicationsArray.splice(i, 1);
+	this.objMedicationLength = Array();
+	for(var k = 0; k < this.medicationsArray.length; k++)
+	{
+		this.objMedicationLength.push({
+		  id: k+1
+		});
+	}
+	//alert(JSON.stringify(this.objMedicationLength));
     //else this.medications.patchValue([{medication: null, dosage: null, duration: null, notes: null}]);
   }
   onSubmitMedication(form: NgForm) {

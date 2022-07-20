@@ -54,10 +54,11 @@
 									<th class="body2" data-orderable="false">ACTIONS</th>
 								</tr>
 							</thead>
-							<tbody *ngIf="tabledata?.length != 0">
-								<tr *ngFor="let data of tabledata">
+							<tbody>
+								<tr *ngFor="let data of tabledata; let i = index;">
 									<td>
 										<div class="form-check form-check-inline">
+											<span class="d-none">{{i}}</span>
 											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 										</div>
 									</td>
@@ -92,11 +93,6 @@
 									</td>
 								</tr>
 							</tbody>
-							  <tbody *ngIf="tabledata?.length == 0">
-								<tr>
-								  <td colspan="6" class="no-data-available">No data!</td>
-								</tr>
-							  </tbody>
 						</table>
 					</div>
 				</div>

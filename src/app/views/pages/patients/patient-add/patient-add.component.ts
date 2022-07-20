@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert2';
 import { ApiDataService } from '../../users/api-data.service';
@@ -17,9 +17,9 @@ import { Router } from '@angular/router';
 export class PatientAddComponent implements OnInit {
 	//@ViewChild('Cvfast') Cvfast!: ElementRef;
 	@ViewChild(Cvfast) cv!: Cvfast;
-	saveActiveInactive: boolean = false;
+	saveActiveInactive: boolean = true;
 	//@ViewChild('Cvfast') Cvfast: CvfastComponent;
-	public patiantStatus = false;
+	public patiantStatus = true;
 	onActiveInactiveChanged(value:boolean){
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;
@@ -83,9 +83,6 @@ export class PatientAddComponent implements OnInit {
 	public PatientImg: any;
 	public Insurance = '';
 	public Medication = '';
-	public cvfast = {
-		links: []
-	  };
 	public objInsurance: any;
 	public objMedication: any;
 	public module = 'patient';
@@ -229,7 +226,7 @@ export class PatientAddComponent implements OnInit {
           else if (error.status === 428)
             swal.fire(error.error);
           else
-            swal.fire('Unable to login, please try again');
+            swal.fire('Unable to fetch the data, please try again');
         });
   }
   onSubmit(form: NgForm) {

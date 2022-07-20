@@ -99,7 +99,7 @@
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Notes</label>
 										<input type="hidden" class="form-control" ngModel name="notes" id="notes">
-										<app-cvfast></app-cvfast>
+										<app-cvfast #cvfast></app-cvfast>
 										<input type="hidden" class="form-control" ngModel={{this.Medication}} name="medication" id="medication">
 										<input type="hidden" class="form-control" ngModel={{this.Insurance}} name="insurance" id="insurance">
 										<input type="hidden" class="form-control" ngModel={{this.patiantStatus}} name="patiantStatus" id="patiantStatus">
@@ -121,7 +121,7 @@
 										Add Medication
 									</a> 
 									<div class="form-check form-check-inline form-switch mt-2">
-									  <input class="form-check-input" type="checkbox" id="activeInactive" #activeInactive (change)="onActiveInactiveChanged(activeInactive.checked)">
+									  <input class="form-check-input" type="checkbox" checked id="activeInactive" #activeInactive (change)="onActiveInactiveChanged(activeInactive.checked)">
 									  <label class="form-check-label fs-6" for="activeInactive"><ng-container *ngIf="activeInactive.checked">Active</ng-container><ng-container *ngIf="!activeInactive.checked">Inactive</ng-container></label>
 									</div>
 								</div>

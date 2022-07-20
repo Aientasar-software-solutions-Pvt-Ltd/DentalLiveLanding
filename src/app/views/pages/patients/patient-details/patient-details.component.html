@@ -12,7 +12,7 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-12">
-		<h3 class="my-2 my-md-0" id="heading1">Patient Overview : <button class="accordion-button d-inline-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">Diana Hiden</button></h3>
+		<h3 class="my-2 my-md-0" id="heading1">Patient Overview : <button class="accordion-button d-inline-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">{{this.tabledata.firstName}} {{this.tabledata.lastName}}</button></h3>
 	</div>
 </div>
 <div class="row">
@@ -25,7 +25,8 @@
 							<div class="col-md-3 col-lg-3 col-xl-2">
 								<div class="profile-img justify-content-center p-md-2">
 									<div class="capture">
-										<img src="{{this.patientImg}}" alt="" class="mb-2">
+										<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" alt="" class="mb-2 rounded-circle" />
+										<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="mb-2 rounded-circle"/>
 									</div>
 								</div>
 							</div>
@@ -120,7 +121,7 @@
 			</div>
 			<div class="card-body p-0 pb-3">
 				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+					<table *ngIf="casedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
@@ -132,22 +133,23 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr  *ngFor="let data of casedata; let i = index;">
 								<td>
 									<div class="form-check form-check-inline">
+										<span class="d-none">{{i}}</span>
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 									</div>
 								</td>		 
 								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
+									<span class="body2">{{data.title}}</span>                
 								</td>		 
 								<td>  
-									<span class="body2">Dareen</span>
+									<span class="body2">{{data.patientName}}</span>
 								</td>
 								<td>
 									<div>
 										<span class="badge rounded-pill badge-success body2">With Lab</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
+										<small class="text-muted">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
 									</div>
 								</td>
 								<td>
@@ -161,13 +163,13 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/master">
+										<a  href="javascript:void(0);" (click)="viewCase(data.caseId)">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>
 								</td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
@@ -236,7 +238,7 @@
 										</a>
 									</div>
 								</td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 				</div>

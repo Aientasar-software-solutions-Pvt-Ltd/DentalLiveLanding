@@ -29,8 +29,11 @@ export class ApiDataService {
       return this.http.post(url, data);
   }
 
-  putData(url, data) {
-    return this.http.put(url, data);
+  putData(url, data, isText = false) {
+	if (isText)
+	return this.http.put(url, data, { responseType: 'text' });
+	else
+	return this.http.put(url, data);
   }
 
   deleteData(url, id) {
@@ -38,6 +41,9 @@ export class ApiDataService {
   }
   deletePatientData(url, patientId) {
     return this.http.delete(url + `?patientId=${patientId}`);
+  }
+  deleteFilesData(url, fileUploadId) {
+    return this.http.delete(url + `?fileUploadId=${fileUploadId}`);
   }
 
   deleteAll(url) {

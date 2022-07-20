@@ -54,6 +54,9 @@ const routes: Routes = [
     Cvfast,
     PatientAddComponent
   ],
+  exports: [
+    Cvfast,
+  ],
   imports: [
     CommonModule,
     FormsModule,

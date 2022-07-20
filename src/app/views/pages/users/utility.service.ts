@@ -1977,6 +1977,65 @@ export class UtilityService {
       "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/cases",
       "bucket": 'dentallive-cases',
       "bucketUrl": "https://dentallive-cases.s3.us-west-2.amazonaws.com/"
+    },
+	"userCaseFiles": {
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "resourceOwner": {
+            "type": "string"
+          },
+          "patientId": {
+            "type": "string"
+          },
+          "patientName": {
+            "type": "string"
+          },
+          "fileUploadId": {
+            "type": "string"
+          },
+          "caseId": {
+            "type": "string"
+          },
+		  "files": {
+            "type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+				  "url": {
+					"type": "string"
+				  },
+				  "name": {
+					"type": "string"
+				  },
+				  "mediaType": {
+					"type": "string"
+				  },
+				  "mediaSize": {
+					"type": "string"
+				  }
+				},
+				"required": [
+				  "url",
+				  "name"
+				]
+			}
+          },
+          "ownerName": {
+            "type": "string"
+          }
+        },
+        "required": [
+		  "caseId",
+          "files",
+          "patientId",
+          "patientName"
+        ]
+      },
+      "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/casefiles",
+      "bucket": 'dentallive-casefiles',
+      "bucketUrl": "https://dentallive-casefiles.s3.us-west-2.amazonaws.com/"
     }
   }
 }
