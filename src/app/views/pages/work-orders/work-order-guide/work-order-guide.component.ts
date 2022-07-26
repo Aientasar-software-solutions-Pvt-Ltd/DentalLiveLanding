@@ -251,6 +251,10 @@ export class WorkOrderGuideComponent implements OnInit {
 
   setToothGuide(toothGuide: any) {
     this.toothGuide = toothGuide;
+    this.resetListandTeeths();
+    this.selectedTeeths = [];
+    this.activeAssignedTeeth = null;
+    this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
   }
 
   addNotes(event: any) {
@@ -303,6 +307,8 @@ export class WorkOrderGuideComponent implements OnInit {
       }
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     }
+
+    this.setToothGuide(this.toothGuide);
 
     let ellm: HTMLElement = event.path[0].nextSibling;
     //@ts-ignore
