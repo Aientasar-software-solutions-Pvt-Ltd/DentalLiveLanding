@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DataTablesModule } from "angular-datatables";
 import { CasesComponent } from './cases.component';
@@ -11,6 +13,7 @@ import { CaseEditComponent } from './case-edit/case-edit.component';
 import { CaseAddInviteMembersComponent } from './case-add-invite-members/case-add-invite-members.component';
 import { CaseAddTaskAddComponent } from './case-add-task-add/case-add-task-add.component';
 import { CaseAddFileUploadComponent } from './case-add-file-upload/case-add-file-upload.component';
+import { PatientsModule } from '../patients/patients.module';
 
 const routes: Routes = [
   {
@@ -65,8 +68,15 @@ const routes: Routes = [
 	RouterModule.forChild(routes),
 	DataTablesModule,
 	NgSelectModule,
+	PatientsModule,
 	OwlDateTimeModule,
+	FormsModule,
+    AutocompleteLibModule,
+	ReactiveFormsModule,
     OwlNativeDateTimeModule,
-  ]
+  ],
+  schemas: [
+	  CUSTOM_ELEMENTS_SCHEMA
+	],
 })
 export class CasesModule { }

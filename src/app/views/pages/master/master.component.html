@@ -19,12 +19,12 @@
 			<div class="profile-img justify-content-center p-md-2 me-3">
 				<div class="capture">
 					<a href="#">
-						<img src="assets/images/avatar3.png" alt="" class="mb-2">
+						<img src="{{this.patientImg}}" alt="" class="mb-2">
 					</a>
 				</div>
 			</div>
 			<div class="d-inline-block">
-				<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+				<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 					<div class="progress progress-sm mt-3">
 						<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
@@ -82,7 +82,7 @@
 														<div class="col-md-12 col-lg-7">
 															<div class="row gx-2">
 																<label class="text-muted col-5 col-sm-3 col-md-4 col-lg-3 mb-2">Case Title :</label> 
-																<div class="mb-3 col-7 col-sm-9 col-md-8 col-lg-9"><strong>Dareen Leo Root Canel report</strong></div>
+																<div class="mb-3 col-7 col-sm-9 col-md-8 col-lg-9"><strong>{{this.tabledata.title}}</strong></div>
 															</div>
 														</div>
 														<div class="col-md-12 col-lg-5">
@@ -90,13 +90,13 @@
 																<div class="col-sm-6 col-md-6 col-lg-12">
 																	<div class="row gx-2">
 																		<label class="text-muted col-5 col-md-12 col-lg-6 mb-2">Date of Creation :</label> 
-																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>20 March, 2022</strong></div>
+																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>{{tabledata.dateCreated | date:'mediumDate'}}</strong></div>
 																	</div>
 																</div>
 																<div class="col-sm-6 col-md-6 col-lg-12">
 																	<div class="row gx-2">
 																		<label class="text-muted col-5 col-md-12 col-lg-6 mb-2">Last Update : </label> 
-																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>24 March, 2022</strong></div>
+																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>{{tabledata.fetchedData[0].data[0].dateUpdated | date:'mediumDate'}}</strong></div>
 																	</div>
 																</div>
 															</div>
@@ -107,15 +107,17 @@
 													<div class="bg-light p-2 border rounded mb-3">
 														<div class="row gx-2">
 															<label class="text-muted col-sm-4 col-md-4 col-lg-5 mb-2">Type of<br/> Dental Case : </label> 
-															<div class="mb-3 col-sm-8 col-md-8 col-lg-7"><strong>General Dentistry, Prosthodontics</strong></div>
+															<div class="mb-3 col-sm-8 col-md-8 col-lg-7"><strong>{{this.CaseTypeVal}}</strong></div>
 														</div>
 														<div class="row gx-2">
 															<label class="text-muted col-sm-4 col-md-4 col-lg-5 mb-2">Case Status : </label> 
-															<div class="mb-3 col-sm-8 col-md-8 col-lg-7"><span class="badge rounded-pill badge-success body2">Active</span></div>
+															<div class="mb-3 col-sm-8 col-md-8 col-lg-7">
+															<span class="badge rounded-pill badge-success body2" *ngIf="(tabledata.caseStatus == true)">Active</span>
+															<span class="badge rounded-pill badge-warning body2" *ngIf="(tabledata.caseStatus == false)">Inactive</span></div>
 														</div>
 														<div class="row gx-2">
 															<label class="text-muted col-6 col-sm-4 col-md-4 col-lg-5 mb-2">Case Owner : </label> 
-															<div class="mb-3 col-6 col-sm-8 col-md-8 col-lg-7"><strong>Colin Sik</strong></div>
+															<div class="mb-3 col-6 col-sm-8 col-md-8 col-lg-7"><strong>{{tabledata.fetchedData[0].data[0].resorceOwner}}</strong></div>
 														</div>
 													</div>
 												</div>
@@ -126,7 +128,7 @@
 														<label class="me-2 mb-3 text-muted">Case Description</label>
 														<div class="card border" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
 															<div class="card-body">
-																<p class="body2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+																<p class="body2">{{tabledata.description.text}}</p>
 															</div>
 														</div>
 													</div>
@@ -137,12 +139,12 @@
 													<div class="mb-3">
 														<label class="me-2 mb-3 text-muted">Assets : </label>
 														<div class="row">
-															<div class="col-md-4 col-lg-6">
+															<div class="col-md-4 col-lg-6" *ngFor="let links of attachmentFiles">
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
-																<img src="assets/images/doc.png" height="36px">
-																<p class="card-text ps-2">Dareen Oral Pathology Report</p></div></div>
+																<img src="{{links.ImageUrl}}" height="36px">
+																<p class="card-text ps-2">{{links.imgName}}</p></div></div>
 															</div>
-															<div class="col-md-4 col-lg-6">
+															<!-- <div class="col-md-4 col-lg-6">
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
 																<img src="assets/images/pdf.png" height="36px">
 																<p class="card-text ps-2">Dareen Oral Pathology Report</p></div></div>
@@ -151,12 +153,12 @@
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
 																<img src="assets/images/txt.png" height="36px">
 																<p class="card-text ps-2">Dareen Oral Pathology Report</p></div></div>
-															</div>
+															</div> -->
 														</div>
 													</div>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end">
-													<a routerLink="/cases/case-edit" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
+													<a href="javascript:void(0);" (click)="editcase(tabledata.caseId)" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
 													<div class="d-flex flex-column align-items-end">
@@ -2589,7 +2591,7 @@
 										</div>
 										<div class="card-body p-0 pb-3">
 											<div class="table-responsive">
-												<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+												<table *ngIf="filesdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
 															<th style="width: 15px;" data-orderable="false">&nbsp;</th>
@@ -2600,172 +2602,46 @@
 															<th class="body2" data-orderable="false">ACTIONS</th>
 														</tr>
 													</thead>
-													<tbody>
-														<tr>
+													<tbody >
+														<tr *ngFor="let data of filesdata; let i= index;">
+															
 															<td>
 																<div class="form-check form-check-inline">
+																	<span class="d-none">{{this.data.dateCreated}}</span>
 																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 																</div>
 															</td>
 															<td>
-																<div>
+																<div *ngIf="this.filesdata[i].ownerName;">
 																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">D</span>
-																		<span class="body2">Danial Doolittle</span>
+																		<span class="avatar-icon my-2 me-2">{{this.filesdata[i].ownerName.charAt(0)}}</span>
+																		<span class="body2">{{this.filesdata[i].ownerName}}</span>
 																	</a>
 																</div>
 															</td>		   
 															<td>  
 																<div class="d-flex align-items-center">
-																	<img alt="..." src="assets/images/group-2509.png" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">Dareen Leo Root Canel report PDF <strong class="text-primary">(+4)</strong></span>
+																	<img alt="..." src="{{this.filesdata[i].files[0].url}}" width="70px" height="45px" class="my-2 me-2">
+																	<span class="body2">{{this.filesdata[i].files[0].name}} <!--<strong class="text-primary">(+4)</strong>--></span>
 																</div>               
 															</td>
-															<td>
-																<span class="body2">50 KB </span>
+															<td *ngIf="this.filesdata[i].files[0].mediaSize; else emptysize">
+															 <span class="body2">{{this.filesdata[i].files[0].mediaSize}} KB </span>
 															</td>
+
+															<ng-template #emptysize><td></td></ng-template>
+															
 															<td>
-																<span class="body2">29/02/2022</span>
+																<span class="body2">{{this.data.dateCreated | date:'MM/dd/YYYY'}}</span>
 															</td>
 														   
 															<td>
-																<a routerLink="/files" class="me-2">
-																  <i class="material-icons text-light-green">visibility</i>
+																<a href="javascript:void(0);" class="me-2" (click)="viewFiles(this.data.dateCreated)">
+																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>
 														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div>
-																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">D</span>
-																		<span class="body2">Danial Doolittle</span>
-																	</a>
-																</div>
-															</td>		   
-															<td>  
-																<div class="d-flex align-items-center">
-																	<img alt="..." src="assets/images/group-2509.png" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">Dareen Leo Root Canel report PDF</span>
-																</div>               
-															</td>
-															<td>
-																<span class="body2">50 KB </span>
-															</td>
-															<td>
-																<span class="body2">29/02/2022</span>
-															</td>
-														   
-															<td>
-																<a routerLink="/files" class="me-2">
-																  <i class="material-icons text-light-green">visibility</i>
-																</a>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div>
-																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">D</span>
-																		<span class="body2">Danial Doolittle</span>
-																	</a>
-																</div>
-															</td>		   
-															<td>  
-																<div class="d-flex align-items-center">
-																	<img alt="..." src="assets/images/group-2509.png" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">Dareen Leo Root Canel report PDF</span>
-																</div>               
-															</td>
-															<td>
-																<span class="body2">50 KB </span>
-															</td>
-															<td>
-																<span class="body2">29/02/2022</span>
-															</td>
-														   
-															<td>
-																<a routerLink="/files" class="me-2">
-																  <i class="material-icons text-light-green">visibility</i>
-																</a>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div>
-																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">D</span>
-																		<span class="body2">Danial Doolittle</span>
-																	</a>
-																</div>
-															</td>		   
-															<td>  
-																<div class="d-flex align-items-center">
-																	<img alt="..." src="assets/images/group-2509.png" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">Dareen Leo Root Canel report PDF</span>
-																</div>               
-															</td>
-															<td>
-																<span class="body2">50 KB </span>
-															</td>
-															<td>
-																<span class="body2">29/02/2022</span>
-															</td>
-														   
-															<td>
-																<a routerLink="/files" class="me-2">
-																  <i class="material-icons text-light-green">visibility</i>
-																</a>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div>
-																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">D</span>
-																		<span class="body2">Danial Doolittle</span>
-																	</a>
-																</div>
-															</td>		   
-															<td>  
-																<div class="d-flex align-items-center">
-																	<img alt="..." src="assets/images/group-2509.png" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">Dareen Leo Root Canel report PDF</span>
-																</div>               
-															</td>
-															<td>
-																<span class="body2">50 KB </span>
-															</td>
-															<td>
-																<span class="body2">29/02/2022 </span>
-															</td>
-														   
-															<td>
-																<a routerLink="/files" class="me-2">
-																  <i class="material-icons text-light-green">visibility</i>
-																</a>
-															</td>
-														</tr>
+														
 													</tbody>
 												</table>
 											</div>
@@ -2892,29 +2768,31 @@
 				<h5 class="modal-title body1" id="exampleModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
-						<select class="form-select" placeholder="search" >
-							<option disabled selected>Sort By</option>
-							<option>File Type </option>
-							<option>File Size</option>
-							<option>File Name</option>
-							<option>Created Date</option>
-						</select>
-					</div>
-					<div class="col-md-12">
-						<div class="search my-2">
-							<i class="bx bx-search" ></i>
-							<input type="text" class="form-control" placeholder="Search by Owner Name" >
+			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
+				<div class="modal-body">
+					<div class="row">
+						<!--<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
+							<select class="form-select" placeholder="search" >
+								<option disabled selected>Sort By</option>
+								<option>File Type </option>
+								<option>File Size</option>
+								<option>File Name</option>
+								<option>Created Date</option>
+							</select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search my-2">
+								<i class="bx bx-search" ></i>
+								<input type="text" class="form-control" ngModel name="ownerName" id="ownerName" placeholder="Search by Owner Name" >
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -2922,30 +2800,37 @@
 <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title body1" id="uploadModalLabel">Upload Files</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Title</label>
-						<input type="text" class="form-control" placeholder="Enter Title" >
-					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Upload File</label>
-						<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
-					</div>
-					<div class="col-md-12"> 
-						<label class="form-label body2 text-dark">Created Date</label>
-						<input type="date" class="form-control">
+			<form #filesForm="ngForm" id="filesForm" (ngSubmit)="onSubmitFiles(filesForm)"> 
+				<div class="modal-header">
+					<h5 class="modal-title body1" id="uploadModalLabel">Upload Files</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<label class="form-label body2 text-dark">Title</label>
+							<input type="text" ngModel name="title" id="title" class="form-control" placeholder="Enter Title" required >
+						</div>-->
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Upload File</label>
+							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
+						</div>
+						<!--<div class="col-md-12"> 
+							<label class="form-label body2 text-dark">Created Date</label>
+							<input type="date" ngModel name="createddate" id="createddate" class="form-control" required>
+						</div>-->
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Save</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-			</div>
+				<div class="modal-footer">
+					<input type="hidden"  name="resorceowner" id="resorceowner" ngModel="{{tabledata.fetchedData[0].data[0].resorceOwner}}">
+					<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
+					<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
+					<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
+					<input type="hidden" name="datecreated" id="datecreated" ngModel="{{this.tabledata.dateCreated}}">
+					<button type="submit" [disabled]="!filesForm.form.valid" data-bs-dismiss="modal" class="btn btn-default">Save</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

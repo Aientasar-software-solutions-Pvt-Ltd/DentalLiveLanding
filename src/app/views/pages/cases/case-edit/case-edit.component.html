@@ -27,16 +27,19 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<form>
+						<form  #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 							<div class="row">
 								<div class="col-md-6"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Patient Name</label>
-										<input type="text" class="form-control" value="Danial Doolittle" name="patientName">
+										<input type="text" class="form-control" readonly required ngModel="{{this.patientName}}" name="patientName" id="patientName" >
+										<input type="hidden" class="form-control" required ngModel="{{this.Pid}}" name="patientId" >
+										<input type="hidden" class="form-control" required ngModel="{{this.casetypeArray.length}}" name="caseType" id="caseType" >
+										<input type="hidden" class="form-control" required ngModel="{{this.patientImage}}" name="image" >
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title</label>
-										<input type="text" class="form-control" name="caseTitle" value="Dareen Leo Root Canel report">
+										<input type="text" class="form-control" name="title" id="title" ngModel="{{this.tabledata.title}}">
 									</div>
 								</div>
 								<div class="col-md-6"> 
@@ -44,7 +47,8 @@
 										<label class="form-label body2 text-dark">Patient Image</label>
 										<div class="justify-content-center p-md-2 mt-3">
 											<div class="capture">
-												<img src="assets/images/avatar3.png" alt="" class="mb-2 rounded-circle" width="100px" height="100px"/>
+												<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" alt="" class="mb-2 rounded-circle" width="100px" height="100px"/>
+												<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="mb-2 rounded-circle" width="100px" height="100px"/>
 											</div>
 										</div>
 									</div>
@@ -52,7 +56,7 @@
 								<div class="col-md-12">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Description </label>
-										<textarea rows="2" class="form-control h-auto" value="" name="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
+										<app-cvfast></app-cvfast>
 									</div>
 								</div>
 								<div class="col-md-12"> 
@@ -60,13 +64,19 @@
 										<label class="form-label body2 text-dark">Case Type</label>
 										<!-- <input type="text" class="form-control" value="" name="caseType"> -->
 										<div class="row">
-											<div class="col-6 col-sm-4 col-md-3 mb-2">
+											<div class="col-6 col-sm-4 col-md-3 mb-2"  *ngFor="let type of casetype">
 												<div class="form-check form-check-inline">
-													<input class="form-check-input" id="casetype" name="casetype" type="checkbox" checked />
-													<label class="form-check-label" for="casetype"> General Dentistry</label>
+													<input class="form-check-input" (change)="onChange(type.id)" id="{{type.name}}" *ngIf="(type.isChecked == true)" checked name="casetypeArray" type="checkbox" />
+													<input class="form-check-input" (change)="onChange(type.id)" id="{{type.name}}" *ngIf="(type.isChecked == false)" name="casetypeArray" type="checkbox" />
+													<label class="form-check-label" for="{{type.name}}"> {{type.name}} </label>
 												</div>
 											</div>
-											<div class="col-6 col-sm-4 col-md-3 mb-2">
+											<div class="col-12 col-sm-12 col-md-12mb-2"  *ngIf="(this.caseType == false)">
+												<div class="form-check form-check-inline">
+													<label class="form-check-label text-danger" >Please select at least one casetype!</label>
+												</div>
+											</div>
+											<!-- <div class="col-6 col-sm-4 col-md-3 mb-2">
 												<div class="form-check form-check-inline mb-3 me-3">
 													<input class="form-check-input" id="casetype1" name="casetype" type="checkbox" />
 													<label class="form-check-label" for="casetype1"> Endodontics</label>
@@ -131,7 +141,7 @@
 													<input class="form-check-input" id="casetype11" name="casetype" type="checkbox" />
 													<label class="form-check-label" for="casetype11"> Hygiene</label>
 												</div>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -178,8 +188,8 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12 mb-2">
-									<button routerLink="/cases/case-list" class="btn btn-default mt-1 me-2">Save</button> 
-									<a routerLink="#" class="btn btn-pink mt-1 me-2">Cancel</a>
+									<button type="submit" class="btn btn-default mt-1 me-2">Save</button> 
+									<a routerLink="/cases/case-list" class="btn btn-pink mt-1 me-2">Cancel</a>
 								</div>
 							</div>
 						</form>

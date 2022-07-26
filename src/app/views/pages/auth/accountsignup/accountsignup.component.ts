@@ -1,14 +1,15 @@
+//@ts-nocheck
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import swal from 'sweetalert';
-import { SocialAuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-import { AccountService } from 'src/app/account.service';
-import { PermissionGuardService } from 'src/app/permission-guard.service';
-import { ApiDataService } from 'src/app/users/api-data.service';
-import { AccdetailsService } from 'src/app/accdetails.service';
-import { UtilityService } from 'src/app/users/utility.service';
+import swal from 'sweetalert2';
+import { SocialAuthService } from "@abacritt/angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-social-login";
+import { AccountService } from '../../account.service';
+import { PermissionGuardService } from '../../permission-guard.service';
+import { ApiDataService } from '../../users/api-data.service';
+import { AccdetailsService } from '../../accdetails.service';
+import { UtilityService } from '../../users/utility.service';
 
 
 @Component({
@@ -50,9 +51,9 @@ export class AccountsignupComponent implements OnInit {
       }, error => {
         this.sending = false;
         if (error.status == 409)
-          swal("E-Mail ID exists already,please login to continue");
+          swal.fire("E-Mail ID exists already,please login to continue");
         else
-          swal("Unable to signup,please try again");
+          swal.fire("Unable to signup,please try again");
       })
   }
 

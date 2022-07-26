@@ -10,7 +10,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -33,10 +33,10 @@
 					<div class="col-md-7"> 
 						<div class="d-flex align-items-center flex-wrap justify-content-end">
 							<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
-							<div class="search search-md me-2 my-2">
+							<!--<div class="search search-md me-2 my-2">
 								<i class="bx bx-search"></i>
 								<input type="text" class="form-control" placeholder="Search"/>
-							</div>
+							</div>-->
 							<button class="btn btn-default" data-bs-toggle="modal" data-bs-target="#uploadFileModal"><i class="bx bx-upload"></i> Upload Files </button>
 						</div>
 					</div>
@@ -51,275 +51,20 @@
             </table>
             <div class="container">
 				<div class="row">
-					<div class="col-md-2">
+				
+					<div class="col-md-2" *ngFor="let data of allfilesdata; let i= index;">
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
 						<div class="card-body text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/avi.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...</p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/txt.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
+							<a href="javascript:void(0);" class="text-dark" (click)="viewFilesDetails(this.data.fileUploadId)">
+								<img src="{{this.data.files[0].url}}" height="58px" *ngIf="this.data.files[0].url; else noimage" />
+								<ng-template #noimage><img src="assets/images/no-image.png" height="58px"/></ng-template>
+								
+								<p class="card-text">{{this.data.files[0].name}}</p>
 							</a>
 						</div>
 					  </div>
 					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/pdf.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...
-								</p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/doc.png" height="58px" />
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-center">
-						  <a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...</p>
-						  </a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-center">
-						  <a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report... </p>
-						  </a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/avi.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...</p>
-							</a>	
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/txt.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/pdf.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							</p>
-						  </a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/doc.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/avi.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...
-								</p>
-							</a>	
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/avi.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...</p>
-							</a>	
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							</p>
-						  </a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/txt.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...</p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-								<img src="assets/images/pdf.png" height="58px"/>
-								<p class="card-text">Dareen Leo Root Canel report...</p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/doc.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/txt.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/pdf.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/doc.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-		
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
-					<div class="col-md-2">
-					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;">
-						<div class="card-body text-dark text-center">
-							<a routerLink="/files/file-details" class="text-dark">
-							  <img src="assets/images/avi.png" height="58px"/>
-							  <p class="card-text">Dareen Leo Root Canel report...
-							  </p>
-							</a>
-						</div>
-					  </div>
-					</div>
+					
 				</div>
             </div>
 		</div>
@@ -333,9 +78,10 @@
 				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
+			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 			<div class="modal-body">
 				<div class="row">
-					<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
+					<!--<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
 						<select class="form-select" placeholder="search">
 							<option disabled="" selected="">Sort By</option>
 							<option>File Type</option>
@@ -343,19 +89,20 @@
 							<option>File Name</option>
 							<option>Created Date</option>
 						</select>
-					</div>
+					</div>-->
 					<div class="col-md-12">
 						<div class="search my-2">
 							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Owner Name">
+							<input type="text" class="form-control" ngModel name="ownerName" id="ownerName" placeholder="Search by Owner Name" >
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -367,26 +114,25 @@
 				<h5 class="modal-title body1" id="uploadModalLabel">Upload Files</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Title</label>
-						<input type="text" class="form-control" placeholder="Enter Title" >
-					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Upload File</label>
-						<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
-					</div>
-					<div class="col-md-12"> 
-						<label class="form-label body2 text-dark">Created Date</label>
-						<input type="date" class="form-control">
+			<form #filesForm="ngForm" id="filesForm" (ngSubmit)="onSubmitFiles(filesForm)"> 
+				<div class="modal-body">
+					<div class="row gy-3">
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Upload File</label>
+							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Save</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-			</div>
+				<div class="modal-footer">
+					<input type="hidden"  name="resorceowner" id="resorceowner" ngModel="{{tabledata.fetchedData[0].data[0].resorceOwner}}">
+					<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
+					<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
+					<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
+					<input type="hidden" name="datecreated" id="datecreated" ngModel="{{this.tabledata.dateCreated}}">
+					<button type="submit" [disabled]="!filesForm.form.valid" data-bs-dismiss="modal" class="btn btn-default" data-bs-dismiss="modal">Save</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

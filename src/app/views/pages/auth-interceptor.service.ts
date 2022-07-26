@@ -20,7 +20,7 @@ import { AccdetailsService } from './accdetails.service';
 
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private usr: AccdetailsService) { }
-    msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental'];
+    msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental', 'cases', 'casefiles'];
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         //Outgoing Request handler

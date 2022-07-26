@@ -49,6 +49,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     text: "",
     links: []
   };
+  processingcheck = false;//Converthink
   processing = false;
   module = 'patient';
 
@@ -268,6 +269,13 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
           attachment.classList.add('animate__lightSpeedOutRight');
           setTimeout(() => {
             this.attachmentFiles.splice(index, 1);
+			// start for edit cvfast by conmverthink
+            this.cvfast.links.splice(index, 1);
+			this.cvfast = {
+			  text: this.baseText,
+			  links: this.cvfast.links
+			}
+			// end for edit cvfast by conmverthink
           }, 500);
         }
       });
@@ -334,16 +342,35 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   processFiles() {
     this.processing = true;
     let requests = this.attachmentFiles.map((object) => {
+	  if(object["binaryData"])
+	  {
+	  this.processingcheck = true;
       return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+	  }
     });
+	if(this.processingcheck == true)
+	{
     Promise.all(requests)
       .then((values) => {
         this.processing = false;
         this.attachmentFiles = [];
+		// start for edit cvfast by conmverthink
+		let newArray = Array();
+		for(var k=0; k < values.length; k++)
+		{
+			if(this.cvfast.links[k])
+			{
+			 newArray.push(this.cvfast.links[k]);
+			}
+			else{
+			 newArray.push(values[k]);
+			}
+		}
         this.cvfast = {
           text: this.baseText,
-          links: values
+          links: newArray
         }
+		// end for edit cvfast by conmverthink
         console.log(this.cvfast);
         //create cvfast object and return that object;
         return this.cvfast
@@ -353,8 +380,36 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         console.log(error);
         return false;
       });
+	}
+	else{
+		// start for edit cvfast by conmverthink
+		this.cvfast = {
+          text: this.baseText,
+          links: this.cvfast.links
+        }
+		// end for edit cvfast by conmverthink
+	}
   }
-
+  //get data of cvfast ##converthink 
+  returnCvfast() {
+    return this.cvfast;
+  }
+  //show data in edit ##converthink
+  setCvfast(obj) {
+		this.baseText = obj.text;
+		if(obj.links.length > 0)
+		{
+			for(var i = 0; i < obj.links.length; i++)
+			{
+				this.attachmentFiles.push({ name: obj.links[i], binaryData: '' });
+			}
+		}
+		this.cvfast = {
+          text: obj.text,
+          links: obj.links
+        }
+   // return this.cvfast;
+  }
   autoGrowTextZone(e) {
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight + 10) + "px";

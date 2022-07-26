@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -34,6 +35,8 @@ FullCalendarModule.registerPlugins([
     CommonModule,
 	RouterModule.forChild(routes),
 	FullCalendarModule,
+    FormsModule,
+    ReactiveFormsModule,
 	DataTablesModule
   ]
 })

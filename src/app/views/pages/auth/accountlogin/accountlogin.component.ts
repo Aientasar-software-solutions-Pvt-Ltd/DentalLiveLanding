@@ -33,12 +33,13 @@ export class AccountloginComponent implements OnInit {
     const json: JSON = form.value;
     json['isLogin'] = true;
     if (issubuser) {
+		//alert(this.utility.apiData.subUserAccounts.ApiUrl);
       this.dataService.postData(this.utility.apiData.subUserAccounts.ApiUrl, JSON.stringify(json), true)
         .subscribe(Response => {
           if (Response) Response = JSON.parse(Response.toString());
           this.sending = false;
           if (!Response) {
-            swal.fire("Unable to signup,please try again");
+            swal.fire("Unable to signup, please try again");
             return;
           }
           this.accService.login();
@@ -60,6 +61,7 @@ export class AccountloginComponent implements OnInit {
             swal.fire('Unable to login, please try again');
         });
     } else {
+		//alert(this.utility.apiData.userAccounts.ApiUrl);
       this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
         .subscribe(Response => {
           if (Response) Response = JSON.parse(Response.toString());
@@ -82,6 +84,7 @@ export class AccountloginComponent implements OnInit {
           else if (error.status === 428)
             swal.fire(error.error);
           else
+            swal.fire(error);
             swal.fire('Unable to login, please try again');
         });
     }

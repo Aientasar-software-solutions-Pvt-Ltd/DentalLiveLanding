@@ -64,7 +64,7 @@
 }
 
 .form-image {
-  background: url(../../../assets/signup_bg.png) no-repeat 0 0;
+  background: url(src/assets/images/signup_bg.png) no-repeat 0 0;
   background-size: 100%;
   background-position: top;
   height: 300px;

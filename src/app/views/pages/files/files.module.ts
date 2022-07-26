@@ -5,6 +5,7 @@ import { DataTablesModule } from "angular-datatables";
 import { FilesComponent } from './files.component';
 import { AllFilesComponent } from './all-files/all-files.component';
 import { FileDetailsComponent } from './file-details/file-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -37,7 +38,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
 	RouterModule.forChild(routes),
-	DataTablesModule
+	DataTablesModule,
+	FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class FilesModule { }
