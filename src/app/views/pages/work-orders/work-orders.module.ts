@@ -8,6 +8,7 @@ import { WorkOrderDetailsComponent } from './work-order-details/work-order-detai
 import { WorkOrderAddMembersComponent } from './work-order-add-members/work-order-add-members.component';
 import { WorkOrderAddComponent } from './work-order-add/work-order-add.component';
 import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.component';
+import { WorkOrderGuideComponent } from './work-order-guide/work-order-guide.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
     WorkOrderDetailsComponent,
     WorkOrderAddMembersComponent,
     WorkOrderAddComponent,
-    WorkOrderEditComponent
+    WorkOrderEditComponent,
+    WorkOrderGuideComponent
   ],
   imports: [
     CommonModule,

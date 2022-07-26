@@ -1,5 +1,8 @@
+<div class="col-12">
+	<app-work-order-guide #orders></app-work-order-guide>
+</div>
 <ol class="breadcrumb">
-	<!-- breadcrumb --> 
+	<!-- breadcrumb -->
 	<li class="breadcrumb-item">
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
@@ -7,12 +10,15 @@
 		Work Orders
 	</li>
 </ol>
+
+
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<h3>Work Orders</h3>
-	</div>	
-	<div class="col-md-6 text-end"> 
-		<a routerLink="/work-orders/work-order-add" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Work Orders</a>
+	</div>
+	<div class="col-md-6 text-end">
+		<a routerLink="/work-orders/work-order-add" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2"
+				aria-hidden="true"></i>Add Work Orders</a>
 	</div>
 </div>
 
@@ -25,17 +31,20 @@
 						<h5 class="body1 card-title mb-0">List of Work Orders</h5>
 					</div>
 					<div class="d-flex align-items-center flex-wrap">
-						<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
+						<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i
+								class="bx bx-filter-alt"></i> <span
+								class="d-none d-sm-inline-block ms-2">Filter</span></button>
 						<div class="search search-md">
 							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
+							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)" />
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card-body p-0 pb-3">
 				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+						id="dataTables">
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th class="body2">ASSIGNED TO</th>
@@ -53,21 +62,21 @@
 										<span class="avatar-icon">D</span>
 										<span class="body2 ms-1">Danial Doolittle</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
+								</td>
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
 								</td>
 								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Active</span><br/>
+										<span class="badge rounded-pill badge-success body2">Active</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Colin Sik</span>                
+								<td>
+									<span class="body2">Colin Sik</span>
 								</td>
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -83,21 +92,21 @@
 										<span class="avatar-icon">D</span>
 										<span class="body2 ms-1">Dareen Leow</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
 								</td>
-								<td>  
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Active</span><br/>
+										<span class="badge rounded-pill badge-success body2">Active</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Colin Sik</span>                
+								<td>
+									<span class="body2">Colin Sik</span>
 								</td>
-								<td>  
-									<span class="body2">Title2 Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Title2 Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -113,21 +122,21 @@
 										<span class="avatar-icon">D</span>
 										<span class="body2 ms-1">Dee End</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
 								</td>
-								<td>  
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Active</span><br/>
+										<span class="badge rounded-pill badge-success body2">Active</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Mario Speedwagon</span>                
+								<td>
+									<span class="body2">Mario Speedwagon</span>
 								</td>
-								<td>  
-									<span class="body2">Title3 Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Title3 Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -143,21 +152,21 @@
 										<span class="avatar-icon">L</span>
 										<span class="body2 ms-1">Liza Doolittle</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
 								</td>
-								<td>  
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Active</span><br/>
+										<span class="badge rounded-pill badge-success body2">Active</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Dee End</span>                
+								<td>
+									<span class="body2">Dee End</span>
 								</td>
-								<td>  
-									<span class="body2">Title4 Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Title4 Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -173,21 +182,21 @@
 										<span class="avatar-icon">A</span>
 										<span class="body2 ms-1">Aida Bugg</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
 								</td>
-								<td>  
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Aactive</span><br/>
+										<span class="badge rounded-pill badge-success body2">Aactive</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Colin Sik</span>                
+								<td>
+									<span class="body2">Colin Sik</span>
 								</td>
-								<td>  
-									<span class="body2">Title5 Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Title5 Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -203,21 +212,21 @@
 										<span class="avatar-icon">M</span>
 										<span class="body2 ms-1">Mario Speedwagon</span>
 									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
 								</td>
-								<td>  
+								<td>
+									<span class="body2">Dareen Leo Root Canel report</span>
+								</td>
+								<td>
 									<div>
-										<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
+										<span class="badge rounded-pill badge-warning body2">Inactive</span><br />
 										<small class="text-muted">Created on : 14/APR/2020</small>
 									</div>
 								</td>
-								<td>  
-									<span class="body2">Colin Sik</span>                
+								<td>
+									<span class="body2">Colin Sik</span>
 								</td>
-								<td>  
-									<span class="body2">Title6 Leo Root Canel report</span>                
+								<td>
+									<span class="body2">Title6 Leo Root Canel report</span>
 								</td>
 								<td>
 									<div class="d-flex">
@@ -236,7 +245,7 @@
 </div>
 
 
- 
+
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -247,7 +256,7 @@
 			<div class="modal-body">
 				<div class="row gy-3">
 					<div class="col-md-12">
-						<select class="form-select" placeholder="search" >
+						<select class="form-select" placeholder="search">
 							<option disabled selected>Sort By</option>
 							<option>Patients</option>
 							<option>Cases</option>
@@ -258,23 +267,23 @@
 					<div class="col-md-12">
 						<div class="search">
 							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Patients name" >
+							<input type="text" class="form-control" placeholder="Search by Patients name">
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="search">
 							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Case name" >
+							<input type="text" class="form-control" placeholder="Search by Case name">
 						</div>
 					</div>
 					<div class="col-md-12">
 						<label class="form-label body2 text-dark">Search by Date:</label>
 					</div>
-					<div class="col-md-6 "> 
+					<div class="col-md-6 ">
 						<label class="form-label body2 text-dark">From</label>
 						<input type="date" class="form-control ">
 					</div>
-					<div class="col-md-6"> 
+					<div class="col-md-6">
 						<label class="form-label body2 text-dark">To</label>
 						<input type="date" class="form-control">
 					</div>
