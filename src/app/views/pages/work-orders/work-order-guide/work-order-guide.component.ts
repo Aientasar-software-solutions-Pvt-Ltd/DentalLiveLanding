@@ -231,8 +231,8 @@ export class WorkOrderGuideComponent implements OnInit {
         this.selectedTeeths = this.selectedTeeths.filter(e => e !== event.target.getAttribute('id'))
       else
         this.selectedTeeths.push(event.target.getAttribute('id'))
+      this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
     }
-    this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
   }
 
   resetListandTeeths() {
@@ -305,11 +305,9 @@ export class WorkOrderGuideComponent implements OnInit {
         }
         this.activeAssignedTeeth = this.selectedTeeths[0];
       }
+      console.log(this.toothGuide);
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     }
-
-    this.setToothGuide(this.toothGuide);
-
     let ellm: HTMLElement = event.path[0].nextSibling;
     //@ts-ignore
     if (ellm?.previousSibling?.localName == "h6") ellm.previousSibling?.classList.toggle("showNode");

@@ -40,11 +40,6 @@ export class WorkOrdersListComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		this.orders.setToothGuide({ name: 'nihar' })
-		//editing --> toothGuide
-
-		console.log(this.orders.getToothGuide());
-		//getttoh
 	}
 
 }
