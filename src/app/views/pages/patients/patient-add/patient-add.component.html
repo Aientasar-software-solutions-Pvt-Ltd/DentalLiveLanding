@@ -62,7 +62,7 @@
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
-										<input type="date" required class="form-control" name="dob" ngModel id="dob">
+										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel id="dob">
 									</div>
 								</div>
 								<div class="col-md-6">

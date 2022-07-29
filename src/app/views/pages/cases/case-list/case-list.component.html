@@ -86,7 +86,7 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a  href="javascript:void(0);" (click)="viewCase(data.caseId)">
+											<a  href="javascript:void(0);" (click)="viewCase(data.caseId, data.patientId)">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>
@@ -558,46 +558,48 @@
 				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<select class="form-select" placeholder="search">
-							<option disabled="" selected="">Sort By</option>
-							<option>Patients</option>
-							<option>Cases</option>
-							<option>Last Modified</option>
-							<option>Date Created</option>
-						</select>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Patients Name" >
+			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select class="form-select" placeholder="search">
+								<option disabled="" selected="">Sort By</option>
+								<option>Patients</option>
+								<option>Cases</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+							</select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="patientName" id="patientName" placeholder="Search by Patients Name" >
+							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Case Name" >
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="title" id="title" placeholder="Search by Case Name" >
+							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Search by Date:</label>
-					</div>
-					<div class="col-md-6 "> 
-						<label class="form-label body2 text-dark">From</label>
-						<input type="date" class="form-control">
-					</div>
-					<div class="col-md-6"> 
-						<label class="form-label body2 text-dark">To</label>
-						<input type="date" class="form-control">
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" name="dateFrom" ngModel id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" name="dateTo" ngModel id="dateTo" class="form-control">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

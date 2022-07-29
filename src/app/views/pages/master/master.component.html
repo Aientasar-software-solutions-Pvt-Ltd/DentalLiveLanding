@@ -96,7 +96,7 @@
 																<div class="col-sm-6 col-md-6 col-lg-12">
 																	<div class="row gx-2">
 																		<label class="text-muted col-5 col-md-12 col-lg-6 mb-2">Last Update : </label> 
-																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>{{tabledata.fetchedData[0].data[0].dateUpdated | date:'mediumDate'}}</strong></div>
+																		<div class="mb-3 col-7 col-md-12 col-lg-6"><strong>{{tabledata.dateUpdated | date:'mediumDate'}}</strong></div>
 																	</div>
 																</div>
 															</div>
@@ -122,7 +122,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="row">
+											<div class="row"  *ngIf="(this.cvfastText == true)">
 												<div class="col-md-12">
 													<div class="mb-3">
 														<label class="me-2 mb-3 text-muted">Case Description</label>
@@ -134,15 +134,17 @@
 													</div>
 												</div>
 											</div>
-											<div class="row justify-content-between">
-												<div class="col-md-12 col-lg-7">
+											<div class="row justify-content-between"  >
+												<div class="col-md-12 col-lg-7" *ngIf="(this.cvfastLinks == true)">
 													<div class="mb-3">
-														<label class="me-2 mb-3 text-muted">Assets : </label>
+														<label class="me-2 mb-3 text-muted" >Assets : </label>
 														<div class="row">
 															<div class="col-md-4 col-lg-6" *ngFor="let links of attachmentFiles">
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
-																<img src="{{links.ImageUrl}}" height="36px">
-																<p class="card-text ps-2">{{links.imgName}}</p></div></div>
+																<img src="{{links.ImageUrl}}" height="36px" *ngIf="(links.imgName.split('.').pop() =='jpg' || links.imgName.split('.').pop() =='JPG' || links.imgName.split('.').pop() =='png' || links.imgName.split('.').pop() =='PNG' || links.imgName.split('.').pop() =='jpeg' || links.imgName.split('.').pop() =='JPEG' || links.imgName.split('.').pop() =='gif' || links.imgName.split('.').pop() =='GIF'); else noimage">
+																<ng-template #noimage><img src="assets/images/file.png" height="58px"/></ng-template>
+																<a href="{{links.ImageUrl}}" target="_tblank"><p class="card-text ps-2">{{links.imgName}}</p></a>
+																</div></div>
 															</div>
 															<!-- <div class="col-md-4 col-lg-6">
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
@@ -2212,7 +2214,7 @@
 												  <h5 class="body1 card-title my-2">Milestones</h5>
 												</div>
 												<div class="col-md-10 col-lg-9">  
-													<a class="btn btn-default my-1 me-2 float-end" routerLink="/milestones/milestone-add">
+													<a class="btn btn-default my-1 me-2 float-end" href="javascript:void(0);" (click)="addMilestone(this.tabledata.caseId)">
 														<i class="bx bx-award"></i> Add Milestone
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
@@ -2236,7 +2238,7 @@
 										<div class="card-body p-0 pb-3">
 											<div *ngIf="id === 'listView'">
 												<div class="table-responsive">
-													<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+													<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 														<thead class="thead-light">
 															<tr style="text-transform:uppercase;">
 																<th data-orderable="false">   
@@ -2252,302 +2254,48 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr>
+															<tr *ngFor="let data of milestonedata; let i = index;">
 																<td>
 																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+																		<span class="d-none">{{i}}</span>
+																	    <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 																	</div>
 																</td>
 																<td>
 																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">C</span>
+																		<span class="avatar-icon my-2">{{data.patientName.charAt(0)}}</span>
 																		<div class="ps-2">
-																			<span class="body2 d-block">Colin</span>
-																			<span class="body2 d-block">General Dentist</span>
+																			<!--<span class="body2 d-block">Colin</span>-->
+																			<span class="body2 d-block">{{data.patientName}}</span>
 																		</div>
 																	</div>
 																</td>
 																<td>
-																	<span class="body2">Disinfecting </span>
+																	<span class="body2">{{data.title}} </span>
 																</td>                     
 																<td>
 																	<div>
-																		<span class="badge badge-pill badge-info body2">Pending</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
+																		<span class="badge rounded-pill badge-info body2" *ngIf="(data.presentStatus == 1)">Active</span>
+																		<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 2)">Inactive</span>
+																		<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 3)">Pending</span>
+																		<span class="badge rounded-pill badge-success body2" *ngIf="(data.presentStatus == 4)">Completed</span>
+																		<small class="text-muted d-block">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
 																	</div>
 																</td>
 																<td>
-																	<span class="body2">29/02/2020</span>
+																	<span class="body2">{{data.duedate | date:'mediumDate'}}</span>
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
+																		<a href="javascript:void(0);" class="me-1" (click)="editMilestone(data.milestoneId)">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
+																		<a routerLink="javascript:void(0);" (click)="viewmilestone(data.milestoneId)" class="me-1">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
 																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr> 
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">S</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Simon Sais</span>
-																			<span class="body2 d-block">General Dentist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Aesthetic Restoration</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-success body2">Accepted</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">M</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Mario Speedwagon</span>
-																			<span class="body2 d-block">General Dentist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Removable Partial Dentures</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-warning body2">Declined</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">C</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Colin</span>
-																			<span class="body2 d-block">General Dentist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Dental Implants</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-success body2">Accepted</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">L</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Liza Doolittle</span>
-																			<span class="body2 d-block">Specialist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Full-Mouth Rehabilitation</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-success body2">Accepted</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr> 
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">C</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Colin</span>
-																			<span class="body2 d-block">General Dentist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Disinfecting</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-success body2">Accepted</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
-																			<i class="material-icons fs-4 text-danger">close</i>
-																		</a>
-																	</div>
-																</td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check form-check-inline">
-																	   <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
-																<td>
-																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">A</span>
-																		<div class="ps-2">
-																			<span class="body2 d-block">Aida Bugg</span>
-																			<span class="body2 d-block">Specialist</span>
-																		</div>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">Aesthetic Restoration</span>
-																</td>                     
-																<td>
-																	<div>
-																		<span class="badge badge-pill badge-success body2">Accepted</span>
-																		<small class="text-muted d-block">Created on : 14/APR/2020</small>
-																	</div>
-																</td>
-																<td>
-																	<span class="body2">29/02/2020</span>
-																</td> 
-																<td>
-																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit" class="me-1">
-																			<i class="material-icons text-bright-blue">edit</i>
-																		</a>
-																		<a routerLink="/milestones/milestone-details" class="me-1">
-																			<i class="material-icons fs-4 text-light-green">
-																				visibility
-																			</i>
-																		</a>
-																		<a routerLink="#" class="me-1">
+																		<a routerLink="javascript:void(0);" (click)="deletemilestone(data.milestoneId)" class="me-1">
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>
@@ -2621,8 +2369,8 @@
 															</td>		   
 															<td>  
 																<div class="d-flex align-items-center">
-																	<img alt="..." src="{{this.filesdata[i].files[0].url}}" width="70px" height="45px" class="my-2 me-2">
-																	<span class="body2">{{this.filesdata[i].files[0].name}} <!--<strong class="text-primary">(+4)</strong>--></span>
+																	<img alt="..." src="assets/images/file.png" width="70px" height="45px" class="my-2 me-2">
+																	<span class="body2">{{this.filesdata[i].files[0].name}} <strong class="text-primary" *ngIf="(this.filesdata[i].filecount-1) > 0">(+{{this.filesdata[i].filecount-1}})</strong></span>
 																</div>               
 															</td>
 															<td *ngIf="this.filesdata[i].files[0].mediaSize; else emptysize">
@@ -2813,7 +2561,7 @@
 						</div>-->
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Upload File</label>
-							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
+							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,audio/*,.pdf,.ppt,.pptx">
 						</div>
 						<!--<div class="col-md-12"> 
 							<label class="form-label body2 text-dark">Created Date</label>
@@ -2944,30 +2692,56 @@
 				<h5 class="modal-title body1" id="MilestonesModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
-					  <select class="form-select" placeholder="search">
-							<option disabled selected>Sort By</option>
-							<option>Title</option>
-							<option>Owner</option>
-							<option>Created Date</option>
-							<option>Milestone Date</option>
-							<option>Status  </option>
-					   </select>
-					</div>
-					<div class="col-md-12">
-						<div class="search my-2">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Owner name" >
+			<form #Milestone="ngForm" id="mainForm" (ngSubmit)="onSubmitMilestone(Milestone)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select class="form-select" placeholder="search">
+								<option disabled="" selected="">Sort By</option>
+								<option>Patients</option>
+								<option>Cases</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+																		
+							</select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="patientName" id="patientName" placeholder="Search by Owner name" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="patientId" id="patientId" placeholder="Search by Patient Id" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="title" id="title" placeholder="Search by Title" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" ngModel name="dateFrom" id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" ngModel name="dateTo" id="dateTo" class="form-control">
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+		 
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

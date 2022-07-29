@@ -45,7 +45,7 @@
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Date of Birth</label>
-										<input type="date" class="form-control" max='2000-13-13' required ngModel="{{this.tabledata.dob | date:'yyyy-MM-dd'}}" name="dob" id="dob">
+										<input type="date" class="form-control" max='2000-13-13' required ngModel="{{this.tabledata.dob | date:'yyyy-MM-dd'}}" max="{{this.maxDate | date:'yyyy-MM-dd'}}" name="dob" id="dob">
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Phone Number</label>

@@ -24,6 +24,7 @@ export class PatientAddComponent implements OnInit {
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;
 	}
+	maxDate = new Date();
 	public medicationsArray: any[] = []
 	public medications: any[] = [{
 		id: 1,
@@ -101,6 +102,7 @@ export class PatientAddComponent implements OnInit {
   constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
+	 // alert(this.maxDate);
   }
   
   numberOnly(event:any): boolean {

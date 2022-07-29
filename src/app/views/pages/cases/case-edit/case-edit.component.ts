@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert2';
@@ -101,6 +102,16 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
+	var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+	swal.fire({
+		html: sweet_loader,
+		icon: "https://www.boasnotas.com/img/loading2.gif",
+		showConfirmButton: false,
+		allowOutsideClick: false,     
+		closeOnClickOutside: false,
+		timer: 2200,
+		//icon: "success"
+	});
 	let url = this.utility.apiData.userCases.ApiUrl;
 	this.caseId = sessionStorage.getItem("caseId");
 	if(this.caseId != '')

@@ -32,7 +32,7 @@ export class CaseAddComponent implements OnInit {
 	public Pid = '';
 	public caseType = true;
 	public caseImage = false;
-	
+	checkPatient = sessionStorage.getItem("checkPatient");
 	public jsonObj = {
 	  resourceOwner: '',
 	  patientId: '',
@@ -88,12 +88,15 @@ export class CaseAddComponent implements OnInit {
 				this.allpatient = Array();
 				for(var k = 0; k < this.tabledataAll.length; k++)
 				{
-					let name = this.tabledataAll[k].firstName+' '+this.tabledataAll[k].lastName;
-					this.allpatient.push({
-					  id: this.tabledataAll[k].patientId,
-					  name: name,
-					  patientimage: this.tabledataAll[k].image
-					});
+					if(this.tabledataAll[k].isActive == true)
+					{
+						let name = this.tabledataAll[k].firstName+' '+this.tabledataAll[k].lastName;
+						this.allpatient.push({
+						  id: this.tabledataAll[k].patientId,
+						  name: name,
+						  patientimage: this.tabledataAll[k].image
+						});
+					}
 				}
 				//alert(JSON.stringify(this.allpatient));
 			}

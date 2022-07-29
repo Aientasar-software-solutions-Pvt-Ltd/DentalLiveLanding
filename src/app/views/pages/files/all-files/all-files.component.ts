@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/angular'; 
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class AllFilesComponent implements OnInit {
   public allfilesdata: any;
+  public allfile: any;
   public tabledata: any;
 	public attachmentUploadFiles: any[] = []
 	public UploadFiles: any[] = []
@@ -35,19 +37,61 @@ export class AllFilesComponent implements OnInit {
 	this.getAllFiles();
 	this.getCaseDetails();
   }
-
+	getTimeStamp(input: any) {
+		var date = input.split('/');
+		var d = new Date( date[2], date[0]-1 , date[1] );
+		return d.getTime();
+	}
+	setcvFast(obj: any)
+	{
+				//alert(JSON.stringify(obj));
+		if(obj.length > 0)
+		{
+			for(var i = 0; i < obj.length; i++)
+			{
+				
+				let ImageName = obj[i].files[0].name;
+				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
+				this.dataService.getallData(url, true)
+				.subscribe(Response => {
+					if (Response)
+					{
+						this.allfilesdata[i-1].files[0].url = Response;
+					}
+				}, error => {
+				  if (error.status === 404)
+					swal.fire('E-Mail ID does not exists,please signup to continue');
+				  else if (error.status === 403)
+					swal.fire('Account Disabled,contact Dental-Live');
+				  else if (error.status === 400)
+					swal.fire('Wrong Password,please try again');
+				  else if (error.status === 401)
+					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				  else if (error.status === 428)
+					swal.fire(error.error);
+				  else
+					swal.fire('Unable to fetch the data, please try again');
+				});
+			}
+			this.allfile = this.allfilesdata;
+		}
+	}
 	getAllFiles() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
-		let formDate = Number(sessionStorage.getItem("dateCreated"));
-		let dateCreated = Number(sessionStorage.getItem("dateCreated"))+oneday;
-		//let date1 = new Date(formDate).toLocaleDateString("en-US");
-		//let date2 = new Date(dateCreated).toLocaleDateString("en-US");
-		//alert(date1);
-		//alert(date2);
-		if(dateCreated)
+		let dateCreated = Number(sessionStorage.getItem("dateCreated"));
+		let date1 = new Date(dateCreated).toLocaleDateString("en-US");
+		let formDate = this.getTimeStamp(date1);
+		let todate = formDate+oneday;
+		let caseId = sessionStorage.getItem("caseId");
+		//alert(caseId);
+		if(caseId != '')
 		{
-			url += "?dateFrom="+formDate+"&dateTo="+dateCreated;
+			url += "?caseId="+caseId;
+		}
+		if(formDate)
+		{
+			url += "&dateFrom="+formDate+"&dateTo="+todate;
 			//url += "?dateFrom="+dateCreated;
 		}
 		this.dataService.getallData(url, true)
@@ -55,6 +99,7 @@ export class AllFilesComponent implements OnInit {
 			if (Response)
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
+				this.setcvFast(this.allfilesdata);
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
@@ -202,7 +247,7 @@ export class AllFilesComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  swal.fire('Files added successfully');
-		  this.router.navigate(['files/files']);
+		  window.location.reload();
 		}, error => {
 		  if (error.status === 404)
 			swal.fire('E-Mail ID does not exists,please signup to continue');
@@ -228,6 +273,16 @@ export class AllFilesComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			swal.fire({
+				html: sweet_loader,
+				icon: "https://www.boasnotas.com/img/loading2.gif",
+				showConfirmButton: false,
+				allowOutsideClick: false,     
+				closeOnClickOutside: false,
+				timer: 2200,
+				//icon: "success"
+			});
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {

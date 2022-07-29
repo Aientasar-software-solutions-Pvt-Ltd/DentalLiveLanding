@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -26,6 +26,7 @@
 </div>
 
 <div class="row align-items-center pt-2">
+<form #taskForm="ngForm" id="taskForm" (ngSubmit)="onSubmitTask(taskForm)">
 	<div class="col-md-12">
 		<div class="card shadow-sm">
 			<div class="card-header border-bottom-0 bg-white">
@@ -45,39 +46,86 @@
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Title </label>
-									<input type="text" class="form-control" value="Colin" placeholder="Enter Title here ">
+									<input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title" required ngModel={{this.editdata.title}} maxlength="50">
 								</div>
 							</div>
-							<div class="col-md-4"> 
+							<div class="col-ms-6 col-md-4">
 								<div class="mb-4">
-									<label class="form-label body2 text-dark">Start Date</label>
-									<input type="date" class="form-control" value="2022-06-06">
+									<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
+									<div class="date-container">
+										<input
+											class="shadow-input"
+											name="startdate"
+											[(ngModel)]="editedstartDate"
+											[owlDateTime]="dt2"
+										  />
+										  <input class="form-control" name="startdate" id="startdate" [owlDateTimeTrigger]="dt2" placeholder="Start Date & Time" [value]="editedstartDate | date:'MM/dd/yyyy'" >
+										<owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+									</div>
 								</div>
 							</div>
-							<div class="col-md-4"> 
+							
+							<div class="col-ms-6 col-md-4">
 								<div class="mb-4">
-									<label class="form-label body2 text-dark">Due Date & Time</label>
-									<input class="form-control" name="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time">
-									<owl-date-time #dt1></owl-date-time>
+									<label class="form-label body2 mb-3 text-dark">Due Date & Time</label>
+									<!-- <input  type="datetime-local" class="form-control" name="dueDatetime"> -->
+									
+									<div class="date-container">
+									<input
+										class="shadow-input"
+										name="dueDatetime"
+										[(ngModel)]="editedDate"
+										[owlDateTime]="dt1"
+									  />
+									  <input class="form-control" name="dueDatetime" id="dueDatetime" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" [value]="editedDate | date:'MM/dd/yyyy hh:mm a'" >
+										<owl-date-time #dt1></owl-date-time>
+									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date & time should be greater than start date</span>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Status</label>
-									<select class="form-select">
+									<select class="form-select" name="presentStatus" id="presentStatus" required ngModel={{this.editdata.presentStatus}} >
 										<option value="">Select</option>
-										<option value="1" selected="">New</option>
-										<option value="2">Pending</option>
-										<option value="3">Completed</option>
-										<option value="4">In Process</option>
+										<option value="1">Active</option>
+										<option value="2">Inactive</option>
+										<option value="3">Pending</option>
+										<option value="4">Completed</option>
 									</select>
 								</div>
 							</div>
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Assign Member</label>
-									<ng-select [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select">
-									</ng-select>
+									<!--<ng-select name="memberName" id="memberName" ngModel [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select" required >
+									</ng-select>-->
+									<select class="form-select" name="memberName" id="memberName" ngModel={{this.editdata.memberName}} required>  
+										<option value="">Select</option>
+										<option value="1">Jhone Duo</option>
+										<option value="2">Danel Gray</option>
+										<option value="3">Pavilnys</option>
+									</select>  
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Add Reminder</label>
+									<select class="form-select" name="reminder" id="reminder" ngModel={{this.editdata.reminder}} required>  
+										<option value="">Select</option>
+										<option value="12">12 Hours</option>
+										<option value="24">1 Day</option>
+										<option value="48">2 Days</option>
+										<option value="72">3 Days</option>
+										<option value="120">5 Days</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="mb-4">
+									<label class="form-label body2 text-dark">Description</label>
+									<app-cvfast></app-cvfast>
+									<!-- <textarea class="form-control" placeholder="Enter Description" name="description" id="description" style="height: 100px" ngModel={{this.editdata.description}} required></textarea> -->
 								</div>
 							</div>
 						</div>
@@ -87,10 +135,17 @@
 		</div>
 	</div>
 	<div class="col-md-12 mt-3">
-		<a routerLink="#" class="btn btn-default me-2">
+		<input type="hidden" name="taskId" id="taskId" ngModel="{{this.editdata.taskId}}">
+		<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.editdata.caseId}}">
+		<input type="hidden" name="patientid" id="patientid" ngModel="{{this.editdata.patientId}}">
+		<input type="hidden" name="patientname" id="patientname" ngModel="{{this.editdata.patientName}}">
+		<input type="hidden" name="memberMail" id="memberMail" ngModel="{{this.editdata.memberMail}}">
+		<input type="hidden" name="milestoneId" id="milestoneId" ngModel="{{this.editdata.milestoneId}}">
+		<button type="submit" class="btn btn-default me-2">
 			<i class="bx bx-save"></i>
 			Save  
-		</a> 
-		<button type="button" class="btn btn-secondary">Cancel</button> 
+		</button> 
+		<a href="milestones/milestone-details" class="btn btn-secondary">Cancel</a>
 	</div>
+</form>
 </div>
