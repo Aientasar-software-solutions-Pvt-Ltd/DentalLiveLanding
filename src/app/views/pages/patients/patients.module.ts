@@ -10,6 +10,7 @@ import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { PatientCaseListComponent } from './patient-case-list/patient-case-list.component';
 import { PatientAddComponent } from './patient-add/patient-add.component';
 import { Cvfast } from '../../../cvfast/cvfast.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 const routes: Routes = [
   {
     path: '',
@@ -20,23 +21,23 @@ const routes: Routes = [
         redirectTo: 'patients-list',
         pathMatch: 'full',
       },
-	  {
+      {
         path: 'patients-list',
         component: PatientsListComponent
       },
-	  {
+      {
         path: 'patient-details',
         component: PatientDetailsComponent
       },
-	  {
+      {
         path: 'patient-edit',
         component: PatientEditComponent
       },
-	  {
+      {
         path: 'patient-case-list',
         component: PatientCaseListComponent
       },
-	  {
+      {
         path: 'patient-add',
         component: PatientAddComponent
       }
@@ -60,8 +61,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-	RouterModule.forChild(routes),
-	DataTablesModule,
+    PickerModule,
+    RouterModule.forChild(routes),
+    DataTablesModule,
     ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
