@@ -307,11 +307,13 @@ export class WorkOrderGuideComponent implements OnInit {
       }
       console.log(this.toothGuide);
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
+    } else {
+      var path = event.path || (event.composedPath && event.composedPath());
+      let ellm: HTMLElement = path[0].nextSibling;
+      //@ts-ignore
+      if (ellm?.previousSibling?.localName == "h6") ellm.previousSibling?.classList.toggle("showNode");
+      ellm?.classList.toggle("showNode");
     }
-    let ellm: HTMLElement = event.path[0].nextSibling;
-    //@ts-ignore
-    if (ellm?.previousSibling?.localName == "h6") ellm.previousSibling?.classList.toggle("showNode");
-    ellm?.classList.toggle("showNode");
   }
 
   loopSeelctionParent(selection) {
