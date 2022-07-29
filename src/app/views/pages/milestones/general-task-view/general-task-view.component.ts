@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import swal from 'sweetalert2';
+import { ApiDataService } from '../../users/api-data.service';
+import { UtilityService } from '../../users/utility.service';
+import { UtilityServicedev } from '../../../../utilitydev.service';
+import { AccdetailsService } from '../../accdetails.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-general-task-view',
@@ -14,14 +21,156 @@ export class GeneralTaskViewComponent implements OnInit {
         { value: 3, label: 'Pavilnys' }
     ];
 	selectedMember: any ;
-	constructor(private location: Location) { }
+	 constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
 
 	back(): void {
 		this.location.back()
 	}
-  
+	
+	editdata:any;
+	tabledata:any;
+	public module = 'patient';
+	cvfastText: boolean = false;
+	cvfastLinks: boolean = false;
+	public attachmentFiles: any[] = []
+	public casefilesArray: any[] = []
+	
 	ngOnInit(): void {
 		this.selectedMember = this.defaultBindingsList[0];
+		this.getCaseDetails();
+		this.getEditTasks();
 	}
-
+	
+	getCaseDetails() {
+		let url = this.utility.apiData.userCases.ApiUrl;
+		let caseId = sessionStorage.getItem("caseId");
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.tabledata = JSON.parse(Response.toString());
+				//alert(JSON.stringify(this.tabledata));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	getEditTasks() {
+		let url = this.utility.apiData.userTasks.ApiUrl;
+		let taskId = sessionStorage.getItem("taskId");
+		if(taskId != '')
+		{
+			url += "?taskId="+taskId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.editdata = JSON.parse(Response.toString());
+				//alert(JSON.stringify(this.editdata));
+				this.setcvFast(this.editdata.description);
+				this.cvfastText = true;
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	setcvFast(obj: any, page = 'task')
+	{
+		if(page == 'task')
+		{
+			this.attachmentFiles = Array();
+			if(obj.links.length > 0)
+			{
+				this.cvfastLinks = true;
+				for(var i = 0; i < obj.links.length; i++)
+				{
+					
+					let ImageName = obj.links[i];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+						}
+					}, error => {
+					  if (error.status === 404)
+						swal.fire('E-Mail ID does not exists,please signup to continue');
+					  else if (error.status === 403)
+						swal.fire('Account Disabled,contact Dental-Live');
+					  else if (error.status === 400)
+						swal.fire('Wrong Password,please try again');
+					  else if (error.status === 401)
+						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					  else if (error.status === 428)
+						swal.fire(error.error);
+					  else
+						swal.fire('Unable to fetch the data, please try again');
+					});
+				}
+			}
+		}
+		else
+		{
+			if(obj.length > 0)
+			{
+				for(var i = 0; i < obj.length; i++)
+				{
+					
+					let ImageName = obj[i].files[0].name;
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.casefilesArray[i-1].files[0].url = Response;
+						}
+					}, error => {
+					  if (error.status === 404)
+						swal.fire('E-Mail ID does not exists,please signup to continue');
+					  else if (error.status === 403)
+						swal.fire('Account Disabled,contact Dental-Live');
+					  else if (error.status === 400)
+						swal.fire('Wrong Password,please try again');
+					  else if (error.status === 401)
+						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					  else if (error.status === 428)
+						swal.fire(error.error);
+					  else
+						swal.fire('Unable to fetch the data, please try again');
+					});
+				}
+				this.editdata = this.casefilesArray;
+			}
+		}
+	}
 }

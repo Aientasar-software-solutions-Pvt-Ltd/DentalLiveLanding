@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -55,6 +56,7 @@ public medications: any[] = [{
 	public objNote = {
 	  note: ''
 	}
+	maxDate = new Date();
 	public module = 'patient';
 	public patientImg: any;
 	public patientImgdata: any;
@@ -114,6 +116,17 @@ public medications: any[] = [{
 		this.getallpatiant();
 	}
 	getallpatiant() {
+		
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		Swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
 				//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = sessionStorage.getItem("patientId");

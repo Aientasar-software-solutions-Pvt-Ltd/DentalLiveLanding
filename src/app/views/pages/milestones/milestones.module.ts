@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
@@ -13,6 +13,8 @@ import { MilestoneEditComponent } from './milestone-edit/milestone-edit.componen
 import { GeneralTaskAddComponent } from './general-task-add/general-task-add.component';
 import { GeneralTaskEditComponent } from './general-task-edit/general-task-edit.component';
 import { GeneralTaskViewComponent } from './general-task-view/general-task-view.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientsModule } from '../patients/patients.module';
 
 const routes: Routes = [
   {
@@ -77,8 +79,14 @@ const routes: Routes = [
 	RouterModule.forChild(routes),
 	DataTablesModule,
 	NgSelectModule,
+	PatientsModule,
 	OwlDateTimeModule,
     OwlNativeDateTimeModule,
-  ]
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  schemas: [
+	  CUSTOM_ELEMENTS_SCHEMA
+	]
 })
 export class MilestonesModule { }

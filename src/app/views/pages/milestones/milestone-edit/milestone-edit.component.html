@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -25,7 +25,8 @@
 	</div>
 </div>
 
-<form>
+
+<form #milestoneForm="ngForm" id="milestoneForm" (ngSubmit)="onSubmitMilestone(milestoneForm)">
 	<div class="row align-items-center pt-2">
 		<div class="col-md-12">
 			<div class="card shadow-sm">
@@ -56,44 +57,70 @@
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Title </label>
-										<input class="form-control" type="text" name="title" value="Disinfecting"/>
+										<input class="form-control" type="text" placeholder="Enter Title" name="title" id="title" ngModel={{this.editdata.title}} maxlength="50" required>
 									</div>
 								</div>
 								<div class="col-md-12">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Description</label>
-										<textarea class="form-control" placeholder="Enter Description" id="description" style="height: 100px"></textarea>
+										<app-cvfast></app-cvfast>
+									</div>
+								</div>
+								<div class="col-ms-6 col-md-4">
+									<div class="mb-4">
+										<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
+										<div class="date-container">
+											<input
+												class="shadow-input"
+												name="startdate"
+												[(ngModel)]="editedstartDate"
+												[owlDateTime]="dt2"
+											  />
+											  <input class="form-control" name="startdate" id="startdate" [owlDateTimeTrigger]="dt2" placeholder="Start Date & Time" [value]="editedstartDate | date:'MM/dd/yyyy hh:mm a'" >
+											<owl-date-time #dt2></owl-date-time>
+										</div>
 									</div>
 								</div>
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Due Date & Time</label>
 										<!-- <input  type="datetime-local" class="form-control" name="dueDatetime"> -->
-										<input class="form-control" name="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" [value]="'6/2/2022 2:45 PM'"/>
+										
+										<div class="date-container">
+										<input
+											class="shadow-input"
+											name="dueDatetime"
+											[(ngModel)]="editedDate"
+											[owlDateTime]="dt1"
+										  />
+										  <input class="form-control" name="dueDatetime" id="dueDatetime" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" [value]="editedDate | date:'MM/dd/yyyy hh:mm a'" >
 										<owl-date-time #dt1></owl-date-time>
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date & time should be greater than start date</span>
+										</div>
 									</div>
 								</div>
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Status</label>
-										<select class="form-select">  
+										<select class="form-select" name="presentStatus" id="presentStatus" ngModel={{this.editdata.presentStatus}} required>  
 											<option value="">Select</option>
-											<option value="1" selected>New</option>
-											<option value="2">Pending</option>
-											<option value="3">Completed</option>
-											<option value="4">In Process</option>
+											<option value="1" selected>Active</option>
+											<option value="2">Inactive</option>
+											<option value="3">Pending</option>
+											<option value="4">Completed</option>
 										</select> 
 									</div>
 								</div>
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Add Reminder</label>
-										<select class="form-select">  
+										<select class="form-select" name="reminder" id="reminder" ngModel={{this.editdata.reminder}} required>  
 											<option value="">Select</option>
-											<option value="1" selected>15 Min</option>
-											<option value="4">30 Min</option>
-											<option value="7">45 Min</option>
-											<option value="10">60 Min</option>
+											<option value="12" selected>12 Hours</option>
+											<option value="24">1 Day</option>
+											<option value="48">2 Days</option>
+											<option value="72">3 Days</option>
+											<option value="120">5 Days</option>
 										</select>
 									</div>
 								</div>
@@ -104,8 +131,9 @@
 			</div>
 		</div>
 		<div class="col-md-12 mt-3">
-			<button routerLink="/milestones/milestones-list" class="btn btn-default me-2"><i class="bx bx-save"></i> Save</button> 
-			<a routerLink="#" class="btn btn-secondary mt-1 me-2">Cancel</a>
+			<input type="hidden" class="form-control" name="milestoneId" maxlength="100" id="milestoneId" ngModel={{this.editdata.milestoneId}} >
+			<button type="submit" class="btn btn-default me-2"><i class="bx bx-save"></i> Save</button> 
+			<a routerLink="/milestones/milestones-list" class="btn btn-secondary mt-1 me-2">Cancel</a>
 		</div>
 	</div>
 </form>

@@ -2036,6 +2036,182 @@ export class UtilityService {
       "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/casefiles",
       "bucket": 'dentallive-casefiles',
       "bucketUrl": "https://dentallive-casefiles.s3.us-west-2.amazonaws.com/"
-    }
+    },
+	"userMilestones": {
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "resourceOwner": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "caseId": {
+            "type": "string"
+          },
+          "patientId": {
+            "type": "string"
+          },
+          "patientName": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startdate": {
+            "type": "integer"
+          },
+          "duedate": {
+            "type": "integer"
+          },
+          "presentStatus": {
+            "type": "integer"
+          },
+          "reminder": {
+            "type": "integer"
+          },
+          "milestoneId": {
+            "type": "string"
+          }
+        },
+        "required": [
+		  "caseId",
+          "patientId",
+          "patientName",
+          "title",
+          "description",
+          "startdate",
+          "duedate",
+          "presentStatus",
+          "reminder"
+        ]
+      },
+      "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/milestones",
+      "bucket": 'dentallive-milestones',
+      "bucketUrl": "https://dentallive-milestones.s3.us-west-2.amazonaws.com/"								
+    },
+	"userTasks": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"taskId": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"patientName": {
+		  "type": "string"
+		},
+		"title": {
+		  "type": "string"
+		},
+		"description": {
+		  "type": "string"
+		},
+		"startdate": {
+		  "type": "integer"
+		},
+		"duedate": {
+		  "type": "integer"
+		},
+		"presentStatus": {
+		  "type": "integer"
+		},
+		"reminder": {
+		  "type": "integer"
+		},
+		"milestoneId": {
+		  "type": "string"
+		},
+		"memberMail": {
+		  "type": "string"
+		},
+		"memberName": {
+		  "type": "string"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"patientName",
+		"title",
+		"description",
+		"startdate",
+		"duedate",
+		"presentStatus",
+		"reminder",
+		"milestoneId",
+		"memberMail",
+		"memberName"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/tasks",
+	"bucket": 'dentallive-casefiles',
+	"bucketUrl": "https://dentallive-casefiles.s3.us-west-2.amazonaws.com/"	
+	},
+	"userWorkOrders": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"workorderId": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"title": {
+		  "type": "string"
+		},
+		"notes": {
+		  "type": "string"
+		},
+		"startdate": {
+		  "type": "integer"
+		},
+		"enddate": {
+		  "type": "integer"
+		},
+		"toothguide": {
+		  "type": "object"
+		},
+		"milestoneId": {
+		  "type": "string"
+		},
+		"presentStatus": {
+		  "type": "integer"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"title",
+		"toothguide",
+		"presentStatus"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/workorders",
+	"bucket": 'dentallive-workorders',
+	"bucketUrl": "https://dentallive-workorders.s3.us-west-2.amazonaws.com/"	
+	}
   }
 }

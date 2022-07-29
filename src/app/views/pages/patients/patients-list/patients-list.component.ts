@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
@@ -16,7 +17,7 @@ export class PatientsListComponent implements OnInit {
   masterSelected:boolean;
   tabledata:any;
   checkedList:any;
-  
+	public loading = false;
 	id:any = "myPatients";
 	tabContent(ids:any){
 		this.id = ids;
@@ -56,7 +57,18 @@ export class PatientsListComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
+
 	getallpatiant() {
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -64,7 +76,11 @@ export class PatientsListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				this.tabledata = JSON.parse(Response.toString()).reverse();
+				let AllDate = JSON.parse(Response.toString());
+				
+				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+				//alert(JSON.stringify(sortedCountries));
+				this.tabledata = patientDate.reverse();
 				//alert(JSON.stringify(this.tabledata[0].isActive));
 			}
 		}, (error) => {
@@ -92,6 +108,16 @@ export class PatientsListComponent implements OnInit {
 		});
 	}
 	onSubmit(form: NgForm) {
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let strName = form.value.firstName;
 		let patiantName =strName.split(' ');
@@ -139,7 +165,11 @@ export class PatientsListComponent implements OnInit {
 			.subscribe(Response => {
 				if (Response)
 				{
-					this.tabledata = JSON.parse(Response.toString()).reverse();
+					let AllDate = JSON.parse(Response.toString());
+				
+					let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+					//alert(JSON.stringify(sortedCountries));
+					this.tabledata = patientDate.reverse();
 				}
 			}, error => {
 			  if (error.status === 404)

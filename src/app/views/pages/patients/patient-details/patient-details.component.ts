@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import { ApiDataService } from '../../users/api-data.service';
@@ -17,6 +18,10 @@ export class PatientDetailsComponent implements OnInit {
   casedata:any;
   public Img = 'assets/images/avatar3.png';
   public caseImage = false;
+  public refrernceNo = '-';
+  public mobileNo = '-';
+  public policyNo = '-';
+  public insurance = '-';
   public patientImg: any;
   public module = 'patient';
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router) { }
@@ -69,6 +74,16 @@ export class PatientDetailsComponent implements OnInit {
 		});
 	}
 	getallpatiant() {
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = sessionStorage.getItem("patientId");
@@ -81,7 +96,22 @@ export class PatientDetailsComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				
+				if(this.tabledata.refId)
+				{
+				this.refrernceNo = this.tabledata.refId;
+				}
+				if(this.tabledata.phone)
+				{
+				this.mobileNo = this.tabledata.phone;
+				}
+				if(this.tabledata.insurance.policyno)
+				{
+				this.policyNo = this.tabledata.insurance.policyno;
+				}
+				if(this.tabledata.insurance.carrier)
+				{
+				this.insurance = this.tabledata.insurance.carrier;
+				}
 				setTimeout(()=>{     
 					if(this.tabledata.image)
 					{
@@ -133,6 +163,7 @@ export class PatientDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	addcases() {
+		sessionStorage.setItem('checkPatient', "1");
 		this.router.navigate(['cases/case-add']);
 	}
 

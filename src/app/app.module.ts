@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +26,7 @@ import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
     AppRoutingModule,
     LayoutModule,
     PickerModule,
-    NgwWowModule
+    NgwWowModule,
   ],
   providers: [
     AuthGuard,

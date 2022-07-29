@@ -39,6 +39,9 @@ export class ApiDataService {
   deleteData(url, id) {
     return this.http.delete(url + `?id=${id}`);
   }
+  deleteDataRecord(url, id, param) {
+    return this.http.delete(url + `?${param}=${id}`);
+  }
   deletePatientData(url, patientId) {
     return this.http.delete(url + `?patientId=${patientId}`);
   }
@@ -53,5 +56,7 @@ export class ApiDataService {
   getDatawithMail(url, mail, id) {
     return this.http.get(url + `?accountmail=${mail}&id=${id}`);
   }
-
+  deleteTaskData(url, taskId) {
+    return this.http.delete(url + `?taskId=${taskId}`);
+  }
 }

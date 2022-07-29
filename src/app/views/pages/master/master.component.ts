@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import { NgForm } from '@angular/forms';								
 import { CalendarOptions } from '@fullcalendar/angular'; 
@@ -14,63 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./master.component.css']
 })
 export class MasterComponent implements OnInit {
-	calendarOptions: CalendarOptions = {
-		initialView: 'dayGridMonth',
-		themeSystem: 'bootstrap5',
-		headerToolbar:{
-		  left: "prev,next today",
-		  center: "title",
-		  right: "dayGridMonth,timeGridWeek,listMonth"
-		},
-		dayMaxEvents: true,
-		displayEventEnd:true,
-		events: [
-		  {
-			title: 'All Day Event',
-			start: '2022-04-01',
-		  },
-		  {
-			title: 'Long Event',
-			start: '2022-04-07',
-			end: '2022-04-10'
-		  },
-		  {
-			title: 'Conference',
-			start: '2022-04-11',
-			end: '2022-04-13'
-		  },
-		  {
-			title: 'Meeting',
-			start: '2022-04-12T10:30:00',
-			end: '2022-04-12T12:30:00'
-		  },
-		  {
-			title: 'Lunch',
-			start: '2022-04-12T12:00:00'
-		  },
-		  {
-			title: 'Meeting',
-			start: '2022-04-12T14:30:00'
-		  },
-		  {
-			title: 'Happy Hour',
-			start: '2022-04-12T17:30:00'
-		  },
-		  {
-			title: 'Dinner',
-			start: '2022-04-12T20:00:00'
-		  },
-		  {
-			title: 'Birthday Party',
-			start: '2022-04-13T07:00:00'
-		  },
-		  {
-			title: 'Click for Google',
-			url: 'http://google.com/',
-			start: '2022-04-28'
-		  }
-		]
-	};
+	calendarOptions: CalendarOptions = {}
 	
 	show = false;
 	show1 = false;
@@ -89,20 +34,25 @@ export class MasterComponent implements OnInit {
 	tab:any = "tab1";
 	tabClick(tabs:any){
 		this.tab = tabs;
+		sessionStorage.setItem("masterTab", tabs);
 	}
 	
 	saveCompletedArchive: boolean = false;
+	cvfastText: boolean = false;
+	cvfastLinks: boolean = false;
 
 	onCompletedArchiveChanged(value:boolean){
 		this.saveCompletedArchive = value;
 	}
 	dtOptions: DataTables.Settings = {};
 	tabledata:any;
+	milestonedata:any;
 	patientdata:any;
 	public patientImg: any;
 	public module = 'patient';
 	public CaseTypeVal = '';
 	public casefilesArray: any[] = []
+	public eventsData: any[] = []
 	public attachmentFiles: any[] = []
 	public attachmentUploadFiles: any[] = []
 	public UploadFiles: any[] = []
@@ -135,6 +85,7 @@ export class MasterComponent implements OnInit {
 	public PatientImg: any;
 	
 	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
+	
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -157,12 +108,89 @@ export class MasterComponent implements OnInit {
     };
 	this.getCaseDetails();
 	this.getFilesListing();
+	this.getallmilestone();
+	//Set current tab
+	let masterTab = sessionStorage.getItem("masterTab");
+	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
   }
+	getallmilestone() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userMilestones.ApiUrl;
+			let caseId = sessionStorage.getItem("caseId");
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.milestonedata = JSON.parse(Response.toString()).reverse();
+					this.eventsData = Array();
+					for(var i = 0; i < this.milestonedata.length; i++)
+					{
+						this.eventsData.push({
+						  title: this.milestonedata[i].title,
+						  start: new Date(this.milestonedata[i].startdate),
+						  end: new Date(this.milestonedata[i].duedate)
+						});
+					}
+					//alert(this.milestonedata.length);
+					this.calendarOptions = {
+						initialView: 'dayGridMonth',
+						themeSystem: 'bootstrap5',
+						headerToolbar:{
+						  left: "prev,next today",
+						  center: "title",
+						  right: "dayGridMonth,timeGridWeek,listMonth"
+						},
+						dayMaxEvents: true,
+						displayEventEnd:true,
+						events: this.eventsData
+					};
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	
+	viewmilestone(milestoneId: any) {
+		sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-details']);
+	}
+	deletemilestone(milestoneId: any) {
+		let url = this.utility.apiData.userMilestones.ApiUrl;
+		this.dataService.deleteDataRecord(url, milestoneId, 'milestoneId').subscribe(Response => {
+			swal.fire("Milestones deleted successfully");
+			this.getallmilestone();
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+	}
+	editMilestone(milestoneId: any) {
+		sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-edit']);
+	}
+	
 	editcase(caseId: any) {
 		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['/cases/case-edit']);
 	}
 	getCaseDetails() {
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
@@ -174,10 +202,12 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				let patientId = this.tabledata.patientId;
-				this.setcvFast(this.tabledata.description);
-				this.setCaseType(this.tabledata.caseType);
 				this.getallPatient();
+				let patientId = this.tabledata.patientId;
+				this.setCaseType(this.tabledata.caseType);
+				//alert(JSON.stringify(this.tabledata));
+				this.setcvFast(this.tabledata.description);
+				this.cvfastText = true;
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -207,7 +237,7 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.patientdata = JSON.parse(Response.toString());
-				
+				//alert(JSON.stringify(this.patientdata.image));
 				setTimeout(()=>{     
 					if(this.patientdata.image)
 					{
@@ -251,36 +281,73 @@ export class MasterComponent implements OnInit {
 	getDimensionsByFilter(id: any){
 	  return this.casetype.filter(x => x.id === id);
 	}
-	setcvFast(obj: any)
+	setcvFast(obj: any, page = 'case')
 	{
-		this.attachmentFiles = Array();
-		if(obj.links.length > 0)
+		if(page == 'case')
 		{
-			for(var i = 0; i < obj.links.length; i++)
+			this.attachmentFiles = Array();
+			if(obj.links.length > 0)
 			{
-				
-				let ImageName = obj.links[i];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
-					}
-				}, error => {
-				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
-				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
-				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
-				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				  else if (error.status === 428)
-					swal.fire(error.error);
-				  else
-					swal.fire('Unable to fetch the data, please try again');
-				});
+				this.cvfastLinks = true;
+				for(var i = 0; i < obj.links.length; i++)
+				{
+					
+					let ImageName = obj.links[i];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+						}
+					}, error => {
+					  if (error.status === 404)
+						swal.fire('E-Mail ID does not exists,please signup to continue');
+					  else if (error.status === 403)
+						swal.fire('Account Disabled,contact Dental-Live');
+					  else if (error.status === 400)
+						swal.fire('Wrong Password,please try again');
+					  else if (error.status === 401)
+						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					  else if (error.status === 428)
+						swal.fire(error.error);
+					  else
+						swal.fire('Unable to fetch the data, please try again');
+					});
+				}
+			}
+		}
+		else
+		{
+			if(obj.length > 0)
+			{
+				for(var i = 0; i < obj.length; i++)
+				{
+					
+					let ImageName = obj[i].files[0].name;
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.casefilesArray[i-1].files[0].url = Response;
+						}
+					}, error => {
+					  if (error.status === 404)
+						swal.fire('E-Mail ID does not exists,please signup to continue');
+					  else if (error.status === 403)
+						swal.fire('Account Disabled,contact Dental-Live');
+					  else if (error.status === 400)
+						swal.fire('Wrong Password,please try again');
+					  else if (error.status === 401)
+						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					  else if (error.status === 428)
+						swal.fire(error.error);
+					  else
+						swal.fire('Unable to fetch the data, please try again');
+					});
+				}
+				this.filesdata = this.casefilesArray;
 			}
 		}
 	}
@@ -348,7 +415,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  swal.fire('Files added successfully');
-		  this.router.navigate(['master']);
+		  //this.getFilesListing();
+		  window.location.reload();
 		}, error => {
 		  if (error.status === 404)
 			swal.fire('E-Mail ID does not exists,please signup to continue');
@@ -373,6 +441,16 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			swal.fire({
+				html: sweet_loader,
+				icon: "https://www.boasnotas.com/img/loading2.gif",
+				showConfirmButton: false,
+				allowOutsideClick: false,     
+				closeOnClickOutside: false,
+				timer: 2200,
+				//icon: "success"
+			});
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
@@ -445,13 +523,17 @@ export class MasterComponent implements OnInit {
 				this.filesdataArray = JSON.parse(Response.toString()).reverse();
 				//alert(JSON.stringify(this.filesdataArray));
 				this.casefilesArray = Array();
+				let casefilesDate = Array();
 				if(this.filesdataArray.length > 0)
 				{
 					for(var i = 0; i < this.filesdataArray.length; i++)
 					{
+						//alert(new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US"));
+						casefilesDate.push({
+						  checkdate: new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US")
+						});
 						let createddate = new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US");
 						var isPresent = this.casefilesArray.some(function(el){
-						//alert(createddate);
 						return el.checkdate === createddate
 						});
 						if(isPresent == false)
@@ -464,17 +546,21 @@ export class MasterComponent implements OnInit {
 						  caseId: this.filesdataArray[i].caseId,
 						  fileUploadId: this.filesdataArray[i].fileUploadId,
 						  ownerName: this.filesdataArray[i].ownerName,
+						  filecount: 1,
 						});
 						//alert(JSON.stringify(this.casefilesArray));
 						}
 					}
+					for(var k = 0; k < this.casefilesArray.length; k++)
+					{
+						let count = this.getFilesCount(casefilesDate,this.casefilesArray[k].checkdate);
+						this.casefilesArray[k].filecount = count;
+					}
+					this.setcvFast(this.casefilesArray,'file');
 				}
-				
-				this.filesdata = this.casefilesArray;
 				//this.filesdata = this.groupByKey(this.casefilesArray, 'checkdate');
 				//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
 				//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
-				//alert(JSON.stringify(this.filesdata[0].ownerName));
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -491,7 +577,9 @@ export class MasterComponent implements OnInit {
 			swal.fire('Unable to fetch the data, please try again');
 		});
 	}
-	
+	getFilesCount(array, id) {
+	return array.filter((obj) => obj.checkdate === id).length;
+	}
 	getFilesDetails() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let fileUploadId = sessionStorage.getItem("fileUploadId");
@@ -590,10 +678,104 @@ export class MasterComponent implements OnInit {
 			swal.fire('Unable to fetch the data, please try again');
 		});
 	};
+	addMilestone(caseId: any) {
+		sessionStorage.setItem('caseId', caseId);
+		this.router.navigate(['milestones/milestone-add']);
+	}
 	
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-
+	onSubmitMilestone(form: NgForm) {
+		//alert(11111111);
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			
+			//alert(JSON.stringify(form.value));
+			let url = this.utility.apiData.userMilestones.ApiUrl;
+			let patientName = form.value.patientName;
+			if(patientName != '')
+			{
+				url += "?patientName="+patientName;
+			}
+			if(form.value.title != '')
+			{
+				if(patientName != '')
+				{ 
+					url += "&title="+form.value.title;
+				}
+				else
+				{
+					url += "?title="+form.value.title;
+				}
+			}
+			if(form.value.patientId != '')
+			{
+				if(patientName != '' || form.value.patientId != '')
+				{ 
+					url += "&patientId="+Date.parse(form.value.patientId);
+				}
+				else
+				{
+					url += "?patientId="+Date.parse(form.value.patientId);
+				}
+			}
+			if(form.value.dateFrom != '')
+			{
+				if(patientName != '' || form.value.title != '')
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
+				}
+				else
+				{
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				}
+			}
+			if(form.value.dateTo != '')
+			{
+				if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
+			}
+			
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.milestonedata = JSON.parse(Response.toString()).reverse();
+					this.eventsData = Array();
+					for(var i = 0; i < this.milestonedata.length; i++)
+					{
+						this.eventsData.push({
+						  title: this.milestonedata[i].title,
+						  start: new Date(this.milestonedata[i].startdate),
+						  end: new Date(this.milestonedata[i].duedate)
+						});
+					}
+					//alert(this.milestonedata.length);
+					this.calendarOptions = {
+						initialView: 'dayGridMonth',
+						themeSystem: 'bootstrap5',
+						headerToolbar:{
+						  left: "prev,next today",
+						  center: "title",
+						  right: "dayGridMonth,timeGridWeek,listMonth"
+						},
+						dayMaxEvents: true,
+						displayEventEnd:true,
+						events: this.eventsData
+					};
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
 }
