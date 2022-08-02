@@ -47,6 +47,7 @@ export class MasterComponent implements OnInit {
 	dtOptions: DataTables.Settings = {};
 	tabledata:any;
 	milestonedata:any;
+	workordersdata:any;
 	patientdata:any;
 	public patientImg: any;
 	public module = 'patient';
@@ -109,10 +110,56 @@ export class MasterComponent implements OnInit {
 	this.getCaseDetails();
 	this.getFilesListing();
 	this.getallmilestone();
+	this.getallworkorder();
 	//Set current tab
 	let masterTab = sessionStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
-  }
+	}
+  
+	getallworkorder() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			swal.fire({
+				html: sweet_loader,
+				icon: "https://www.boasnotas.com/img/loading2.gif",
+				showConfirmButton: false,
+				allowOutsideClick: false,     
+				closeOnClickOutside: false,
+				timer: 2200,
+				//icon: "success"
+			});
+			let url = this.utility.apiData.userWorkOrders.ApiUrl;
+
+			let caseId = sessionStorage.getItem("caseId");
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.workordersdata = JSON.parse(Response.toString()).reverse();
+					//alert(JSON.stringify(this.workordersdata));
+					//alert(this.workordersdata['0'].title);
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	
+	editWorkOrders(workorderId: any) {
+		sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-edit']);
+	}
+	
+	viewWorkorders(workorderId: any) {
+		sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-details']);
+	}
 	getallmilestone() {
 		let user = this.usr.getUserDetails(false);
 		if(user)

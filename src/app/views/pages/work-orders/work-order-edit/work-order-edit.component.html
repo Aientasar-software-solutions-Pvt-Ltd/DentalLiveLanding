@@ -24,67 +24,79 @@
 		
 	</div>
 </div>
-
-<div class="row align-items-center pt-2">
-	<div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header border-bottom-0 bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Edit Work Order</h5>
-					</div>
-					<div class="col-md-7 text-end"> 
-						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
-					</div>
-				</div>   
-			</div>
-			<div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-8"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Title </label>
-									<input type="text" class="form-control" value="Colin" placeholder="Enter Title here ">
+<form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkOrders(workordersForm)">
+	<div class="row align-items-center pt-2">
+		<div class="col-md-12">
+			<div class="card shadow-sm">
+				<div class="card-header border-bottom-0 bg-white">
+					<div class="row">
+						<div class="col-md-5 align-self-center">
+							<h5 class="body1 card-title my-2">Edit Work Order</h5>
+						</div>
+						<div class="col-md-7 text-end"> 
+							<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
+						</div>
+					</div>   
+				</div>
+				<div class="card-body" style="background: #E4F0FF;">
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Title </label>
+										<input type="text" class="form-control" value="" placeholder="Enter Title here" required  maxlength="50" ngModel={{this.tabledata.title}} name="title" id="title">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Expected Date</label>
-									<input type="date" class="form-control">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Start Date</label>
+										<input type="date" class="form-control" required  name="startdate" min="{{this.minDate | date:'yyyy-MM-dd'}}" id="startdate" ngModel="{{this.tabledata.startdate | date:'yyyy-MM-dd'}}" >
+									</div>
 								</div>
-							</div>
-							<div class="col-md-12"> 
-								<div class="mb-3">
-									<label class="form-label body2 text-dark">Description</label>
-									<textarea class="form-control" placeholder="Enter Description" id="floatingTextarea2" style="height: 100px"></textarea>
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Expected Date</label>
+										<input type="date" class="form-control" name="enddate" id="enddate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel="{{this.tabledata.enddate | date:'yyyy-MM-dd'}}" required>
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Expected date should be greater than start date</span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Status</label>
+										<select class="form-select" name="presentStatus" id="presentStatus" ngModel={{this.tabledata.presentStatus}} required>
+											<option value="">Select</option>
+											<option value="1">Active</option>
+											<option value="2">Inactive</option>
+											<option value="3">Pending</option>
+											<option value="4">Completed</option>
+										</select> 
+									</div>
+								</div>
+								<div class="col-md-12"> 
+									<div class="mb-3">
+										<label class="form-label body2 text-dark">Notes</label>
+										<app-cvfast></app-cvfast>
+									</div>
+								</div>
+								<div class="col-12">
+									<app-work-order-guide #orders></app-work-order-guide>
+									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidToothGuide == true)"> Tooth guide should not be blank!</span>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-12"> 
-								<label class="form-label body2" style="color: #011A3E;">Notes</label>
-								<img src="assets/images/UIToothGuide.png" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
+		</div>
+		<div class="col-md-12 mt-3">
+			<input type="hidden" name="workorderId" id="workorderId" ngModel="{{this.tabledata.workorderId}}">
+			<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+			<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+			<input type="hidden" name="milestoneId" id="milestoneId" ngModel="{{this.tabledata.milestoneId}}">
+			<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+			<button type="submit" class="btn btn-default me-2"><i class="bx bx-folder-plus"></i> Send Order</button> 
+			<a routerLink="/work-orders/work-orders" class="btn btn-secondary mt-1 me-2">Cancel</a>
 		</div>
 	</div>
-	<div class="col-md-12 mt-3">
-		<a routerLink="#" class="btn btn-default me-2">
-			<i class="bx bx-folder-plus"></i>
-			Send Order 
-		</a> 
-		<button type="button" class="btn btn-secondary">
-			Cancel 
-		</button> 
-	</div>
-</div>
+</form>

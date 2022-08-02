@@ -171,7 +171,7 @@
           <button class="position-relative btn bg-transparent text-secondary" data-bs-toggle="tooltip"
             data-bs-placement="top" title="Emojis" type="button">
             <i [ngClass]="{'text-primary': showEmoji}" (click)="showEmoji=!showEmoji" class='bx bxs-smile'></i>
-            <div style="position: absolute;left: -17em;margin-top: 2em;">
+            <div style="position: absolute;left: -17em;margin-top: 2em;z-index:99;">
               <emoji-mart *ngIf="showEmoji" (emojiClick)="addEmoji($event);"></emoji-mart>
             </div>
           </button>

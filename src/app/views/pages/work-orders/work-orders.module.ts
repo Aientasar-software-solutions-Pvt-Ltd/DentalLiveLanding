@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
@@ -8,6 +8,8 @@ import { WorkOrderDetailsComponent } from './work-order-details/work-order-detai
 import { WorkOrderAddMembersComponent } from './work-order-add-members/work-order-add-members.component';
 import { WorkOrderAddComponent } from './work-order-add/work-order-add.component';
 import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientsModule } from '../patients/patients.module';
 import { WorkOrderGuideComponent } from './work-order-guide/work-order-guide.component';
 
 const routes: Routes = [
@@ -57,7 +59,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
 	RouterModule.forChild(routes),
-	DataTablesModule
-  ]
+	DataTablesModule,
+	FormsModule,
+	PatientsModule,
+    ReactiveFormsModule					 
+  ],
+   schemas: [
+	  CUSTOM_ELEMENTS_SCHEMA
+	]
 })
 export class WorkOrdersModule { }
