@@ -9,6 +9,7 @@ import { ReferralAddComponent } from './referral-add/referral-add.component';
 import { ReferralAddMembersComponent } from './referral-add-members/referral-add-members.component';
 import { ReferralDetailsComponent } from './referral-details/referral-details.component';
 import { ReferralEditComponent } from './referral-edit/referral-edit.component';
+import { ReferralGuideComponent } from './referral-guide/referral-guide.component';
 
 const routes: Routes = [
   {
@@ -51,7 +52,8 @@ const routes: Routes = [
     ReferralAddComponent,
     ReferralAddMembersComponent,
     ReferralDetailsComponent,
-    ReferralEditComponent
+    ReferralEditComponent,
+    ReferralGuideComponent
   ],
   imports: [
     CommonModule,
