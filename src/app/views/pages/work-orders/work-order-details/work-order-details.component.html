@@ -64,81 +64,95 @@
 			</div>
 			<div>
 				<div *ngIf="id === 'tab1'">  
-					<div class="card-body">
-						<div class="row mt-2">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-md-8"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
-											<div class="col-sm-8">
-												<input class="form-control" type="text" value="Jeffery Lorence" aria-label="readonly input example" readonly>
+					<!-- <form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkorders(WorkordersForm)">	 -->
+						<div class="card-body">
+							<div class="row mt-2">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-8"> 
+											<div class="mb-3 row">
+												<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
+												<div class="col-sm-8">
+													<input class="form-control" type="text" value="Jeffery Lorence" aria-label="readonly input example" readonly>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-md-8"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-3 col-form-label">Title</label>
-											<div class="col-sm-8">
-												<input class="form-control" type="text" value="Crown Requirment " aria-label="readonly input example" readonly>
+										<div class="col-md-8"> 
+											<div class="mb-3 row">
+												<label for="title" class="col-sm-3 col-form-label">Title</label>
+												<div class="col-sm-8">
+													<input class="form-control" type="text" name="title" id="title" value="{{this.tabledata.title}}" aria-label="readonly input example" readonly>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="col-md-2"> 
-										<div class="mb-4">
-											<label class="form-label body2 text-gray">Due Date</label>
-											<input type="text" readonly class="form-control-plaintext"  value="23, August, 2021">
+										<div class="col-md-2"> 
+											<div class="mb-4">
+												<label class="form-label body2 text-gray">Start Date</label>
+												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.startdate | date:'mediumDate'}}">
+											</div>
 										</div>
-									</div>
-									<div class="col-md-2"> 
-										<div class="mb-4">
-											<label class="form-label body2 text-gray">Accepted Date</label>
-											<input type="text" readonly class="form-control-plaintext"  value="23, August, 2021">
+										<div class="col-md-2"> 
+											<div class="mb-4">
+												<label class="form-label body2 text-gray">Expected Date</label>
+												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.enddate | date:'mediumDate'}}">
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
-											<div class="col-sm-10">
-												<div class="card" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #0070D2;">
-													<div class="card-body">
-														<p class="text-light body1">
-														  Dr. Perrine Gillot 
-														</p>
-														<p class="text-light body2">Hi Jene,
-														  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached below is UI Guide plz check.
-														  Thanks </p>
+										<div class="col-md-12"  *ngIf="(this.cvfastText == true)"> 
+											<div class="mb-3 row">
+												<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
+												<div class="col-sm-10">
+													<div class="card" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #0070D2;">
+														<div class="card-body">
+															<p class="text-light body1">
+															 {{this.tabledata.notes.text}}
+															</p>
+															
+														</div>
+													</div>         
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12"> 
+											<div class="mb-3 row" *ngIf="(this.cvfastLinks == true)">
+												<label class="col-sm-2 col-form-label" >Assets : </label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-md-4 col-lg-6" *ngFor="let links of attachmentFiles">
+															<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
+															<img src="{{links.ImageUrl}}" height="36px" *ngIf="(links.imgName.split('.').pop() =='jpg' || links.imgName.split('.').pop() =='JPG' || links.imgName.split('.').pop() =='png' || links.imgName.split('.').pop() =='PNG' || links.imgName.split('.').pop() =='jpeg' || links.imgName.split('.').pop() =='JPEG' || links.imgName.split('.').pop() =='gif' || links.imgName.split('.').pop() =='GIF'); else noimage">
+															<ng-template #noimage><img src="assets/images/file.png" height="58px"/></ng-template>
+															<a href="{{links.ImageUrl}}" target="_tblank"><p class="card-text ps-2">{{links.imgName}}</p></a>
+															</div></div>
+														</div>
 													</div>
-												</div>         
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12"> 
+											<div class="mb-3 row" >
+												<label class="col-sm-2 col-form-label" >Tooth Guide : </label>
+												<div class="col-sm-10">
+													<div class="row">
+														<app-work-order-guide #orders></app-work-order-guide>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
-									<!-- <div class="col-md-12"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-2 col-form-label">UI  Tooth Guide</label>
-											<div class="col-sm-10">
-												<div class="card " style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #EFF3F7;">
-													<div class="card-body">
-														<img src="assets/images/UIToothGuide.png">
-													</div>
-												</div>         
-											</div>
-										</div>
-									</div> -->
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 my-2 mx-1">
-								<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate">
-									<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
-								</button> 
-								<a routerLink="#" class="btn btn-secondary">
-									Cancel
-								</a> 
+							<div class="row">
+								<div class="col-md-12 my-2 mx-1">
+									<!-- <button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate">
+										<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
+									</button> --> 
+									<a routerLink="/work-orders/work-orders" class="btn btn-secondary">
+										Back
+									</a> 
+								</div>
 							</div>
-						</div>
-					</div> 
+						</div> 
+					<!-- </form> -->
 				</div>
 				<div *ngIf="id === 'tab2'">  
 					<div class="card-body">

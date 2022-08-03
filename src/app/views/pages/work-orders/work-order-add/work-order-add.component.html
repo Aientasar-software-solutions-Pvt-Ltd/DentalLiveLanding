@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -25,70 +25,90 @@
 	</div>
 </div>
 
-<div class="row align-items-center pt-2">
-	<div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header border-bottom-0 bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Add Work Order</h5>
-					</div>
-					<div class="col-md-7 text-end"> 
-						<!-- <a routerLink="/work-orders/work-order-add-members" class="btn btn-default"> 
-							<i class="bx bx-plus me-2" aria-hidden="true"></i>
-							Add Member
-						</a> -->
-						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
-					</div>
-				</div>   
-			</div>
-			<div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-8"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Title </label>
-									<input type="text" class="form-control" value="Colin" placeholder="Enter Title here ">
+<form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkOrders(workordersForm)">
+	<div class="row align-items-center pt-2">
+		<div class="col-md-12">
+			<div class="card shadow-sm">
+				<div class="card-header border-bottom-0 bg-white">
+					<div class="row">
+						<div class="col-md-5 align-self-center">
+							<h5 class="body1 card-title my-2">Add Work Order</h5>
+						</div>
+						<div class="col-md-7 text-end"> 
+							<!-- <a routerLink="/work-orders/work-order-add-members" class="btn btn-default"> 
+								<i class="bx bx-plus me-2" aria-hidden="true"></i>
+								Add Member
+							</a> -->
+							<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
+						</div>
+					</div>   
+				</div>
+				<div class="card-body" style="background: #E4F0FF;">
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Title </label>
+										<input type="text" class="form-control" value="" placeholder="Enter Title here " name="title" id="title" ngModel required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Expected Date</label>
-									<input type="date" class="form-control">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Start Date</label>
+										<input type="date" class="form-control" name="startdate" id="startdate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+										<input type="hidden" class="form-control" name="presentStatus" id="presentStatus" ngModel=1 value="1" required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-12"> 
-								<div class="mb-3">
-									<label class="form-label body2 text-dark">Description</label>
-									<textarea class="form-control" placeholder="Enter Description" id="floatingTextarea2" style="height: 100px"></textarea>
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Expected Date</label>
+										<input type="date" class="form-control" name="enddate" id="enddate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Expected date should be greater than start date</span>
+									</div>
+								</div>
+								<div class="col-md-12"> 
+									<div class="mb-3">
+										<label class="form-label body2 text-dark">Notes</label>
+										<app-cvfast></app-cvfast>
+									</div>
+								</div>
+								<div class="col-12">
+									<app-work-order-guide #orders></app-work-order-guide>
+									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidToothGuide == true)"> Tooth guide should not be blank!</span>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- <div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-12"> 
-								<label class="form-label body2" style="color: #011A3E;">Notes</label>
-								<img src="assets/images/UIToothGuide.png" alt="">
+				<!-- <div class="card-body" style="background: #E4F0FF;">
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12"> 
+									<label class="form-label body2" style="color: #011A3E;">Notes</label>
+									<img src="assets/images/UIToothGuide.png" alt="">
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div> -->
+				</div> -->
+			</div>
+		</div>
+		<div class="col-md-12 mt-3">
+			<!-- <a routerLink="#" class="btn btn-default me-2">
+				<i class="bx bx-folder-plus"></i>
+				Send Order 
+			</a> 
+			<button type="button" class="btn btn-secondary">
+				Cancel 
+			</button>  -->
+			<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
+			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
+			<input type="hidden" name="milestoneid" id="milestoneid" ngModel="{{this.tabledata.milestoneId}}">
+			<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+			<button type="submit" class="btn btn-default me-2"><i class="bx bx-folder-plus"></i> Send Order</button> 
+			<a routerLink="/work-orders/work-orders" class="btn btn-secondary mt-1 me-2">Cancel</a>
 		</div>
 	</div>
-	<div class="col-md-12 mt-3">
-		<a routerLink="#" class="btn btn-default me-2">
-			<i class="bx bx-folder-plus"></i>
-			Send Order 
-		</a> 
-		<button type="button" class="btn btn-secondary">
-			Cancel 
-		</button> 
-	</div>
-</div>
+</form>
