@@ -1102,6 +1102,10 @@ color: #00D9CC;
 .search-md .bx-search {top: 9px;}
 .search-md input {height: 40px;font-size: 16px;}
 
+.search-filter .ng-arrow-wrapper{display:none;}
+.search-filter .ng-select .ng-select-container .ng-value-container {padding-left: 50px;}
+.search-filter .bx-search{z-index: 9999;top: 14px;}
+.search-filter .ng-dropdown-panel .ng-dropdown-panel-items {max-height: 350px;}
 .user-list {display: flex;overflow: hidden;flex-wrap: wrap;}
 .user-list li {height: 36px;width: 36px;min-width: 36px;overflow: hidden;border: 3px solid #fff;border-radius: 60px;margin-right: -10px;}
 .user-list li img {height: 100%;width: 100%;object-fit: cover;}
