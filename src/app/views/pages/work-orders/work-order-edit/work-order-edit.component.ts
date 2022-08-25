@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { Location } from '@angular/common';
@@ -18,10 +19,16 @@ import { Router } from '@angular/router';
 export class WorkOrderEditComponent implements OnInit {
 
 	@ViewChild(Cvfast) cv!: Cvfast;
+	public allMember: any[] = []
+	public allMemberEmail: any[] = []
+	public allMemberName: any[] = []
+    selectedCity = '';
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
 	minDate = new Date();
 	saveActiveInactive: boolean = false;
+	public casesName = '';
+	public patientName = '';
 	
 	tabledata:any;
 	toothData:any;
@@ -99,6 +106,7 @@ export class WorkOrderEditComponent implements OnInit {
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
 		this.jsonObj['patientName'] = data.patientName;
+		this.jsonObj['members'] = this.allMemberEmail;
 		
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
 		{
@@ -108,27 +116,103 @@ export class WorkOrderEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.dataService.putData(this.utility.apiData.userWorkOrders.ApiUrl, JSON.stringify(this.jsonObj), true)
-		.subscribe(Response => {
-		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.fire('WorkOrders updated successfully');
-		  this.router.navigate(['/master']);
-		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
-		});
+		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', 'work-orders/work-orders', 'put', '','notes');
+		
 	}
 	
+	getuserdetailsall(userId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userColleague.ApiUrl;
+		if(userId != '')
+		{
+			url += "?emailAddress="+userId;
+		}
+		this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			let userData = JSON.parse(Response.toString());
+			let avatar = ''
+			if(userData.imageSrc != undefined)
+			{
+			avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData.imageSrc;
+			}
+			else
+			{
+			avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+			}
+			let name = userData.accountfirstName+' '+userData.accountlastName;
+			this.allMember[index].name = name;
+			this.allMember[index].emailAddress = userData.emailAddress;
+			this.allMember[index].avatar = avatar;
+			this.allMember[index].memberid = userData.dentalId;
+		}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
+	
+	getAllMembers(caseId) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userCaseInvites.ApiUrl;
+			//let caseId = sessionStorage.getItem("caseId");
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			//url += "&invitedUserId="+user.dentalId;
+			//url += "?resourceOwner="+user.dentalId;
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					let GetAllData = JSON.parse(Response.toString());
+					GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					this.allMember = Array();
+					for(var k = 0; k < GetAllData.length; k++)
+					{
+						this.allMember.push({
+						  id: k,
+						  avatar: '',
+						  emailAddress: '',
+						  name: '',
+						  memberid: ''
+						});
+						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+					}
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal.fire('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal.fire('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal.fire('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal.fire(error.error);
+			  else
+				swal.fire('Unable to fetch the data, please try again');
+			});
+			
+		}
+	}
+	selectEvents(item: any) {
+		this.allMemberName = Array();
+		for(var k = 0; k < item.length; k++)
+		{
+			this.allMemberEmail.push(item[k].memberid);
+			this.allMemberName.push(item[k].name);
+		}
+		//alert(JSON.stringify(this.allMemberEmail));
+		//alert(JSON.stringify(this.allMemberName));
+	}
 	getallworkorder() {
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
 		let workorderId = sessionStorage.getItem("workorderId");
@@ -141,7 +225,10 @@ export class WorkOrderEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata.toothguide));
+				//alert(JSON.stringify(this.tabledata));
+				this.allMemberEmail = this.tabledata.members;
+				this.getCaseDetails(this.tabledata.caseId);
+				this.getAllMembers(this.tabledata.caseId);
 				this.toothData = this.tabledata.toothguide;
 				setTimeout(()=>{     
 					this.setcvFast();
@@ -163,6 +250,45 @@ export class WorkOrderEditComponent implements OnInit {
 		});
 	}
 	
+	getCaseDetails(caseId) {
+		let url = this.utility.apiData.userCases.ApiUrl;
+		if(caseId != '')
+		{
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			swal.fire({
+				html: sweet_loader,
+				icon: "https://www.boasnotas.com/img/loading2.gif",
+				showConfirmButton: false,
+				allowOutsideClick: false,     
+				closeOnClickOutside: false,
+				timer: 2200,
+				//icon: "success"
+			});
+			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					let caseDtls = JSON.parse(Response.toString());
+					this.casesName = caseDtls.title;
+					this.patientName = caseDtls.patientName;
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal.fire('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal.fire('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal.fire('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal.fire(error.error);
+			  else
+				swal.fire('Unable to fetch the data, please try again');
+			});
+		}
+	}
 	setcvFast()
 	{
 		this.cv.setCvfast(this.tabledata.notes);

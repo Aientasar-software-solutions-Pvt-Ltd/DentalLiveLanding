@@ -117,7 +117,13 @@
 														</div>
 														<div class="row gx-2">
 															<label class="text-muted col-6 col-sm-4 col-md-4 col-lg-5 mb-2">Case Owner : </label> 
-															<div class="mb-3 col-6 col-sm-8 col-md-8 col-lg-7"><strong>{{tabledata.fetchedData[0].data[0].resorceOwner}}</strong></div>
+															<div class="mb-3 col-6 col-sm-8 col-md-8 col-lg-7">
+																<strong *ngIf="this.tabledata.fetchedData; else emptyresorceownerone">{{tabledata.fetchedData[0].data[0].resorceOwner}}</strong>
+						
+																<ng-template #emptyresorceownerone>
+																	<strong></strong>
+																</ng-template>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -193,996 +199,90 @@
 													<i class="bx bx-search"></i>
 													<input type="text" class="form-control" placeholder="Search"/>
 												</div>
-												<a href="javascript:void(0);" class="btn btn-default my-1" data-bs-toggle="modal" data-bs-target="#addMessage">Add Message</a> 
+												<!--<a href="javascript:void(0);" class="btn btn-default my-1" data-bs-toggle="modal" data-bs-target="#addMessage">Add Message</a>-->
 											</div>      
 										</div>
 									</div>
 								</div>
 								<div class="card-body">
-								  <div class="row py-2 border-bottom px-2">
-									<div class="col-md-4 col-lg-6 d-flex">
-										<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									  <img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">
-										  Mario Speedwagon  </div>
-									</div>
-									  <div class="col-md-8 col-lg-6 text-end ">
-										<div class="row">
-										  <div class="col-md-10"> <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-										  </div>
-										  <div class="col-md-2">   
-											<span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-											<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-										  </div>
-										</div>                     
-									 </div>
-									
-									<div class="col-md-12 mt-2 rounded" >
-									  <p class="body2 ms-5">
-										I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.Thanks 
-									  </p>
-									</div>
-								</div>
-								<div class="row py-2 border-bottom px-2">
-								  <div class="col-md-4 col-lg-6 d-flex">
-									  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-										   <img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2 ">
-										Dee Lee </div>
-									 
-								  </div>
-									<div class="col-md-8 col-lg-6 text-end ">
-									  <div class="row">
-										<div class="col-md-10"> 
-										  <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-										</div>
-										<div class="col-md-2">   
-										   <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-										  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-										</div>
-									  </div>                     
-								   </div>
-								  <div class="mt-2 col-md-12">
-									<p class="body2 ms-5 mb-0" style="color:#1991EB"> Referral :</p>
-									<div class="flex p-2">
-									  <div class="flex flex-col mx-5 " >
-										<div class="relative flex-grow flex justify-center">
-										  <span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										</div>
-									  </div>
-									  <div class="flex-grow p-2"  style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										<div>
-										  <div class="flex items-center justify-between mb-4">
-											<div>
-											  <div class="body2">Mario Speedwagon</div>
-											</div>
-										  </div>
-										  <p class="body2">I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.Thanks
-										  </p>
-										  <img src="assets/images/image_10.png">
-										</div>
-									  </div>
-									</div>
-								  </div>
-							  </div>
-							  <div class="row py-2 border-bottom px-2">
-								<div class="col-md-4 col-lg-6 d-flex">
-									<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-								  <img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">
-								  Sophia </div>
-								   
-								</div>
-								  <div class="col-md-8 col-lg-6 text-end ">
-									<div class="row">
-									  <div class="col-md-10">
-										 <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									  </div>
-									  <div class="col-md-2">   
-										<span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-										<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-									  </div>
-									</div>                     
-								 </div>
-								<div class=" mt-2 col-md-12" >
-									<div class="ms-5 ">
-										<p class="body2 mb-0 " style="color: #1991EB;">
-											Voice Message
-										</p>
-										<p class="body2" style="color: #5D6A7E;"> <i class='bx bx-microphone'></i>Voice message (01:15) </p>
-										<div class="mt-2 mb-2" >
-										  <span class="body2 p-2 rounded-pill" style="color: #1991EB;
-										  background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>
-											Files (x2)
-										  </span>
-										  <span class="body2 p-2 ms-2 rounded-pill" style="color: #F7517F;background-color: #FEEEF2;;"> <i class='bx bxs-image'></i>Photo</span>
-										</div>
-									</div>
-								   
-								</div>
-							</div>
-							<div class="row py-2  border-bottom px-2">
-								<div class="col-md-4 col-lg-6 d-flex">
-									<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-										<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">
-										Mario Speedwagon  
-									</div>
-								</div>
-								<div class="col-md-8 col-lg-6 text-end ">
-								  <div class="row">
-									<div class="col-md-10">
-									   <span class="body2">April 28, 21 7:3:50 AM (3days ago)</span>  
-									</div>
-									<div class="col-md-2">   
-									  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-									  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-									</div>
-								  </div>                     
-							   </div>
-							  <div class="mt-2 col-md-12" >
-								<div class="ms-5">
-								<p class="body2 " style="color: #5D6A7E;">
-								  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.
-								  Thanks 
-								</p>
-								<div class="mt-2 mb-2" >
-								  <span class="body2 p-2 rounded-pill" style="color: #00D9CC;background: rgba(0, 217, 204, 0.2);"><i class='bx bx-film'></i>
-								   Video (x3)
-								  </span>
-								</div>
-							  </div>
-							</div>
-							  
-						  </div>
-						
-						  <div class="row py-2 border-bottom px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-									 <img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2 ">
-								  Dee Lee 
-								</div> 
-							</div>
-							  <div class="col-md-8 col-lg-6 text-end ">
-								<div class="row">
-								  <div class="col-md-10"> 
-									<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-								  </div>
-								  <div class="col-md-2">   
-									 <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-									<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-								  </div>
-								</div>                     
-							 </div>
-							<div class="mt-2 col-md-12" [class.show]="show">
-								<p class="body2 ms-5 mb-0" style="color:#5D6A7E"> Work Order :  Invitation Send </p>
-								<div class="flex p-2">
-									<div class="flex flex-col mx-5">
-									  <div class="relative flex-grow flex justify-center">
-										<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									  </div>
-									</div>
-									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									  <div class="row pt-2">
-										<div class="col-md-4">
-										  <div class="capture d-sm-flex d-block ">
-											<a href="#">
-										  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-										  <p class="body2  ms-3 fw-bold" style="color:#354053;">Jene Hiden  
-											<br> Lab 
-											 </p>
-											 <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-										</div>
-										</div>
-										<div class="col-md-2">
-										  <p class="body2  mb-0" style="color: #5D6A7E;">Work Order
-											</p>
-											<p class="body2 " style="color:#354053">
-											  Crown for Molar...
-											   </p>
-										</div>
-										<div class="col-md-2">
-										  <p class="body2  mb-0" style="color: #5D6A7E;">Expected date
-											</p>
-											<p class="body2 " style="color: #354053;">
-											  April 29, 2021
-											   </p>
-										</div>
-									  
-							
-									  </div>
-									</div>
-							   
-								</div>
-								<ng-container *ngIf="show">
-									<div class="flex p-2">
-										<div class="flex flex-col mx-5">
-										  <div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										  </div>
-										</div>
-										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										  <div class="row pt-2">
-											<div class="col-md-4">
-											  <div class="capture d-sm-flex d-block ">
-												<a href="#">
-											  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-											  <p class="body2  ms-3">Jene Hiden 
-												<br>  General Specialist
-												 </p>
-												 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-											</div>
-											  
-											</div>
+									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
+										<div class="col-md-4 col-lg-6 d-flex">
+											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
+												<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
+										   </div>
 										   
-											<div class="col-md-4">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-												</p>
-												<p class="body2 ">
-												  Removing of the infected pulp...
-												   </p>
-											</div>
-										  </div>
 										</div>
-									  </div>
-								</ng-container>
-								<a href="javascript:void(0);" (click)="show = !show"><p class="body2 ms-5" style="color:#5D6A7E">{{ show ? 'Hide Detail': 'Show Detail' }}</p></a>
-							</div>
-						</div>
-						<div class="row py-2 border-bottom px-2">
-						  <div class="col-md-4 col-lg-6 d-flex">
-							  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-								   <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2 ">
-								   Jene Hiden 
-							  </div> 
-						  </div>
-							<div class="col-md-8 col-lg-6 text-end ">
-							  <div class="row">
-								<div class="col-md-10"> 
-								  <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-								</div>
-								<div class="col-md-2">   
-								   <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-								  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-								</div>
-							  </div>                     
-						   </div>
-							<div class="mt-2 col-md-12" [class.show1]="show">
-								<p class="body2 ms-5  mb-0" style="color:#5D6A7E"> Work Order : Invitation <span style="color: #F7517F;">Declined </span>   </p>
-								<div class="flex p-2">
-								  <div class="flex flex-col mx-5">
-									<div class="relative flex-grow flex justify-center">
-									  <span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									</div>
-								  </div>
-								  <div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									<div class="row pt-2">
-									  <div class="col-md-4">
-										<div class="capture d-sm-flex d-block ">
-										  <a href="#">
-										<img src="assets/images/CircleM.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-										<p class="body2 fw-bold  ms-3">Dee Lee   
-										  <br> General Specialist
-										   </p>
-										   <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-									  </div>
-										
-									  </div>
-									 
-									  <div class="col-md-2">
-										<p class="body2  mb-0" style="color: #5D6A7E;">Work Order
-										  </p>
-										  <p class="body2 ">
-											Crown for Molar...
-											 </p>
-									  </div>
-									  <div class="col-md-2">
-										<p class="body2  mb-0" style="color: #5D6A7E;">Expected date
-										  </p>
-										  <p class="body2 ">
-											April 29, 2021
-											 </p>
-									  </div>
-								  
-									
-							
-									</div>
-								  </div>
-								</div>
-								<ng-container *ngIf="show1">
-									<div class="flex p-2">
-										<div class="flex flex-col mx-5">
-										  <div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										  </div>
-										</div>
-										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										  <div class="row pt-2">
-											<div class="col-md-4">
-											  <div class="capture d-sm-flex d-block ">
-												<a href="#">
-											  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-											  <p class="body2  ms-3">Jene Hiden 
-												<br>  General Specialist
-												 </p>
-												 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-											</div>
-											  
-											</div>
-										   
-											<div class="col-md-4">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-												</p>
-												<p class="body2 ">
-												  Removing of the infected pulp...
-												   </p>
-											</div>
-										  </div>
-										</div>
-									</div>
-								</ng-container>
-							  <a href="javascript:void(0);" (click)="show1 = !show1"><p class="body2 ms-5" style="color:#5D6A7E">{{ show1 ? 'Hide Detail': 'Show Detail' }}</p></a>
-						  </div>
-						  </div>
-						  <div class="row py-2 border-bottom px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-									 <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2 ">
-									 Jene Hiden 
-								</div> 
-							</div>
-							  <div class="col-md-8 col-lg-6 text-end ">
-								<div class="row">
-								  <div class="col-md-10"> 
-									<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-								  </div>
-								  <div class="col-md-2">   
-									 <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-									<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-								  </div>
-								</div>                     
-							 </div>
-							<div class="mt-2 col-md-12" [class.show2]="show">
-							  <p class="body2 ms-5  mb-0" style="color:#5D6A7E"> Work Order : Expected Date <span style="color: #F7517F;">Updated</span>   </p>
-							  <div class="flex p-2">
-								<div class="flex flex-col mx-5">
-								  <div class="relative flex-grow flex justify-center">
-									<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-								  </div>
-								</div>
-								<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-								  <div class="row pt-2">
-									<div class="col-md-4">
-									  <div class="capture d-sm-flex d-block ">
-										<a href="#">
-									  <img src="assets/images/CircleM.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-									  <p class="body2  fw-bold ms-3">Dee Lee   
-										<br> General Specialist
-										 </p>
-										 <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-									</div>
-									</div>
-									<div class="col-md-2">
-									  <p class="body2  mb-0" style="color: #5D6A7E;">Work Order
-										</p>
-										<p class="body2 ">
-										  Crown for Molar...
-										   </p>
-									</div>
-									<div class="col-md-2">
-									  <p class="body2  mb-0" style="color: #5D6A7E;">Expected date
-										</p>
-										<p class="body2 ">
-										  April 29, 2021  <span style="color: #F7517F  ;">Updated</span>
-										   </p>
-									</div>
-								  </div>
-								</div>
-							  </div>
-								<ng-container *ngIf="show2">
-									<div class="flex p-2">
-										<div class="flex flex-col mx-5">
-										  <div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										  </div>
-										</div>
-										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										  <div class="row pt-2">
-											<div class="col-md-4">
-											  <div class="capture d-sm-flex d-block ">
-												<a href="#">
-											  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-											  <p class="body2  ms-3">Jene Hiden 
-												<br>  General Specialist
-												 </p>
-												 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-											</div>
-											  
-											</div>
-										   
-											<div class="col-md-4">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-												</p>
-												<p class="body2 ">
-												  Removing of the infected pulp...
-												   </p>
-											</div>
-										  </div>
-										</div>
-									</div>
-								</ng-container>
-								<a href="javascript:void(0);" (click)="show2 = !show2"><p class="body2 ms-5" style="color:#5D6A7E">{{ show2 ? 'Hide Detail': 'Show Detail' }}</p></a>
-							</div>
-							</div>
-							<div class="row py-2 border-bottom px-2">
-							  <div class="col-md-4 col-lg-6 d-flex">
-								  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-									   <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2 ">
-									   Jene Hiden 
-								  </div> 
-							  </div>
-								<div class="col-md-8 col-lg-6 text-end ">
-								  <div class="row">
-									<div class="col-md-10"> 
-									  <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									</div>
-									<div class="col-md-2">   
-									   <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-									  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-									</div>
-								  </div>                     
-							   </div>
-							  <div class="mt-2 col-md-12" [class.show3]="show">
-								<p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral :  Invitation Send     </p>
-								<div class="flex p-2">
-								  <div class="flex flex-col mx-5">
-									<div class="relative flex-grow flex justify-center">
-									  <span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									</div>
-								  </div>
-								  <div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									<div class="row pt-2">
-									  <div class="col-md-4">
-										<div class="capture d-sm-flex d-block ">
-										  <a href="#">
-										<img src="assets/images/CircleM.png" alt="" class="mb-2 avatar avatar-sm rounded-circle"></a>
-										<p class="body2  ms-3">Dee Lee     
-										  <br>   Endodontist 
-										   </p>
-										   <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-									  </div>
-										
-									  </div>
-									 
-									  <div class="col-md-4">
-										<p class="body2  mb-0" style="color: #5D6A7E;">Referral
-										  </p>
-										  <p class="body2 ">
-											Removing of the infected pulp...
-											 </p>
-									  </div>
-									</div>
-								  </div>
-								</div>
-								<ng-container *ngIf="show3">
-									<div class="flex p-2">
-										<div class="flex flex-col mx-5">
-										  <div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										  </div>
-										</div>
-										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										  <div class="row pt-2">
-											<div class="col-md-4">
-											  <div class="capture d-sm-flex d-block ">
-												<a href="#">
-											  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-											  <p class="body2  ms-3">Jene Hiden 
-												<br>  General Specialist
-												 </p>
-												 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-											</div>
-											  
-											</div>
-										   
-											<div class="col-md-4">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-												</p>
-												<p class="body2 ">
-												  Removing of the infected pulp...
-												   </p>
-											</div>
-										  </div>
-										</div>
-									</div>
-								</ng-container>
-								<a href="javascript:void(0);" (click)="show3 = !show3"><p class="body2 ms-5" style="color:#5D6A7E">{{ show3 ? 'Hide Detail': 'Show Detail' }}</p></a>
-							  </div>
-							  </div>
-							  <div class="row py-2 border-bottom px-2">
-								<div class="col-md-4 col-lg-6 d-flex">
-									<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-										 <img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2 ">
-										 Dee Lee  
-									</div> 
-								</div>
-								  <div class="col-md-8 col-lg-6 text-end ">
-									<div class="row">
-									  <div class="col-md-10"> 
-										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									  </div>
-									  <div class="col-md-2">   
-										 <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-										<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-									  </div>
-									</div>                     
-								 </div>
-								<div class="mt-2 col-md-12" [class.show4]="show">
-								  <p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral : Invitation Received     </p>
-								  <div class="flex p-2">
-									<div class="flex flex-col mx-5">
-									  <div class="relative flex-grow flex justify-center">
-										<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									  </div>
-									</div>
-									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									  <div class="row pt-2">
-										<div class="col-md-4">
-										  <div class="capture d-sm-flex d-block ">
-											<a href="#">
-										  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-										  <p class="body2  ms-3">Jene Hiden 
-											<br>  General Specialist
-											 </p>
-											 <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-										</div>
-										  
-										</div>
-									   
-										<div class="col-md-4">
-										  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-											</p>
-											<p class="body2 ">
-											  Removing of the infected pulp...
-											   </p>
-										</div>
-									  </div>
-									</div>
-								  </div>
-									<ng-container *ngIf="show4">
-										<div class="flex p-2">
-											<div class="flex flex-col mx-5">
-											  <div class="relative flex-grow flex justify-center">
-												<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-											  </div>
-											</div>
-											<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-											  <div class="row pt-2">
-												<div class="col-md-4">
-												  <div class="capture d-sm-flex d-block ">
-													<a href="#">
-												  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-												  <p class="body2  ms-3">Jene Hiden 
-													<br>  General Specialist
-													 </p>
-													 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
+										<div class="col-md-8 col-lg-6 text-end ">
+											<div class="row">
+												<div class="col-md-10">
+													<span class="body2">{{message.dateCreated | date:'medium'}} (3days ago)</span>  
 												</div>
-												  
+												<div class="col-md-2">   
+													<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
+													<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
 												</div>
-											   
-												<div class="col-md-4">
-												  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-													</p>
-													<p class="body2 ">
-													  Removing of the infected pulp...
-													   </p>
+											</div>                     
+										</div>
+										<div class=" mt-2 col-md-12" >
+											<div class="ms-5">
+												<p class="body2 mb-0 ">
+													{{message.messagetext}}
+												</p>
+												<div class="mt-2 mb-2">
+													<span *ngFor="let imgUrl of message.messageimg;">
+													<a target="_tblank" href="{{imgUrl.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+													</span>
 												</div>
-											  </div>
 											</div>
 										</div>
-									</ng-container>
-									<a href="javascript:void(0);" (click)="show4 = !show4"><p class="body2 ms-5" style="color:#5D6A7E">{{ show4 ? 'Hide Detail': 'Show Detail' }}</p></a>
-								</div>
-								</div>
-								<div class="row py-2 border-bottom px-2">
-								  <div class="col-md-4 col-lg-6 d-flex">
-									  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-										   <img alt="..." src="assets/images/tesimonial-2.png" class="avatar avatar-sm rounded-circle me-2 ">
-										   Colin Silk
-									  </div> 
-								  </div>
-									<div class="col-md-8 col-lg-6 text-end ">
-									  <div class="row">
-										<div class="col-md-10"> 
-										  <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-										</div>
-										<div class="col-md-2">   
-										   <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-										  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-										</div>
-									  </div>                     
-								   </div>
-								  <div class="mt-2 col-md-12" [class.show5]="show">
-									<p class="body2 ms-5  mb-0" style="color:#5D6A7E"> Milestone :  Milestone  Added   </p>
-									<div class="flex p-2">
-									  <div class="flex flex-col mx-5">
-										<div class="relative flex-grow flex justify-center">
-										  <span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										</div>
-									  </div>
-									  <div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										<div class="row pt-2">
-										  <div class="col-md-4">
-											<div class="capture d-sm-flex d-block ">
-											  <a href="#">
-											<img src="assets/images/CircleM.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-											<p class="body2 fw-bold  ms-3">Dee Lee   
-											  <br> General Specialist
-											   </p>
-											   <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-										  </div>
-											
-										  </div>
-										 
-										  <div class="col-md-2">
-											<p class="body2  mb-0" style="color: #5D6A7E;">Milestone 
-											  </p>
-											  <p class="body2 ">
-												Collect Crown..
-												 </p>
-										  </div>
-										  <div class="col-md-2">
-											<p class="body2  mb-0" style="color: #5D6A7E;">Milestone  Date
-											  </p>
-											  <p class="body2 ">
-												April 29, 2021
-												 </p>
-										  </div>
-								
-										</div>
-									  </div>
-									  
-									</div>
-									<div class="mb-2 ms-5">
-									  <span class="badge rounded-pill badge-blue mt-2">@prerna </span> 
-									  <span class="badge rounded-pill badge-purple "> @Deepa Shilamkoti</span>   
-								
-										  </div>
-										<ng-container *ngIf="show5">
-											<div class="flex p-2">
-												<div class="flex flex-col mx-5">
-												  <div class="relative flex-grow flex justify-center">
-													<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-												  </div>
-												</div>
-												<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-												  <div class="row pt-2">
-													<div class="col-md-4">
-													  <div class="capture d-sm-flex d-block ">
-														<a href="#">
-													  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-													  <p class="body2  ms-3">Jene Hiden 
-														<br>  General Specialist
-														 </p>
-														 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
+										<div class="mt-2 col-md-12" *ngFor="let comments of message.messagecomments; let j = index;">
+											<div class="flex p-2" *ngIf="(comments.isShow == '1' || comments.isShowLink == '1')">
+												<div class="flex-grow p-2"  style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+													<div>
+														<p class="body2" *ngIf="comments.isShow == '1'">{{comments.text}}</p>
+														<div class="mt-2 mb-2"  >
+															<span *ngFor="let link of comments.links;">
+																<a target="_tblank" href="{{link.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+															</span>
+														</div>
 													</div>
-													  
-													</div>
-												   
-													<div class="col-md-4">
-													  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-														</p>
-														<p class="body2 ">
-														  Removing of the infected pulp...
-														   </p>
-													</div>
-												  </div>
 												</div>
+											</div>
+										</div>
+										<ng-container *ngIf="this.showComment == i">
+											<div class="col-md-12" >
+												<form #CommentId="ngForm" id="mainForm" (ngSubmit)="onSubmitComment(CommentId)">
+													<app-cvfast></app-cvfast>
+													<span *ngIf="(this.setMessageRpValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+													<div class="row">
+														<div class="col-md-12 mb-2">
+															<input type="hidden"  name="CcaseId" id="CcaseId" ngModel="{{message.caseId}}">
+															<input type="hidden" name="CpatientId" id="CpatientId" ngModel="{{message.patientId}}">
+															<input type="hidden" name="CpatientName" id="CpatientName" ngModel="{{message.patientName}}">
+															<input type="hidden" name="CmessageId" id="CmessageId" ngModel="{{message.messageId}}">
+															<input type="hidden" name="Ccomments" id="Ccomments" ngModel="{{i}}">
+															<button type="submit" class="btn btn-default mt-1 me-2" >Comment</button> 
+														</div>
+													</div>
+												</form>
 											</div>
 										</ng-container>
-										<a href="javascript:void(0);" (click)="show5 = !show5"><p class="body2 ms-5" style="color:#5D6A7E">{{ show5 ? 'Hide Detail': 'Show Detail' }}</p></a>
-								  </div>
-								  </div>
-								  <div class="row py-2 border-bottom px-2">
-									<div class="col-md-4 col-lg-6 d-flex">
-										<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-											 <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2 ">
-											 Jene Hiden 
-										</div> 
 									</div>
-									  <div class="col-md-8 col-lg-6 text-end ">
-										<div class="row">
-										  <div class="col-md-10"> 
-											<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-										  </div>
-										  <div class="col-md-2">   
-											 <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-											<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-										  </div>
-										</div>                     
-									 </div>
-									<div class="mt-2 col-md-12" [class.show6]="show">
-									  <p class="body2 ms-5  mb-0" style="color:#5D6A7E">Milestone :   Status  <span style="color: #00D9CC;">Completed  </span>   </p>
-									  <div class="flex p-2">
-										<div class="flex flex-col mx-5">
-										  <div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										  </div>
-										</div>
-										<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										  <div class="row pt-2">
-											<div class="col-md-4">
-											  <div class="capture d-sm-flex d-block ">
-												<a href="#">
-											  <img src="assets/images/CircleM.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-											  <p class="body2  fw-bold ms-3">Dee Lee   
-												<br> General Specialist
-												 </p>
-												 <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-											</div>
-											</div>
-											<div class="col-md-2">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Milestone 
-												</p>
-												<p class="body2 ">
-												  Collect Crown..
-												   </p>
-											</div>
-											<div class="col-md-2">
-											  <p class="body2  mb-0" style="color: #5D6A7E;">Expected date
-												</p>
-												<p class="body2 ">
-												  April 31, 2021 
-												   </p>
-											</div>
-										  </div>
-										</div>
-									  </div>
-										<ng-container *ngIf="show6">
-											<div class="flex p-2">
-												<div class="flex flex-col mx-5">
-												  <div class="relative flex-grow flex justify-center">
-													<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-												  </div>
-												</div>
-												<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-												  <div class="row pt-2">
-													<div class="col-md-4">
-													  <div class="capture d-sm-flex d-block ">
-														<a href="#">
-													  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-													  <p class="body2  ms-3">Jene Hiden 
-														<br>  General Specialist
-														 </p>
-														 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-													</div>
-													  
-													</div>
-												   
-													<div class="col-md-4">
-													  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-														</p>
-														<p class="body2 ">
-														  Removing of the infected pulp...
-														   </p>
-													</div>
-												  </div>
-												</div>
-											</div>
-										</ng-container>
-										<a href="javascript:void(0);" (click)="show6 = !show6"><p class="body2 ms-5" style="color:#5D6A7E">{{ show6 ? 'Hide Detail': 'Show Detail' }}</p></a>
-									</div>
-									</div>
-									
-			   <div class="row py-2 border-bottom px-2">
-				<div class="col-md-4 col-lg-6 d-flex">
-					<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-						 <img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2 ">
-						 Dee Lee   
-					</div> 
-				</div>
-				  <div class="col-md-8 col-lg-6 text-end ">
-					<div class="row">
-					  <div class="col-md-10"> 
-						<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-					  </div>
-					  <div class="col-md-2">   
-						 <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-						<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-					  </div>
-					</div>                     
-				 </div>
-				<div class="mt-2 col-md-12" [class.show5]="show">
-				  <p class="body2 ms-5 mb-0" style="color:#5D6A7E"> Colleagues :  Invitation Request   </p>
-				  <div class="flex p-2">
-					<div class="flex flex-col mx-5">
-					  <div class="relative flex-grow flex justify-center">
-						<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-					  </div>
-					</div>
-					<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-					  <div class="row pt-2">
-						<div class="col-md-4">
-						  <div class="capture d-sm-flex d-block ">
-							<a href="#">
-						  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar rounded-circle avatar-sm"></a>
-						  <p class="body2  ms-3">Jene Hiden 
-							<br> Lab
-							 </p>
-							 <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-						</div>
-						  
-						</div>
-					   
-					   
-						<div class="col-md-6 text-end">
-						  <a class="btn btn-default">Accept</a> </div>
-					  
-
-					  </div>
-					</div>
-				  </div>
-					<ng-container *ngIf="show7">
-						<div class="flex p-2">
-							<div class="flex flex-col mx-5">
-							  <div class="relative flex-grow flex justify-center">
-								<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-							  </div>
-							</div>
-							<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-							  <div class="row pt-2">
-								<div class="col-md-4">
-								  <div class="capture d-sm-flex d-block ">
-									<a href="#">
-								  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-								  <p class="body2  ms-3">Jene Hiden 
-									<br>  General Specialist
-									 </p>
-									 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-								</div>
-								  
-								</div>
-							   
-								<div class="col-md-4">
-								  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-									</p>
-									<p class="body2 ">
-									  Removing of the infected pulp...
-									   </p>
-								</div>
-							  </div>
-							</div>
-						</div>
-					</ng-container>
-					<a href="javascript:void(0);" (click)="show7 = !show7"><p class="body2 ms-5" style="color:#5D6A7E">{{ show7 ? 'Hide Detail': 'Show Detail' }}</p></a>
-				</div>
-				</div>
-				<div class="row py-2 border-bottom px-2">
-				  <div class="col-md-4 col-lg-6 d-flex">
-					  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-						   <img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2 ">
-						   Dee Lee   
-					  </div> 
-				  </div>
-					<div class="col-md-8 col-lg-6 text-end ">
-					  <div class="row">
-						<div class="col-md-10"> 
-						  <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-						</div>
-						<div class="col-md-2">   
-						   <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-						  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-						</div>
-					  </div>                     
-				   </div>
-				  <div class="mt-2 col-md-12" [class.show8]="show">
-					<p class="body2 ms-5 mb-0" style="color:#5D6A7E">Colleagues :  Member Removed  </p>
-					<div class="flex p-2">
-					  <div class="flex flex-col mx-5">
-						<div class="relative flex-grow flex justify-center">
-						  <span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-						</div>
-					  </div>
-					  <div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-						<div class="row pt-2">
-						  <div class="col-md-4">
-							<div class="capture d-sm-flex d-block ">
-							  <a href="#">
-							<img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm"></a>
-							<p class="body2  ms-3">Jene Hiden 
-							  <br> Lab
-							   </p>
-							   <span class="badge rounded-pill badge-success body2 me-2 ">Active </span>
-						  </div>
-						  </div>
-						  <div class="col-md-6 text-end">
-							<a class="btn btn-default">Removed</a> </div>
-						</div>
-					  </div>
-					</div>
-					<ng-container *ngIf="show8">
-						<div class="flex p-2">
-							<div class="flex flex-col mx-5">
-							  <div class="relative flex-grow flex justify-center">
-								<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-							  </div>
-							</div>
-							<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-							  <div class="row pt-2">
-								<div class="col-md-4">
-								  <div class="capture d-sm-flex d-block ">
-									<a href="#">
-								  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-								  <p class="body2  ms-3">Jene Hiden 
-									<br>  General Specialist
-									 </p>
-									 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-								</div>
-								  
-								</div>
-							   
-								<div class="col-md-4">
-								  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-									</p>
-									<p class="body2 ">
-									  Removing of the infected pulp...
-									   </p>
-								</div>
-							  </div>
-							</div>
-						</div>
-					</ng-container>
-					<a href="javascript:void(0);" (click)="show8 = !show8"><p class="body2 ms-5" style="color:#5D6A7E">{{ show8 ? 'Hide Detail': 'Show Detail' }}</p></a>
-				   
-				  </div>
-				  </div>
-							
-								<div class="row py-2   px-2">
-								  <div class="col-md-4 col-lg-6 d-flex">
-									  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">
-										Mario Speedwagon  </div>
-									 
-								  </div>
-									<div class="col-md-8 col-lg-6 text-end ">
-									  <div class="row">
-										<div class="col-md-10">
-										   <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-										</div>
-										<div class="col-md-2">   
-										  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-										  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-										</div>
-									  </div>                     
-								   </div>
-								  <div class="mt-2 col-md-12">
-									<div class="ms-5">
-									<p class="body2 " style="color: #5D6A7E;">
-									  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.
-									  Thanks 
-									</p>
-									<div class="mt-2">
-									  <span class="body2 p-2 rounded-pill" style="color: #00D9CC;background: rgba(0, 217, 204, 0.2);"><i class="bx bx-film"></i>
-									   Video (x3)
-									  </span>
-									</div>
-								  </div>
-								</div>
-								  
-							  </div>
 								</div>
 								<div class="card-footer" style="background-color: #F7F9FB;">
-								 
-								  <div class="input-group">
-									<button id="genMeetLink" class=" border-0" tooltip="Google Docs" flow="right"><a href="https://docs.google.com/document/u/0/create" target="_blank" style="color: #011A3E;"><i class='bx bx-file' style="font-size:larger;" ></i></a></button>
-									<button id="genMeetLink" class=" border-0" tooltip="Google Meet" flow="right"><a href="https://meet.google.com/new" target="_blank" style="color: #011A3E;"><span class="material-icons">video_call</span></a></button>
-									<button class=" border-0" flow="right"><a href="#" target="blank" style="color: #011A3E;"><i class='bx bxs-image'></i></a></button>
-
-									<button id="linkCopy" class=" border-0" tooltip="Copy Link" flow="up" style="color: #011A3E;"><span class="material-icons">link</span></button>
-								   
-									  <input id="btn-input" type="text" class="form-control form-control-sm" placeholder="Type your message here...">
-									  <span class="input-group-btn">
-										<button class="border-0" style="box-shadow: 4px 4px 25px rgba(42, 139, 242, 0.15), 2px 2px 25px rgba(42, 139, 242, 0.05), 4px 6px 10px rgba(42, 139, 242, 0.15);outline:none; width: 2.4rem;height: 2.4rem; border-radius: 50%; margin-left: 0.4rem;background-color: #0070D2;
-										cursor: pointer;"><i class="bx bxl-telegram pt-1" style="color:  #FFFFFF;font-size: larger;"></i></button>
-									  </span>
-								  </div>
-							  </div>
+									<form #MessageId="ngForm" id="mainForm" (ngSubmit)="onSubmitMessage(MessageId)">
+										<app-cvfast></app-cvfast>
+										<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+										<div class="row">
+											<div class="col-md-12 mb-2">
+												<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+												<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+												<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+												<button type="submit" class="btn btn-default mt-1 me-2" >Add Message</button> 
+											</div>
+										</div>
+									</form>
+								</div>
 							  
 							</div>
 							
@@ -1451,7 +551,7 @@
 														</tr>
 													</tbody>
 												</table>-->
-												<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+												<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
 															<th style="width: 15px;" data-orderable="false">   
@@ -1463,11 +563,14 @@
 															<th class="body2">EDUCATION</th>
 															<th class="body2">CITY</th>
 															<th class="body2">COUNTRY</th>
+															<th class="body2">Status</th>
 															<th class="body2" data-orderable="false">ACTIONS</th>
 														</tr>
 													</thead>
-													<tbody>
-														<tr>
+
+
+													<tbody *ngIf="invitedata?.length != 0">
+														<tr *ngFor="let invite of invitedata; let i = index;">
 															<td>
 																<div class="form-check form-check-inline">
 																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
@@ -1475,10 +578,10 @@
 															</td>
 															<td>
 																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">C</span>
+
 																	<div class="ps-2">
-																		<span class="body2 d-block">Colin</span>
-																		<span class="body2 d-block">General Dentist</span>
+																		<span class="avatar-icon">{{invite.userName.charAt(0)}}</span>
+																		<span class="body2 ms-1">{{invite.userName}}</span>
 																	</div>
 																</div>
 															</td>
@@ -1491,202 +594,19 @@
 															<td style="vertical-align:middle;">
 																<span class="body2">Canada </span>
 															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
-																	</a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">S</span>
-																	<div class="ps-2">
-																		<span class="body2 d-block">Simon Sais</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD </span>
-															</td>
-															<td>
-																<span class="body2">Ontario</span>
-															</td>
 															<td style="vertical-align:middle;">
-																<span class="body2">Canada </span>
+																<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>
+																<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invite.presentStatus == 1)">Accepted</span>
+																<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 2)">Declined</span>
+																<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 3)">Removed</span>
 															</td>
 															<td>
 																<div class="d-flex">
 																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																</div>
-															</td>
-														</tr> 
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Mario Speedwagon</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD</span>
-															</td>
-															<td>
-																<span class="body2">Quebec</span>
-															</td>
-															<td style="vertical-align:middle;">
-																<span class="body2">Canada</span>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
-																	</a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">C</span>
-																	<div class="ps-2">
-																		<span class="body2 d-block">Colin</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD </span>
-															</td>
-															<td>
-																<span class="body2">Vancouver</span>
-															</td>
-															<td style="vertical-align:middle;">
-																<span class="body2">Canada</span>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
-																	</a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">L</span>
-																	<div class="ps-2">
-																		<span class="body2 d-block">Liza Doolittle</span>
-																		<span class="body2 d-block">Specialist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD </span>
-															</td>
-															<td>
-																<span class="body2">Calgary</span>
-															</td>
-															<td style="vertical-align:middle;">
-																<span class="body2">Canada </span>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
-																	</a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">C</span>
-																	<div class="ps-2">
-																		<span class="body2 d-block">Colin</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD </span>
-															</td>
-															<td>
-																<span class="body2">Ottawa</span>
-															</td>
-															<td style="vertical-align:middle;">
-																<span class="body2">Canada </span>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
-																	</a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																	<span class="avatar-icon">A</span>
-																	<div class="ps-2">
-																		<span class="body2 d-block">Aida Bugg</span>
-																		<span class="body2 d-block">Specialist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2">BDS/DDS/DMD</span>
-															</td>
-															<td>
-																<span class="body2" >Montreal</span>
-															</td>
-															<td style="vertical-align:middle;">
-																<span class="body2">Canada </span>
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
-																		<i class="material-icons text-light-green">visibility</i>
+																	<a *ngIf="(invite.presentStatus != 3)" href="javascript:void(0);" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
+																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
 															</td>
@@ -1710,7 +630,7 @@
 													<h5 class="body1 card-title my-2">Work Orders</h5>
 												</div>
 												<div class="col-md-7">
-													<a routerLink="/work-orders/work-order-add" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
+													<a (click)="addWorkOrders()" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
 														<i class="bx bx-search"></i>
@@ -1725,7 +645,8 @@
 												<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
-															<th class="body2">OWNER</th>
+
+															<th class="body2">ASSIGNED TO</th>
 															<th class="body2">WORK ORDER TITLE</th>
 															<th class="body2">STATUS</th>
 															<th class="body2">PATIENT NAME</th>
@@ -1737,14 +658,15 @@
 														<tr *ngFor="let data of workordersdata; let i = index;">
 															<td>
 																<div>
+																	<span class="d-none">{{i}}</span>
 																	<span class="avatar-icon">D</span>
 																	<span class="body2 ms-1">Danial Doolittle</span>
 																</div>
 															</td>		 
 															<td>  
 																<span class="body2">{{data.title}}</span>                
-															</td>	 
-															<td>  
+															</td>
+															<td>
 																<div>
 																	<span class="badge rounded-pill badge-info body2" *ngIf="(data.presentStatus == 1)">Active</span>
 																	<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 2)">Inactive</span>
@@ -1757,10 +679,13 @@
 																<span class="body2">{{data.patientName}} </span>                
 															</td>
 															<td>  
-																<span class="body2">Static Title</span>  
+																<span class="body2">Title5 Leo Root Canel report</span>                
 															</td>
 															<td>
 																<div class="d-flex">
+
+
+
 																	<a href="javascript:void(0);" class="me-1" (click)="editWorkOrders(data.workorderId)">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
@@ -1790,7 +715,7 @@
 													<h5 class="body1 card-title my-2">Referral</h5>
 												</div>
 												<div class="col-md-7">
-													<a routerLink="/referral/referral-add" class="btn btn-default my-1 float-end">
+													<a (click)="addReferal()" class="btn btn-default my-1 float-end">
 														<i class="bx bx-user-plus" aria-hidden="true"></i>
 														Add Referral 
 													</a>
@@ -1804,7 +729,7 @@
 										</div>
 										<div class="card-body p-0 pb-3">
 											<div class="table-responsive">
-											  <table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+											  <table *ngIf="referraldata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 												<thead class="thead-light">
 												  <tr style="text-transform:uppercase;">
 													<th style="width: 15px;" data-orderable="false">&nbsp;</th>
@@ -1816,217 +741,44 @@
 												  </tr>
 												</thead>
 												<tbody>
-												  <tr>
-													<td>
-														<div class="form-check form-check-inline">
-															<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-														</div>
-													</td>
-													<td>
-														<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">C</span>
-															<span class="body2">Colin Sik</span>
-														</div>                       
-													  </td>
-													<td>
-													  <span class="body2">Dareen Leo Root Canel report</span>
-													</td>
-													<td>
-													  <div class=" email">
-														<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-														<small class="text-muted">Accepted on : 14/APR/20</small>
-													  </div>                     
-													</td>
-													<td>
-														<span class="body2">10/02/2020</span>                 
-													</td>
-													<td>
-														<div class="d-flex">
-															<a routerLink="/referral/referral-details" class="me-1">
-																<i class="material-icons text-light-green">visibility</i>
-															</a>
-															<a routerLink="#" class="me-1">
-																<i class="material-icons text-danger">close</i>
-															</a>
-														</div>
-													</td>
-												  </tr>
-												  <tr>
-													<td>
-													  <div class="form-check form-check-inline ms-0">
-														<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-													</div></td>
-													<td>
-														<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">D</span>
-															<span class="body2">Dareen Leow</span>
-														</div>											   
-													</td>
-													<td>
-													  <span class="body2">Dareen Leo Root Canel report</span>                 
-													</td>
-													  <td>
-														<div class="email">
-														<span class="badge rounded-pill badge-warning body2 ">Declined </span><br/>
-														<small class="text-muted">Declined on : 14/APR/20</small>
-													  </div>
-													   </td>
-													   <td>
-														<span class="body2">10/02/2021</span>                 
-													  </td>
-												   
-												   
-													<td>
-														<div class="d-flex">
-															<a routerLink="/referral/referral-details" class="me-1">
-																<i class="material-icons text-light-green">visibility</i>
-															</a>
-															<a routerLink="#" class="me-1">
-																<i class="material-icons text-danger">close</i>
-															</a>
-														</div>
-												   </td>
-												  </tr>
-												  <tr>
-													<td>
-													  <div class="form-check form-check-inline">
-														<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-													</div></td>
-													<td>
-														<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">M</span>
-															<span class="body2">Mario Speedwagon</span>
-														</div>												
-													  </td>
-													<td>
-													  <span class="body2">Dareen Leo Root Canel report</span>                 
-													</td>
-													<td>
-													  <div class=" email">
-														<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-														<small class="text-muted">Accepted on : 14/APR/20</small>
-													  </div>                     
-													 </td>
-													   <td>
-														<span class="body2">10/02/2022</span>                 
-													  </td>
-												   
-												   
-													<td>
-														<div class="d-flex">
-															<a routerLink="/referral/referral-details" class="me-1">
-																<i class="material-icons text-light-green">visibility</i>
-															</a>
-															<a routerLink="#" class="me-1">
-																<i class="material-icons text-danger">close</i>
-															</a>
-														</div>										   
-													</td>
-												  </tr>
-												  <tr>
-													<td>
-													  <div class="form-check form-check-inline">
-														<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-													</div></td>
-													<td> 
-														<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">D</span>
-															<span class="body2">Danial Doolittle</span>
-														</div>
-													  </td>
-													<td>
-													  <span class="body2">Dareen Leo Root Canel report</span>                 
-													</td>
-													  <td>
-														<div>
-														<span class="badge rounded-pill badge-warning body2">Declined </span><br/>
-														<small class="text-muted">Declined on : 14/APR/20</small>
-													  </div>
-													   </td>
-													   <td>
-														<span class="body2">10/02/2022</span>                 
-													  </td>
-												   
-												   
-													<td>
-														<div class="d-flex">
-															<a routerLink="/referral/referral-details" class="me-1">
-																<i class="material-icons text-light-green">visibility</i>
-															</a>
-															<a routerLink="#" class="me-1">
-																<i class="material-icons text-danger">close</i>
-															</a>
-														</div>
-												   </td>
-												  </tr>
-												  <tr>
-													<td>
-													  <div class="form-check form-check-inline">
-														<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-													</div>
-												  </td>
-												  <td> 
-														<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">A</span>
-															<span class="body2">Aida Bugg</span>
-														</div>
-														</td>
-													<td>
-						  
-													  <span class="body2">Dareen Leo Root Canel report</span>                 
-													</td>
-													  <td>
-														<div>
-														<span class="badge rounded-pill badge-warning body2 ">Declined </span><br/>
-														<small class="text-muted">Declined on : 14/APR/20</small>
-													  </div>
-													   </td>
-													   <td>
-														<span class="body2">10/02/2022</span>                 
-													  </td>
-												   
-												   
-													<td>
-														<div class="d-flex">
-															<a routerLink="/referral/referral-details" class="me-1">
-																<i class="material-icons text-light-green">visibility</i>
-															</a>
-															<a routerLink="#" class="me-1">
-																<i class="material-icons text-danger">close</i>
-															</a>
-														</div>
-												   </td>
-												  </tr>
-													<tr>
+													<tr *ngFor="let data of referraldata; let i = index;">
 														<td>
 															<div class="form-check form-check-inline">
-																<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault"/>
+																<span class="d-none">{{i}}</span>
+																<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 															</div>
 														</td>
 														<td>
 															<div class="d-flex align-items-center">
-															<span class="avatar-icon my-2 me-2">D</span>
-																<span class="body2">Dee End</span>
-															</div>
+																<span class="avatar-icon my-2 me-2">C</span>
+																<span class="body2">Colin Sik</span>
+															</div>                       
+														  </td>
+														<td>
+														  <span class="body2">{{data.title}}</span>
 														</td>
 														<td>
-														  <span class="body2">Dareen Leo Root Canel report</span>
+														  <div class=" email">
+															<span class="badge rounded-pill badge-info body2 px-2" *ngIf="(data.presentStatus == 1)">Active</span>
+															<span class="badge rounded-pill badge-warning body2 px-2" *ngIf="(data.presentStatus == 2)">Inactive</span>
+															<span class="badge rounded-pill badge-warning body2 px-2" *ngIf="(data.presentStatus == 3)">Pending</span>
+															<span class="badge rounded-pill badge-success body2 px-2" *ngIf="(data.presentStatus == 4)">Completed</span>
+															<br/>
+															<small class="text-muted">Accepted on : {{data.dateCreated | date:'mediumDate'}}</small>
+														  </div>                     
 														</td>
 														<td>
-															<div>
-																<span class="badge rounded-pill badge-warning body2">Declined </span><br/>
-																<small class="text-muted">Declined on : 14/APR/20</small>
-															</div>
-														</td>
-														<td>
-															<span class="body2">10/02/2022</span>                 
+															<span class="body2">{{data.dateCreated | date:'mediumDate'}}</span>                 
 														</td>
 														<td>
 															<div class="d-flex">
-																<a routerLink="/referral/referral-details" class="me-1">
+																<a href="javascript:void(0);" class="me-1" (click)="editReferrals(data.referralId)">
+																	<i class="material-icons text-bright-blue">edit</i>
+																</a>
+																<a href="javascript:void();" (click)="viewReferralDetails(data.referralId);" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a routerLink="#" class="me-1">
+																<a href="javascript:void();" class="me-1" (click)="deletereferral(data.referralId)">
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -2243,6 +995,7 @@
 </div>
 
 
+
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -2294,92 +1047,6 @@
 	</div>
 </div>
 
-<div class="modal fade" id="filterModalThread" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="filterModalLabel">Filter</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<select class="form-select" placeholder="search">
-							<option disabled="" selected="">Sort By</option>
-							<option>Patients</option>
-							<option>Cases</option>
-							<option>Last Modified</option>
-							<option>Date Created</option>
-						</select>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Patients Name" >
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Case Name" >
-						</div>
-					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Search by Date:</label>
-					</div>
-					<div class="col-md-6 "> 
-						<label class="form-label body2 text-dark">From</label>
-						<input type="date" class="form-control">
-					</div>
-					<div class="col-md-6"> 
-						<label class="form-label body2 text-dark">To</label>
-						<input type="date" class="form-control">
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="filterModalFile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title body1" id="exampleModalLabel">Filter</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
-				<div class="modal-body">
-					<div class="row">
-						<!--<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
-							<select class="form-select" placeholder="search" >
-								<option disabled selected>Sort By</option>
-								<option>File Type </option>
-								<option>File Size</option>
-								<option>File Name</option>
-								<option>Created Date</option>
-							</select>
-						</div>-->
-						<div class="col-md-12">
-							<div class="search my-2">
-								<i class="bx bx-search" ></i>
-								<input type="text" class="form-control" ngModel name="ownerName" id="ownerName" placeholder="Search by Owner Name" >
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
 
 <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
@@ -2406,7 +1073,10 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="hidden"  name="resorceowner" id="resorceowner" ngModel="{{tabledata.fetchedData[0].data[0].resorceOwner}}">
+					<input type="hidden"  name="resorceowner" id="resorceowner" *ngIf="this.tabledata.fetchedData; else emptyresorceowner" ngModel="{{this.tabledata.fetchedData[0].data[0].resorceOwner}}">
+					<ng-template #emptyresorceowner>
+						<input type="hidden" name="resorceowner" id="resorceowner" ngModel="">
+					</ng-template>
 					<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
 					<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
 					<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
@@ -2462,7 +1132,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<!--<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
+					<div class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
 						<select class="form-select"  placeholder="search" >
 							<option disabled selected>Sort By</option>
 							<option>Title </option>
@@ -2470,7 +1140,7 @@
 							<option>Created Date</option>
 							<option>Date Accepted/Declined</option>
 						</select>
-					</div>-->
+					</div>
 					<div class="col-md-12">
 						<div class="search my-2">
 							<i class="bx bx-search"></i>
@@ -2494,29 +1164,31 @@
 				<h5 class="modal-title body1" id="ReferralModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div  class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
-						<select class="form-select" placeholder="search">
-							<option disabled selected>Sort By</option>
-							<option>Title</option>
-							<option>Owner</option>
-							<option>Created Date</option>
-							<option>Date Accepted/Declined</option>
-						 </select>
-					</div>
-					<div class="col-md-12">
-						<div class="search my-2">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Patients Name" >
+			<form #Referral="ngForm" id="mainForm" (ngSubmit)="onSubmitReferral(Referral)">
+				<div class="modal-body">
+					<div class="row">
+						<!--<div  class="form-group mb-md-0 mb-3 d-flex col-md-12 position-relative">
+							<select class="form-select" placeholder="search">
+								<option disabled selected>Sort By</option>
+								<option>Title</option>
+								<option>Owner</option>
+								<option>Created Date</option>
+								<option>Date Accepted/Declined</option>
+							 </select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search my-2">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="title" id="title" placeholder="Search by Title" >
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -2700,10 +1372,62 @@
 	</div>
 </div>
 
+<div class="modal fade" id="filterModalThread" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="filterModalLabel">Filter</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form #MessagesForm="ngForm" id="messageForm" (ngSubmit)="onSubmitMessages(MessagesForm)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select class="form-select" placeholder="search">
+								<option disabled="" selected="">Sort By</option>
+								<option>Patients</option>
+								<option>Cases</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+							</select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="patientName" id="patientName" placeholder="Search by Patients Name" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="caseName" id="caseName" placeholder="Search by Case Name" >
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" ngModel name="dateFrom" id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" ngModel name="dateTo" id="dateTo" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <div class="modal fade" id="inviteMembers" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
-			<form>
+			<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
 				<div class="modal-header">
 					<h5 class="modal-title body1" id="inviteMembersLabel">Invite Members</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -2712,17 +1436,45 @@
 					<div class="row gy-3">
 						<div class="col-md-12">
 							<div class="search">
-								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search here" />
+								<div class="search search-md search-filter">
+									<i class="bx bx-search"></i>
+									<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true" required>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<div class="card card-lists">
+												<div class="card-body p-0">
+													<div class="d-flex align-items-center">
+														<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+														<div class="d-flex align-items-center justify-content-between search-list-content">
+															<div>
+																<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+															</div>
+															<div>
+																<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</ng-template>
+										<ng-template ng-label-tmp let-item="item" let-clear="clear">
+											<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+											<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+										</ng-template>
+									</ng-select>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-12 text-end">
-							<button type="button" class="btn btn-default btn-sm px-2"><i class="bx bx-plus me-0"></i></button>
+						<div class="col-md-12">
+							<app-cvfast></app-cvfast>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer text-center justify-content-center border-top-0">
-					<a class="btn btn-default" data-bs-dismiss="modal">Save</a>
+					<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
 					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
 				</div>
 			</form>

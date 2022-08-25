@@ -73,26 +73,9 @@ export class CaseEditComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', 'master/master-list', 'put','','description');
 		//alert(JSON.stringify(this.jsonObj));
-		this.dataService.putData(this.utility.apiData.userCases.ApiUrl, JSON.stringify(this.jsonObj), true)
-			.subscribe(Response => {
-			  if (Response) Response = JSON.parse(Response.toString());
-			  swal.fire('Case updated successfully');
-			  this.router.navigate(['master']);
-			}, error => {
-			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
-				swal.fire(error.error);
-			  else
-				swal.fire('Unable to fetch the data, please try again');
-			});
+		
 	}
 	onSubmit(form: NgForm) {
 		if (form.invalid) {
@@ -102,16 +85,23 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
-	var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-	swal.fire({
-		html: sweet_loader,
-		icon: "https://www.boasnotas.com/img/loading2.gif",
-		showConfirmButton: false,
-		allowOutsideClick: false,     
-		closeOnClickOutside: false,
-		timer: 2200,
-		//icon: "success"
-	});
+	/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
+		*/
+		swal.fire({
+			title: 'Loading....',
+			showConfirmButton: false,
+			timer: 2200
+		});
+		this.tabledata = '';
 	let url = this.utility.apiData.userCases.ApiUrl;
 	this.caseId = sessionStorage.getItem("caseId");
 	if(this.caseId != '')

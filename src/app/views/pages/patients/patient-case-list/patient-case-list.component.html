@@ -42,7 +42,7 @@
 			</div>
 			<div class="card-body p-0 pb-3">
 				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+					<table *ngIf="casedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
@@ -54,22 +54,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr  *ngFor="let data of casedata; let i = index;" >
 								<td>
 									<div class="form-check form-check-inline">
+										<span class="d-none">{{i}}</span>
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 									</div>
 								</td>		 
 								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
+									<span class="body2">{{data.title}}</span>                
 								</td>		 
 								<td>  
-									<span class="body2">Dareen</span>
+									<span class="body2">{{data.patientName}}</span>
 								</td>
 								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">With Lab</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
+										<span class="badge rounded-pill badge-success body2" *ngIf="(data.caseStatus == true)">Active</span><br/>
+										<span class="badge rounded-pill badge-warning body2" *ngIf="(data.caseStatus == false)">Inactive</span><br/>
+										<small class="text-muted">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
 									</div>
 								</td>
 								<td>
@@ -83,182 +85,7 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/master">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
-								</td>
-								<td>  
-									<span class="body2">Diana</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-warning body2">Done</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/master">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
-								</td>		 
-								<td>  
-									<span class="body2">Dee End</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-info body2">With Me</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/master">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>	 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
-								</td> 
-								<td>  
-									<span class="body2">Colin Sik</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2">With Lab</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/master">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leow</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-warning body2">Done</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/master">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>		 
-								<td>  
-									<span class="body2">Dareen Leo Root Canel report</span>                
-								</td>		 
-								<td>  
-									<span class="body2">Dee End</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-info body2">With Me</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/master">
+										<a  href="javascript:void(0);" (click)="viewCase(data.caseId)">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>

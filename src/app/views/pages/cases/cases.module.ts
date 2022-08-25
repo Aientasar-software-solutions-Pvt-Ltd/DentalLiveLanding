@@ -13,6 +13,7 @@ import { CaseEditComponent } from './case-edit/case-edit.component';
 import { CaseAddInviteMembersComponent } from './case-add-invite-members/case-add-invite-members.component';
 import { CaseAddTaskAddComponent } from './case-add-task-add/case-add-task-add.component';
 import { CaseAddFileUploadComponent } from './case-add-file-upload/case-add-file-upload.component';
+import { MilestoneAddComponent } from './case-add-milestone/milestone-add.component';
 import { PatientsModule } from '../patients/patients.module';
 
 const routes: Routes = [
@@ -38,6 +39,10 @@ const routes: Routes = [
         component: CaseAddInviteMembersComponent
       },
 	  {
+        path: 'case-add-milestone',
+        component: MilestoneAddComponent
+      },
+	  {
         path: 'case-add-task-add',
         component: CaseAddTaskAddComponent
       },
@@ -59,6 +64,7 @@ const routes: Routes = [
     CaseListComponent,
     CaseAddComponent,
     CaseEditComponent,
+    MilestoneAddComponent,
     CaseAddInviteMembersComponent,
     CaseAddTaskAddComponent,
     CaseAddFileUploadComponent

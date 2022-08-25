@@ -23,6 +23,8 @@ export class WorkOrdersListComponent implements OnInit {
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
+		sessionStorage.setItem('checkCase', '');
+		sessionStorage.setItem('caseId', '');
 		this.getallworkorder();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -56,12 +58,9 @@ export class WorkOrdersListComponent implements OnInit {
 			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
 				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
+				timer: 2200
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 			//let caseId = sessionStorage.getItem("caseId");
@@ -72,9 +71,33 @@ export class WorkOrdersListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.tabledata = JSON.parse(Response.toString());
-					//alert(JSON.stringify(this.tabledata));
-					//alert(this.tabledata['0'].title);
+					let GetAllData = JSON.parse(Response.toString());
+					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					//alert(JSON.stringify(GetAllData));
+					this.tabledata = Array();
+					for(var k = 0; k < GetAllData.length; k++)
+					{
+						this.tabledata.push({
+						  id: k,
+						  dateCreated: GetAllData[k].dateCreated,
+						  presentStatus: GetAllData[k].presentStatus,
+						  startdate: GetAllData[k].startdate,
+						  workorderId: GetAllData[k].workorderId,
+						  patientName: GetAllData[k].patientName,
+						  caseId: GetAllData[k].caseId,
+						  patientId: GetAllData[k].patientId,
+						  toothguide: GetAllData[k].toothguide,
+						  enddate: GetAllData[k].enddate,
+						  notes: GetAllData[k].notes,
+						  dateUpdated: GetAllData[k].dateUpdated,
+						  milestoneId: GetAllData[k].milestoneId,
+						  title: GetAllData[k].title,
+						  caseTitle: ''
+						});
+						this.getcasedetails(GetAllData[k].caseId,k);
+					}
+					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					
 				}
 			}, (error) => {
 			  swal.fire("Unable to fetch data, please try again");
@@ -82,7 +105,25 @@ export class WorkOrdersListComponent implements OnInit {
 			});
 		}
 	}
-	
+	getcasedetails(caseId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userCases.ApiUrl;
+			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				let caseData = JSON.parse(Response.toString());
+				this.tabledata[index].caseTitle = caseData.title;
+				//alert(JSON.stringify(this.tabledata));
+			}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
 	editWorkOrders(workorderId: any) {
 		sessionStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-edit']);

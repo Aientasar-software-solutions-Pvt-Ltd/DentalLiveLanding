@@ -62,3 +62,9 @@ margin-right: 0px!important;
 .form-control-sm{
 height: 40px;
 }
+
+.card-lists{box-shadow:none;background:transparent;}
+.search-list-content{width:calc(100% - 96px);}
+.card-lists .card-title{font-size:18px;}
+.card-lists .card-subtitle{font-size:14px;}
+.ng-dropdown-panel .ng-dropdown-panel-items {max-height: 340px;}

@@ -1,5 +1,6 @@
 //@ts-nocheck
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import Swal from 'sweetalert2';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -11,6 +12,8 @@ import swal from 'sweetalert2';
 import { UtilityService } from '../utility.service';
 import Webcam from 'webcam-easy';
 import * as Record from 'videojs-record/dist/videojs.record.js';
+import { ApiDataService } from '../views/pages/users/api-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cvfast',
@@ -55,7 +58,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   //attachmentList contains array of all the binary data related to CVFAST --> upon process this binary data is stored in S3 bucket fo AWS with a pre signed URL and the link is returned-->these links are added to cvfast object with there respective name and urls-->this cvfast object is stored in contextual data.
 
-  constructor(private cdref: ChangeDetectorRef, private utility: UtilityService) {
+  constructor(private dataService: ApiDataService, private router: Router, private cdref: ChangeDetectorRef, private utility: UtilityService) {
   }
   ngOnInit(): void {
     this.initPlayers();
@@ -339,7 +342,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     console.log(event.emoji.native)
   }
 
-  processFiles() {
+  processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes') {
     this.processing = true;
     let requests = this.attachmentFiles.map((object) => {
 	  if(object["binaryData"])
@@ -350,30 +353,139 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     });
 	if(this.processingcheck == true)
 	{
-    Promise.all(requests)
-      .then((values) => {
-        this.processing = false;
-        this.attachmentFiles = [];
-		// start for edit cvfast by conmverthink
-		let newArray = Array();
-		for(var k=0; k < values.length; k++)
-		{
-			if(this.cvfast.links[k])
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			timer: 2200
+		});
+		Promise.all(requests)
+		.then((values) => {
+			this.processing = false;
+			this.attachmentFiles = [];
+			// start for edit cvfast by conmverthink
+			let newArray = Array();
+			for(var k=0; k < values.length; k++)
 			{
-			 newArray.push(this.cvfast.links[k]);
+				if(this.cvfast.links[k])
+				{
+				 newArray.push(this.cvfast.links[k]);
+				}
+				else{
+				 newArray.push(values[k]);
+				}
 			}
-			else{
-			 newArray.push(values[k]);
+			this.cvfast = {
+			  text: this.baseText,
+			  links: newArray
 			}
-		}
-        this.cvfast = {
-          text: this.baseText,
-          links: newArray
-        }
-		// end for edit cvfast by conmverthink
-        console.log(this.cvfast);
-        //create cvfast object and return that object;
-        return this.cvfast
+			if(field == 'comments')
+			{
+			let comment = jsonObj.comment;
+			comment.push(this.cvfast);
+			jsonObj[field] = comment;
+			}
+			else
+			{
+			jsonObj[field] = this.cvfast;
+			}
+			//alert(JSON.stringify(jsonObj));
+			if(datatype == 'put')
+			{
+				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
+				.subscribe(Response => {
+					let AllDate = JSON.parse(Response.toString());
+					if(message)
+					{
+						Swal.fire(message);
+					}
+					if(sessionName)
+					{
+						sessionStorage.setItem(sessionName, AllDate.resourceId);
+					}
+					if(redirectUrl)
+					{
+						setTimeout(()=>{                     
+							this.router.navigate([redirectUrl]);
+						}, 1000);
+					}
+				}, error => {
+				  if (error.status === 404)
+				  {
+					Swal.fire('E-Mail ID does not exists,please signup to continue');
+				  }
+				  else if (error.status === 403)
+				  {
+					Swal.fire('Account Disabled,contact Dental-Live');
+				  }
+				  else if (error.status === 400)
+				  {
+					Swal.fire('Wrong Password,please try again');
+				  }
+				  else if (error.status === 401)
+				  {
+					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				  }
+				  else if (error.status === 428)
+				  {
+					Swal.fire(error.error);
+				  }
+				  else
+				  {
+					let   errormsg = error;
+					Swal.fire('Unable to fetch the data, please try again');
+				  }
+				});
+			}
+			else
+			{
+				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
+				.subscribe(Response => {
+					let AllDate = JSON.parse(Response.toString());
+					if(message)
+					{
+						Swal.fire(message);
+					}
+					if(sessionName)
+					{
+						sessionStorage.setItem(sessionName, AllDate.resourceId);
+					}
+					if(redirectUrl)
+					{
+						setTimeout(()=>{                     
+							this.router.navigate([redirectUrl]);
+						}, 1000);
+					}
+				}, error => {
+				  if (error.status === 404)
+				  {
+					Swal.fire('E-Mail ID does not exists,please signup to continue');
+				  }
+				  else if (error.status === 403)
+				  {
+					Swal.fire('Account Disabled,contact Dental-Live');
+				  }
+				  else if (error.status === 400)
+				  {
+					Swal.fire('Wrong Password,please try again');
+				  }
+				  else if (error.status === 401)
+				  {
+					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				  }
+				  else if (error.status === 428)
+				  {
+					Swal.fire(error.error);
+				  }
+				  else
+				  {
+					let   errormsg = error;
+					Swal.fire('Unable to fetch the data, please try again');
+				  }
+				});
+			}
+        //return this.cvfast;
       })
       .catch((error) => {
         this.processing = false;
@@ -381,12 +493,127 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         return false;
       });
 	}
-	else{
+	else
+	{
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			timer: 2200
+		});
 		// start for edit cvfast by conmverthink
 		this.cvfast = {
           text: this.baseText,
           links: this.cvfast.links
         }
+		if(field == 'comments')
+		{
+		let comment = jsonObj.comment;
+		comment.push(this.cvfast);
+		jsonObj[field] = comment;
+		}
+		else
+		{
+		jsonObj[field] = this.cvfast;
+		}
+		//alert(JSON.stringify(jsonObj));
+		if(datatype == 'put')
+		{
+			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
+			.subscribe(Response => {
+				let AllDate = JSON.parse(Response.toString());
+				if(message)
+				{
+					Swal.fire(message);
+				}
+				if(sessionName)
+				{
+					sessionStorage.setItem(sessionName, AllDate.resourceId);
+				}
+				if(redirectUrl)
+				{
+					setTimeout(()=>{                     
+						this.router.navigate([redirectUrl]);
+					}, 1000);
+				}
+			}, error => {
+			  if (error.status === 404)
+			  {
+				Swal.fire('E-Mail ID does not exists,please signup to continue');
+			  }
+			  else if (error.status === 403)
+			  {
+				Swal.fire('Account Disabled,contact Dental-Live');
+			  }
+			  else if (error.status === 400)
+			  {
+				Swal.fire('Wrong Password,please try again');
+			  }
+			  else if (error.status === 401)
+			  {
+				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  }
+			  else if (error.status === 428)
+			  {
+				Swal.fire(error.error);
+			  }
+			  else
+			  {
+				let   errormsg = error;
+				Swal.fire('Unable to fetch the data, please try again');
+			  }
+			});
+		}
+		else
+		{
+			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
+			.subscribe(Response => {
+				let AllDate = JSON.parse(Response.toString());
+				if(message)
+				{
+					Swal.fire(message);
+				}
+				if(sessionName)
+				{
+					sessionStorage.setItem(sessionName, AllDate.resourceId);
+				}
+				if(redirectUrl)
+				{
+					setTimeout(()=>{                     
+						this.router.navigate([redirectUrl]);
+					}, 1000);
+				}
+			}, error => {
+			  if (error.status === 404)
+			  {
+				Swal.fire('E-Mail ID does not exists,please signup to continue');
+			  }
+			  else if (error.status === 403)
+			  {
+				Swal.fire('Account Disabled,contact Dental-Live');
+			  }
+			  else if (error.status === 400)
+			  {
+				Swal.fire('Wrong Password,please try again');
+			  }
+			  else if (error.status === 401)
+			  {
+				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  }
+			  else if (error.status === 428)
+			  {
+				Swal.fire(error.error);
+			  }
+			  else
+			  {
+				let   errormsg = error;
+				Swal.fire('Unable to fetch the data, please try again');
+			  }
+			});
+		}
+		
+        //return this.cvfast;
 		// end for edit cvfast by conmverthink
 	}
   }

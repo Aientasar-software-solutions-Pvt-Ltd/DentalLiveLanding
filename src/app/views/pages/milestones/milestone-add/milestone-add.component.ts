@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
@@ -17,6 +18,13 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 export class MilestoneAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	public isvalidDate = false;
+	
+	public allcases: any[] = []
+	public caseid = '';
+	public patientid = '';
+	public casesName = '';
+	public patientName = '';
+	checkCase = sessionStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -34,9 +42,10 @@ export class MilestoneAddComponent implements OnInit {
 	back(): void {
 		this.location.back()
 	}
-  ngOnInit(): void {
-  this.getCaseDetails();
-  }
+	ngOnInit(): void {
+		this.getCaseDetails();
+		this.getAllCases();
+	}
 	
 	onSubmitMilestone(form: NgForm){
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
@@ -58,7 +67,7 @@ export class MilestoneAddComponent implements OnInit {
 	{
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
-		this.jsonObj['patientName'] = data.patientname;
+		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['title'] = data.title;
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
@@ -72,54 +81,90 @@ export class MilestoneAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.dataService.postData(this.utility.apiData.userMilestones.ApiUrl, JSON.stringify(this.jsonObj), true)
-		.subscribe(Response => {
-		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.fire('Milestone added successfully');
-		  this.router.navigate(['/milestones/milestones-list']);
-		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
-		});
+		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'milestones/milestones-list', 'post', '','description');
 	}
 	
+	getAllCases() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			showConfirmButton: false,
+			allowOutsideClick: false,
+			timer: 2200
+		});
+		let url = this.utility.apiData.userCases.ApiUrl;
+		this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				this.tabledataAll = JSON.parse(Response.toString());
+				//alert(JSON.stringify(this.tabledataAll));
+				this.allcases = Array();
+				for(var k = 0; k < this.tabledataAll.length; k++)
+				{
+					if(this.tabledataAll[k].caseStatus == true)
+					{
+						let name = this.tabledataAll[k].title;
+						this.allcases.push({
+						  value: this.tabledataAll[k].caseId,
+						  caseId: this.tabledataAll[k].caseId,
+						  patientName: this.tabledataAll[k].patientName,
+						  patientId: this.tabledataAll[k].patientId,
+						  name: name,
+						  label: name
+						});
+					}
+				}
+				//alert(JSON.stringify(this.allcases));
+			}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
+	
+	selectEvent(item: any) {
+		//alert(JSON.stringify(item));
+		this.caseid = item.caseId;
+		this.patientid = item.patientId;
+		this.patientName = item.patientName;
+		this.casesName = item.name;
+	// do something with selected item
+	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.tabledata = JSON.parse(Response.toString());
+					this.casesName = this.tabledata.title;
+					this.patientName = this.tabledata.patientName;
+					this.caseid = this.tabledata.caseId;
+					this.patientid = this.tabledata.patientId;
+					//alert(JSON.stringify(this.tabledata));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal.fire('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal.fire('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal.fire('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal.fire(error.error);
+			  else
+				swal.fire('Unable to fetch the data, please try again');
+			});
 		}
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
-				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
-			}
-		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
-		});
 	}
 }

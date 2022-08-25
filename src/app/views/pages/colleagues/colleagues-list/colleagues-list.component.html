@@ -38,7 +38,7 @@
 			</div>
 			<div class="card-body p-0 pb-3">
 				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+					<table *ngIf="colleaguedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
@@ -50,8 +50,8 @@
 								<th class="body2" data-orderable="false">ACTIONS</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody *ngIf="colleaguedata?.length != 0">
+							<tr *ngFor="let colldata of colleaguedata; let i = index;">
 								<td>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
@@ -59,10 +59,9 @@
 								</td>
 								<td>
 									<div class="d-flex align-items-center">
-										<span class="avatar-icon">C</span>
 										<div class="ps-2">
-											<span class="body2 d-block">Colin</span>
-											<span class="body2 d-block">General Dentist</span>
+											<span class="avatar-icon">{{colldata.accountfirstName.charAt(0)}}</span>
+											<span class="body2 ms-1">{{colldata.accountfirstName}} {{colldata.accountlastName}}</span>
 										</div>
 									</div>
 								</td>
@@ -88,238 +87,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">S</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Simon Sais</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>
-								<td>  
-									<span class="body2">Ontario</span>
-								</td>
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-info body2">On hold</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<!-- <a data-bs-toggle="modal" data-bs-target="#inviteMembersCase" class="btn btn-light-cyan my-1 me-2">Send Invite
-										</a> -->
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">M</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Mario Speedwagon</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>	
-								<td>  
-									<span class="body2">Quebec</span>
-								</td>
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-warning body2">Unavailable</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<!-- <a data-bs-toggle="modal" data-bs-target="#inviteMembersCase" class="btn btn-light-cyan my-1 me-2">Send Invite
-										</a> -->
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">C</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Colin</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>
-								<td>  
-									<span class="body2">Vancouver</span>
-								</td>		 
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">L</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Liza Doolittle</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>
-								<td>  
-									<span class="body2">Calgary</span>
-								</td>		 
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">C</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Colin</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>
-								<td>  
-									<span class="body2">Ottawa</span>
-								</td>		 
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-check form-check-inline">
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon">A</span>
-										<div class="ps-2">
-											<span class="body2 d-block">Aida Bugg</span>
-											<span class="body2 d-block">General Dentist</span>
-										</div>
-									</div>
-								</td>
-								<td>
-									<span class="body2">BDS/DDS/DMD</span>                
-								</td>
-								<td>  
-									<span class="body2">Montreal</span>
-								</td>
-								<td>  
-									<span class="body2">Canada</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/2020</small>
-									</div>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
+							
 						</tbody>
 					</table>
 				</div>

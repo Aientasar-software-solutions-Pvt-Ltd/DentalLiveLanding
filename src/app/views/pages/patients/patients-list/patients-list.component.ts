@@ -59,15 +59,11 @@ export class PatientsListComponent implements OnInit {
 	}
 
 	getallpatiant() {
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		this.tabledata = '';
 		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
+			title: 'Loading....',
 			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
+			timer: 2200
 		});
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -79,7 +75,7 @@ export class PatientsListComponent implements OnInit {
 				let AllDate = JSON.parse(Response.toString());
 				
 				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-				//alert(JSON.stringify(sortedCountries));
+				//alert(JSON.stringify(patientDate));
 				this.tabledata = patientDate.reverse();
 				//alert(JSON.stringify(this.tabledata[0].isActive));
 			}
@@ -108,16 +104,6 @@ export class PatientsListComponent implements OnInit {
 		});
 	}
 	onSubmit(form: NgForm) {
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
-		});
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let strName = form.value.firstName;
 		let patiantName =strName.split(' ');

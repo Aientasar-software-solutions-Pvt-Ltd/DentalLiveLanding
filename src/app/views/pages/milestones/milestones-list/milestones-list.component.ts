@@ -24,6 +24,8 @@ export class MilestonesListComponent implements OnInit {
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
+		sessionStorage.setItem('checkCase', '');
+		sessionStorage.setItem('caseId', '');
 		this.getallmilestone();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -50,18 +52,16 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	getallmilestone() {
+		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
-				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
+				allowOutsideClick: false,
+				timer: 2200
 			});
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
@@ -72,7 +72,8 @@ export class MilestonesListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.tabledata = JSON.parse(Response.toString()).reverse();
+					this.tabledata = JSON.parse(Response.toString());
+					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.tabledata));
 					//alert(this.tabledata['0'].title);
 				}

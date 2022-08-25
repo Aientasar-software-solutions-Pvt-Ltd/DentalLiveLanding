@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
@@ -7,6 +7,8 @@ import { InvitationListsComponent } from './invitation-lists/invitation-lists.co
 import { WorkOrderInvitationListComponent } from './work-order-invitation-list/work-order-invitation-list.component';
 import { ReferralInvitationListComponent } from './referral-invitation-list/referral-invitation-list.component';
 import { CaseInvitationListComponent } from './case-invitation-list/case-invitation-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PatientsModule } from '../patients/patients.module';
 
 const routes: Routes = [
   {
@@ -19,7 +21,7 @@ const routes: Routes = [
         pathMatch: 'full',
       },
 	  {
-        path: 'invitations',
+        path: 'invitation-lists',
         component: InvitationListsComponent
       },
 	  {
@@ -49,7 +51,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
 	RouterModule.forChild(routes),
-	DataTablesModule
-  ]
+	DataTablesModule,
+	FormsModule,
+	ReactiveFormsModule,
+	PatientsModule,
+  ],
+  schemas: [
+	  CUSTOM_ELEMENTS_SCHEMA
+	]
 })
 export class InvitationsModule { }

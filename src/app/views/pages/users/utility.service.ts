@@ -2212,6 +2212,241 @@ export class UtilityService {
 	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/workorders",
 	"bucket": 'dentallive-workorders',
 	"bucketUrl": "https://dentallive-workorders.s3.us-west-2.amazonaws.com/"	
+	},
+	"userReferrals": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"referralId": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"title": {
+		  "type": "string"
+		},
+		"notes": {
+		  "type": "object"
+		},
+		"startdate": {
+		  "type": "integer"
+		},
+		"enddate": {
+		  "type": "integer"
+		},
+		"toothguide": {
+		  "type": "object"
+		},
+		"milestoneId": {
+		  "type": "string"
+		},
+		"presentStatus": {
+		  "type": "integer"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"title",
+		"toothguide",
+		"presentStatus"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/referrals",
+	"bucket": 'dentallive-referrals',
+	"bucketUrl": "https://dentallive-referrals.s3.us-west-2.amazonaws.com/"	
+	},
+	"userMessage": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"messageId": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"patientName": {
+		  "type": "string"
+		},
+		"message": {
+		  "type": "object"
+		},
+		"comments": {
+		  "type": "array"
+		},
+		"messageType": {
+		  "type": "integer"
+		},
+		"messageReferenceId": {
+		  "type": "string"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"patientName",
+		"message",
+		"messageType",
+		"messageReferenceId"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/messages",
+	"bucket": 'dentallive-messages',
+	"bucketUrl": "https://dentallive-messages.s3.us-west-2.amazonaws.com/"	
+	},
+	"userColleague": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"url": {
+		  "type": "string"
+		},
+		"dentalId": {
+		  "type": "string"
+		},
+		"accountfirstName": {
+		  "type": "string"
+		},
+		"accountlastName": {
+		  "type": "string"
+		},
+		"emailAddress": {
+		  "type": "string"
+		},
+		"dob": {
+		  "type": "any"
+		},
+		"address": {
+		  "type": "string"
+		},
+		"userValid": {
+		  "type": "boolean"
+		},
+		"status": {
+		  "type": "boolean"
+		},
+		"dateCreated": {
+		  "type": "integer"
+		},
+		"dateUpdated": {
+		  "type": "integer"
+		},
+		"clinicName": {
+		  "type": "string"
+		},
+		"imageSrc": {
+		  "type": "any"
+		},
+		"phoneNumber": {
+		  "type": "string"
+		},
+		"forwards": {
+		  "type": "array"
+		}
+	  },
+	  "required": [
+		"accountfirstName",
+		"accountlastName",
+		"emailAddress"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/users",
+	"bucket": 'dentallive-users',
+	"bucketUrl": "https://dentallive-users.s3.us-west-2.amazonaws.com/"	
+	},
+	"userCaseInvites": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"invitationId": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"patientName": {
+		  "type": "string"
+		},
+		"invitedUserMail": {
+		  "type": "string"
+		},
+		"invitedUserId": {
+		  "type": "string"
+		},
+		"presentStatus": {
+		  "type": "integer"
+		},
+		"invitationText": {
+		  "type": "object"
+		},
+		"reponseText": {
+		  "type": "object"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"patientName",
+		"invitedUserMail",
+		"invitedUserId",
+		"presentStatus"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/caseinvites",
+	"bucket": 'dentallive-caseinvites',
+	"bucketUrl": "https://dentallive-users.s3.us-west-2.amazonaws.com/"
+	},
+	"userThreads": {
+	"schema": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "type": "object",
+	  "properties": {
+		"resourceOwner": {
+		  "type": "string"
+		},
+		"patientId": {
+		  "type": "string"
+		},
+		"patientName": {
+		  "type": "string"
+		},
+		"caseId": {
+		  "type": "string"
+		}
+	  },
+	  "required": [
+		"caseId",
+		"patientId",
+		"patientName"
+	  ]
+	},
+	"ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/threads",
+	"bucket": 'dentallive-threads',
+	"bucketUrl": "https://dentallive-users.s3.us-west-2.amazonaws.com/"
 	}
   }
 }

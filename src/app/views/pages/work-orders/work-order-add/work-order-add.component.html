@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/work-orders">Work Orders</a>
+		<a routerLink="/work-orders/work-orders">Work Orders</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Add Work Order
@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
+			<h3 class="mt-2 fw-normal">{{this.patientName}} <span class="fw-bold d-block">{{this.casesName}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -49,8 +49,90 @@
 							<div class="row">
 								<div class="col-md-4"> 
 									<div class="mb-4">
+										<label class="form-label body2 text-dark">Case Title</label>
+										<ng-autocomplete
+											[data]="allcases"
+											ngModel="{{this.casesName}}"
+											name="casesName" 
+											*ngIf="(this.checkCase == '')"
+											id="casesName"
+											[required]="true"
+											class="form-control"
+											style="padding:0px;"
+											[searchKeyword]="keyword"
+											placeholder="Search case title"
+											(selected)='selectEvent($event)'
+											(inputChanged)='onChangeSearch($event)'
+											(inputFocused)='onFocused($event)'
+											historyIdentifier="casesName"
+											[itemTemplate]="itemTemplate"
+											[notFoundTemplate]="notFoundTemplate">
+										</ng-autocomplete>
+										<ng-autocomplete
+											[data]="allcases"
+											ngModel="{{this.casesName}}"
+											name="casesName" 
+											id="casesName"
+											*ngIf="(this.checkCase == '1')"
+											[required]="true"
+											[disabled]="true"
+											class="form-control"
+											style="padding:0px;"
+											[searchKeyword]="keyword"
+											placeholder="Search case title"
+											(selected)='selectEvent($event)'
+											(inputChanged)='onChangeSearch($event)'
+											(inputFocused)='onFocused($event)'
+											historyIdentifier="casesName"
+											[itemTemplate]="itemTemplate"
+											[notFoundTemplate]="notFoundTemplate">
+										</ng-autocomplete>
+
+										<ng-template #itemTemplate let-item>
+										<a [innerHTML]="item.name"></a>
+										</ng-template>
+
+										<ng-template #notFoundTemplate let-notFound>
+										<div [innerHTML]="notFound"></div>
+										</ng-template>
+									</div>
+								</div>
+								<div class="col-md-4"> 
+									<div class="mb-4">
 										<label class="form-label body2 text-dark">Title </label>
 										<input type="text" class="form-control" value="" placeholder="Enter Title here " name="title" id="title" ngModel required>
+									</div>
+								</div>
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Referred To </label>
+										<div class="search search-md search-filter">
+											<i class="bx bx-search"></i>
+											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+													<div class="card card-lists">
+														<div class="card-body p-0">
+															<div class="d-flex align-items-center">
+																<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																<div class="d-flex align-items-center justify-content-between search-list-content">
+																	<div>
+																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																	</div>
+																	<div>
+																		<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</ng-template>
+												<ng-template ng-label-tmp let-item="item" let-clear="clear">
+													<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+												</ng-template>
+											</ng-select>
+										</div>
 									</div>
 								</div>
 								<div class="col-md-4"> 
@@ -103,10 +185,10 @@
 			<button type="button" class="btn btn-secondary">
 				Cancel 
 			</button>  -->
-			<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
-			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
-			<input type="hidden" name="milestoneid" id="milestoneid" ngModel="{{this.tabledata.milestoneId}}">
-			<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+			<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.caseid}}">
+			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.patientid}}">
+			<input type="hidden" name="milestoneid" id="milestoneid" ngModel="{{this.milestoneid}}">
+			<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patientName}}">
 			<button type="submit" class="btn btn-default me-2"><i class="bx bx-folder-plus"></i> Send Order</button> 
 			<a routerLink="/work-orders/work-orders" class="btn btn-secondary mt-1 me-2">Cancel</a>
 		</div>

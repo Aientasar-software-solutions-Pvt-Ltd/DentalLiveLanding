@@ -1,0 +1,5 @@
+button:focus{box-shadow:none;}
+.page-header .accordion-button:after {content:"(+)";background-image:none;/* background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23354053'><path d='M24 10h-10v-10h-2v10h-10v2h10v10h2v-10h10z'/></svg>"); */margin-left: 10px;height: auto;color: #00d9cc;}
+.page-header .accordion-button:not(.collapsed):after {content:"(-)";background-image:none;/* background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230070D2'><path d='M0 10h22v2h-22z'/></svg>");*/transform: rotate(0deg); }
+.page-header .accordion-button:not(.collapsed) {color: #0070d2;box-shadow:none;}
+.page-header .accordion-button {font-size:1.15rem;font-weight: 600;background:transparent;padding:0px;width:auto;}

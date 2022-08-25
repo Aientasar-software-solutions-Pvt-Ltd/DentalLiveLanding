@@ -1,0 +1,248 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/patients">Patients</a>
+	</li> 
+	<li class="breadcrumb-item active" aria-current="page">
+		Patient View
+	</li>
+</ol>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-12">
+		<h3 class="my-2 my-md-0" id="heading1">Patient Overview : <button class="accordion-button d-inline-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">{{this.tabledata.firstName}} {{this.tabledata.lastName}}</button></h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="accordion-overview" id="accordionOverview">
+			<div class="accordion-item shadow-sm border-0">
+				<div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionOverview">
+					<div class="accordion-body mb-4" style="box-shadow: 0px 12px 22px rgba(203, 237, 253, 0.5);">
+						<div class="row gx-2">
+							<div class="col-md-3 col-lg-3 col-xl-2">
+								<div class="profile-img justify-content-center p-md-2">
+									<div class="capture">
+										<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" alt="" class="mb-2 rounded-circle" />
+										<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="mb-2 rounded-circle"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9 col-lg-9 col-xl-10">
+								<!-- <p class="h5 mt-2 fw-bold pb-2 text-primary" style="border-bottom: 1px dashed #0070D2;">Diana Hiden </p> -->
+								<div class="row"  >
+									<div class="col-md-5">
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Patient ID</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.patientId}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Reference ID</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.refrernceNo}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Date of Birth</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.dob | date:'dd/MM/yyyy'}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Gender  </label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Male" *ngIf="(this.tabledata.gender == 0)">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Female" *ngIf="(this.tabledata.gender == 1)">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-7">
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Insurance Policy No.</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.policyNo}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Insurance Co.</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.insurance}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Email</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.email}}">
+											</div>
+										</div>
+										<div class="mb-1 row">
+											<label class="col-sm-5 col-form-label body2">Phone Number</label>
+											<div class="col-sm-7">
+												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.mobileNo}}">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row align-items-center">
+	<div class="col-md-12">
+		<div class="card shadow-sm" style="box-shadow: 0px 12px 22px rgba(208, 210, 218, 0.15);">
+			<div class="card-header border-bottom-0" style="background-color:#ffff;">
+				<div class="mt-2 d-flex justify-content-between align-items-center flex-wrap">
+					<div class="mb-2">
+						<h5 class="card-title mb-0">Recent Cases</h5>
+					</div>
+					<div class="d-flex flex-wrap align-items-center">
+						<a routerLink="/patients/patient-case-list" class="btn btn-light border me-2 mb-2">
+							View All
+						</a>
+						<a href="javascript:void(0);" (click)="addcases()" class="btn btn-light-green me-2 mb-2">
+							<i class="bx bx-briefcase-alt"></i> Add Case
+						</a>
+						<a routerLink="#" class="btn btn-pink me-2 mb-2">
+							<i class="bx bx-envelope"></i> Mail
+						</a> 
+						<a routerLink="#" class="btn btn-default mb-2">
+							<i class="bx bx-video"></i> Video Conference 
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body p-0 pb-3">
+				<div class="table-responsive">
+					<table *ngIf="casedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+						<thead class="thead-light text-uppercase">
+							<tr>
+								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
+								<th class="body2">CASE TITLE</th>
+								<th class="body2">OWNER NAME</th>
+								<th class="body2">CURRENT STATUS</th>
+								<th class="body2">MEMBERS</th>
+								<th class="body2" data-orderable="false">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr  *ngFor="let data of casedata; let i = index;">
+								<td>
+									<div class="form-check form-check-inline">
+										<span class="d-none">{{i}}</span>
+										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>		 
+								<td>  
+									<span class="body2">{{data.title}}</span>                
+								</td>		 
+								<td>  
+									<span class="body2">{{data.patientName}}</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge rounded-pill badge-success body2">With Lab</span><br/>
+										<small class="text-muted">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
+									</div>
+								</td>
+								<td>
+									<ul class="avatar-list">
+										<li class="avatar-item"><span class="avatar-icon">J</span></li>
+										<li class="avatar-item"><span class="avatar-icon">D</span></li>
+										<li class="avatar-item"><span class="avatar-icon">S</span></li>
+										<li class="avatar-item"><span class="avatar-icon">R</span></li>
+										<li class="avatar-item"><span class="avatar-icon">M</span></li>
+									</ul>
+								</td>
+								<td>
+									<div class="d-flex">
+										<a  href="javascript:void(0);" (click)="viewCase(data.caseId)">
+											<i class="material-icons text-light-green">visibility</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<!-- <tr>
+								<td>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>		 
+								<td>  
+									<span class="body2">Dareen Leo Root Canel report</span>                
+								</td>
+								<td>  
+									<span class="body2">Diana</span>
+								</td>
+								<td>
+									<div>
+										<span class="badge rounded-pill badge-warning body2">Done</span><br/>
+										<small class="text-muted">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<ul class="avatar-list">
+										<li class="avatar-item"><span class="avatar-icon">J</span></li>
+										<li class="avatar-item"><span class="avatar-icon">D</span></li>
+										<li class="avatar-item"><span class="avatar-icon">S</span></li>
+										<li class="avatar-item"><span class="avatar-icon">R</span></li>
+										<li class="avatar-item"><span class="avatar-icon">M</span></li>
+									</ul>
+								</td>
+								<td>
+									<div class="d-flex">
+										<a routerLink="/master">
+											<i class="material-icons text-light-green">visibility</i>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</td>		 
+								<td>  
+									<span class="body2">Dareen Leo Root Canel report</span>                
+								</td>		 
+								<td>  
+									<span class="body2">Dee End</span>                
+								</td>
+								<td>
+									<div>
+										<span class="badge rounded-pill badge-info body2">With Me</span><br/>
+										<small class="text-muted">Created on : 14/APR/2020</small>
+									</div>
+								</td>
+								<td>
+									<ul class="avatar-list">
+										<li class="avatar-item"><span class="avatar-icon">J</span></li>
+										<li class="avatar-item"><span class="avatar-icon">D</span></li>
+										<li class="avatar-item"><span class="avatar-icon">S</span></li>
+										<li class="avatar-item"><span class="avatar-icon">R</span></li>
+										<li class="avatar-item"><span class="avatar-icon">M</span></li>
+									</ul>
+								</td>
+								<td>
+									<div class="d-flex">
+										<a routerLink="/master">
+											<i class="material-icons text-light-green">visibility</i>
+										</a>
+									</div>
+								</td>
+							</tr> -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

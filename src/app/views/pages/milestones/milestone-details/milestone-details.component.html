@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/milestones">Milestones</a>
+		<a routerLink="/milestones/milestones-list">Milestones</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Milestone Details
@@ -104,10 +104,14 @@
 											<div class="col-sm-10">
 												<div class="card bg-primary" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
 													<div class="card-body">
-														<p class="text-light body1">
-														 {{this.tabledata.description.text}}
+														<p class="text-light body1" *ngIf="this.tabledata.description; else emptydesc">
+
+														{{this.tabledata.description.text}}
 														</p>
-														
+														<ng-template #emptydesc>
+															<p class="text-light body1"></p>
+														</ng-template>
+
 													</div>
 												</div>
 												<div class="mb-3">
@@ -175,283 +179,85 @@
 				</div>
 				<div *ngIf="id === 'tab2'">  
 					<div class="card-body">
-						<div class="row py-2 border-bottom px-2">
+						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
 							<div class="col-md-4 col-lg-6 d-flex">
 								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
-									Mario Speedwagon  
-								</div>
-							</div>
-							<div class="col-md-8 col-lg-6 text-end ">
-								<div class="row">
-									<div class="col-md-10"> 
-										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									</div>
-									<div class="col-md-2">   
-										<i class="material-icons me-2" style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
-										<i class="material-icons" style="color:#D0D6DE;">more_vert</i>
-									</div>
-								</div>                     
-							</div>
-							<div class="col-md-12 mt-2 rounded">
-								<p class="body2 ms-5">
-									I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.Thanks 
-								</p>
-							</div>
-						</div>
-					   
-						<div class="row py-2 border-bottom px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-							  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-								   <img alt="..." src="assets/images/avatar3.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
-								   Jene Hiden 
-							  </div> 
-							</div>
-							<div class="col-md-8 col-lg-6 text-end ">
-								<div class="row">
-									<div class="col-md-10"> 
-										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									</div>
-									<div class="col-md-2">   
-										<i class="material-icons me-2" style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
-										<i class="material-icons" style="color:#D0D6DE;">more_vert</i>
-									</div>
-								</div>                     
-							</div>
-							<div class="mt-2 col-md-12" [class.show]="show">
-								<p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral :  Invitation Send</p>
-								<div class="flex p-2">
-									<div class="flex flex-col mx-5">
-										<div class="relative flex-grow flex justify-center">
-											<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-										</div>
-									</div>
-									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										<div class="row pt-2">
-											<div class="col-md-4">
-												<div class="capture d-sm-flex d-block ">
-													<a routerLink="#">
-														<img src="assets/images/CircleM.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/>
-													</a>
-													<p class="body2  ms-3">Dee Lee     
-														<br>   Endodontist 
-												   </p>
-												   <span class="badge badge-pill badge-success body2 me-2">Active</span>
-												</div>
-											</div>
-										 
-											<div class="col-md-4">
-												<p class="body2 mb-0" style="color: #5D6A7E;">Referral
-												</p>
-												<p class="body2">Removing of the infected pulp...</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<ng-container *ngIf="show">
-								<div class="flex p-2">
-									<div class="flex flex-col mx-5">
-									  <div class="relative flex-grow flex justify-center">
-										<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									  </div>
-									</div>
-									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									  <div class="row pt-2">
-										<div class="col-md-4">
-										  <div class="capture d-sm-flex d-block ">
-											<a href="#">
-										  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-										  <p class="body2  ms-3">Jene Hiden 
-											<br>  General Specialist
-											 </p>
-											 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-										</div>
-										  
-										</div>
-									   
-										<div class="col-md-4">
-										  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-											</p>
-											<p class="body2 ">
-											  Removing of the infected pulp...
-											   </p>
-										</div>
-									  </div>
-									</div>
-								  </div>
-							  </ng-container>
-							  <a href="javascript:void(0);" (click)="show = !show"><p class="body2 ms-5" style="color:#5D6A7E">{{ show ? 'Hide Detail': 'Show Detail' }}</p></a>
-							</div>
-						</div>
-						
-						<div class="row py-2 border-bottom px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">               
-									<img alt="..." src="assets/images/CircleM.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
-									Dee Lee  
-								</div> 
-							</div>
-							<div class="col-md-8 col-lg-6 text-end">
-								<div class="row">
-									<div class="col-md-10"> 
-										<span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-									</div>
-									<div class="col-md-2">   
-										<i class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </i> 
-										<i class="material-icons " style="color:#D0D6DE;">more_vert</i>
-									</div>
-								</div>                     
-							</div>
-							<div class="mt-2 col-md-12" [class.show1]="show">
-							  <p class="body2 ms-5 mb-0" style="color:#5D6A7E">Referral : Invitation Received     </p>
-							  <div class="flex p-2">
-								<div class="flex flex-col mx-5">
-								  <div class="relative flex-grow flex justify-center">
-									<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-								  </div>
-								</div>
-								<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-								  <div class="row pt-2">
-									<div class="col-md-4">
-									  <div class="capture d-sm-flex d-block ">
-										<a href="#">
-									  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-									  <p class="body2  ms-3">Jene Hiden 
-										<br>  General Specialist
-										 </p>
-										 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-									</div>
-									  
-									</div>
-								   
-									<div class="col-md-4">
-									  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-										</p>
-										<p class="body2 ">
-										  Removing of the infected pulp...
-										   </p>
-									</div>
-								  </div>
-								</div>
-							  </div>
-							  <ng-container *ngIf="show1">
-								<div class="flex p-2">
-									<div class="flex flex-col mx-5">
-									  <div class="relative flex-grow flex justify-center">
-										<span class="absolute h-full w-1 bg-gray-200 rounded-full"></span>
-									  </div>
-									</div>
-									<div class="flex-grow p-2" style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-									  <div class="row pt-2">
-										<div class="col-md-4">
-										  <div class="capture d-sm-flex d-block ">
-											<a href="#">
-										  <img src="assets/images/avatar3.png" alt="" class="mb-2 avatar-sm rounded-circle" width="36px" height="36px"/></a>
-										  <p class="body2  ms-3">Jene Hiden 
-											<br>  General Specialist
-											 </p>
-											 <span class="badge badge-pill badge-success body2 me-2 ">Active </span>
-										</div>
-										  
-										</div>
-									   
-										<div class="col-md-4">
-										  <p class="body2  mb-0" style="color: #5D6A7E;">Referral
-											</p>
-											<p class="body2 ">
-											  Removing of the infected pulp...
-											   </p>
-										</div>
-									  </div>
-									</div>
-								  </div>
-							  </ng-container>
-							  <a href="javascript:void(0);" (click)="show1 = !show1"><p class="body2 ms-5" style="color:#5D6A7E">{{ show1 ? 'Hide Detail': 'Show Detail' }}</p></a>
-							</div>
-						</div>
-						<div class="row py-2 border-bottom px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2" width="36px" height="36px"/>
-									Sophia 
-								</div>
-							</div>
-							<div class="col-md-8 col-lg-6 text-end ">
-							  <div class="row">
-								<div class="col-md-10">
-								   <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
-								</div>
-								<div class="col-md-2">   
-								  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-								  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
-								</div>
-							  </div>                     
-							</div>
-							<div class=" mt-2 col-md-12">
-								<div class="ms-5">
-									<p class="body2 mb-0 " style="color: #1991EB;">
-									 
-									  Voice Message
-									</p>
-									<p class="body2" style="color: #5D6A7E;"> <i class="bx bx-microphone"></i>Voice message (01:15) </p>
-								 
-								  <div class="mt-2 mb-2">
-									<span class="body2 p-2 rounded-pill" style="color: #1991EB;
-									background: rgba(201, 226, 255, 0.5);"><i class="bx bx-file"></i>
-									  Files (x2)
-									</span>
-									<span class="body2 p-2 ms-2 rounded-pill" style="color: #F7517F;background-color: #FEEEF2;;"> <i class="bx bxs-image"></i>Photo</span>
-								  </div>
-								</div>
-							</div>
-						</div>
-						<div class="row py-2 px-2">
-							<div class="col-md-4 col-lg-6 d-flex">
-								  <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-								<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 " width="36px" height="36px"/>
-								Mario Speedwagon  </div>
-								 
+									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">Sophia
+							   </div>
+							   
 							</div>
 							<div class="col-md-8 col-lg-6 text-end ">
 								<div class="row">
 									<div class="col-md-10">
-									   <span class="body2">April 28, 21    7:3:50 AM (3days ago)</span>  
+										<span class="body2">{{message.messagedate | date:'medium'}} (3days ago)</span>  
 									</div>
 									<div class="col-md-2">   
-									  <span class="material-icons me-2 " style="color:#D0D6DE;-webkit-transform: scaleX(-1);  transform: scaleX(-1);">  reply </span> 
-									  <span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+										<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
+										<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
 									</div>
 								</div>                     
 							</div>
-							<div class="mt-2 col-md-12">
+							<div class=" mt-2 col-md-12" >
 								<div class="ms-5">
-									<p class="body2 " style="color: #5D6A7E;">
-									  I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.
-									  Thanks 
+									<p class="body2 mb-0 ">
+										{{message.messagetext}}
 									</p>
-									<div class="mt-2">
-									  <span class="body2 p-2 rounded-pill" style="color: #00D9CC;background: rgba(0, 217, 204, 0.2);"><i class="bx bx-film"></i>
-									   Video (x3)
-									  </span>
+									<div class="mt-2 mb-2">
+										<span *ngFor="let imgUrl of message.messageimg;">
+										<a target="_tblank" href="{{imgUrl.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+										</span>
 									</div>
 								</div>
 							</div>
+							<div class="mt-2 col-md-12" *ngFor="let comments of message.messagecomments; let j = index;">
+								<div class="flex p-2" *ngIf="(comments.isShow == '1' || comments.isShowLink == '1')">
+									<div class="flex-grow p-2"  style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+										<div>
+											<p class="body2" *ngIf="comments.isShow == '1'">{{comments.text}}</p>
+											<div class="mt-2 mb-2"  >
+												<span *ngFor="let link of comments.links;">
+													<a target="_tblank" href="{{link.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<ng-container *ngIf="this.showComment == i">
+								<div class="col-md-12" >
+									<form #CommentId="ngForm" id="mainForm" (ngSubmit)="onSubmitComment(CommentId)">
+										<app-cvfast></app-cvfast>
+										<span *ngIf="(this.setMessageRpValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+										<div class="row">
+											<div class="col-md-12 mb-2">
+												<input type="hidden"  name="CcaseId" id="CcaseId" ngModel="{{message.caseId}}">
+												<input type="hidden" name="CpatientId" id="CpatientId" ngModel="{{message.patientId}}">
+												<input type="hidden" name="CpatientName" id="CpatientName" ngModel="{{message.patientName}}">
+												<input type="hidden" name="CmessageId" id="CmessageId" ngModel="{{message.messageId}}">
+												<input type="hidden" name="CmessageReferenceId" id="CmessageReferenceId" ngModel="{{message.messageReferenceId}}">
+												<input type="hidden" name="Ccomments" id="Ccomments" ngModel="{{i}}">
+												<button type="submit" class="btn btn-default mt-1 me-2" >Comment</button> 
+											</div>
+										</div>
+									</form>
+								</div>
+							</ng-container>
 						</div>
 					</div>
 					<div class="card-footer" style="background-color: #F7F9FB;">
-						  <div class="input-group">
-							<button id="genMeetLink" class=" border-0" tooltip="Google Docs" flow="right"><a href="https://docs.google.com/document/u/0/create" target="_blank" style="color: #011A3E;"><i class="bx bx-file" style="font-size:larger;"></i></a></button>
-							<button id="genMeetLink" class=" border-0" tooltip="Google Meet" flow="right"><a href="https://meet.google.com/new" target="_blank" style="color: #011A3E;"><span class="material-icons">video_call</span></a></button>
-							<button class=" border-0" flow="right"><a href="#" target="blank" style="color: #011A3E;"><i class="bx bxs-image"></i></a></button>
-
-							<button id="linkCopy" class=" border-0" tooltip="Copy Link" flow="up" style="color: #011A3E;"><span class="material-icons">link</span></button>
-						   
-							  <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
-							  <span class="input-group-btn">
-								<button class="border-0" style="box-shadow: 4px 4px 25px rgba(42, 139, 242, 0.15), 2px 2px 25px rgba(42, 139, 242, 0.05), 4px 6px 10px rgba(42, 139, 242, 0.15);outline:none; width: 3rem;height: 3rem; border-radius: 50%; margin-left: 0.4rem;background-color: #0070D2;
-								cursor: pointer;"><i class="bx bxl-telegram pt-1" style="color:  #FFFFFF;font-size: larger;"></i></button>
-							  </span>
-						  </div>
+						<form #MessageId="ngForm" id="mainForm" (ngSubmit)="onSubmitMessage(MessageId)">
+							<app-cvfast></app-cvfast>
+							<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+							<div class="row">
+								<div class="col-md-12 mb-2">
+									<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+									<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+									<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+									<input type="hidden" name="messageReferenceId" id="messageReferenceId" ngModel="{{this.tabledata.milestoneId}}">
+									<button type="submit" class="btn btn-default mt-1 me-2" >Add Message</button> 
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 				<div *ngIf="id === 'tab3'">
@@ -472,7 +278,7 @@
 							</div>
 						</div>
 						<div class="table-responsive">
-							<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+							<table *ngIf="taskdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 								<thead class="thead-light">
 									<tr style="text-transform:uppercase;">
 										<th data-orderable="false">   
@@ -520,9 +326,7 @@
 											</div>
 										</td>
 										<td>
-											<span class="body2" *ngIf="(data.memberName == 1)">Jhone Duo</span>
-											<span class="body2" *ngIf="(data.memberName == 2)">Danel Gray</span>
-											<span class="body2" *ngIf="(data.memberName == 3)">Pavilnys</span>
+											<span class="body2">{{data.memberName}}</span>
 										</td>
 										<td>
 											<span class="body2">General</span>
@@ -558,10 +362,10 @@
 								<div class="modal-body">
 									<div class="row gy-3 justify-content-center">
 										<div class="col-md-8 col-sm-12">
-											<a routerLink="/work-orders/work-order-add" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
+											<a (click)="addWorkOrders()" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
 										</div>
 										<div class="col-md-8">
-											<a routerLink="/referral/referral-add" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
+											<a (click)="addReferal()" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
 										</div>
 										<div class="col-md-8">
 											<a href="javascript:void(0);" class="btn w-100 btn-pink" (click)="addGeneralTask(this.tabledata.milestoneId,this.tabledata.caseId)" data-bs-dismiss="modal">Add General Task</a>

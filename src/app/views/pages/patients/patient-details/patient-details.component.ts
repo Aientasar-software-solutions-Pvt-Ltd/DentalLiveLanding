@@ -27,25 +27,26 @@ export class PatientDetailsComponent implements OnInit {
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router) { }
 
   ngOnInit(): void {
-    this.dtOptions = {
-	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
-      pagingType: 'full_numbers',
-	  pageLength: 10,
-      processing: true,
-	  responsive: true,
-	  language: {
-          search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
-		  lengthMenu: "Items per page _MENU_",
-          info: "_START_ - _END_ of _TOTAL_",
-		  paginate: {
-			first : "<i class='bx bx-first-page'></i>",
-			previous: "<i class='bx bx-chevron-left'></i>",
-			next: "<i class='bx bx-chevron-right'></i>",
-			last : "<i class='bx bx-last-page'></i>"
+		this.getallpatiant();
+		this.dtOptions = {
+			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
+			pagingType: 'full_numbers',
+			pageLength: 10,
+			processing: true,
+			responsive: true,
+			language: {
+			  search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
+			  lengthMenu: "Items per page _MENU_",
+			  info: "_START_ - _END_ of _TOTAL_",
+			  paginate: {
+				first : "<i class='bx bx-first-page'></i>",
+				previous: "<i class='bx bx-chevron-left'></i>",
+				next: "<i class='bx bx-chevron-right'></i>",
+				last : "<i class='bx bx-last-page'></i>"
+				},
 			},
-      },
-    };
-	this.getallpatiant();
+
+		};
 	}
 	
 	setcvImage(img: any)
@@ -74,15 +75,11 @@ export class PatientDetailsComponent implements OnInit {
 		});
 	}
 	getallpatiant() {
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		this.tabledata = '';
 		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
+			title: 'Loading....',
 			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
+			timer: 2200
 		});
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
@@ -102,15 +99,15 @@ export class PatientDetailsComponent implements OnInit {
 				}
 				if(this.tabledata.phone)
 				{
-				this.mobileNo = this.tabledata.phone;
+					this.mobileNo = this.tabledata.phone;
 				}
 				if(this.tabledata.insurance.policyno)
 				{
-				this.policyNo = this.tabledata.insurance.policyno;
+					this.policyNo = this.tabledata.insurance.policyno;
 				}
 				if(this.tabledata.insurance.carrier)
 				{
-				this.insurance = this.tabledata.insurance.carrier;
+					this.insurance = this.tabledata.insurance.carrier;
 				}
 				setTimeout(()=>{     
 					if(this.tabledata.image)
@@ -149,7 +146,10 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.casedata = JSON.parse(Response.toString()).reverse();
+					let AllDate = JSON.parse(Response.toString());
+					let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+					let casedataResult = caseDate.reverse();
+					this.casedata = casedataResult.slice(0, 5);
 					//alert(JSON.stringify(this.casedata));
 				}
 			}, (error) => {
@@ -169,6 +169,10 @@ export class PatientDetailsComponent implements OnInit {
 
 	viewCase(caseId: any) {
 		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['master']);
+		this.router.navigate(['master/master-list']);
+	}
+	viewAllCase(patientId: any) {
+		sessionStorage.setItem('patientId', patientId);
+		this.router.navigate(['patients/patient-case-list']);
 	}
 }

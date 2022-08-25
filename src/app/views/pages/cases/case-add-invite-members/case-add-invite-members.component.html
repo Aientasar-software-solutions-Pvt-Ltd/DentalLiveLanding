@@ -30,22 +30,67 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<form>
-							<div class="row gy-3">
-								<div class="col-md-12">
-									<div class="search">
-										<i class="bx bx-search"></i>
-										<input type="text" class="form-control" placeholder="Search here" />
+						<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
+							<div class="modal-header">
+								<h5 class="modal-title body1" id="inviteMembersLabel">Invite Members</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="row gy-3">
+									<div class="col-md-12">
+										<div class="search">
+											<div class="search search-md search-filter">
+												<i class="bx bx-search"></i>
+												<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true" required>
+													<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+														<div class="card card-lists">
+															<div class="card-body p-0">
+																<div class="d-flex align-items-center">
+																	<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																	<div class="d-flex align-items-center justify-content-between search-list-content">
+																		<div>
+																			<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																			<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																		</div>
+																		<div>
+																			<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</ng-template>
+													<ng-template ng-label-tmp let-item="item" let-clear="clear">
+														<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+														<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+													</ng-template>
+												</ng-select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<app-cvfast></app-cvfast>
 									</div>
 								</div>
-								<div class="col-md-12 text-end">
-									<button type="button" class="btn btn-default btn-sm px-2"><i class="bx bx-plus me-0"></i></button>
-								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-12 mb-2">
-									<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
-									<button type="button" class="btn btn-pink">Cancel</button>
+							<div class="modal-footer text-center justify-content-center border-top-0">
+								<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+								<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+								<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+								<button type="button" class="btn btn-default" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
+								<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+								<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+											<div class="modal-body text-center">
+												<h6 class="text-dark mb-3">Would you like to go?</h6>
+												<div class="d-flex justify-content-between">
+													<a class="btn btn-secondary me-2" routerLink="/cases/case-add-file-upload" data-bs-dismiss="modal">Skip</a>
+													<button type="submit" class="btn btn-default" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Next</button>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -54,18 +99,4 @@
 			</div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-body text-center">
-				<h6 class="text-dark mb-3">Would you like to go?</h6>
-				<div class="d-flex justify-content-between">
-					<a class="btn btn-secondary me-2" routerLink="/cases/case-list" data-bs-dismiss="modal">Skip</a>
-					<a class="btn btn-default me-2" routerLink="/cases/case-add-task-add" data-bs-dismiss="modal">Next</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

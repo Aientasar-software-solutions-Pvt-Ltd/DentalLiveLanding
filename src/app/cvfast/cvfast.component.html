@@ -1,4 +1,4 @@
-  <div class="shadow p-3 mb-5 bg-body rounded">
+  <div class="shadow p-3 mb-1 bg-body rounded">
     <div class="row">
       <div class="row contentArea">
         <div [hidden]="!showScreen" class="col-md-12 mb-4">
@@ -148,10 +148,10 @@
           </ul>
         </div>
         <div>
-          <button (click)="processFiles()" class="btn btn-primary px-3" data-bs-toggle="tooltip" data-bs-placement="top"
+          <!--<button (click)="processFiles()" class="btn btn-primary px-3" data-bs-toggle="tooltip" data-bs-placement="top"
             title="Post" type="button">
             Post
-          </button>
+          </button>-->
           <button (click)="resetAll('showVideo')" class="btn bg-transparent text-secondary" data-bs-toggle="tooltip"
             data-bs-placement="top" title="Video recording" type="button">
             <i [ngClass]="{'text-primary': showVideo}" class='bx bxs-video'></i>

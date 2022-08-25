@@ -23,303 +23,152 @@
     <div class="col-md-12">
 		<div class="card shadow-sm">
 			<div class="card-header border-bottom-0 bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Case Invites</h5>
+				<div class="d-flex justify-content-between align-items-center flex-wrap">
+					<div class="align-self-center">
+						<h5 class="body1 card-title my-2">Case Invitations</h5>
 					</div>
-					<div class="col-md-7">
-						<div class="d-flex align-items-center flex-wrap justify-content-end">
-							<button class="btn filter-btn my-2 me-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
-							<div class="search search-md">
-								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
-							</div>
+					<div class="d-flex align-items-center flex-wrap">
+						<div class="nav nav-pills nav-justified tabview me-3">
+							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'Received'" (click)="tabContent('Received')">Received</a>
+							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'Invited'" (click)="tabContent('Invited')">Send</a>
+						</div>
+					</div>
+					<div class="d-flex align-items-center flex-wrap justify-content-end">
+						<button class="btn filter-btn my-2 me-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
+						<div class="search search-md">
+							<i class="bx bx-search"></i>
+							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card-body p-0 pb-3">
-				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
-						<thead class="thead-light">
-							<tr style="text-transform:uppercase;">
-								<th class="body2">OWNER</th>
-								<th class="body2">SEND / RECIEVED</th>
-								<th class="body2">REFERRAL TITLE</th>
-								<th class="body2">RECIEVED DATE</th>
-								<th class="body2">PATIENT NAME </th>
-								<th class="body2">CASE TITLE </th>
-								<th class="body2">STATUS</th>
-								<th class="body2" data-orderable="false">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-info body2">Send</span>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-success body2 px-2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>                     
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">D</span>
-										<span class="body2">Dareen Leow</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-success body2">Received</span>      
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-info body2 px-2">Pending</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>                     
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">D</span>
-										<span class="body2">Dee End</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-success body2">Received</span>       
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-success body2 px-2">Accepted</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>                     
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">L</span>
-										<span class="body2">Liza Doolittle</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-info body2">Send</span>       
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">A</span>
-										<span class="body2">Aida Bugg</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-success body2">Received</span>  
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">M</span>
-										<span class="body2">Mario Speedwagon</span>
-									</div>
-								</td>
-								<td>
-									<span class="text-success body2">Received</span>       
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>            
-								</td>
-								<td>
-									<span class="body2">29/02/2020</span>    
-								</td>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2 me-2">C</span>
-										<span class="body2">Colin Sik</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2">Dareen Leo Root Canel report</span>
-								</td>
-								<td>
-									<div>
-										<span class="badge badge-pill badge-warning body2 px-2">Declined</span><br/>
-										<small class="text-muted">Created on : 14/APR/20</small>
-									</div>
-								</td>
-								<td>
-									<div class="dropdown">
-										<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-											<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-										</a>
-										<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-											<li><a class="dropdown-item" routerLink="/cases/case-edit">Edit</a></li>
-											<li><a class="dropdown-item" routerLink="/master">View Details</a></li>
-											<li><a class="dropdown-item text-danger" href="javascript:void(0);" (click)="confirmArchive()">Archive</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div *ngIf="id === 'Received'">
+					<div class="table-responsive">
+						<table *ngIf="inviteReceivedData" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+							<thead class="thead-light">
+								<tr style="text-transform:uppercase;">
+									<th class="body2">MEMBER NAME</th>
+									<th class="body2">INVITAION</th>
+									<th class="body2">PATIENT NAME </th>
+									<th class="body2">CASE TITLE</th>
+									<th class="body2">STATUS</th>
+									<th class="body2" data-orderable="false">Action</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="inviteReceivedData?.length != 0">
+								
+								<tr *ngFor="let invitereceived of inviteReceivedData; let i = index;">
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="avatar-icon my-2 me-2">{{invitereceived.userName.charAt(0)}}</span>
+											<span class="body2">{{invitereceived.userName}}</span>
+										</div>
+									</td>
+									<td>
+										<span class="text-success body2">Received</span>
+									</td>
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="avatar-icon my-2 me-2">{{invitereceived.patientName.charAt(0)}}</span>
+											<span class="body2">{{invitereceived.patientName}}</span>
+										</div>
+									</td>
+									<td>
+										<span class="body2">{{invitereceived.caseTitle}}</span>
+									</td>
+									<td>
+										<div>
+											<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invitereceived.presentStatus == 0)">Pending</span>
+											<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invitereceived.presentStatus == 1)">Accepted</span>
+											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invitereceived.presentStatus == 2)">Declined</span>
+											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invitereceived.presentStatus == 3)">Removed</span><br/>
+											<small class="text-muted">Received on : {{invitereceived.dateCreated | date:'MM/dd/YYYY'}}</small>
+										</div>                     
+									</td>
+									<td>
+										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
+											<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+												<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+											</a>
+											<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+												
+												<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">Accepted</button></li>
+												
+												<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">Declined</button></li>
+												
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div *ngIf="id === 'Invited'">
+					<div class="table-responsive">
+						<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+							<thead class="thead-light">
+								<tr style="text-transform:uppercase;">
+									<th class="body2">MEMBER NAME</th>
+									<th class="body2">INVITAION</th>
+									<th class="body2">PATIENT NAME </th>
+									<th class="body2">CASE TITLE</th>
+									<th class="body2">STATUS</th>
+									<th class="body2" data-orderable="false">Action</th>
+								</tr>
+							</thead>
+							<tbody *ngIf="invitedata?.length != 0">
+								
+								<tr *ngFor="let invite of invitedata; let i = index;">
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="avatar-icon my-2 me-2">{{invite.userName.charAt(0)}}</span>
+											<span class="body2">{{invite.userName}}</span>
+										</div>
+									</td>
+									<td>
+										<span class="text-info body2">Send</span>
+									</td>
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="avatar-icon my-2 me-2">{{invite.patientName.charAt(0)}}</span>
+											<span class="body2">{{invite.patientName}}</span>
+										</div>
+									</td>
+									<td>
+										<span class="body2">{{invite.caseTitle}}</span>
+									</td>
+									<td>
+										<div>
+											<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>
+											<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invite.presentStatus == 1)">Accepted</span>
+											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 2)">Declined</span>
+											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 3)">Removed</span><br/>
+											<small class="text-muted">Invited on : {{invite.dateCreated | date:'MM/dd/YYYY'}}</small>
+										</div>                     
+									</td>
+									<td>
+										<div *ngIf="(invite.resourceOwner != invite.dentalId)">
+											<div class="dropdown" *ngIf="(invite.presentStatus == 0)">
+												<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+													<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+												</a>
+												<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
+													
+													<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invite.invitationId, 1);">Accepted</button></li>
+													
+													<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invite.invitationId, 2);">Declined</button></li>
+													
+												</ul>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -333,45 +182,79 @@
 				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<select class="form-select" placeholder="search" >
-							<option disabled selected>Sort By</option>
-							<option>Status</option>
-							<option>Last modified</option>
-							<option>Date created</option>
-						</select>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Patients name" >
+			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select class="form-select" placeholder="search" >
+								<option disabled selected>Sort By</option>
+								<option>Patients</option>
+								<option>Cases</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+							</select>
+						</div>-->
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" placeholder="Search by Patients Name" >
+							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by case name" >
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" placeholder="Search by Case Name" >
+							</div>
 						</div>
-					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Search by Date:</label>
-					</div>
-					<div class="col-md-6 "> 
-						<label class="form-label body2 text-dark">From</label>
-						<input type="date" class="form-control ">
-					</div>
-					<div class="col-md-6"> 
-						<label class="form-label body2 text-dark">To</label>
-						<input type="date" class="form-control">
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" ngModel name="dateFrom" id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" ngModel name="dateTo" id="dateTo" class="form-control">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="inviteMembersAccepted" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
+				<div class="modal-header">
+					<h5 class="modal-title body1" id="inviteMembersLabel">Send your response</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row gy-3">
+						<div class="col-md-12">
+							<app-cvfast></app-cvfast>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer text-center justify-content-center border-top-0">
+					<input type="hidden" name="caseId" id="caseId" ngModel="{{this.case_id}}">
+					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.patient_id}}">
+					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patient_name}}">
+					<input type="hidden" name="invitationId" id="invitationId" ngModel="{{this.invitation_id}}">
+					<input type="hidden" name="invitedUserMail" id="invitedUserMail" ngModel="{{this.invited_user_mail}}">
+					<input type="hidden" name="invitedUserId" id="invitedUserId" ngModel="{{this.invited_user_id}}">
+					<input type="hidden" name="presentStatus" id="presentStatus" ngModel="{{this.statusvalue}}">
+					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Submit</button>
+					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,9 @@
 .progress .bg-primary {background-color: #1991EB !important;}
 .progress-sm {height: .5rem;}
-
+.card-lists{box-shadow:none;background:transparent;}
+.search-list-content{width:calc(100% - 96px);}
+.card-lists .card-title{font-size:18px;}
+.card-lists .card-subtitle{font-size:14px;}
+.ng-dropdown-panel .ng-dropdown-panel-items {max-height: 340px;}
 .date-container{position: relative;}
 .shadow-input {position: absolute;top: 22px;width: 0px;height: 0px;border: none;}

@@ -4,13 +4,16 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/cases">Cases</a>
+		<a routerLink="/cases/case-list">Cases</a>
 	</li>
 	<li class="breadcrumb-item">
 		<a routerLink="/cases/case-add">Add Cases</a>
 	</li>
 	<li class="breadcrumb-item">
 		<a routerLink="/cases/case-add-invite-members">Invite Members</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases/case-add-milestone">Add Milestone</a>
 	</li>
 	<li class="breadcrumb-item">
 		<a routerLink="/cases/case-add-task-add">Add Task</a>
@@ -36,24 +39,21 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<form>
+						<form #filesForm="ngForm" id="filesForm" (ngSubmit)="onSubmitFiles(filesForm)"> 
 							<div class="row gy-4">
 								<div class="col-md-6">
-									<label class="form-label body2 text-dark">Title</label>
-									<input type="text" class="form-control" placeholder="Enter Title" >
-								</div>
-								<div class="col-md-6">
 									<label class="form-label body2 text-dark">Upload File</label>
-									<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
-								</div>
-								<div class="col-md-6"> 
-									<label class="form-label body2 text-dark">Created Date</label>
-									<input type="date" class="form-control">
+									<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 mt-4 mb-2">
-									<button type="button" class="btn btn-default mt-1 me-2" data-bs-toggle="modal" data-bs-target="#doneModal">Save</button>
+									<input type="hidden"  name="resorceowner" id="resorceowner" ngModel="{{tabledata.fetchedData[0].data[0].resorceOwner}}">
+									<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
+									<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
+									<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
+									<input type="hidden" name="datecreated" id="datecreated" ngModel="{{this.tabledata.dateCreated}}">
+									<button type="submit" [disabled]="!filesForm.form.valid" class="btn btn-default mt-1 me-2" >Save</button>
 									<button type="button" class="btn btn-pink mt-1 me-2">Cancel</button>
 								</div>
 							</div>

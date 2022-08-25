@@ -59,15 +59,10 @@ export class CaseListComponent implements OnInit {
 		if(user)
 		{
 
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
-				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
+				title: 'Loading....',
 				showConfirmButton: false,
-				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
+				timer: 2200
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			this.dataService.getallData(url, true).subscribe(Response => {
@@ -90,7 +85,7 @@ export class CaseListComponent implements OnInit {
 		sessionStorage.setItem('caseId', caseId);
 		sessionStorage.setItem('patientId', patientId);
 		sessionStorage.setItem("masterTab", 'tab1');
-		this.router.navigate(['master']);
+		this.router.navigate(['master/master-list']);
 	}
 	onSubmit(form: NgForm) {
 		let url = this.utility.apiData.userCases.ApiUrl;

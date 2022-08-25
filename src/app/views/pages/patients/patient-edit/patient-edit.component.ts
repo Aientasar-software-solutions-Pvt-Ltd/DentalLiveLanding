@@ -23,14 +23,7 @@ onActiveInactiveChanged(value:boolean){
 	this.saveActiveInactive = value;
 	this.patiantStatus = value;
 }
-public medications: any[] = [{
-    id: 1,
-    medication: '',
-    dosage: '',
-    duration: '',
-    notes: ''
-  }];
-  tabledata:any;
+    public tabledata:any;
   
 	public jsonObj = {
 	  firstName: '',
@@ -70,31 +63,22 @@ public medications: any[] = [{
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false
 	},{
 		id: 2,
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false
 	},{
 		id: 3,
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
-	},{
-		id: 4,
-		medication: '',
-		dosage: '',
-		duration: '',
-		notes: ''
-	},{
-		id: 5,
-		medication: '',
-		dosage: '',
-		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false
 	}];
 	
 	public objMedicationLength: any[] = [{
@@ -103,10 +87,6 @@ public medications: any[] = [{
 		id: 2
 	},{
 		id: 3
-	},{
-		id: 4
-	},{
-		id: 5
 	}];
 	//public objMedicationLength: any[] = []
 	public attachmentFiles: any[] = []
@@ -116,16 +96,12 @@ public medications: any[] = [{
 		this.getallpatiant();
 	}
 	getallpatiant() {
-		
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		this.tabledata = '';
+		this.objInsuranceview = '';
 		Swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
+			title: 'Loading....',
 			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
+			timer: 2200
 		});
 				//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
@@ -144,19 +120,39 @@ public medications: any[] = [{
 				this.saveActiveInactive = this.tabledata.isActive;
 				if(this.tabledata.medication.length > 0)
 				{
-				this.objMedicationLength = Array();
-				this.medicationsArray = this.tabledata.medication;
+					this.objMedicationLength = Array();
 				}
 				this.objInsuranceview = this.tabledata.insurance;
 				this.objInsurance = JSON.stringify(this.tabledata.insurance);
-				if(this.medicationsArray.length > 0)
+				if(this.tabledata.medication.length > 0)
 				{
 					this.objMedicationLength = Array();
-					for(var i = 0; i < this.medicationsArray.length; i++)
+					this.medicationsArray = Array();
+					for(var i = 0; i < this.tabledata.medication.length; i++)
 					{
 						this.objMedicationLength.push({
 						  id: i + 1
 						});
+						if(this.tabledata.medication[i].medication != '' || this.tabledata.medication[i].dosage != '' || this.tabledata.medication[i].duration != '' || this.tabledata.medication[i].notes != ''){
+						this.medicationsArray.push({
+							id: i + 1,
+							medication: this.tabledata.medication[i].medication,
+							dosage: this.tabledata.medication[i].dosage,
+							duration: this.tabledata.medication[i].duration,
+							notes: this.tabledata.medication[i].notes,
+							isRequired: true
+						});
+						}
+						else{
+						this.medicationsArray.push({
+							id: i + 1,
+							medication: this.tabledata.medication[i].medication,
+							dosage: this.tabledata.medication[i].dosage,
+							duration: this.tabledata.medication[i].duration,
+							notes: this.tabledata.medication[i].notes,
+							isRequired: false
+						});
+						}
 					}
 				}
 				setTimeout(()=>{     
@@ -256,6 +252,7 @@ public medications: any[] = [{
 	}
 	onGetdateData(data: any)
 	{
+		//alert(this.cv.returnCvfast().isTrue);
 		this.jsonObj['firstName'] = data.firstName;
 		this.jsonObj['lastName'] = data.lastName;
 		this.jsonObj['dob'] = Date.parse(data.dob);
@@ -297,39 +294,7 @@ public medications: any[] = [{
 		this.jsonObj['medication'] = this.medicationsArray;
 		//alert(JSON.stringify(this.jsonObj));
 		//alert(JSON.stringify(this.medicationsArray));
-		this.dataService.putData(this.utility.apiData.userPatients.ApiUrl, JSON.stringify(this.jsonObj), true)
-			.subscribe(Response => {
-			  if (Response) Response = JSON.parse(Response.toString());
-			  Swal.fire('Patient updated successfully');
-			  this.router.navigate(['patients/patients-list']);
-			}, error => {
-			  if (error.status === 404)
-			  {
-				Swal.fire('E-Mail ID does not exists,please signup to continue');
-			  }
-			  else if (error.status === 403)
-			  {
-				Swal.fire('Account Disabled,contact Dental-Live');
-			  }
-			  else if (error.status === 400)
-			  {
-				Swal.fire('Wrong Password,please try again');
-			  }
-			  else if (error.status === 401)
-			  {
-				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  }
-			  else if (error.status === 428)
-			  {
-				Swal.fire(error.error);
-			  }
-			  else
-			  {
-				let   errormsg = error;
-			  alert(JSON.stringify(errormsg));
-				Swal.fire('Unable to fetch the data, please try again');
-			  }
-			});
+		this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient updated successfully', 'patients/patients-list', 'put', '','notes');
 	}
 	removeImage()
 	{
@@ -337,6 +302,7 @@ public medications: any[] = [{
 		this.patientImage = '';
 	}
 	onSubmit(form: NgForm) {
+	//alert(JSON.stringify(this.cv.returnCvfast()));
 		if (form.invalid) {
 		  form.form.markAllAsTouched();
 		  return;
@@ -371,7 +337,8 @@ public medications: any[] = [{
       medication: '',
       dosage: '',
       duration: '',
-      notes: ''
+      notes: '',
+      isRequired: false
     });
   }
 
@@ -434,5 +401,29 @@ public medications: any[] = [{
       }
     })
   }
-
+	addMedicationValidation(i: number, str: string, event: any): void {
+	if(this.medicationsArray[i].medication != '' || this.medicationsArray[i].dosage != '' || this.medicationsArray[i].duration != '' || this.medicationsArray[i].notes != ''){
+		this.medicationsArray[i].isRequired=true;
+	}
+	else{
+		this.medicationsArray[i].isRequired=false;
+	}
+		if(str == 'medication')
+		{
+		this.medicationsArray[i].medication=event.target.value;
+		}
+		if(str == 'dosage')
+		{
+		this.medicationsArray[i].dosage=event.target.value;
+		}
+		if(str == 'duration')
+		{
+		this.medicationsArray[i].duration=event.target.value;
+		}
+		if(str == 'notes')
+		{
+		this.medicationsArray[i].notes=event.target.value;
+		}
+		//alert(JSON.stringify(this.medications));
+  }
 }

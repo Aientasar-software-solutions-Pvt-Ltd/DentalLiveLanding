@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/work-orders">Work Orders</a>
+		<a routerLink="/work-orders/work-orders">Work Orders</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Edit Work Order
@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.patientName}} <span class="fw-bold d-block">{{this.casesName}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -44,8 +44,46 @@
 							<div class="row">
 								<div class="col-md-4"> 
 									<div class="mb-4">
+										<label class="form-label body2 text-dark">Case Title </label>
+										<input type="text" class="form-control" value="" readonly placeholder="Enter Case Title here" required  maxlength="50" ngModel={{this.casesName}} name="casetitle" id="casetitle">
+									</div>
+								</div>
+								<div class="col-md-4"> 
+									<div class="mb-4">
 										<label class="form-label body2 text-dark">Title </label>
 										<input type="text" class="form-control" value="" placeholder="Enter Title here" required  maxlength="50" ngModel={{this.tabledata.title}} name="title" id="title">
+									</div>
+								</div>
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Referred To </label>
+										<div class="search search-md search-filter">
+											<i class="bx bx-search"></i>
+											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+													<div class="card card-lists">
+														<div class="card-body p-0">
+															<div class="d-flex align-items-center">
+																<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																<div class="d-flex align-items-center justify-content-between search-list-content">
+																	<div>
+																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																	</div>
+																	<div>
+																		<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</ng-template>
+												<ng-template ng-label-tmp let-item="item" let-clear="clear">
+													<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+												</ng-template>
+											</ng-select>
+										</div>
 									</div>
 								</div>
 								<div class="col-md-4"> 

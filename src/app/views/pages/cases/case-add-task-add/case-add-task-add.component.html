@@ -12,6 +12,9 @@
 	<li class="breadcrumb-item">
 		<a routerLink="/cases/case-add-invite-members">Invite Members</a>
 	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/cases/case-add-milestone">Add Milestone</a>
+	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Add Task
 	</li>
@@ -28,57 +31,122 @@
 </div>
 
 <div class="row pt-2">
-    <div class="col-md-10">
+    <div class="col-md-12">
 		<div class="card shadow-sm">
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<form>
+						<form #taskForm="ngForm" id="taskForm" (ngSubmit)="onSubmitTask(taskForm)">
 							<div class="row">
-								<div class="col-md-6"> 
+								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Title </label>
-										<input type="text" class="form-control" placeholder="Enter Title here ">
+										<input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title" required ngModel >
 									</div>
 								</div>
-								<div class="col-md-6"> 
+								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Start Date</label>
-										<input class="form-control" name="startDate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date">
+										<input class="form-control" name="startdate" id="startdate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date" required ngModel >
 										<owl-date-time [pickerType]="'calendar'" #sd></owl-date-time>
 									</div>
 								</div>
-								<div class="col-md-6"> 
+								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Due Date & Time</label>
-										<input class="form-control" name="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time">
+										<input class="form-control" name="dueDatetime" id="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" required ngModel >
 										<owl-date-time #dt1></owl-date-time>
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date & time should be greater than start date</span>
 									</div>
 								</div>
-								<div class="col-md-6"> 
+								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Status</label>
-										<select class="form-select">
+										<select class="form-select" name="presentStatus" id="presentStatus" required ngModel >
 											<option value="">Select</option>
-											<option value="1" selected="">New</option>
-											<option value="2">Pending</option>
-											<option value="3">Completed</option>
-											<option value="4">In Process</option>
+											<option value="1">Active</option>
+											<option value="2">Inactive</option>
+											<option value="3">Pending</option>
+											<option value="4">Completed</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-md-6"> 
+								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Assign Member</label>
-										<ng-select [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select">
-										</ng-select>
+										<!--<ng-select name="memberName" id="memberName" ngModel [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select" required >
+										</ng-select>-->
+										<div class="search search-md search-filter">
+											<i class="bx bx-search"></i>
+											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true">
+												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+													<div class="card card-lists">
+														<div class="card-body p-0">
+															<div class="d-flex align-items-center">
+																<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																<div class="d-flex align-items-center justify-content-between search-list-content">
+																	<div>
+																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																	</div>
+																	<div>
+																		<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</ng-template>
+												<ng-template ng-label-tmp let-item="item" let-clear="clear">
+													<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Add Reminder</label>
+										<select class="form-select" name="reminder" id="reminder" ngModel required>  
+											<option value="">Select</option>
+											<option value="12" selected>12 Hours</option>
+											<option value="24">1 Day</option>
+											<option value="48">2 Days</option>
+											<option value="72">3 Days</option>
+											<option value="120">5 Days</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Description</label>
+										<app-cvfast></app-cvfast>
+										<!-- <textarea class="form-control" placeholder="Enter Description" name="description" id="description" style="height: 100px" ngModel required></textarea> -->
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 mb-2">
-									<button type="button" class="btn btn-default mt-1 me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
+									<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
+									<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
+									<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
+									<input type="hidden" name="memberMail" id="memberMail" ngModel="jhon@gmail.com">
+									<button type="button" [disabled]="!taskForm.form.valid" class="btn btn-default mt-1 me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
 									<button type="button" class="btn btn-pink mt-1 me-2">Cancel</button>
+									<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content">
+												<div class="modal-body text-center">
+													<h6 class="text-dark mb-3">Would you like to go?</h6>
+													<div class="d-flex justify-content-between">
+														<a class="btn btn-secondary me-2" routerLink="/cases/case-add-file-upload" data-bs-dismiss="modal">Skip</a>
+														<button type="submit" [disabled]="!taskForm.form.valid" class="btn btn-default mt-1 me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Next</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -87,18 +155,4 @@
 			</div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-body text-center">
-				<h6 class="text-dark mb-3">Would you like to go?</h6>
-				<div class="d-flex justify-content-between">
-					<a class="btn btn-secondary me-2" routerLink="/cases/case-list" data-bs-dismiss="modal">Skip</a>
-					<a class="btn btn-default me-2" routerLink="/cases/case-add-file-upload" data-bs-dismiss="modal">Next</a>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

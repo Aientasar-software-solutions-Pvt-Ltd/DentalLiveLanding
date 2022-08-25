@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/cases">Cases</a>
+		<a routerLink="/cases/case-list">Cases</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Add Case
@@ -81,7 +81,7 @@
 										<input type="hidden" class="form-control" required ngModel="{{this.Pid}}" name="patientId" >
 										<input type="hidden" class="form-control" required ngModel="{{this.resourceOwn}}" name="resourceOwner" >
 										<input type="hidden" class="form-control" required ngModel="{{this.casetypeArray.length}}" name="caseType" id="caseType" >
-										<input type="hidden" class="form-control" required ngModel="{{this.patientImage}}" name="image" >
+										<input type="hidden" class="form-control" ngModel="{{this.patientImage}}" name="image" >
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title</label>
@@ -195,7 +195,8 @@
 								<div class="col-md-12 mb-2">
 									<button type="submit" class="btn btn-default mt-1 me-2" >Save</button> 
 									<a routerLink="#" class="btn btn-pink mt-1 me-2">Cancel</a>
-									<button routerLink="/cases/case-add-invite-members" class="btn btn-light-green mt-1 me-2" [disabled]="btnState">Invite Members</button>
+									<!--<button routerLink="/cases/case-add-invite-members" class="btn btn-light-green mt-1 me-2" disabled *ngIf="this.btnState == true">Invite Members</button>
+									<button routerLink="/cases/case-add-invite-members" class="btn btn-light-green mt-1 me-2" *ngIf="this.btnState == false">Invite Members</button>-->
 								</div>
 							</div>
 						</form>

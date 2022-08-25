@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import { NgForm } from '@angular/forms';								
 import { CalendarOptions } from '@fullcalendar/angular'; 
@@ -8,6 +7,7 @@ import { UtilityService } from '../users/utility.service';
 import { UtilityServicedev } from '../../../utilitydev.service';
 import { AccdetailsService } from '../accdetails.service';
 import { Router } from '@angular/router';
+import { Cvfast } from '../../../cvfast/cvfast.component';
 
 @Component({
   selector: 'app-master',
@@ -15,8 +15,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./master.component.css']
 })
 export class MasterComponent implements OnInit {
+	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	calendarOptions: CalendarOptions = {}
 	
+	public allMember: any[] = []
+	public allMemberEmail: any[] = []
+	public allMemberName: any[] = []
+	public allMemberDentalId: any[] = []
+    selectedCity = '';
 	show = false;
 	show1 = false;
 	show2 = false;
@@ -26,6 +32,12 @@ export class MasterComponent implements OnInit {
 	show6 = false;
 	show7 = false;
 	show8 = false;
+	
+	showComment: any;
+	replyToggle(index){
+		this.setMessageRpValue = false;
+		this.showComment =index;
+	}
  
 	id:any = "listView";
 	tabContent(ids:any){
@@ -38,20 +50,30 @@ export class MasterComponent implements OnInit {
 	}
 	
 	saveCompletedArchive: boolean = false;
+	setMessageValue: boolean = false;
+	setMessageRpValue: boolean = false;
 	cvfastText: boolean = false;
 	cvfastLinks: boolean = false;
+	cvfastMsgText: boolean = false;
+	cvfastMsgLinks: boolean = false;
 
 	onCompletedArchiveChanged(value:boolean){
 		this.saveCompletedArchive = value;
 	}
 	dtOptions: DataTables.Settings = {};
-	tabledata:any;
-	milestonedata:any;
-	workordersdata:any;
-	patientdata:any;
+	public tabledata:any;
+	public milestonedata:any;
+	public workordersdata:any;
+	public colleaguedata:any;
+	public messagedata:any;
+	public patientdata:any;
+	public referraldata:any;
 	public patientImg: any;
 	public module = 'patient';
 	public CaseTypeVal = '';
+	public messageArray: any[] = []
+	public messageDataArray: any[] = []
+	public messageAry: any[] = []
 	public casefilesArray: any[] = []
 	public eventsData: any[] = []
 	public attachmentFiles: any[] = []
@@ -60,6 +82,8 @@ export class MasterComponent implements OnInit {
 	public filesdata: any;
 	public filesdataArray: any;
 	public uploaddata: any;
+	public invitedata: any;
+	public threaddata: any;
 	casetype = [ 
 		{name :"General Dentistry", id: 1},
 		{name :"Endodontics", id: 2},
@@ -82,6 +106,36 @@ export class MasterComponent implements OnInit {
 	  patientName: '',
 	  dateCreated: 0,
 	  files: Array()
+	}
+	public jsonObjmsg = {
+		patientId: '',
+		caseId: '',
+		patientName: '',
+		message: {},
+		comments: [{}],
+		messageType: '0'
+	}
+	
+	public jsonObjInvite = {
+		patientId: '',
+		caseId: '',
+		patientName: '',
+		invitationText: {},
+		invitedUserMail: '',
+		invitedUserId: '',
+		presentStatus: 0,
+		resourceOwner: ''
+	}
+	
+	public jsonObjInviteEdit = {
+		patientId: '',
+		caseId: '',
+		patientName: '',
+		invitedUserMail: '',
+		invitedUserId: '',
+		invitationId: "",
+		presentStatus: 3
+		//responseText: {}
 	}
 	public PatientImg: any;
 	
@@ -107,20 +161,26 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
+	//this.getMessage();
+	this.getThread();
 	this.getCaseDetails();
 	this.getFilesListing();
 	this.getallmilestone();
 	this.getallworkorder();
+	this.getReferralListing();
+	this.getColleagueListing();
+	this.getAllMembers();
+	this.getInviteListing();
 	//Set current tab
 	let masterTab = sessionStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
 	}
-  
-	getallworkorder() {
+
+	getColleagueListing() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
 				icon: "https://www.boasnotas.com/img/loading2.gif",
@@ -129,6 +189,347 @@ export class MasterComponent implements OnInit {
 				closeOnClickOutside: false,
 				timer: 2200,
 				//icon: "success"
+			});
+			*/
+			swal.fire({
+				title: 'Loading....',
+				showConfirmButton: false,
+				timer: 2200
+			});
+			let url = this.utility.apiData.userColleague.ApiUrl;
+			//let caseId = sessionStorage.getItem("caseId");			
+			//if(caseId != '')
+			//{
+				//url += "?caseId="+caseId;
+			//}
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.colleaguedata = JSON.parse(Response.toString());
+					//this.colleaguedata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+					//alert(JSON.stringify(this.colleaguedata));
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	getMessage() {
+		let user = this.usr.getUserDetails(false);
+		
+		if(user)
+		{
+			let url = this.utility.apiData.userMessage.ApiUrl;
+			let caseId = sessionStorage.getItem("caseId");
+			let messageType = "1";
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			url += "&messageType="+messageType;
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.messagedata = JSON.parse(Response.toString()).reverse();
+					
+					//alert(JSON.stringify(this.messagedata));
+					
+					this.messageDataArray = Array();
+					for(var i = 0; i < this.messagedata.length; i++)
+					{
+						let strVal = JSON.stringify(this.messagedata[i].message);
+						if(strVal.length > 2)
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								messageId: this.messagedata[i].messageId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								messagetext: this.messagedata[i].message.text,
+								messageimg: this.messagedata[i].message.links,
+								messagedate: this.messagedata[i].dateCreated,
+								messagecomment: this.messagedata[i].comments,
+								messagecomments: this.messagedata[i].comments
+							});
+							this.setcvFastComment(this.messagedata[i].comments,i);
+							this.setcvFastMsg(this.messagedata[i].message,i);
+							this.cvfastMsgText = true;
+						}
+						else
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								messageId: this.messagedata[i].messageId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								messagetext: '',
+								messageimg: [],
+								messagedate: this.messagedata[i].dateCreated,
+								messagecomment: this.messagedata[i].comments
+							});
+						}
+					}
+					setTimeout(()=>{   
+						this.messageAry = this.messageDataArray;
+						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+					}, 2000);
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+			
+		}
+	}
+	onSubmitMessages(form: NgForm){
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			//alert(JSON.stringify(form.value));
+			let url = this.utility.apiData.userMessage.ApiUrl;
+			let caseId = sessionStorage.getItem("caseId");
+			let patientId = sessionStorage.getItem("patientId");
+			
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			if(patientId != '')
+			{
+				url += "?patientId="+patientId;
+			}
+			let patientName = form.value.patientName;
+			if(patientName != '')
+			{
+				if(caseId != '')
+				{ 
+					url += "&patientName="+patientName;
+				}
+				else
+				{
+					url += "?patientName="+patientName;
+				}
+			}
+			let caseName = form.value.caseName;
+			if(caseName != '')
+			{
+				if(patientName != '' || caseId != '')
+				{ 
+					url += "&caseName="+caseName;
+				}
+				else
+				{
+					url += "?caseName="+caseName;
+				}
+			}
+			if(form.value.dateFrom != '')
+			{
+				if(patientName != '' || form.value.caseName != '' || caseId != '')
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
+				}
+				else
+				{
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				}
+			}
+			if(form.value.dateTo != '')
+			{
+				if(patientName != '' || form.value.dateFrom != '' || form.value.caseName != '' || caseId != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
+			}
+			//alert(url);
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.messagedata = JSON.parse(Response.toString()).reverse();
+					
+					//alert(JSON.stringify(this.messagedata));
+					
+					this.messageDataArray = Array();
+					for(var i = 0; i < this.messagedata.length; i++)
+					{
+						let strVal = JSON.stringify(this.messagedata[i].message);
+						if(strVal.length > 2)
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								messageId: this.messagedata[i].messageId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								messagetext: this.messagedata[i].message.text,
+								messageimg: this.messagedata[i].message.links,
+								messagedate: this.messagedata[i].dateCreated,
+								messagecomment: this.messagedata[i].comments,
+								messagecomments: this.messagedata[i].comments
+							});
+							this.setcvFastComment(this.messagedata[i].comments,i);
+							this.setcvFastMsg(this.messagedata[i].message,i);
+							this.cvfastMsgText = true;
+						}
+						else
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								messageId: this.messagedata[i].messageId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								messagetext: '',
+								messageimg: [],
+								messagedate: this.messagedata[i].dateCreated,
+								messagecomment: this.messagedata[i].comments
+							});
+						}
+					}
+					setTimeout(()=>{   
+						this.messageAry = this.messageDataArray;
+						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+					}, 2000);
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	setcvFastComment(obj: any, index: any)
+	{
+		obj.links = '';
+		let Comments = Array();
+		//alert(obj.links.length);
+		if(obj.length > 0)
+		{
+			for(var i = 0; i < obj.length; i++)
+			{
+				if(JSON.stringify(obj[i]).length > 2)
+				{
+					let CommentObj = obj[i];
+					let CommentsText = CommentObj.text;
+					let CommentsLinks = CommentObj.links;
+					let NewCommentArray = Array();
+					if(CommentsLinks.length > 0)
+					{
+						for(var j = 0; j < CommentsLinks.length; j++)
+						{
+							let ImageName = CommentsLinks[j];
+							let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+CommentsLinks[j]+'&module='+this.module+'&type=get';
+							this.dataService.getallData(url, true)
+							.subscribe(Response => {
+								if (Response)
+								{
+									NewCommentArray.push({ imgName: ImageName, ImageUrl: Response });
+								}
+							}, error => {
+							  if (error.status === 404)
+								swal.fire('E-Mail ID does not exists,please signup to continue');
+							  else if (error.status === 403)
+								swal.fire('Account Disabled,contact Dental-Live');
+							  else if (error.status === 400)
+								swal.fire('Wrong Password,please try again');
+							  else if (error.status === 401)
+								swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+							  else if (error.status === 428)
+								swal.fire(error.error);
+							  else
+								swal.fire('Unable to fetch the data, please try again');
+							});
+						}
+					}
+					if(CommentObj.text)
+					{
+						if(NewCommentArray.length > 0)
+						{
+							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+						}
+						else
+						{
+							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+						}
+					}
+					else
+					{
+						if(NewCommentArray.length > 0)
+						{
+							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+						}
+						else
+						{
+							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+						}
+					}
+				}
+				
+			}
+			this.messageDataArray[index].messagecomments = Comments;
+		}
+		
+	}
+	setcvFastMsg(obj: any, index: any)
+	{
+		let MessageDetails = Array();
+		if(obj.links.length > 0)
+		{
+			this.cvfastMsgLinks = true;
+			for(var i = 0; i < obj.links.length; i++)
+			{
+				let ImageName = obj.links[i];
+				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+				this.dataService.getallData(url, true)
+				.subscribe(Response => {
+					if (Response)
+					{
+						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+					}
+				}, error => {
+				  if (error.status === 404)
+					swal.fire('E-Mail ID does not exists,please signup to continue');
+				  else if (error.status === 403)
+					swal.fire('Account Disabled,contact Dental-Live');
+				  else if (error.status === 400)
+					swal.fire('Wrong Password,please try again');
+				  else if (error.status === 401)
+					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				  else if (error.status === 428)
+					swal.fire(error.error);
+				  else
+					swal.fire('Unable to fetch the data, please try again');
+				});
+			}
+			setTimeout(() => 
+			{
+				this.messageDataArray[index].messageimg = MessageDetails;  
+			},
+			500);
+		}
+		
+	}
+  
+	getallworkorder() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			swal.fire({
+				html: sweet_loader,
+				icon: "https://www.boasnotas.com/img/loading2.gif",
+				showConfirmButton: false,
+				allowOutsideClick: false,     
+				closeOnClickOutside: false,
+				timer: 2200,
+				//icon: "success"
+			});
+			*/
+			swal.fire({
+				title: 'Loading....',
+				showConfirmButton: false,
+				timer: 2200
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 
@@ -151,6 +552,16 @@ export class MasterComponent implements OnInit {
 		}
 	}
 	
+	addReferal() {
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneidref', '');
+		this.router.navigate(['referral/referral-add']);
+	}
+	addWorkOrders() {
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneid', '');
+		this.router.navigate(['work-orders/work-order-add']);
+	}
 	editWorkOrders(workorderId: any) {
 		sessionStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-edit']);
@@ -228,7 +639,9 @@ export class MasterComponent implements OnInit {
 		this.router.navigate(['/cases/case-edit']);
 	}
 	getCaseDetails() {
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		//tabledata.fetchedData = '';
+		this.tabledata = '';
+		/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 		swal.fire({
 			html: sweet_loader,
 			icon: "https://www.boasnotas.com/img/loading2.gif",
@@ -237,6 +650,12 @@ export class MasterComponent implements OnInit {
 			closeOnClickOutside: false,
 			timer: 2200,
 			//icon: "success"
+		});
+		*/
+		swal.fire({
+			title: 'Loading....',
+			showConfirmButton: false,
+			timer: 2200
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = sessionStorage.getItem("caseId");
@@ -488,7 +907,7 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
 				icon: "https://www.boasnotas.com/img/loading2.gif",
@@ -497,6 +916,12 @@ export class MasterComponent implements OnInit {
 				closeOnClickOutside: false,
 				timer: 2200,
 				//icon: "success"
+			});
+			*/
+			swal.fire({
+				title: 'Loading....',
+				showConfirmButton: false,
+				timer: 2200
 			});
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
@@ -726,6 +1151,7 @@ export class MasterComponent implements OnInit {
 		});
 	};
 	addMilestone(caseId: any) {
+		sessionStorage.setItem('checkCase', '1');
 		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/milestone-add']);
 	}
@@ -739,7 +1165,6 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			
 			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let patientName = form.value.patientName;
@@ -823,6 +1248,418 @@ export class MasterComponent implements OnInit {
 			  swal.fire("Unable to fetch data, please try again");
 			  return false;
 			});
+		}
+	}
+	
+	getReferralListing() {
+		/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			icon: "https://www.boasnotas.com/img/loading2.gif",
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			closeOnClickOutside: false,
+			timer: 2200,
+			//icon: "success"
+		});
+		*/
+		swal.fire({
+			title: 'Loading....',
+			showConfirmButton: false,
+			timer: 2200
+		});
+		let url = this.utility.apiData.userReferrals.ApiUrl;
+		let caseId = sessionStorage.getItem("caseId");
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.referraldata = JSON.parse(Response.toString());
+				this.referraldata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+				//alert(JSON.stringify(this.referraldata));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	viewReferralDetails(referralId: any) {
+		sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-details']);
+	}
+	
+	deletereferral(referralId: any) {
+		let url = this.utility.apiData.userReferrals.ApiUrl;
+		this.dataService.deleteDataRecord(url, referralId, 'referralId').subscribe(Response => {
+			swal.fire("Referral deleted successfully");
+			this.getReferralListing();
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+	}
+	editReferrals(referralId: any) {
+		sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-edit']);
+	}
+	
+	onSubmitReferral(form: NgForm) {
+		//alert(11111111);
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			//alert(JSON.stringify(form.value));
+			let url = this.utility.apiData.userReferrals.ApiUrl;
+			
+			if(form.value.title != '')
+			{
+				url += "?title="+form.value.title;
+			}
+			
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.referraldata = JSON.parse(Response.toString());
+					this.referraldata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+					this.calendarOptions = {
+						initialView: 'dayGridMonth',
+						themeSystem: 'bootstrap5',
+						headerToolbar:{
+						  left: "prev,next today",
+						  center: "title",
+						  right: "dayGridMonth,timeGridWeek,listMonth"
+						},
+						dayMaxEvents: true,
+						displayEventEnd:true,
+						events: this.eventsData
+					};
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	onSubmitComment(form: NgForm){
+		if (form.invalid) {
+		  form.form.markAllAsTouched();
+		  return;
+		}
+		this.jsonObjmsg['caseId'] = form.value.CcaseId;
+		this.jsonObjmsg['patientId'] = form.value.CpatientId;
+		this.jsonObjmsg['patientName'] = form.value.CpatientName;
+		this.jsonObjmsg['messageId'] = form.value.CmessageId;
+		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
+		this.jsonObjmsg['messageType'] = '1';
+		this.jsonObjmsg['messageReferenceId'] = "31313";
+		//alert(JSON.stringify(this.jsonObjmsg));
+		
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments');
+		//this.getMessage(this.tabledata.caseId);
+	};
+	onSubmitMessage(form: NgForm){
+		if (form.invalid) {
+		  form.form.markAllAsTouched();
+		  return;
+		}
+		this.jsonObjmsg['caseId'] = form.value.caseId;
+		this.jsonObjmsg['patientId'] = form.value.patientId;
+		this.jsonObjmsg['patientName'] = form.value.patientName;
+		this.jsonObjmsg['message'] = this.cvfastval.returnCvfast();
+		this.jsonObjmsg['messageType'] = '1';
+		this.jsonObjmsg['messageReferenceId'] = "31313";
+		//alert(JSON.stringify(this.jsonObjmsg));
+		
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message');
+		//this.getMessage(this.tabledata.caseId);
+	};
+	getAllMembers() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userColleague.ApiUrl;
+		this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			let Colleague = JSON.parse(Response.toString());
+			//alert(JSON.stringify(Colleague));
+			this.allMember = Array();
+			for(var k = 0; k < Colleague.length; k++)
+			{
+				if(user.emailAddress != Colleague[k].emailAddress)
+				{
+					let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
+					let avatar = ''
+					if(Colleague[k].imageSrc != undefined)
+					{
+					avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
+					}
+					else
+					{
+					avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+					}
+					this.allMember.push({
+					  id: k,
+					  avatar: avatar,
+					  emailAddress: Colleague[k].emailAddress,
+					  dentalId: Colleague[k].dentalId,
+					  name: name
+					});
+				}
+			}
+			//alert(JSON.stringify(this.allMember));
+		}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
+	selectEvent(item: any) {
+		this.allMemberEmail = Array();
+		this.allMemberName = Array();
+		this.allMemberDentalId = Array();
+		for(var k = 0; k < item.length; k++)
+		{
+			this.allMemberEmail.push(item[k].emailAddress);
+			this.allMemberName.push(item[k].name);
+			this.allMemberDentalId.push(item[k].dentalId);
+		}
+		//alert(JSON.stringify(this.allMemberEmail));
+		//alert(JSON.stringify(this.allMemberDentalId));
+	}
+	
+	onSubmitInvite(form: NgForm){
+		let user = this.usr.getUserDetails(false);
+		if (form.invalid) {
+		  form.form.markAllAsTouched();
+		  return;
+		}
+		var z=0;
+		for(var i = 0; i < this.allMemberEmail.length; i++)
+		{
+			z++;
+			this.jsonObjInvite['resourceOwner'] = user.dentalId;
+			this.jsonObjInvite['caseId'] = form.value.caseId;
+			this.jsonObjInvite['patientId'] = form.value.patientId;
+			this.jsonObjInvite['patientName'] = form.value.patientName;
+			this.jsonObjInvite['presentStatus'] = 0;
+			if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
+			{
+				this.jsonObjInvite['invitationText'] = this.cvfastval.returnCvfast();
+			}
+			
+			this.jsonObjInvite['invitedUserMail'] = this.allMemberEmail[i];
+			this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
+			
+			//alert(JSON.stringify(this.jsonObjInvite));
+			if(z == this.allMemberEmail.length)
+			{
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-list', 'post', '','invitationText');
+			}
+			else
+			{
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText');
+			}
+		}
+	};
+	
+	
+	getInviteListing() {
+		swal.fire({
+			title: 'Loading....',
+			showConfirmButton: false,
+			timer: 2200
+		});
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		let caseId = sessionStorage.getItem("caseId");
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		url += "&resourceOwner="+user.dentalId;
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				let GetAllData = JSON.parse(Response.toString());
+				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				this.invitedata = Array();
+				for(var k = 0; k < GetAllData.length; k++)
+				{
+					this.invitedata.push({
+					  id: k,
+					  patientId: GetAllData[k].patientId,
+					  invitedUserId: GetAllData[k].invitedUserId,
+					  invitedUserMail: GetAllData[k].invitedUserMail,
+					  invitationId: GetAllData[k].invitationId,
+					  userName: '',
+					  presentStatus: GetAllData[k].presentStatus,
+					  invitationText: GetAllData[k].invitationText,
+					  patientName: GetAllData[k].patientName,
+					  caseId: GetAllData[k].caseId,
+					  dateUpdated: GetAllData[k].dateUpdated,
+					  resourceOwner: GetAllData[k].resourceOwner
+					});
+					this.getuserdetailsall(GetAllData[k].resourceOwner,k);
+				}
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	getuserdetailsall(userId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userColleague.ApiUrl;
+		if(userId != '')
+		{
+			url += "?dentalId="+userId;
+		}
+		this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			let userData = JSON.parse(Response.toString());
+			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			this.invitedata[index].userName = name;
+			//alert(JSON.stringify(this.invitedata));
+		}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
+	removeInvitaion(invitationId: any, patientId: any, caseId: any, patientName: any, invitedUserMail: any, invitedUserId: any){
+		this.jsonObjInviteEdit['patientId'] = patientId;
+		this.jsonObjInviteEdit['caseId'] = caseId;
+		this.jsonObjInviteEdit['patientName'] = patientName;
+		this.jsonObjInviteEdit['invitedUserMail'] = invitedUserMail;
+		this.jsonObjInviteEdit['invitedUserId'] = invitedUserId;
+		this.jsonObjInviteEdit['invitationId'] = invitationId;
+		this.jsonObjInviteEdit['presentStatus'] = 3;
+		
+		//alert(JSON.stringify(this.jsonObjInviteEdit));
+		
+		this.dataService.putData(this.utility.apiData.userCaseInvites.ApiUrl, JSON.stringify(this.jsonObjInviteEdit), true)
+		.subscribe(Response => {
+		  if (Response) Response = JSON.parse(Response.toString());
+		  this.getInviteListing();
+		  swal.fire("Case invitation removed successfully");
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	getThread() {
+		swal.fire({
+			title: 'Loading....',
+			showConfirmButton: false,
+			timer: 2500
+		});
+		
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userThreads.ApiUrl;
+			let caseId = sessionStorage.getItem("caseId");
+			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					this.messagedata = JSON.parse(Response.toString());
+
+					
+					this.messageDataArray = Array();
+					for(var i = 0; i < this.messagedata.length; i++)
+					{
+						let skVal = this.messagedata[i].sk;
+						var skarray = skVal.split("#"); 
+						//alert(skarray[0]);
+						if(skarray[0] == 'MESSAGES')
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								dateUpdated: this.messagedata[i].dateUpdated,
+								dateCreated: this.messagedata[i].dateCreated,
+								messageId: '',
+								messagetext: this.messagedata[i].message.text,
+								messageimg: this.messagedata[i].message.links,
+								messagecomments: this.messagedata[i].comments
+							});
+							this.setcvFastComment(this.messagedata[i].comments,i);
+							this.setcvFastMsg(this.messagedata[i].message,i);
+							this.cvfastMsgText = true;
+						}
+						else
+						{
+							this.messageDataArray.push({
+								patientId: this.messagedata[i].patientId,
+								caseId: this.messagedata[i].caseId,
+								patientName: this.messagedata[i].patientName,
+								dateUpdated: this.messagedata[i].dateUpdated,
+								dateCreated: this.messagedata[i].dateCreated,
+								messageId: '',
+								messagetext: '',
+								messageimg: '',
+								messagecomments: ''
+							});
+						}
+					}
+					
+					setTimeout(()=>{   
+						this.messageAry = this.messageDataArray;
+						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+						//alert(JSON.stringify(this.messageAry));
+					}, 2000);
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+			
 		}
 	}
 }

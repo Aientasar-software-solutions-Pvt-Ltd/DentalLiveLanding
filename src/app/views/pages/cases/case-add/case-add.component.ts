@@ -30,6 +30,7 @@ export class CaseAddComponent implements OnInit {
 	public patientName = '';
 	public patientImage = '';
 	public Pid = '';
+	public caseInsertedId = '';
 	public caseType = true;
 	public caseImage = false;
 	checkPatient = sessionStorage.getItem("checkPatient");
@@ -91,11 +92,22 @@ export class CaseAddComponent implements OnInit {
 					if(this.tabledataAll[k].isActive == true)
 					{
 						let name = this.tabledataAll[k].firstName+' '+this.tabledataAll[k].lastName;
-						this.allpatient.push({
-						  id: this.tabledataAll[k].patientId,
-						  name: name,
-						  patientimage: this.tabledataAll[k].image
-						});
+						if(this.tabledataAll[k].image)
+						{
+							this.allpatient.push({
+							  id: this.tabledataAll[k].patientId,
+							  name: name,
+							  patientimage: this.tabledataAll[k].image
+							});
+						}
+						else
+						{
+							this.allpatient.push({
+							  id: this.tabledataAll[k].patientId,
+							  name: name,
+							  patientimage: ''
+							});
+						}
 					}
 				}
 				//alert(JSON.stringify(this.allpatient));
@@ -154,25 +166,7 @@ export class CaseAddComponent implements OnInit {
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
 		//alert(JSON.stringify(this.jsonObj));
-		this.dataService.postData(this.utility.apiData.userCases.ApiUrl, JSON.stringify(this.jsonObj), true)
-			.subscribe(Response => {
-			  //if (Response) Response = JSON.parse(Response.toString());
-			  swal.fire('Cases added successfully');
-			  this.router.navigate(['cases/case-list']);
-			}, error => {
-			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
-				swal.fire(error.error);
-			  else
-				swal.fire('Unable to fetch the data, please try again');
-			});
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description');
 	}
 	setcvImage(img: any)
 	{

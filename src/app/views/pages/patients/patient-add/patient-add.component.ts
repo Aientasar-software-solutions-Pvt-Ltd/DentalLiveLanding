@@ -20,6 +20,7 @@ export class PatientAddComponent implements OnInit {
 	saveActiveInactive: boolean = true;
 	//@ViewChild('Cvfast') Cvfast: CvfastComponent;
 	public patiantStatus = true;
+	public isRequired = true;
 	onActiveInactiveChanged(value:boolean){
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;
@@ -31,31 +32,22 @@ export class PatientAddComponent implements OnInit {
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false,
 	},{
 		id: 2,
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false,
 	},{
 		id: 3,
 		medication: '',
 		dosage: '',
 		duration: '',
-		notes: ''
-	},{
-		id: 4,
-		medication: '',
-		dosage: '',
-		duration: '',
-		notes: ''
-	},{
-		id: 5,
-		medication: '',
-		dosage: '',
-		duration: '',
-		notes: ''
+		notes: '',
+		isRequired: false,
 	}];
 	public jsonObj = {
 	  firstName: '',
@@ -211,32 +203,14 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.jsonObj['image'] = this.PatientImg;
 	}
-	this.dataService.postData(this.utility.apiData.userPatients.ApiUrl, JSON.stringify(this.jsonObj), true)
-        .subscribe(Response => {
-          if (Response) Response = JSON.parse(Response.toString());
-		  swal.fire('Patient added successfully');
-          this.router.navigate(['patients/patients-list']);
-        }, error => {
-          if (error.status === 404)
-            swal.fire('E-Mail ID does not exists,please signup to continue');
-          else if (error.status === 403)
-            swal.fire('Account Disabled,contact Dental-Live');
-          else if (error.status === 400)
-            swal.fire('Wrong Password,please try again');
-          else if (error.status === 401)
-            swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-          else if (error.status === 428)
-            swal.fire(error.error);
-          else
-            swal.fire('Unable to fetch the data, please try again');
-        });
+	this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes');
+	
   }
   onSubmit(form: NgForm) {
     if (form.invalid) {
       form.form.markAllAsTouched();
       return;
     }
-	
 	if(form.value.image)
 	{
 		let requests = this.attachmentFiles.map((object) => {
@@ -267,7 +241,8 @@ export class PatientAddComponent implements OnInit {
       medication: '',
       dosage: '',
       duration: '',
-      notes: ''
+      notes: '',
+	  isRequired: false,
     });
   }
 
@@ -276,6 +251,34 @@ export class PatientAddComponent implements OnInit {
     //this.medications.splice(i, 1);
 	if (this.medications.length > 1) this.medications.splice(i, 1);
     //else this.medications.patchValue([{medication: null, dosage: null, duration: null, notes: null}]);
+  }
+  
+  addMedicationValidation(i: number, str: string, event: any): void {
+	  
+	if(this.medications[i].medication != '' || this.medications[i].dosage != '' || this.medications[i].duration != '' || this.medications[i].notes != ''){
+		this.medications[i].isRequired=true;
+	}
+	else{
+		this.medications[i].isRequired=false;
+	}
+	
+	if(str == 'medication')
+	{
+	this.medications[i].medication=event.target.value;
+	}
+	if(str == 'dosage')
+	{
+	this.medications[i].dosage=event.target.value;
+	}
+	if(str == 'duration')
+	{
+	this.medications[i].duration=event.target.value;
+	}
+	if(str == 'notes')
+	{
+	this.medications[i].notes=event.target.value;
+	}
+	//alert(JSON.stringify(this.medications));
   }
   
   logValue() {

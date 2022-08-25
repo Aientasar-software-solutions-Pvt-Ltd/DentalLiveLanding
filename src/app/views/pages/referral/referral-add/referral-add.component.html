@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/referral">Referral</a>
+		<a routerLink="/referral/referral-list">Referral</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Add Referral
@@ -13,7 +13,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.patientName}} <span class="fw-bold d-block">{{this.casesName}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -24,87 +24,118 @@
 		
 	</div>
 </div>
-
-<div class="row align-items-center pt-2">
-	<div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header border-bottom-0 bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Add Referral</h5>
-					</div>
-					<div class="col-md-7 text-end"> 
-						<!-- <a routerLink="/referral/referral-add-members" class="btn btn-default"> 
-							<i class="bx bx-plus me-2" aria-hidden="true"></i>
-							Add Member
-						</a> -->
-						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
-					</div>
-				</div>   
-			</div>
-			<div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Referred To </label>
-									<!-- <select class="form-select">
-										<option value="">Select</option>
-										<option value="Jhone Duo">Jhone Duo</option>
-										<option value="Danel Gray">Danel Gray</option>
-									</select> -->
-									<ng-select [items]="defaultBindingsList" (ngModel)="selectedReferred" [editableSearchTerm]="true" placeholder="Select">
-									</ng-select>
+<form #referralForm="ngForm" id="referralForm" (ngSubmit)="onSubmitReferral(referralForm)">
+	<div class="row align-items-center pt-2">
+		<div class="col-md-12">
+			<div class="card shadow-sm">
+				<div class="card-header border-bottom-0 bg-white">
+					<div class="row">
+						<div class="col-md-5 align-self-center">
+							<h5 class="body1 card-title my-2">Add Referral</h5>
+						</div>
+						<div class="col-md-7 text-end">
+							<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
+						</div>
+					</div>   
+				</div>
+				<div class="card-body" style="background: #E4F0FF;">
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Case Title </label>
+										<!-- <select class="form-select">
+											<option value="">Select</option>
+											<option value="Jhone Duo">Jhone Duo</option>
+											<option value="Danel Gray">Danel Gray</option>
+										</select> -->
+										<ng-select *ngIf="(this.checkCase == '')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select"  name="caseName" id="caseName">
+										</ng-select>
+										<input type="text" *ngIf="(this.checkCase == '1')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Title </label>
-									<input type="text" class="form-control" value="Colin" placeholder="Enter Title here ">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Referred To </label>
+										<div class="search search-md search-filter">
+											<i class="bx bx-search"></i>
+											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+													<div class="card card-lists">
+														<div class="card-body p-0">
+															<div class="d-flex align-items-center">
+																<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																<div class="d-flex align-items-center justify-content-between search-list-content">
+																	<div>
+																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
+																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																	</div>
+																	<div>
+																		<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</ng-template>
+												<ng-template ng-label-tmp let-item="item" let-clear="clear">
+													<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
+													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Due Date</label>
-									<input type="date" class="form-control">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Title </label>
+										<input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title" ngModel required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-12"> 
-								<div class="mb-3">
-									<label class="form-label body2 text-dark">Notes</label>
-									<textarea class="form-control" placeholder="Enter text here" id="floatingTextarea2" style="height: 100px"></textarea>
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Start Date</label>
+										<input type="date" class="form-control" name="startdate" id="startdate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+									</div>
 								</div>
-							</div>
-							<div class="col-md-12"> 
-								<div class="mb-3">
-									<label class="form-label body2 text-dark">Referral Form</label>
-									<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
+								<div class="col-md-4"> 
+									<div class="mb-4">
+										<label class="form-label body2 text-dark">Due Date</label>
+										<input type="date" class="form-control" name="enddate" id="enddate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+									</div>
+									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date should be greater than start  to date</span>
 								</div>
+								<div class="col-md-12"> 
+									<div class="mb-3">
+										<label class="form-label body2 text-dark">Notes</label>
+										<app-cvfast></app-cvfast>
+									</div>
+								</div>
+								<div class="col-12">
+									<app-referral-guide #orders></app-referral-guide>
+									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidToothGuide == true)"> Tooth guide should not be blank!</span>
+								</div>
+								<!-- <div class="col-md-6"> 
+									<div class="mb-3">
+										<label class="form-label body2 text-dark">Referral Form</label>
+										<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" name="referral_form" id="referral_form" ngModel required>
+									</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-md-12"> 
-								<label class="form-label body2" style="color: #011A3E;">Notes</label>
-								<img src="assets/images/UIToothGuide.png" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</div>
-	</div>
-	<div class="col-md-12 mt-3">
-		<a routerLink="#" class="btn btn-default me-2">
-			<i class="bx bx-send"></i>
-			Send Referral 
-		</a> 
-		<button type="button" class="btn btn-secondary">Cancel</button> 
-	</div>
-</div>
+		<div class="col-md-12 mt-3">
+			<input type="hidden"  name="presentStatus" id="presentStatus" ngModel="{{1}}">
+			<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.caseid}}">
+			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.patientid}}">
+			<input type="hidden" name="milestoneid" id="milestoneid" ngModel="{{this.milestoneid}}">
+			<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patientName}}">
+			<button type="submit" class="btn btn-default me-2"><i class="bx bx-send"></i> Send Referral </button> 
+			<a routerLink="/master" class="btn btn-secondary mt-1 me-2">Cancel</a>
+		</div>
+	</div> 
+</form>

@@ -34,6 +34,11 @@ export class AccountService {
     let user = this.usr.getUserDetails(false);
     swal.fire({ type: 'success', title: 'Login initiated...please wait...', 
             showConfirmButton: false,allowOutsideClick: false, timer: 2000 });
+	let AccountName = user.accountfirstName+' '+user.accountlastName;
+	let AccountImage = user.imageSrc;
+	//alert(AccountName);
+	sessionStorage.setItem('AccountHolder', AccountName);
+	sessionStorage.setItem('AccountHolderImg', AccountImage);
     let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
     this.permAuth.isAdmin = true;
     if (user.Subuser) {

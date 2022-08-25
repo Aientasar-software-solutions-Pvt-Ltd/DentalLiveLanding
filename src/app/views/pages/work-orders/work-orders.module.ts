@@ -2,6 +2,8 @@ import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { WorkOrdersComponent } from './work-orders.component';
 import { WorkOrdersListComponent } from './work-orders-list/work-orders-list.component';
 import { WorkOrderDetailsComponent } from './work-order-details/work-order-details.component';
@@ -61,6 +63,8 @@ const routes: Routes = [
 	RouterModule.forChild(routes),
 	DataTablesModule,
 	FormsModule,
+	NgSelectModule,
+    AutocompleteLibModule,
 	PatientsModule,
     ReactiveFormsModule					 
   ],
