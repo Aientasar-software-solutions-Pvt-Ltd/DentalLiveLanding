@@ -21,7 +21,7 @@ const routes: Routes = [
         pathMatch: 'full',
 	},
 	{
-		path: 'master-list',
+		path: 'master-list/:caseId/:tabName',
 		component: MasterComponent
 	}
 ]

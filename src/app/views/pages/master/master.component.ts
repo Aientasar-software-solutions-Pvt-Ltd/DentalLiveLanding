@@ -6,7 +6,7 @@ import { ApiDataService } from '../users/api-data.service';
 import { UtilityService } from '../users/utility.service';
 import { UtilityServicedev } from '../../../utilitydev.service';
 import { AccdetailsService } from '../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 import { Cvfast } from '../../../cvfast/cvfast.component';
 
 @Component({
@@ -44,10 +44,6 @@ export class MasterComponent implements OnInit {
 		this.id = ids;
 	}
 	tab:any = "tab1";
-	tabClick(tabs:any){
-		this.tab = tabs;
-		sessionStorage.setItem("masterTab", tabs);
-	}
 	
 	saveCompletedArchive: boolean = false;
 	setMessageValue: boolean = false;
@@ -141,8 +137,38 @@ export class MasterComponent implements OnInit {
 	}
 	public PatientImg: any;
 	
-	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
+	paramPatientId: any;
+	//Set parameter from URL
+	paramCaseId: string;
+	paramTabName: string;
+	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+		this.paramCaseId = this.route.snapshot.paramMap.get('caseId');
+		this.paramTabName = this.route.snapshot.paramMap.get('tabName');
+	}
 	
+	tabClick(tabs:any){
+		this.tab = tabs;
+		sessionStorage.setItem("masterTab", tabs);
+		let tabParam = (this.tab == 'tab1') ? 'caseDetails' : (this.tab == 'tab2') ? 'thread' : (this.tab == 'tab3') ? 'colleagues' : (this.tab == 'tab4') ? 'workOrders' : (this.tab == 'tab5') ? 'referral' : (this.tab == 'tab6') ? 'milestone' : (this.tab == 'tab7') ? 'files' : 'caseDetails';
+		
+		if(tabParam == 'thread'){
+			this.getMessage();
+			this.getThread();
+		}
+		
+		(tabParam == 'files') ? this.getFilesListing() : '';
+		(tabParam == 'milestone') ? this.getallmilestone() : '';
+		(tabParam == 'workOrders') ? this.getallworkorder() : '';
+		(tabParam == 'referral') ? this.getReferralListing() : '';
+		
+		if(tabParam == 'colleagues'){
+			this.getColleagueListing();
+			this.getAllMembers();
+			this.getInviteListing();
+		}
+	
+		this.router.navigate(['master/master-list/'+this.paramCaseId+'/'+tabParam]);
+	}
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -163,15 +189,29 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
-	//this.getMessage();
+
 	this.getCaseDetails();
-	this.getFilesListing();
-	this.getallmilestone();
-	this.getallworkorder();
-	this.getReferralListing();
-	this.getColleagueListing();
-	this.getAllMembers();
-	this.getInviteListing();
+	if(this.paramTabName == 'thread'){
+		this.getMessage();
+		this.getThread();
+	}
+	
+	(this.paramTabName == 'files') ? this.getFilesListing() : '';
+	(this.paramTabName == 'milestone') ? this.getallmilestone() : '';
+	(this.paramTabName == 'workOrders') ? this.getallworkorder() : '';
+
+
+
+	(this.paramTabName == 'referral') ? this.getReferralListing() : '';
+	
+	if(this.paramTabName == 'colleagues'){
+		this.getColleagueListing();
+		this.getAllMembers();
+		this.getInviteListing();
+	}
+	
+	let tabName = (this.paramTabName == 'caseDetails') ? 'tab1' : (this.paramTabName == 'thread') ? 'tab2' : (this.paramTabName == 'colleagues') ? 'tab3' : (this.paramTabName == 'workOrders') ? 'tab4' : (this.paramTabName == 'referral') ? 'tab5' : (this.paramTabName == 'milestone') ? 'tab6' : (this.paramTabName == 'files') ? 'tab7' : 'tab1';
+	sessionStorage.setItem("masterTab", tabName);
 	//Set current tab
 	let masterTab = sessionStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
@@ -198,7 +238,7 @@ export class MasterComponent implements OnInit {
 				timer: 2200
 			});
 			let url = this.utility.apiData.userColleague.ApiUrl;
-			//let caseId = sessionStorage.getItem("caseId");			
+			//let caseId = this.paramCaseId;			
 			//if(caseId != '')
 			//{
 				//url += "?caseId="+caseId;
@@ -222,7 +262,7 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userMessage.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = this.paramCaseId;
 			let messageType = "1";
 			if(caseId != '')
 			{
@@ -289,8 +329,8 @@ export class MasterComponent implements OnInit {
 		{
 			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userMessage.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
-			let patientId = sessionStorage.getItem("patientId");
+			let caseId = this.paramCaseId;
+			let patientId = this.paramPatientId;
 			
 			if(caseId != '')
 			{
@@ -530,7 +570,7 @@ export class MasterComponent implements OnInit {
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = this.paramCaseId;
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -538,7 +578,41 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.workordersdata = JSON.parse(Response.toString()).reverse();
+					//this.workordersdata = JSON.parse(Response.toString()).reverse();
+					
+					let GetAllData = JSON.parse(Response.toString());
+					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					//alert(JSON.stringify(GetAllData));
+					this.workordersdata = Array();
+					for(var k = 0; k < GetAllData.length; k++)
+					{
+						this.workordersdata.push({
+						  id: k,
+						  dateCreated: GetAllData[k].dateCreated,
+						  presentStatus: GetAllData[k].presentStatus,
+						  startdate: GetAllData[k].startdate,
+						  workorderId: GetAllData[k].workorderId,
+						  patientName: GetAllData[k].patientName,
+						  caseId: GetAllData[k].caseId,
+						  patientId: GetAllData[k].patientId,
+						  toothguide: GetAllData[k].toothguide,
+						  enddate: GetAllData[k].enddate,
+						  notes: GetAllData[k].notes,
+						  dateUpdated: GetAllData[k].dateUpdated,
+						  milestoneId: GetAllData[k].milestoneId,
+						  title: GetAllData[k].title,
+						  caseTitle: '',
+						  memberName: '',
+						  milestoneTitle: ''
+						});
+						//this.getcasedetails(GetAllData[k].caseId,k);
+						this.getuserdetailsallCase(GetAllData[k].members,k);
+						if(GetAllData[k].milestoneId != ''){
+							this.getallmilestoneCase(GetAllData[k].milestoneId,k);
+						}
+					}
+					//this.workordersdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					
 					//alert(JSON.stringify(this.workordersdata));
 					//alert(this.workordersdata['0'].title);
 				}
@@ -573,7 +647,7 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userMilestones.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = this.paramCaseId;
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -655,7 +729,7 @@ export class MasterComponent implements OnInit {
 			timer: 2200
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.paramCaseId;
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -668,8 +742,8 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 				let patientId = this.tabledata.patientId;
 				this.caseDate = this.tabledata.dateCreated;
+				this.paramPatientId = this.tabledata.patientId;
 				this.getallPatient();
-				this.getThread();
 				this.setCaseType(this.tabledata.caseType);
 				//alert(JSON.stringify(this.tabledata));
 				this.setcvFast(this.tabledata.description);
@@ -693,7 +767,7 @@ export class MasterComponent implements OnInit {
 	
 	getallPatient() {
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		let patientId = sessionStorage.getItem("patientId");
+		let patientId = this.paramPatientId;
 		if(patientId != '')
 		{
 			url += "?patientId="+patientId;
@@ -982,7 +1056,7 @@ export class MasterComponent implements OnInit {
 
 	getFilesListing() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.paramCaseId;
 		//alert(caseId);
 		if(caseId != '')
 		{
@@ -1269,7 +1343,7 @@ export class MasterComponent implements OnInit {
 			timer: 2200
 		});
 		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.paramCaseId;
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -1278,8 +1352,38 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				this.referraldata = JSON.parse(Response.toString());
-				this.referraldata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+				let GetAllData = JSON.parse(Response.toString());
+					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					//alert(JSON.stringify(GetAllData));
+					this.referraldata = Array();
+					for(var k = 0; k < GetAllData.length; k++)
+					{
+						this.referraldata.push({
+						  id: k,
+						  dateCreated: GetAllData[k].dateCreated,
+						  presentStatus: GetAllData[k].presentStatus,
+						  startdate: GetAllData[k].startdate,
+						  referralId: GetAllData[k].referralId,
+						  patientName: '',
+						  caseId: GetAllData[k].caseId,
+						  patientId: GetAllData[k].patientId,
+						  toothguide: GetAllData[k].toothguide,
+						  enddate: GetAllData[k].enddate,
+						  notes: GetAllData[k].notes,
+						  dateUpdated: GetAllData[k].dateUpdated,
+						  milestoneId: GetAllData[k].milestoneId,
+						  title: GetAllData[k].title,
+						  caseTitle: '',
+						  memberName: '',
+						  milestoneTitle: ''
+						});
+						//this.getcasedtls(GetAllData[k].caseId,k);
+						this.getuserdetailsallCase(GetAllData[k].members,k);
+						if(GetAllData[k].milestoneId != ''){
+							this.getallmilestoneCase(GetAllData[k].milestoneId,k);
+						}
+					}
+				
 				//alert(JSON.stringify(this.referraldata));
 			}
 		}, error => {
@@ -1489,7 +1593,7 @@ export class MasterComponent implements OnInit {
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.paramCaseId;
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -1603,7 +1707,7 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userThreads.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = this.paramCaseId;
 			let toDate: Date = new Date();
 			this.fromDate.setDate(this.fromDate.getDate() - 14);
 			this.fromDate.setHours(0);
@@ -1957,6 +2061,71 @@ export class MasterComponent implements OnInit {
 							//alert(JSON.stringify(this.messageAry));
 						}, 2000);
 					}
+				}, (error) => {
+				  swal.fire("Unable to fetch data, please try again");
+				  return false;
+				});
+			}
+		}
+	}
+
+	getallmilestoneCase(milestoneId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userMilestones.ApiUrl;
+			if(milestoneId != '')
+			{
+				url += "?milestoneId="+milestoneId;
+			}
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let milestoneData = JSON.parse(Response.toString());
+					//alert(JSON.stringify(milestoneData.title));
+					let title = milestoneData.title;
+					this.workordersdata[index].milestoneTitle = title;
+					this.referraldata[index].milestoneTitle = title;
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	
+	getuserdetailsallCase(userId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let memberResult = '';
+			for(var j = 0; j < userId.length; j++)
+			{
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
+				{
+					url += "?dentalId="+userId[j];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					//alert(JSON.stringify(userData));
+					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+					if(memberResult)
+					{
+						memberResult += ','+name;
+					}
+					else{
+						memberResult += name;
+					}
+					//alert(JSON.stringify(memberResult));
+					if(j == userId.length)
+					{
+						this.workordersdata[index].memberName = memberResult;
+						this.referraldata[index].memberName = memberResult;
+					}
+				}
 				}, (error) => {
 				  swal.fire("Unable to fetch data, please try again");
 				  return false;

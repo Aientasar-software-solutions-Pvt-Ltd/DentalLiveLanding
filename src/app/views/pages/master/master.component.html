@@ -644,12 +644,13 @@
 										</div>
 										<div class="card-body p-0 pb-3">
 											<div class="table-responsive">
-												<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+												<table *ngIf="workordersdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
 
 															<th class="body2">ASSIGNED TO</th>
 															<th class="body2">WORK ORDER TITLE</th>
+															<th class="body2">MILESTONE TITLE</th>
 															<th class="body2">STATUS</th>
 															<th class="body2">PATIENT NAME</th>
 															<th class="body2">CASE TITLE</th>
@@ -661,12 +662,14 @@
 															<td>
 																<div>
 																	<span class="d-none">{{i}}</span>
-																	<span class="avatar-icon">D</span>
-																	<span class="body2 ms-1">Danial Doolittle</span>
+																	<span class="body2 ms-1">{{data.memberName}}</span>
 																</div>
 															</td>		 
 															<td>  
 																<span class="body2">{{data.title}}</span>                
+															</td>
+															<td>  
+																<span class="body2">{{data.milestoneTitle}}</span>                
 															</td>
 															<td>
 																<div>
@@ -681,7 +684,8 @@
 																<span class="body2">{{data.patientName}} </span>                
 															</td>
 															<td>  
-																<span class="body2">Title5 Leo Root Canel report</span>                
+																<span class="body2">{{this.tabledata.title}}</span>                
+
 															</td>
 															<td>
 																<div class="d-flex">
@@ -737,6 +741,7 @@
 													<th style="width: 15px;" data-orderable="false">&nbsp;</th>
 													<th class="body2">ASSIGNED TO</th>
 													<th class="body2">TITLE</th>
+													<th class="body2">MILESTONE TITLE</th>
 													<th class="body2">STATUS</th>
 													<th class="body2">CREATED ON</th>
 													<th class="body2" data-orderable="false">ACTIONS</th>
@@ -752,12 +757,15 @@
 														</td>
 														<td>
 															<div class="d-flex align-items-center">
-																<span class="avatar-icon my-2 me-2">C</span>
-																<span class="body2">Colin Sik</span>
+																<span class="body2">{{data.memberName}}</span>
 															</div>                       
 														  </td>
 														<td>
 														  <span class="body2">{{data.title}}</span>
+														</td>
+														<td>
+														<td>
+														  <span class="body2">{{data.milestoneTitle}}</span>
 														</td>
 														<td>
 														  <div class=" email">
@@ -828,7 +836,7 @@
 										<div class="card-body p-0 pb-3">
 											<div *ngIf="id === 'listView'">
 												<div class="table-responsive">
-													<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+													<table *ngIf="milestonedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 														<thead class="thead-light">
 															<tr style="text-transform:uppercase;">
 																<th data-orderable="false">   
