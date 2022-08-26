@@ -56,6 +56,7 @@ export class MasterComponent implements OnInit {
 	cvfastLinks: boolean = false;
 	cvfastMsgText: boolean = false;
 	cvfastMsgLinks: boolean = false;
+	fromDate: Date = new Date();
 
 	onCompletedArchiveChanged(value:boolean){
 		this.saveCompletedArchive = value;
@@ -1601,18 +1602,17 @@ export class MasterComponent implements OnInit {
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
 			let toDate: Date = new Date();
-			let fromDate: Date = new Date();
-			fromDate.setDate(fromDate.getDate() + 14);
-			fromDate.setHours(0);
-			fromDate.setMinutes(0);
-			fromDate.setSeconds(0);
-			fromDate.setMilliseconds(0);
+			this.fromDate.setDate(this.fromDate.getDate() - 1);
+			this.fromDate.setHours(0);
+			this.fromDate.setMinutes(0);
+			this.fromDate.setSeconds(0);
+			this.fromDate.setMilliseconds(0);
 			//let datePipe: DatePipe = new DatePipe('en-US');
-			//alert(fromDate.getTime());
+			//alert(this.fromDate.getTime());
 			//alert(toDate.getTime());
 			url += "?caseId="+caseId;
-			//url += "&dateTo="+fromDate.getTime();
-			//url += "&dateFrom="+fromDate.getTime();
+			url += "&dateTo="+toDate.getTime();
+			url += "&dateFrom="+this.fromDate.getTime();
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
@@ -1778,25 +1778,28 @@ export class MasterComponent implements OnInit {
 			
 		}
 	}
-	onScrollDown(ev: any) {
+	onScrollDown(ev: any, toDateResult) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
-			let toDate: Date = new Date();
-			let fromDate: Date = new Date();
-			fromDate.setDate(fromDate.getDate() + 14);
-			fromDate.setHours(0);
-			fromDate.setMinutes(0);
-			fromDate.setSeconds(0);
-			fromDate.setMilliseconds(0);
+			let toDate = toDateResult;
+			this.fromDate = toDateResult;
+			alert(this.fromDate);
+			this.fromDate.setDate(this.fromDate.getDate() - 1);
+			this.fromDate.setHours(0);
+			this.fromDate.setMinutes(0);
+			this.fromDate.setSeconds(0);
+			this.fromDate.setMilliseconds(0);
 			//let datePipe: DatePipe = new DatePipe('en-US');
 			//alert(fromDate.getTime());
 			//alert(toDate.getTime());
+			alert(this.fromDate.getTime());
+			alert(toDate.getTime());
 			url += "?caseId="+caseId;
-			//url += "&dateFrom="+fromDate.getTime();
-			//url += "&dateTo="+fromDate.getTime();
+			url += "&dateFrom="+this.fromDate.getTime();
+		    url += "&dateTo="+toDate.getTime();
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{

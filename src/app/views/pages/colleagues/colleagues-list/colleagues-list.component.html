@@ -51,7 +51,7 @@
 							</tr>
 						</thead>
 						<tbody *ngIf="invitedata?.length != 0">
-							<tr *ngFor="let invite of invitedata; let i = index;">
+							<tr *ngFor="let invite of invitedata; let i = index;" >
 								<td>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
@@ -76,7 +76,10 @@
 								</td>
 								<td>
 									<div>
+										<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>
 										<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invite.presentStatus == 1)">Accepted</span>
+										<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 2)">Declined</span>
+										<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 3)">Removed</span>
 									</div>
 								</td>
 								<td>

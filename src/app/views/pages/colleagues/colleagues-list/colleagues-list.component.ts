@@ -56,7 +56,7 @@ export class ColleaguesListComponent implements OnInit {
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner="+user.dentalId;
-		url += "&presentStatus=1";
+		//url += "&presentStatus=0";
 		
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
@@ -65,27 +65,32 @@ export class ColleaguesListComponent implements OnInit {
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
+				let Row = 0;
 				for(var k = 0; k < GetAllData.length; k++)
 				{
-					this.invitedata.push({
-					  id: k,
-					  patientId: GetAllData[k].patientId,
-					  invitedUserId: GetAllData[k].invitedUserId,
-					  invitedUserMail: GetAllData[k].invitedUserMail,
-					  invitationId: GetAllData[k].invitationId,
-					  userName: '',
-					  presentStatus: GetAllData[k].presentStatus,
-					  invitationText: GetAllData[k].invitationText,
-					  patientName: GetAllData[k].patientName,
-					  caseId: GetAllData[k].caseId,
-					  dateUpdated: GetAllData[k].dateUpdated,
-					  dateCreated: GetAllData[k].dateCreated,
-					  resourceOwner: GetAllData[k].resourceOwner,
-					  dentalId: user.dentalId,
-					  caseTitle: ''
-					});
-					this.getuserdetailsall(GetAllData[k].invitedUserId,k);
-					this.getcasedetails(GetAllData[k].caseId,k);
+					if(GetAllData[k].presentStatus == 1)
+					{
+						this.invitedata.push({
+						  id: Row,
+						  patientId: GetAllData[k].patientId,
+						  invitedUserId: GetAllData[k].invitedUserId,
+						  invitedUserMail: GetAllData[k].invitedUserMail,
+						  invitationId: GetAllData[k].invitationId,
+						  userName: '',
+						  presentStatus: GetAllData[k].presentStatus,
+						  invitationText: GetAllData[k].invitationText,
+						  patientName: GetAllData[k].patientName,
+						  caseId: GetAllData[k].caseId,
+						  dateUpdated: GetAllData[k].dateUpdated,
+						  dateCreated: GetAllData[k].dateCreated,
+						  resourceOwner: GetAllData[k].resourceOwner,
+						  dentalId: user.dentalId,
+						  caseTitle: ''
+						});
+						this.getuserdetailsall(GetAllData[k].invitedUserId,Row);
+						this.getcasedetails(GetAllData[k].caseId,Row);
+						Row++;
+					}
 				}
 			}
 		}, error => {

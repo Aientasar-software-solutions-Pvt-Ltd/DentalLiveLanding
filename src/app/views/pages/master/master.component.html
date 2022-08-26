@@ -206,7 +206,7 @@
 								</div>
 								<div class="card-body" 
 								infinite-scroll
-								(scrolled)="onScrollDown($event)"
+								(scrolled)="onScrollDown($event,this.fromDate)"
 								>
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
