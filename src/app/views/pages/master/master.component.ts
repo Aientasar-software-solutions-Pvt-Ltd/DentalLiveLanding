@@ -72,6 +72,7 @@ export class MasterComponent implements OnInit {
 	public patientImg: any;
 	public module = 'patient';
 	public CaseTypeVal = '';
+	public caseDate = '';
 	public messageArray: any[] = []
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
@@ -163,7 +164,6 @@ export class MasterComponent implements OnInit {
       }
     };
 	//this.getMessage();
-	this.getThread();
 	this.getCaseDetails();
 	this.getFilesListing();
 	this.getallmilestone();
@@ -665,8 +665,11 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				this.getallPatient();
+				//alert(JSON.stringify(this.tabledata));
 				let patientId = this.tabledata.patientId;
+				this.caseDate = this.tabledata.dateCreated;
+				this.getallPatient();
+				this.getThread();
 				this.setCaseType(this.tabledata.caseType);
 				//alert(JSON.stringify(this.tabledata));
 				this.setcvFast(this.tabledata.description);
@@ -1602,7 +1605,7 @@ export class MasterComponent implements OnInit {
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
 			let toDate: Date = new Date();
-			this.fromDate.setDate(this.fromDate.getDate() - 1);
+			this.fromDate.setDate(this.fromDate.getDate() - 14);
 			this.fromDate.setHours(0);
 			this.fromDate.setMinutes(0);
 			this.fromDate.setSeconds(0);
@@ -1769,7 +1772,7 @@ export class MasterComponent implements OnInit {
 						this.messageAry = this.messageDataArray;
 						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 						//alert(JSON.stringify(this.messageAry));
-					}, 2000);
+					}, 1000);
 				}
 			}, (error) => {
 			  swal.fire("Unable to fetch data, please try again");
@@ -1778,191 +1781,187 @@ export class MasterComponent implements OnInit {
 			
 		}
 	}
-	onScrollDown(ev: any, toDateResult) {
+	onScrollDown(ev: any, toDate) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			let url = this.utility.apiData.userThreads.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
-			let toDate = toDateResult;
-			this.fromDate = toDateResult;
-			alert(this.fromDate);
-			this.fromDate.setDate(this.fromDate.getDate() - 1);
-			this.fromDate.setHours(0);
-			this.fromDate.setMinutes(0);
-			this.fromDate.setSeconds(0);
-			this.fromDate.setMilliseconds(0);
-			//let datePipe: DatePipe = new DatePipe('en-US');
-			//alert(fromDate.getTime());
-			//alert(toDate.getTime());
-			alert(this.fromDate.getTime());
-			alert(toDate.getTime());
-			url += "?caseId="+caseId;
-			url += "&dateFrom="+this.fromDate.getTime();
-		    url += "&dateTo="+toDate.getTime();
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					let treadAllData = JSON.parse(Response.toString());
-					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					//alert(JSON.stringify(treadAllData));
-					
-					//this.messageDataArray = Array();
-					for(var i = 0; i < treadAllData.length; i++)
+			if(this.caseDate <= toDate.getTime())
+			{
+				let url = this.utility.apiData.userThreads.ApiUrl;
+				let caseId = sessionStorage.getItem("caseId");
+				let GetToDate = toDate.getTime();
+				this.fromDate = toDate;
+				this.fromDate.setDate(this.fromDate.getDate() - 14);
+				this.fromDate.setHours(0);
+				this.fromDate.setMinutes(0);
+				this.fromDate.setSeconds(0);
+				this.fromDate.setMilliseconds(0);
+				url += "?caseId="+caseId;
+				url += "&dateFrom="+this.fromDate.getTime();
+				url += "&dateTo="+GetToDate;
+				this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
 					{
-						let skVal = treadAllData[i].sk;
-						var skarray = skVal.split("#"); 
-						//alert(skarray[0]);
-						if(skarray[0] == 'MESSAGES')
+						let treadAllData = JSON.parse(Response.toString());
+						treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+						//alert(JSON.stringify(treadAllData));
+						
+						//this.messageDataArray = Array();
+						for(var i = 0; i < treadAllData.length; i++)
 						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: treadAllData[i].messageId,
-								messagetext: treadAllData[i].message.text,
-								messageimg: '',
-								messagecomment: treadAllData[i].comments,
-								messagecomments: ''
-							});
-							this.setcvFastComment(treadAllData[i].comments,i);
-							this.setcvFastMsg(treadAllData[i].message,i);
-							this.cvfastMsgText = true;
+							let skVal = treadAllData[i].sk;
+							var skarray = skVal.split("#"); 
+							//alert(skarray[0]);
+							if(skarray[0] == 'MESSAGES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: treadAllData[i].messageId,
+									messagetext: treadAllData[i].message.text,
+									messageimg: '',
+									messagecomment: treadAllData[i].comments,
+									messagecomments: ''
+								});
+								this.setcvFastComment(treadAllData[i].comments,i);
+								this.setcvFastMsg(treadAllData[i].message,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'CASEINVITES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].invitationText,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'DETAILS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'DETAILS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'WORKORDERS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].notes,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'MILESTONES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'REFERRALS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								//this.setcvFastMsg(treadAllData[i].description,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'TASKS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'TASKS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,i);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'FILES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'Files Uploaded',
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								//this.setcvFastMsg(treadAllData[i].description,i);
+								this.cvfastMsgText = true;
+							}
 						}
-						else if(skarray[0] == 'CASEINVITES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].invitationText,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'DETAILS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'DETAILS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'WORKORDERS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].notes,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'MILESTONES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'REFERRALS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'REFERRALS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							//this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'TASKS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'TASKS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'FILES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'Files Uploaded',
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							//this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
+						
+						setTimeout(()=>{   
+							this.messageAry = this.messageDataArray;
+							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+							//alert(JSON.stringify(this.messageAry));
+						}, 2000);
 					}
-					
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-						//alert(JSON.stringify(this.messageAry));
-					}, 2000);
-				}
-			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
-			  return false;
-			});
-			
+				}, (error) => {
+				  swal.fire("Unable to fetch data, please try again");
+				  return false;
+				});
+			}
 		}
 	}
 }
