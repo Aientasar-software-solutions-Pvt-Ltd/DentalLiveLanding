@@ -12,8 +12,8 @@
 		<h3>Colleagues</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a data-bs-toggle="modal" data-bs-target="#addColleagues" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Colleagues</a>
-		<!--<a data-bs-toggle="modal" data-bs-target="#addNonMembers" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Non Members
+		<!--<a data-bs-toggle="modal" data-bs-target="#addColleagues" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Colleagues</a>
+		<a data-bs-toggle="modal" data-bs-target="#addNonMembers" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Non Members
 		</a>
 		<a routerLink="/colleagues/colleagues-add-members" class="btn btn-default"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i> View Work History</a> --> 
 	</div>
@@ -38,7 +38,7 @@
 			</div>
 			<div class="card-body p-0 pb-3">
 				<div class="table-responsive">
-					<table *ngIf="colleaguedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+					<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
@@ -50,8 +50,8 @@
 								<th class="body2" data-orderable="false">ACTIONS</th>
 							</tr>
 						</thead>
-						<tbody *ngIf="colleaguedata?.length != 0">
-							<tr *ngFor="let colldata of colleaguedata; let i = index;">
+						<tbody *ngIf="invitedata?.length != 0">
+							<tr *ngFor="let invite of invitedata; let i = index;">
 								<td>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
@@ -60,8 +60,8 @@
 								<td>
 									<div class="d-flex align-items-center">
 										<div class="ps-2">
-											<span class="avatar-icon">{{colldata.accountfirstName.charAt(0)}}</span>
-											<span class="body2 ms-1">{{colldata.accountfirstName}} {{colldata.accountlastName}}</span>
+											<span class="avatar-icon">{{invite.userName.charAt(0)}}</span>
+											<span class="body2 ms-1">{{invite.userName}}</span>
 										</div>
 									</div>
 								</td>
@@ -76,14 +76,17 @@
 								</td>
 								<td>
 									<div>
-										<span class="badge rounded-pill badge-success body2">Accepted</span>
+										<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invite.presentStatus == 1)">Accepted</span>
 									</div>
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile">
+										<a href="javascript:void(0);" (click)="viewColleagueDetails(invite.invitedUserId,invite.caseId);">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
+										<!--<a routerLink="/colleagues/colleague-view-profile">
+											<i class="material-icons text-light-green">visibility</i>
+										</a>-->
 									</div>
 								</td>
 							</tr>
@@ -104,39 +107,41 @@
 				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12">
-						<select  class="form-select"  placeholder="search" >
-							<option disabled selected>Sort By</option>
-							<option>Status</option>
-							<option>Last Modified</option>
-							<option>Date Created</option>
-						</select>
-					</div>
-					<div class="col-md-12">
-						<div class="search">
-							<i class="bx bx-search"></i>
-							<input type="text" class="form-control" placeholder="Search by Colleague Name" >
+			<form #ColleagueForm="ngForm" id="ColleagueForm" (ngSubmit)="onSubmitColleague(ColleagueForm)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select  class="form-select"  placeholder="search" >
+								<option disabled selected>Sort By</option>
+								<option>Status</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+							</select>
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" placeholder="Search by Colleague Name" >
+							</div>
+						</div>-->
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" ngModel name="dateFrom" id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" ngModel name="dateTo" id="dateTo" class="form-control">
 						</div>
 					</div>
-					<div class="col-md-12">
-						<label class="form-label body2 text-dark">Search by Date:</label>
-					</div>
-					<div class="col-md-6 "> 
-						<label class="form-label body2 text-dark">From</label>
-						<input type="date" class="form-control ">
-					</div>
-					<div class="col-md-6"> 
-						<label class="form-label body2 text-dark">To</label>
-						<input type="date" class="form-control">
-					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

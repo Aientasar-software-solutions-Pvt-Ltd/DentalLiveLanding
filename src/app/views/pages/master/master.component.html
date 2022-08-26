@@ -204,22 +204,24 @@
 										</div>
 									</div>
 								</div>
-								<div class="card-body">
+								<div class="card-body" 
+								infinite-scroll
+								(scrolled)="onScrollDown($event)"
+								>
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
 											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-												<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
+												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{this.tabledata.patientName}}
 										   </div>
 										   
 										</div>
 										<div class="col-md-8 col-lg-6 text-end ">
 											<div class="row">
 												<div class="col-md-10">
-													<span class="body2">{{message.dateCreated | date:'medium'}} (3days ago)</span>  
+													<span class="body2">{{message.dateCreated | date:'medium'}} </span>  
 												</div>
 												<div class="col-md-2">   
-													<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
-													<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+													<a href="javascript:void(0);" *ngIf="(message.messageId != '')" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
 												</div>
 											</div>                     
 										</div>

@@ -20,8 +20,7 @@
 			</h3>
 		</div>
 	</div>	
-	<div class="col-md-6 text-end"> 
-		
+	<div class="col-md-6 text-end">
 	</div>
 </div>
 
@@ -309,7 +308,7 @@
 											<span class="body2">{{data.title}}</span>
 										</td>
 										<td>
-											<span class="body2">{{data.description.text}}</span>
+											<span class="body2">{{data.description}}</span>
 										</td>
 										<td>
 											<span class="body2">{{data.startdate | date:'MM/dd/yyyy'}}</span>
@@ -329,18 +328,37 @@
 											<span class="body2">{{data.memberName}}</span>
 										</td>
 										<td>
-											<span class="body2">General</span>
+											<span class="body2">{{data.taskType}}</span>
 										</td>
 										<td>
 											<div class="d-flex">
-												<a href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.taskId,data.caseId)">
+												
+												<a *ngIf="(data.taskType == 'Referral')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.referralId,data.caseId,'Referral')">
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
-												<a href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.taskId,data.caseId)">
+												<a *ngIf="(data.taskType == 'WorkOrder')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.workorderId,data.caseId,'WorkOrder')">
+													<i class="material-icons text-bright-blue">edit</i>
+												</a>
+												<a *ngIf="(data.taskType == 'General')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.taskId,data.caseId,'General')">
+													<i class="material-icons text-bright-blue">edit</i>
+												</a>
+												
+												<a *ngIf="(data.taskType == 'Referral')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.referralId,data.caseId,'Referral')">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
+												<a *ngIf="(data.taskType == 'WorkOrder')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.workorderId,data.caseId,'WorkOrder')">
+													<i class="material-icons fs-4 text-light-green">
+														visibility
+													</i>
+												</a>
+												<a *ngIf="(data.taskType == 'General')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.taskId,data.caseId,'General')">
+													<i class="material-icons fs-4 text-light-green">
+														visibility
+													</i>
+												</a>
+												
 												<a href="javascript:void(0);" class="me-1" (click)="deleteTask(data.taskId)">
 													<i class="material-icons fs-4 text-danger">close</i>
 												</a>
@@ -362,10 +380,10 @@
 								<div class="modal-body">
 									<div class="row gy-3 justify-content-center">
 										<div class="col-md-8 col-sm-12">
-											<a (click)="addWorkOrders()" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
+											<a (click)="addWorkOrders(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
 										</div>
 										<div class="col-md-8">
-											<a (click)="addReferal()" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
+											<a (click)="addReferal(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
 										</div>
 										<div class="col-md-8">
 											<a href="javascript:void(0);" class="btn w-100 btn-pink" (click)="addGeneralTask(this.tabledata.milestoneId,this.tabledata.caseId)" data-bs-dismiss="modal">Add General Task</a>

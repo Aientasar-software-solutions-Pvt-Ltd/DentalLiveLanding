@@ -502,11 +502,7 @@ export class MasterComponent implements OnInit {
 					swal.fire('Unable to fetch the data, please try again');
 				});
 			}
-			setTimeout(() => 
-			{
-				this.messageDataArray[index].messageimg = MessageDetails;  
-			},
-			500);
+			this.messageDataArray[index].messageimg = MessageDetails;  
 		}
 		
 	}
@@ -1364,12 +1360,13 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
 		this.jsonObjmsg['messageId'] = form.value.CmessageId;
-		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
+		this.jsonObjmsg['comment'] = this.messageDataArray[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '1';
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		//alert(JSON.stringify(this.jsonObjmsg));
+		//alert(JSON.stringify(this.messageDataArray[form.value.Ccomments].messagecomment));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1');
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -1385,7 +1382,7 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1');
 		//this.getMessage(this.tabledata.caseId);
 	};
 	getAllMembers() {
@@ -1470,7 +1467,7 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-list', 'post', '','invitationText');
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1');
 			}
 			else
 			{
@@ -1517,7 +1514,7 @@ export class MasterComponent implements OnInit {
 					  dateUpdated: GetAllData[k].dateUpdated,
 					  resourceOwner: GetAllData[k].resourceOwner
 					});
-					this.getuserdetailsall(GetAllData[k].resourceOwner,k);
+					this.getuserdetailsall(GetAllData[k].invitedUserId,k);
 				}
 			}
 		}, error => {
@@ -1603,49 +1600,352 @@ export class MasterComponent implements OnInit {
 		{
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
+			let toDate: Date = new Date();
+			let fromDate: Date = new Date();
+			fromDate.setDate(fromDate.getDate() + 14);
+			fromDate.setHours(0);
+			fromDate.setMinutes(0);
+			fromDate.setSeconds(0);
+			fromDate.setMilliseconds(0);
+			//let datePipe: DatePipe = new DatePipe('en-US');
+			//alert(fromDate.getTime());
+			//alert(toDate.getTime());
 			url += "?caseId="+caseId;
+			//url += "&dateTo="+fromDate.getTime();
+			//url += "&dateFrom="+fromDate.getTime();
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.messagedata = JSON.parse(Response.toString());
-
+					let treadAllData = JSON.parse(Response.toString());
+					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+					//alert(JSON.stringify(treadAllData));
 					
 					this.messageDataArray = Array();
-					for(var i = 0; i < this.messagedata.length; i++)
+					for(var i = 0; i < treadAllData.length; i++)
 					{
-						let skVal = this.messagedata[i].sk;
+						let skVal = treadAllData[i].sk;
 						var skarray = skVal.split("#"); 
 						//alert(skarray[0]);
 						if(skarray[0] == 'MESSAGES')
 						{
 							this.messageDataArray.push({
-								patientId: this.messagedata[i].patientId,
-								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
-								dateUpdated: this.messagedata[i].dateUpdated,
-								dateCreated: this.messagedata[i].dateCreated,
-								messageId: '',
-								messagetext: this.messagedata[i].message.text,
-								messageimg: this.messagedata[i].message.links,
-								messagecomments: this.messagedata[i].comments
-							});
-							this.setcvFastComment(this.messagedata[i].comments,i);
-							this.setcvFastMsg(this.messagedata[i].message,i);
-							this.cvfastMsgText = true;
-						}
-						else
-						{
-							this.messageDataArray.push({
-								patientId: this.messagedata[i].patientId,
-								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
-								dateUpdated: this.messagedata[i].dateUpdated,
-								dateCreated: this.messagedata[i].dateCreated,
-								messageId: '',
-								messagetext: '',
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: treadAllData[i].messageId,
+								messagetext: treadAllData[i].message.text,
 								messageimg: '',
+								messagecomment: treadAllData[i].comments,
 								messagecomments: ''
 							});
+							this.setcvFastComment(treadAllData[i].comments,i);
+							this.setcvFastMsg(treadAllData[i].message,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'CASEINVITES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].invitationText,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'DETAILS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'DETAILS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'WORKORDERS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].notes,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'MILESTONES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'REFERRALS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'TASKS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'TASKS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'FILES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'Files Uploaded',
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+					}
+					
+					setTimeout(()=>{   
+						this.messageAry = this.messageDataArray;
+						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+						//alert(JSON.stringify(this.messageAry));
+					}, 2000);
+				}
+			}, (error) => {
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+			
+		}
+	}
+	onScrollDown(ev: any) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userThreads.ApiUrl;
+			let caseId = sessionStorage.getItem("caseId");
+			let toDate: Date = new Date();
+			let fromDate: Date = new Date();
+			fromDate.setDate(fromDate.getDate() + 14);
+			fromDate.setHours(0);
+			fromDate.setMinutes(0);
+			fromDate.setSeconds(0);
+			fromDate.setMilliseconds(0);
+			//let datePipe: DatePipe = new DatePipe('en-US');
+			//alert(fromDate.getTime());
+			//alert(toDate.getTime());
+			url += "?caseId="+caseId;
+			//url += "&dateFrom="+fromDate.getTime();
+			//url += "&dateTo="+fromDate.getTime();
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let treadAllData = JSON.parse(Response.toString());
+					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+					//alert(JSON.stringify(treadAllData));
+					
+					//this.messageDataArray = Array();
+					for(var i = 0; i < treadAllData.length; i++)
+					{
+						let skVal = treadAllData[i].sk;
+						var skarray = skVal.split("#"); 
+						//alert(skarray[0]);
+						if(skarray[0] == 'MESSAGES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: treadAllData[i].messageId,
+								messagetext: treadAllData[i].message.text,
+								messageimg: '',
+								messagecomment: treadAllData[i].comments,
+								messagecomments: ''
+							});
+							this.setcvFastComment(treadAllData[i].comments,i);
+							this.setcvFastMsg(treadAllData[i].message,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'CASEINVITES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].invitationText,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'DETAILS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'DETAILS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'WORKORDERS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].notes,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'MILESTONES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'REFERRALS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'TASKS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'TASKS#  : '+treadAllData[i].title,
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'FILES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].patientName,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'Files Uploaded',
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,i);
+							this.cvfastMsgText = true;
 						}
 					}
 					

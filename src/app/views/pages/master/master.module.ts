@@ -12,6 +12,7 @@ import listPlugin from "@fullcalendar/list";
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { PatientsModule } from '../patients/patients.module';
 import { MasterComponent } from './master.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const routes: Routes = [
 	{
@@ -45,7 +46,8 @@ FullCalendarModule.registerPlugins([
 	NgSelectModule,
 	PatientsModule,
     ReactiveFormsModule,
-	DataTablesModule
+	DataTablesModule,
+    InfiniteScrollModule
   ]
 })
 export class MasterModule { }

@@ -97,9 +97,11 @@ export class ReferralListComponent implements OnInit {
 						  dateUpdated: GetAllData[k].dateUpdated,
 						  milestoneId: GetAllData[k].milestoneId,
 						  title: GetAllData[k].title,
-						  caseTitle: ''
+						  caseTitle: '',
+						  memberName: ''
 						});
 						this.getcasedtls(GetAllData[k].caseId,k);
+						this.getuserdetailsall(GetAllData[k].members,k);
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				}
@@ -204,4 +206,44 @@ export class ReferralListComponent implements OnInit {
 		  return false;
 		});
 	};
+	
+	
+	getuserdetailsall(userId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let memberResult = '';
+			for(var j = 0; j < userId.length; j++)
+			{
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
+				{
+					url += "?dentalId="+userId[j];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					//alert(JSON.stringify(userData));
+					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+					if(memberResult)
+					{
+						memberResult += ','+name;
+					}
+					else{
+						memberResult += name;
+					}
+					//alert(JSON.stringify(memberResult));
+					if(j == userId.length)
+					{
+						this.tabledata[index].memberName = memberResult;
+					}
+				}
+				}, (error) => {
+				  swal.fire("Unable to fetch data, please try again");
+				  return false;
+				});
+			}
+		}
+	}
 }

@@ -342,7 +342,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     console.log(event.emoji.native)
   }
 
-  processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes') {
+  processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
     this.processing = true;
     let requests = this.attachmentFiles.map((object) => {
 	  if(object["binaryData"])
@@ -410,6 +410,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 							this.router.navigate([redirectUrl]);
 						}, 1000);
 					}
+					if(reload)
+					{
+						window.location.reload();
+					}
 				}, error => {
 				  if (error.status === 404)
 				  {
@@ -456,6 +460,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 						setTimeout(()=>{                     
 							this.router.navigate([redirectUrl]);
 						}, 1000);
+					}
+					if(reload)
+					{
+						window.location.reload();
 					}
 				}, error => {
 				  if (error.status === 404)
@@ -517,7 +525,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 		jsonObj[field] = this.cvfast;
 		}
-		//alert(JSON.stringify(jsonObj));
 		if(datatype == 'put')
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
@@ -536,6 +543,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					setTimeout(()=>{                     
 						this.router.navigate([redirectUrl]);
 					}, 1000);
+				}
+				if(reload)
+				{
+					window.location.reload();
 				}
 			}, error => {
 			  if (error.status === 404)
@@ -583,6 +594,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					setTimeout(()=>{                     
 						this.router.navigate([redirectUrl]);
 					}, 1000);
+				}
+				if(reload)
+				{
+					window.location.reload();
 				}
 			}, error => {
 			  if (error.status === 404)
