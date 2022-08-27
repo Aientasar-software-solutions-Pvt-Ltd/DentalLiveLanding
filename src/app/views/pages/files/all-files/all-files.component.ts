@@ -129,6 +129,7 @@ export class AllFilesComponent implements OnInit {
 	}
 	
 	getCaseDetails() {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = this.getcaseId;
 		if(caseId != '')

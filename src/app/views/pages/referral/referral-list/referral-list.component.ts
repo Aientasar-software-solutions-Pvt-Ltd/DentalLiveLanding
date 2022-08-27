@@ -28,6 +28,7 @@ export class ReferralListComponent implements OnInit {
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
 		sessionStorage.setItem('checkmilestoneidref', '');
+		sessionStorage.setItem('backurl', '/referral/referral-list');
 		this.getallreferrals();
 		this.getCaseDetails();
 		this.dtOptions = {

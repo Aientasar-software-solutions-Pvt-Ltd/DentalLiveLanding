@@ -343,7 +343,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   }
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
-    this.processing = true;
+	this.processing = true;
     let requests = this.attachmentFiles.map((object) => {
 	  if(object["binaryData"])
 	  {

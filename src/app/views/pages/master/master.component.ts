@@ -221,20 +221,11 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
 				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
-			});
-			*/
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
 				timer: 2200
 			});
 			let url = this.utility.apiData.userColleague.ApiUrl;
@@ -552,20 +543,12 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
 				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
-			});
-			*/
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
 				timer: 2200
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
@@ -606,9 +589,9 @@ export class MasterComponent implements OnInit {
 						  milestoneTitle: ''
 						});
 						//this.getcasedetails(GetAllData[k].caseId,k);
-						this.getuserdetailsallCase(GetAllData[k].members,k);
+						this.getuserdetailsallCase(GetAllData[k].members,k,'workorder');
 						if(GetAllData[k].milestoneId != ''){
-							this.getallmilestoneCase(GetAllData[k].milestoneId,k);
+							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'workorder');
 						}
 					}
 					//this.workordersdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -646,6 +629,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
 			if(caseId != '')
@@ -712,20 +696,12 @@ export class MasterComponent implements OnInit {
 	getCaseDetails() {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
-		/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 		swal.fire({
 			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
 			showConfirmButton: false,
 			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
-		});
-		*/
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
 			timer: 2200
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
@@ -981,20 +957,11 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
 				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
-			});
-			*/
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
 				timer: 2200
 			});
 			let mediatype= this.attachmentUploadFiles[0].type;
@@ -1055,6 +1022,7 @@ export class MasterComponent implements OnInit {
 	}
 
 	getFilesListing() {
+		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let caseId = this.paramCaseId;
 		//alert(caseId);
@@ -1326,22 +1294,14 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getReferralListing() {
-		/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 		swal.fire({
 			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
 			showConfirmButton: false,
 			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
-		});
-		*/
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
 			timer: 2200
 		});
+		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -1378,9 +1338,9 @@ export class MasterComponent implements OnInit {
 						  milestoneTitle: ''
 						});
 						//this.getcasedtls(GetAllData[k].caseId,k);
-						this.getuserdetailsallCase(GetAllData[k].members,k);
+						this.getuserdetailsallCase(GetAllData[k].members,k,'referal');
 						if(GetAllData[k].milestoneId != ''){
-							this.getallmilestoneCase(GetAllData[k].milestoneId,k);
+							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'referal');
 						}
 					}
 				
@@ -2069,7 +2029,7 @@ export class MasterComponent implements OnInit {
 		}
 	}
 
-	getallmilestoneCase(milestoneId, index) {
+	getallmilestoneCase(milestoneId, rowIndex, str) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -2084,8 +2044,14 @@ export class MasterComponent implements OnInit {
 					let milestoneData = JSON.parse(Response.toString());
 					//alert(JSON.stringify(milestoneData.title));
 					let title = milestoneData.title;
-					this.workordersdata[index].milestoneTitle = title;
-					this.referraldata[index].milestoneTitle = title;
+					if(str == 'workorder')
+					{
+					this.workordersdata[rowIndex].milestoneTitle = title;
+					}
+					if(str == 'referal')
+					{
+					this.referraldata[rowIndex].milestoneTitle = title;
+					}
 				}
 			}, (error) => {
 			  swal.fire("Unable to fetch data, please try again");
@@ -2094,7 +2060,7 @@ export class MasterComponent implements OnInit {
 		}
 	}
 	
-	getuserdetailsallCase(userId, index) {
+	getuserdetailsallCase(userId, index, str) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -2122,8 +2088,14 @@ export class MasterComponent implements OnInit {
 					//alert(JSON.stringify(memberResult));
 					if(j == userId.length)
 					{
+						if(str == 'workorder')
+						{
 						this.workordersdata[index].memberName = memberResult;
+						}
+						if(str == 'referal')
+						{
 						this.referraldata[index].memberName = memberResult;
+						}
 					}
 				}
 				}, (error) => {

@@ -32,6 +32,7 @@ export class FileDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  this.filedetails = '';
   this.getFileDetails();
   this.getCaseDetails();
   }
@@ -103,6 +104,7 @@ export class FileDetailsComponent implements OnInit {
 		}
 	}
 	getCaseDetails() {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = this.getcaseId;
 		if(caseId != '')

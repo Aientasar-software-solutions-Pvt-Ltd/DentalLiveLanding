@@ -52,6 +52,7 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	getallmilestone() {
+		sessionStorage.setItem('backurl', '/milestones/milestones-list');
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)

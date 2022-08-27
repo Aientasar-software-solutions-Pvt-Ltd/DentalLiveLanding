@@ -25,6 +25,7 @@ export class WorkOrdersListComponent implements OnInit {
 	ngOnInit(): void {
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
+		sessionStorage.setItem('backurl', '/work-orders/work-orders');
 		this.getallworkorder();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',

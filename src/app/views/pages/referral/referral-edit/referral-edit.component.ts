@@ -106,8 +106,9 @@ export class ReferralEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
+		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', 'referral/referral-list', 'put', '','notes');
+		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes');
 		
 	}
 	getuserdetailsall(userId, index) {

@@ -117,9 +117,8 @@ export class WorkOrderEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		
-		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', 'work-orders/work-orders', 'put', '','notes');
-		
+		const backurl = sessionStorage.getItem('backurl');
+		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes');
 	}
 	
 	getuserdetailsall(userId, index) {
@@ -259,12 +258,9 @@ export class WorkOrderEditComponent implements OnInit {
 			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
-				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
+				allowOutsideClick: false, 
+				timer: 2200
 			});
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)
