@@ -7,7 +7,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 import { OwlDateTimeIntl } from 'ng-pick-datetime';
@@ -40,7 +40,10 @@ export class MilestoneEditComponent implements OnInit {
 	public patientName = '';
 	public isvalidDate = false;
 	
-    constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	getmilestoneId: any;
+    constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
+		this.getmilestoneId = this.route.snapshot.paramMap.get('milestoneId');
+	}
   
 	back(): void {
 		this.location.back()
@@ -61,7 +64,7 @@ export class MilestoneEditComponent implements OnInit {
 			timer: 2200
 		});
 		let url = this.utility.apiData.userMilestones.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;

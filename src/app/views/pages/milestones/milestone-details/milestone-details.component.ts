@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
@@ -76,7 +76,11 @@ export class MilestoneDetailsComponent implements OnInit {
 	
 	dtOptions: DataTables.Settings = {};
 	
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
+	getmilestoneId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) { 
+		this.masterSelected = false; 
+		this.getmilestoneId = this.route.snapshot.paramMap.get('milestoneId');
+	}
   
 	back(): void {
 		this.location.back()
@@ -135,7 +139,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -171,7 +175,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	getalltasks() {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -222,7 +226,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	getallworkorders() {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		
 		if(milestoneId != '')
 		{
@@ -277,7 +281,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	getallreferrals() {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		
 		if(milestoneId != '')
 		{
@@ -331,13 +335,13 @@ export class MilestoneDetailsComponent implements OnInit {
 		sessionStorage.setItem('taskId', taskId);
 		sessionStorage.setItem('caseId', caseId);
 		if(taskType == 'General'){
-			this.router.navigate(['milestones/general-task-edit']);
+			this.router.navigate(['milestones/general-task-edit/'+taskId]);
 		}
 		else if(taskType == 'WorkOrder'){
-			this.router.navigate(['work-orders/work-order-edit']);
+			this.router.navigate(['work-orders/work-order-edit/'+taskId]);
 		}
 		else{
-			this.router.navigate(['referral/referral-edit']);
+			this.router.navigate(['referral/referral-edit/'+taskId]);
 		}
 		
 	}
@@ -358,13 +362,13 @@ export class MilestoneDetailsComponent implements OnInit {
 		sessionStorage.setItem('caseId', caseId);
 		
 		if(taskType == 'General'){
-			this.router.navigate(['milestones/general-task-view']);
+			this.router.navigate(['milestones/general-task-view/'+taskId]);
 		}
 		else if(taskType == 'WorkOrder'){
-			this.router.navigate(['work-orders/work-order-details']);
+			this.router.navigate(['work-orders/work-order-details/'+taskId]);
 		}
 		else{
-			this.router.navigate(['referral/referral-details']);
+			this.router.navigate(['referral/referral-details/'+taskId]);
 		}
 	}
 	

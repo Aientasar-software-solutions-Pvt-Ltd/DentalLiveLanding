@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -26,7 +26,13 @@ export class ColleagueViewProfileComponent implements OnInit {
 	inviteReceivedData: any;
 	
 	
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
+	profileId: any;
+	caseId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) {
+	this.masterSelected = false; 
+	this.profileId = this.route.snapshot.paramMap.get('profileId');
+	this.caseId = this.route.snapshot.paramMap.get('caseId');
+	}
 	
 	back(): void {
 		this.location.back()
@@ -76,8 +82,8 @@ export class ColleagueViewProfileComponent implements OnInit {
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			url += "?resourceOwner="+user.dentalId;
 			//url += "&presentStatus=1";
-			var colleagueId = sessionStorage.getItem('colleagueId');
-			//url += "&invitationId="+colleagueId;
+			var colleagueId = this.profileId;
+			url += "&invitedUserId="+colleagueId;
 			//alert(url);
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
@@ -183,7 +189,7 @@ export class ColleagueViewProfileComponent implements OnInit {
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = this.caseId;
 			
 			if(caseId != '')
 			{

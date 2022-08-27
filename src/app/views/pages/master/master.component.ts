@@ -634,13 +634,13 @@ export class MasterComponent implements OnInit {
 		this.router.navigate(['work-orders/work-order-add']);
 	}
 	editWorkOrders(workorderId: any) {
-		sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-edit']);
+		//sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-edit/'+workorderId]);
 	}
 	
 	viewWorkorders(workorderId: any) {
-		sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-details']);
+		//sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
 	}
 	getallmilestone() {
 		let user = this.usr.getUserDetails(false);
@@ -687,8 +687,8 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		sessionStorage.setItem('milestoneId', milestoneId);
-		this.router.navigate(['milestones/milestone-details']);
+		//sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	deletemilestone(milestoneId: any) {
 		let url = this.utility.apiData.userMilestones.ApiUrl;
@@ -701,13 +701,13 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editMilestone(milestoneId: any) {
-		sessionStorage.setItem('milestoneId', milestoneId);
-		this.router.navigate(['milestones/milestone-edit']);
+		//sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	
 	editcase(caseId: any) {
-		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['/cases/case-edit']);
+		//sessionStorage.setItem('caseId', caseId);
+		this.router.navigate(['/cases/case-edit/'+caseId]);
 	}
 	getCaseDetails() {
 		//tabledata.fetchedData = '';
@@ -1168,8 +1168,8 @@ export class MasterComponent implements OnInit {
 		//  return false;
 		//});
 		
-		sessionStorage.setItem('dateCreated', dateCreated);
-		this.router.navigate(['files/files']);
+		//sessionStorage.setItem('dateCreated', dateCreated);
+		this.router.navigate(['files/files/'+dateCreated+'/'+this.paramCaseId]);
 	}
 	
 	
@@ -1403,8 +1403,8 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewReferralDetails(referralId: any) {
-		sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-details']);
+		//sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-details/'+referralId]);
 	}
 	
 	deletereferral(referralId: any) {
@@ -1418,8 +1418,8 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editReferrals(referralId: any) {
-		sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-edit']);
+		//sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
 	onSubmitReferral(form: NgForm) {
@@ -2132,5 +2132,8 @@ export class MasterComponent implements OnInit {
 				});
 			}
 		}
+	}
+	viewColleagueDetails(colleagueId: any,caseId: any) {
+		this.router.navigate(['colleagues/colleague-view-profile/'+colleagueId+'/'+caseId]);
 	}
 }

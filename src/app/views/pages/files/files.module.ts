@@ -18,11 +18,11 @@ const routes: Routes = [
         pathMatch: 'full',
       },
 	  {
-        path: 'files',
+        path: 'files/:dateCreated/:caseId',
         component: AllFilesComponent
       },
 	  {
-        path: 'file-details',
+        path: 'file-details/:filesId/:caseId',
         component: FileDetailsComponent
       }
     ]

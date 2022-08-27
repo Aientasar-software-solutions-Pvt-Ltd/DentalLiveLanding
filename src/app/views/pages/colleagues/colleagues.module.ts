@@ -32,7 +32,7 @@ const routes: Routes = [
         component: ColleaguesAddMembersComponent
       },
 	  {
-        path: 'colleague-view-profile',
+        path: 'colleague-view-profile/:profileId/:caseId',
         component: ColleagueViewProfileComponent
       }
     ]

@@ -167,13 +167,13 @@ export class ReferralListComponent implements OnInit {
 	}
 	
 	viewReferralDetails(referralId: any) {
-		sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-details']);
+		//sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-details/'+referralId]);
 	}
 	
 	editReferrals(referralId: any) {
-		sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-edit']);
+		//sessionStorage.setItem('referralId', referralId);
+		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
 	onSubmit(form: NgForm) {

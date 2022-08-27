@@ -86,12 +86,12 @@ export class PatientsListComponent implements OnInit {
 		}
 	}
 	editpatiant(patientId: any) {
-		sessionStorage.setItem('patientId', patientId);
-		this.router.navigate(['/patients/patient-edit']);
+		//sessionStorage.setItem('patientId', patientId);
+		this.router.navigate(['/patients/patient-edit/'+patientId]);
 	}
 	viewpatiant(patientId: any) {
-		sessionStorage.setItem('patientId', patientId);
-		this.router.navigate(['patients/patient-details']);
+		//sessionStorage.setItem('patientId', patientId);
+		this.router.navigate(['patients/patient-details/'+patientId]);
 	}
 	deletepatiant(patientId: any) {
 		let url = this.utility.apiData.userPatients.ApiUrl;

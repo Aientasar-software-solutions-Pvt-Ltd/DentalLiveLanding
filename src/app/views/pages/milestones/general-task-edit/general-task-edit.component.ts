@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 @Component({
@@ -42,15 +42,16 @@ export class GeneralTaskEditComponent implements OnInit {
 	editedstartDate:any;
 	tabledata:any;
 	public isvalidDate = false;
-	
-    constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	gettaskId: any;
+    constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
+		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
+	}
 
   back(): void {
     this.location.back()
   }
   
 	ngOnInit(): void {
-		this.getCaseDetails();
 		this.getEditTasks();
 	}
 	getuserdetailsall(userId, index) {
@@ -186,9 +187,9 @@ export class GeneralTaskEditComponent implements OnInit {
 		
 	}
 	
-	getCaseDetails() {
+	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -222,7 +223,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	getEditTasks() {
 		let url = this.utility.apiData.userTasks.ApiUrl;
-		let taskId = sessionStorage.getItem("taskId");
+		let taskId = this.gettaskId;
 		if(taskId != '')
 		{
 			url += "?taskId="+taskId;
@@ -237,6 +238,7 @@ export class GeneralTaskEditComponent implements OnInit {
 				//alert(JSON.stringify(this.allMember));
 				//this.selectedCity = 'chita';
 				this.getAllMembers(this.editdata.caseId);
+				this.getCaseDetails(this.editdata.caseId);
 				this.editedDate = new Date(this.editdata.duedate);
 				this.allMemberEmail = this.editdata.memberMail.split(",");
 				this.allMemberName = this.editdata.memberName.split(",");

@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 @Component({
@@ -54,8 +54,10 @@ export class CaseEditComponent implements OnInit {
 		{name :"Hygiene", id: 12, isChecked: false}
 	  ];
 	casetypeArray = Array();
-	
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router) { }
+  getcaseId: string;
+  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) { 
+  this.getcaseId = this.route.snapshot.paramMap.get('caseId');
+  }
 
   ngOnInit(): void {
 	  this.getCasedetails();
@@ -73,7 +75,8 @@ export class CaseEditComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', 'master/master-list', 'put','','description');
+		let returnUrl = 'master/master-list/'+this.getcaseId+'/caseDetails';
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', returnUrl, 'put','','description',0);
 		//alert(JSON.stringify(this.jsonObj));
 		
 	}
@@ -85,25 +88,16 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
-	/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
-		});
-		*/
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
-		});
-		this.tabledata = '';
+	var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+	swal.fire({
+		html: sweet_loader,
+		showConfirmButton: false,
+		allowOutsideClick: false,     
+		timer: 2200
+	});
+	this.tabledata = '';
 	let url = this.utility.apiData.userCases.ApiUrl;
-	this.caseId = sessionStorage.getItem("caseId");
+	this.caseId = this.getcaseId;
 	if(this.caseId != '')
 	{
 		url += "?caseId="+this.caseId;

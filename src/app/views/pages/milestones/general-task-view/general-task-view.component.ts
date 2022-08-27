@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-general-task-view',
@@ -21,7 +21,10 @@ export class GeneralTaskViewComponent implements OnInit {
         { value: 3, label: 'Pavilnys' }
     ];
 	selectedMember: any ;
-	 constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	gettaskId: any;
+	 constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
+		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
+	}
 
 	back(): void {
 		this.location.back()
@@ -37,13 +40,12 @@ export class GeneralTaskViewComponent implements OnInit {
 	
 	ngOnInit(): void {
 		this.selectedMember = this.defaultBindingsList[0];
-		this.getCaseDetails();
 		this.getEditTasks();
 	}
 	
-	getCaseDetails() {
+	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -73,7 +75,7 @@ export class GeneralTaskViewComponent implements OnInit {
 	
 	getEditTasks() {
 		let url = this.utility.apiData.userTasks.ApiUrl;
-		let taskId = sessionStorage.getItem("taskId");
+		let taskId = this.gettaskId;
 		if(taskId != '')
 		{
 			url += "?taskId="+taskId;
@@ -84,6 +86,7 @@ export class GeneralTaskViewComponent implements OnInit {
 			{
 				this.editdata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.editdata));
+				this.getCaseDetails(this.editdata.caseId);
 				this.setcvFast(this.editdata.description);
 				this.cvfastText = true;
 			}

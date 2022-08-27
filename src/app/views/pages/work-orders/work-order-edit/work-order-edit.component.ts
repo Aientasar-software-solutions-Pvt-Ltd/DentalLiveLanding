@@ -9,7 +9,7 @@ import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-work-order-edit',
@@ -53,8 +53,10 @@ export class WorkOrderEditComponent implements OnInit {
 	  patientName: '',
 	}
 	maxDate = new Date();
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev) { }
-	
+	workorderId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
+	}
 	@ViewChild(WorkOrderGuideComponent)
 	orders: WorkOrderGuideComponent;
 	
@@ -215,7 +217,7 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	getallworkorder() {
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let workorderId = sessionStorage.getItem("workorderId");
+		let workorderId = this.workorderId;
 		if(workorderId != '')
 		{
 			url += "?workorderId="+workorderId;

@@ -127,13 +127,13 @@ export class WorkOrdersListComponent implements OnInit {
 		}
 	}
 	editWorkOrders(workorderId: any) {
-		sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-edit']);
+		//sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-edit/'+workorderId]);
 	}
 	
 	viewWorkorders(workorderId: any) {
-		sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-details']);
+		//sessionStorage.setItem('workorderId', workorderId);
+		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
 	}
 	
 	onSubmit(form: NgForm) {
@@ -205,6 +205,4 @@ export class WorkOrdersListComponent implements OnInit {
 			}
 		}
 	}
-	
-	
 }

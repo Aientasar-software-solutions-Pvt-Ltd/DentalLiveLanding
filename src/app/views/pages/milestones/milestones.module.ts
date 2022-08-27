@@ -31,7 +31,7 @@ const routes: Routes = [
         component: MilestonesListComponent
       },
 	  {
-        path: 'milestone-details',
+        path: 'milestone-details/:milestoneId',
         component: MilestoneDetailsComponent
       },
 	  {
@@ -43,7 +43,7 @@ const routes: Routes = [
         component: MilestoneAddComponent
       },
 	  {
-        path: 'milestone-edit',
+        path: 'milestone-edit/:milestoneId',
         component: MilestoneEditComponent
       },
 	  {
@@ -51,11 +51,11 @@ const routes: Routes = [
         component: GeneralTaskAddComponent
       },
 	  {
-        path: 'general-task-edit',
+        path: 'general-task-edit/:taskId',
         component: GeneralTaskEditComponent
       },
 	  {
-        path: 'general-task-view',
+        path: 'general-task-view/:taskId',
         component: GeneralTaskViewComponent
       }
     ]
