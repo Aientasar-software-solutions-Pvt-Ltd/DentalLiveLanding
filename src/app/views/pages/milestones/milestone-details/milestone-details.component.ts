@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
@@ -61,7 +61,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	checkedList:any;
 	messagedata:any;
 	public module = 'patient';
-	taskdata:any;
+	public indexRow = 0;
+	taskdata = Array();
 	cvfastText: boolean = false;
 	cvfastLinks: boolean = false;
 	cvfastMsgText: boolean = false;
@@ -75,7 +76,11 @@ export class MilestoneDetailsComponent implements OnInit {
 	
 	dtOptions: DataTables.Settings = {};
 	
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
+	getmilestoneId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) { 
+		this.masterSelected = false; 
+		this.getmilestoneId = this.route.snapshot.paramMap.get('milestoneId');
+	}
   
 	back(): void {
 		this.location.back()
@@ -111,14 +116,16 @@ export class MilestoneDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	
-	addWorkOrders() {
+	addWorkOrders(milestoneId: any, caseId: any) {
 		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneid', sessionStorage.getItem("milestoneId"));
+		sessionStorage.setItem('checkmilestoneid', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['work-orders/work-order-add']);
 	}
-	addReferal() {
+	addReferal(milestoneId: any, caseId: any) {
 		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneidref', sessionStorage.getItem("milestoneId"));
+		sessionStorage.setItem('checkmilestoneidref', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['referral/referral-add']);
 	}
 	getallmilestone() {
@@ -132,7 +139,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -168,7 +175,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	getalltasks() {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
-		let milestoneId = sessionStorage.getItem("milestoneId");
+		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -178,8 +185,143 @@ export class MilestoneDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.taskdata = JSON.parse(Response.toString());
-					//alert(JSON.stringify(this.taskdata));
+					let getTask = JSON.parse(Response.toString());
+					//alert(JSON.stringify(getTask));
+					//this.taskdata = Array();
+					
+					for(var k = 0; k < getTask.length; k++)
+					{
+						this.taskdata.push({
+						  id: this.indexRow,
+						  title: getTask[k].title,
+						  description: getTask[k].description.text,
+						  startdate: getTask[k].startdate,
+						  duedate: getTask[k].duedate,
+						  presentStatus: getTask[k].presentStatus,
+						  memberName: getTask[k].memberName,
+						  taskId: getTask[k].taskId,
+						  workorderId: '',
+						  referralId: '',
+						  caseId: getTask[k].caseId,
+						  dateCreated: getTask[k].dateCreated,
+						  patientName: getTask[k].patientName,
+						  patientId: getTask[k].patientId,
+						  milestoneId: getTask[k].milestoneId,
+						  reminder: getTask[k].reminder,
+						  taskType: 'General',
+						});
+						this.indexRow++;
+					}
+					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				}
+				this.getallworkorders();
+			}, (error) => {
+					//alert(JSON.stringify(error));
+				this.getallworkorders();
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	getallworkorders() {
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userWorkOrders.ApiUrl;
+		let milestoneId = this.getmilestoneId;
+		
+		if(milestoneId != '')
+		{
+			url += "?milestoneId="+milestoneId;
+		}
+		//alert(JSON.stringify(milestoneId));
+		if(user)
+		{
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let getWorkOrders = JSON.parse(Response.toString());
+					//alert(JSON.stringify(getWorkOrders));
+					//this.taskdata = Array();
+					for(var k = 0; k < getWorkOrders.length; k++)
+					{
+						this.taskdata.push({
+						  id: this.indexRow,
+						  title: getWorkOrders[k].title,
+						  description: getWorkOrders[k].notes.text,
+						  startdate: getWorkOrders[k].startdate,
+						  duedate: getWorkOrders[k].enddate,
+						  presentStatus: getWorkOrders[k].presentStatus,
+						  memberName: '',
+						  taskId: '',
+						  workorderId: getWorkOrders[k].workorderId,
+						  referralId: '',
+						  caseId: getWorkOrders[k].caseId,
+						  dateCreated: getWorkOrders[k].dateCreated,
+						  patientName: getWorkOrders[k].patientName,
+						  patientId: getWorkOrders[k].patientId,
+						  milestoneId: getWorkOrders[k].milestoneId,
+						  taskType: 'WorkOrder',
+						});
+						//alert(this.indexRow);
+						//alert(getWorkOrders[k].members);
+						this.getuserdetailsall(getWorkOrders[k].members,this.indexRow);
+						this.indexRow++;
+					} 
+					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					//alert(JSON.stringify(getWorkOrders));
+				}
+				this.getallreferrals();
+			}, (error) => {
+				this.getallreferrals();
+			  swal.fire("Unable to fetch data, please try again");
+			  return false;
+			});
+		}
+	}
+	
+	getallreferrals() {
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userReferrals.ApiUrl;
+		let milestoneId = this.getmilestoneId;
+		
+		if(milestoneId != '')
+		{
+			url += "?milestoneId="+milestoneId;
+		}
+		if(user)
+		{
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let getReferrals = JSON.parse(Response.toString());
+					//alert(JSON.stringify(getReferrals));
+					//this.taskdata = Array();
+					for(var k = 0; k < getReferrals.length; k++)
+					{
+						this.taskdata.push({
+						  id: this.indexRow,
+						  title: getReferrals[k].title,
+						  description: getReferrals[k].notes.text,
+						  startdate: getReferrals[k].startdate,
+						  duedate: getReferrals[k].enddate,
+						  presentStatus: getReferrals[k].presentStatus,
+						  memberName: '',
+						  taskId: '',
+						  workorderId: '',
+						  referralId: getReferrals[k].referralId,
+						  caseId: getReferrals[k].caseId,
+						  dateCreated: getReferrals[k].dateCreated,
+						  patientName: getReferrals[k].patientName,
+						  patientId: getReferrals[k].patientId,
+						  milestoneId: getReferrals[k].milestoneId,
+						  taskType: 'Referral',
+						});
+						//alert(JSON.stringify(getReferrals[k].members));
+						this.getuserdetailsall(getReferrals[k].members,this.indexRow);
+						this.indexRow++;
+					}
+					//alert(JSON.stringify(getReferrals));
+					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));
@@ -189,10 +331,19 @@ export class MilestoneDetailsComponent implements OnInit {
 		}
 	}
 	
-	editGeneralTask(taskId: any, caseId: any) {
+	editGeneralTask(taskId: any, caseId: any, taskType: any) {
 		sessionStorage.setItem('taskId', taskId);
 		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['milestones/general-task-edit']);
+		if(taskType == 'General'){
+			this.router.navigate(['milestones/general-task-edit/'+taskId]);
+		}
+		else if(taskType == 'WorkOrder'){
+			this.router.navigate(['work-orders/work-order-edit/'+taskId]);
+		}
+		else{
+			this.router.navigate(['referral/referral-edit/'+taskId]);
+		}
+		
 	}
 	
 	deleteTask(taskId: any) {
@@ -206,10 +357,19 @@ export class MilestoneDetailsComponent implements OnInit {
 		});
 	}
 	
-	viewGeneralTask(taskId: any, caseId: any) {
+	viewGeneralTask(taskId: any, caseId: any, taskType: any) {
 		sessionStorage.setItem('taskId', taskId);
 		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['milestones/general-task-view']);
+		
+		if(taskType == 'General'){
+			this.router.navigate(['milestones/general-task-view/'+taskId]);
+		}
+		else if(taskType == 'WorkOrder'){
+			this.router.navigate(['work-orders/work-order-details/'+taskId]);
+		}
+		else{
+			this.router.navigate(['referral/referral-details/'+taskId]);
+		}
 	}
 	
 	setcvFast(obj: any, page = 'milestone')
@@ -464,6 +624,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		}
 		
 	}
+	
 	setcvFastMsg(obj: any, index: any)
 	{
 		let MessageDetails = Array();
@@ -501,7 +662,6 @@ export class MilestoneDetailsComponent implements OnInit {
 			},
 			500);
 		}
-		
 	}
 	
 	onSubmitComment(form: NgForm){
@@ -537,4 +697,43 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message');
 		//this.getMessage(this.tabledata.caseId);
 	};
+	
+	getuserdetailsall(userId, index) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let memberResult = '';
+			for(var j = 0; j < userId.length; j++)
+			{
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
+				{
+					url += "?dentalId="+userId[j];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					//alert(JSON.stringify(userData));
+					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+					if(memberResult)
+					{
+						memberResult += ','+name;
+					}
+					else{
+						memberResult += name;
+					}
+					//alert(JSON.stringify(memberResult));
+					if(j == userId.length)
+					{
+						this.taskdata[index].memberName = memberResult;
+					}
+				}
+				}, (error) => {
+				  swal.fire("Unable to fetch data, please try again");
+				  return false;
+				});
+			}
+		}
+	}
 }

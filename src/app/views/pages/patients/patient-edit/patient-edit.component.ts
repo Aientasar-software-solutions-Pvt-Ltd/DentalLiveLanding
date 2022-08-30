@@ -7,7 +7,7 @@ import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-patient-edit',
@@ -90,7 +90,10 @@ onActiveInactiveChanged(value:boolean){
 	}];
 	//public objMedicationLength: any[] = []
 	public attachmentFiles: any[] = []
-	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev) { }
+	paramPatientId: any;
+	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
+		this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
+	}
 
 	ngOnInit(): void {
 		this.getallpatiant();
@@ -105,7 +108,7 @@ onActiveInactiveChanged(value:boolean){
 		});
 				//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		let patientId = sessionStorage.getItem("patientId");
+		let patientId = this.paramPatientId;
 		if(patientId != '')
 		{
 			url += "?patientId="+patientId;

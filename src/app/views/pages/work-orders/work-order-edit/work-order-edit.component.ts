@@ -9,7 +9,7 @@ import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-work-order-edit',
@@ -53,8 +53,10 @@ export class WorkOrderEditComponent implements OnInit {
 	  patientName: '',
 	}
 	maxDate = new Date();
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev) { }
-	
+	workorderId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
+	}
 	@ViewChild(WorkOrderGuideComponent)
 	orders: WorkOrderGuideComponent;
 	
@@ -115,9 +117,8 @@ export class WorkOrderEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		
-		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', 'work-orders/work-orders', 'put', '','notes');
-		
+		const backurl = sessionStorage.getItem('backurl');
+		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes');
 	}
 	
 	getuserdetailsall(userId, index) {
@@ -215,7 +216,7 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	getallworkorder() {
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let workorderId = sessionStorage.getItem("workorderId");
+		let workorderId = this.workorderId;
 		if(workorderId != '')
 		{
 			url += "?workorderId="+workorderId;
@@ -257,12 +258,9 @@ export class WorkOrderEditComponent implements OnInit {
 			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 			swal.fire({
 				html: sweet_loader,
-				icon: "https://www.boasnotas.com/img/loading2.gif",
 				showConfirmButton: false,
-				allowOutsideClick: false,     
-				closeOnClickOutside: false,
-				timer: 2200,
-				//icon: "success"
+				allowOutsideClick: false, 
+				timer: 2200
 			});
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)

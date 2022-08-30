@@ -38,11 +38,11 @@ const routes: Routes = [
         component: ReferralAddMembersComponent
       },
 	  {
-        path: 'referral-details',
+        path: 'referral-details/:referralId',
         component: ReferralDetailsComponent
       },
 	  {
-        path: 'referral-edit',
+        path: 'referral-edit/:referralId',
         component: ReferralEditComponent
       }
     ]

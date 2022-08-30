@@ -204,22 +204,24 @@
 										</div>
 									</div>
 								</div>
-								<div class="card-body">
+								<div class="card-body" 
+								infinite-scroll
+								(scrolled)="onScrollDown($event,this.fromDate)"
+								>
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
 											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-												<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
+												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{this.tabledata.patientName}}
 										   </div>
 										   
 										</div>
 										<div class="col-md-8 col-lg-6 text-end ">
 											<div class="row">
 												<div class="col-md-10">
-													<span class="body2">{{message.dateCreated | date:'medium'}} (3days ago)</span>  
+													<span class="body2">{{message.dateCreated | date:'medium'}} </span>  
 												</div>
 												<div class="col-md-2">   
-													<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
-													<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+													<a href="javascript:void(0);" *ngIf="(message.messageId != '')" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
 												</div>
 											</div>                     
 										</div>
@@ -321,236 +323,6 @@
 										</div>
 										<div class="card-body p-0 pb-3">
 											<div class="table-responsive">
-												<!--<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
-													<thead class="thead-light">
-														<tr style="text-transform:uppercase;">
-															<th style="width:15px;">   
-																<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
-																	<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</th>
-															<th class="body2">MEMBER NAME</th>
-															<th class="body2">TYPE</th>
-															<th class="body2">Status</th>
-															<th class="body2">Actions</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center mt-1">
-																	<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Colin</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
-															</td>                     
-															<td>
-																<div>
-																	<span class="badge rounded-pill badge-success body2 px-2">Accepted</span><br/>
-																	<small class="text-muted">Created on : 14/APR/2020</small>
-																</div>
-															</td>
-														   
-															<td>
-																<div class="mt-1 d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr> 
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center mt-1">
-																   <img alt="..." src="assets/images/image3.png" class="avatar avatar-sm rounded-circle ">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Simon Sais</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Community </span>
-															</td>                     
-															<td>
-																<div class="email">
-																	<span class="badge rounded-pill badge-info body2">On hold </span><br/>
-																	<small class="text-muted">Created on : 14/APR/20</small>
-																</div>                     
-															</td>
-														   
-															<td>
-																<div class="mt-1 d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr> 
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center mt-1">
-																   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle ">
-																   <div class="ps-2">
-																	<span class="body2 d-block">Mario Speedwagon</span>
-																	<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
-															</td>                     
-															<td>
-																<div class=" email">
-																	<span class="badge rounded-pill badge-warning body2 ">Unavailable </span><br/>
-																	<small class="text-muted">Created on : 14/APR/20</small>
-																</div>                     
-															</td>
-															<td>
-																<div class="mt-1 d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-															  <div class="d-flex mt-1">
-																   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle ">
-																   <div class="ps-2">
-																	<span class="body2 d-block">Colin</span>
-																	<span class="body2 d-block">General Dentist</span>
-																	</div>
-																  </div>
-															</td>
-															<td>
-															  <span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
-															 </td>                     
-															 <td>
-															  <div>
-																<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-																<small class="text-muted">Created on : 14/APR/20</small>
-															  </div>                     
-															 </td>
-															
-															 <td>
-																<div class="mt-1 d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center mt-1">
-																	<img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle ">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Liza Doolittle</span>
-																		<span class="body2 d-block">Specialist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray" ></i>Home </span>
-															</td>                     
-															<td>
-																<div>
-																	<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-																	<small class="text-muted">Created on : 14/APR/20</small>
-																</div>                     
-															</td>
-															<td>
-																<div class="mt-1 d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center mt-1">
-																	<img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle ">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Colin</span>
-																		<span class="body2 d-block">General Dentist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
-															</td>                     
-															<td>
-																<div class=" email">
-																	<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-																	<small class="text-muted">Created on : 14/APR/20</small>
-																</div>                     
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="form-check form-check-inline">
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
-															<td>
-																<div class="d-flex align-items-center">
-																   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle ">
-																	<div class="ps-2">
-																		<span class="body2 d-block">Aida Bugg</span>
-																		<span class="body2 d-block">Specialist</span>
-																	</div>
-																</div>
-															</td>
-															<td>
-																<span class="body2"><i class="bx bxs-home me-1 text-gray" ></i>Home </span>
-															</td>                     
-															<td>
-																<div>
-																	<span class="badge rounded-pill badge-success body2 px-2">Accepted </span><br/>
-																	<small class="text-muted">Created on : 14/APR/20</small>
-																</div>                     
-															</td>
-															<td>
-																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-invite" class="me-1 text-light-green"><i class="material-icons">visibility</i></a>
-																</div>
-															</td>
-														</tr>
-													</tbody>
-												</table>-->
 												<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
@@ -602,7 +374,7 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile" class="me-1">
+																	<a href="javascript:void(0);" (click)="viewColleagueDetails(invite.invitedUserId,invite.caseId);" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
 																	<a *ngIf="(invite.presentStatus != 3)" href="javascript:void(0);" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
@@ -642,12 +414,13 @@
 										</div>
 										<div class="card-body p-0 pb-3">
 											<div class="table-responsive">
-												<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+												<table *ngIf="workordersdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
 
 															<th class="body2">ASSIGNED TO</th>
 															<th class="body2">WORK ORDER TITLE</th>
+															<th class="body2">MILESTONE TITLE</th>
 															<th class="body2">STATUS</th>
 															<th class="body2">PATIENT NAME</th>
 															<th class="body2">CASE TITLE</th>
@@ -659,12 +432,14 @@
 															<td>
 																<div>
 																	<span class="d-none">{{i}}</span>
-																	<span class="avatar-icon">D</span>
-																	<span class="body2 ms-1">Danial Doolittle</span>
+																	<span class="body2 ms-1">{{data.memberName}}</span>
 																</div>
 															</td>		 
 															<td>  
 																<span class="body2">{{data.title}}</span>                
+															</td>
+															<td>  
+																<span class="body2">{{data.milestoneTitle}}</span>                
 															</td>
 															<td>
 																<div>
@@ -679,7 +454,8 @@
 																<span class="body2">{{data.patientName}} </span>                
 															</td>
 															<td>  
-																<span class="body2">Title5 Leo Root Canel report</span>                
+																<span class="body2">{{this.tabledata.title}}</span>                
+
 															</td>
 															<td>
 																<div class="d-flex">
@@ -735,6 +511,7 @@
 													<th style="width: 15px;" data-orderable="false">&nbsp;</th>
 													<th class="body2">ASSIGNED TO</th>
 													<th class="body2">TITLE</th>
+													<th class="body2">MILESTONE TITLE</th>
 													<th class="body2">STATUS</th>
 													<th class="body2">CREATED ON</th>
 													<th class="body2" data-orderable="false">ACTIONS</th>
@@ -750,12 +527,14 @@
 														</td>
 														<td>
 															<div class="d-flex align-items-center">
-																<span class="avatar-icon my-2 me-2">C</span>
-																<span class="body2">Colin Sik</span>
+																<span class="body2">{{data.memberName}}</span>
 															</div>                       
 														  </td>
 														<td>
 														  <span class="body2">{{data.title}}</span>
+														</td>
+														<td>
+														  <span class="body2">{{data.milestoneTitle}}</span>
 														</td>
 														<td>
 														  <div class=" email">
@@ -826,7 +605,7 @@
 										<div class="card-body p-0 pb-3">
 											<div *ngIf="id === 'listView'">
 												<div class="table-responsive">
-													<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
+													<table *ngIf="milestonedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 														<thead class="thead-light">
 															<tr style="text-transform:uppercase;">
 																<th data-orderable="false">   

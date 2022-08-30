@@ -9,7 +9,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-file-details',
@@ -24,16 +24,22 @@ export class FileDetailsComponent implements OnInit {
 	base64Image: any;
     urlSafe: SafeResourceUrl;
 	
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, public sanitizer: DomSanitizer) { }
+  filesId: string;
+  getcaseId: string;
+  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, public sanitizer: DomSanitizer, private route: ActivatedRoute) { 
+	this.filesId = this.route.snapshot.paramMap.get('filesId');
+	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
+  }
 
   ngOnInit(): void {
+  this.filedetails = '';
   this.getFileDetails();
   this.getCaseDetails();
   }
   
 	getFileDetails() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		let fileUploadId = sessionStorage.getItem("fileUploadId");
+		let fileUploadId = this.filesId;
 		if(fileUploadId != '')
 		{
 			url += "?fileUploadId="+fileUploadId;
@@ -76,6 +82,8 @@ export class FileDetailsComponent implements OnInit {
 					if (Response)
 					{
 						this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(Response);
+						this.allfilesdata.files[0].url = Response;
+						//alert(this.urlSafe);
 					}
 				}, error => {
 				  if (error.status === 404)
@@ -96,8 +104,9 @@ export class FileDetailsComponent implements OnInit {
 		}
 	}
 	getCaseDetails() {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.getcaseId;
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

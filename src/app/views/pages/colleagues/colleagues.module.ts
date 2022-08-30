@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from "angular-datatables";
 import { ColleaguesComponent } from './colleagues.component';
 import { ColleaguesListComponent } from './colleagues-list/colleagues-list.component';
@@ -31,7 +32,7 @@ const routes: Routes = [
         component: ColleaguesAddMembersComponent
       },
 	  {
-        path: 'colleague-view-profile',
+        path: 'colleague-view-profile/:profileId/:caseId',
         component: ColleagueViewProfileComponent
       }
     ]
@@ -47,6 +48,7 @@ const routes: Routes = [
     ColleagueViewProfileComponent
   ],
   imports: [
+	FormsModule,
     CommonModule,
 	RouterModule.forChild(routes),
 	DataTablesModule

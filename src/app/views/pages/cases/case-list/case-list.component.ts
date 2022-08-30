@@ -16,7 +16,9 @@ export class CaseListComponent implements OnInit {
 
 	masterSelected:boolean;
 	tabledata:any;
+	public indexRow = 0;
 	checkedList:any;
+	invitedatas:any;
   
 	id:any = "myCases";
 	tabContent(ids:any){
@@ -62,17 +64,34 @@ export class CaseListComponent implements OnInit {
 			swal.fire({
 				title: 'Loading....',
 				showConfirmButton: false,
-				timer: 2200
+				timer: 3000
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					let AllDate = JSON.parse(Response.toString());
-					let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-					//alert(JSON.stringify(sortedCountries));
-					this.tabledata = caseDate.reverse();
+					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					//this.tabledata = caseDate.reverse();
+					
+					this.tabledata = Array();
+					for(var k = 0; k < AllDate.length; k++)
+					{
+						this.tabledata.push({
+						  id: k,
+						  patientName: AllDate[k].patientName,
+						  title: AllDate[k].title,
+						  caseStatus: AllDate[k].caseStatus,
+						  dateCreated: AllDate[k].dateCreated,
+						  memberName: '',
+						  patientId: AllDate[k].patientId,
+						  caseId: AllDate[k].caseId
+						});
+						this.getCaseMemberList(AllDate[k].caseId,k);
+					}
 					//alert(JSON.stringify(this.tabledata));
+				
 				}
 			}, (error) => {
 			  swal.fire("Unable to fetch data, please try again");
@@ -82,10 +101,7 @@ export class CaseListComponent implements OnInit {
 	}
 	
 	viewCase(caseId: any, patientId: any) {
-		sessionStorage.setItem('caseId', caseId);
-		sessionStorage.setItem('patientId', patientId);
-		sessionStorage.setItem("masterTab", 'tab1');
-		this.router.navigate(['master/master-list']);
+		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	onSubmit(form: NgForm) {
 		let url = this.utility.apiData.userCases.ApiUrl;
@@ -147,5 +163,82 @@ export class CaseListComponent implements OnInit {
 			  else
 				swal.fire('Unable to fetch the data, please try again');
 			});
-	  };
+	};
+	  
+	getCaseMemberList(caseId, index) {
+		
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		url += "&resourceOwner="+user.dentalId;
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				let GetAllData = JSON.parse(Response.toString());
+				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				//alert(JSON.stringify(GetAllData));
+				this.invitedatas = Array();
+				this.indexRow = 0;
+				for(var k = 0; k < GetAllData.length; k++)
+				{
+					this.invitedatas.push({
+					  id: this.indexRow,
+					  userName: ''
+					});
+					//alert(GetAllData[k].invitedUserId);
+					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
+					this.indexRow++;
+				} 
+				//alert(JSON.stringify(this.invitedata));
+				//alert(JSON.stringify(this.tabledata));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal.fire('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal.fire('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal.fire('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal.fire(error.error);
+		  else
+			swal.fire('Unable to fetch the data, please try again');
+		});
+	}
+	
+	getuserdetailsall(userId, index, Row) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userColleague.ApiUrl;
+		if(userId != '')
+		{
+			url += "?dentalId="+userId;
+		}
+		let GetArray = this.invitedatas;
+		this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			let userData = JSON.parse(Response.toString());
+			//alert(JSON.stringify(GetArray));
+			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			GetArray[index].userName = name;
+			if((index+1) == GetArray.length)
+			{
+				this.tabledata[Row].memberName = GetArray;
+				//alert(JSON.stringify(this.tabledata[Row].memberName));
+			}
+		}
+		}, (error) => {
+		  swal.fire("Unable to fetch data, please try again");
+		  return false;
+		});
+		}
+	}
 }

@@ -26,15 +26,15 @@ const routes: Routes = [
         component: PatientsListComponent
       },
       {
-        path: 'patient-details',
+        path: 'patient-details/:patientId',
         component: PatientDetailsComponent
       },
       {
-        path: 'patient-edit',
+        path: 'patient-edit/:patientId',
         component: PatientEditComponent
       },
       {
-        path: 'patient-case-list',
+        path: 'patient-case-list/:patientId',
         component: PatientCaseListComponent
       },
       {

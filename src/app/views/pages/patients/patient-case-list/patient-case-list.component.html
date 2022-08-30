@@ -46,26 +46,30 @@
 						<thead class="thead-light text-uppercase">
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
+								<th class="body2">PATIENT NAME</th>
 								<th class="body2">CASE TITLE</th>
-								<th class="body2">OWNER NAME</th>
-								<th class="body2">CURRENT STATUS</th>
+								<th class="body2">STATUS</th>
 								<th class="body2">MEMBERS</th>
 								<th class="body2" data-orderable="false">Actions</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr  *ngFor="let data of casedata; let i = index;" >
+						<tbody *ngIf="casedata?.length != 0">
+							<tr *ngFor="let data of casedata; let i = index;">
 								<td>
 									<div class="form-check form-check-inline">
 										<span class="d-none">{{i}}</span>
 										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 									</div>
+								</td>
+								<td>
+									<div>
+										<!-- <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle"> -->
+										<span class="avatar-icon">{{data.patientName.charAt(0)}}</span>
+										<span class="body2 ms-1">{{data.patientName}}</span>
+									</div>
 								</td>		 
 								<td>  
 									<span class="body2">{{data.title}}</span>                
-								</td>		 
-								<td>  
-									<span class="body2">{{data.patientName}}</span>
 								</td>
 								<td>
 									<div>
@@ -76,21 +80,23 @@
 								</td>
 								<td>
 									<ul class="avatar-list">
-										<li class="avatar-item"><span class="avatar-icon">J</span></li>
-										<li class="avatar-item"><span class="avatar-icon">D</span></li>
-										<li class="avatar-item"><span class="avatar-icon">S</span></li>
-										<li class="avatar-item"><span class="avatar-icon">R</span></li>
-										<li class="avatar-item"><span class="avatar-icon">M</span></li>
+										<li class="avatar-item" *ngFor="let members of data.memberName; let j = index;"><span class="avatar-icon">{{members.userName.charAt(0)}}</span></li>
+
+
+
+
+
 									</ul>
 								</td>
 								<td>
 									<div class="d-flex">
-										<a  href="javascript:void(0);" (click)="viewCase(data.caseId)">
+										<a  href="javascript:void(0);" (click)="viewCase(data.caseId, data.patientId)">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>
 								</td>
 							</tr>
+							
 						</tbody>
 					</table>
 				</div>

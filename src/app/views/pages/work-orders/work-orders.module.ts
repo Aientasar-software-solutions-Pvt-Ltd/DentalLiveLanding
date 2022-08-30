@@ -29,7 +29,7 @@ const routes: Routes = [
         component: WorkOrdersListComponent
       },
 	  {
-        path: 'work-order-details',
+        path: 'work-order-details/:workorderId',
         component: WorkOrderDetailsComponent
       },
 	  {
@@ -41,7 +41,7 @@ const routes: Routes = [
         component: WorkOrderAddComponent
       },
 	  {
-        path: 'work-order-edit',
+        path: 'work-order-edit/:workorderId',
         component: WorkOrderEditComponent
       }
     ]

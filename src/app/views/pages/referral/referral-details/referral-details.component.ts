@@ -8,7 +8,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
@@ -78,7 +78,10 @@ export class ReferralDetailsComponent implements OnInit {
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
 	messagedata:any;
- constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev) { }
+    referralId:any;
+ constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
+	this.referralId = this.route.snapshot.paramMap.get('referralId');
+ }
   
   back(): void {
     this.location.back()
@@ -117,16 +120,13 @@ export class ReferralDetailsComponent implements OnInit {
 		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
 		swal.fire({
 			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
 			showConfirmButton: false,
 			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
+			timer: 2200
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let referralId = sessionStorage.getItem("referralId");
+		let referralId = this.referralId;
 		if(referralId != '')
 		{
 			url += "?referralId="+referralId;

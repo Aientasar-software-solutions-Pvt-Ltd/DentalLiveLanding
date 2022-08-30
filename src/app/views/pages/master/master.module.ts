@@ -12,17 +12,18 @@ import listPlugin from "@fullcalendar/list";
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { PatientsModule } from '../patients/patients.module';
 import { MasterComponent } from './master.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'master-list',
-    pathMatch: 'full',
-  },
-  {
-    path: 'master-list',
-    component: MasterComponent
-  }
+	{
+        path: '',
+        redirectTo: 'master-list',
+        pathMatch: 'full',
+	},
+	{
+		path: 'master-list/:caseId/:tabName',
+		component: MasterComponent
+	}
 ]
 
 FullCalendarModule.registerPlugins([
@@ -48,7 +49,8 @@ FullCalendarModule.registerPlugins([
     NgSelectModule,
     PatientsModule,
     ReactiveFormsModule,
-    DataTablesModule
+	DataTablesModule,
+    InfiniteScrollModule
   ]
 })
 export class MasterModule { }

@@ -109,8 +109,9 @@ export class ReferralAddComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
+		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', 'referral/referral-list', 'post', '','notes');
+		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', backurl, 'post', '','notes');
 	}
 	
 	getAllMembers(caseId) {

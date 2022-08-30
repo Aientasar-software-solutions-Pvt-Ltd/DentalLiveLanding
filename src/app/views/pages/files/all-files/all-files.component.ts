@@ -7,7 +7,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-all-files',
@@ -31,7 +31,12 @@ export class AllFilesComponent implements OnInit {
 	  files: Array()
 	}
 	
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
+  dateCreated: string;
+  getcaseId: string;
+  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
+	this.dateCreated = this.route.snapshot.paramMap.get('dateCreated');
+	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
+  }
 
   ngOnInit(): void {
 	this.getAllFiles();
@@ -79,11 +84,11 @@ export class AllFilesComponent implements OnInit {
 	getAllFiles() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
-		let dateCreated = Number(sessionStorage.getItem("dateCreated"));
+		let dateCreated = Number(this.dateCreated);
 		let date1 = new Date(dateCreated).toLocaleDateString("en-US");
 		let formDate = this.getTimeStamp(date1);
 		let todate = formDate+oneday;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.getcaseId;
 		//alert(caseId);
 		if(caseId != '')
 		{
@@ -119,13 +124,14 @@ export class AllFilesComponent implements OnInit {
 	}
 	
 	viewFilesDetails(fileUploadId: any) {
-		sessionStorage.setItem('fileUploadId', fileUploadId);
-		this.router.navigate(['/files/file-details']);
+		//sessionStorage.setItem('fileUploadId', fileUploadId);
+		this.router.navigate(['/files/file-details/'+fileUploadId+'/'+this.getcaseId]);
 	}
 	
 	getCaseDetails() {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = this.getcaseId;
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

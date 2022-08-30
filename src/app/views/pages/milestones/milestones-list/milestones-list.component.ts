@@ -52,6 +52,7 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	getallmilestone() {
+		sessionStorage.setItem('backurl', '/milestones/milestones-list');
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -85,12 +86,12 @@ export class MilestonesListComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		sessionStorage.setItem('milestoneId', milestoneId);
-		this.router.navigate(['milestones/milestone-details']);
+		//sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	editMilestone(milestoneId: any) {
-		sessionStorage.setItem('milestoneId', milestoneId);
-		this.router.navigate(['milestones/milestone-edit']);
+		//sessionStorage.setItem('milestoneId', milestoneId);
+		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	
 	deletemilestone(milestoneId: any) {

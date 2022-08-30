@@ -51,7 +51,7 @@ const routes: Routes = [
         component: CaseAddFileUploadComponent
       },
 	  {
-        path: 'case-edit',
+        path: 'case-edit/:caseId',
         component: CaseEditComponent
       }
     ]

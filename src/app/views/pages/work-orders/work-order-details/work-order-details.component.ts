@@ -6,7 +6,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
@@ -73,7 +73,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 	  text: ''
 	}
 	
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev) { }
+	workorderId: any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
+	}
   
 	back(): void {
 		this.location.back()
@@ -105,7 +108,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let workorderId = sessionStorage.getItem("workorderId");
+		let workorderId = this.workorderId;
 		if(workorderId != '')
 		{
 			url += "?workorderId="+workorderId;

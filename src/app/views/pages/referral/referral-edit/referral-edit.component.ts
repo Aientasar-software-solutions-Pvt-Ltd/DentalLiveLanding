@@ -8,7 +8,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 @Component({
@@ -44,7 +44,10 @@ export class ReferralEditComponent implements OnInit {
 	public isvalidDate = false;
 	
 	public isvalidToothGuide = false;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+    referralId:any;
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute)  {
+	this.referralId = this.route.snapshot.paramMap.get('referralId');
+	}
   
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
@@ -103,8 +106,9 @@ export class ReferralEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
+		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', 'referral/referral-list', 'put', '','notes');
+		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes');
 		
 	}
 	getuserdetailsall(userId, index) {
@@ -209,7 +213,7 @@ export class ReferralEditComponent implements OnInit {
 			timer: 2200,
 		});
 		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let referralId = sessionStorage.getItem("referralId");
+		let referralId = this.referralId;
 		if(referralId != '')
 		{
 			url += "?referralId="+referralId;
