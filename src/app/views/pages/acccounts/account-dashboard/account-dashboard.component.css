@@ -1,0 +1,46 @@
+mat-tab-group {
+  background: white;
+  box-shadow: 0px 4px 20px rgb(7 213 232 / 10%);
+}
+
+.customtab li a.nav-link {
+  border: 0px;
+  padding: 0.5rem 0.75rem;
+  color: #354053;
+}
+
+.customtab li a.nav-link.active {
+  border-bottom: 2px solid #0052cc;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom-color: #0052cc;
+  color: #0052cc;
+}
+
+.tabs {
+  margin: 3px;
+  color: #5D6A7E;
+  background-color: #ffffff;
+  text-align: center;
+  height: auto;
+  width: 164px;
+  left: 284px;
+  top: 170px;
+  border-radius: 6px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: #1991EB;
+}
+
+.nav-pills .nav-link {
+  color: #5D6A7E;
+}
+
+.nav-pills .nav-link :active {
+  color: #fff;
+  background-color: #1991EB;
+}

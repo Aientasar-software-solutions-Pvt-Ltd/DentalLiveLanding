@@ -1,0 +1,35 @@
+<div>
+  <h5 class="card-title pb-2  border-bottom" style="color: #011A3E;">Account Settings <div class="float-end">
+      <span *ngIf="user.etrID" class="badge bg-warning badge-warning body2 me-2">Enterprise :
+        {{user.dependencies?.etr?.etrName}}
+      </span>
+      <span *ngIf="user.etrID" class="badge bg-warning badge-warning body2">Location :
+        {{user.dependencies?.location?.locationName}}
+      </span>
+    </div>
+  </h5>
+  <div class="col-12 pt-2">
+    <div class="box">
+      <div class="box-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills  mb-4" style="flex-wrap:nowrap;overflow: auto;white-space: nowrap;">
+          <li class="nav-item tabs"> <a [routerLinkActive]="['active']" routerLink="account" class="nav-link"
+              data-bs-toggle="tab" aria-expanded="false">Account Details</a>
+          <li *ngIf="!user.etrID" class="nav-item tabs"> <a [routerLinkActive]="['active']" routerLink="roles"
+              class="nav-link" data-bs-toggle="tab" aria-expanded="false">Roles</a> </li>
+          <li *ngIf="!user.etrID" class="nav-item tabs"> <a [routerLinkActive]="['active']" routerLink="subusers"
+              class="nav-link" data-bs-toggle="tab" aria-expanded="false">Sub-Members</a> </li>
+          <li *ngIf="!user.etrID" class="nav-item tabs"> <a [routerLinkActive]="['active']" routerLink="purchases"
+              class="nav-link" data-bs-toggle="tab" aria-expanded="false">My Purchases</a> </li>
+          <li *ngIf="!user.etrID" class="nav-item tabs"> <a [routerLinkActive]="['active']" routerLink="usage"
+              class="nav-link" data-bs-toggle="tab" aria-expanded="false">Usage</a> </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

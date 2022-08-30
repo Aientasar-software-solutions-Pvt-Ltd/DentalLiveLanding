@@ -1,0 +1,8 @@
+.space table {
+  border-collapse: separate;
+  border-spacing: 0px 20px;
+}
+
+.table-hover>tbody>tr:hover {
+  --bs-table-accent-bg: none;
+}

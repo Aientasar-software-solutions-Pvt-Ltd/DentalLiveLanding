@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 
@@ -33,21 +33,21 @@ export class ForgetpasswordComponent implements OnInit {
     this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
       .subscribe(Response => {
         this.sending = false;
-        swal.fire('Password Sent Succesfully')
+        swal('Password Sent Succesfully')
         this.router.navigate(['login']);
       }, error => {
         this.sending = false;
         switch (error.status) {
           case 400: {
-            swal.fire("Bad request,enter proper Email address")
+            swal("Bad request,enter proper Email address")
             break;
           }
           case 404: {
-            swal.fire("E-Mail ID does not exists,please signup to continue")
+            swal("E-Mail ID does not exists,please signup to continue")
             break;
           }
           case 406: {
-            swal.fire("Unable to reset password,please try again");
+            swal("Unable to reset password,please try again");
             break;
           }
         }

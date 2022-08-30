@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
@@ -14,18 +14,18 @@ import { PatientsModule } from '../patients/patients.module';
 import { MasterComponent } from './master.component';
 
 const routes: Routes = [
-	{
-        path: '',
-        redirectTo: 'master-list',
-        pathMatch: 'full',
-	},
-	{
-		path: 'master-list',
-		component: MasterComponent
-	}
+  {
+    path: '',
+    redirectTo: 'master-list',
+    pathMatch: 'full',
+  },
+  {
+    path: 'master-list',
+    component: MasterComponent
+  }
 ]
 
-FullCalendarModule.registerPlugins([ 
+FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
   interactionPlugin,
@@ -34,18 +34,21 @@ FullCalendarModule.registerPlugins([
 ]);
 
 @NgModule({
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   declarations: [
     MasterComponent
   ],
   imports: [
     CommonModule,
-	RouterModule.forChild(routes),
-	FullCalendarModule,
+    RouterModule.forChild(routes),
+    FullCalendarModule,
     FormsModule,
-	NgSelectModule,
-	PatientsModule,
+    NgSelectModule,
+    PatientsModule,
     ReactiveFormsModule,
-	DataTablesModule
+    DataTablesModule
   ]
 })
 export class MasterModule { }

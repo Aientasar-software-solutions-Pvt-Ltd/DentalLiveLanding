@@ -1,6 +1,7 @@
 <header class="container-fluid px-0 fixed-top" style="z-index: 99999;">
-	<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom px-2" style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);height:68px;">
-		<div  class="container-fluid">
+	<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom px-2"
+		style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);height:68px;">
+		<div class="container-fluid">
 			<a id="collapse_menu" class="collapse_menu" (click)="collapse_menu($event)">
 				<i class="collapse_menu--icon  fa fa-bars"></i>
 			</a>
@@ -11,21 +12,27 @@
 				<li class="nav-item">
 					<a class="nav-link" [ngClass]="classFlag ? '' : 'fs-5'" style="color:#5D6A7E;">Planner</a>
 				</li>
-			</ul>          
+			</ul>
 			<button type="button" id="toggleMenu" class="toggle_menu" (click)="toggleMenu($event)">
 				<span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
 			</button>
 			<div class="flex-grow-1 d-flex align-items-center" style="flex-basis: auto;">
-				<ul  class="navbar-nav ms-auto my-2 my-md-0">
+				<ul class="navbar-nav ms-auto my-2 my-md-0">
 					<li class="nav-item nav-profile dropdown text-end">
-						<a href="javascript:void(0);" class="nav-link align-items-center d-flex  p-0 dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="true">                
-							<img alt="..." src={{this.imgSrc}} class="avatar avatar-sm rounded-circle dropdown-toggle me-0 me-md-2" style="border: 1px dotted #00D9CC;" width="36" height="36">
+						<a href="javascript:void(0);" class="nav-link align-items-center d-flex  p-0 dropdown-toggle"
+							id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="true">
+							<img alt="..." src={{this.imgSrc}}
+								class="avatar avatar-sm rounded-circle dropdown-toggle me-0 me-md-2"
+								style="border: 1px dotted #00D9CC;" width="36" height="36">
 							<span class="nav-link body2 px-0 d-none d-md-inline-block">Hi, {{this.AccountName}}</span>
 						</a>
-						<div class="dropdown-menu dropdown-menu-end text-sm position-absolute" aria-labelledby="dropdownUser1" data-popper-placement="bottom-start">
+						<div class="dropdown-menu dropdown-menu-end text-sm position-absolute"
+							aria-labelledby="dropdownUser1" data-popper-placement="bottom-start">
 							<ul class="profile-nav p-0">
-								<li class="nav-item"><a class="nav-link" routerLink="/account-settings"><i class="bx bx-user"></i><span>Profile</span></a></li>
-								<li class="nav-item"><a class="nav-link" routerLink="/auth/login"><i class="bx bx-log-out"></i><span>Logout</span></a></li>
+								<li class="nav-item"><a class="nav-link" routerLink="/accounts"><i
+											class="bx bx-user"></i><span>Profile</span></a></li>
+								<li class="nav-item"><a class="nav-link" routerLink="/auth/login"><i
+											class="bx bx-log-out"></i><span>Logout</span></a></li>
 							</ul>
 						</div>
 					</li>

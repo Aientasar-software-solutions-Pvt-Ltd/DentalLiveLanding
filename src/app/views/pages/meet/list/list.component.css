@@ -1,0 +1,99 @@
+tbody,
+th,
+thead {
+  border-style: none;
+}
+
+.table .thead-light th,
+.text-wrap table .thead-light th {
+  color: rgba(93, 106, 126, 0.5);
+  background-color: #F7F9FB;
+  border-color: #F7F9FB;
+}
+
+tr td:first-child,
+tr th:first-child {
+  padding-left: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.form-check-input {
+  width: 15px;
+  height: 15px;
+}
+
+.cover-image {
+  background-size: cover !important;
+}
+
+.avatar-list .avatar:not(:last-child) {
+  margin-right: .5rem;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+  vertical-align: bottom;
+  font-size: .875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.nav.panel-tabs a.active {
+  background-color: #f5f6fb;
+  color: #0070D2;
+  border: 1px solid #0070D2;
+  border-radius: 50px;
+}
+
+.tabs-menu ul li a {
+  padding: 10px 20px !important;
+}
+
+.nav.panel-tabs a {
+  background-color: #f5f6fb;
+  border-radius: 5px;
+  border-radius: 50px;
+  color: #5D6A7E;
+}
+
+.tabs-menu ul li a {
+  padding: 10px 12px 11px 13px;
+  display: block;
+}
+
+.search {
+  position: relative;
+}
+
+.search input {
+  text-indent: 25px;
+}
+
+.bx-search {
+  color: rgba(208, 214, 222, 0.5);
+  font-size: 16px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+}
+
+.progress .bg-info {
+  background-color: #1991EB !important;
+}
+
+.progress-sm {
+  height: .5rem;
+}

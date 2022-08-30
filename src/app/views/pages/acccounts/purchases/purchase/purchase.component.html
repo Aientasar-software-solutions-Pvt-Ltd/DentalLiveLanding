@@ -1,0 +1,118 @@
+<div *ngIf="isLoadingData" class="row">
+  <div class="col-md-12">
+    <lottie-player class="mt-3 m-auto"
+      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+      background="transparent" speed="1" style="width: 300px; height: 300px;margin: auto;" loop autoplay>
+    </lottie-player>
+    <h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+  </div>
+</div>
+<div [hidden]="isLoadingData" class="rounded bg-white p-4 p-md-5" style="box-shadow: 0 0 20px 0 rgb(0 0 0 / 5%);">
+  <div class="row">
+    <div class="col-12">
+      <a routerLink="/mail/packages">
+        <h5>Change Plan</h5>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="p-4 table-responsive">
+        <table border="0" class="p-4" style="width: 100%;min-width:368px;">
+          <tbody class="p-4">
+            <tr>
+              <th style="vertical-align: top; " width="52%">
+                <h5 style="font-weight: 600">{{viewplan}} Plan</h5>
+              </th>
+              <th class="text-end" style="vertical-align: top;">
+                <h5 style="font-weight: 600">{{ this.object.currency}}
+                  {{packagePrice  | currency : 'USD' : 'symbol' : '1.2-2'}}
+                </h5>
+              </th>
+            </tr>
+            <tr *ngIf="discount>0">
+              <td style="padding:10px 0;">
+                <h5>Coupon Discount({{discount}} %)</h5>
+              </td>
+              <td class="text-end" style=" padding:10px 0;">
+                <h5> - {{ this.object.currency}}
+                  {{(discount/100)*packagePrice  | currency : 'USD' : 'symbol' : '1.2-2'}}</h5>
+              </td>
+            </tr>
+            <tr style="height: 50px;"></tr>
+            <tr>
+              <td style="padding:10px 0;">
+                <h5>Sub-Total</h5>
+              </td>
+              <td class="text-end" style=" padding:10px 0;">
+                <h5>{{object.currency}}
+                  {{packagePrice - ((discount / 100) * packagePrice)| currency : 'USD' : 'symbol' : '1.2-2'}}</h5>
+              </td>
+            </tr>
+            <tr class=" text-center body1 border_bottom position-relative" style="color: #5D6A7E;"></tr>
+            <tr>
+              <td style="padding:10px 0;">
+                <h5>Tax 13%</h5>
+              </td>
+              <td class="text-end" style=" padding:10px 0;">
+                <h5>{{object.currency}}
+                  {{((13 / 100) * (packagePrice - ((discount / 100) * packagePrice)))| currency : 'USD' : 'symbol' : '1.2-2'}}
+                </h5>
+              </td>
+            </tr>
+
+            <tr class="text-center body1 border_bottom_solid position-relative" style="color: #5D6A7E;"></tr>
+            <tr>
+              <th width="52%">
+                <h5 style="font-weight: 600;color: #0070d2">Total ({{object.currency}})</h5>
+              </th>
+              <th class="text-end">
+                <h5 style="font-weight:600;color: #0070d2">{{object.currency}}
+                  {{packagePrice - ((discount / 100) * packagePrice) +((13 / 100) * (packagePrice - ((discount / 100) * packagePrice)))|currency : 'USD' : 'symbol' : '1.2-2'}}
+                </h5>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-8 p-4 pt-0">
+        <div class="mb-4">
+          <div class="row" style="display: flex;align-items: center;">
+            <div class="mb-4 mb-md-0 col-12 col-md-auto">
+              <input #coupon placeholder="Coupon Code" type="text" class="form-control">
+            </div>
+            <div class="col-12 col-md-auto">
+              <button [disabled]="isApplyingCoupon" (click)="applyCoupon(coupon.value)" type="button"
+                class="btn btn-primary btn-1  me-3  border-0"
+                style="background-color:#0070D2;height:40px;padding:10px 31px;box-shadow: 0px 4px 20px #C3D2FF;">
+                <span *ngIf="isApplyingCoupon" class="spinner-border spinner-border-sm me-1" role="status"
+                  aria-hidden="true"></span>
+                Apply
+              </button>
+              <small style="cursor: pointer;color:rgb(118, 9, 9);display: block;" *ngIf="discount>0"
+                (click)="applyCoupon(null);coupon.value=''">Remove Coupon</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 px-4 pb-4 d-flex align-items-center" style="color: #5D6A7E;">
+        <small class="body2">By submitting this form you agree to our
+          <a class="fw-bold" style="color:#00D9CC;text-decoration: none;">privacy policy
+          </a>
+        </small>
+      </div>
+      <div class="mb-5 mx-4 body1 border_bottom-one position-relative" style="color:#5D6A7E;">
+      </div>
+      <div class="mx-auto" style="max-width: 400px;">
+        <lottie-player class="mx-auto" *ngIf="isLoadingData"
+          src="https://assets7.lottiefiles.com/datafiles/riuf5c21sUZ05w6/data.json" background="transparent" speed="1"
+          style="width: 200px; height:200px;" loop autoplay></lottie-player>
+        <div id="smart-button-container">
+          <div style="text-align: center;">
+            <div id="paypal-button-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

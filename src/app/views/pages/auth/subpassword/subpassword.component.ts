@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiDataService } from 'src/app/users/api-data.service';
-import { UtilityService } from 'src/app/users/utility.service';
 import swal from 'sweetalert';
+import { ApiDataService } from '../../users/api-data.service';
+import { UtilityService } from '../../users/utility.service';
 
 @Component({
   selector: 'app-subpassword',

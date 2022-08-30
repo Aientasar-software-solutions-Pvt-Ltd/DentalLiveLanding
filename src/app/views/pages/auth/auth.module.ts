@@ -1,5 +1,5 @@
 //@no-check
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +13,14 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
+import { ForgetsubpaswordComponent } from './forgetsubpasword/forgetsubpasword.component';
+import { PasswordresetComponent } from './passwordreset/passwordreset.component';
+import { SubpasswordComponent } from './subpassword/subpassword.component';
+import { SubpasswordresetComponent } from './subpasswordreset/subpasswordreset.component';
+import { ValidateSucessComponent } from './validate-sucess/validate-sucess.component';
+import { ValidateComponent } from './validate/validate.component';
+import { ValidatepasswordComponent } from './validatepassword/validatepassword.component';
+import { SetpasswordComponent } from '../subuser/setpassword/setpassword.component';
 
 const routes: Routes = [
   {
@@ -24,18 +32,20 @@ const routes: Routes = [
         redirectTo: 'login',
         pathMatch: 'full'
       },
-      {
-        path: 'login',
-        component: AccountloginComponent
-      },
-      {
-        path: 'signup',
-        component: AccountsignupComponent
-      },
-      {
-        path: 'forget',
-        component: ForgetpasswordComponent
-      }
+      { path: 'login', component: AccountloginComponent },
+      { path: 'signup', component: AccountsignupComponent },
+      { path: 'signup/:package', component: AccountsignupComponent },
+      { path: 'dovalidate/:mail', component: ValidateComponent },
+      { path: 'validate/:mail/:random', component: ValidateSucessComponent },
+      { path: 'subvalidate/:mail/:submail/:random', component: SubpasswordComponent },
+      { path: 'forget', component: ForgetpasswordComponent },
+      { path: 'reset/:email/:randNo', component: PasswordresetComponent },
+      { path: 'subforget', component: ForgetsubpaswordComponent },
+      { path: 'subreset/:email/:submail/:randNo', component: SubpasswordresetComponent },
+
+
+      { path: 'etrvalidate/:id/:random', component: ValidatepasswordComponent },
+      { path: 'subuservalidate/:dentalID/:subUserId/:verification', component: SetpasswordComponent },
     ]
   },
 ]
@@ -46,6 +56,14 @@ const routes: Routes = [
     AccountloginComponent,
     AccountsignupComponent,
     ForgetpasswordComponent,
+    ForgetsubpaswordComponent,
+    ValidateComponent,
+    ValidateSucessComponent,
+    SubpasswordComponent,
+    PasswordresetComponent,
+    SubpasswordresetComponent,
+    ValidatepasswordComponent,
+    SetpasswordComponent
   ],
   imports: [
     CommonModule,
@@ -76,6 +94,7 @@ const routes: Routes = [
         }
       } as SocialAuthServiceConfig,
     }
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthModule { }

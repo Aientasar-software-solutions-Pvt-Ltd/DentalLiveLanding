@@ -6,7 +6,6 @@ import { UtilityService } from './users/utility.service';
 import { ApiDataService } from './users/api-data.service';
 import { PermissionGuardService } from './permission-guard.service';
 import { AccdetailsService } from './accdetails.service';
-import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 export interface account {
   pk: string,
@@ -32,13 +31,10 @@ export class AccountService {
   }
   login() {
     let user = this.usr.getUserDetails(false);
-    swal.fire({ type: 'success', title: 'Login initiated...please wait...', 
-            showConfirmButton: false,allowOutsideClick: false, timer: 2000 });
-	let AccountName = user.accountfirstName+' '+user.accountlastName;
-	let AccountImage = user.imageSrc;
-	//alert(AccountName);
-	sessionStorage.setItem('AccountHolder', AccountName);
-	sessionStorage.setItem('AccountHolderImg', AccountImage);
+    swal("Login initiated...please wait...", {
+      buttons: [false, false],
+      closeOnClickOutside: false,
+    });
     let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
     this.permAuth.isAdmin = true;
     if (user.Subuser) {
@@ -47,19 +43,21 @@ export class AccountService {
     }
     this.dataService.getallData(url, true).subscribe(Response => {
       if (Response) Response = JSON.parse(Response.toString());
-      //swal.fire.close();
+      swal.close();
       this.permAuth.isPristine = false;
       this.permAuth.products = Response['products'];
       this.permAuth.permissions = Response['permissions'];
-      this.router.navigate(['dashboard']);
+      if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['mail/packages']);
+      else if (this.permAuth.products.length == 1 && this.permAuth.products[0] == "Meet") this.router.navigate(['mail/talk']);
+      else this.router.navigate(['mail']);
     }, (error) => {
-      swal.fire("Unable to login, please try again");
+      swal("Unable to login, please try again");
       return false;
     });
   }
   SocailLogin(user) {
     if (!user) return;
-    swal.fire("Processing request...please wait...", {
+    swal("Processing request...please wait...", {
       buttons: [false, false],
       closeOnClickOutside: false,
     });
@@ -71,18 +69,18 @@ export class AccountService {
     this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
       .subscribe(Response => {
         if (!Response) {
-          swal.fire("Unable to login, please try again");
+          swal("Unable to login, please try again");
           return;
         }
         if (Response) Response = JSON.parse(Response.toString());
         this.login();
       }, (err) => {
         if (err.status === 403)
-          swal.fire('Account Disabled,contact Dental-Live');
+          swal('Account Disabled,contact Dental-Live');
         else if (err.status === 428)
-          swal.fire(err.error);
+          swal(err.error);
         else
-          swal.fire("Unable to login, please try again");
+          swal("Unable to login, please try again");
       })
   }
   updateAccountData(message: any) {

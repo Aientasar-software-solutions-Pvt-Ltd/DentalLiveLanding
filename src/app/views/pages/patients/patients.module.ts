@@ -9,8 +9,8 @@ import { PatientDetailsComponent } from './patient-details/patient-details.compo
 import { PatientEditComponent } from './patient-edit/patient-edit.component';
 import { PatientCaseListComponent } from './patient-case-list/patient-case-list.component';
 import { PatientAddComponent } from './patient-add/patient-add.component';
-import { Cvfast } from '../../../cvfast/cvfast.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { Cvfast } from 'src/app/cvfast/cvfast.component';
 const routes: Routes = [
   {
     path: '',
@@ -52,8 +52,8 @@ const routes: Routes = [
     PatientDetailsComponent,
     PatientEditComponent,
     PatientCaseListComponent,
-    Cvfast,
-    PatientAddComponent
+    PatientAddComponent,
+    Cvfast
   ],
   exports: [
     Cvfast,

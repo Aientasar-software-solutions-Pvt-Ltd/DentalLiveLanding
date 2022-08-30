@@ -1,0 +1,107 @@
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item "><a class="body2" [routerLink]="backLink"
+          style="text-decoration: none;color: #6E81A4;">Mails</a></li>
+      <li class="breadcrumb-item active body2" aria-current="page">View Mail</li>
+    </ol>
+  </nav>
+  <div *ngIf="sending" class="row">
+    <div class="col-md-12">
+      <lottie-player class=" mt-3 m-auto"
+        src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+        background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+      <h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+    </div>
+  </div>
+
+  <div *ngIf="!sending" class="row">
+    <div class="col-12">
+      <a [routerLink]="backLink" class="h3 mb-4" style="color: #011A3E;"><i role="button"
+          class="fa fa-chevron-left me-3 p-2"></i>{{messageList[messageList.length-1]?.subject}}
+      </a>
+      <div class="d-flex align-items-center my-3" *ngIf="patient">
+        <label class="m-0 ms-2 body1"><strong>Patient : </strong>
+          {{patient.firstName +" "+ patient.lastName}}
+          <img *ngIf="patient.imageSrc" class="avatar avatar-xs rounded-circle mx-2"
+            src="{{(patient.imageSrc)}}">
+        </label>
+      </div>
+      <div class="border-bottom card card-body shadow-sm mt-3 pt-1 px-3"
+        *ngFor="let message of messageList;let i=index">
+        <div class="row py-3 border-bottom px-2">
+          <div class="col-md-6 col-lg-7 d-flex align-items-center">
+            <div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+              <!-- <img alt="..." src="assets/tesimonial-2.png" class="avatar avatar-xs rounded-circle me-2 "> -->
+              {{message.MailFrom.toString().split('<')[0]}} </div>
+            <span class="ms-2" data-bs-toggle="collapse" [attr.data-bs-target]="'#details'+i" aria-expanded="true">
+              <i class="fa fa-chevron-down"></i>
+            </span>
+          </div>
+          <div class="d-flex col-md-6 align-items-center col-lg-5 mt-2 p-0 justify-content-end">
+            <span style="color:#D0D6DE;" *ngIf="message.attachmentList.length>0" class="material-icons me-2">
+              attach_file </span><label>{{message?.mailDateTime | date:'medium'}}</label>
+          </div>
+
+          <div class="border mt-4 rounded collapse" id="details{{i}}">
+            <small *ngIf="message.MailFrom && message.MailFrom!=''" class="d-block m-2 "><strong>From</strong> :
+              {{message.MailFrom}}</small>
+            <small *ngIf="message.MailTo && message.MailTo!=''" class="d-block m-2 "><strong>To</strong>
+              :{{message.MailTo}}</small>
+            <small *ngIf="message.sender && message.sender!=''" class="d-block m-2 "><strong>Sender</strong> :
+              {{message?.sender}} </small>
+            <small *ngIf="message.MailCc && message.MailCc!=''" class="d-block m-2"><strong>Cc</strong> :
+              {{message?.MailCc}}</small>
+            <small *ngIf="message.inReplyTo && message.inReplyTo!=''" class="d-block m-2"><strong>In-Reply-To</strong> :
+              {{message?.inReplyTo}}</small>
+            <!-- <small *ngIf="message.references && message.references!=''" class="d-block m-2"><strong>References</strong>
+              :
+              {{message?.references}}</small> -->
+            <small *ngIf="message.mailDateTime && message.mailDateTime!=''" class="d-block m-2"><strong>Date</strong> :
+              {{message?.mailDateTime | date:'medium'}}</small>
+
+          </div>
+        </div>
+        <div class="collapse my-4" [ngClass]="{'show': i == 0}" id="card{{i}}">
+          <div *ngIf="message.mailType=='INC' && message.attachmentList.length>0">
+            <strong class="d-block"><u>Attachments</u></strong>
+            <div *ngFor="let attachment of message.attachmentList">
+              <a class="d-block my-2" target="_blank" href="/file/{{attachment}}">{{attachment}}</a>
+            </div>
+          </div>
+          <div class="body2" [innerHTML]="sanitizer.bypassSecurityTrustHtml(message.htmlText)"></div>
+          <div class="mt-5 " style="color:#8f8e8e;font-size: small;font-family: rubik;">
+            <p>
+              <span style="color:#1991EB"> DISCLAIMER: </span>This communication is HIPAA Compliant,confidential and
+              privileged
+              and is directed to and for the use of the
+              addressee only.
+            </p>
+          </div>
+        </div>
+        <small class="text-primary mt-3 " data-bs-toggle="collapse" [attr.data-bs-target]="'#card'+i"
+          *ngIf="i != messageList.length-1" role="button"><u>Show Message</u> </small>
+      </div>
+
+    </div>
+
+    <div class="col-12">
+      <!---->
+      <div [class.restrict]="!permAuth.hasPermission('Compose')" class="my-3" *ngIf="!showReply">
+        <button (click)="showReply=true" type="button" class="btn btn-primary me-2"
+          style="background-color: #0070d2;height:36px;padding: 0 16px;min-width: 104px;">Reply</button>
+        <button type="button" class="btn btn-secondary border-0 " (click)="printScreen()"
+          style="background-color: #f7517f; color: white;height:36px;padding: 0 16px;min-width: 104px;">
+          Print
+        </button>
+      </div>
+      <!---->
+    </div>
+
+    <div class="mt-5 pt-3">
+      <app-videojs-record *ngIf="showReply && messageList.length>0" (closeComp)="showReply=false"
+        [message]="messageList[messageList.length-1]">
+      </app-videojs-record>
+    </div>
+  </div>
+</div>

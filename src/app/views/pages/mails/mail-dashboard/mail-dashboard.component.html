@@ -1,0 +1,20 @@
+<div>
+    <div class="d-flex justify-content-between p-2 mb-3 pb-3 align-items-center border-bottom">
+        <h5 class="card-title" style="color: #011A3E;">Mails</h5>
+        <a routerLink="compose" style="background-color: #0070d2;width: 10em;" class="btn btn-default btn-lg"><i
+                class="bx bx-plus-circle"></i> Compose</a>
+    </div>
+
+    <div class="col-12 pt-2">
+        <div class="btn-group row w-100 mb-4" role="group" #btntype aria-label="Basic radio toggle button group">
+            <a [routerLinkActive]="['active']" routerLink="inbox" class="btn btn-outline-primary col-6"
+                data-bs-toggle="tab" aria-expanded="false">Inbox</a>
+            <a [routerLinkActive]="['active']" routerLink="sent" class="btn btn-outline-primary col-6"
+                data-bs-toggle="tab" aria-expanded="false">Sent</a>
+        </div>
+
+        <div class="tab-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

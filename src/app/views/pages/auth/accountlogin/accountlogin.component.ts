@@ -1,7 +1,6 @@
-//@ts-nocheck
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import sweetAlert from 'sweetalert';
 import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ApiDataService } from '../../users/api-data.service';
@@ -33,59 +32,59 @@ export class AccountloginComponent implements OnInit {
     const json: JSON = form.value;
     json['isLogin'] = true;
     if (issubuser) {
-		//alert(this.utility.apiData.subUserAccounts.ApiUrl);
+      //alert(this.utility.apiData.subUserAccounts.ApiUrl);
       this.dataService.postData(this.utility.apiData.subUserAccounts.ApiUrl, JSON.stringify(json), true)
         .subscribe(Response => {
           if (Response) Response = JSON.parse(Response.toString());
           this.sending = false;
           if (!Response) {
-            swal.fire("Unable to signup, please try again");
+            sweetAlert("Unable to signup, please try again");
             return;
           }
           this.accService.login();
         }, error => {
           this.sending = false;
           if (error.status === 402)
-            swal.fire('Package Expired,please renew your package');
+            sweetAlert('Package Expired,please renew your package');
           if (error.status === 404)
-            swal.fire('E-Mail ID does not exists,please signup to continue');
+            sweetAlert('E-Mail ID does not exists,please signup to continue');
           else if (error.status === 403)
-            swal.fire('Account Disabled,contact Dental-Live');
+            sweetAlert('Account Disabled,contact Dental-Live');
           else if (error.status === 400)
-            swal.fire('Wrong Password,please try again');
+            sweetAlert('Wrong Password,please try again');
           else if (error.status === 401)
-            swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+            sweetAlert('Account Not Verified,Please activate the account from the Email sent to the Email address.');
           else if (error.status === 428)
-            swal.fire('Invalid Owner Account');
+            sweetAlert('Invalid Owner Account');
           else
-            swal.fire('Unable to login, please try again');
+            sweetAlert('Unable to login, please try again');
         });
     } else {
-		//alert(this.utility.apiData.userAccounts.ApiUrl);
+      //alert(this.utility.apiData.userAccounts.ApiUrl);
       this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
         .subscribe(Response => {
           if (Response) Response = JSON.parse(Response.toString());
           this.sending = false;
           if (!Response) {
-            swal.fire("Unable to signup,please try again");
+            sweetAlert("Unable to signup,please try again");
             return;
           }
           this.accService.login();
         }, error => {
           this.sending = false;
           if (error.status === 404)
-            swal.fire('E-Mail ID does not exists,please signup to continue');
+            sweetAlert('E-Mail ID does not exists,please signup to continue');
           else if (error.status === 403)
-            swal.fire('Account Disabled,contact Dental-Live');
+            sweetAlert('Account Disabled,contact Dental-Live');
           else if (error.status === 400)
-            swal.fire('Wrong Password,please try again');
+            sweetAlert('Wrong Password,please try again');
           else if (error.status === 401)
-            swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+            sweetAlert('Account Not Verified,Please activate the account from the Email sent to the Email address.');
           else if (error.status === 428)
-            swal.fire(error.error);
+            sweetAlert(error.error);
           else
-            swal.fire(error);
-            swal.fire('Unable to login, please try again');
+            sweetAlert(error);
+          sweetAlert('Unable to login, please try again');
         });
     }
   };

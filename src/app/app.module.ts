@@ -1,8 +1,8 @@
-import { NgModule  } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgForm, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgwWowModule } from 'ngx-wow';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     HttpClientModule,
@@ -30,13 +30,14 @@ import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
     NgwWowModule,
   ],
   providers: [
+    DatePipe,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
     },
-	{provide : LocationStrategy , useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
