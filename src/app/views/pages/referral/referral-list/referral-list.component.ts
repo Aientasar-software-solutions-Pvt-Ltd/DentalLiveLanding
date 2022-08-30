@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -59,12 +59,9 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
@@ -77,6 +74,7 @@ export class ReferralListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					//alert(JSON.stringify(GetAllData));
@@ -105,9 +103,10 @@ export class ReferralListComponent implements OnInit {
 						this.getuserdetailsall(GetAllData[k].members,k);
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -128,7 +127,7 @@ export class ReferralListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -138,12 +137,9 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
@@ -157,11 +153,12 @@ export class ReferralListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					//swal.close();
 					this.detailsdata = JSON.parse(Response.toString());
 					//alert(JSON.stringify(this.detailsdata));
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -203,7 +200,7 @@ export class ReferralListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal( 'Unable to fetch data, please try again');
 		  return false;
 		});
 	};
@@ -224,6 +221,7 @@ export class ReferralListComponent implements OnInit {
 				this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					
 					let userData = JSON.parse(Response.toString());
 					//alert(JSON.stringify(userData));
 					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
@@ -239,9 +237,10 @@ export class ReferralListComponent implements OnInit {
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
+					swal.close();
 				}
 				}, (error) => {
-				  swal.fire("Unable to fetch data, please try again");
+				  swal( 'Unable to fetch data, please try again');
 				  return false;
 				});
 			}

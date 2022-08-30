@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import { NgForm } from '@angular/forms';								
 import { CalendarOptions } from '@fullcalendar/angular'; 
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../users/api-data.service';
 import { UtilityService } from '../users/utility.service';
 import { UtilityServicedev } from '../../../utilitydev.service';
@@ -66,6 +66,8 @@ export class MasterComponent implements OnInit {
 	public patientdata:any;
 	public referraldata:any;
 	public patientImg: any;
+	public Img = 'assets/images/avatar3.png';
+	public caseImage = false;
 	public module = 'patient';
 	public CaseTypeVal = '';
 	public caseDate = '';
@@ -221,12 +223,9 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+				buttons: [false, false],
+				closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userColleague.ApiUrl;
 			//let caseId = this.paramCaseId;			
@@ -237,12 +236,13 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					this.colleaguedata = JSON.parse(Response.toString());
 					//this.colleaguedata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.colleaguedata));
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -308,7 +308,7 @@ export class MasterComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 			
@@ -426,7 +426,7 @@ export class MasterComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -460,17 +460,17 @@ export class MasterComponent implements OnInit {
 								}
 							}, error => {
 							  if (error.status === 404)
-								swal.fire('E-Mail ID does not exists,please signup to continue');
+								swal('E-Mail ID does not exists,please signup to continue');
 							  else if (error.status === 403)
-								swal.fire('Account Disabled,contact Dental-Live');
+								swal('Account Disabled,contact Dental-Live');
 							  else if (error.status === 400)
-								swal.fire('Wrong Password,please try again');
+								swal('Wrong Password,please try again');
 							  else if (error.status === 401)
-								swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+								swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 							  else if (error.status === 428)
-								swal.fire(error.error);
+								swal(error.error);
 							  else
-								swal.fire('Unable to fetch the data, please try again');
+								swal('Unable to fetch the data, please try again');
 							});
 						}
 					}
@@ -521,17 +521,17 @@ export class MasterComponent implements OnInit {
 					}
 				}, error => {
 				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
+					swal('E-Mail ID does not exists,please signup to continue');
 				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
+					swal('Account Disabled,contact Dental-Live');
 				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
+					swal('Wrong Password,please try again');
 				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  else if (error.status === 428)
-					swal.fire(error.error);
+					swal(error.error);
 				  else
-					swal.fire('Unable to fetch the data, please try again');
+					swal('Unable to fetch the data, please try again');
 				});
 			}
 			this.messageDataArray[index].messageimg = MessageDetails;  
@@ -544,12 +544,9 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+				buttons: [false, false],
+				closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 
@@ -561,6 +558,7 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					//this.workordersdata = JSON.parse(Response.toString()).reverse();
 					
 					let GetAllData = JSON.parse(Response.toString());
@@ -600,7 +598,7 @@ export class MasterComponent implements OnInit {
 					//alert(this.workordersdata['0'].title);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -629,6 +627,10 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+			swal("Processing...please wait...", {
+				buttons: [false, false],
+				closeOnClickOutside: false,
+			});
 			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
@@ -639,6 +641,7 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					this.milestonedata = JSON.parse(Response.toString()).reverse();
 					this.eventsData = Array();
 					for(var i = 0; i < this.milestonedata.length; i++)
@@ -664,7 +667,7 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -677,10 +680,10 @@ export class MasterComponent implements OnInit {
 	deletemilestone(milestoneId: any) {
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		this.dataService.deleteDataRecord(url, milestoneId, 'milestoneId').subscribe(Response => {
-			swal.fire("Milestones deleted successfully");
+			swal("Milestones deleted successfully");
 			this.getallmilestone();
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 	}
@@ -697,12 +700,9 @@ export class MasterComponent implements OnInit {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			timer: 2200
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -714,6 +714,7 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledata));
 				let patientId = this.tabledata.patientId;
@@ -727,17 +728,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -763,17 +764,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	setCaseType(obj: any)
@@ -818,17 +819,17 @@ export class MasterComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 			}
@@ -850,17 +851,17 @@ export class MasterComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 				this.filesdata = this.casefilesArray;
@@ -875,20 +876,21 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.patientImg = Response;
+				this.caseImage = true;
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	getUniqueName(name: any) {
@@ -904,7 +906,7 @@ export class MasterComponent implements OnInit {
 		if (event.target.files.length > 0) {
 		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel', 'docx', 'doc', 'xls', 'xlsx', 'txt'];
 		if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
-		  swal.fire("File Extenion Not Allowed");
+		  swal("File Extenion Not Allowed");
 		  return;
 		} else {
 		  this.attachmentUploadFiles = Array();
@@ -930,22 +932,22 @@ export class MasterComponent implements OnInit {
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.fire('Files added successfully');
+		  swal('Files added successfully');
 		  //this.getFilesListing();
 		  window.location.reload();
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -957,12 +959,9 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+				buttons: [false, false],
+				closeOnClickOutside: false,
 			});
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
@@ -979,6 +978,7 @@ export class MasterComponent implements OnInit {
 				.subscribe(Response => {
 					if (Response)
 					{
+						swal.close();
 						this.UploadFiles = Array();
 						this.UploadFiles.push({
 						  url: Response,
@@ -991,17 +991,17 @@ export class MasterComponent implements OnInit {
 					}
 				}, error => {
 				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
+					swal('E-Mail ID does not exists,please signup to continue');
 				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
+					swal('Account Disabled,contact Dental-Live');
 				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
+					swal('Wrong Password,please try again');
 				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  else if (error.status === 428)
-					swal.fire(error.error);
+					swal(error.error);
 				  else
-					swal.fire('Unable to fetch the data, please try again');
+					swal('Unable to fetch the data, please try again');
 				});	
 			  })
 			  .catch((error) => {
@@ -1024,6 +1024,10 @@ export class MasterComponent implements OnInit {
 	getFilesListing() {
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		let caseId = this.paramCaseId;
 		//alert(caseId);
 		if(caseId != '')
@@ -1034,6 +1038,7 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.filesdataArray = JSON.parse(Response.toString()).reverse();
 				//alert(JSON.stringify(this.filesdataArray));
 				this.casefilesArray = Array();
@@ -1078,17 +1083,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	getFilesCount(array, id) {
@@ -1112,27 +1117,27 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
 	viewFiles(dateCreated: any) {
 		//let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		//this.dataService.deleteFilesData(url, fileUploadId).subscribe(Response => {
-		//	swal.fire("Case Files deleted successfully");
+		//	swal("Case Files deleted successfully");
 		//	this.getFilesListing();
 		//}, (error) => {
-		//  swal.fire("Unable to fetch data, please try again");
+		//  swal("Unable to fetch data, please try again");
 		//  return false;
 		//});
 		
@@ -1179,17 +1184,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	};
 	addMilestone(caseId: any) {
@@ -1287,19 +1292,16 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
 	}
 	
 	getReferralListing() {
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			timer: 2200
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
 		});
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
 		let url = this.utility.apiData.userReferrals.ApiUrl;
@@ -1312,6 +1314,7 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					//alert(JSON.stringify(GetAllData));
@@ -1348,17 +1351,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -1370,10 +1373,10 @@ export class MasterComponent implements OnInit {
 	deletereferral(referralId: any) {
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		this.dataService.deleteDataRecord(url, referralId, 'referralId').subscribe(Response => {
-			swal.fire("Referral deleted successfully");
+			swal("Referral deleted successfully");
 			this.getReferralListing();
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 	}
@@ -1414,7 +1417,7 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -1490,7 +1493,7 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}
@@ -1546,10 +1549,9 @@ export class MasterComponent implements OnInit {
 	
 	
 	getInviteListing() {
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -1563,6 +1565,7 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 				this.invitedata = Array();
@@ -1587,17 +1590,17 @@ export class MasterComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -1619,7 +1622,7 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.invitedata));
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}
@@ -1639,28 +1642,27 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  this.getInviteListing();
-		  swal.fire("Case invitation removed successfully");
+		  swal("Case invitation removed successfully");
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
 	getThread() {
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2500
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
 		});
 		
 		let user = this.usr.getUserDetails(false);
@@ -1683,6 +1685,7 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 					//alert(JSON.stringify(treadAllData));
@@ -1839,7 +1842,7 @@ export class MasterComponent implements OnInit {
 					}, 1000);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 			
@@ -2022,7 +2025,7 @@ export class MasterComponent implements OnInit {
 						}, 2000);
 					}
 				}, (error) => {
-				  swal.fire("Unable to fetch data, please try again");
+				  swal("Unable to fetch data, please try again");
 				  return false;
 				});
 			}
@@ -2054,7 +2057,7 @@ export class MasterComponent implements OnInit {
 					}
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -2099,7 +2102,7 @@ export class MasterComponent implements OnInit {
 					}
 				}
 				}, (error) => {
-				  swal.fire("Unable to fetch data, please try again");
+				  swal("Unable to fetch data, please try again");
 				  return false;
 				});
 			}

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
@@ -66,25 +66,24 @@ export class PatientDetailsComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	getallpatiant() {
 		this.tabledata = '';
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
@@ -97,6 +96,7 @@ export class PatientDetailsComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 				if(this.tabledata.refId)
 				{
@@ -124,17 +124,17 @@ export class PatientDetailsComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -143,10 +143,9 @@ export class PatientDetailsComponent implements OnInit {
 		if(user)
 		{
 		
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
-				timer: 3000
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientId = this.paramPatientId;
@@ -157,6 +156,7 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
@@ -181,7 +181,7 @@ export class PatientDetailsComponent implements OnInit {
 				
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal('Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -219,17 +219,17 @@ export class PatientDetailsComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -257,7 +257,7 @@ export class PatientDetailsComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+			swal('Unable to fetch data, please try again');
 		  return false;
 		});
 		}

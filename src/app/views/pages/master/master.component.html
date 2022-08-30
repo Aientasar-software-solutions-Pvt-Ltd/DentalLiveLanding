@@ -19,7 +19,8 @@
 			<div class="profile-img justify-content-center p-md-2 me-3">
 				<div class="capture">
 					<a href="#">
-						<img src="{{this.patientImg}}" alt="" class="mb-2">
+						<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" alt="" class="mb-2 rounded-circle" />
+						<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="mb-2 rounded-circle"/>
 					</a>
 				</div>
 			</div>
@@ -168,7 +169,7 @@
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end">
 													<a href="javascript:void(0);" (click)="editcase(tabledata.caseId)" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
-												<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
+												<!--<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
 													<div class="d-flex flex-column align-items-end">
 														<div class="form-check form-check-inline form-switch mt-1 mb-2">
 														  <input class="form-check-input" type="checkbox" id="completedArchive" #completedArchive (change)="onCompletedArchiveChanged(completedArchive.checked)">
@@ -176,7 +177,7 @@
 														</div>
 														<button class="btn btn-default px-3"><i class="bx bx-export fs-5 align-middle"></i> Export to PDF</button>
 													</div>
-												</div>
+											</div>-->
 											</div>
 										</div>
 									</div>
@@ -211,7 +212,7 @@
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
 											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{this.tabledata.patientName}}
+												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
 										   </div>
 										   
 										</div>

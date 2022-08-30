@@ -2,7 +2,7 @@
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -56,12 +56,9 @@ export class MilestoneEditComponent implements OnInit {
 	
 	getEditMilestone() {
 		this.editdata = '';
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
@@ -73,6 +70,7 @@ export class MilestoneEditComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.editdata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.editdata));
 				setTimeout(()=>{     

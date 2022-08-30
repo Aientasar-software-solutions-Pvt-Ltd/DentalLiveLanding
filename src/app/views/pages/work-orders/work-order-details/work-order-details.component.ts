@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { Location } from '@angular/common';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -130,7 +130,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));
-			  swal.fire("Unable to fetch data, please try again");
+			   swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -156,17 +156,17 @@ export class WorkOrderDetailsComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 			}
@@ -188,17 +188,17 @@ export class WorkOrderDetailsComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 				this.tabledata = this.casefilesArray;
@@ -218,7 +218,8 @@ export class WorkOrderDetailsComponent implements OnInit {
 		if(form.value.startdate >= Date.parse(form.value.enddate))
 		{
 			this.isvalidDate =true;
-			swal.fire('Due date should be greater than to start date');
+			
+			swal('Due date should be greater than to start date');
 		}
 		else
 		{
@@ -256,20 +257,20 @@ export class WorkOrderDetailsComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  this.getallworkorder();
-		  swal.fire('WorkOrder Due date updated successfully');
+		  swal('WorkOrder Due date updated successfully');
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	getMessage(caseId: any) {
@@ -332,7 +333,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			   swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 			
@@ -366,17 +367,17 @@ export class WorkOrderDetailsComponent implements OnInit {
 								}
 							}, error => {
 							  if (error.status === 404)
-								swal.fire('E-Mail ID does not exists,please signup to continue');
+								swal('E-Mail ID does not exists,please signup to continue');
 							  else if (error.status === 403)
-								swal.fire('Account Disabled,contact Dental-Live');
+								swal('Account Disabled,contact Dental-Live');
 							  else if (error.status === 400)
-								swal.fire('Wrong Password,please try again');
+								swal('Wrong Password,please try again');
 							  else if (error.status === 401)
-								swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+								swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 							  else if (error.status === 428)
-								swal.fire(error.error);
+								swal(error.error);
 							  else
-								swal.fire('Unable to fetch the data, please try again');
+								swal('Unable to fetch the data, please try again');
 							});
 						}
 					}
@@ -426,18 +427,18 @@ export class WorkOrderDetailsComponent implements OnInit {
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
 					}
 				}, error => {
-				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
+				   if (error.status === 404)
+					swal('E-Mail ID does not exists,please signup to continue');
 				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
+					swal('Account Disabled,contact Dental-Live');
 				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
+					swal('Wrong Password,please try again');
 				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  else if (error.status === 428)
-					swal.fire(error.error);
+					swal(error.error);
 				  else
-					swal.fire('Unable to fetch the data, please try again');
+					swal('Unable to fetch the data, please try again');
 				});
 			}
 			setTimeout(() => 

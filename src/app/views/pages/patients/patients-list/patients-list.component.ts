@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+//import swal from 'sweetalert2';
+import swal from "sweetalert";
 import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -16,6 +17,8 @@ export class PatientsListComponent implements OnInit {
 
   masterSelected:boolean;
   tabledata:any;
+  colleaguesData:any;
+  allMember:any;
   checkedList:any;
 	public loading = false;
 	id:any = "myPatients";
@@ -29,7 +32,9 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+	this.getAllMembers();
 	this.getallpatiant();
+	this.getColleguespatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 	  pagingType: 'full_numbers',
@@ -60,18 +65,18 @@ export class PatientsListComponent implements OnInit {
 
 	getallpatiant() {
 		this.tabledata = '';
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
-		});
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
+		});
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				
 				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
@@ -80,7 +85,9 @@ export class PatientsListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata[0].isActive));
 			}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+			swal({
+				title: 'Unable to fetch data, please try again'
+			});
 		  return false;
 		});
 		}
@@ -96,10 +103,14 @@ export class PatientsListComponent implements OnInit {
 	deletepatiant(patientId: any) {
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		this.dataService.deletePatientData(url, patientId).subscribe(Response => {
-			swal.fire("Patient deleted successfully");
+			swal({
+				title: 'Patient deleted successfully'
+			});
 			this.getallpatiant();
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+			swal({
+				title: 'Unable to fetch data, please try again'
+			});
 		  return false;
 		});
 	}
@@ -159,17 +170,23 @@ export class PatientsListComponent implements OnInit {
 				}
 			}, error => {
 			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
+
+				swal({title: 'E-Mail ID does not exists,please signup to continue'});
 			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
+
+				swal({title: 'Account Disabled,contact Dental-Live'});
 			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
+
+				swal({title: 'Wrong Password,please try again'});
 			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+
+				swal({title: 'Account Not Verified,Please activate the account from the Email sent to the Email address.'});
 			  else if (error.status === 428)
-				swal.fire(error.error);
+
+				swal({title: error.error});
 			  else
-				swal.fire('Unable to fetch the data, please try again');
+
+				swal({title: 'Unable to fetch the data, please try again'});
 			});
 	  };
 	
@@ -199,4 +216,66 @@ export class PatientsListComponent implements OnInit {
     this.checkedList = JSON.stringify(this.checkedList);
   }*/
 
+	
+	getAllMembers() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userCaseInvites.ApiUrl;
+			
+			//url += "&invitedUserId="+user.dentalId;
+			url += "?resourceOwner="+user.dentalId;
+			//url += "&presentStatus=0";
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.allMember = JSON.parse(Response.toString());
+					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					//alert(JSON.stringify(this.allMember));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal(error.error);
+			  else
+				swal('Unable to fetch the data, please try again');
+			});
+		}
+	}
+	
+	getColleguespatiant() {
+		this.colleaguesData = '';
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
+		});
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url1 = this.utility.apiData.userPatients.ApiUrl;
+				//url += "?resourceOwner="+this.allMember[k].invitedUserId;
+				this.dataService.getallData(url1, true).subscribe(Response => {
+					if (Response)
+					{
+						swal.close();
+						let AllDate = JSON.parse(Response.toString());
+						
+						this.colleaguesData = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+					}
+				}, (error) => {
+				swal({
+					title: 'Unable to fetch data, please try again'
+				});
+			  return false;
+			});
+		}
+	}
 }

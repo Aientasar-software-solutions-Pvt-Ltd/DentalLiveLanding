@@ -43,12 +43,15 @@
 							<div class="row gy-4">
 								<div class="col-md-6">
 									<label class="form-label body2 text-dark">Upload File</label>
-									<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
+									<input type="file" ngModel multiple name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 mt-4 mb-2">
-									<input type="hidden"  name="resorceowner" id="resorceowner" ngModel="{{tabledata.fetchedData[0].data[0].resorceOwner}}">
+									<input type="hidden"  name="resorceowner" id="resorceowner" *ngIf="this.tabledata.fetchedData; else emptyresorceowner" ngModel="{{this.tabledata.fetchedData[0].data[0].resorceOwner}}">
+									<ng-template #emptyresorceowner>
+										<input type="hidden" name="resorceowner" id="resorceowner" ngModel="">
+									</ng-template>
 									<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.tabledata.caseId}}">
 									<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
 									<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">

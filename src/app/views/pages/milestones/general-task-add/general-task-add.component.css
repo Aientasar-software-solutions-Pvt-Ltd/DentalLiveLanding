@@ -5,3 +5,8 @@
 .card-lists .card-title{font-size:18px;}
 .card-lists .card-subtitle{font-size:14px;}
 .ng-dropdown-panel .ng-dropdown-panel-items {max-height: 340px;}
+.search-filter-sm .search-list-content {width: calc(100% - 30px);}
+.search-filter-sm .card-lists .card-title {font-size: 14px;}
+.search-filter-sm .card-lists .card-subtitle {font-size: 12px;}
+.search-filter-sm .btn {font-size: 12px;}
+.search-filter-sm .btn-sm {padding: 2px 8px;}

@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -88,12 +88,9 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
-	var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-	swal.fire({
-		html: sweet_loader,
-		showConfirmButton: false,
-		allowOutsideClick: false,     
-		timer: 2200
+	swal("Processing...please wait...", {
+	  buttons: [false, false],
+	  closeOnClickOutside: false,
 	});
 	this.tabledata = '';
 	let url = this.utility.apiData.userCases.ApiUrl;
@@ -106,6 +103,7 @@ export class CaseEditComponent implements OnInit {
 	.subscribe(Response => {
 		if (Response)
 		{
+			swal.close();
 			this.tabledata = JSON.parse(Response.toString());
 			//this.setcvFast(this.tabledata.description);
 			this.setCaseType(this.tabledata.caseType);
@@ -118,17 +116,17 @@ export class CaseEditComponent implements OnInit {
 		}
 	}, error => {
 	  if (error.status === 404)
-		swal.fire('E-Mail ID does not exists,please signup to continue');
+		swal('E-Mail ID does not exists,please signup to continue');
 	  else if (error.status === 403)
-		swal.fire('Account Disabled,contact Dental-Live');
+		swal('Account Disabled,contact Dental-Live');
 	  else if (error.status === 400)
-		swal.fire('Wrong Password,please try again');
+		swal('Wrong Password,please try again');
 	  else if (error.status === 401)
-		swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 	  else if (error.status === 428)
-		swal.fire(error.error);
+		swal(error.error);
 	  else
-		swal.fire('Unable to fetch the data, please try again');
+		swal('Unable to fetch the data, please try again');
 	});
 	}
 	setcvFast()
@@ -181,17 +179,17 @@ export class CaseEditComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	setcvImage(img: any)
@@ -206,17 +204,17 @@ export class CaseEditComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	

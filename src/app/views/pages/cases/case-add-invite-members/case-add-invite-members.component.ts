@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';	
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -52,21 +52,9 @@ export class CaseAddInviteMembersComponent implements OnInit {
 	}
 	
 	getCaseDetails() {
-		/*var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
-		});
-		*/
-		swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = sessionStorage.getItem("invitecaseId");
@@ -78,21 +66,22 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -133,7 +122,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}
@@ -152,7 +141,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		//alert(JSON.stringify(this.allMemberDentalId));
 	}
 	onSubmitInvite(form: NgForm){
-		
+		let user = this.usr.getUserDetails(false);
 		if (form.invalid) {
 		  form.form.markAllAsTouched();
 		  return;
@@ -160,6 +149,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		var z=0;
 		for(var i = 0; i < this.allMemberEmail.length; i++)
 		{
+			this.jsonObjInvite['resourceOwner'] = user.dentalId;
 			this.jsonObjInvite['caseId'] = form.value.caseId;
 			this.jsonObjInvite['patientId'] = form.value.patientId;
 			this.jsonObjInvite['patientName'] = form.value.patientName;

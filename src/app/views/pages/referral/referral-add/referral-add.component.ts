@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angula
 import { ReferralGuideComponent } from '../referral-guide/referral-guide.component';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -146,17 +146,17 @@ export class ReferralAddComponent implements OnInit {
 				}
 			}, error => {
 			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
+				swal('E-Mail ID does not exists,please signup to continue');
 			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
+				swal('Account Disabled,contact Dental-Live');
 			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
+				swal('Wrong Password,please try again');
 			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  else if (error.status === 428)
-				swal.fire(error.error);
+				swal(error.error);
 			  else
-				swal.fire('Unable to fetch the data, please try again');
+				swal('Unable to fetch the data, please try again');
 			});
 			
 		}
@@ -202,7 +202,7 @@ export class ReferralAddComponent implements OnInit {
 			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}
@@ -211,20 +211,15 @@ export class ReferralAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			icon: "https://www.boasnotas.com/img/loading2.gif",
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			closeOnClickOutside: false,
-			timer: 2200,
-			//icon: "success"
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.tabledataAll = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
@@ -246,7 +241,7 @@ export class ReferralAddComponent implements OnInit {
 				//alert(JSON.stringify(this.allcases));
 			}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}
@@ -270,18 +265,16 @@ export class ReferralAddComponent implements OnInit {
 			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
-				var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-				swal.fire({
-					html: sweet_loader,
-					showConfirmButton: false,
-					allowOutsideClick: false,    
-					timer: 2200
+				swal("Processing...please wait...", {
+				  buttons: [false, false],
+				  closeOnClickOutside: false,
 				});
 				url += "?caseId="+caseId;
 				this.dataService.getallData(url, true)
 				.subscribe(Response => {
 					if (Response)
 					{
+						swal.close();
 						this.tabledata = JSON.parse(Response.toString());
 						this.casesName = this.tabledata.title;
 						this.patientName = this.tabledata.patientName;
@@ -291,17 +284,17 @@ export class ReferralAddComponent implements OnInit {
 					}
 				}, error => {
 				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
+					swal('E-Mail ID does not exists,please signup to continue');
 				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
+					swal('Account Disabled,contact Dental-Live');
 				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
+					swal('Wrong Password,please try again');
 				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  else if (error.status === 428)
-					swal.fire(error.error);
+					swal(error.error);
 				  else
-					swal.fire('Unable to fetch the data, please try again');
+					swal('Unable to fetch the data, please try again');
 				});
 			}
 		}

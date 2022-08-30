@@ -81,18 +81,18 @@
 									<label class="form-label body2 text-dark">Assign Member</label>
 									<!--<ng-select name="memberName" id="memberName" ngModel [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select" required >
 									</ng-select>-->
-									<div class="search search-md search-filter">
+									<div class="search search-md search-filter  search-filter-sm">
 										<i class="bx bx-search"></i>
 										<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true">
 											<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 												<div class="card card-lists">
 													<div class="card-body p-0">
 														<div class="d-flex align-items-center">
-															<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+															<img height="36" width="36" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
 															<div class="d-flex align-items-center justify-content-between search-list-content">
 																<div>
 																	<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
-																	<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																	<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle text-muted">{{item.emailAddress}}</h6>
 																</div>
 																<div>
 																	<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>

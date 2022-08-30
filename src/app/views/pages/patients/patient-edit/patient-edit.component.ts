@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import Swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -101,12 +101,11 @@ onActiveInactiveChanged(value:boolean){
 	getallpatiant() {
 		this.tabledata = '';
 		this.objInsuranceview = '';
-		Swal.fire({
-			title: 'Loading....',
-			showConfirmButton: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
-				//alert(this.cv);
+		//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
 		if(patientId != '')
@@ -117,6 +116,7 @@ onActiveInactiveChanged(value:boolean){
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(this.tabledata.image);
 				this.patientImage = this.tabledata.image;
@@ -168,17 +168,17 @@ onActiveInactiveChanged(value:boolean){
 			}
 		}, error => {
 		  if (error.status === 404)
-			Swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			Swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			Swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			Swal.fire(error.error);
+			swal(error.error);
 		  else
-			Swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	setcvFast()
@@ -196,17 +196,17 @@ onActiveInactiveChanged(value:boolean){
 			}
 		}, error => {
 		  if (error.status === 404)
-			Swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			Swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			Swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			Swal.fire(error.error);
+			swal(error.error);
 		  else
-			Swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -222,7 +222,7 @@ onActiveInactiveChanged(value:boolean){
     if (event.target.files.length > 0) {
       let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
      if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
-	  Swal.fire("File Extenion Not Allowed");
+	  swal("File Extenion Not Allowed");
 	  return;
 	} else {
 	  this.attachmentFiles = Array();
@@ -242,10 +242,10 @@ onActiveInactiveChanged(value:boolean){
 	deletepatiant(patientId: any) {
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		this.dataService.deletePatientData(url, patientId).subscribe(Response => {
-			Swal.fire("Patient deleted successfully");
+			swal("Patient deleted successfully");
 			this.router.navigate(['patients/patients-list']);
 		}, (error) => {
-		  Swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 	}
@@ -379,7 +379,7 @@ onActiveInactiveChanged(value:boolean){
   }
   
   confirmBox(){
-    Swal.fire({
+    swal({
       title: 'Are you sure want to remove?',
       text: 'You will not be able to recover this file!',
       icon: 'warning',
@@ -390,13 +390,13 @@ onActiveInactiveChanged(value:boolean){
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        Swal.fire(
+        swal(
           'Deleted!',
           'Your imaginary file has been deleted.',
           'success'
         )
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
+        swal(
           'Cancelled',
           'Your imaginary file is safe :)',
           'error'

@@ -58,18 +58,18 @@
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Referred To </label>
-										<div class="search search-md search-filter">
+										<div class="search search-md search-filter  search-filter-sm">
 											<i class="bx bx-search"></i>
 											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
 												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 													<div class="card card-lists">
 														<div class="card-body p-0">
 															<div class="d-flex align-items-center">
-																<img height="74" width="74" [src]="item.avatar" class="rounded-circle me-3 img-thumbnail shadow-sm"/>
+																<img height="36" width="36" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
 																<div class="d-flex align-items-center justify-content-between search-list-content">
 																	<div>
 																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
-																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle mb-2 text-muted">{{item.emailAddress}}</h6>
+																		<h6 style="white-space: normal;word-wrap: anywhere;" class="card-subtitle text-muted">{{item.emailAddress}}</h6>
 																	</div>
 																	<div>
 																		<button class="btn btn-outline-primary btn-sm ms-2" type="button"><i class="bx bx-user-plus"></i> Add</button>
@@ -81,7 +81,7 @@
 												</ng-template>
 												<ng-template ng-label-tmp let-item="item" let-clear="clear">
 													<span class="ng-value-label"><img [src]="item.avatar" width="20px" height="20px" class="rounded-circle me-1"/> {{item.name}}</span>
-													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+													<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">Ã—</span>
 												</ng-template>
 											</ng-select>
 										</div>
