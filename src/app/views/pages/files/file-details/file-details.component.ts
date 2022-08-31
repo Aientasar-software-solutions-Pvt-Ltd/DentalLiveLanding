@@ -38,6 +38,10 @@ export class FileDetailsComponent implements OnInit {
   }
   
 	getFileDetails() {
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
+		});
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let fileUploadId = this.filesId;
 		if(fileUploadId != '')
@@ -48,6 +52,7 @@ export class FileDetailsComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				swal.close();
 				this.allfilesdata = JSON.parse(Response.toString());
 				this.setcvFast(this.allfilesdata);
 				//alert(JSON.stringify(this.allfilesdata));

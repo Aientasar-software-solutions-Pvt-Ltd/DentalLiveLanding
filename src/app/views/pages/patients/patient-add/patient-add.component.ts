@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -150,7 +150,7 @@ export class PatientAddComponent implements OnInit {
     if (event.target.files.length > 0) {
       let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
      if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
-	  swal.fire("File Extenion Not Allowed");
+	  swal("File Extenion Not Allowed");
 	  return;
 	} else {
 	  this.attachmentFiles = Array();
@@ -160,6 +160,8 @@ export class PatientAddComponent implements OnInit {
   }
   onGetdateData(data: any)
   {
+	let user = this.usr.getUserDetails(false);
+	this.jsonObj['resourceOwner'] = user.dentalId;
 	this.jsonObj['firstName'] = data.firstName;
 	this.jsonObj['lastName'] = data.lastName;
 	this.jsonObj['dob'] = Date.parse(data.dob);
@@ -182,10 +184,6 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.objAddress['street'] = data.address;
 	this.jsonObj['address'] = this.objAddress;
-	}
-	if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
-	{
-	this.jsonObj['notes'] = this.cv.returnCvfast();
 	}
 	if(data.gender)
 	{

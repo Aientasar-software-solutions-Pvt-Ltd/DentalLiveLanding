@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -56,12 +56,9 @@ export class WorkOrdersListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,     
-				timer: 2200
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 			//let caseId = sessionStorage.getItem("caseId");
@@ -72,10 +69,15 @@ export class WorkOrdersListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					//alert(JSON.stringify(GetAllData));
 					this.tabledata = Array();
+					if(GetAllData.length == '0')
+					{
+						swal.close();
+					}
 					for(var k = 0; k < GetAllData.length; k++)
 					{
 						this.tabledata.push({
@@ -103,7 +105,7 @@ export class WorkOrdersListComponent implements OnInit {
 					
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -122,7 +124,7 @@ export class WorkOrdersListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -163,7 +165,7 @@ export class WorkOrdersListComponent implements OnInit {
 				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal( 'Unable to fetch data, please try again');
 		  return false;
 		});
 	};
@@ -198,9 +200,10 @@ export class WorkOrdersListComponent implements OnInit {
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
+					swal.close();
 				}
 				}, (error) => {
-				  swal.fire("Unable to fetch data, please try again");
+				  swal( 'Unable to fetch data, please try again');
 				  return false;
 				});
 			}

@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import { Location } from '@angular/common';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -130,12 +130,9 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	getallmilestone() {
 		this.tabledata = '';
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,
-			timer: 2200
+		swal("Processing...please wait...", {
+		  buttons: [false, false],
+		  closeOnClickOutside: false,
 		});
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
@@ -149,6 +146,7 @@ export class MilestoneDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					this.tabledata = JSON.parse(Response.toString());
 					//this.tabledata.description = JSON.stringify(this.tabledata.description);
 					this.descriptionObj.text = this.tabledata.description.text;
@@ -160,7 +158,7 @@ export class MilestoneDetailsComponent implements OnInit {
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -218,7 +216,7 @@ export class MilestoneDetailsComponent implements OnInit {
 			}, (error) => {
 					//alert(JSON.stringify(error));
 				this.getallworkorders();
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -272,7 +270,7 @@ export class MilestoneDetailsComponent implements OnInit {
 				this.getallreferrals();
 			}, (error) => {
 				this.getallreferrals();
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -325,7 +323,7 @@ export class MilestoneDetailsComponent implements OnInit {
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -349,10 +347,10 @@ export class MilestoneDetailsComponent implements OnInit {
 	deleteTask(taskId: any) {
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		this.dataService.deleteDataRecord(url, taskId, 'taskId').subscribe(Response => {
-			swal.fire("Task deleted successfully");
+			swal('Task deleted successfully');
 			this.getalltasks();
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal( 'Unable to fetch data, please try again');
 		  return false;
 		});
 	}
@@ -393,17 +391,17 @@ export class MilestoneDetailsComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 			}
@@ -425,17 +423,17 @@ export class MilestoneDetailsComponent implements OnInit {
 						}
 					}, error => {
 					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
+						swal('E-Mail ID does not exists,please signup to continue');
 					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
+						swal('Account Disabled,contact Dental-Live');
 					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
+						swal('Wrong Password,please try again');
 					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 					  else if (error.status === 428)
-						swal.fire(error.error);
+						swal(error.error);
 					  else
-						swal.fire('Unable to fetch the data, please try again');
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 				this.filesdata = this.casefilesArray;
@@ -469,21 +467,22 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.dataService.putData(this.utility.apiData.userMilestones.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.fire('Milestone updated successfully');
+		  
+		  swal('Milestone updated successfully');
 		  this.router.navigate(['/milestones/milestones-list']);
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -547,7 +546,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 			
@@ -581,17 +580,17 @@ export class MilestoneDetailsComponent implements OnInit {
 								}
 							}, error => {
 							  if (error.status === 404)
-								swal.fire('E-Mail ID does not exists,please signup to continue');
+								swal('E-Mail ID does not exists,please signup to continue');
 							  else if (error.status === 403)
-								swal.fire('Account Disabled,contact Dental-Live');
+								swal('Account Disabled,contact Dental-Live');
 							  else if (error.status === 400)
-								swal.fire('Wrong Password,please try again');
+								swal('Wrong Password,please try again');
 							  else if (error.status === 401)
-								swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+								swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 							  else if (error.status === 428)
-								swal.fire(error.error);
+								swal(error.error);
 							  else
-								swal.fire('Unable to fetch the data, please try again');
+								swal('Unable to fetch the data, please try again');
 							});
 						}
 					}
@@ -643,17 +642,17 @@ export class MilestoneDetailsComponent implements OnInit {
 					}
 				}, error => {
 				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
+					swal('E-Mail ID does not exists,please signup to continue');
 				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
+					swal('Account Disabled,contact Dental-Live');
 				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
+					swal('Wrong Password,please try again');
 				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  else if (error.status === 428)
-					swal.fire(error.error);
+					swal(error.error);
 				  else
-					swal.fire('Unable to fetch the data, please try again');
+					swal('Unable to fetch the data, please try again');
 				});
 			}
 			setTimeout(() => 
@@ -730,7 +729,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					}
 				}
 				}, (error) => {
-				  swal.fire("Unable to fetch data, please try again");
+				  swal( 'Unable to fetch data, please try again');
 				  return false;
 				});
 			}

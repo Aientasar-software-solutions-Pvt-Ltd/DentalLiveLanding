@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -16,6 +16,7 @@ export class CaseListComponent implements OnInit {
 
 	masterSelected:boolean;
 	tabledata:any;
+	colleaguesdata:any;
 	public indexRow = 0;
 	checkedList:any;
 	invitedatas:any;
@@ -60,16 +61,15 @@ export class CaseListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
-				timer: 3000
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
@@ -94,7 +94,7 @@ export class CaseListComponent implements OnInit {
 				
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal('Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -151,17 +151,17 @@ export class CaseListComponent implements OnInit {
 				}
 			}, error => {
 			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
+				swal('E-Mail ID does not exists,please signup to continue');
 			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
+				swal('Account Disabled,contact Dental-Live');
 			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
+				swal('Wrong Password,please try again');
 			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  else if (error.status === 428)
-				swal.fire(error.error);
+				swal(error.error);
 			  else
-				swal.fire('Unable to fetch the data, please try again');
+				swal('Unable to fetch the data, please try again');
 			});
 	};
 	  
@@ -198,17 +198,17 @@ export class CaseListComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -225,6 +225,7 @@ export class CaseListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
+			swal.close();
 			let userData = JSON.parse(Response.toString());
 			//alert(JSON.stringify(GetArray));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
@@ -236,8 +237,127 @@ export class CaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
-		  return false;
+			swal({title: 'Unable to fetch data, please try again'});
+			return false;
+		});
+		}
+	}
+	
+	
+	
+	getColleaguesCase() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
+			});
+			let url = this.utility.apiData.userCases.ApiUrl;
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let AllDate = JSON.parse(Response.toString());
+					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					
+					this.colleaguesdata = Array();
+					for(var k = 0; k < AllDate.length; k++)
+					{
+						this.colleaguesdata.push({
+						  id: k,
+						  patientName: AllDate[k].patientName,
+						  title: AllDate[k].title,
+						  caseStatus: AllDate[k].caseStatus,
+						  dateCreated: AllDate[k].dateCreated,
+						  memberName: '',
+						  patientId: AllDate[k].patientId,
+						  caseId: AllDate[k].caseId
+						});
+						this.getCaseMemberListColleague(AllDate[k].caseId,k);
+					}
+					//alert(JSON.stringify(this.colleaguesdata));
+				}
+			}, (error) => {
+			  swal({title: 'Unable to fetch data, please try again'});
+			  return false;
+			});
+		}
+	}
+	
+	getCaseMemberListColleague(caseId, index) {
+		
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		url += "&resourceOwner="+user.dentalId;
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				let GetAllData = JSON.parse(Response.toString());
+				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				//alert(JSON.stringify(GetAllData));
+				this.invitedatas = Array();
+				this.indexRow = 0;
+				for(var k = 0; k < GetAllData.length; k++)
+				{
+					this.invitedatas.push({
+					  id: this.indexRow,
+					  userName: ''
+					});
+					//alert(GetAllData[k].invitedUserId);
+					this.getuserdetailsallcolleague(GetAllData[k].invitedUserId,this.indexRow,index);
+					this.indexRow++;
+				} 
+				//alert(JSON.stringify(this.invitedata));
+				//alert(JSON.stringify(this.tabledata));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal({title: 'E-Mail ID does not exists,please signup to continue'});
+		  else if (error.status === 403)
+			swal({title: 'Account Disabled,contact Dental-Live'});
+		  else if (error.status === 400)
+			swal({title: 'Wrong Password,please try again'});
+		  else if (error.status === 401)
+			swal({title: 'Account Not Verified,Please activate the account from the Email sent to the Email address.'});
+		  else if (error.status === 428)
+			swal({title: error.error});
+		  else
+			swal({title: 'Unable to fetch the data, please try again'});
+		});
+	}
+	
+	getuserdetailsallcolleague(userId, index, Row) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		let url = this.utility.apiData.userColleague.ApiUrl;
+		if(userId != '')
+		{
+			url += "?dentalId="+userId;
+		}
+		let GetArray = this.invitedatas;
+		this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			swal.close();
+			let userData = JSON.parse(Response.toString());
+			//alert(JSON.stringify(GetArray));
+			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			GetArray[index].userName = name;
+			if((index+1) == GetArray.length)
+			{
+				this.colleaguesdata[Row].memberName = GetArray;
+				//alert(JSON.stringify(this.colleaguesdata[Row].memberName));
+			}
+		}
+		}, (error) => {
+			swal({title: 'Unable to fetch data, please try again'});
+			return false;
 		});
 		}
 	}

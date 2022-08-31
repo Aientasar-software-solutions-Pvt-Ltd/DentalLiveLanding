@@ -28,10 +28,10 @@
 							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'myPatients'" (click)="tabContent('myPatients')">My Patients</a>
 							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'colleaguesPatients'" (click)="tabContent('colleaguesPatients')">Colleagues Patients</a>
 						</div>
-						<div class="btn-group me-2 my-2" role="group" style="height: 40px;">
+						<!--<div class="btn-group me-2 my-2" role="group" style="height: 40px;">
 							<button type="button" class="btn btn-outline-light border text-gray py-1 px-3"><i class="bx bx-download fs-5 align-middle"></i></button>
 							<button type="button" class="btn btn-outline-light border text-gray py-1 px-3"><i class="bx bx-archive-out fs-5 align-middle"></i></button>
-						</div>
+						</div>-->
 						<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
 						<div class="search search-md">
 							<i class="bx bx-search"></i>
@@ -98,7 +98,7 @@
 				</div>
 				<div *ngIf="id === 'colleaguesPatients'">
 					<div class="table-responsive">
-						<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
+						<table *ngIf="colleaguesData" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 							<thead class="thead-light text-uppercase">
 								<tr>
 									<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
@@ -111,386 +111,44 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr >
+								<tr *ngFor="let data of colleaguesData; let i = index;">
 									<td>
 										<div class="form-check form-check-inline">
+											<span class="d-none">{{i}}</span>
 											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
 										</div>
 									</td>
 									<td>
 										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
+											<span class="avatar-icon">{{data.firstName.charAt(0)}}</span>
+											<span class="body2 ms-1">{{data.firstName}} {{data.lastName}}</span>
 										</div>
 									</td>
-									<td>  
-										<span class="body2">Colin Sik</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1995</span>                
+									<td>
+										<div class="d-flex align-items-center">
+											<span class="avatar-icon">{{data.firstName.charAt(0)}}</span>
+											<span class="body2 ms-1">{{data.firstName}} {{data.lastName}}</span>
+										</div>
 									</td>		 
 									<td>  
-										<span class="body2">danial@gmail.com</span>                
+										<span class="body2">{{data.dob | date:'mediumDate'}}</span>                
+									</td>		 
+									<td>  
+										<span class="body2">{{data.email}}</span>                
 									</td>
 									<td>
 										<div>
-											<span class="badge rounded-pill badge-success body2">Active</span><br/>
-											<small class="text-muted">Created on : 14/APR/2022</small>
+											<span class="badge rounded-pill badge-success body2" *ngIf="(data.isActive == true)">Active</span><br/>
+											<span class="badge rounded-pill badge-warning body2" *ngIf="(data.isActive == false)">Inactive</span><br/>
+											<small class="text-muted">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
+											<a href="javascript:void(0);" (click)="editpatiant(data.patientId)" class="me-2">
+												<i class="material-icons text-bright-blue">edit </i>
 											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">J</span>
-											<span class="body2 ms-1">Jenny Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Dareen Leow</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1992</span>                
-									</td>
-									<td>  
-										<span class="body2">jenny@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">H</span>
-											<span class="body2 ms-1">Harry Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Aida Bugg</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1982</span>                
-									</td>
-									<td>  
-										<span class="body2">harry@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-success body2">Active</span><br/>
-											<small class="text-muted">Created on : 14/APR/2022</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">K</span>
-											<span class="body2 ms-1">Krene Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Dee End</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1980</span>                
-									</td>
-									<td>  
-										<span class="body2">krene@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-success body2">Active</span><br/>
-											<small class="text-muted">Created on : 14/APR/2022</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">K</span>
-											<span class="body2 ms-1">Kriss Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Liza Doolittle</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1979</span>                
-									</td>
-									<td>  
-										<span class="body2">kriss@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Colin Sik</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1969</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Mario Speedwagon</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/2002</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Colin Sik</span>                
-									</td>									
-									<td>  
-										<span class="body2">14/APR/2004</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Colin Sik</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/2002</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-warning body2">Inactive</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Danial Doolittle</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Aida Bugg</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1998</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-success body2">Active</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
-												<i class="material-icons text-light-green">visibility</i>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon">D</span>
-											<span class="body2 ms-1">Dee End</span>
-										</div>
-									</td>
-									<td>  
-										<span class="body2">Aida Bugg</span>                
-									</td>
-									<td>  
-										<span class="body2">14/APR/1997</span>                
-									</td>
-									<td>  
-										<span class="body2">danial@gmail.com</span>                
-									</td>
-									<td>
-										<div>
-											<span class="badge rounded-pill badge-success body2">Active</span><br/>
-											<small class="text-muted">Created on : 14/APR/2020</small>
-										</div>
-									</td> 
-									<td>
-										<div class="d-flex">
-											<a routerLink="/patients/patient-details">
+											<a  href="javascript:void(0);" (click)="viewpatiant(data.patientId)" class="me-2">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { NgForm } from '@angular/forms';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -57,12 +57,9 @@ export class MilestonesListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-			swal.fire({
-				html: sweet_loader,
-				showConfirmButton: false,
-				allowOutsideClick: false,
-				timer: 2200
+			swal("Processing...please wait...", {
+			  buttons: [false, false],
+			  closeOnClickOutside: false,
 			});
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
@@ -73,13 +70,14 @@ export class MilestonesListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					swal.close();
 					this.tabledata = JSON.parse(Response.toString());
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.tabledata));
 					//alert(this.tabledata['0'].title);
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal( 'Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -97,10 +95,10 @@ export class MilestonesListComponent implements OnInit {
 	deletemilestone(milestoneId: any) {
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		this.dataService.deleteDataRecord(url, milestoneId, 'milestoneId').subscribe(Response => {
-			swal.fire("Milestones deleted successfully");
+			swal('Milestones deleted successfully');
 			this.getallmilestone();
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal( 'Unable to fetch data, please try again');
 		  return false;
 		});
 	}
@@ -164,7 +162,7 @@ export class MilestonesListComponent implements OnInit {
 				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
-			swal.fire("Unable to fetch data, please try again");
+			swal( 'Unable to fetch data, please try again');
 			return false;
 		});
 	};

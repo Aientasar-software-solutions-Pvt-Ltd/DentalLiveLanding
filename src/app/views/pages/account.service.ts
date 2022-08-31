@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
+import swal from 'sweetalert';
 import { UtilityService } from './users/utility.service';
 import { ApiDataService } from './users/api-data.service';
 import { PermissionGuardService } from './permission-guard.service';
