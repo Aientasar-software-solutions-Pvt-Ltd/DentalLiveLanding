@@ -80,7 +80,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
         if (Response) Response = JSON.parse(Response.toString());
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
-          this.router.navigate(['mail/dashboard/subusers']);
+          this.router.navigate(['/accounts/subusers']);
         }
         this.object = Response;
         if (this.object.imageSrc) this.imageSrc = this.section.bucketUrl + this.object.imageSrc;
@@ -88,7 +88,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
       },
       (error) => {
         swal("No data exists");
-        this.router.navigate(['mail/dashboard/subusers']);
+        this.router.navigate(['/accounts/subusers']);
       });
   }
 
@@ -123,7 +123,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
       .postData(this.section.ApiUrl, JSON.stringify(this.object))
       .subscribe((Response) => {
         this.isEditMode ? swal("User updated succesfully") : swal("User added succesfully");
-        this.router.navigate(['mail/dashboard/subusers']);
+        this.router.navigate(['/accounts/subusers']);
       }, (error) => {
         if (error.status == 406)
           swal("Failed to add User,E-Mail Address exists");
@@ -175,7 +175,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
       .subscribe((Response) => {
         ;
         swal("User Updated Succesfully");
-        this.router.navigate(['mail/dashboard/subusers']);
+        this.router.navigate(['/accounts/subusers']);
       }, (error) => {
         swal("Failed to process request,please try again");
 
@@ -192,7 +192,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
     this.dataService.deleteAll(this.section.ApiUrl + `?did=${this.object.dentalID}` + `&id=${this.object.subUserID}`).subscribe(
       (Response) => {
         swal("User Deleted Succesfully");
-        this.router.navigate(['mail/dashboard/subusers']);
+        this.router.navigate(['/accounts/subusers']);
       },
       (error) => {
         swal("Failed to process request,please try again");

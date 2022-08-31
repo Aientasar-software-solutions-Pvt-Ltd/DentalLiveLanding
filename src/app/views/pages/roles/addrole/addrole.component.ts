@@ -36,7 +36,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   isLoadingData = false;
   binaryFiles = [];
 
-  permissionsArray = ['Compose', 'Inbox', 'Sent', 'Contacts', 'Patients'];
+  permissionsArray = ['dashboard', 'patients', 'cases', 'colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'mail', 'files', 'meet', 'contacts'];
 
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
 
@@ -61,7 +61,7 @@ export class AddroleComponent implements OnInit, AddEditData {
         if (Response) Response = JSON.parse(Response.toString());
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
-          this.router.navigate(['/mail/dashboard/roles']);
+          this.router.navigate(['/accounts/roles']);
         }
         this.object = Response;
         this.isLoadingData = false;
@@ -69,7 +69,7 @@ export class AddroleComponent implements OnInit, AddEditData {
       (error) => {
 
         swal("No data exists");
-        this.router.navigate(['/mail/dashboard/roles']);
+        this.router.navigate(['/accounts/roles']);
       });
   }
 
@@ -106,7 +106,7 @@ export class AddroleComponent implements OnInit, AddEditData {
       .subscribe((Response) => {
         ;
         this.isEditMode ? swal("Role updated succesfully") : swal("Role added succesfully");
-        this.router.navigate(['/mail/dashboard/roles']);
+        this.router.navigate(['/accounts/roles']);
       }, (error) => {
         swal("Failed to process request,please try again");
 
@@ -156,7 +156,7 @@ export class AddroleComponent implements OnInit, AddEditData {
       .subscribe((Response) => {
         ;
         swal("Role Updated Succesfully");
-        this.router.navigate(['/mail/dashboard/roles']);
+        this.router.navigate(['/accounts/roles']);
       }, (error) => {
         swal("Failed to process request,please try again");
 
@@ -174,7 +174,7 @@ export class AddroleComponent implements OnInit, AddEditData {
       (Response) => {
         ;
         swal("Role Deleted Succesfully");
-        this.router.navigate(['/mail/dashboard/roles']);
+        this.router.navigate(['/accounts/roles']);
       },
       (error) => {
         swal("Failed to process request,please try again");

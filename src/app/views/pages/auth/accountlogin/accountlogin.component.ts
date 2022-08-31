@@ -9,8 +9,7 @@ import { AccountService } from '../../account.service';
 @Component({
   selector: 'app-accountlogin',
   templateUrl: './accountlogin.component.html',
-  styleUrls: ['./accountlogin.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./accountlogin.component.css']
 })
 export class AccountloginComponent implements OnInit {
   sending: boolean;

@@ -517,10 +517,6 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
       json['caseId'] = this.message.caseId;
     }
 
-    console.log(json);
-    return;
-
-
     this.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(json))
       .subscribe(Response => {
         swal("Email sent successfully");

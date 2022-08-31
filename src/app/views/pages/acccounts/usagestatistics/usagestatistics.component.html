@@ -15,7 +15,7 @@
           <div class="row my-2">
             <div class="col-md-6">
               <h5 style="color: #0070d2;">Total Storage</h5>
-              <img src="assets/data.png">
+              <img src="../../../../../assets/images/data.png">
               <br>
               <h6>Total Available</h6>
               <label class="body2" style="color: #354053;">{{object.total}}GB</label>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-6">
               <h5 style="color: #0070d2;">Total Users</h5>
-              <img src="assets/users.png">
+              <img src="../../../../../assets/images/users.png">
               <br>
               <div *ngFor="let subuser of object.subusers" class="body2 my-1" style="color: #354053;">
                 <strong>{{subuser.package.packageName}}</strong> :
@@ -68,12 +68,12 @@
                     </span>
                   </td>
                   <td>
-                    <img src="assets/data.png">
+                    <img src="../../../../../assets/images/data.png">
                     <br>
                     <span class="body2 my-2" style="color: #354053;">{{item.storage}}GB</span>
                   </td>
                   <td>
-                    <img src="assets/users.png">
+                    <img src="../../../../../assets/images/users.png">
                     <br>
                     <span class="body2 my-2" style="color: #354053;">{{item.users.allowed}} Users</span>
                   </td>

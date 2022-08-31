@@ -10,8 +10,7 @@ import { UtilityService } from '../../users/utility.service';
 @Component({
   selector: 'app-mail-inbox',
   templateUrl: './mail-inbox.component.html',
-  styleUrls: ['./mail-inbox.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./mail-inbox.component.css']
 })
 export class MailInboxComponent implements OnInit {
 

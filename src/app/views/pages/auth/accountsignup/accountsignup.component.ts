@@ -15,8 +15,7 @@ import { UtilityService } from '../../users/utility.service';
 @Component({
   selector: 'app-accountsignup',
   templateUrl: './accountsignup.component.html',
-  styleUrls: ['./accountsignup.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./accountsignup.component.css']
 })
 export class AccountsignupComponent implements OnInit {
   sending: boolean;

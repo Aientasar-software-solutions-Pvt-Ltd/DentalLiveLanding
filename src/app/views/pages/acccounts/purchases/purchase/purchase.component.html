@@ -10,7 +10,7 @@
 <div [hidden]="isLoadingData" class="rounded bg-white p-4 p-md-5" style="box-shadow: 0 0 20px 0 rgb(0 0 0 / 5%);">
   <div class="row">
     <div class="col-12">
-      <a routerLink="/mail/packages">
+      <a routerLink="/accounts/packages">
         <h5>Change Plan</h5>
       </a>
     </div>
@@ -26,7 +26,7 @@
               </th>
               <th class="text-end" style="vertical-align: top;">
                 <h5 style="font-weight: 600">{{ this.object.currency}}
-                  {{packagePrice  | currency : 'USD' : 'symbol' : '1.2-2'}}
+                  {{packagePrice | currency : 'USD' : 'symbol' : '1.2-2'}}
                 </h5>
               </th>
             </tr>
@@ -36,7 +36,7 @@
               </td>
               <td class="text-end" style=" padding:10px 0;">
                 <h5> - {{ this.object.currency}}
-                  {{(discount/100)*packagePrice  | currency : 'USD' : 'symbol' : '1.2-2'}}</h5>
+                  {{(discount/100)*packagePrice | currency : 'USD' : 'symbol' : '1.2-2'}}</h5>
               </td>
             </tr>
             <tr style="height: 50px;"></tr>
@@ -56,7 +56,8 @@
               </td>
               <td class="text-end" style=" padding:10px 0;">
                 <h5>{{object.currency}}
-                  {{((13 / 100) * (packagePrice - ((discount / 100) * packagePrice)))| currency : 'USD' : 'symbol' : '1.2-2'}}
+                  {{((13 / 100) * (packagePrice - ((discount / 100) * packagePrice)))| currency : 'USD' : 'symbol' :
+                  '1.2-2'}}
                 </h5>
               </td>
             </tr>
@@ -68,7 +69,8 @@
               </th>
               <th class="text-end">
                 <h5 style="font-weight:600;color: #0070d2">{{object.currency}}
-                  {{packagePrice - ((discount / 100) * packagePrice) +((13 / 100) * (packagePrice - ((discount / 100) * packagePrice)))|currency : 'USD' : 'symbol' : '1.2-2'}}
+                  {{packagePrice - ((discount / 100) * packagePrice) +((13 / 100) * (packagePrice - ((discount / 100) *
+                  packagePrice)))|currency : 'USD' : 'symbol' : '1.2-2'}}
                 </h5>
               </th>
             </tr>

@@ -4,8 +4,8 @@
       style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
       aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item fw-bold "><a routerLink="/mail/dashboard/purchases"
-            style="color: #011A3E;">Account</a></li>
+        <li class="breadcrumb-item fw-bold "><a routerLink="/accounts/purchases" style="color: #011A3E;">Account</a>
+        </li>
         <li class="breadcrumb-item active fw-bold" aria-current="page" style="color: #011A3E;">Package List</li>
       </ol>
     </nav>
@@ -37,8 +37,8 @@
             <div class="search me-2" style="float:right;align-items: center;display: flex;">
               <i class="bx bx-search ms-2"
                 style="color: rgba(208, 214, 222, 0.5);font-size:24px;position: absolute;"></i>
-              <input type="text" class="form-control" placeholder="Search" (keyup)="filterData($event.target.value)"
-                style="font-weight: 400; height: 40px ;">
+              <input type="text" class="form-control" placeholder="Search"
+                (keyup)="filterData($any($event.target).value)" style="font-weight: 400; height: 40px ;">
             </div>
           </div>
         </div>
@@ -59,22 +59,22 @@
             <tr *ngFor="let package of this.objectList | slice:pageNumber:itemsPerPage+pageNumber"
               style="vertical-align: middle;">
               <td>
-                <span class="body2 mt-2" style="color: #354053;">{{package.packageName}}</span>
+                <span class="body2 mt-2" style="color: #354053;">{{package['packageName']}}</span>
               </td>
               <td>
-                <span class="body2 mt-2" style="color: #354053;">{{package.tenure}} Days</span>
+                <span class="body2 mt-2" style="color: #354053;">{{package['tenure']}} Days</span>
               </td>
               <td>
-                <span class="body2 mt-2" style="color: #354053;">{{package.storageAllocated}} GB</span>
+                <span class="body2 mt-2" style="color: #354053;">{{package['storageAllocated']}} GB</span>
               </td>
               <td>
-                <span class="body2 mt-2" style="color: #354053;">{{package.usersAllocated}}</span>
+                <span class="body2 mt-2" style="color: #354053;">{{package['usersAllocated']}}</span>
               </td>
               <td>
-                <span class="body2 mt-2" style="color: #354053;">{{package.packagePrice}} USD</span>
+                <span class="body2 mt-2" style="color: #354053;">{{package['packagePrice']}} USD</span>
               </td>
               <td>
-                <a routerLink="{{package.packageID}}" class="me-2">
+                <a routerLink="{{package['packageID']}}" class="me-2">
                   <span class="material-icons" style="font-size: 1.55rem;color: #07D5E8;">visibility
                   </span>
                 </a>

@@ -15,6 +15,8 @@ import { UsagestatisticsComponent } from './usagestatistics/usagestatistics.comp
 import { EditsubaccountComponent } from './editsubaccount/editsubaccount.component';
 import { FormsModule } from '@angular/forms';
 import { PurchaseComponent } from './purchases/purchase/purchase.component';
+import { PackagesListComponent } from './purchases/packages-list/packages-list.component';
+import { PackagesDetailsComponent } from './purchases/packages-details/packages-details.component';
 
 const routes: Routes = [
   {
@@ -36,10 +38,15 @@ const routes: Routes = [
       { path: 'purchases', component: MypurchasesComponent },
 
       { path: 'usage', component: UsagestatisticsComponent },
+
+      { path: 'packages', component: PackagesListComponent },
+      { path: 'packages/:id', component: PackagesDetailsComponent },
+      { path: 'payment/:id', component: PurchaseComponent },
+      { path: 'payment/:id/:addonID', component: PurchaseComponent }
     ]
   },
   {
-    path: 'accounts/subaccount',
+    path: 'subaccount',
     component: EditsubaccountComponent,
     canActivate: [AuthGuardService, AccountGuardServiceService, PermissionGuardService]
   },
@@ -59,7 +66,9 @@ const routes: Routes = [
     MypurchasesComponent,
     UsagestatisticsComponent,
     EditsubaccountComponent,
-    PurchaseComponent
+    PurchaseComponent,
+    PackagesListComponent,
+    PackagesDetailsComponent
   ],
   imports: [
     CommonModule,

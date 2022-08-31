@@ -52,7 +52,7 @@ export class PermissionGuardService implements CanActivate {
       return true;
     }
     if (state.url.includes("mail") && !state.url.includes("packages") && !state.url.includes("talk")) {
-      if (this.hasPermission('Inbox')) return true; else this.router.navigate(['/mail/dashboard/subaccount']);
+      if (this.hasPermission('Inbox')) return true; else this.router.navigate(['/accounts/subaccount']);
     }
     if (state.url.includes("compose")) {
       if (this.hasPermission('Compose')) return true; else return false;
@@ -79,7 +79,7 @@ export class PermissionGuardService implements CanActivate {
     if (this.products.length == 0) {
       if (!this.isPackageSelecetd && !this.usr.getUserDetails().Subuser) {
         this.isPackageSelecetd = false;
-        this.router.navigate(['/mail/packages']);
+        this.router.navigate(['/accounts/packages']);
       }
       this.hasProducts = false;
     }
