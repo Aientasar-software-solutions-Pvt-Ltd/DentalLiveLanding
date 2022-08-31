@@ -20,7 +20,11 @@ import { PackagesDetailsComponent } from './purchases/packages-details/packages-
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'subaccount',
+    component: EditsubaccountComponent
+  },
+  {
+    path: 'details',
     component: AccountDashboardComponent,
     canActivate: [AccountGuardServiceService],
     children: [
@@ -44,12 +48,7 @@ const routes: Routes = [
       { path: 'payment/:id', component: PurchaseComponent },
       { path: 'payment/:id/:addonID', component: PurchaseComponent }
     ]
-  },
-  {
-    path: 'subaccount',
-    component: EditsubaccountComponent,
-    canActivate: [AuthGuardService, AccountGuardServiceService, PermissionGuardService]
-  },
+  }
 ]
 
 @NgModule({

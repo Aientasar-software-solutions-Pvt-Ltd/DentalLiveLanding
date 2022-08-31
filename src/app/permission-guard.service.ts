@@ -79,7 +79,7 @@ export class PermissionGuardService implements CanActivate {
     if (this.products.length == 0) {
       if (!this.isPackageSelecetd && !this.usr.getUserDetails().Subuser) {
         this.isPackageSelecetd = false;
-        this.router.navigate(['/accounts/packages']);
+        this.router.navigate(['/accounts/details/packages']);
       }
       this.hasProducts = false;
     }
