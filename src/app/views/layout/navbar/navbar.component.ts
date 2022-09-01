@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { AccdetailsService } from '../../pages/accdetails.service';
 import * as $ from "jquery";
 @Component({
   selector: 'app-navbar',
@@ -10,13 +11,14 @@ export class NavbarComponent implements OnInit {
 	AccountName: string;
 	AccountImg: any;
 	imgSrc: any;
-	constructor() { }
+	constructor(private usr: AccdetailsService) { }
 	@HostListener('window:resize', ['$event'])
 	
 	
 	ngOnInit(): void {
-		this.AccountName = sessionStorage.getItem('AccountHolder');
-		this.AccountImg = sessionStorage.getItem('AccountHolderImg');
+		let user = this.usr.getUserDetails(false);
+		this.AccountName = user.accountfirstName+' '+user.accountlastName;
+		this.AccountImg = user.imageSrc;
 		if (window.innerWidth <= 575) 
 		{
 			this.classFlag = true;
@@ -25,7 +27,7 @@ export class NavbarComponent implements OnInit {
 		{
 			this.classFlag = false;
 		}
-		if(this.AccountImg != 'undefined')
+		if(this.AccountImg != undefined)
 		{
 			this.imgSrc = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+this.AccountImg;
 		}

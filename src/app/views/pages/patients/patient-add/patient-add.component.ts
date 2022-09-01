@@ -86,10 +86,6 @@ export class PatientAddComponent implements OnInit {
 		id: 2
 	},{
 		id: 3
-	},{
-		id: 4
-	},{
-		id: 5
 	}];
   constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
 
@@ -161,7 +157,7 @@ export class PatientAddComponent implements OnInit {
   onGetdateData(data: any)
   {
 	let user = this.usr.getUserDetails(false);
-	this.jsonObj['resourceOwner'] = user.dentalId;
+	this.jsonObj['resourceOwner'] = user.emailAddress;
 	this.jsonObj['firstName'] = data.firstName;
 	this.jsonObj['lastName'] = data.lastName;
 	this.jsonObj['dob'] = Date.parse(data.dob);

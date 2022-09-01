@@ -7,6 +7,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-patients-list',
@@ -14,10 +15,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./patients-list.component.css']
 })
 export class PatientsListComponent implements OnInit {
-
+  isLoadingData = true;
   masterSelected:boolean;
   tabledata:any;
   colleaguesData:any;
+  shimmer = Array;
   allMember:any;
   checkedList:any;
 	public loading = false;
@@ -34,7 +36,6 @@ export class PatientsListComponent implements OnInit {
   ngOnInit(): void {
 	this.getAllMembers();
 	this.getallpatiant();
-	this.getColleguespatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 	  pagingType: 'full_numbers',
@@ -68,21 +69,17 @@ export class PatientsListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				
 				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 				//alert(JSON.stringify(patientDate));
 				this.tabledata = patientDate.reverse();
 				//alert(JSON.stringify(this.tabledata[0].isActive));
+				this.isLoadingData = false;
 			}
 		}, (error) => {
 			swal({
@@ -224,7 +221,7 @@ export class PatientsListComponent implements OnInit {
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
 			//url += "&invitedUserId="+user.dentalId;
-			url += "?resourceOwner="+user.dentalId;
+			url += "?resourceOwner="+user.emailAddress;
 			//url += "&presentStatus=0";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -232,6 +229,8 @@ export class PatientsListComponent implements OnInit {
 				{
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					//alert(JSON.stringify(this.allMember));
+					this.getColleguespatiant();
 					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
@@ -252,11 +251,7 @@ export class PatientsListComponent implements OnInit {
 	}
 	
 	getColleguespatiant() {
-		this.colleaguesData = '';
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		//alert(JSON.stringify(this.allMember));
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -265,10 +260,30 @@ export class PatientsListComponent implements OnInit {
 				this.dataService.getallData(url1, true).subscribe(Response => {
 					if (Response)
 					{
-						swal.close();
 						let AllDate = JSON.parse(Response.toString());
-						
-						this.colleaguesData = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+						this.colleaguesData = Array();	
+						for(var k=0; k < this.allMember.length; k++)
+						{
+							for(var l=0; l < AllDate.length; l++)
+							{
+								if(this.allMember[k].invitedUserMail == AllDate[l].resourceOwner)
+								{
+									//alert(this.allMember[k].invitedUserMail);
+									this.colleaguesData.push({
+									  resourceOwner: AllDate[l].resourceOwner,
+									  firstName: AllDate[l].firstName,
+									  lastName: AllDate[l].lastName,
+									  dob: AllDate[l].dob,
+									  email: AllDate[l].email,
+									  isActive: AllDate[l].isActive,
+									  dateCreated: AllDate[l].dateCreated,
+									  patientId: AllDate[l].patientId
+									});
+								}
+							}
+						}
+						this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+						//alert(JSON.stringify(this.colleaguesData));
 					}
 				}, (error) => {
 				swal({

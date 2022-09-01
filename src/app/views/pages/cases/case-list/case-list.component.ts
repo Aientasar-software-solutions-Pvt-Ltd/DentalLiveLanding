@@ -16,6 +16,7 @@ export class CaseListComponent implements OnInit {
 
 	masterSelected:boolean;
 	tabledata:any;
+	allMember:any;
 	colleaguesdata:any;
 	public indexRow = 0;
 	checkedList:any;
@@ -91,6 +92,7 @@ export class CaseListComponent implements OnInit {
 						this.getCaseMemberList(AllDate[k].caseId,k);
 					}
 					//alert(JSON.stringify(this.tabledata));
+					this.getAllMembers();
 				
 				}
 			}, (error) => {
@@ -243,42 +245,83 @@ export class CaseListComponent implements OnInit {
 		}
 	}
 	
-	
-	
-	getColleaguesCase() {
+	getAllMembers() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
+			let url = this.utility.apiData.userCaseInvites.ApiUrl;
+			
+			//url += "&invitedUserId="+user.dentalId;
+			//url += "?resourceOwner="+user.emailAddress;
+			//url += "&presentStatus=0";
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.allMember = JSON.parse(Response.toString());
+					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					//alert(JSON.stringify(this.allMember));
+					this.getColleaguesCase();
+					//alert(JSON.stringify(this.allMember));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal(error.error);
+			  else
+				swal('Unable to fetch the data, please try again');
 			});
-			let url = this.utility.apiData.userCases.ApiUrl;
-			this.dataService.getallData(url, true).subscribe(Response => {
+		}
+	}
+	
+	getColleaguesCase() {
+		//alert(JSON.stringify(this.allMember));
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url1 = this.utility.apiData.userCases.ApiUrl;
+			this.dataService.getallData(url1, true).subscribe(Response => {
 				if (Response)
 				{
 					let AllDate = JSON.parse(Response.toString());
-					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					
-					this.colleaguesdata = Array();
-					for(var k = 0; k < AllDate.length; k++)
+					//alert(JSON.stringify(AllDate));
+					this.colleaguesdata = Array();	
+					let meb = 0;
+					for(var k=0; k < this.allMember.length; k++)
 					{
-						this.colleaguesdata.push({
-						  id: k,
-						  patientName: AllDate[k].patientName,
-						  title: AllDate[k].title,
-						  caseStatus: AllDate[k].caseStatus,
-						  dateCreated: AllDate[k].dateCreated,
-						  memberName: '',
-						  patientId: AllDate[k].patientId,
-						  caseId: AllDate[k].caseId
-						});
-						this.getCaseMemberListColleague(AllDate[k].caseId,k);
+						for(var l=0; l < AllDate.length; l++)
+						{
+							if(this.allMember[k].invitedUserMail == AllDate[l].resourceOwner)
+							{
+								meb++;
+								this.colleaguesdata.push({
+								  id: meb,
+								  patientName: AllDate[l].patientName,
+								  title: AllDate[l].title,
+								  caseStatus: AllDate[l].caseStatus,
+								  dateCreated: AllDate[l].dateCreated,
+								  memberName: '',
+								  patientId: AllDate[l].patientId,
+								  caseId: AllDate[l].caseId
+								});
+								this.getCaseMemberListColleague(AllDate[l].caseId,meb);
+							}
+						}
 					}
+					this.colleaguesdata = this.colleaguesdata.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
 					//alert(JSON.stringify(this.colleaguesdata));
 				}
 			}, (error) => {
-			  swal({title: 'Unable to fetch data, please try again'});
+				swal({
+					title: 'Unable to fetch data, please try again'
+				});
 			  return false;
 			});
 		}

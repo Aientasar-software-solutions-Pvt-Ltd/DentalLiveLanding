@@ -6,6 +6,7 @@ import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-s
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccountService } from '../../account.service';
+import "@lottiefiles/lottie-player";
 @Component({
   selector: 'app-accountlogin',
   templateUrl: './accountlogin.component.html',
@@ -30,6 +31,7 @@ export class AccountloginComponent implements OnInit {
     this.sending = true;
     const json: JSON = form.value;
     json['isLogin'] = true;
+    json['loggedIn'] = Date.now();
     if (issubuser) {
       //alert(this.utility.apiData.subUserAccounts.ApiUrl);
       this.dataService.postData(this.utility.apiData.subUserAccounts.ApiUrl, JSON.stringify(json), true)
