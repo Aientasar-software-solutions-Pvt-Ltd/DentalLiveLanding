@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CalendarOptions } from '@fullcalendar/angular'; 
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -38,6 +38,7 @@ export class FileDetailsComponent implements OnInit {
   }
   
 	getFileDetails() {
+		
 		swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
@@ -48,6 +49,7 @@ export class FileDetailsComponent implements OnInit {
 		{
 			url += "?fileUploadId="+fileUploadId;
 		}
+		
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)
