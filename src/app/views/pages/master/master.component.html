@@ -403,7 +403,7 @@
 													<h5 class="body1 card-title my-2">Work Orders</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addWorkOrders()" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
+													<a (click)="addWorkOrders(this.tabledata.caseId)" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
 														<i class="bx bx-search"></i>
@@ -492,7 +492,7 @@
 													<h5 class="body1 card-title my-2">Referral</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addReferal()" class="btn btn-default my-1 float-end">
+													<a (click)="addReferal(this.tabledata.caseId)" class="btn btn-default my-1 float-end">
 														<i class="bx bx-user-plus" aria-hidden="true"></i>
 														Add Referral 
 													</a>

@@ -15,26 +15,53 @@ export class DashboardComponent implements OnInit {
 	public messageArray: any[] = []
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
+	public caseCount = 0;
+	public caseinvitationCount = 0;
+	public workworderCount = 0;
+	public inboxCount = 15;
 	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
 	}
 
 	ngOnInit(): void {
-	this.getThread();
+	this.getLoginDeatils();
 	}
-	getThread() {
+	getLoginDeatils() {
 		swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		});
-		
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userLogin.ApiUrl;
+			let loginResourceId = sessionStorage.getItem('loginResourceId');
+			url += "?emailAddress="+loginResourceId;
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					swal.close();
+					let treadAllData = JSON.parse(Response.toString());
+					this.getThread(treadAllData.lastLoggedIn);
+				}
+			}, (error) => {
+			  swal("Unable to fetch data, please try again");
+			  return false;
+			});
+			
+		}
+	}
+	getThread(fromDate) {
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let toDate: Date = new Date();
-			let fromDate: Date = new Date();
 			url += "?dateTo="+toDate.getTime();
-			url += "&dateFrom="+fromDate.getTime();
+			url += "&dateFrom="+fromDate;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
@@ -49,65 +76,17 @@ export class DashboardComponent implements OnInit {
 						let skVal = treadAllData[i].sk;
 						var skarray = skVal.split("#"); 
 						//alert(skarray[0]);
-						if(skarray[0] == 'MESSAGES')
+						if(skarray[0] == 'DETAILS')
 						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: treadAllData[i].messageId,
-								messagetext: treadAllData[i].message.text,
-								messageimg: '',
-								messagecomment: treadAllData[i].comments,
-								messagecomments: ''
-							});
+							this.caseCount++;
 						}
 						else if(skarray[0] == 'CASEINVITES')
 						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-						}
-						else if(skarray[0] == 'DETAILS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'DETAILS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
+							this.caseinvitationCount++;
 						}
 						else if(skarray[0] == 'WORKORDERS')
 						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
+							this.workworderCount++;
 						}
 						else if(skarray[0] == 'MILESTONES')
 						{
@@ -119,51 +98,6 @@ export class DashboardComponent implements OnInit {
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
 								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-						}
-						else if(skarray[0] == 'REFERRALS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'REFERRALS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-						}
-						else if(skarray[0] == 'TASKS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'TASKS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-						}
-						else if(skarray[0] == 'FILES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'Files Uploaded',
 								messageimg: '',
 								messagecomment: '',
 								messagecomments: ''

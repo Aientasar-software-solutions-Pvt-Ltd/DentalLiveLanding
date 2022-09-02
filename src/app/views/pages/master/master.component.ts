@@ -604,14 +604,16 @@ export class MasterComponent implements OnInit {
 		}
 	}
 	
-	addReferal() {
+	addReferal(caseId: any) {
 		sessionStorage.setItem('checkCase', '1');
 		sessionStorage.setItem('checkmilestoneidref', '');
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['referral/referral-add']);
 	}
-	addWorkOrders() {
+	addWorkOrders(caseId: any) {
 		sessionStorage.setItem('checkCase', '1');
 		sessionStorage.setItem('checkmilestoneid', '');
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['work-orders/work-order-add']);
 	}
 	editWorkOrders(workorderId: any) {

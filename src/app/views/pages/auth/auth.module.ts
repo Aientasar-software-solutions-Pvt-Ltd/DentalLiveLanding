@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountloginComponent } from './accountlogin/accountlogin.component';
+import { AccountlogoutComponent } from './accountlogout/accountlogout.component';
 import { AuthComponent } from './auth.component';
 import { AccountsignupComponent } from './accountsignup/accountsignup.component';
 import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       { path: 'login', component: AccountloginComponent },
+      { path: 'logout', component: AccountlogoutComponent },
       { path: 'signup', component: AccountsignupComponent },
       { path: 'signup/:package', component: AccountsignupComponent },
       { path: 'dovalidate/:mail', component: ValidateComponent },
@@ -54,6 +56,7 @@ const routes: Routes = [
   declarations: [
     AuthComponent,
     AccountloginComponent,
+    AccountlogoutComponent,
     AccountsignupComponent,
     ForgetpasswordComponent,
     ForgetsubpaswordComponent,
