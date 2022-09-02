@@ -13,6 +13,7 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { PatientsModule } from '../patients/patients.module';
 import { MasterComponent } from './master.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
 	{
@@ -50,6 +51,7 @@ FullCalendarModule.registerPlugins([
     PatientsModule,
     ReactiveFormsModule,
 	DataTablesModule,
+	NgxShimmerLoadingModule,
     InfiniteScrollModule
   ]
 })

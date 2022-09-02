@@ -13,12 +13,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./colleagues-list.component.css']
 })
 export class ColleaguesListComponent implements OnInit {
-
-	dtOptions: DataTables.Settings = {};
+	isLoadingData = true;
 	masterSelected:boolean;
 	colleaguedata:any;
 	invitedata: any;
+	shimmer = Array;
 	
+	dtOptions: DataTables.Settings = {};
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
@@ -44,10 +45,10 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	getInviteListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		
 		let user = this.usr.getUserDetails(false);
 		//alert(user.dentalId);
@@ -58,7 +59,8 @@ export class ColleaguesListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(Response.toString()));
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -158,7 +160,6 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	onSubmitColleague(form: NgForm) {
-		alert(111111);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let user = this.usr.getUserDetails(false);
 		url += "?resourceOwner="+user.dentalId;

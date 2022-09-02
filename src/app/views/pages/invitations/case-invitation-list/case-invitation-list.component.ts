@@ -18,8 +18,9 @@ import { Location } from '@angular/common';
 })
 export class CaseInvitationListComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
-
+	isLoadingData = true;
 	id:any = "Received";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
 	}
@@ -133,10 +134,10 @@ export class CaseInvitationListComponent implements OnInit {
 	}*/
 	
 	getInviteListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -148,7 +149,11 @@ export class CaseInvitationListComponent implements OnInit {
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
-				swal.close();
+				if(GetAllData.length == '0')
+				{
+					//swal.close();
+					this.isLoadingData = false;
+				}
 				for(var k = 0; k < GetAllData.length; k++)
 				{
 					this.invitedata.push({
@@ -324,7 +329,8 @@ export class CaseInvitationListComponent implements OnInit {
 				this.invitedata = Array();
 				if(GetAllData.length == '0')
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 				}
 				for(var k = 0; k < GetAllData.length; k++)
 				{
@@ -356,10 +362,10 @@ export class CaseInvitationListComponent implements OnInit {
 	};
 	
 	getInviteListingReceived() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitedUserId="+user.dentalId;

@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkOrdersModule } from '../work-orders/work-orders.module';
 import { PatientsModule } from '../patients/patients.module';
 import { ReferralGuideComponent } from './referral-guide/referral-guide.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
 	FormsModule,
 	ReactiveFormsModule,
 	PatientsModule,
-	WorkOrdersModule
+	WorkOrdersModule,
+	NgxShimmerLoadingModule
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

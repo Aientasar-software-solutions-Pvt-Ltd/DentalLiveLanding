@@ -14,11 +14,11 @@ import { Router } from '@angular/router';
 })
 
 export class MilestonesListComponent implements OnInit {
-
+	isLoadingData = true;
 	masterSelected:boolean;
 	tabledata:any;
 	checkedList:any;
-	
+	shimmer = Array;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
@@ -57,10 +57,10 @@ export class MilestonesListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
@@ -70,7 +70,8 @@ export class MilestonesListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.tabledata));

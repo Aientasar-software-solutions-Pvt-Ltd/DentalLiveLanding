@@ -64,6 +64,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit(): void {
     this.initPlayers();
+	this.sending = false;
   }
   ngAfterViewInit() {
     this.initWebcam();
@@ -354,7 +355,13 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     });
 	if(this.processingcheck == true)
 	{
-		this.sending = true;
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			timer: 2200
+		});
 		Promise.all(requests)
 		.then((values) => {
 			this.processing = false;
@@ -390,7 +397,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
-					this.sending = false;
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
@@ -442,7 +448,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
-					this.sending = false;
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
@@ -500,7 +505,13 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 	}
 	else
 	{
-		this.sending = true;
+		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
+		swal.fire({
+			html: sweet_loader,
+			showConfirmButton: false,
+			allowOutsideClick: false,     
+			timer: 2200
+		});
 		// start for edit cvfast by conmverthink
 		this.cvfast = {
           text: this.baseText,
@@ -520,7 +531,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
-				this.sending = false;
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{
@@ -572,7 +582,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
-				this.sending = false;
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{

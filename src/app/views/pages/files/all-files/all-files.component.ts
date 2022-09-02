@@ -15,6 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./all-files.component.css']
 })
 export class AllFilesComponent implements OnInit {
+	isLoadingData = true;
   public allfilesdata: any;
   public allfile: any;
   public tabledata: any;
@@ -33,6 +34,7 @@ export class AllFilesComponent implements OnInit {
 	
   dateCreated: string;
   getcaseId: string;
+  shimmer = Array;
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	this.dateCreated = this.route.snapshot.paramMap.get('dateCreated');
 	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
@@ -82,10 +84,10 @@ export class AllFilesComponent implements OnInit {
 		}
 	}
 	getAllFiles() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
 		let dateCreated = Number(this.dateCreated);
@@ -109,7 +111,8 @@ export class AllFilesComponent implements OnInit {
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
 				this.setcvFast(this.allfilesdata);
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
@@ -165,10 +168,10 @@ export class AllFilesComponent implements OnInit {
 	}
 	
 	onSubmit(form: NgForm) {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let strName = form.value.ownerName;
 		let ownerName =strName.split(' ');
@@ -201,7 +204,8 @@ export class AllFilesComponent implements OnInit {
 			if (Response)
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
@@ -261,7 +265,8 @@ export class AllFilesComponent implements OnInit {
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.close();
+			//swal.close();
+			this.isLoadingData = false;
 		  swal('Files added successfully');
 		  window.location.reload();
 		}, error => {

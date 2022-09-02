@@ -38,7 +38,6 @@ export class FileDetailsComponent implements OnInit {
   }
   
 	getFileDetails() {
-		
 		swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
@@ -49,7 +48,6 @@ export class FileDetailsComponent implements OnInit {
 		{
 			url += "?fileUploadId="+fileUploadId;
 		}
-		
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)

@@ -23,6 +23,8 @@ export class MasterComponent implements OnInit {
 	public allMemberName: any[] = []
 	public allMemberDentalId: any[] = []
     selectedCity = '';
+	isLoadingData = true;
+	shimmer = Array;
 	show = false;
 	show1 = false;
 	show2 = false;
@@ -223,10 +225,10 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userColleague.ApiUrl;
 			//let caseId = this.paramCaseId;			
 			//if(caseId != '')
@@ -236,7 +238,8 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.colleaguedata = JSON.parse(Response.toString());
 					//this.colleaguedata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.colleaguedata));
@@ -544,10 +547,10 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 
 			let caseId = this.paramCaseId;
@@ -558,7 +561,8 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					//this.workordersdata = JSON.parse(Response.toString()).reverse();
 					
 					let GetAllData = JSON.parse(Response.toString());
@@ -629,10 +633,10 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
-			});
+			}); */
 			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
@@ -643,7 +647,8 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.milestonedata = JSON.parse(Response.toString()).reverse();
 					this.eventsData = Array();
 					for(var i = 0; i < this.milestonedata.length; i++)
@@ -702,10 +707,10 @@ export class MasterComponent implements OnInit {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -716,7 +721,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledata));
 				let patientId = this.tabledata.patientId;
@@ -1026,10 +1032,10 @@ export class MasterComponent implements OnInit {
 	getFilesListing() {
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
-		});
+		}); */
 		let caseId = this.paramCaseId;
 		//alert(caseId);
 		if(caseId != '')
@@ -1040,7 +1046,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				this.filesdataArray = JSON.parse(Response.toString()).reverse();
 				//alert(JSON.stringify(this.filesdataArray));
 				this.casefilesArray = Array();
@@ -1301,10 +1308,10 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getReferralListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
-		});
+		}); */
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1316,7 +1323,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					//alert(JSON.stringify(GetAllData));
@@ -1551,10 +1559,10 @@ export class MasterComponent implements OnInit {
 	
 	
 	getInviteListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1567,7 +1575,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 				this.invitedata = Array();
@@ -1622,6 +1631,7 @@ export class MasterComponent implements OnInit {
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
 			//alert(JSON.stringify(this.invitedata));
+			this.isLoadingData = false;
 		}
 		}, (error) => {
 		  swal("Unable to fetch data, please try again");
@@ -1662,10 +1672,10 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getThread() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
-		});
+		}); */
 		
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -1687,7 +1697,7 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 					//alert(JSON.stringify(treadAllData));
@@ -1836,7 +1846,7 @@ export class MasterComponent implements OnInit {
 							this.cvfastMsgText = true;
 						}
 					}
-					
+					this.isLoadingData = false;
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
 						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)

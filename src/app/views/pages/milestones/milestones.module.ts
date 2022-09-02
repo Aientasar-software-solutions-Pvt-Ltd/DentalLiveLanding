@@ -15,6 +15,7 @@ import { GeneralTaskEditComponent } from './general-task-edit/general-task-edit.
 import { GeneralTaskViewComponent } from './general-task-view/general-task-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -83,6 +84,7 @@ const routes: Routes = [
 	OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormsModule,
+	NgxShimmerLoadingModule,
     ReactiveFormsModule
   ],
   schemas: [

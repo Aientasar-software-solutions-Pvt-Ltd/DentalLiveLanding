@@ -9,6 +9,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-milestone-add',
@@ -16,6 +17,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
   styleUrls: ['./milestone-add.component.css']
 })
 export class MilestoneAddComponent implements OnInit {
+	sending: boolean;
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	public isvalidDate = false;
 	
@@ -45,6 +47,7 @@ export class MilestoneAddComponent implements OnInit {
 	ngOnInit(): void {
 		this.getCaseDetails();
 		this.getAllCases();
+		this.sending = false;
 	}
 	
 	onSubmitMilestone(form: NgForm){
@@ -89,15 +92,12 @@ export class MilestoneAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		this.sending = true;
 		let url = this.utility.apiData.userCases.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				this.sending = false;
 				this.tabledataAll = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();

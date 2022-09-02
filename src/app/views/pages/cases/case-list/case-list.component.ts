@@ -14,10 +14,12 @@ import { Router } from '@angular/router';
 })
 export class CaseListComponent implements OnInit {
 
+	isLoadingData = true;
 	masterSelected:boolean;
 	tabledata:any;
 	allMember:any;
 	colleaguesdata:any;
+	shimmer = Array;
 	public indexRow = 0;
 	checkedList:any;
 	invitedatas:any;
@@ -33,7 +35,7 @@ export class CaseListComponent implements OnInit {
   ngOnInit(): void {
   sessionStorage.setItem('checkPatient', '');
   sessionStorage.setItem('patientId', '');
-  this.getallcase();
+	this.getallcase();
     this.dtOptions = {
 		dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 		pagingType: 'full_numbers',
@@ -62,15 +64,15 @@ export class CaseListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
@@ -93,7 +95,8 @@ export class CaseListComponent implements OnInit {
 					}
 					//alert(JSON.stringify(this.tabledata));
 					this.getAllMembers();
-				
+					this.isLoadingData = false;
+					
 				}
 			}, (error) => {
 			  swal('Unable to fetch data, please try again');
@@ -227,7 +230,7 @@ export class CaseListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
-			swal.close();
+			//swal.close();
 			let userData = JSON.parse(Response.toString());
 			//alert(JSON.stringify(GetArray));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
@@ -239,7 +242,7 @@ export class CaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-			swal({title: 'Unable to fetch data, please try again'});
+			swal('Unable to fetch data, please try again');
 			return false;
 		});
 		}
@@ -319,9 +322,7 @@ export class CaseListComponent implements OnInit {
 					//alert(JSON.stringify(this.colleaguesdata));
 				}
 			}, (error) => {
-				swal({
-					title: 'Unable to fetch data, please try again'
-				});
+				swal('Unable to fetch data, please try again');
 			  return false;
 			});
 		}
@@ -360,17 +361,17 @@ export class CaseListComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal({title: 'E-Mail ID does not exists,please signup to continue'});
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal({title: 'Account Disabled,contact Dental-Live'});
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal({title: 'Wrong Password,please try again'});
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal({title: 'Account Not Verified,Please activate the account from the Email sent to the Email address.'});
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal({title: error.error});
+			swal(error.error);
 		  else
-			swal({title: 'Unable to fetch the data, please try again'});
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -387,7 +388,7 @@ export class CaseListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
-			swal.close();
+			//swal.close();
 			let userData = JSON.parse(Response.toString());
 			//alert(JSON.stringify(GetArray));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
@@ -399,7 +400,7 @@ export class CaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-			swal({title: 'Unable to fetch data, please try again'});
+			swal('Unable to fetch data, please try again');
 			return false;
 		});
 		}

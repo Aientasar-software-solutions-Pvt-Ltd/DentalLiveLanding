@@ -12,10 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./patient-details.component.css']
 })
 export class PatientDetailsComponent implements OnInit {
-
+	isLoadingData = true;
   dtOptions: DataTables.Settings = {};
   tabledata:any;
   casedata:any;
+  shimmer = Array;
   public Img = 'assets/images/avatar3.png';
   public caseImage = false;
   public refrernceNo = '-';
@@ -81,10 +82,10 @@ export class PatientDetailsComponent implements OnInit {
 	}
 	getallpatiant() {
 		this.tabledata = '';
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
@@ -96,7 +97,7 @@ export class PatientDetailsComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 				if(this.tabledata.refId)
 				{
@@ -120,6 +121,7 @@ export class PatientDetailsComponent implements OnInit {
 						this.setcvImage(this.tabledata.image);
 					}
 				}, 1000);
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
@@ -143,10 +145,10 @@ export class PatientDetailsComponent implements OnInit {
 		if(user)
 		{
 		
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientId = this.paramPatientId;
 			if(patientId != '')
@@ -156,7 +158,7 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);

@@ -7,6 +7,7 @@
 		Files
 	</li>
 </ol>
+
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
@@ -49,9 +50,14 @@
 					</tr>
 				</thead>
             </table>
-            <div class="container">
+			<ng-container class="mt-3" *ngIf="isLoadingData">
+				<div class="mt-5 w-100"></div>
+				<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+				[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+				</ngx-shimmer-loading>
+			</ng-container>
+            <div *ngIf="!isLoadingData" class="container">
 				<div class="row">
-				
 					<div class="col-md-2" *ngFor="let data of allfile; let i= index;">
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;" *ngIf="this.data.files[0].mediaType=='application/pdf' || this.data.files[0].mediaType=='audio/mpeg'">
 						<div class="card-body text-center">

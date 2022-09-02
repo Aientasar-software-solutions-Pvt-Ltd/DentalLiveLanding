@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 import { OwlDateTimeIntl } from 'ng-pick-datetime';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-milestone-edit',
@@ -19,7 +20,7 @@ import { OwlDateTimeIntl } from 'ng-pick-datetime';
 })
 export class MilestoneEditComponent implements OnInit {
   @ViewChild(Cvfast) cvfastval!: Cvfast;
-
+	sending: boolean;
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -51,15 +52,11 @@ export class MilestoneEditComponent implements OnInit {
 	
   ngOnInit(): void {
   this.getEditMilestone();
-
   }
 	
 	getEditMilestone() {
 		this.editdata = '';
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		this.sending = true;
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
@@ -70,7 +67,7 @@ export class MilestoneEditComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				this.sending = false;
 				this.editdata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.editdata));
 				setTimeout(()=>{     
@@ -114,6 +111,7 @@ export class MilestoneEditComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		this.jsonObj['milestoneId'] = data.milestoneId;
 		this.jsonObj['title'] = data.title;
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))

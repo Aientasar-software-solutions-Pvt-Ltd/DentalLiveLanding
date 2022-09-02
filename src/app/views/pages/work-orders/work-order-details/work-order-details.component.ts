@@ -17,10 +17,12 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 })
 export class WorkOrderDetailsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	isLoadingData = true;
 	show = false;
 	show1 = false;
 	toothData:any;
 	id:any = "tab1";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
 	}
@@ -118,6 +120,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					this.toothData = this.tabledata.toothguide;
 					this.setcvFast(this.tabledata.notes);
@@ -127,6 +130,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.getMessage(this.tabledata.caseId);
 					//alert(JSON.stringify(this.tabledata.workorderId));
 					//alert(JSON.stringify(this.tabledata));
+					
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));

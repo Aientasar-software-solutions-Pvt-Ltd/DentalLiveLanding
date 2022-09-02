@@ -18,9 +18,11 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 export class MilestoneDetailsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	isLoadingData = true;
 	show = false;
 	show1 = false;
 	id:any = "tab1";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
 		sessionStorage.setItem("tabActive", ids);
@@ -130,10 +132,10 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	getallmilestone() {
 		this.tabledata = '';
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
@@ -146,7 +148,8 @@ export class MilestoneDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					//this.tabledata.description = JSON.stringify(this.tabledata.description);
 					this.descriptionObj.text = this.tabledata.description.text;
