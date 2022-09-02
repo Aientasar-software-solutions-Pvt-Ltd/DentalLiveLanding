@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit {
 				{
 					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
+					alert(JSON.stringify(treadAllData));
 					this.getThread(treadAllData.lastLoggedIn);
 				}
 			}, (error) => {
@@ -68,7 +69,7 @@ export class DashboardComponent implements OnInit {
 					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					//alert(JSON.stringify(treadAllData));
+					alert(JSON.stringify(treadAllData));
 					
 					this.messageDataArray = Array();
 					for(var i = 0; i < treadAllData.length; i++)

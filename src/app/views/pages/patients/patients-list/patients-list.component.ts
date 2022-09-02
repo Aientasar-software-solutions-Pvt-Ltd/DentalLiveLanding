@@ -222,7 +222,7 @@ export class PatientsListComponent implements OnInit {
 			
 			//url += "&invitedUserId="+user.dentalId;
 			url += "?resourceOwner="+user.emailAddress;
-			//url += "&presentStatus=0";
+			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -268,7 +268,7 @@ export class PatientsListComponent implements OnInit {
 							{
 								if(this.allMember[k].invitedUserMail == AllDate[l].resourceOwner)
 								{
-									//alert(this.allMember[k].invitedUserMail);
+									//alert(JSON.stringify(AllDate[l]));
 									this.colleaguesData.push({
 									  resourceOwner: AllDate[l].resourceOwner,
 									  firstName: AllDate[l].firstName,

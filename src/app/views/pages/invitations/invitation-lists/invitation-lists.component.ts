@@ -135,14 +135,13 @@ export class InvitationListsComponent implements OnInit {
 		  closeOnClickOutside: false,
 		}); */
 		let user = this.usr.getUserDetails(false);
-		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		//url += "?invitedUserId="+user.dentalId;
 		url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
 				let GetAllData = JSON.parse(Response.toString());
+				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
 				if(GetAllData.length == '0')
@@ -310,7 +309,8 @@ export class InvitationListsComponent implements OnInit {
 		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?invitedUserId="+user.dentalId;
+		url += "?invitedUserMail="+user.emailAddress;
+		//alert(url);
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
