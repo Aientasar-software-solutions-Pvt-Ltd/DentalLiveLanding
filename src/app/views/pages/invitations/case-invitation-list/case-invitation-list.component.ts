@@ -141,17 +141,14 @@ export class CaseInvitationListComponent implements OnInit {
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		//url += "?invitedUserId="+user.dentalId;
-		url += "?resourceOwner="+user.dentalId;
+		url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
-				if(GetAllData.length == '0')
-				{
-					swal.close();
-				}
+				swal.close();
 				for(var k = 0; k < GetAllData.length; k++)
 				{
 					this.invitedata.push({

@@ -1562,7 +1562,7 @@ export class MasterComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
-		url += "&resourceOwner="+user.dentalId;
+		url += "&resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)

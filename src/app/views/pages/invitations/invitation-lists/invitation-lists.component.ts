@@ -137,7 +137,7 @@ export class InvitationListsComponent implements OnInit {
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		//url += "?invitedUserId="+user.dentalId;
-		url += "?resourceOwner="+user.dentalId;
+		url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
