@@ -221,8 +221,8 @@ export class PatientsListComponent implements OnInit {
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
 			//url += "&invitedUserId="+user.dentalId;
-			url += "?resourceOwner="+user.emailAddress;
-			url += "&presentStatus=1";
+			url += "?invitedUserMail="+user.emailAddress;
+			//url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -255,42 +255,37 @@ export class PatientsListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			let url1 = this.utility.apiData.userPatients.ApiUrl;
-				//url += "?resourceOwner="+this.allMember[k].invitedUserId;
-				this.dataService.getallData(url1, true).subscribe(Response => {
-					if (Response)
-					{
-						let AllDate = JSON.parse(Response.toString());
-						this.colleaguesData = Array();	
-						for(var k=0; k < this.allMember.length; k++)
+			this.colleaguesData = Array();	
+			//alert(JSON.stringify(this.allMember));
+			for(var k=0; k < this.allMember.length; k++)
+			{
+				let url1 = this.utility.apiData.userPatients.ApiUrl;
+					url1 += "?patientId="+this.allMember[k].patientId;
+					this.dataService.getallData(url1, true).subscribe(Response => {
+						if (Response)
 						{
-							for(var l=0; l < AllDate.length; l++)
-							{
-								if(this.allMember[k].invitedUserMail == AllDate[l].resourceOwner)
-								{
-									//alert(JSON.stringify(AllDate[l]));
-									this.colleaguesData.push({
-									  resourceOwner: AllDate[l].resourceOwner,
-									  firstName: AllDate[l].firstName,
-									  lastName: AllDate[l].lastName,
-									  dob: AllDate[l].dob,
-									  email: AllDate[l].email,
-									  isActive: AllDate[l].isActive,
-									  dateCreated: AllDate[l].dateCreated,
-									  patientId: AllDate[l].patientId
-									});
-								}
-							}
+							let AllDate = JSON.parse(Response.toString());
+							//alert(JSON.stringify(AllDate.firstName));
+							this.colleaguesData.push({
+							  resourceOwner: 'kanha',
+							  firstName: AllDate.firstName,
+							  lastName: AllDate.lastName,
+							  dob: AllDate.dob,
+							  email: AllDate.email,
+							  isActive: AllDate.isActive,
+							  dateCreated: AllDate.dateCreated,
+							  patientId: AllDate.patientId
+							});
 						}
-						this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
-						//alert(JSON.stringify(this.colleaguesData));
-					}
-				}, (error) => {
-				swal({
-					title: 'Unable to fetch data, please try again'
+					}, (error) => {
+					swal({
+						title: 'Unable to fetch data, please try again'
+					});
+				  return false;
 				});
-			  return false;
-			});
+			}
+			this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+			//alert(JSON.stringify(this.colleaguesData));
 		}
 	}
 }

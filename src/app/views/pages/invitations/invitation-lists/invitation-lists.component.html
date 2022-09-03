@@ -405,7 +405,6 @@
 									<th class="body2">PATIENT NAME </th>
 									<th class="body2">CASE TITLE</th>
 									<th class="body2">STATUS</th>
-									<th class="body2" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody *ngIf="invitedata?.length != 0">
@@ -438,7 +437,7 @@
 											<small class="text-muted">Invited on : {{invite.dateCreated | date:'MM/dd/YYYY'}}</small>
 										</div>                     
 									</td>
-									<td>
+									<!--<td>
 										<div *ngIf="(invite.resourceOwner != invite.dentalId)">
 											<div class="dropdown" *ngIf="(invite.presentStatus == 0)">
 												<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
@@ -453,7 +452,7 @@
 												</ul>
 											</div>
 										</div>
-									</td>
+									</td>-->
 								</tr>
 							</tbody>
 						</table>

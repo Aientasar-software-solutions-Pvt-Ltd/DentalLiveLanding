@@ -1,6 +1,5 @@
 //@ts-nocheck
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import Swal from 'sweetalert2';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -8,7 +7,7 @@ import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import * as MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
 Wavesurfer.microphone = MicrophonePlugin;
 import { v4 as uuidv4 } from "uuid";
-import swal from 'sweetalert2';
+import Swal from 'sweetalert';
 import Webcam from 'webcam-easy';
 import * as Record from 'videojs-record/dist/videojs.record.js';
 import { ApiDataService } from '../views/pages/users/api-data.service';
@@ -346,6 +345,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
 	this.processing = true;
+	Swal("Processing...please wait...", {
+		buttons: [false, false],
+		closeOnClickOutside: false,
+	});
     let requests = this.attachmentFiles.map((object) => {
       if (object["binaryData"]) {
         this.processingcheck = true;
@@ -385,16 +388,17 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 			jsonObj[field] = this.cvfast;
 			}
-			alert(JSON.stringify(jsonObj));
+			//alert(JSON.stringify(jsonObj));
 			if(datatype == 'put')
 			{
 				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
+					Swal.close();
 					this.sending = false;
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
-						Swal.fire(message);
+						Swal(message);
 					}
 					if(sessionName)
 					{
@@ -413,28 +417,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}, error => {
 				  if (error.status === 404)
 				  {
-					Swal.fire('E-Mail ID does not exists,please signup to continue');
+					Swal('E-Mail ID does not exists,please signup to continue');
 				  }
 				  else if (error.status === 403)
 				  {
-					Swal.fire('Account Disabled,contact Dental-Live');
+					Swal('Account Disabled,contact Dental-Live');
 				  }
 				  else if (error.status === 400)
 				  {
-					Swal.fire('Wrong Password,please try again');
+					Swal('Wrong Password,please try again');
 				  }
 				  else if (error.status === 401)
 				  {
-					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  }
 				  else if (error.status === 428)
 				  {
-					Swal.fire(error.error);
+					Swal(error.error);
 				  }
 				  else
 				  {
 					let   errormsg = error;
-					Swal.fire('Unable to fetch the data, please try again');
+					Swal('Unable to fetch the data, please try again');
 				  }
 				});
 			}
@@ -443,10 +447,11 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
 					this.sending = false;
+					swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
-						Swal.fire(message);
+						Swal(message);
 					}
 					if(sessionName)
 					{
@@ -465,28 +470,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}, error => {
 				  if (error.status === 404)
 				  {
-					Swal.fire('E-Mail ID does not exists,please signup to continue');
+					Swal('E-Mail ID does not exists,please signup to continue');
 				  }
 				  else if (error.status === 403)
 				  {
-					Swal.fire('Account Disabled,contact Dental-Live');
+					Swal('Account Disabled,contact Dental-Live');
 				  }
 				  else if (error.status === 400)
 				  {
-					Swal.fire('Wrong Password,please try again');
+					Swal('Wrong Password,please try again');
 				  }
 				  else if (error.status === 401)
 				  {
-					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  }
 				  else if (error.status === 428)
 				  {
-					Swal.fire(error.error);
+					Swal(error.error);
 				  }
 				  else
 				  {
 					let   errormsg = error;
-					Swal.fire('Unable to fetch the data, please try again');
+					Swal('Unable to fetch the data, please try again');
 				  }
 				});
 			}
@@ -520,11 +525,12 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
+				swal.close();
 				this.sending = false;
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{
-					Swal.fire(message);
+					Swal(message);
 				}
 				if(sessionName)
 				{
@@ -543,28 +549,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			}, error => {
 			  if (error.status === 404)
 			  {
-				Swal.fire('E-Mail ID does not exists,please signup to continue');
+				Swal('E-Mail ID does not exists,please signup to continue');
 			  }
 			  else if (error.status === 403)
 			  {
-				Swal.fire('Account Disabled,contact Dental-Live');
+				Swal('Account Disabled,contact Dental-Live');
 			  }
 			  else if (error.status === 400)
 			  {
-				Swal.fire('Wrong Password,please try again');
+				Swal('Wrong Password,please try again');
 			  }
 			  else if (error.status === 401)
 			  {
-				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  }
 			  else if (error.status === 428)
 			  {
-				Swal.fire(error.error);
+				Swal(error.error);
 			  }
 			  else
 			  {
 				let   errormsg = error;
-				Swal.fire('Unable to fetch the data, please try again');
+				Swal('Unable to fetch the data, please try again');
 			  }
 			});
 		}
@@ -573,10 +579,11 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
 				this.sending = false;
+				swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{
-					Swal.fire(message);
+					Swal(message);
 				}
 				if(sessionName)
 				{
@@ -595,28 +602,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			}, error => {
 			  if (error.status === 404)
 			  {
-				Swal.fire('E-Mail ID does not exists,please signup to continue');
+				Swal('E-Mail ID does not exists,please signup to continue');
 			  }
 			  else if (error.status === 403)
 			  {
-				Swal.fire('Account Disabled,contact Dental-Live');
+				Swal('Account Disabled,contact Dental-Live');
 			  }
 			  else if (error.status === 400)
 			  {
-				Swal.fire('Wrong Password,please try again');
+				Swal('Wrong Password,please try again');
 			  }
 			  else if (error.status === 401)
 			  {
-				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  }
 			  else if (error.status === 428)
 			  {
-				Swal.fire(error.error);
+				Swal(error.error);
 			  }
 			  else
 			  {
 				let   errormsg = error;
-				Swal.fire('Unable to fetch the data, please try again');
+				Swal('Unable to fetch the data, please try again');
 			  }
 			});
 		}
