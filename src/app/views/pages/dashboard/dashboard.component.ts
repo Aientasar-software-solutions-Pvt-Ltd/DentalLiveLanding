@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
-								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+								messagetext: treadAllData[i].title,
 								messageimg: '',
 								messagecomment: '',
 								messagecomments: ''

@@ -8,6 +8,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-case-edit',
@@ -16,6 +17,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 })
 export class CaseEditComponent implements OnInit {
   @ViewChild(Cvfast) cvfastval!: Cvfast;
+	sending: boolean;
 	public patientImg: any;
 	public tabledata: any;
 	public patientdata: any;
@@ -88,10 +90,7 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
-	swal("Processing...please wait...", {
-	  buttons: [false, false],
-	  closeOnClickOutside: false,
-	});
+	this.sending = true;
 	this.tabledata = '';
 	let url = this.utility.apiData.userCases.ApiUrl;
 	this.caseId = this.getcaseId;
@@ -103,7 +102,7 @@ export class CaseEditComponent implements OnInit {
 	.subscribe(Response => {
 		if (Response)
 		{
-			swal.close();
+			this.sending = false;
 			this.tabledata = JSON.parse(Response.toString());
 			//this.setcvFast(this.tabledata.description);
 			this.setCaseType(this.tabledata.caseType);

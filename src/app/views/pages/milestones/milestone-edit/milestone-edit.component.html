@@ -33,7 +33,7 @@
 		<h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
 	</div>
 </div>
-<form #milestoneForm="ngForm" id="milestoneForm" (ngSubmit)="onSubmitMilestone(milestoneForm)">
+<form #milestoneForm="ngForm" id="milestoneForm" *ngIf="!sending" (ngSubmit)="onSubmitMilestone(milestoneForm)">
 	<div class="row align-items-center pt-2">
 		<div class="col-md-12">
 			<div class="card shadow-sm">

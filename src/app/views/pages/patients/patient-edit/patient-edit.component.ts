@@ -8,6 +8,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-patient-edit',
@@ -19,6 +20,7 @@ export class PatientEditComponent implements OnInit {
 saveActiveInactive: boolean = false;
 
 public patiantStatus = false;
+sending: boolean;
 onActiveInactiveChanged(value:boolean){
 	this.saveActiveInactive = value;
 	this.patiantStatus = value;
@@ -99,12 +101,10 @@ onActiveInactiveChanged(value:boolean){
 		this.getallpatiant();
 	}
 	getallpatiant() {
+		this.sending = true;
 		this.tabledata = '';
 		this.objInsuranceview = '';
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		
 		//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
@@ -116,7 +116,7 @@ onActiveInactiveChanged(value:boolean){
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				this.sending = false;
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(this.tabledata.image);
 				this.patientImage = this.tabledata.image;
@@ -255,6 +255,7 @@ onActiveInactiveChanged(value:boolean){
 	}
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		//alert(this.cv.returnCvfast().isTrue);
 		this.jsonObj['firstName'] = data.firstName;
 		this.jsonObj['lastName'] = data.lastName;

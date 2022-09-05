@@ -53,8 +53,8 @@ export class ColleaguesListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?resourceOwner="+user.dentalId;
-		//url += "&presentStatus=0";
+		url += "?resourceOwner="+user.emailAddress;
+		url += "&presentStatus=1";
 		
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)

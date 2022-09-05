@@ -222,7 +222,7 @@ export class PatientsListComponent implements OnInit {
 			
 			//url += "&invitedUserId="+user.dentalId;
 			url += "?invitedUserMail="+user.emailAddress;
-			//url += "&presentStatus=1";
+			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)

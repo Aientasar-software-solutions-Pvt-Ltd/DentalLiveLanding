@@ -256,10 +256,10 @@ export class InvitationListsComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObjInvite));
 		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText');
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1);
 		}
 		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText');
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1);
 		}
 		
 	};
@@ -318,11 +318,7 @@ export class InvitationListsComponent implements OnInit {
 				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.inviteReceivedData = Array();
-				if(GetAllData.length == '0')
-				{
-					//swal.close();
-					this.isLoadingData = false;
-				}
+				this.isLoadingData = false;
 				for(var k = 0; k < GetAllData.length; k++)
 				{
 					this.inviteReceivedData.push({
@@ -389,15 +385,14 @@ export class InvitationListsComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.inviteReceivedData[index].userName = name;
-			//alert(JSON.stringify(this.inviteReceivedData));
 		}
 		}, (error) => {
 		  swal( 'Unable to fetch data, please try again');

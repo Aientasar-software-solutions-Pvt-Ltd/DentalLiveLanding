@@ -79,7 +79,7 @@ export class ColleagueViewProfileComponent implements OnInit {
 			let user = this.usr.getUserDetails(false);
 			//alert(user.dentalId);
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			url += "?resourceOwner="+user.dentalId;
+			url += "?resourceOwner="+user.emailAddress;
 			//url += "&presentStatus=1";
 			var colleagueId = this.profileId;
 			url += "&invitedUserId="+colleagueId;
