@@ -125,11 +125,11 @@ export class PatientsListComponent implements OnInit {
 		}
 	}
 	editpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
+		//localStorage.setItem('patientId', patientId);
 		this.router.navigate(['/patients/patient-edit/'+patientId]);
 	}
 	viewpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
+		//localStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-details/'+patientId]);
 	}
 	deletepatiant(patientId: any) {

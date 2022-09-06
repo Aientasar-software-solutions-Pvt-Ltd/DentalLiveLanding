@@ -110,8 +110,8 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	viewColleagueDetails(colleagueId: any,caseId: any) {
 		//alert(caseId);
-		//sessionStorage.setItem('colleagueId', colleagueId);
-		//sessionStorage.setItem('caseId', caseId);
+		//localStorage.setItem('colleagueId', colleagueId);
+		//localStorage.setItem('caseId', caseId);
 		this.router.navigate(['colleagues/colleague-view-profile/'+colleagueId+'/'+caseId]);
 	}
 	getuserdetailsall(userId, index) {

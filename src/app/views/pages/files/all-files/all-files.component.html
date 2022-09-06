@@ -61,7 +61,7 @@
 					<div class="col-md-2" *ngFor="let data of allfile; let i= index;">
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;" *ngIf="this.data.files[0].mediaType=='application/pdf' || this.data.files[0].mediaType=='audio/mpeg'">
 						<div class="card-body text-center">
-							<a href="javascript:void(0);" class="text-dark" (click)="viewFilesDetails(this.data.fileUploadId)">
+							<a href="casefiles/file-details/{{this.data.fileUploadId}}/{{this.getcaseId}}" class="text-dark" >
 								<img src="assets/images/file.png" height="58px" *ngIf="this.data.files[0].url; else noimage" />
 								<ng-template #noimage><img src="assets/images/no-image.png" height="58px"/></ng-template>
 								<p class="card-text">{{this.data.files[0].name}}</p>
@@ -70,7 +70,7 @@
 					  </div>
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;" *ngIf="this.data.files[0].mediaType=='video/mp4' || this.data.files[0].mediaType=='video/avi' || this.data.files[0].mediaType=='video/3gp'">
 						<div class="card-body text-center">
-							<a href="javascript:void(0);" class="text-dark" (click)="viewFilesDetails(this.data.fileUploadId)">
+							<a href="casefiles/file-details/{{this.data.fileUploadId}}/{{this.getcaseId}}" class="text-dark" >
 								<img src="assets/images/video.png" height="58px" *ngIf="this.data.files[0].url; else noimage" />
 								<ng-template #noimage><img src="assets/images/no-image.png" height="58px"/></ng-template>
 								<p class="card-text">{{this.data.files[0].name}}</p>
@@ -79,7 +79,7 @@
 					  </div>
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;" *ngIf="this.data.files[0].mediaType=='application/msword'">
 						<div class="card-body text-center">
-							<a href="javascript:void(0);" class="text-dark" (click)="viewFilesDetails(this.data.fileUploadId)">
+							<a href="casefiles/file-details/{{this.data.fileUploadId}}/{{this.getcaseId}}" class="text-dark" >
 								<img src="assets/images/file.png" height="58px" *ngIf="this.data.files[0].url; else noimage" />
 								<ng-template #noimage><img src="assets/images/no-image.png" height="58px"/></ng-template>
 								<p class="card-text">{{this.data.files[0].name}}</p>
@@ -88,7 +88,7 @@
 					  </div>
 					  <div class="card mb-3" style="max-width: 18rem;border: 1px solid #D0D6DE;" *ngIf="this.data.files[0].mediaType=='image/jpeg' || this.data.files[0].mediaType=='image/png' || this.data.files[0].mediaType=='image/jpg'">
 						<div class="card-body text-center">
-							<a href="javascript:void(0);" class="text-dark" (click)="viewFilesDetails(this.data.fileUploadId)">
+							<a href="casefiles/file-details/{{this.data.fileUploadId}}/{{this.getcaseId}}" class="text-dark" >
 								<img src="assets/images/image-icon.png" height="58px" *ngIf="this.data.files[0].url; else noimage" />
 								<ng-template #noimage><img src="assets/images/no-image.png" height="58px"/></ng-template>
 								<p class="card-text">{{this.data.files[0].name}}</p>

@@ -32,19 +32,19 @@ const routes: Routes = [
 				loadChildren: () => import('./views/pages/colleagues/colleagues.module').then(m => m.ColleaguesModule)
 			},
 			{
-				path: 'referral',
+				path: 'referrals',
 				loadChildren: () => import('./views/pages/referral/referral.module').then(m => m.ReferralModule)
 			},
 			{
-				path: 'work-orders',
-				loadChildren: () => import('./views/pages/work-orders/work-orders.module').then(m => m.WorkOrdersModule)
+				path: 'workorders',
+				loadChildren: () => import('./views/pages/workorders/work-orders.module').then(m => m.WorkOrdersModule)
 			},
 			{
-				path: 'master',
+				path: 'cases-view',
 				loadChildren: () => import('./views/pages/master/master.module').then(m => m.MasterModule)
 			},
 			{
-				path: 'invitations',
+				path: 'caseinvites',
 				loadChildren: () => import('./views/pages/invitations/invitations.module').then(m => m.InvitationsModule)
 			},
 			{
@@ -52,7 +52,7 @@ const routes: Routes = [
 				loadChildren: () => import('./views/pages/milestones/milestones.module').then(m => m.MilestonesModule)
 			},
 			{
-				path: 'files',
+				path: 'casefiles',
 				loadChildren: () => import('./views/pages/files/files.module').then(m => m.FilesModule)
 			},
 			{

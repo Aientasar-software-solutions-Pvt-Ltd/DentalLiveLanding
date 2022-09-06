@@ -11,7 +11,6 @@ import { ReferralAddMembersComponent } from './referral-add-members/referral-add
 import { ReferralDetailsComponent } from './referral-details/referral-details.component';
 import { ReferralEditComponent } from './referral-edit/referral-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { WorkOrdersModule } from '../work-orders/work-orders.module';
 import { PatientsModule } from '../patients/patients.module';
 import { ReferralGuideComponent } from './referral-guide/referral-guide.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
@@ -23,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'referral',
+        redirectTo: 'referrals',
         pathMatch: 'full',
       },
 	  {
@@ -68,7 +67,6 @@ const routes: Routes = [
 	FormsModule,
 	ReactiveFormsModule,
 	PatientsModule,
-	WorkOrdersModule,
 	NgxShimmerLoadingModule
   ],
   schemas: [

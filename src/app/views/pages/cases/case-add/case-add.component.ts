@@ -33,7 +33,7 @@ export class CaseAddComponent implements OnInit {
 	public caseInsertedId = '';
 	public caseType = true;
 	public caseImage = false;
-	checkPatient = sessionStorage.getItem("checkPatient");
+	checkPatient = localStorage.getItem("checkPatient");
 	public jsonObj = {
 	  resourceOwner: '',
 	  patientId: '',
@@ -211,7 +211,7 @@ export class CaseAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		this.resourceOwn = user.emailAddress;
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		let patientId = sessionStorage.getItem("patientId");
+		let patientId = localStorage.getItem("patientId");
 		if(patientId != '')
 		{
 			url += "?patientId="+patientId;

@@ -18,11 +18,11 @@ import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 const routes: Routes = [
 	{
         path: '',
-        redirectTo: 'master-list',
+        redirectTo: 'details',
         pathMatch: 'full',
 	},
 	{
-		path: 'master-list/:caseId/:tabName',
+		path: ':tabName/:caseId',
 		component: MasterComponent
 	}
 ]

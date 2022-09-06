@@ -126,7 +126,7 @@ export class MilestoneEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.cvfastval.returnCvfast()));
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = sessionStorage.getItem('backurl');
+		const backurl = localStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone updated successfully', backurl, 'put','','description');
 		

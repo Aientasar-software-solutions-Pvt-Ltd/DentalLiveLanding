@@ -15,11 +15,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'files',
+        redirectTo: 'casefiles',
         pathMatch: 'full',
       },
 	  {
-        path: 'files/:dateCreated/:caseId',
+        path: ':dateCreated/:caseId',
         component: AllFilesComponent
       },
 	  {

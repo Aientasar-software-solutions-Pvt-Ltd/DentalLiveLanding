@@ -131,11 +131,6 @@ export class AllFilesComponent implements OnInit {
 		});
 	}
 	
-	viewFilesDetails(fileUploadId: any) {
-		//sessionStorage.setItem('fileUploadId', fileUploadId);
-		this.router.navigate(['/files/file-details/'+fileUploadId+'/'+this.getcaseId]);
-	}
-	
 	getCaseDetails() {
 		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
@@ -179,7 +174,7 @@ export class AllFilesComponent implements OnInit {
 		{
 			url += "?ownerName="+ownerName[0];
 		}
-		//let fileUploadId = sessionStorage.getItem("fileUploadId");
+		//let fileUploadId = localStorage.getItem("fileUploadId");
 		//if(fileUploadId != '')
 		//{
 			//url += "?fileUploadId="+fileUploadId;

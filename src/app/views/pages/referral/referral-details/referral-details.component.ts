@@ -237,7 +237,7 @@ export class ReferralDetailsComponent implements OnInit {
 			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			
 			if(caseId != '')
 			{
@@ -306,7 +306,7 @@ export class ReferralDetailsComponent implements OnInit {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  this.getReferralDetails();
 		  swal( 'Referral Due Date updated successfully');
-		  //this.router.navigate(['/referral/referral-details']);
+		  //this.router.navigate(['/referrals/referral-details']);
 		}, error => {
 		   if (error.status === 404)
 			swal('E-Mail ID does not exists,please signup to continue');

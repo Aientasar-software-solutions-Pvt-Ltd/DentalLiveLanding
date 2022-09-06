@@ -25,10 +25,10 @@ export class ReferralListComponent implements OnInit {
 
 
 	ngOnInit(): void {
-		sessionStorage.setItem('checkCase', '');
-		sessionStorage.setItem('caseId', '');
-		sessionStorage.setItem('checkmilestoneidref', '');
-		sessionStorage.setItem('backurl', '/referral/referral-list');
+		localStorage.setItem('checkCase', '');
+		localStorage.setItem('caseId', '');
+		localStorage.setItem('checkmilestoneidref', '');
+		localStorage.setItem('backurl', '/referrals/referral-list');
 		this.getallreferrals();
 		this.getCaseDetails();
 		this.dtOptions = {
@@ -65,7 +65,7 @@ export class ReferralListComponent implements OnInit {
 			}); */
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -148,7 +148,7 @@ export class ReferralListComponent implements OnInit {
 			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			
 			if(caseId != '')
 			{
@@ -167,16 +167,6 @@ export class ReferralListComponent implements OnInit {
 			  return false;
 			});
 		}
-	}
-	
-	viewReferralDetails(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-details/'+referralId]);
-	}
-	
-	editReferrals(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
 	onSubmit(form: NgForm) {

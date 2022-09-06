@@ -1,0 +1,537 @@
+<ol class="breadcrumb">
+	<!-- breadcrumb --> 
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/workorders/work-orders">Work Orders</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Work Order Details
+	</li>
+</ol>
+<ng-container class="mt-3" *ngIf="isLoadingData">
+	<div class="mt-5 w-100"></div>
+	<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+	[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+	</ngx-shimmer-loading>
+</ng-container>
+<div class="page-header row align-items-center gx-0">
+	<div class="col-md-6">
+		<div class="d-inline-block">
+			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+				<div class="progress progress-sm mt-2">
+					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+			</h3>
+		</div>
+	</div>	
+	<div class="col-md-6 text-end"> 
+		
+	</div>
+</div>
+
+<div class="row align-items-center pt-2">
+	<div class="col-md-12">
+		<div class="card shadow-sm">
+			<div class="card-header bg-white">
+				<div class="row">
+					<div class="col-md-5 align-self-center">
+					  <h5 class="body1 card-title my-2">Work Order Details</h5>
+					</div>
+					<div class="col-md-7 text-end">
+						<!-- <a routerLink="/workorders/work-order-add-members" class="btn btn-default"> 
+						  <i class="bx bx-plus" aria-hidden="true"></i>
+						  Add Member
+						</a> --> 
+						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back</a>
+					</div>
+					<div class="col-md-5">
+						<div class="panel panel-primary mt-3"> 
+							<div class="tab-menu-heading"> 
+								<div class="tabs-menu"> 
+									<!-- Tabs -->
+									<ul class="nav panel-tabs"> 
+										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab1'" (click)="tabContent('tab1')">Details</a></li> 
+										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab2'" (click)="tabContent('tab2')">Thread</a></li> 
+										<!-- <li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab3'" (click)="tabContent('tab3')">Members</a></li>  -->
+									</ul> 
+								</div> 
+							</div>
+						</div>    
+					</div>
+					<div class="col-md-7 text-end">
+						<div class="avatar-list justify-content-end mt-2">
+							<span class="avatar-icon my-1 ms-2">C</span>
+							<span class="avatar-icon my-1 ms-2">M</span>
+						</div>
+					</div>
+				</div>         
+			</div>
+			<div>
+				<div *ngIf="id === 'tab1'">  
+					<!-- <form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkorders(WorkordersForm)">	 -->
+						<div class="card-body">
+							<div class="row mt-2">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-8"> 
+											<div class="mb-3 row">
+												<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
+												<div class="col-sm-8">
+													<input class="form-control" type="text" value="Jeffery Lorence" aria-label="readonly input example" readonly>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-8"> 
+											<div class="mb-3 row">
+												<label for="title" class="col-sm-3 col-form-label">Title</label>
+												<div class="col-sm-8">
+													<input class="form-control" type="text" name="title" id="title" value="{{this.tabledata.title}}" aria-label="readonly input example" readonly>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2"> 
+											<div class="mb-4">
+												<label class="form-label body2 text-gray">Start Date</label>
+												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.startdate | date:'mediumDate'}}">
+											</div>
+										</div>
+										<div class="col-md-2"> 
+											<div class="mb-4">
+												<label class="form-label body2 text-gray">Expected Date</label>
+												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.enddate | date:'mediumDate'}}">
+											</div>
+										</div>
+										<div class="col-md-12"  *ngIf="(this.cvfastText == true)"> 
+											<div class="mb-3 row">
+												<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
+												<div class="col-sm-10">
+													<div class="card" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #0070D2;">
+														<div class="card-body">
+															<p class="text-light body1">
+															 {{this.tabledata.notes.text}}
+															</p>
+															
+														</div>
+													</div>         
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12"> 
+											<div class="mb-3 row" *ngIf="(this.cvfastLinks == true)">
+												<label class="col-sm-2 col-form-label" >Assets : </label>
+												<div class="col-sm-10">
+													<div class="row">
+														<div class="col-md-4 col-lg-6" *ngFor="let links of attachmentFiles">
+															<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
+															<img src="{{links.ImageUrl}}" height="36px" *ngIf="(links.imgName.split('.').pop() =='jpg' || links.imgName.split('.').pop() =='JPG' || links.imgName.split('.').pop() =='png' || links.imgName.split('.').pop() =='PNG' || links.imgName.split('.').pop() =='jpeg' || links.imgName.split('.').pop() =='JPEG' || links.imgName.split('.').pop() =='gif' || links.imgName.split('.').pop() =='GIF'); else noimage">
+															<ng-template #noimage><img src="assets/images/file.png" height="58px"/></ng-template>
+															<a href="{{links.ImageUrl}}" target="_tblank"><p class="card-text ps-2">{{links.imgName}}</p></a>
+															</div></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12"> 
+											<div class="mb-3 row" >
+												<label class="col-sm-2 col-form-label" >Tooth Guide : </label>
+												<div class="col-sm-10">
+													<div class="row">
+														<app-work-order-guide #orders></app-work-order-guide>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 my-2 mx-1">
+									<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate">
+										<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
+									</button>
+									<a routerLink="/workorders/work-orders" class="btn btn-secondary">
+										Back
+									</a> 
+								</div>
+							</div>
+						</div> 
+					<!-- </form> -->
+				</div>
+				<div *ngIf="id === 'tab2'">  
+					<div class="card-body">
+						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
+							<div class="col-md-4 col-lg-6 d-flex">
+								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
+									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">Sophia
+							   </div>
+							   
+							</div>
+							<div class="col-md-8 col-lg-6 text-end ">
+								<div class="row">
+									<div class="col-md-10">
+										<span class="body2">{{message.messagedate | date:'medium'}} (3days ago)</span>  
+									</div>
+									<div class="col-md-2">   
+										<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
+										<span class="material-icons " style="color:#D0D6DE;">more_vert </span>
+									</div>
+								</div>                     
+							</div>
+							<div class=" mt-2 col-md-12" >
+								<div class="ms-5">
+									<p class="body2 mb-0 ">
+										{{message.messagetext}}
+									</p>
+									<div class="mt-2 mb-2">
+										<span *ngFor="let imgUrl of message.messageimg;">
+										<a target="_tblank" href="{{imgUrl.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="mt-2 col-md-12" *ngFor="let comments of message.messagecomments; let j = index;">
+								<div class="flex p-2" *ngIf="(comments.isShow == '1' || comments.isShowLink == '1')">
+									<div class="flex-grow p-2"  style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
+										<div>
+											<p class="body2" *ngIf="comments.isShow == '1'">{{comments.text}}</p>
+											<div class="mt-2 mb-2"  >
+												<span *ngFor="let link of comments.links;">
+													<a target="_tblank" href="{{link.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<ng-container *ngIf="this.showComment == i">
+								<div class="col-md-12" >
+									<form #CommentId="ngForm" id="mainForm" (ngSubmit)="onSubmitComment(CommentId)">
+										<app-cvfast></app-cvfast>
+										<span *ngIf="(this.setMessageRpValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+										<div class="row">
+											<div class="col-md-12 mb-2">
+												<input type="hidden"  name="CcaseId" id="CcaseId" ngModel="{{message.caseId}}">
+												<input type="hidden" name="CpatientId" id="CpatientId" ngModel="{{message.patientId}}">
+												<input type="hidden" name="CpatientName" id="CpatientName" ngModel="{{message.patientName}}">
+												<input type="hidden" name="CmessageId" id="CmessageId" ngModel="{{message.messageId}}">
+												<input type="hidden" name="CmessageReferenceId" id="CmessageReferenceId" ngModel="{{message.messageReferenceId}}">
+												<input type="hidden" name="Ccomments" id="Ccomments" ngModel="{{i}}">
+												<button type="submit" class="btn btn-default mt-1 me-2" >Comment</button> 
+											</div>
+										</div>
+									</form>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+					<div class="card-footer" style="background-color: #F7F9FB;">
+						<form #MessageId="ngForm" id="mainForm" (ngSubmit)="onSubmitMessage(MessageId)">
+							<app-cvfast></app-cvfast>
+							<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
+							<div class="row">
+								<div class="col-md-12 mb-2">
+									<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+									<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+									<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+									<input type="hidden" name="messageReferenceId" id="messageReferenceId" ngModel="{{this.tabledata.workorderId}}">
+									<button type="submit" class="btn btn-default mt-1 me-2" >Add Message</button> 
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--<div *ngIf="id === 'tab3'">  
+					<div class="card-body p-0 pb-3">
+						<div class="table-responsive">
+							<table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top:0px !important;">
+								<thead class="thead-light">
+									<tr style="text-transform:uppercase;">
+										<th width="15px">   
+											<div class="form-check form-check-inline mb-0" style="min-height: auto;">
+												<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</th>
+										<th class="body2">MEMBER NAME</th>
+										<th class="body2">MEMBER TYPE</th>
+										<th class="body2">STATUS</th>
+										<th class="body2">ACTIONS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-warning body2">Rejected</span>
+												<small class="d-block text-muted">Created on : 14/APR/2020</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-purple">Accept Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Simon Sais</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr> 
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Mario Speedwagon</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr> 
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Liza Doolittle</span>
+													<span class="body2 d-block">Specialist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image2.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Colin</span>
+													<span class="body2 d-block">General Dentist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+											   <img alt="..." src="assets/images/image.png" class="avatar avatar-sm rounded-circle" width="36px" height="36px" />
+												<div class="ps-2">
+													<span class="body2 d-block">Aida Bugg</span>
+													<span class="body2 d-block">Specialist</span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="body2"><i class="bx bxs-home me-1 text-gray"></i>Home </span>
+										</td>                     
+										<td>
+											<div>
+												<span class="badge badge-pill badge-success body2 px-2">Accepted</span>
+												<small class="d-block text-muted">Created on : 14/APR/20</small>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex align-items-center">
+												<a routerLink="#" class="me-1">
+													<i class="material-icons text-light-green">visibility</i>
+												</a>
+												<span class="badge badge-pill badge-blue">Send Invite</span>
+										   </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="updateDate" tabindex="-1" aria-labelledby="updateDateLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkOrders(workordersForm)">
+				<div class="modal-header">
+					<h5 class="modal-title body1" id="updateDateLabel">Update Due Date</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row gy-3">
+						<div class="col-md-12"> 
+							<label class="form-label body2 text-dark">Choose Due Date</label>
+							<input type="date" class="form-control" name="enddate" id="enddate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+							<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date should be greater than to start date</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+						<input type="hidden" name="workorderId" id="workorderId" ngModel="{{this.tabledata.workorderId}}">
+						<input type="hidden" class="form-control" name="startdate" id="startdate" ngModel={{this.tabledata.startdate}} >
+						<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+						<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+						<input type="hidden" name="milestoneId" id="milestoneId" ngModel="{{this.tabledata.milestoneId}}">
+						<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+						<input type="hidden" name="title" id="title" ngModel={{this.tabledata.title}}>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -24,8 +24,8 @@ export class MilestonesListComponent implements OnInit {
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
-		sessionStorage.setItem('checkCase', '');
-		sessionStorage.setItem('caseId', '');
+		localStorage.setItem('checkCase', '');
+		localStorage.setItem('caseId', '');
 		this.getallmilestone();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -52,7 +52,7 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	getallmilestone() {
-		sessionStorage.setItem('backurl', '/milestones/milestones-list');
+		localStorage.setItem('backurl', '/milestones/milestones-list');
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -62,7 +62,7 @@ export class MilestonesListComponent implements OnInit {
 			  closeOnClickOutside: false,
 			}); */
 			let url = this.utility.apiData.userMilestones.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -85,11 +85,11 @@ export class MilestonesListComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	editMilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	

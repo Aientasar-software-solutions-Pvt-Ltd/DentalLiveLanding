@@ -31,8 +31,8 @@ export class ReferralAddComponent implements OnInit {
 	public patientid = '';
 	public casesName = '';
 	public patientName = '';
-	milestoneid = sessionStorage.getItem("checkmilestoneidref");
-	checkCase = sessionStorage.getItem("checkCase");
+	milestoneid = localStorage.getItem("checkmilestoneidref");
+	checkCase = localStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -109,7 +109,7 @@ export class ReferralAddComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = sessionStorage.getItem('backurl');
+		const backurl = localStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', backurl, 'post', '','notes');
 	}
@@ -262,7 +262,7 @@ export class ReferralAddComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCases.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				swal("Processing...please wait...", {

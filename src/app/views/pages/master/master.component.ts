@@ -149,31 +149,6 @@ export class MasterComponent implements OnInit {
 		this.paramCaseId = this.route.snapshot.paramMap.get('caseId');
 		this.paramTabName = this.route.snapshot.paramMap.get('tabName');
 	}
-	
-	tabClick(tabs:any){
-		this.tab = tabs;
-		sessionStorage.setItem("masterTab", tabs);
-		let tabParam = (this.tab == 'tab1') ? 'caseDetails' : (this.tab == 'tab2') ? 'thread' : (this.tab == 'tab3') ? 'colleagues' : (this.tab == 'tab4') ? 'workOrders' : (this.tab == 'tab5') ? 'referral' : (this.tab == 'tab6') ? 'milestone' : (this.tab == 'tab7') ? 'files' : 'caseDetails';
-		
-		if(tabParam == 'thread'){
-			this.getMessage();
-			this.getThread();
-		}
-		
-		(tabParam == 'files') ? this.getFilesListing() : '';
-		(tabParam == 'milestone') ? this.getallmilestone() : '';
-		(tabParam == 'workOrders') ? this.getallworkorder() : '';
-		(tabParam == 'referral') ? this.getReferralListing() : '';
-		
-		if(tabParam == 'colleagues'){
-			this.getColleagueListing();
-			this.getAllMembers();
-			this.getInviteListing();
-		}
-	
-		this.router.navigate(['master/master-list/'+this.paramCaseId+'/'+tabParam]);
-	}
-
   ngOnInit(): void {
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -193,31 +168,25 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
-
 	this.getCaseDetails();
-	if(this.paramTabName == 'thread'){
+	if(this.paramTabName == 'threads'){
 		this.getMessage();
 		this.getThread();
 	}
-	
-	(this.paramTabName == 'files') ? this.getFilesListing() : '';
-	(this.paramTabName == 'milestone') ? this.getallmilestone() : '';
-	(this.paramTabName == 'workOrders') ? this.getallworkorder() : '';
-
-
-
-	(this.paramTabName == 'referral') ? this.getReferralListing() : '';
-	
+	(this.paramTabName == 'casefiles') ? this.getFilesListing() : '';
+	(this.paramTabName == 'milestones') ? this.getallmilestone() : '';
+	(this.paramTabName == 'workorders') ? this.getallworkorder() : '';
+	(this.paramTabName == 'referrals') ? this.getReferralListing() : '';
 	if(this.paramTabName == 'colleagues'){
 		this.getColleagueListing();
 		this.getAllMembers();
 		this.getInviteListing();
 	}
 	
-	let tabName = (this.paramTabName == 'caseDetails') ? 'tab1' : (this.paramTabName == 'thread') ? 'tab2' : (this.paramTabName == 'colleagues') ? 'tab3' : (this.paramTabName == 'workOrders') ? 'tab4' : (this.paramTabName == 'referral') ? 'tab5' : (this.paramTabName == 'milestone') ? 'tab6' : (this.paramTabName == 'files') ? 'tab7' : 'tab1';
-	sessionStorage.setItem("masterTab", tabName);
+	let tabName = (this.paramTabName == 'caseDetails') ? 'tab1' : (this.paramTabName == 'threads') ? 'tab2' : (this.paramTabName == 'colleagues') ? 'tab3' : (this.paramTabName == 'workorders') ? 'tab4' : (this.paramTabName == 'referrals') ? 'tab5' : (this.paramTabName == 'milestones') ? 'tab6' : (this.paramTabName == 'casefiles') ? 'tab7' : 'tab1';
+	localStorage.setItem("masterTab", tabName);
 	//Set current tab
-	let masterTab = sessionStorage.getItem("masterTab");
+	let masterTab = localStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
 	}
 
@@ -546,7 +515,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
+			localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
 			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
@@ -609,24 +578,24 @@ export class MasterComponent implements OnInit {
 	}
 	
 	addReferal(caseId: any) {
-		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneidref', '');
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('checkCase', '1');
+		localStorage.setItem('checkmilestoneidref', '');
+		localStorage.setItem('caseId', caseId);
 		this.router.navigate(['referral/referral-add']);
 	}
 	addWorkOrders(caseId: any) {
-		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneid', '');
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('checkCase', '1');
+		localStorage.setItem('checkmilestoneid', '');
+		localStorage.setItem('caseId', caseId);
 		this.router.navigate(['work-orders/work-order-add']);
 	}
 	editWorkOrders(workorderId: any) {
-		//sessionStorage.setItem('workorderId', workorderId);
+		//localStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-edit/'+workorderId]);
 	}
 	
 	viewWorkorders(workorderId: any) {
-		//sessionStorage.setItem('workorderId', workorderId);
+		//localStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
 	}
 	getallmilestone() {
@@ -637,7 +606,7 @@ export class MasterComponent implements OnInit {
 				buttons: [false, false],
 				closeOnClickOutside: false,
 			}); */
-			sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
+			localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
 			if(caseId != '')
@@ -681,7 +650,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	deletemilestone(milestoneId: any) {
@@ -695,18 +664,18 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editMilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	
 	editcase(caseId: any) {
-		//sessionStorage.setItem('caseId', caseId);
+		//localStorage.setItem('caseId', caseId);
 		this.router.navigate(['/cases/case-edit/'+caseId]);
 	}
 	getCaseDetails() {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
-		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
+		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
 		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
@@ -974,7 +943,7 @@ export class MasterComponent implements OnInit {
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {
@@ -1030,7 +999,7 @@ export class MasterComponent implements OnInit {
 	}
 
 	getFilesListing() {
-		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
+		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		/* swal("Processing...please wait...", {
 			buttons: [false, false],
@@ -1110,7 +1079,7 @@ export class MasterComponent implements OnInit {
 	}
 	getFilesDetails() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		let fileUploadId = sessionStorage.getItem("fileUploadId");
+		let fileUploadId = localStorage.getItem("fileUploadId");
 		//let fileUploadId = "013213d3-eb8c-446e-8a52-4aa8de59664d";
 		//alert(fileUploadId);
 		if(fileUploadId != '')
@@ -1140,21 +1109,6 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	
-	viewFiles(dateCreated: any) {
-		//let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		//this.dataService.deleteFilesData(url, fileUploadId).subscribe(Response => {
-		//	swal("Case Files deleted successfully");
-		//	this.getFilesListing();
-		//}, (error) => {
-		//  swal("Unable to fetch data, please try again");
-		//  return false;
-		//});
-		
-		//sessionStorage.setItem('dateCreated', dateCreated);
-		this.router.navigate(['files/files/'+dateCreated+'/'+this.paramCaseId]);
-	}
-	
-	
 	onSubmit(form: NgForm) {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let strName = form.value.ownerName;
@@ -1163,7 +1117,7 @@ export class MasterComponent implements OnInit {
 		{
 			url += "?ownerName="+ownerName[0];
 		}
-		//let fileUploadId = sessionStorage.getItem("fileUploadId");
+		//let fileUploadId = localStorage.getItem("fileUploadId");
 		//if(fileUploadId != '')
 		//{
 			//url += "?fileUploadId="+fileUploadId;
@@ -1207,8 +1161,8 @@ export class MasterComponent implements OnInit {
 		});
 	};
 	addMilestone(caseId: any) {
-		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('checkCase', '1');
+		localStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/milestone-add']);
 	}
 	
@@ -1312,7 +1266,7 @@ export class MasterComponent implements OnInit {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		}); */
-		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
+		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -1376,7 +1330,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewReferralDetails(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
+		//localStorage.setItem('referralId', referralId);
 		this.router.navigate(['referral/referral-details/'+referralId]);
 	}
 	
@@ -1391,7 +1345,7 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editReferrals(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
+		//localStorage.setItem('referralId', referralId);
 		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
@@ -1596,7 +1550,7 @@ export class MasterComponent implements OnInit {
 					  dateUpdated: GetAllData[k].dateUpdated,
 					  resourceOwner: GetAllData[k].resourceOwner
 					});
-					this.getuserdetailsall(GetAllData[k].invitedUserId,k);
+					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 				}
 			}
 		}, error => {
@@ -1622,12 +1576,13 @@ export class MasterComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
+			//alert(JSON.stringify(userData));
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
 			//alert(JSON.stringify(this.invitedata));
@@ -1867,7 +1822,7 @@ export class MasterComponent implements OnInit {
 			if(this.caseDate <= toDate.getTime())
 			{
 				let url = this.utility.apiData.userThreads.ApiUrl;
-				let caseId = sessionStorage.getItem("caseId");
+				let caseId = localStorage.getItem("caseId");
 				let GetToDate = toDate.getTime();
 				this.fromDate = toDate;
 				this.fromDate.setDate(this.fromDate.getDate() - 14);

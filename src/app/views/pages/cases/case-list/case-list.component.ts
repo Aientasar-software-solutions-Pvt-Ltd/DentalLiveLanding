@@ -33,8 +33,8 @@ export class CaseListComponent implements OnInit {
   constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
   ngOnInit(): void {
-  sessionStorage.setItem('checkPatient', '');
-  sessionStorage.setItem('patientId', '');
+  localStorage.setItem('checkPatient', '');
+  localStorage.setItem('patientId', '');
 	this.getallcase();
     this.dtOptions = {
 		dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -125,10 +125,6 @@ export class CaseListComponent implements OnInit {
 			  return false;
 			});
 		}
-	}
-	
-	viewCase(caseId: any, patientId: any) {
-		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	onSubmit(form: NgForm) {
 		let url = this.utility.apiData.userCases.ApiUrl;

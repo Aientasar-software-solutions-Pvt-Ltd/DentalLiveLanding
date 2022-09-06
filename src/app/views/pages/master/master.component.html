@@ -57,13 +57,13 @@
 			<div class="box-body">
 				<!-- Nav tabs -->
 				<ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist" style="overflow-x: auto;">
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab1'" (click)="tabClick('tab1')" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab2'" (click)="tabClick('tab2')" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab3'" (click)="tabClick('tab3')" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab4'" (click)="tabClick('tab4')" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab5'" (click)="tabClick('tab5')" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab6'" (click)="tabClick('tab6')" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab7'" (click)="tabClick('tab7')" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
+					<li class="nav-item"><a href="cases-view/caseDetails/{{this.paramCaseId}}" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
+					<li class="nav-item"><a href="cases-view/threads/{{this.paramCaseId}}" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
+					<li class="nav-item"><a href="cases-view/colleagues/{{this.paramCaseId}}" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
+					<li class="nav-item"><a href="cases-view/workorders/{{this.paramCaseId}}" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
+					<li class="nav-item"><a href="cases-view/referrals/{{this.paramCaseId}}" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
+					<li class="nav-item"><a href="cases-view/milestones/{{this.paramCaseId}}" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
+					<li class="nav-item"><a href="cases-view/casefiles/{{this.paramCaseId}}" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
 				</ul>
 				<!-- Tab panes -->
 				<div class="panel-body tabs-menu-body">
@@ -786,7 +786,7 @@
 															</td>
 														   
 															<td>
-																<a href="javascript:void(0);" class="me-2" (click)="viewFiles(this.data.dateCreated)">
+																<a href="casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>

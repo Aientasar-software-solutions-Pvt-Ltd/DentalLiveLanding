@@ -18,7 +18,7 @@ export class AccountloginComponent implements OnInit {
   constructor(private authServiceSocial: SocialAuthService, private accService: AccountService, private dataService: ApiDataService, private utility: UtilityService,) { }
 
   ngOnInit() {
-    sessionStorage.removeItem("usr");
+    localStorage.removeItem("usr");
     this.sending = false;
   };
 

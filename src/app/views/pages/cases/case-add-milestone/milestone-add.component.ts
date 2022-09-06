@@ -135,7 +135,7 @@ export class MilestoneAddComponent implements OnInit {
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("invitecaseId");
+		let caseId = localStorage.getItem("invitecaseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
