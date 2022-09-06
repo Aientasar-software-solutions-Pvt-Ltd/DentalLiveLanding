@@ -12,7 +12,7 @@
 		<h3>Referral</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a routerLink="/referrals/referral-add" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Referral</a> 
+		<a routerLink="/referrals/referral-add/0" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Referral</a> 
 	</div>
 </div>
 
@@ -76,10 +76,10 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a href="referrals/referral-details/{{data.referralId}}" >
+										<a href="/referrals/referral-details/{{data.referralId}}" >
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a href="referrals/referral-edit/{{data.referralId}}" class="me-1" >
+										<a href="/referrals/referral-edit/{{data.referralId}}" class="me-1" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>

@@ -40,7 +40,7 @@ const routes: Routes = [
         component: MilestoneAddMembersComponent
       },
 	  {
-        path: 'milestone-add',
+        path: 'milestone-add/:caseId',
         component: MilestoneAddComponent
       },
 	  {

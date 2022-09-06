@@ -173,7 +173,7 @@
 													</div>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end">
-													<a href="javascript:void(0);" (click)="editcase(tabledata.caseId)" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
+													<a href="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
 												<!--<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
 													<div class="d-flex flex-column align-items-end">
@@ -385,10 +385,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a href="javascript:void(0);" (click)="viewColleagueDetails(invite.invitedUserId,invite.caseId);" class="me-1">
+																	<a href="colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																	<a *ngIf="(invite.presentStatus != 3)" href="javascript:void(0);" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
+																	<a *ngIf="(invite.presentStatus != 3)" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
 																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
@@ -413,7 +413,7 @@
 													<h5 class="body1 card-title my-2">Work Orders</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addWorkOrders(this.tabledata.caseId)" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
+													<a href="workorders/work-order-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
 														<i class="bx bx-search"></i>
@@ -479,10 +479,10 @@
 
 
 
-																	<a href="javascript:void(0);" class="me-1" (click)="editWorkOrders(data.workorderId)">
+																	<a href="workorders/work-order-edit/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
-																	<a routerLink="javascript:void(0);" (click)="viewWorkorders(data.workorderId)" class="me-1">
+																	<a routerLink="workorders/work-order-details/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons fs-4 text-light-green">
 																			visibility
 																		</i>
@@ -508,7 +508,7 @@
 													<h5 class="body1 card-title my-2">Referral</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addReferal(this.tabledata.caseId)" class="btn btn-default my-1 float-end">
+													<a href="referrals/referral-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end">
 														<i class="bx bx-user-plus" aria-hidden="true"></i>
 														Add Referral 
 													</a>
@@ -574,13 +574,13 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a href="javascript:void(0);" class="me-1" (click)="editReferrals(data.referralId)">
+																<a href="referrals/referral-edit/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a href="javascript:void();" (click)="viewReferralDetails(data.referralId);" class="me-1">
+																<a href="referrals/referral-details/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a href="javascript:void();" class="me-1" (click)="deletereferral(data.referralId)">
+																<a style="cursor: pointer;" class="me-1" (click)="deletereferral(data.referralId)">
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -604,7 +604,7 @@
 												  <h5 class="body1 card-title my-2">Milestones</h5>
 												</div>
 												<div class="col-md-10 col-lg-9">  
-													<a class="btn btn-default my-1 me-2 float-end" href="javascript:void(0);" (click)="addMilestone(this.tabledata.caseId)">
+													<a class="btn btn-default my-1 me-2 float-end" href="milestones/milestone-add/{{this.tabledata.caseId}}">
 														<i class="bx bx-award"></i> Add Milestone
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
@@ -683,15 +683,15 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a href="javascript:void(0);" class="me-1" (click)="editMilestone(data.milestoneId)">
+																		<a href="milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="javascript:void(0);" (click)="viewmilestone(data.milestoneId)" class="me-1">
+																		<a routerLink="milestones/milestone-details/{{data.milestoneId}}"class="me-1">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
 																		</a>
-																		<a routerLink="javascript:void(0);" (click)="deletemilestone(data.milestoneId)" class="me-1">
+																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>

@@ -8,7 +8,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 
@@ -25,7 +25,7 @@ export class ReferralAddComponent implements OnInit {
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
     selectedCity = '';
-	
+	public parmCaseId = '';
 	public allcases: any[] = []
 	public caseid = '';
 	public patientid = '';
@@ -48,7 +48,7 @@ export class ReferralAddComponent implements OnInit {
 	minDate = new Date();
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
 
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
@@ -262,8 +262,8 @@ export class ReferralAddComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCases.ApiUrl;
-			let caseId = localStorage.getItem("caseId");
-			if(caseId != '')
+			let caseId = this.parmCaseId;
+			if(caseId != 0)
 			{
 				swal("Processing...please wait...", {
 				  buttons: [false, false],

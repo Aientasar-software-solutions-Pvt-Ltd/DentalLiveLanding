@@ -338,33 +338,33 @@
 										<td>
 											<div class="d-flex">
 												
-												<a *ngIf="(data.taskType == 'Referral')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.referralId,data.caseId,'Referral')">
+												<a *ngIf="(data.taskType == 'Referral')" href="/referrals/referral-edit/{{data.referralId}}" class="me-1">
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
-												<a *ngIf="(data.taskType == 'WorkOrder')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.workorderId,data.caseId,'WorkOrder')">
+												<a *ngIf="(data.taskType == 'WorkOrder')" href="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" >
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
-												<a *ngIf="(data.taskType == 'General')" href="javascript:void(0);" class="me-1" (click)="editGeneralTask(data.taskId,data.caseId,'General')">
+												<a *ngIf="(data.taskType == 'General')" href="/milestones/general-task-edit/{{data.taskId}}" class="me-1">
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
 												
-												<a *ngIf="(data.taskType == 'Referral')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.referralId,data.caseId,'Referral')">
+												<a *ngIf="(data.taskType == 'Referral')" href="/referral/referral-details/{{data.referralId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
-												<a *ngIf="(data.taskType == 'WorkOrder')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.workorderId,data.caseId,'WorkOrder')">
+												<a *ngIf="(data.taskType == 'WorkOrder')" href="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
-												<a *ngIf="(data.taskType == 'General')" href="javascript:void(0);" class="me-1" (click)="viewGeneralTask(data.taskId,data.caseId,'General')">
+												<a *ngIf="(data.taskType == 'General')" href="/milestones/general-task-view/{{data.taskId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
 												
-												<a href="javascript:void(0);" class="me-1" (click)="deleteTask(data.taskId)">
+												<a class="me-1" style="cursor: pointer;" (click)="deleteTask(data.taskId)">
 													<i class="material-icons fs-4 text-danger">close</i>
 												</a>
 											</div>
@@ -385,13 +385,13 @@
 								<div class="modal-body">
 									<div class="row gy-3 justify-content-center">
 										<div class="col-md-8 col-sm-12">
-											<a (click)="addWorkOrders(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
+											<a style="cursor: pointer;" (click)="addWorkOrders(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-default" data-bs-dismiss="modal">Add Work Order</a>
 										</div>
 										<div class="col-md-8">
-											<a (click)="addReferal(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
+											<a style="cursor: pointer;" (click)="addReferal(this.tabledata.milestoneId,this.tabledata.caseId)" class="btn w-100 btn-light-green" data-bs-dismiss="modal">Add Referral</a>
 										</div>
 										<div class="col-md-8">
-											<a href="javascript:void(0);" class="btn w-100 btn-pink" (click)="addGeneralTask(this.tabledata.milestoneId,this.tabledata.caseId)" data-bs-dismiss="modal">Add General Task</a>
+											<a style="cursor: pointer;" class="btn w-100 btn-pink" (click)="addGeneralTask(this.tabledata.milestoneId,this.tabledata.caseId)" data-bs-dismiss="modal">Add General Task</a>
 										</div>
 									</div>
 								</div>

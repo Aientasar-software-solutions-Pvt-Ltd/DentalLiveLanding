@@ -38,7 +38,7 @@ const routes: Routes = [
         component: WorkOrderAddMembersComponent
       },
 	  {
-        path: 'work-order-add',
+        path: 'work-order-add/:caseId',
         component: WorkOrderAddComponent
       },
 	  {

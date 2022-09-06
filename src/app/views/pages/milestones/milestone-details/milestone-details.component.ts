@@ -122,13 +122,13 @@ export class MilestoneDetailsComponent implements OnInit {
 		localStorage.setItem('checkCase', '1');
 		localStorage.setItem('checkmilestoneid', milestoneId);
 		localStorage.setItem('caseId', caseId);
-		this.router.navigate(['work-orders/work-order-add']);
+		this.router.navigate(['workorders/work-order-add/'+caseId]);
 	}
 	addReferal(milestoneId: any, caseId: any) {
 		localStorage.setItem('checkCase', '1');
 		localStorage.setItem('checkmilestoneidref', milestoneId);
 		localStorage.setItem('caseId', caseId);
-		this.router.navigate(['referral/referral-add']);
+		this.router.navigate(['referrals/referral-add/'+caseId]);
 	}
 	getallmilestone() {
 		this.tabledata = '';

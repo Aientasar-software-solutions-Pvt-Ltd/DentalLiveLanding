@@ -30,7 +30,7 @@ const routes: Routes = [
         component: ReferralListComponent
       },
 	  {
-        path: 'referral-add',
+        path: 'referral-add/:caseId',
         component: ReferralAddComponent
       },
 	  {

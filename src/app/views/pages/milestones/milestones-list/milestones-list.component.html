@@ -12,7 +12,7 @@
 		<h3>Milestones</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a routerLink="/milestones/milestone-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Milestone</a>
+		<a routerLink="/milestones/milestone-add/0" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Milestone</a>
 	</div>
 </div>
 <div class="row align-items-center">
@@ -91,15 +91,15 @@
 								</td>  
 								<td>
 									<div class="d-flex">
-										<a href="javascript:void(0);" class="me-1" (click)="editMilestone(data.milestoneId)">
+										<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
-										<a routerLink="javascript:void(0);" (click)="viewmilestone(data.milestoneId)" class="me-1">
+										<a href="/milestones/milestone-details/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons fs-4 text-light-green">
 												visibility
 											</i>
 										</a>
-										<a routerLink="javascript:void(0);" (click)="deletemilestone(data.milestoneId)" class="me-1">
+										<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
 											<i class="material-icons fs-4 text-danger">close</i>
 										</a>
 									</div>

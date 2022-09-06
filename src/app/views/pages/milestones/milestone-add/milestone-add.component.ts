@@ -7,7 +7,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import "@lottiefiles/lottie-player";
 
@@ -26,6 +26,7 @@ export class MilestoneAddComponent implements OnInit {
 	public patientid = '';
 	public casesName = '';
 	public patientName = '';
+	public parmCaseId = '';
 	checkCase = localStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
@@ -39,7 +40,7 @@ export class MilestoneAddComponent implements OnInit {
 	  reminder: 0,
 	}
 	tabledata:any;
-  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
   
 	back(): void {
 		this.location.back()
@@ -135,8 +136,8 @@ export class MilestoneAddComponent implements OnInit {
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("caseId");
-		if(caseId != '')
+		let caseId = this.parmCaseId;
+		if(caseId != 0)
 		{
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)

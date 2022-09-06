@@ -8,7 +8,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 @Component({
@@ -29,6 +29,7 @@ export class WorkOrderAddComponent implements OnInit {
 	public patientid = '';
 	public casesName = '';
 	public patientName = '';
+	public parmCaseId = '';
 	milestoneid = localStorage.getItem("checkmilestoneid");
 	checkCase = localStorage.getItem("checkCase");
 	//checkCase = '2';
@@ -48,7 +49,7 @@ export class WorkOrderAddComponent implements OnInit {
 	minDate = new Date();
 	tabledata:any;
 	tabledataAll:any;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
 	
 	@ViewChild(WorkOrderGuideComponent)
 	orders: WorkOrderGuideComponent;
@@ -213,8 +214,8 @@ export class WorkOrderAddComponent implements OnInit {
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("caseId");
-		if(caseId != '')
+		let caseId = this.parmCaseId;
+		if(caseId != 0)
 		{
 			swal("Processing...please wait...", {
 			  buttons: [false, false],
