@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
 		}
 		else
 		{
-			this.imgSrc = "assets/images/tesimonial-2.png";
+			this.imgSrc = "assets/images/users.png";
 		}
 	}
   collapse_menu(event:any) {

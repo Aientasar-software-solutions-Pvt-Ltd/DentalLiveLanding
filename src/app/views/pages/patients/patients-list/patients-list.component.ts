@@ -34,7 +34,7 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.getAllMembers();
+	//this.getAllMembers();
 	this.getallpatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -70,15 +70,50 @@ export class PatientsListComponent implements OnInit {
 		if(user)
 		{
 		let url = this.utility.apiData.userPatients.ApiUrl;
+		//url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
 				let AllDate = JSON.parse(Response.toString());
 				
 				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+				this.colleaguesData = Array();	
+				this.tabledata = Array();	
 				//alert(JSON.stringify(patientDate));
-				this.tabledata = patientDate.reverse();
-				//alert(JSON.stringify(this.tabledata[0].isActive));
+				for(var k=0; k < patientDate.length; k++)
+				{
+					//if(patientDate[k].resourceOwner)
+					//{
+						if(user.emailAddress == patientDate[k].resourceOwner)
+						{
+							this.tabledata.push({
+							  resourceOwner: patientDate[k].resourceOwner,
+							  firstName: patientDate[k].firstName,
+							  lastName: patientDate[k].lastName,
+							  dob: patientDate[k].dob,
+							  email: patientDate[k].email,
+							  isActive: patientDate[k].isActive,
+							  dateCreated: patientDate[k].dateCreated,
+							  patientId: patientDate[k].patientId
+							});
+						}
+						else
+						{
+							this.colleaguesData.push({
+							  resourceOwner: patientDate[k].email,
+							  firstName: patientDate[k].firstName,
+							  lastName: patientDate[k].lastName,
+							  dob: patientDate[k].dob,
+							  email: patientDate[k].email,
+							  isActive: patientDate[k].isActive,
+							  dateCreated: patientDate[k].dateCreated,
+							  patientId: patientDate[k].patientId
+							});
+						}
+					//}
+				}
+				this.tabledata = this.tabledata.reverse();
+				this.colleaguesData = this.colleaguesData.reverse();
 				this.isLoadingData = false;
 			}
 		}, (error) => {
@@ -256,7 +291,7 @@ export class PatientsListComponent implements OnInit {
 		if(user)
 		{
 			this.colleaguesData = Array();	
-			//alert(JSON.stringify(this.allMember));
+			//alert(JSON.stringify(this.allMember[k].patientId));
 			for(var k=0; k < this.allMember.length; k++)
 			{
 				let url1 = this.utility.apiData.userPatients.ApiUrl;
@@ -265,9 +300,9 @@ export class PatientsListComponent implements OnInit {
 						if (Response)
 						{
 							let AllDate = JSON.parse(Response.toString());
-							//alert(JSON.stringify(AllDate.firstName));
+							//alert(JSON.stringify(AllDate));
 							this.colleaguesData.push({
-							  resourceOwner: 'kanha',
+							  resourceOwner: AllDate.firstName,
 							  firstName: AllDate.firstName,
 							  lastName: AllDate.lastName,
 							  dob: AllDate.dob,

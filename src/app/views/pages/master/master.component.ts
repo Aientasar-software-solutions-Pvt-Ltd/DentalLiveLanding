@@ -1532,7 +1532,7 @@ export class MasterComponent implements OnInit {
 		for(var i = 0; i < this.allMemberEmail.length; i++)
 		{
 			z++;
-			this.jsonObjInvite['resourceOwner'] = user.dentalId;
+			this.jsonObjInvite['resourceOwner'] = user.emailAddress;
 			this.jsonObjInvite['caseId'] = form.value.caseId;
 			this.jsonObjInvite['patientId'] = form.value.patientId;
 			this.jsonObjInvite['patientName'] = form.value.patientName;
@@ -1628,7 +1628,7 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
 			//alert(JSON.stringify(this.invitedata));
 			this.isLoadingData = false;

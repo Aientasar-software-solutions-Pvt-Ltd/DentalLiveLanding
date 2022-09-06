@@ -279,7 +279,7 @@ export class InvitationListsComponent implements OnInit {
 				this.isLoadingData = false;
 				this.getSubmitData = JSON.parse(Response.toString());
 				this.case_id = this.getSubmitData.caseId;
-				this.patient_id = this.getSubmitData.patient_id;
+				this.patient_id = this.getSubmitData.patientId;
 				this.patient_name = this.getSubmitData.patientName;
 				this.invitation_id = this.getSubmitData.invitationId;
 				this.invited_user_mail = this.getSubmitData.invitedUserMail;
@@ -341,6 +341,7 @@ export class InvitationListsComponent implements OnInit {
 					this.getuserdetailsallRecvd(GetAllData[k].resourceOwner,k);
 					this.getcasedetailsRecvd(GetAllData[k].caseId,k);
 				}
+				//alert(JSON.stringify(this.inviteReceivedData));
 			}
 		}, error => {
 		  if (error.status === 404)

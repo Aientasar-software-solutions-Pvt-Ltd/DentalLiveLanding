@@ -69,6 +69,7 @@ export class CaseListComponent implements OnInit {
 			  closeOnClickOutside: false,
 			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
+			//url += "?resourceOwner="+user.emailAddress;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
@@ -77,25 +78,46 @@ export class CaseListComponent implements OnInit {
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					//this.tabledata = caseDate.reverse();
-					
+					//alert(JSON.stringify(AllDate));
+					this.isLoadingData = false;
 					this.tabledata = Array();
+					this.colleaguesdata = Array();
+					var j = 0;
+					var l = 0;
 					for(var k = 0; k < AllDate.length; k++)
 					{
-						this.tabledata.push({
-						  id: k,
-						  patientName: AllDate[k].patientName,
-						  title: AllDate[k].title,
-						  caseStatus: AllDate[k].caseStatus,
-						  dateCreated: AllDate[k].dateCreated,
-						  memberName: '',
-						  patientId: AllDate[k].patientId,
-						  caseId: AllDate[k].caseId
-						});
-						this.getCaseMemberList(AllDate[k].caseId,k);
+						if(user.emailAddress == AllDate[k].resourceOwner)
+						{
+							j++;
+							this.tabledata.push({
+							  id: j,
+							  patientName: AllDate[k].patientName,
+							  title: AllDate[k].title,
+							  caseStatus: AllDate[k].caseStatus,
+							  dateCreated: AllDate[k].dateCreated,
+							  memberName: '',
+							  patientId: AllDate[k].patientId,
+							  caseId: AllDate[k].caseId
+							});
+							this.getCaseMemberList(AllDate[k].caseId,j,1);
+						}
+						else
+						{
+							l++;
+							this.colleaguesdata.push({
+							  id: l,
+							  patientName: AllDate[k].patientName,
+							  title: AllDate[k].title,
+							  caseStatus: AllDate[k].caseStatus,
+							  dateCreated: AllDate[k].dateCreated,
+							  memberName: '',
+							  patientId: AllDate[k].patientId,
+							  caseId: AllDate[k].caseId
+							});
+							this.getCaseMemberList(AllDate[k].caseId,l,0);
+						}
 					}
-					//alert(JSON.stringify(this.tabledata));
-					this.getAllMembers();
-					this.isLoadingData = false;
+					//this.getAllMembers();
 					
 				}
 			}, (error) => {
@@ -170,7 +192,7 @@ export class CaseListComponent implements OnInit {
 			});
 	};
 	  
-	getCaseMemberList(caseId, index) {
+	getCaseMemberList(caseId, index, type) {
 		
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -178,7 +200,7 @@ export class CaseListComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
-		url += "&resourceOwner="+user.dentalId;
+		url += "&resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)
@@ -195,7 +217,7 @@ export class CaseListComponent implements OnInit {
 					  userName: ''
 					});
 					//alert(GetAllData[k].invitedUserId);
-					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
+					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index,type);
 					this.indexRow++;
 				} 
 				//alert(JSON.stringify(this.invitedata));
@@ -217,7 +239,7 @@ export class CaseListComponent implements OnInit {
 		});
 	}
 	
-	getuserdetailsall(userId, index, Row) {
+	getuserdetailsall(userId, index, Row,type) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -237,7 +259,14 @@ export class CaseListComponent implements OnInit {
 			GetArray[index].userName = name;
 			if((index+1) == GetArray.length)
 			{
+				if(type == 1)
+				{
 				this.tabledata[Row].memberName = GetArray;
+				}
+				else
+				{
+				this.colleaguesdata[Row].memberName = GetArray;
+				}
 				//alert(JSON.stringify(this.tabledata[Row].memberName));
 			}
 		}
@@ -255,8 +284,8 @@ export class CaseListComponent implements OnInit {
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
 			//url += "&invitedUserId="+user.dentalId;
-			//url += "?resourceOwner="+user.emailAddress;
-			url += "?presentStatus=1";
+			url += "?invitedUserMail="+user.emailAddress;
+			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -289,120 +318,33 @@ export class CaseListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			let url1 = this.utility.apiData.userCases.ApiUrl;
-			this.dataService.getallData(url1, true).subscribe(Response => {
-				if (Response)
-				{
-					let AllDate = JSON.parse(Response.toString());
-					//alert(JSON.stringify(AllDate));
-					this.colleaguesdata = Array();	
-					let meb = 0;
-					for(var k=0; k < this.allMember.length; k++)
-					{
-						for(var l=0; l < AllDate.length; l++)
+			this.colleaguesdata = Array();	
+			for(var k=0; k < this.allMember.length; k++)
+			{
+				let url1 = this.utility.apiData.userCases.ApiUrl;
+					url1 += "?caseId="+this.allMember[k].caseId;
+					this.dataService.getallData(url1, true).subscribe(Response => {
+						if (Response)
 						{
-							if(this.allMember[k].invitedUserMail == AllDate[l].resourceOwner)
-							{
-								meb++;
-								this.colleaguesdata.push({
-								  id: meb,
-								  patientName: AllDate[l].patientName,
-								  title: AllDate[l].title,
-								  caseStatus: AllDate[l].caseStatus,
-								  dateCreated: AllDate[l].dateCreated,
-								  memberName: '',
-								  patientId: AllDate[l].patientId,
-								  caseId: AllDate[l].caseId
-								});
-								this.getCaseMemberListColleague(AllDate[l].caseId,meb);
-							}
+							let AllDate = JSON.parse(Response.toString());
+							this.colleaguesdata.push({
+							  patientName: AllDate.patientName,
+							  title: AllDate.title,
+							  caseStatus: AllDate.caseStatus,
+							  dateCreated: AllDate.dateCreated,
+							  memberName: '',
+							  patientId: AllDate.patientId,
+							  caseId: AllDate.caseId
+							});
 						}
-					}
-					this.colleaguesdata = this.colleaguesdata.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
-					//alert(JSON.stringify(this.colleaguesdata));
-				}
-			}, (error) => {
-				swal('Unable to fetch data, please try again');
-			  return false;
-			});
-		}
-	}
-	
-	getCaseMemberListColleague(caseId, index) {
-		
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		if(caseId != '')
-		{
-			url += "?caseId="+caseId;
-		}
-		url += "&resourceOwner="+user.dentalId;
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
-				this.invitedatas = Array();
-				this.indexRow = 0;
-				for(var k = 0; k < GetAllData.length; k++)
-				{
-					this.invitedatas.push({
-					  id: this.indexRow,
-					  userName: ''
+					}, (error) => {
+					swal({
+						title: 'Unable to fetch data, please try again'
 					});
-					//alert(GetAllData[k].invitedUserId);
-					this.getuserdetailsallcolleague(GetAllData[k].invitedUserId,this.indexRow,index);
-					this.indexRow++;
-				} 
-				//alert(JSON.stringify(this.invitedata));
-				//alert(JSON.stringify(this.tabledata));
+				  return false;
+				});
 			}
-		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal(error.error);
-		  else
-			swal('Unable to fetch the data, please try again');
-		});
-	}
-	
-	getuserdetailsallcolleague(userId, index, Row) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?dentalId="+userId;
-		}
-		let GetArray = this.invitedatas;
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			//swal.close();
-			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(GetArray));
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-			GetArray[index].userName = name;
-			if((index+1) == GetArray.length)
-			{
-				this.colleaguesdata[Row].memberName = GetArray;
-				//alert(JSON.stringify(this.colleaguesdata[Row].memberName));
-			}
-		}
-		}, (error) => {
-			swal('Unable to fetch data, please try again');
-			return false;
-		});
+			//alert(JSON.stringify(this.colleaguesdata));
 		}
 	}
 }
