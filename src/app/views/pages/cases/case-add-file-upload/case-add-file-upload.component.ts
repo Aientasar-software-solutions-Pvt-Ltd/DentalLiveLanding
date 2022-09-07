@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 
@@ -27,7 +26,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 	  files: Array()
 	}
 	
-	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
+	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router) { }
 
 	ngOnInit(): void {
 		this.getCaseDetails();
@@ -142,7 +141,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {

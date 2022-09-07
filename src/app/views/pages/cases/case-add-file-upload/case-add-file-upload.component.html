@@ -56,6 +56,7 @@
 									<input type="hidden" name="patientid" id="patientid" ngModel="{{this.tabledata.patientId}}">
 									<input type="hidden" name="patientname" id="patientname" ngModel="{{this.tabledata.patientName}}">
 									<input type="hidden" name="datecreated" id="datecreated" ngModel="{{this.tabledata.dateCreated}}">
+									<a class="btn btn-secondary me-2" routerLink="/cases/case-list" data-bs-dismiss="modal">Skip</a>
 									<button type="submit" [disabled]="!filesForm.form.valid" class="btn btn-default mt-1 me-2" >Save</button>
 									<button type="button" class="btn btn-pink mt-1 me-2">Cancel</button>
 								</div>

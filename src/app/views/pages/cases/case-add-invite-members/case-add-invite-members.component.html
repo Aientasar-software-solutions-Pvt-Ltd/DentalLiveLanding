@@ -78,7 +78,7 @@
 								<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
 								<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
 								<button type="button" class="btn btn-default" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
-								<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+								<a class="btn btn-secondary" routerLink="/cases/case-list">Cancel</a>
 								<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered">
 										<div class="modal-content">

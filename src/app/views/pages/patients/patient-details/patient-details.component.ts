@@ -17,7 +17,7 @@ export class PatientDetailsComponent implements OnInit {
   tabledata:any;
   casedata:any;
   shimmer = Array;
-  public Img = 'assets/images/avatar3.png';
+  public Img = 'assets/images/users.png';
   public caseImage = false;
   public refrernceNo = '-';
   public mobileNo = '-';

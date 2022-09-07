@@ -68,7 +68,7 @@ export class MasterComponent implements OnInit {
 	public patientdata:any;
 	public referraldata:any;
 	public patientImg: any;
-	public Img = 'assets/images/avatar3.png';
+	public Img = 'assets/images/users.png';
 	public caseImage = false;
 	public module = 'patient';
 	public CaseTypeVal = '';

@@ -110,10 +110,10 @@
 						<h5 class="card-title mb-0">Recent Cases</h5>
 					</div>
 					<div class="d-flex flex-wrap align-items-center">
-						<a href="javascript:void(0);" (click)="viewAllCase(this.tabledata.patientId)" class="btn btn-light border me-2 mb-2">
+						<a href="/patients/patient-case-list/{{this.tabledata.patientId}}" class="btn btn-light border me-2 mb-2">
 							View All
 						</a>
-						<a href="javascript:void(0);" (click)="addcases()" class="btn btn-light-green me-2 mb-2">
+						<a href="/cases/case-add" class="btn btn-light-green me-2 mb-2">
 							<i class="bx bx-briefcase-alt"></i> Add Case
 						</a>
 						<a routerLink="#" class="btn btn-pink me-2 mb-2">
@@ -175,7 +175,7 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a  href="javascript:void(0);" (click)="viewCase(data.caseId, data.patientId)">
+										<a  href="/cases-view/caseDetails/{{data.caseId}}">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>

@@ -402,7 +402,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					}
 					if(sessionName)
 					{
-						sessionStorage.setItem(sessionName, AllDate.resourceId);
+						localStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -455,7 +455,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					}
 					if(sessionName)
 					{
-						sessionStorage.setItem(sessionName, AllDate.resourceId);
+						localStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -521,6 +521,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 		jsonObj[field] = this.cvfast;
 		}
+		//alert(JSON.stringify(jsonObj));
 		if(datatype == 'put')
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
@@ -534,7 +535,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}
 				if(sessionName)
 				{
-					sessionStorage.setItem(sessionName, AllDate.resourceId);
+					localStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{
@@ -587,7 +588,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}
 				if(sessionName)
 				{
-					sessionStorage.setItem(sessionName, AllDate.resourceId);
+					localStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{

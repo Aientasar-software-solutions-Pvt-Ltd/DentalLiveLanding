@@ -69,13 +69,13 @@
 </div>
 <div class="row">
 	<div class="col-md-12 mb-2">
-		<a href="javascript:void(0);" class="btn btn-default mt-3 me-2" role="button" style="padding:10px 31px;" (click)="downloadImg(this.filedetails.files[0].url,this.filedetails.files[0].name)" > 
+		<a style="cursor: pointer;" class="btn btn-default mt-3 me-2" role="button" style="padding:10px 31px;" (click)="downloadImg(this.filedetails.files[0].url,this.filedetails.files[0].name)" > 
 			<i class="bx bx-download me-2" aria-hidden="true"></i>Download File 
 		</a>
 <!--<a href="/assets/image/no-image.png" class="btn btn-default mt-3 me-2" role="button" style="padding:10px 31px;" download> 
 			<i class="bx bx-download me-2" aria-hidden="true"></i>Download File 
 		</a>-->
-		<a href="javascript:void(0);" class="btn btn-pink mt-3" style="padding:10px 31px;" (click)="deleteFile(this.filedetails.fileUploadId)">
+		<a style="cursor: pointer;" class="btn btn-pink mt-3" style="padding:10px 31px;" (click)="deleteFile(this.filedetails.fileUploadId)">
 			<i class="bx bx-trash me-2" aria-hidden="true"></i> Delete File
 		</a>
 	</div>

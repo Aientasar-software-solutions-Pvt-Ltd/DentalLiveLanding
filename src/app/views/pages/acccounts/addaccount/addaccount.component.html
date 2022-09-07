@@ -114,19 +114,19 @@
                 <div class="col-md-6">
                   <div class="form-floating mb-3">
                     <input #opass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
-                      autocomplete="off" ngModel name="opassword" class="form-control" id="floatingPassword0"
+                      autocomplete="new-opassword" ngModel name="opassword" class="form-control" id="floatingPassword0"
                       placeholder="Password">
                     <label for="floatingPassword0">Enter old password</label>
                   </div>
                   <div class="form-floating mb-3">
                     <input #npass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
-                      autocomplete="off" ngModel name="npassword" class="form-control" id="floatingPassword1"
+                      autocomplete="new-npassword" ngModel name="npassword" class="form-control" id="floatingPassword1"
                       placeholder="Password">
                     <label for="floatingPassword1">Enter new password</label>
                   </div>
                   <div class="form-floating mb-3">
                     <input #cpass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
-                      autocomplete="off" ngModel name="cpassword" class="form-control" id="floatingPassword2"
+                      autocomplete="new-cpassword" ngModel name="cpassword" class="form-control" id="floatingPassword2"
                       placeholder="Password">
                     <label for="floatingPassword2">Re-enter new password</label>
                     <small *ngIf="npass.value!=cpass.value" class="d-block text-danger mt-2">Password did not
