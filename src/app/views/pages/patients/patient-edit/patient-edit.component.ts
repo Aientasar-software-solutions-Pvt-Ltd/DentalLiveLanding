@@ -9,6 +9,8 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-patient-edit',
@@ -26,7 +28,13 @@ onActiveInactiveChanged(value:boolean){
 	this.patiantStatus = value;
 }
     public tabledata:any;
-  
+	patientfirstName:any;
+	patientlastName:any;
+	patientrefId:any;
+	patientAddressStreet:any;
+	patientCity:any;
+	patientresidingState:any;
+	
 	public jsonObj = {
 	  firstName: '',
 	  lastName: '',
@@ -119,6 +127,13 @@ onActiveInactiveChanged(value:boolean){
 				this.sending = false;
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(this.tabledata.image);
+				this.patientfirstName = decode(this.tabledata.firstName);
+				this.patientlastName = decode(this.tabledata.lastName);
+				this.patientrefId = decode(this.tabledata.refId);
+				this.patientAddressStreet = decode(this.tabledata.address.street);
+				this.patientCity = decode(this.tabledata.city);
+				this.patientresidingState = decode(this.tabledata.residingState);
+				
 				this.patientImage = this.tabledata.image;
 				this.saveActiveInactive = this.tabledata.isActive;
 				if(this.tabledata.medication.length > 0)
@@ -257,12 +272,12 @@ onActiveInactiveChanged(value:boolean){
 	{
 		this.sending = true;
 		//alert(this.cv.returnCvfast().isTrue);
-		this.jsonObj['firstName'] = data.firstName;
-		this.jsonObj['lastName'] = data.lastName;
+		this.jsonObj['firstName'] = encode(data.firstName);
+		this.jsonObj['lastName'] = encode(data.lastName);
 		this.jsonObj['dob'] = Date.parse(data.dob);
 		this.jsonObj['email'] = data.email;
 		this.jsonObj['patientId'] = data.patientId;
-		this.jsonObj['residingState'] = data.residingState;
+		this.jsonObj['residingState'] = encode(data.residingState);
 		this.jsonObj['isActive'] = this.patiantStatus;
 		if(data.refId)
 		{
@@ -274,11 +289,11 @@ onActiveInactiveChanged(value:boolean){
 		}
 		if(data.city)
 		{
-		this.jsonObj['city'] = data.city;
+		this.jsonObj['city'] = encode(data.city);
 		}
 		if(data.address)
 		{
-		this.objAddress['street'] = data.address;
+		this.objAddress['street'] = encode(data.address);
 		this.jsonObj['address'] = this.objAddress;
 		}
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
@@ -414,19 +429,19 @@ onActiveInactiveChanged(value:boolean){
 	}
 		if(str == 'medication')
 		{
-		this.medicationsArray[i].medication=event.target.value;
+		this.medicationsArray[i].medication=encode(event.target.value);
 		}
 		if(str == 'dosage')
 		{
-		this.medicationsArray[i].dosage=event.target.value;
+		this.medicationsArray[i].dosage=encode(event.target.value);
 		}
 		if(str == 'duration')
 		{
-		this.medicationsArray[i].duration=event.target.value;
+		this.medicationsArray[i].duration=encode(event.target.value);
 		}
 		if(str == 'notes')
 		{
-		this.medicationsArray[i].notes=event.target.value;
+		this.medicationsArray[i].notes=encode(event.target.value);
 		}
 		//alert(JSON.stringify(this.medications));
   }

@@ -10,7 +10,8 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 @Component({
   selector: 'app-work-order-edit',
   templateUrl: './work-order-edit.component.html',
@@ -29,6 +30,7 @@ export class WorkOrderEditComponent implements OnInit {
 	saveActiveInactive: boolean = false;
 	public casesName = '';
 	public patientName = '';
+	public tabledataTitle = '';
 	
 	tabledata:any;
 	toothData:any;
@@ -102,7 +104,7 @@ export class WorkOrderEditComponent implements OnInit {
 			this.jsonObj['milestoneId'] = data.milestoneId;
 		}
 		this.jsonObj['toothguide'] = {};
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
@@ -228,6 +230,7 @@ export class WorkOrderEditComponent implements OnInit {
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledata));
 				this.allMemberEmail = this.tabledata.members;
+				this.tabledataTitle = decode(this.tabledata.title);
 				this.getCaseDetails(this.tabledata.caseId);
 				this.getAllMembers(this.tabledata.caseId);
 				this.toothData = this.tabledata.toothguide;

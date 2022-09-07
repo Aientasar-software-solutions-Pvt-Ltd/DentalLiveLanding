@@ -881,7 +881,7 @@ export class MasterComponent implements OnInit {
 	
 	loadFiles(event : any) {
 		if (event.target.files.length > 0) {
-		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel', 'docx', 'doc', 'xls', 'xlsx', 'txt'];
+		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
 		if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
 		  swal("File Extenion Not Allowed");
 		  return;

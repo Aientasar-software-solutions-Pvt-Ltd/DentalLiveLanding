@@ -10,6 +10,8 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-referral-edit',
@@ -40,6 +42,7 @@ export class ReferralEditComponent implements OnInit {
 	public patientName = '';
 	tabledata:any;
 	editedDate:any;
+	editedDateTitle:any;
 	minDate = new Date();
 	public isvalidDate = false;
 	
@@ -93,7 +96,7 @@ export class ReferralEditComponent implements OnInit {
 		{
 		this.jsonObj['milestoneId'] = data.milestoneId;
 		}
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -222,6 +225,7 @@ export class ReferralEditComponent implements OnInit {
 				swal.close();
 				this.editedDate = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.editedDate));
+				this.editedDateTitle = decode(this.editedDate.title);
 				this.toothData = this.editedDate.toothguide;
 				this.allMemberEmail = this.editedDate.members;
 				setTimeout(()=>{     

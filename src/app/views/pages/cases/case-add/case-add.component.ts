@@ -7,6 +7,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-case-add',
@@ -158,7 +159,7 @@ export class CaseAddComponent implements OnInit {
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['image'] = data.image;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['caseStatus'] = true;
 		this.jsonObj['caseType'] = this.casetypeArray;
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))

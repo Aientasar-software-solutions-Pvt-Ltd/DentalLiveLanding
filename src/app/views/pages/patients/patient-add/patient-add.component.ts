@@ -7,6 +7,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router } from '@angular/router';
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-patient-add',
@@ -158,15 +159,15 @@ export class PatientAddComponent implements OnInit {
   {
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
-	this.jsonObj['firstName'] = data.firstName;
-	this.jsonObj['lastName'] = data.lastName;
+	this.jsonObj['firstName'] = encode(data.firstName);
+	this.jsonObj['lastName'] = encode(data.lastName);
 	this.jsonObj['dob'] = Date.parse(data.dob);
 	this.jsonObj['email'] = data.email;
-	this.jsonObj['residingState'] = data.residingState;
+	this.jsonObj['residingState'] = encode(data.residingState);
 	this.jsonObj['isActive'] = this.patiantStatus;
 	if(data.refId)
 	{
-	this.jsonObj['refId'] = data.refId;
+	this.jsonObj['refId'] = encode(data.refId);
 	}
 	if(data.phone)
 	{
@@ -174,11 +175,11 @@ export class PatientAddComponent implements OnInit {
 	}
 	if(data.city)
 	{
-	this.jsonObj['city'] = data.city;
+	this.jsonObj['city'] = encode(data.city);
 	}
 	if(data.address)
 	{
-	this.objAddress['street'] = data.address;
+	this.objAddress['street'] = encode(data.address);
 	this.jsonObj['address'] = this.objAddress;
 	}
 	if(data.gender)
@@ -258,19 +259,19 @@ export class PatientAddComponent implements OnInit {
 	
 	if(str == 'medication')
 	{
-	this.medications[i].medication=event.target.value;
+	this.medications[i].medication=encode(event.target.value);
 	}
 	if(str == 'dosage')
 	{
-	this.medications[i].dosage=event.target.value;
+	this.medications[i].dosage=encode(event.target.value);
 	}
 	if(str == 'duration')
 	{
-	this.medications[i].duration=event.target.value;
+	this.medications[i].duration=encode(event.target.value);
 	}
 	if(str == 'notes')
 	{
-	this.medications[i].notes=event.target.value;
+	this.medications[i].notes=encode(event.target.value);
 	}
 	//alert(JSON.stringify(this.medications));
   }

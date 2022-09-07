@@ -12,6 +12,8 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 import { OwlDateTimeIntl } from 'ng-pick-datetime';
 import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-milestone-edit',
@@ -35,8 +37,11 @@ export class MilestoneEditComponent implements OnInit {
 	}
 	editdata:any;
 	editedDate:any;
+	editedTitle:any;
 	editedstartDate:any;
 	tabledata:any;
+	patientId:any;
+	caseId:any;
 	public casesName = '';
 	public patientName = '';
 	public isvalidDate = false;
@@ -76,6 +81,7 @@ export class MilestoneEditComponent implements OnInit {
 				this.editedDate = new Date(this.editdata.duedate);
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.getCaseDetails(this.editdata.caseId);
+				this.editedTitle = decode(this.editdata.title);
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -106,6 +112,7 @@ export class MilestoneEditComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		//alert(JSON.stringify(form.value));
 		this.onGetdateData(form.value);
 	}
 	
@@ -113,7 +120,7 @@ export class MilestoneEditComponent implements OnInit {
 	{
 		this.sending = true;
 		this.jsonObj['milestoneId'] = data.milestoneId;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -123,6 +130,9 @@ export class MilestoneEditComponent implements OnInit {
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['reminder'] = Number(data.reminder);
+		this.jsonObj['caseId'] = this.caseId;
+		this.jsonObj['patientId'] = this.patientId;
+		this.jsonObj['patientName'] = this.patientName;
 		
 		//alert(JSON.stringify(this.cvfastval.returnCvfast()));
 		//alert(JSON.stringify(this.jsonObj));
@@ -144,6 +154,8 @@ export class MilestoneEditComponent implements OnInit {
 					this.tabledata = JSON.parse(Response.toString());
 					this.casesName = this.tabledata.title;
 					this.patientName = this.tabledata.patientName;
+					this.patientId = this.tabledata.patientId;
+					this.caseId = this.tabledata.caseId;
 					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {

@@ -35,11 +35,11 @@
 								<div class="col-md-6"> 
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">First Name</label>
-									  <input type="text" class="form-control" value="Colin" required  maxlength="40" ngModel={{this.tabledata.firstName}} name="firstName" id="firstName" readonly>
+									  <input type="text" class="form-control" value="Colin" required  maxlength="40" ngModel={{this.patientfirstName}} name="firstName" id="firstName" readonly>
 									</div>
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Last Name</label>
-									  <input type="text" class="form-control" value="Sik colin"  maxlength="40" required ngModel={{this.tabledata.lastName}} name="lastName" id="lastName" readonly>
+									  <input type="text" class="form-control" value="Sik colin"  maxlength="40" required ngModel={{this.patientlastName}} name="lastName" id="lastName" readonly>
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Gender</label>
@@ -73,7 +73,7 @@
 									</div>
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Reference ID</label>
-									  <input type="text" class="form-control" ngModel={{this.tabledata.refId}} name="refId" id="refId" value="#2456789" readonly>
+									  <input type="text" class="form-control" ngModel={{this.patientrefId}} name="refId" id="refId" value="#2456789" readonly>
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Email</label>
@@ -81,7 +81,7 @@
 									</div>
 									<div class="mb-4" >
 										<label class="form-label body2 text-dark">Address</label>
-										<textarea rows="2" class="form-control" *ngIf="this.tabledata.address; else emptyaddress" ngModel={{this.tabledata.address.street}} name="address" id="address"></textarea>
+										<textarea rows="2" class="form-control" *ngIf="this.tabledata.address; else emptyaddress" ngModel={{this.patientAddressStreet}} name="address" id="address"></textarea>
 										<ng-template #emptyaddress>
 											<textarea rows="2" class="form-control" ngModel="" name="address" id="address"></textarea>
 										</ng-template>
@@ -93,13 +93,13 @@
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">City</label>
-										<input type="text" class="form-control" ngModel={{this.tabledata.city}} name="city" maxlength="100" id="city" value="Toronto">
+										<input type="text" class="form-control" ngModel={{this.patientCity}} name="city" maxlength="100" id="city" value="Toronto">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">State/Province</label>
-										<input type="text" class="form-control" name="residingState" maxlength="100" id="residingState" required ngModel={{this.tabledata.residingState}} value="Ontario">
+										<input type="text" class="form-control" name="residingState" maxlength="100" id="residingState" required ngModel={{this.patientresidingState}} value="Ontario">
 										<input type="hidden" class="form-control" name="patientId" maxlength="100" id="patientId" required ngModel={{this.tabledata.patientId}} value="Ontario">
 									</div>
 								</div>

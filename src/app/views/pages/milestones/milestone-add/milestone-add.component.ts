@@ -10,6 +10,7 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-milestone-add',
@@ -72,7 +73,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientName;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();

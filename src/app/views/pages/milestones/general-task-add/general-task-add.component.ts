@@ -8,6 +8,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-general-task-add',
@@ -183,7 +184,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();

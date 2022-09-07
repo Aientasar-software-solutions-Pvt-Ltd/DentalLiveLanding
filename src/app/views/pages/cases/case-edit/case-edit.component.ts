@@ -9,6 +9,8 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-case-edit',
@@ -30,6 +32,7 @@ export class CaseEditComponent implements OnInit {
 	public caseType = true;
 	public caseId: any;
 	public caseImage = false;
+	public caseTitle:any;
 	
 	public jsonObj = {
 	  patientId: '',
@@ -67,7 +70,7 @@ export class CaseEditComponent implements OnInit {
   onGetdateData(data: any)
 	{
 		this.jsonObj['image'] = data.image;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['caseId'] = this.caseId;
@@ -77,7 +80,7 @@ export class CaseEditComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		let returnUrl = 'master/master-list/'+this.getcaseId+'/caseDetails';
+		let returnUrl = 'cases-view/caseDetails/'+this.getcaseId;
 		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', returnUrl, 'put','','description',0);
 		//alert(JSON.stringify(this.jsonObj));
 		
@@ -105,6 +108,7 @@ export class CaseEditComponent implements OnInit {
 			this.sending = false;
 			this.tabledata = JSON.parse(Response.toString());
 			//this.setcvFast(this.tabledata.description);
+			this.caseTitle = decode(this.tabledata.title);
 			this.setCaseType(this.tabledata.caseType);
 			this.getallPatient(this.tabledata.patientId);
 			setTimeout(()=>{     

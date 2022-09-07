@@ -10,7 +10,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
-
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-referral-add',
@@ -94,7 +94,7 @@ export class ReferralAddComponent implements OnInit {
 		{
 		this.jsonObj['milestoneId'] = data.milestoneid;
 		}
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
