@@ -59,7 +59,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
         if (Response) Response = JSON.parse(Response.toString());
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
-          this.router.navigate(['/login']);
+          this.router.navigate(['/auth/login']);
         }
         Object.assign(this.object, Response);
         if (this.object.imageSrc) this.imageSrc = this.section.bucketUrl + this.object.imageSrc;
@@ -67,7 +67,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
       },
       (error) => {
         swal("No data exists");
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       });
   }
   hasData() {
@@ -77,7 +77,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
       this.loadData(this.usr.getUserDetails().emailAddress);
     } else {
       swal("Invalid Member selected");
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     }
   }
   uploadBinaryData() {

@@ -11,7 +11,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private usr: AccdetailsService, public router: Router,) { }
   async canActivate() {
     if (!this.usr.getUserDetails())
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     else
       return true;
   }

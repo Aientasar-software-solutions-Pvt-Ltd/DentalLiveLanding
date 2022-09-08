@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'subaccount',
     component: EditsubaccountComponent
   },
+  { path: 'packages', component: PackagesListComponent },
+  { path: 'packages/:id', component: PackagesDetailsComponent },
+  { path: 'payment/:id', component: PurchaseComponent },
+  { path: 'payment/:id/:addonID', component: PurchaseComponent },
   {
     path: 'details',
     component: AccountDashboardComponent,
@@ -42,11 +46,6 @@ const routes: Routes = [
       { path: 'purchases', component: MypurchasesComponent },
 
       { path: 'usage', component: UsagestatisticsComponent },
-
-      { path: 'packages', component: PackagesListComponent },
-      { path: 'packages/:id', component: PackagesDetailsComponent },
-      { path: 'payment/:id', component: PurchaseComponent },
-      { path: 'payment/:id/:addonID', component: PurchaseComponent }
     ]
   }
 ]

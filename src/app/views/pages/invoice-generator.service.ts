@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { AccdetailsService } from './views/pages/accdetails.service';
-import { ApiDataService } from './views/pages/users/api-data.service';
-import { UtilityService } from './views/pages/users/utility.service';
+import { AccdetailsService } from './accdetails.service';
+import { ApiDataService } from './users/api-data.service';
+import { UtilityService } from './users/utility.service';
 
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;

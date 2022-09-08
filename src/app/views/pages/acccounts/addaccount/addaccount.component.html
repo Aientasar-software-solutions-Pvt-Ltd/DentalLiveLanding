@@ -52,13 +52,28 @@
                     name="address">
                   <label for="floatingPassword">Address</label>
                 </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="Education" [(ngModel)]="object.education"
+                    name="education">
+                  <label for="floatingPassword">Education</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="City" [(ngModel)]="object.city" name="city">
+                  <label for="floatingPassword">City</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="Country" [(ngModel)]="object.country"
+                    name="country">
+                  <label for="floatingPassword">Country</label>
+                </div>
               </div>
               <div class="order-first order-md-last col-md-6 p-md-5 text-center">
                 <div class="profile-img justify-content-center p-md-2">
                   <div class="capture">
                     <label for="profileImage">
-                      <img style="width: 13em;" [src]="imageSrc? imageSrc: '../../../../../assets/images/avatar3.png'"
-                        alt="" class="mb-2" />
+                      <img style="width: 13em;"
+                        [src]="imageSrc? imageSrc: '../../../../../assets/images/solution-icon-2.png'" alt=""
+                        class="mb-2" />
                     </label>
                     <input type="file" name="profileImage" id="profileImage" style="display: none" accept="image/*"
                       (change)="loadBinaryFile($event)" />

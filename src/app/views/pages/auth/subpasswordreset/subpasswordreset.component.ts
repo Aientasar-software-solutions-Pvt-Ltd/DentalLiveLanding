@@ -25,7 +25,7 @@ export class SubpasswordresetComponent implements OnInit {
       } else {
         swal("Invalid request,please contact support@dentallive.com");
         this.sending = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }
     });
   };
@@ -51,7 +51,7 @@ export class SubpasswordresetComponent implements OnInit {
         if (Response) Response = JSON.parse(Response.toString());
         swal("Password updated successfully")
         this.sending = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }, error => {
         console.log(error);
         if (error.status == 401) {

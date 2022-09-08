@@ -36,7 +36,7 @@ export class ListComponent implements OnInit, ListData {
     this.user = this.usr.getUserDetails();
     if (!this.user['cxId'] || !this.user['cxMail']) {
       swal('No Id assigned');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     }
     this.headers = new HttpHeaders({
       '3CX-ApiKey': this.cxAPI,

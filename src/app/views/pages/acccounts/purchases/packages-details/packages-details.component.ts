@@ -1,7 +1,8 @@
 //@ts-nocheck
 import { UtilityService } from '../../../users/utility.service';
+import { PermissionGuardService } from '../../../permission-guard.service';
 import { ApiDataService } from '../../../users/api-data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import swal from "sweetalert";
 import { AccdetailsService } from '../../../accdetails.service';
@@ -13,30 +14,33 @@ import { AccdetailsService } from '../../../accdetails.service';
 })
 export class PackagesDetailsComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private dataService: ApiDataService, private utility: UtilityService, private permGuard: PermissionGuardService, private usr: AccdetailsService) { }
 
   section = this.utility.apiData.packages;//speical case object casting is for packages,however microservice is userpurchase
   object: any;
   isLoadingData = false;
-  user = this.usr.getUserDetails()['emailAddress'];
+  user = this.usr.getUserDetails();
   status = 0;
+  packageID = null;
 
-  loadData(id) {
-    this.dataService.getallData(`https://chvuidsbp0.execute-api.us-west-2.amazonaws.com/default/userpurchases?email=${this.user}&package=${id}`, true).subscribe(
-      (Response) => {
-        if (Response) Response = JSON.parse(Response.toString());
-        let current = new Date();
-        if (Response['activationDate'] > current || (Response['deactivationDate'] && Response['deactivationDate'] <= current) || (Response['expirationDate'] && Response['expirationDate'] <= current)) {
-          swal("Package has Expired");
+  loadData() {
+    this.dataService.getallData(`https://chvuidsbp0.execute-api.us-west-2.amazonaws.com/default/userpurchases?email=${this.user['emailAddress']
+      }&package=${this.packageID}`, true).subscribe(
+        (Response) => {
+          if (Response) Response = JSON.parse(Response.toString());
+          let current = new Date();
+          if (Response['activationDate'] > current || (Response['deactivationDate'] && Response['deactivationDate'] <= current) || (Response['expirationDate'] && Response['expirationDate'] <= current)) {
+            swal("Package has Expired");
+            this.router.navigate(['/mail/packages']);
+          }
+          this.object = Response;
+          this.getStatus(Response);
+          this.isLoadingData = false;
+          console.log(this.object);
+        }, error => {
+          swal("No Package Exists");
           this.router.navigate(['/mail/packages']);
-        }
-        this.object = Response;
-        this.getStatus(Response);
-        this.isLoadingData = false;
-      }, error => {
-        swal("No Package Exists");
-        this.router.navigate(['/mail/packages']);
-      })
+        })
   }
 
   getStatus(Response) {
@@ -73,7 +77,8 @@ export class PackagesDetailsComponent implements OnInit {
   hasData() {
     this.route.paramMap.subscribe(params => {
       if (params.get('id') && params.get('id') != "") {
-        this.loadData(params.get('id'));
+        this.packageID = params.get('id');
+        this.loadData();
       } else {
         swal("No data exists");
         this.router.navigate(['/mail/packages']);
@@ -86,5 +91,6 @@ export class PackagesDetailsComponent implements OnInit {
     this.object = this.section.object;
     this.hasData();
   }
+
 
 }

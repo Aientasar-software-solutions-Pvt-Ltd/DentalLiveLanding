@@ -28,7 +28,7 @@ export class ValidateSucessComponent implements OnInit {
           }, error => {
             swal("Validation failed,please contact support@dentallive.com");
             this.sending = false;
-            this.router.navigate(['/login']);
+            this.router.navigate(['/auth/login']);
           });
       }
     });

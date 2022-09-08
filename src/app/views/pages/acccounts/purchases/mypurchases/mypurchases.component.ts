@@ -2,7 +2,7 @@
 import { ListData, UtilityService } from '../../../users/utility.service';
 import { ApiDataService } from '../../../users/api-data.service';
 import { Component, OnInit } from '@angular/core';
-import { InvoiceGeneratorService } from 'src/app/invoice-generator.service';
+import { InvoiceGeneratorService } from 'src/app/views/pages/invoice-generator.service';
 import sortArray from 'sort-array';
 import { AccdetailsService } from '../../../accdetails.service';
 

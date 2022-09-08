@@ -64,7 +64,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
         if (Response) Response = JSON.parse(Response.toString());
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
-          this.router.navigate(['/login']);
+          this.router.navigate(['/auth/login']);
         }
         this.object = Response;
         if (this.object.imageSrc) this.imageSrc = this.section.bucketUrl + this.object.imageSrc;
@@ -72,7 +72,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
       },
       (error) => {
         swal("No data exists");
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       });
   }
 
@@ -83,7 +83,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
       this.loadData(this.subUserID);
     } else {
       swal("Invalid user selected");
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     }
   }
 

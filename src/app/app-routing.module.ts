@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BaseComponent } from './views/layout/base/base.component';
 import { AuthGuard } from './core/guard/auth.guard';
 import { ViewAttachmentComponent } from './views/pages/mails/view-attachment/view-attachment.component';
+import { PermissionGuardService } from './views/pages/permission-guard.service';
 
 const routes: Routes = [
 	{ path: 'file/:key', component: ViewAttachmentComponent },
@@ -13,7 +14,7 @@ const routes: Routes = [
 		path: '',
 		component: BaseComponent,
 		//permission guard to be added
-		canActivate: [AuthGuard],
+		canActivate: [AuthGuard, PermissionGuardService],
 		children: [
 			{
 				path: 'dashboard',

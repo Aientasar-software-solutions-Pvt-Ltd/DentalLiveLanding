@@ -23,7 +23,7 @@ export class ValidatepasswordComponent implements OnInit {
       } else {
         swal("Validation failed,please contact support@dentallive.com");
         this.sending = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }
     });
   };
@@ -47,7 +47,7 @@ export class ValidatepasswordComponent implements OnInit {
       .subscribe(Response => {
         swal("Password created successfully")
         this.sending = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }, error => {
         if (error.status == 401) {
           swal("Validation failed,please contact support@dentallive.com");

@@ -23,7 +23,7 @@
                 (keyup)="filterData($any($event.target).value)" style="font-weight: 400; height: 40px ;">
             </div>
 
-            <a routerLink="../../packages"><button class="btn btn-primary   border-0 btn-1"
+            <a routerLink="/accounts/packages"><button class="btn btn-primary   border-0 btn-1"
                 style="font-size: 14px;box-shadow: 0px 4px 20px #FDFDFF; background-color: #0070D2;height: 40px; padding: 10px 20px;width: max-content;">Buy
                 New Package</button>
             </a>
@@ -44,12 +44,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let purchases of this.objectList  | slice:pageNumber:itemsPerPage+pageNumber" style="vertical-align: middle;">
+            <tr *ngFor="let purchases of this.objectList  | slice:pageNumber:itemsPerPage+pageNumber"
+              style="vertical-align: middle;">
               <td>
-                <span class="body2 my-2" style="color: #354053;">{{purchases['dateCreated'] | date:'mediumDate' }}</span>
+                <span class="body2 my-2" style="color: #354053;">{{purchases['dateCreated'] | date:'mediumDate'
+                  }}</span>
               </td>
               <td>
-                <span class="body2 my-2" style="color: #354053;">{{purchases['dependencies']['package']['packageName']}}</span>
+                <span class="body2 my-2"
+                  style="color: #354053;">{{purchases['dependencies']['package']['packageName']}}</span>
                 <small *ngIf="purchases['isAddOn']" class="body2 my-2" style="color: #354053;">
                   ({{getAddOnName(purchases['addOnId'],purchases)}} - Add-On)</small>
               </td>

@@ -23,11 +23,12 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
   discount = 0;
   user = this.usr.getUserDetails();
   packageID = null;
+  isFreeTrail = false;
   constructor(private router: Router, private route: ActivatedRoute, private utility: UtilityService, private dataService: ApiDataService, private permGuard: PermissionGuardService, private usr: AccdetailsService) { }
   ngOnInit() {
     if (!this.user || !this.user.emailAddress || !this.user.dentalId) {
       swal("Please Login to Purchase");
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
     }
     this.isLoadingData = true;
     this.object = this.section.object;
@@ -38,7 +39,7 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(params => {
       if (!params.get('id') || params.get('id') == "") {
         swal("invalid PackageID and type");
-        this.router.navigate(['/mail']);
+        this.router.navigate(['/accounts/packages']);
         return;
       }
       this.packageID = params.get('id');
@@ -54,25 +55,32 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
         if (Response) Response = JSON.parse(Response.toString());
         if (!Response) {
           swal("invalid PackageID,PackageID dosent Exist");
-          this.router.navigate(['/mail'])
+          this.router.navigate(['/accounts/packages'])
           return;
         }
+        console.log(Response);
         let current = new Date().getTime();
         if (Response['activationDate'] > current || (Response['deactivationDate'] && Response['deactivationDate'] <= current) || (Response['expirationDate'] && Response['expirationDate'] <= current)) {
           swal("Package has Expired");
-          this.router.navigate(['/mail'])
+          this.router.navigate(['/accounts/packages'])
           return;
         }
-        if (Response['packagePrice']==0){
-            //save details with payapl as null object
-            //
+        if (Response['isRecurring'] && Response['purchases'] && Response['purchases'].length > 1) {
+          swal("Package cannot be repurchased");
+          this.router.navigate(['/accounts/packages'])
+          return;
         }
+        if (Response['isFreeTrail']) {
+          this.isFreeTrail = true;
+          this.object.modeOfPayment = 'Free Trail';
+        }
+
         let packageDetail = Response;
         this.object.packageID = packageDetail['packageID'];
         if (this.object.isAddOn) {
           if (!this.object.addOnId) {
             swal('Invalid Add-On');
-            this.router.navigate(['/mail']);
+            this.router.navigate(['/accounts/packages']);
             return;
           }
           let isExist = false;
@@ -86,7 +94,7 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
           }
           if (!isExist) {
             swal('Invalid Add-On');
-            this.router.navigate(['/mail']);
+            this.router.navigate(['/accounts/packages']);
             return;
           }
         } else {
@@ -99,17 +107,17 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
         }
       }, (error) => {
         swal("invalid PackageID,PackageID dosent Exist");
-        this.router.navigate(['/mail']);
+        this.router.navigate(['/accounts/packages']);
       });
   }
   renderButton(packagePrice, viewplan, discount) {
+    if (this.isFreeTrail) return;
     let savedetails = this.saveDetails
     let currency = "USD"
     let purchaseObject = this.object;
     let purchaseURL = this.section.ApiUrl;
     let service = this.dataService;
     let permGurd = this.permGuard;
-    let location = this.router
     get('https://www.paypal.com/sdk/js?client-id=ASvcwG18xAFBQKf_SV__FlKal7v6NNOXu2tsh54PldSAM93Aldct5DGA4JvEn7Vx3Y088ElIDF4YC95L&currency=' + currency, () => {
       //@ts-ignore
       paypal.Buttons({
@@ -155,7 +163,7 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
             closeOnClickOutside: false,
           });
           return actions.order.capture().then(function (details) {
-            savedetails(details, purchaseObject, purchaseURL, service, permGurd, location);
+            savedetails(details, purchaseObject, purchaseURL, service, permGurd);
           });
         },
         onError: function (err) {
@@ -163,6 +171,10 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
         }
       }).render('#paypal-button-container');
     });
+  }
+
+  subscribePackage() {
+    this.saveDetails({}, this.object, this.section.ApiUrl, this.dataService, this.permGuard);
   }
 
   getStatus(Response): boolean {
@@ -174,7 +186,7 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
       if (purchase.renewalDate > current.getTime()) {
         if (purchase.renewalDate > renew.getTime()) {
           swal("Package Purchased");
-          this.router.navigate(['/mail']);
+          this.router.navigate(['/accounts/packages']);
           return false;
         }
       }
@@ -209,13 +221,14 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
         this.isApplyingCoupon = false;
       })
   }
-  saveDetails(details, purchaseObject, purchaseURL, service, permGurd, location) {
+  saveDetails(details, purchaseObject, purchaseURL, service, permGurd) {
     purchaseObject.payPal = details;
+    console.log(purchaseObject);
     service.postData(purchaseURL, JSON.stringify(purchaseObject))
       .subscribe(() => {
         swal("Payment Made successfully");
         permGurd.forceReload = true;
-        document.location.href = `/mail`;
+        document.location.href = `/accounts/packages`;
       }, () => {
         swal("Saving Data Failed,Please contact Dental-Live");
       })

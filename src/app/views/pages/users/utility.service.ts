@@ -1048,7 +1048,10 @@ export class UtilityService {
         "clinicName": "",
         "imageSrc": null,
         "phoneNumber": "",
-        "forwards": []
+        "forwards": [],
+        "education": null,
+        "country": null,
+        "city": null
       },
       "schema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -1098,6 +1101,15 @@ export class UtilityService {
           },
           "forwards": {
             "type": "array"
+          },
+          "education": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
           }
         },
         "required": [

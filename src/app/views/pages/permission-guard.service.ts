@@ -23,6 +23,7 @@ export class PermissionGuardService implements CanActivate {
   constructor(private router: Router, private utility: UtilityService, private dataService: ApiDataService, private http: HttpClient, private usr: AccdetailsService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log(this.products);
     if (this.products.length == 0 || this.forceReload) {
       let load = this.reloadPermission();
       if (load) {
@@ -35,7 +36,7 @@ export class PermissionGuardService implements CanActivate {
             this.checkPackages();
             this.router.navigate([state.url]);
           }, () => {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/auth/login']);
             return false;
           });
         });
@@ -47,52 +48,39 @@ export class PermissionGuardService implements CanActivate {
     }
   }
 
+  permissionsArray = ['patients', 'cases', 'mail', 'meet', 'contacts'];
+  plannerPermissionArray = ['colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'files'];
+
   activate(state): boolean {
-    if (state.url.includes("dashboard")) {
-      return true;
+    if (this.isAdmin || state.url.includes("dashboard")) return true;
+    this.permissionsArray.forEach(permission => {
+      if (state.url.includes(permission) && this.permissions.includes(tab)) return true
+    });
+    if (this.products.includes("Planner")) {
+      this.plannerPermissionArray.forEach(permission => {
+        if (state.url.includes(permission) && this.permissions.includes(tab)) return true
+      });
     }
-    if (state.url.includes("mail") && !state.url.includes("packages") && !state.url.includes("talk")) {
-      if (this.hasPermission('Inbox')) return true; else this.router.navigate(['/accounts/subaccount']);
+    return false;
+  }
+
+  hasPermission(module) {
+    if (this.isAdmin || state.url.includes("dashboard")) return true;
+    if (this.plannerPermissionArray.includes(module)) {
+      if (this.products.includes("Planner") && this.permissions.includes(module)) return true;
+    } else {
+      if (this.permissions.includes(module)) return true
     }
-    if (state.url.includes("compose")) {
-      if (this.hasPermission('Compose')) return true; else return false;
-    }
-    if (state.url.includes("inbox")) {
-      if (this.hasPermission('Inbox')) return true; else return false;
-    }
-    if (state.url.includes("sent")) {
-      if (this.hasPermission('Sent')) return true; else return false;
-    }
-    if (state.url.includes("contacts")) {
-      if (this.hasPermission('Contacts')) return true; else return false;
-    }
-    if (state.url.includes("patients")) {
-      if (this.hasPermission('Patients')) return true; else return false;
-    }
-    if (state.url.includes("talk")) {
-      if (this.hasPermission('Meet', true)) return true; else return false;
-    }
-    return true;
+    return false;
   }
 
   checkPackages() {
     if (this.products.length == 0) {
       if (!this.isPackageSelecetd && !this.usr.getUserDetails().Subuser) {
         this.isPackageSelecetd = false;
-        this.router.navigate(['/accounts/details/packages']);
+        this.router.navigate(['/accounts/packages']);
       }
       this.hasProducts = false;
-    }
-  }
-
-  hasPermission(tab, isMeet = false) {
-    if (isMeet) {
-      if (this.products.includes('Meet')) return true;
-      else return false;
-    } else {
-      if (this.isAdmin && this.products.includes('Mail')) return true;
-      if (this.permissions.includes(tab)) return true;
-      return false;
     }
   }
 

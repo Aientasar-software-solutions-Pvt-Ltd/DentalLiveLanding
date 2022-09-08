@@ -48,7 +48,7 @@ export class AccountService {
       this.permAuth.isPristine = false;
       this.permAuth.products = Response['products'];
       this.permAuth.permissions = Response['permissions'];
-      if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['/accounts/details/packages']);
+      if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['/accounts/packages']);
       else if (this.permAuth.products.length == 1 && this.permAuth.products[0] == "Meet") this.router.navigate(['talk']);
       else this.router.navigate(['mail']);
     }, (error) => {

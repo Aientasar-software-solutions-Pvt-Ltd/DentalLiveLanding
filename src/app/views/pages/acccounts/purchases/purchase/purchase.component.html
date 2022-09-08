@@ -10,7 +10,7 @@
 <div [hidden]="isLoadingData" class="rounded bg-white p-4 p-md-5" style="box-shadow: 0 0 20px 0 rgb(0 0 0 / 5%);">
   <div class="row">
     <div class="col-12">
-      <a routerLink="/accounts/details/packages">
+      <a routerLink="/accounts/packages">
         <h5>Change Plan</h5>
       </a>
     </div>
@@ -109,11 +109,16 @@
         <lottie-player class="mx-auto" *ngIf="isLoadingData"
           src="https://assets7.lottiefiles.com/datafiles/riuf5c21sUZ05w6/data.json" background="transparent" speed="1"
           style="width: 200px; height:200px;" loop autoplay></lottie-player>
-        <div id="smart-button-container">
+        <div *ngIf="!isFreeTrail" id="smart-button-container">
           <div style="text-align: center;">
             <div id="paypal-button-container"></div>
           </div>
         </div>
+        <button (click)="subscribePackage()" *ngIf="isFreeTrail"
+          class="mx-auto d-block btn btn-primary   border-0 btn-1"
+          style="box-shadow: 0px 4px 20px #fdfdff; background-color: #0070D2;">
+          Subscribe Now
+        </button>
       </div>
     </div>
   </div>

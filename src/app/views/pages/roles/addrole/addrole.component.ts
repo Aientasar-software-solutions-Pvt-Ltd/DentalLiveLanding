@@ -36,7 +36,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   isLoadingData = false;
   binaryFiles = [];
 
-  permissionsArray = ['dashboard', 'patients', 'cases', 'colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'mail', 'files', 'meet', 'contacts'];
+  permissionsArray = ['patients', 'cases', 'colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'mail', 'files', 'meet', 'contacts'];
 
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
 

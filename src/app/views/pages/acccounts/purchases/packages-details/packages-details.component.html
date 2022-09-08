@@ -77,15 +77,21 @@
                   <span class="body1 " style="color: #354053;"> {{object.tenure}} Days </span>
                 </td>
                 <td class="mt-2 d-flex flex-column align-items-center justify-content-center">
-                  <button *ngIf="status!=1 && status !=-1" routerLink="../../payment/{{object.packageID}}"
+
+
+
+                  <button *ngIf="status!=1 && status !=-1" routerLink="/accounts/payment/{{object.packageID}}"
                     class="btn btn-primary   border-0 btn-1"
                     style="font-size: 14px;box-shadow: 0px 4px 20px #fdfdff; background-color: #0070D2;height: 40px; padding: 10px 20px;">
                     <span *ngIf="status==0">Buy Now</span>
-                    <span *ngIf="status==2">Renew Now</span>
-                    <span *ngIf="status==3">Buy Again</span>
+                    <span *ngIf="status==2 && !object.hasOwnProperty('isNotRecurring') && !object.isNotRecurring">Renew
+                      Now</span>
+                    <span *ngIf="status==3 && !object.hasOwnProperty('isNotRecurring') && !object.isNotRecurring">Buy
+                      Again</span>
                   </button>
+
                   <label *ngIf="status==3" class="body1 card-title mt-2" style="color: #5f0d15;">Expired</label>
-                  <label *ngIf="status==1" class="body1 card-title mt-2" style="color: #0d5f3e;">Purchased</label>
+                  <label *ngIf="status==1" class="body1 card-title mt-2" style="color: #0d5f3e;">Active</label>
                   <label *ngIf="status==-1" class="body1 card-title mt-2" style="color: #c91527;">Inactive</label>
                 </td>
               </tr>
