@@ -23,7 +23,6 @@ export class PermissionGuardService implements CanActivate {
   constructor(private router: Router, private utility: UtilityService, private dataService: ApiDataService, private http: HttpClient, private usr: AccdetailsService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(this.products);
     if (this.products.length == 0 || this.forceReload) {
       let load = this.reloadPermission();
       if (load) {
@@ -48,24 +47,24 @@ export class PermissionGuardService implements CanActivate {
     }
   }
 
-  permissionsArray = ['patients', 'cases', 'mail', 'meet', 'contacts'];
-  plannerPermissionArray = ['colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'files'];
+  permissionsArray = ['patients', 'cases', 'cases-view', 'mail', 'meet', 'contacts', 'accounts'];
+  plannerPermissionArray = ['colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'casefiles'];
 
   activate(state): boolean {
-    if (this.isAdmin || state.url.includes("dashboard")) return true;
-    this.permissionsArray.forEach(permission => {
-      if (state.url.includes(permission) && this.permissions.includes(tab)) return true
-    });
+    if (this.isAdmin || state.url.includes("dashboard") || state.url.includes("accounts")) return true;
+    for (let permission of this.permissionsArray) {
+      if (state.url.includes(permission) && this.permissions.includes(permission)) return true
+    };
     if (this.products.includes("Planner")) {
-      this.plannerPermissionArray.forEach(permission => {
-        if (state.url.includes(permission) && this.permissions.includes(tab)) return true
-      });
+      for (let permission of this.plannerPermissionArray) {
+        if (state.url.includes(permission) && this.permissions.includes(permission)) return true
+      };
     }
     return false;
   }
 
   hasPermission(module) {
-    if (this.isAdmin || state.url.includes("dashboard")) return true;
+    if (this.isAdmin) return true;
     if (this.plannerPermissionArray.includes(module)) {
       if (this.products.includes("Planner") && this.permissions.includes(module)) return true;
     } else {

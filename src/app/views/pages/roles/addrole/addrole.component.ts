@@ -36,7 +36,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   isLoadingData = false;
   binaryFiles = [];
 
-  permissionsArray = ['patients', 'cases', 'colleagues', 'referral', 'work-orders', 'invitations', 'milestones', 'mail', 'files', 'meet', 'contacts'];
+  permissionsArray = ['patients', 'cases', 'cases-view', 'mail', 'meet', 'contacts', 'colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'casefiles', 'accounts'];
 
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
 
@@ -131,7 +131,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid || this.object.permissionList.length == 0) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please select at least one permission.");
+      swal("Please select atleast one permission.");
       return false;
     }
     this.isUploadingData = true;

@@ -8,69 +8,81 @@
 		</li>
 
 		<li class="menu--item">
-			<a routerLink="/patients" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('patients')" routerLink="/patients" routerLinkActive="active_view"
+				(click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-user text-center"></i>
 				<span class="menu--label">Patients</span>
 			</a>
 		</li>
 
 		<li class="menu--item">
-			<a routerLink="/cases/case-list" routerLinkActive="active_view" (click)="toggleSidebar()"
-				class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('cases')" routerLink="/cases/case-list"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-briefcase-alt text-center"></i>
 				<span class="menu--label">Cases</span>
 			</a>
 		</li>
 		<li class="menu--item">
-			<a routerLink="/colleagues" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('colleagues')" routerLink="/colleagues"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-book-alt text-center"></i>
 				<span class="menu--label">Colleagues</span>
 			</a>
 		</li>
 		<li class="menu--item ">
-			<a routerLink="/referrals/referral-list" routerLinkActive="active_view" (click)="toggleSidebar()"
-				class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('referrals')" routerLink="/referrals/referral-list"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-user-plus text-center"></i>
 				<span class="menu--label">Referral</span>
 			</a>
 		</li>
 		<li class="menu--item mb-3">
-			<a routerLink="/workorders/work-orders" routerLinkActive="active_view" (click)="toggleSidebar()"
-				class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('workorders')" routerLink="/workorders/work-orders"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-folder-plus text-center"></i>
 				<span class="menu--label">Work orders</span>
 			</a>
 		</li>
 		<span class="body2 ms-4 hide">COMMUNICATION</span>
 		<li class="menu--item ">
-			<a routerLink="/caseinvites/invitation-lists" routerLinkActive="active_view" (click)="toggleSidebar()"
-				class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('caseinvites')" routerLink="/caseinvites/invitation-lists"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-file-blank text-center"></i>
 				<span class="menu--label">Invitations</span>
 			</a>
 		</li>
 		<li class="menu--item ">
-			<a routerLink="/milestones/milestones-list" routerLinkActive="active_view" (click)="toggleSidebar()"
-				class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('milestones')" routerLink="/milestones/milestones-list"
+				routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-calendar-alt text-center"></i>
 				<span class="menu--label">Milestones</span>
 			</a>
 		</li>
 		<li class="menu--item">
-			<a routerLink="/mail" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+			<a [class.disabled]="!auth.hasPermission('mail')" routerLink="/mail" routerLinkActive="active_view"
+				(click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-mail-send text-center"></i>
 				<span class="menu--label">Emails</span>
 			</a>
 		</li>
-		<li class="menu--item mb-3">
-			<a routerLink="/meet" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+		<li class="menu--item">
+			<a [class.disabled]="!auth.hasPermission('meet')" routerLink="/meet" routerLinkActive="active_view"
+				(click)="toggleSidebar()" class="menu--link">
 				<i class="menu--icon bx bx-video text-center"></i>
 				<span class="menu--label">Video conferencing</span>
 			</a>
 		</li>
+		<li class="menu--item mb-3">
+			<a [class.disabled]="!auth.hasPermission('contacts')" routerLink="/contacts" routerLinkActive="active_view"
+				(click)="toggleSidebar()" class="menu--link">
+				<i class="menu--icon bx bxs-contact text-center"></i>
+				<span class="menu--label">Contacts</span>
+			</a>
+		</li>
 		<span class="body2 ms-4 hide">SETTINGS</span>
 		<li class="menu--item ">
-			<a routerLink="/accounts/details" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+			<a routerLink="/accounts/details" routerLinkActive="active_view" (click)="toggleSidebar()"
+				class="menu--link">
 				<i class="menu--icon bx bx-cog text-center"></i>
 				<span class="menu--label">Account Settings </span>
 			</a>

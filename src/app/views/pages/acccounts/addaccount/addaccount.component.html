@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="object.accountlastName"
-                    name="accountlastName">
+                    name="accountlastName" required>
                   <label for="floatingPassword">Last Name</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -72,7 +72,7 @@
                   <div class="capture">
                     <label for="profileImage">
                       <img style="width: 13em;"
-                        [src]="imageSrc? imageSrc: '../../../../../assets/images/solution-icon-2.png'" alt=""
+                        [src]="imageSrc? imageSrc: '../../../../../assets/images/user-circle.png'" alt=""
                         class="mb-2" />
                     </label>
                     <input type="file" name="profileImage" id="profileImage" style="display: none" accept="image/*"
@@ -148,7 +148,7 @@
                       match</small>
                   </div>
                   <label style="color: #1991EB;" class="body2 my-3">
-                    Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more
+                    Must contain atleast one number and one uppercase and lowercase letter, and atleast 8 or more
                     characters
                   </label>
                 </div>

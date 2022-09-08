@@ -18,59 +18,73 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'dashboard',
-				loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
+				loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'patients',
-				loadChildren: () => import('./views/pages/patients/patients.module').then(m => m.PatientsModule)
+				loadChildren: () => import('./views/pages/patients/patients.module').then(m => m.PatientsModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'cases',
-				loadChildren: () => import('./views/pages/cases/cases.module').then(m => m.CasesModule)
+				loadChildren: () => import('./views/pages/cases/cases.module').then(m => m.CasesModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'colleagues',
-				loadChildren: () => import('./views/pages/colleagues/colleagues.module').then(m => m.ColleaguesModule)
+				loadChildren: () => import('./views/pages/colleagues/colleagues.module').then(m => m.ColleaguesModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'referrals',
-				loadChildren: () => import('./views/pages/referral/referral.module').then(m => m.ReferralModule)
+				loadChildren: () => import('./views/pages/referral/referral.module').then(m => m.ReferralModule),
+				canActivate: [AuthGuard, PermissionGuardService],
 			},
 			{
 				path: 'workorders',
-				loadChildren: () => import('./views/pages/workorders/work-orders.module').then(m => m.WorkOrdersModule)
+				loadChildren: () => import('./views/pages/workorders/work-orders.module').then(m => m.WorkOrdersModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'cases-view',
-				loadChildren: () => import('./views/pages/master/master.module').then(m => m.MasterModule)
+				loadChildren: () => import('./views/pages/master/master.module').then(m => m.MasterModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'caseinvites',
-				loadChildren: () => import('./views/pages/invitations/invitations.module').then(m => m.InvitationsModule)
+				loadChildren: () => import('./views/pages/invitations/invitations.module').then(m => m.InvitationsModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'milestones',
-				loadChildren: () => import('./views/pages/milestones/milestones.module').then(m => m.MilestonesModule)
+				loadChildren: () => import('./views/pages/milestones/milestones.module').then(m => m.MilestonesModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'casefiles',
-				loadChildren: () => import('./views/pages/files/files.module').then(m => m.FilesModule)
+				loadChildren: () => import('./views/pages/files/files.module').then(m => m.FilesModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'accounts',
-				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule)
+				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'mail',
-				loadChildren: () => import('./views/pages/mails/mails.module').then(m => m.MailsModule)
+				loadChildren: () => import('./views/pages/mails/mails.module').then(m => m.MailsModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'meet',
-				loadChildren: () => import('./views/pages/meet/meet.module').then(m => m.MeetModule)
+				loadChildren: () => import('./views/pages/meet/meet.module').then(m => m.MeetModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'contacts',
-				loadChildren: () => import('./views/pages/contacts/contacts.module').then(m => m.ContactsModule)
+				loadChildren: () => import('./views/pages/contacts/contacts.module').then(m => m.ContactsModule),
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 		]
