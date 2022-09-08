@@ -19,6 +19,7 @@ import {encode} from 'html-entities';
 })
 export class WorkOrderAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	sending = false;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -93,6 +94,7 @@ export class WorkOrderAddComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		if(data.milestoneid !='')
@@ -106,8 +108,6 @@ export class WorkOrderAddComponent implements OnInit {
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['members'] = this.allMemberEmail;
-		
-		
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 			this.jsonObj['notes'] = this.cvfastval.returnCvfast();
@@ -115,7 +115,6 @@ export class WorkOrderAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = localStorage.getItem('backurl');
-		
 		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes');
 		
 	}

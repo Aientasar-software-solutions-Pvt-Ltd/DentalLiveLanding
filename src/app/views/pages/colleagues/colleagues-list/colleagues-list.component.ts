@@ -148,8 +148,10 @@ export class ColleaguesListComponent implements OnInit {
 			if (Response)
 			{
 				let caseData = JSON.parse(Response.toString());
+				//alert(JSON.stringify(caseData));
 				this.invitedata[index].caseTitle = caseData.title;
 				this.inviteReceivedData[index].caseTitle = caseData.title;
+				//alert(JSON.stringify(caseData.title));
 				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {

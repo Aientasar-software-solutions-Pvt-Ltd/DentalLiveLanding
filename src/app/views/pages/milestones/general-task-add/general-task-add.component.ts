@@ -202,7 +202,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', 'milestones/milestone-details', 'post', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description');
 	}
 	
 	getCaseDetails() {

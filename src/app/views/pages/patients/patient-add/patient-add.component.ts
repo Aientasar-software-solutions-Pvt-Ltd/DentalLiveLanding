@@ -3,11 +3,11 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router } from '@angular/router';
 import {encode} from 'html-entities';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-patient-add',
@@ -16,6 +16,7 @@ import {encode} from 'html-entities';
 })  
       
 export class PatientAddComponent implements OnInit {
+	sending = false;
 	//@ViewChild('Cvfast') Cvfast!: ElementRef;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
@@ -88,7 +89,7 @@ export class PatientAddComponent implements OnInit {
 	},{
 		id: 3
 	}];
-  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
 	 // alert(this.maxDate);
@@ -156,7 +157,7 @@ export class PatientAddComponent implements OnInit {
     }
   }
   onGetdateData(data: any)
-  {
+  {	
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
 	this.jsonObj['firstName'] = encode(data.firstName);
@@ -206,10 +207,11 @@ export class PatientAddComponent implements OnInit {
       form.form.markAllAsTouched();
       return;
     }
+	this.sending = true;
 	if(form.value.image)
 	{
 		let requests = this.attachmentFiles.map((object) => {
-		  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+		  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 		});
 		Promise.all(requests)
 		  .then((values) => {

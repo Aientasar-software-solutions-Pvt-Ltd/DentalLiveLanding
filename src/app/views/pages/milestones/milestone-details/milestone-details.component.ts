@@ -177,6 +177,8 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		let milestoneId = this.getmilestoneId;
+		//alert(JSON.stringify(user));
+		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -228,7 +230,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
 		let milestoneId = this.getmilestoneId;
-		
+		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -348,10 +350,13 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	deleteTask(taskId: any) {
+		let milestoneId = this.getmilestoneId;
+		//alert(milestoneId);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		this.dataService.deleteDataRecord(url, taskId, 'taskId').subscribe(Response => {
 			swal('Task deleted successfully');
 			this.getalltasks();
+			
 		}, (error) => {
 		  swal( 'Unable to fetch data, please try again');
 		  return false;

@@ -32,7 +32,7 @@ const routes: Routes = [
         component: CaseListComponent
       },
 	  {
-        path: 'case-add',
+        path: 'case-add/:patientId',
         component: CaseAddComponent
       },
 	  {

@@ -88,7 +88,6 @@ export class CaseListComponent implements OnInit {
 					{
 						if(user.emailAddress == AllDate[k].resourceOwner)
 						{
-							j++;
 							this.tabledata.push({
 							  id: j,
 							  patientName: AllDate[k].patientName,
@@ -100,10 +99,10 @@ export class CaseListComponent implements OnInit {
 							  caseId: AllDate[k].caseId
 							});
 							this.getCaseMemberList(AllDate[k].caseId,j,1);
+							j++;
 						}
 						else
 						{
-							l++;
 							this.colleaguesdata.push({
 							  id: l,
 							  patientName: AllDate[k].patientName,
@@ -115,6 +114,7 @@ export class CaseListComponent implements OnInit {
 							  caseId: AllDate[k].caseId
 							});
 							this.getCaseMemberList(AllDate[k].caseId,l,0);
+							l++;
 						}
 					}
 					//this.getAllMembers();
@@ -212,8 +212,8 @@ export class CaseListComponent implements OnInit {
 					  id: this.indexRow,
 					  userName: ''
 					});
-					//alert(GetAllData[k].invitedUserId);
-					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index,type);
+					//alert(GetAllData[k].invitedUserMail);
+					this.getuserdetailsall(GetAllData[k].invitedUserMail,this.indexRow,index,type);
 					this.indexRow++;
 				} 
 				//alert(JSON.stringify(this.invitedata));
@@ -242,7 +242,7 @@ export class CaseListComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		let GetArray = this.invitedatas;
 		this.dataService.getallData(url, true).subscribe(Response => {
@@ -250,8 +250,7 @@ export class CaseListComponent implements OnInit {
 		{
 			//swal.close();
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(GetArray));
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			GetArray[index].userName = name;
 			if((index+1) == GetArray.length)
 			{

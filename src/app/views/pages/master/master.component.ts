@@ -63,7 +63,6 @@ export class MasterComponent implements OnInit {
 	public tabledata:any;
 	public milestonedata:any;
 	public workordersdata:any;
-	public colleaguedata:any;
 	public messagedata:any;
 	public patientdata:any;
 	public referraldata:any;
@@ -178,8 +177,6 @@ export class MasterComponent implements OnInit {
 	(this.paramTabName == 'workorders') ? this.getallworkorder() : '';
 	(this.paramTabName == 'referrals') ? this.getReferralListing() : '';
 	if(this.paramTabName == 'colleagues'){
-		this.getColleagueListing();
-		this.getAllMembers();
 		this.getInviteListing();
 	}
 	
@@ -190,35 +187,6 @@ export class MasterComponent implements OnInit {
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
 	}
 
-	getColleagueListing() {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			/* swal("Processing...please wait...", {
-				buttons: [false, false],
-				closeOnClickOutside: false,
-			}); */
-			let url = this.utility.apiData.userColleague.ApiUrl;
-			//let caseId = this.paramCaseId;			
-			//if(caseId != '')
-			//{
-				//url += "?caseId="+caseId;
-			//}
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					//swal.close();
-					this.isLoadingData = false;
-					this.colleaguedata = JSON.parse(Response.toString());
-					//this.colleaguedata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
-					//alert(JSON.stringify(this.colleaguedata));
-				}
-			}, (error) => {
-			  swal("Unable to fetch data, please try again");
-			  return false;
-			});
-		}
-	}
 	getMessage() {
 		let user = this.usr.getUserDetails(false);
 		
@@ -515,7 +483,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/workOrders');
+			localStorage.setItem('backurl', '/cases-view/workorders/'+this.paramCaseId);
 			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
@@ -606,7 +574,7 @@ export class MasterComponent implements OnInit {
 				buttons: [false, false],
 				closeOnClickOutside: false,
 			}); */
-			localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/milestone');
+			localStorage.setItem('backurl', '/cases-view/milestones/'+this.paramCaseId);
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
 			if(caseId != '')
@@ -1266,7 +1234,7 @@ export class MasterComponent implements OnInit {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		}); */
-		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/referral');
+		localStorage.setItem('backurl', '/cases-view/referrals/'+this.paramCaseId);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -1429,7 +1397,7 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let Colleague = JSON.parse(Response.toString());
-			//alert(JSON.stringify(Colleague));
+			//alert(JSON.stringify(this.invitedata));
 			this.allMember = Array();
 			for(var k = 0; k < Colleague.length; k++)
 			{
@@ -1513,10 +1481,6 @@ export class MasterComponent implements OnInit {
 	
 	
 	getInviteListing() {
-		/* swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1529,7 +1493,6 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
 				this.isLoadingData = false;
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
@@ -1552,8 +1515,10 @@ export class MasterComponent implements OnInit {
 					});
 					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 				}
+				this.getAllMembers();
 			}
 		}, error => {
+		  this.getAllMembers();
 		  if (error.status === 404)
 			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
@@ -1668,7 +1633,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: treadAllData[i].messageId,
@@ -1686,11 +1651,11 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
-								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
+								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
 								messageimg: '',
 								messagecomment: '',
 								messagecomments: ''
@@ -1703,7 +1668,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1720,7 +1685,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1737,7 +1702,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1754,7 +1719,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1771,7 +1736,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1788,7 +1753,7 @@ export class MasterComponent implements OnInit {
 							this.messageDataArray.push({
 								patientId: treadAllData[i].patientId,
 								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
+								patientName: treadAllData[i].resourceOwner,
 								dateUpdated: treadAllData[i].dateUpdated,
 								dateCreated: treadAllData[i].dateCreated,
 								messageId: '',
@@ -1851,7 +1816,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: treadAllData[i].messageId,
@@ -1869,11 +1834,11 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
-									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text,
+									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
 									messageimg: '',
 									messagecomment: '',
 									messagecomments: ''
@@ -1886,7 +1851,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
@@ -1903,7 +1868,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
@@ -1920,7 +1885,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
@@ -1937,7 +1902,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
@@ -1954,7 +1919,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',
@@ -1971,7 +1936,7 @@ export class MasterComponent implements OnInit {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].patientName,
+									patientName: treadAllData[i].resourceOwner,
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: '',

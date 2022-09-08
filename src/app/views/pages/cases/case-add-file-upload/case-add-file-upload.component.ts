@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./case-add-file-upload.component.css']
 })
 export class CaseAddFileUploadComponent implements OnInit {
+	sending = false;
 	public UploadFiles: any[] = []
 	public attachmentUploadFiles: any[] = []
 	public tabledata: any;
@@ -22,7 +23,6 @@ export class CaseAddFileUploadComponent implements OnInit {
 	  caseId: '',
 	  patientId: '',
 	  patientName: '',
-	  dateCreated: 0,
 	  files: Array()
 	}
 	
@@ -95,16 +95,12 @@ export class CaseAddFileUploadComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		if(data.uploadfile)
-		{
-			this.jsonObj['files'] = this.UploadFiles;
-		}
-		//alert(JSON.stringify(this.jsonObj));
+		this.jsonObj['files'] = this.UploadFiles;
 		
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
-			swal.close();
+			this.sending = false;
 			swal('Files added successfully');
 			setTimeout(()=>{                     
 				this.router.navigate(['cases/case-list']);
@@ -134,10 +130,8 @@ export class CaseAddFileUploadComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			});
+			let isData = form.value;
+			this.sending = true;
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
@@ -153,6 +147,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 				.subscribe(Response => {
 					if (Response)
 					{
+						//alert(JSON.stringify(Response));
 						this.UploadFiles = Array();
 						this.UploadFiles.push({
 						  url: Response,
@@ -160,8 +155,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 						  mediaType: mediatype,
 						  mediaSize: mediasize.toString()
 						});
-						//this.PatientImg = values[0];
-						this.onGetdateData(form.value);
+					    this.onGetdateData(isData);
 					}
 				}, error => {
 				  if (error.status === 404)

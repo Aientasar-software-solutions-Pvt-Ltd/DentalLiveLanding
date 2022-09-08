@@ -5,7 +5,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import {encode} from 'html-entities';
 
@@ -16,6 +16,7 @@ import {encode} from 'html-entities';
 })
 export class CaseAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	sending = false;
 	id:any = "addNonMembers";
 	tabContent(ids:any){
 		this.id = ids;
@@ -26,7 +27,7 @@ export class CaseAddComponent implements OnInit {
 	tabledataAll:any;
 	public patientImg: any;
 	public module = 'patient';
-	public Img = 'assets/images/avatar3.png';
+	public Img = 'assets/images/users.png';
 	public resourceOwn = '';
 	public patientName = '';
 	public patientImage = '';
@@ -34,7 +35,7 @@ export class CaseAddComponent implements OnInit {
 	public caseInsertedId = '';
 	public caseType = true;
 	public caseImage = false;
-	checkPatient = localStorage.getItem("checkPatient");
+	checkPatient = '';
 	public jsonObj = {
 	  resourceOwner: '',
 	  patientId: '',
@@ -72,7 +73,9 @@ export class CaseAddComponent implements OnInit {
 		}
 	}
 	
-	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router) { }
+	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
+	this.checkPatient = this.route.snapshot.paramMap.get('patientId');
+	}
  
 	ngOnInit(): void {
 	this.getPatiantDetails();
@@ -155,6 +158,7 @@ export class CaseAddComponent implements OnInit {
 	}
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		this.jsonObj['resourceOwner'] = data.resourceOwner;
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
@@ -212,10 +216,9 @@ export class CaseAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		this.resourceOwn = user.emailAddress;
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		let patientId = localStorage.getItem("patientId");
-		if(patientId != '')
+		if(this.checkPatient != '0')
 		{
-			url += "?patientId="+patientId;
+			url += "?patientId="+this.checkPatient;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)

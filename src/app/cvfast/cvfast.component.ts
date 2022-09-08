@@ -13,7 +13,6 @@ import * as Record from 'videojs-record/dist/videojs.record.js';
 import { ApiDataService } from '../views/pages/users/api-data.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '../views/pages/users/utility.service';
-import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-cvfast',
@@ -21,7 +20,7 @@ import "@lottiefiles/lottie-player";
   styleUrls: ['./cvfast.component.css']
 })
 export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
-	sending: boolean;
+  sending: boolean;
   // @Input() module: any;
   private VideoConfig: any;
   VideoPlayer: any;
@@ -252,7 +251,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
       let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
       Array.from(event.target.files).forEach(element => {
         if (!allowedtypes.some(type => element['type'].includes(type))) {
-          swal.fire("File Extenion Not Allowed");
+          Swal("File Extenion Not Allowed");
           return;
         } else {
           this.attachmentFiles.push({ name: this.getUniqueName(element['name']), binaryData: element });
@@ -261,7 +260,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   removeFiles(index, attachment) {
-    swal.fire({
+    Swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this file!",
       icon: "warning",
@@ -321,7 +320,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   pipEnabled = false;
   togglePictureInPicture() {
     if (!('pictureInPictureEnabled' in document)) {
-      swal.fire("Your Browser dosent support this feature,please use Goole Chrome or Safari for this Feature");
+      Swal("Your Browser dosent support this feature,please use Goole Chrome or Safari for this Feature");
     } else {
       if (!this.pipEnabled) {
         this.popupVideoPlayer.record().getDevice();
@@ -345,10 +344,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
 	this.processing = true;
-	Swal("Processing...please wait...", {
-		buttons: [false, false],
-		closeOnClickOutside: false,
-	});
+	
     let requests = this.attachmentFiles.map((object) => {
       if (object["binaryData"]) {
         this.processingcheck = true;
@@ -357,7 +353,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     });
 	if(this.processingcheck == true)
 	{
-		this.sending = true;
 		Promise.all(requests)
 		.then((values) => {
 			this.processing = false;
@@ -388,12 +383,13 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 			jsonObj[field] = this.cvfast;
 			}
+			this.sending = true;
 			//alert(JSON.stringify(jsonObj));
 			if(datatype == 'put')
 			{
 				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
-					Swal.close();
+					//Swal.close();
 					this.sending = false;
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
@@ -447,7 +443,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
 					this.sending = false;
-					swal.close();
+					//Swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
@@ -526,7 +522,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
-				swal.close();
+				//Swal.close();
 				this.sending = false;
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
@@ -580,7 +576,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
 				this.sending = false;
-				swal.close();
+				//Swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{

@@ -57,13 +57,13 @@
 			<div class="box-body">
 				<!-- Nav tabs -->
 				<ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist" style="overflow-x: auto;">
-					<li class="nav-item"><a href="cases-view/caseDetails/{{this.paramCaseId}}" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
-					<li class="nav-item"><a href="cases-view/threads/{{this.paramCaseId}}" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
-					<li class="nav-item"><a href="cases-view/colleagues/{{this.paramCaseId}}" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
-					<li class="nav-item"><a href="cases-view/workorders/{{this.paramCaseId}}" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
-					<li class="nav-item"><a href="cases-view/referrals/{{this.paramCaseId}}" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
-					<li class="nav-item"><a href="cases-view/milestones/{{this.paramCaseId}}" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
-					<li class="nav-item"><a href="cases-view/casefiles/{{this.paramCaseId}}" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
+					<li class="nav-item"><a href="/cases-view/caseDetails/{{this.paramCaseId}}" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
+					<li class="nav-item"><a href="/cases-view/threads/{{this.paramCaseId}}" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
+					<li class="nav-item"><a href="/cases-view/colleagues/{{this.paramCaseId}}" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
+					<li class="nav-item"><a href="/cases-view/workorders/{{this.paramCaseId}}" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
+					<li class="nav-item"><a href="/cases-view/referrals/{{this.paramCaseId}}" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
+					<li class="nav-item"><a href="/cases-view/milestones/{{this.paramCaseId}}" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
+					<li class="nav-item"><a href="/cases-view/casefiles/{{this.paramCaseId}}" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
 				</ul>
 				<!-- Tab panes -->
 				<div class="panel-body tabs-menu-body">
@@ -215,8 +215,10 @@
 								<div class="card-body" infinite-scroll (scrolled)="onScrollDown($event,this.fromDate)">
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
-											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
+											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+												<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" class="avatar avatar-sm rounded-circle me-2 " />
+												<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="avatar avatar-sm rounded-circle me-2 "/>
+												{{message.patientName}}
 										   </div>
 										   
 										</div>
@@ -385,7 +387,7 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a href="colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
+																	<a href="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
 																	<a *ngIf="(invite.presentStatus != 3)" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
@@ -479,10 +481,10 @@
 
 
 
-																	<a href="workorders/work-order-edit/{{data.workorderId}}" class="me-1">
+																	<a href="/workorders/work-order-edit/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
-																	<a routerLink="workorders/work-order-details/{{data.workorderId}}" class="me-1">
+																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons fs-4 text-light-green">
 																			visibility
 																		</i>
@@ -574,10 +576,10 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a href="referrals/referral-edit/{{data.referralId}}" class="me-1">
+																<a href="/referrals/referral-edit/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a href="referrals/referral-details/{{data.referralId}}" class="me-1">
+																<a href="/referrals/referral-details/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 																<a style="cursor: pointer;" class="me-1" (click)="deletereferral(data.referralId)">
@@ -683,10 +685,10 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a href="milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
+																		<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="milestones/milestone-details/{{data.milestoneId}}"class="me-1">
+																		<a href="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
@@ -786,7 +788,7 @@
 															</td>
 														   
 															<td>
-																<a href="casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
+																<a href="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>

@@ -16,6 +16,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 export class CaseAddInviteMembersComponent implements OnInit {
 
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	sending = false;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -141,6 +142,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		//alert(JSON.stringify(this.allMemberDentalId));
 	}
 	onSubmitInvite(form: NgForm){
+		this.sending = true;
 		let user = this.usr.getUserDetails(false);
 		if (form.invalid) {
 		  form.form.markAllAsTouched();

@@ -49,9 +49,11 @@
 							<tr>
 								<th style="width: 15px ;" data-orderable="false">&nbsp; </th>
 								<th class="body2">MEMBER NAME</th>
-								<th class="body2">EDUCATION</th>
+								<th class="body2">PATIENT NAME</th>
+								<th class="body2">CASE NAME</th>
+								<!--<th class="body2">EDUCATION</th>
 								<th class="body2">CITY</th>
-								<th class="body2">COUNTRY</th>
+								<th class="body2">COUNTRY</th>-->
 								<th class="body2">STATUS</th>
 								<th class="body2" data-orderable="false">ACTIONS</th>
 							</tr>
@@ -72,6 +74,12 @@
 									</div>
 								</td>
 								<td>
+									<span class="body2">{{invite.patientName}}</span>                
+								</td>
+								<td>
+									<span class="body2">{{invite.caseTitle}}</span>                
+								</td>
+								<!--<td>
 									<span class="body2">BDS/DDS/DMD</span>                
 								</td>
 								<td>  
@@ -79,7 +87,7 @@
 								</td>	 
 								<td>
 									<span class="body2">Canada</span>                
-								</td>
+								</td>-->
 								<td>
 									<div>
 										<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>

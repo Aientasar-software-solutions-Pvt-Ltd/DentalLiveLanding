@@ -24,7 +24,7 @@ img {
 
 .ng-invalid.ng-touched.form-control,
 .ng-invalid.ng-touched.form-select {
-    border-color: #F7517F;
+    border-color: #F7517F !important;
     border-width: 2px;
     box-shadow: 0px 2px 4px #f7518067;
 }
