@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CalendarOptions } from '@fullcalendar/angular'; 
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';

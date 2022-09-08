@@ -1229,6 +1229,11 @@ table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_de
 .ng-select.ng-select-opened > .ng-select-container .ng-arrow {top: 0px;border-color: transparent;border-width: 0px;transform: rotate(-180deg);}
 .ng-select .ng-arrow-wrapper:hover .ng-arrow {border-top-color: #212529;}
 .ng-select .ng-clear-wrapper {color: #354053;}
+.ng-invalid.ng-touched.ng-select .ng-select-container, .ng-invalid.ng-touched.ng-select .ng-select-container {
+border-color: #F7517F;
+border-width: 2px;
+box-shadow: 0px 2px 4px #f7518067;}
+
 .autocomplete-container {
   box-shadow: none !important;
 }

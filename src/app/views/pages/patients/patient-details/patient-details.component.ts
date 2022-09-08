@@ -12,11 +12,12 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./patient-details.component.css']
 })
 export class PatientDetailsComponent implements OnInit {
-
+	isLoadingData = true;
   dtOptions: DataTables.Settings = {};
   tabledata:any;
   casedata:any;
-  public Img = 'assets/images/avatar3.png';
+  shimmer = Array;
+  public Img = 'assets/images/users.png';
   public caseImage = false;
   public refrernceNo = '-';
   public mobileNo = '-';
@@ -81,10 +82,10 @@ export class PatientDetailsComponent implements OnInit {
 	}
 	getallpatiant() {
 		this.tabledata = '';
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
@@ -96,7 +97,7 @@ export class PatientDetailsComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
 				this.tabledata = JSON.parse(Response.toString());
 				if(this.tabledata.refId)
 				{
@@ -120,6 +121,7 @@ export class PatientDetailsComponent implements OnInit {
 						this.setcvImage(this.tabledata.image);
 					}
 				}, 1000);
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
@@ -143,10 +145,10 @@ export class PatientDetailsComponent implements OnInit {
 		if(user)
 		{
 		
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientId = this.paramPatientId;
 			if(patientId != '')
@@ -156,7 +158,7 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
@@ -267,18 +269,18 @@ export class PatientDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	addcases() {
-		sessionStorage.setItem('checkPatient', "1");
-		sessionStorage.setItem('patientId', this.paramPatientId);
+		localStorage.setItem('checkPatient', "1");
+		localStorage.setItem('patientId', this.paramPatientId);
 		this.router.navigate(['cases/case-add']);
 	}
 
 	viewCase(caseId: any, patientId: any) {
-		//sessionStorage.setItem('caseId', caseId);
+		//localStorage.setItem('caseId', caseId);
 		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	viewAllCase(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
+		//localStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-case-list/'+patientId]);
 	}
 }

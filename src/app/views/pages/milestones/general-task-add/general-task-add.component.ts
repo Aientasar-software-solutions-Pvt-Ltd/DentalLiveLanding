@@ -8,6 +8,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-general-task-add',
@@ -58,7 +59,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.selectedMember = this.defaultBindingsList[0];
 		this.getCaseDetails();
 		this.getAllMembers();
-		this.milestoneIdadd = sessionStorage.getItem("milestoneId");
+		this.milestoneIdadd = localStorage.getItem("milestoneId");
 	}
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
@@ -99,7 +100,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -183,7 +184,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -201,12 +202,12 @@ export class GeneralTaskAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', 'milestones/milestone-details', 'post', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description');
 	}
 	
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
+		let caseId = localStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

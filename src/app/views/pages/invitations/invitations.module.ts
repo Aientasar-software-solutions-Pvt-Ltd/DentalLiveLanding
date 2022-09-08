@@ -9,6 +9,7 @@ import { ReferralInvitationListComponent } from './referral-invitation-list/refe
 import { CaseInvitationListComponent } from './case-invitation-list/case-invitation-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
 	FormsModule,
 	ReactiveFormsModule,
 	PatientsModule,
+	NgxShimmerLoadingModule
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

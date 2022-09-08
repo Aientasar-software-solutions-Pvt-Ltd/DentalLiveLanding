@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/referral/referral-list">Referral</a>
+		<a routerLink="/referrals/referral-list">Referral</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Edit Referral
@@ -84,7 +84,7 @@
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Title </label>
-										<input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title" ngModel={{this.editedDate.title}} required>
+										<input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title" ngModel={{this.editedDateTitle}} required>
 									</div>
 								</div>
 								<!--<div class="col-md-4"> 
@@ -147,7 +147,7 @@
 			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.editedDate.patientId}}">
 			<input type="hidden" name="milestoneId" id="milestoneId" ngModel="{{this.editedDate.milestoneId}}">
 			<button type="submit" class="btn btn-default me-2"><i class="bx bx-send"></i> Send Referral </button> 
-			<a routerLink="/master" class="btn btn-secondary mt-1 me-2">Cancel</a>
+			<a routerLink="/referrals/referral-list" class="btn btn-secondary mt-1 me-2">Cancel</a>
 		</div>
 	</div> 
 </form>

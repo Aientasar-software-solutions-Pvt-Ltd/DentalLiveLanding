@@ -13,12 +13,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./colleagues-list.component.css']
 })
 export class ColleaguesListComponent implements OnInit {
-
-	dtOptions: DataTables.Settings = {};
+	isLoadingData = true;
 	masterSelected:boolean;
 	colleaguedata:any;
 	invitedata: any;
+	shimmer = Array;
 	
+	dtOptions: DataTables.Settings = {};
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
@@ -44,21 +45,22 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	getInviteListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		
 		let user = this.usr.getUserDetails(false);
 		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?resourceOwner="+user.dentalId;
-		//url += "&presentStatus=0";
+		url += "?resourceOwner="+user.emailAddress;
+		url += "&presentStatus=1";
 		
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(Response.toString()));
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -108,8 +110,8 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	viewColleagueDetails(colleagueId: any,caseId: any) {
 		//alert(caseId);
-		//sessionStorage.setItem('colleagueId', colleagueId);
-		//sessionStorage.setItem('caseId', caseId);
+		//localStorage.setItem('colleagueId', colleagueId);
+		//localStorage.setItem('caseId', caseId);
 		this.router.navigate(['colleagues/colleague-view-profile/'+colleagueId+'/'+caseId]);
 	}
 	getuserdetailsall(userId, index) {
@@ -146,8 +148,10 @@ export class ColleaguesListComponent implements OnInit {
 			if (Response)
 			{
 				let caseData = JSON.parse(Response.toString());
+				//alert(JSON.stringify(caseData));
 				this.invitedata[index].caseTitle = caseData.title;
 				this.inviteReceivedData[index].caseTitle = caseData.title;
+				//alert(JSON.stringify(caseData.title));
 				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
@@ -158,7 +162,6 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	onSubmitColleague(form: NgForm) {
-		alert(111111);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let user = this.usr.getUserDetails(false);
 		url += "?resourceOwner="+user.dentalId;

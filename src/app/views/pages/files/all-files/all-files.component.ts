@@ -5,7 +5,6 @@ import { CalendarOptions } from '@fullcalendar/angular';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -15,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./all-files.component.css']
 })
 export class AllFilesComponent implements OnInit {
+	isLoadingData = true;
   public allfilesdata: any;
   public allfile: any;
   public tabledata: any;
@@ -33,7 +33,8 @@ export class AllFilesComponent implements OnInit {
 	
   dateCreated: string;
   getcaseId: string;
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
+  shimmer = Array;
+  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
 	this.dateCreated = this.route.snapshot.paramMap.get('dateCreated');
 	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
   }
@@ -82,10 +83,10 @@ export class AllFilesComponent implements OnInit {
 		}
 	}
 	getAllFiles() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
 		let dateCreated = Number(this.dateCreated);
@@ -109,7 +110,8 @@ export class AllFilesComponent implements OnInit {
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
 				this.setcvFast(this.allfilesdata);
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
@@ -126,11 +128,6 @@ export class AllFilesComponent implements OnInit {
 		  else
 			swal('Unable to fetch the data, please try again');
 		});
-	}
-	
-	viewFilesDetails(fileUploadId: any) {
-		//sessionStorage.setItem('fileUploadId', fileUploadId);
-		this.router.navigate(['/files/file-details/'+fileUploadId+'/'+this.getcaseId]);
 	}
 	
 	getCaseDetails() {
@@ -165,10 +162,10 @@ export class AllFilesComponent implements OnInit {
 	}
 	
 	onSubmit(form: NgForm) {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let strName = form.value.ownerName;
 		let ownerName =strName.split(' ');
@@ -176,7 +173,7 @@ export class AllFilesComponent implements OnInit {
 		{
 			url += "?ownerName="+ownerName[0];
 		}
-		//let fileUploadId = sessionStorage.getItem("fileUploadId");
+		//let fileUploadId = localStorage.getItem("fileUploadId");
 		//if(fileUploadId != '')
 		//{
 			//url += "?fileUploadId="+fileUploadId;
@@ -201,7 +198,8 @@ export class AllFilesComponent implements OnInit {
 			if (Response)
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
@@ -233,7 +231,7 @@ export class AllFilesComponent implements OnInit {
 	
 	loadFiles(event : any) {
 		if (event.target.files.length > 0) {
-		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel', 'docx', 'doc', 'xls', 'xlsx', 'txt'];
+		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
 		if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
 		  swal("File Extenion Not Allowed");
 		  return;
@@ -261,7 +259,8 @@ export class AllFilesComponent implements OnInit {
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
-		  swal.close();
+			//swal.close();
+			this.isLoadingData = false;
 		  swal('Files added successfully');
 		  window.location.reload();
 		}, error => {
@@ -296,7 +295,7 @@ export class AllFilesComponent implements OnInit {
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {

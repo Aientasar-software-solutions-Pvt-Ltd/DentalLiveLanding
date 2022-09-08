@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+//@ts-nocheck
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +9,7 @@ import { ColleaguesListComponent } from './colleagues-list/colleagues-list.compo
 import { ColleagueViewInviteComponent } from './colleague-view-invite/colleague-view-invite.component';
 import { ColleaguesAddMembersComponent } from './colleagues-add-members/colleagues-add-members.component';
 import { ColleagueViewProfileComponent } from './colleague-view-profile/colleague-view-profile.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -51,7 +53,11 @@ const routes: Routes = [
 	FormsModule,
     CommonModule,
 	RouterModule.forChild(routes),
-	DataTablesModule
-  ]
+	NgxShimmerLoadingModule,
+	DataTablesModule,
+  ],
+   schemas: [
+	  CUSTOM_ELEMENTS_SCHEMA
+	]
 })
 export class ColleaguesModule { }

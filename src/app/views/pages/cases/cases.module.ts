@@ -15,6 +15,7 @@ import { CaseAddTaskAddComponent } from './case-add-task-add/case-add-task-add.c
 import { CaseAddFileUploadComponent } from './case-add-file-upload/case-add-file-upload.component';
 import { MilestoneAddComponent } from './case-add-milestone/milestone-add.component';
 import { PatientsModule } from '../patients/patients.module';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -31,7 +32,7 @@ const routes: Routes = [
         component: CaseListComponent
       },
 	  {
-        path: 'case-add',
+        path: 'case-add/:patientId',
         component: CaseAddComponent
       },
 	  {
@@ -80,6 +81,7 @@ const routes: Routes = [
     AutocompleteLibModule,
 	ReactiveFormsModule,
     OwlNativeDateTimeModule,
+	NgxShimmerLoadingModule,
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

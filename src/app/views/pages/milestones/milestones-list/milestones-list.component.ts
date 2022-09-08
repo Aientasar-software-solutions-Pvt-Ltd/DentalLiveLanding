@@ -14,18 +14,18 @@ import { Router } from '@angular/router';
 })
 
 export class MilestonesListComponent implements OnInit {
-
+	isLoadingData = true;
 	masterSelected:boolean;
 	tabledata:any;
 	checkedList:any;
-	
+	shimmer = Array;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
-		sessionStorage.setItem('checkCase', '');
-		sessionStorage.setItem('caseId', '');
+		localStorage.setItem('checkCase', '');
+		localStorage.setItem('caseId', '');
 		this.getallmilestone();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -52,17 +52,17 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	getallmilestone() {
-		sessionStorage.setItem('backurl', '/milestones/milestones-list');
+		localStorage.setItem('backurl', '/milestones/milestones-list');
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userMilestones.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -70,7 +70,8 @@ export class MilestonesListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
 					//alert(JSON.stringify(this.tabledata));
@@ -84,11 +85,11 @@ export class MilestonesListComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	editMilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
+		//localStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	

@@ -45,7 +45,7 @@ export class GeneralTaskViewComponent implements OnInit {
 	
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = sessionStorage.getItem("caseId");
+		//let caseId = localStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

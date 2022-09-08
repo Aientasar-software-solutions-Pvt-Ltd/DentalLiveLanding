@@ -29,7 +29,15 @@
 		<div class="card shadow-sm">
 			<div class="card-body">
 				<div class="row mt-2">
-					<div class="col-md-12">
+					<div *ngIf="sending" class="row">
+						<div class="col-md-12">
+							<lottie-player class="mt-3 m-auto"
+							src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+							background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+							<h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+						</div>
+					</div>
+					<div *ngIf="!sending" class="col-md-12">
 						<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
 							<div class="modal-header">
 								<h5 class="modal-title body1" id="inviteMembersLabel">Invite Members</h5>
@@ -78,7 +86,7 @@
 								<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
 								<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
 								<button type="button" class="btn btn-default" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#skipNext">Save</button>
-								<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+								<a class="btn btn-secondary" routerLink="/cases/case-list">Cancel</a>
 								<div class="modal fade" id="skipNext" tabindex="-1" aria-labelledby="skipNextLabel" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered">
 										<div class="modal-content">

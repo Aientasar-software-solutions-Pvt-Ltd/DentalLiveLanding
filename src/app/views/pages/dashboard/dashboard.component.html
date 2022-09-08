@@ -28,46 +28,46 @@
 								<i class="bx bx-refresh dicon"></i>
 								<h5>Case Updates</h5>
 							</div>
-							<div class="counter"><span>30</span></div>
+							<div class="counter"><span>{{this.caseCount}}</span></div>
 						</div>
 					</div>
 				</a>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6">
-				<a routerLink="/work-orders/work-orders">
+				<a routerLink="/workorders/work-orders">
 					<div class="card dashboard-card2">
 						<div class="card-body">
 							<div class="float-start">
 								<i class="bx bx-briefcase-alt dicon"></i>
 								<h5>Work Orders</h5>
 							</div>
-							<div class="counter"><span>20</span></div>
+							<div class="counter"><span>{{this.workworderCount}}</span></div>
 						</div>
 					</div>
 				</a>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6">
-				<a routerLink="/invitations/invitations">
+				<a routerLink="/caseinvites/invitation-lists">
 					<div class="card dashboard-card3">
 						<div class="card-body">
 							<div class="float-start">
 								<i class="bx bx-file dicon"></i>
 								<h5>Invitations</h5>
 							</div>
-							<div class="counter"><span>8</span></div>
+							<div class="counter"><span>{{this.caseinvitationCount}}</span></div>
 						</div>
 					</div>
 				</a>
 			</div>
 			<div class="col-sm-6 col-md-6 col-lg-6">
-				<a routerLink="#">
+				<a routerLink="/mail/inbox">
 					<div class="card dashboard-card4">
 						<div class="card-body">
 							<div class="float-start">
 								<i class="bx bxs-inbox dicon"></i>
 								<h5>Inbox</h5>
 							</div>
-							<div class="counter"><span>15</span></div>
+							<div class="counter"><span>{{this.inboxCount}}</span></div>
 						</div>
 					</div>
 				</a>
@@ -166,74 +166,30 @@
 					</div>
 					<div class="col-5 col-md-5">
 						<div class="d-flex flex-wrap align-items-center justify-content-end">
-							<a routerLink="#" class="btn btn-light-green my-1 py-1 px-2">View All</a>
+							<a routerLink="/milestones/milestones-list" class="btn btn-light-green my-1 py-1 px-2">View All</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card-body p-0 pb-1">
 				<div class="table-responsive">
-					<table class="table table-hover table-nowrap align-middle mb-2">
+					<table *ngIf="messageAry" class="table table-hover table-nowrap align-middle mb-2">
 						<thead class="thead-light">
 							<tr style="text-transform:uppercase;">
 								<th class="body2" width="50%">MILESTONE NAME</th>
-								<th class="body2" width="50%">MILESTION DATE</th>
+								<th class="body2" width="50%">MILESTONE DATE</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr *ngFor="let data of messageAry; let i = index;">
 								<td>
 									<div class="d-flex align-items-center">
 										<span class="avatar-icon avatar-vs"></span>
-										<span class="ps-2 body2 d-block">Prosthodontics</span>
+										<span class="ps-2 body2 d-block">{{data.messagetext}}</span>
 									</div>
 								</td>
 								<td>
-									<span class="body2 text-muted">April 21 2022</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon avatar-vs"></span>
-										<span class="ps-2 body2 d-block">Endodontics</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2 text-muted">April 20 2022</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon avatar-vs"></span>
-										<span class="ps-2 body2 d-block">Periodontics</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2 text-muted">April 19 2022</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon avatar-vs"></span>
-										<span class="ps-2 body2 d-block">Dental Hygiene</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2 text-muted">April 12 2022</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="d-flex align-items-center">
-										<span class="avatar-icon avatar-vs"></span>
-										<span class="ps-2 body2 d-block">Oral Surgery</span>
-									</div>
-								</td>
-								<td>
-									<span class="body2 text-muted">April 15 2022</span>
+									<span class="body2 text-muted">{{data.dateCreated | date:'mediumDate'}}</span>
 								</td>
 							</tr>
 						</tbody>

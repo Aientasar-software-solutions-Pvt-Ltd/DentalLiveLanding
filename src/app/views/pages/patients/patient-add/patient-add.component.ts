@@ -3,10 +3,11 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router } from '@angular/router';
+import {encode} from 'html-entities';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-patient-add',
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 })  
       
 export class PatientAddComponent implements OnInit {
+	sending = false;
 	//@ViewChild('Cvfast') Cvfast!: ElementRef;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
@@ -86,12 +88,8 @@ export class PatientAddComponent implements OnInit {
 		id: 2
 	},{
 		id: 3
-	},{
-		id: 4
-	},{
-		id: 5
 	}];
-  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
 	 // alert(this.maxDate);
@@ -159,18 +157,18 @@ export class PatientAddComponent implements OnInit {
     }
   }
   onGetdateData(data: any)
-  {
+  {	
 	let user = this.usr.getUserDetails(false);
-	this.jsonObj['resourceOwner'] = user.dentalId;
-	this.jsonObj['firstName'] = data.firstName;
-	this.jsonObj['lastName'] = data.lastName;
+	this.jsonObj['resourceOwner'] = user.emailAddress;
+	this.jsonObj['firstName'] = encode(data.firstName);
+	this.jsonObj['lastName'] = encode(data.lastName);
 	this.jsonObj['dob'] = Date.parse(data.dob);
 	this.jsonObj['email'] = data.email;
-	this.jsonObj['residingState'] = data.residingState;
+	this.jsonObj['residingState'] = encode(data.residingState);
 	this.jsonObj['isActive'] = this.patiantStatus;
 	if(data.refId)
 	{
-	this.jsonObj['refId'] = data.refId;
+	this.jsonObj['refId'] = encode(data.refId);
 	}
 	if(data.phone)
 	{
@@ -178,11 +176,11 @@ export class PatientAddComponent implements OnInit {
 	}
 	if(data.city)
 	{
-	this.jsonObj['city'] = data.city;
+	this.jsonObj['city'] = encode(data.city);
 	}
 	if(data.address)
 	{
-	this.objAddress['street'] = data.address;
+	this.objAddress['street'] = encode(data.address);
 	this.jsonObj['address'] = this.objAddress;
 	}
 	if(data.gender)
@@ -209,10 +207,11 @@ export class PatientAddComponent implements OnInit {
       form.form.markAllAsTouched();
       return;
     }
+	this.sending = true;
 	if(form.value.image)
 	{
 		let requests = this.attachmentFiles.map((object) => {
-		  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+		  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 		});
 		Promise.all(requests)
 		  .then((values) => {
@@ -262,19 +261,19 @@ export class PatientAddComponent implements OnInit {
 	
 	if(str == 'medication')
 	{
-	this.medications[i].medication=event.target.value;
+	this.medications[i].medication=encode(event.target.value);
 	}
 	if(str == 'dosage')
 	{
-	this.medications[i].dosage=event.target.value;
+	this.medications[i].dosage=encode(event.target.value);
 	}
 	if(str == 'duration')
 	{
-	this.medications[i].duration=event.target.value;
+	this.medications[i].duration=encode(event.target.value);
 	}
 	if(str == 'notes')
 	{
-	this.medications[i].notes=event.target.value;
+	this.medications[i].notes=encode(event.target.value);
 	}
 	//alert(JSON.stringify(this.medications));
   }

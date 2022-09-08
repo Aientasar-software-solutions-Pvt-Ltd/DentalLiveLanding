@@ -12,7 +12,7 @@
 		<h3>Milestones</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a routerLink="/milestones/milestone-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Milestone</a>
+		<a routerLink="/milestones/milestone-add/0" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Milestone</a>
 	</div>
 </div>
 <div class="row align-items-center">
@@ -34,7 +34,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-body p-0 pb-3">
+			<ng-container class="mt-3" *ngIf="isLoadingData">
+				<div class="mt-5 w-100"></div>
+				<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+				[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+				</ngx-shimmer-loading>
+			</ng-container>
+			<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 				<div class="table-responsive">
 					<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light">
@@ -85,15 +91,15 @@
 								</td>  
 								<td>
 									<div class="d-flex">
-										<a href="javascript:void(0);" class="me-1" (click)="editMilestone(data.milestoneId)">
+										<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
-										<a routerLink="javascript:void(0);" (click)="viewmilestone(data.milestoneId)" class="me-1">
+										<a href="/milestones/milestone-details/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons fs-4 text-light-green">
 												visibility
 											</i>
 										</a>
-										<a routerLink="javascript:void(0);" (click)="deletemilestone(data.milestoneId)" class="me-1">
+										<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
 											<i class="material-icons fs-4 text-danger">close</i>
 										</a>
 									</div>

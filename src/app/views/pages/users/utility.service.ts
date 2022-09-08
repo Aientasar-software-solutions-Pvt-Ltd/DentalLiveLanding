@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as jsonschema from 'jsonschema';
 import * as CryptoJS from 'crypto-js';
@@ -73,7 +73,7 @@ export class UtilityService {
 
   getUserDetails() {
     try {
-      let user = sessionStorage.getItem("usr");
+      let user = localStorage.getItem("usr");
       if (!user)
         return false;
       let decrypt = JSON.parse(CryptoJS.AES.decrypt(user, environment.decryptKey).toString(CryptoJS.enc.Utf8));
@@ -81,17 +81,17 @@ export class UtilityService {
         return false;
       return decrypt;
     } catch (e) {
-      sessionStorage.removeItem("usr");
+      localStorage.removeItem("usr");
       return false;
     }
   }
 
-  uploadBinaryData(objectName, binaryData, s3BucketName) {
+  uploadBinaryData(objectName, binaryData, module) {
     var that = this;
     return new Promise(function (resolve, reject) {
-      that.getPreSignedUrl(objectName, s3BucketName, binaryData.type).then((url) => {
-        that.saveDataS3(binaryData, url).then(() => {
-          resolve({ 'name': objectName, 'url': url });
+      that.getPreSignedUrl(objectName, module, 'put', binaryData.type).then((response) => {
+        that.saveDataS3(binaryData, response["url"]).then(() => {
+          resolve(response["name"]);
         }).catch((e) => {
           console.log(e);
           reject("Failed to Upload");
@@ -103,11 +103,16 @@ export class UtilityService {
     });
   }
 
-  async getPreSignedUrl(objectName, s3BucketName, ext) {
-    let data = { "name": objectName, 'type': 'put', 'ext': ext, "storage": s3BucketName }
-    let Response = await this.http.post("https://oihqs7mi22.execute-api.us-west-2.amazonaws.com/default/createPreSignedURLSecured", JSON.stringify(data)).toPromise();
-    let decrypt = CryptoJS.AES.decrypt(Response['url'], environment.decryptKey).toString(CryptoJS.enc.Utf8);
-    return decrypt;
+  async getPreSignedUrl(objectName, module, type = 'get', media) {
+    let headers = new HttpHeaders();
+    let auth = localStorage.getItem("usr");
+    headers = headers.set('authorization', auth);
+
+    let Response = await this.http.get(`https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name=${objectName}&module=${module}&type=${type}&media=${media}`, {
+      headers: headers
+    }).toPromise();
+
+    return Response;
   }
 
   async saveDataS3(binaryData: any, url: any) {
@@ -2458,6 +2463,36 @@ export class UtilityService {
       },
       "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/threads",
       "bucket": 'dentallive-threads',
+      "bucketUrl": "https://dentallive-users.s3.us-west-2.amazonaws.com/"
+    },
+    "userLogin": {
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "resourceOwner": {
+            "type": "string"
+          },
+          "dentalId": {
+            "type": "string"
+          },
+          "emailAddress": {
+            "type": "string"
+          },
+          "lastLoggedIn": {
+            "type": "integer"
+          },
+          "lastLoggedOut": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "dentalId",
+          "emailAddress"
+        ]
+      },
+      "ApiUrl": "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/login",
+      "bucket": 'login',
       "bucketUrl": "https://dentallive-users.s3.us-west-2.amazonaws.com/"
     }
   }

@@ -13,11 +13,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./work-orders-list.component.css']
 })
 export class WorkOrdersListComponent implements OnInit {
-
+	isLoadingData = true;
 	masterSelected:boolean;
 	tabledata:any;
 	checkedList:any;
-	
+	shimmer = Array;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
@@ -55,11 +55,11 @@ export class WorkOrdersListComponent implements OnInit {
 	getallworkorder() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
-		{
+		{/* 
 			swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 			//let caseId = sessionStorage.getItem("caseId");
 			//if(caseId != '')
@@ -76,7 +76,8 @@ export class WorkOrdersListComponent implements OnInit {
 					this.tabledata = Array();
 					if(GetAllData.length == '0')
 					{
-						swal.close();
+						//swal.close();
+						this.isLoadingData = false;
 					}
 					for(var k = 0; k < GetAllData.length; k++)
 					{
@@ -200,7 +201,8 @@ export class WorkOrdersListComponent implements OnInit {
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 				}
 				}, (error) => {
 				  swal( 'Unable to fetch data, please try again');

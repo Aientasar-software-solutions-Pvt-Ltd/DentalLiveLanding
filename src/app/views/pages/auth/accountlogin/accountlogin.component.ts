@@ -6,6 +6,7 @@ import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-s
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccountService } from '../../account.service';
+import "@lottiefiles/lottie-player";
 @Component({
   selector: 'app-accountlogin',
   templateUrl: './accountlogin.component.html',
@@ -17,7 +18,7 @@ export class AccountloginComponent implements OnInit {
   constructor(private authServiceSocial: SocialAuthService, private accService: AccountService, private dataService: ApiDataService, private utility: UtilityService,) { }
 
   ngOnInit() {
-    sessionStorage.removeItem("usr");
+    localStorage.removeItem("usr");
     this.sending = false;
   };
 

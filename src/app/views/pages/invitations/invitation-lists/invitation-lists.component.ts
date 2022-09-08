@@ -17,8 +17,9 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 })
 export class InvitationListsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	
+	isLoadingData = true;
 	id:any = "Received";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
 	}
@@ -129,24 +130,24 @@ export class InvitationListsComponent implements OnInit {
 	}*/
 	
 	getInviteListing() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
-		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		//url += "?invitedUserId="+user.dentalId;
-		url += "?resourceOwner="+user.dentalId;
+		url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
 				let GetAllData = JSON.parse(Response.toString());
+				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
 				if(GetAllData.length == '0')
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 				}
 				for(var k = 0; k < GetAllData.length; k++)
 				{
@@ -255,29 +256,30 @@ export class InvitationListsComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObjInvite));
 		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText');
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1);
 		}
 		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText');
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1);
 		}
 		
 	};
 	
 	getInviteSubmitData(invitationId: any, status_value: any) {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitationId="+invitationId;
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				//swal.close();
+				this.isLoadingData = false;
 				this.getSubmitData = JSON.parse(Response.toString());
 				this.case_id = this.getSubmitData.caseId;
-				this.patient_id = this.getSubmitData.patient_id;
+				this.patient_id = this.getSubmitData.patientId;
 				this.patient_name = this.getSubmitData.patientName;
 				this.invitation_id = this.getSubmitData.invitationId;
 				this.invited_user_mail = this.getSubmitData.invitedUserMail;
@@ -301,13 +303,14 @@ export class InvitationListsComponent implements OnInit {
 	}
 	
 	getInviteListingReceived() {
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?invitedUserId="+user.dentalId;
+		url += "?invitedUserMail="+user.emailAddress;
+		//alert(url);
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
@@ -315,10 +318,7 @@ export class InvitationListsComponent implements OnInit {
 				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.inviteReceivedData = Array();
-				if(GetAllData.length == '0')
-				{
-					swal.close();
-				}
+				this.isLoadingData = false;
 				for(var k = 0; k < GetAllData.length; k++)
 				{
 					this.inviteReceivedData.push({
@@ -341,6 +341,7 @@ export class InvitationListsComponent implements OnInit {
 					this.getuserdetailsallRecvd(GetAllData[k].resourceOwner,k);
 					this.getcasedetailsRecvd(GetAllData[k].caseId,k);
 				}
+				//alert(JSON.stringify(this.inviteReceivedData));
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -385,15 +386,14 @@ export class InvitationListsComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.inviteReceivedData[index].userName = name;
-			//alert(JSON.stringify(this.inviteReceivedData));
 		}
 		}, (error) => {
 		  swal( 'Unable to fetch data, please try again');

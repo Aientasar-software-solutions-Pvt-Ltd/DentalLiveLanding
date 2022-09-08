@@ -7,8 +7,10 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-milestone-add',
@@ -16,6 +18,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
   styleUrls: ['./milestone-add.component.css']
 })
 export class MilestoneAddComponent implements OnInit {
+	sending: boolean;
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	public isvalidDate = false;
 	
@@ -24,7 +27,8 @@ export class MilestoneAddComponent implements OnInit {
 	public patientid = '';
 	public casesName = '';
 	public patientName = '';
-	checkCase = sessionStorage.getItem("checkCase");
+	public parmCaseId = '';
+	checkCase = localStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -37,7 +41,7 @@ export class MilestoneAddComponent implements OnInit {
 	  reminder: 0,
 	}
 	tabledata:any;
-  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
   
 	back(): void {
 		this.location.back()
@@ -45,6 +49,7 @@ export class MilestoneAddComponent implements OnInit {
 	ngOnInit(): void {
 		this.getCaseDetails();
 		this.getAllCases();
+		this.sending = false;
 	}
 	
 	onSubmitMilestone(form: NgForm){
@@ -68,7 +73,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientName;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -80,7 +85,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['reminder'] = Number(data.reminder);
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = sessionStorage.getItem('backurl');
+		const backurl = localStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', backurl, 'post', '','description');
 	}
@@ -89,15 +94,12 @@ export class MilestoneAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		this.sending = true;
 		let url = this.utility.apiData.userCases.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				this.sending = false;
 				this.tabledataAll = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
@@ -135,8 +137,8 @@ export class MilestoneAddComponent implements OnInit {
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
-		if(caseId != '')
+		let caseId = this.parmCaseId;
+		if(caseId != 0)
 		{
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)

@@ -4,10 +4,12 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import "@lottiefiles/lottie-player";
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-patient-edit',
@@ -19,12 +21,19 @@ export class PatientEditComponent implements OnInit {
 saveActiveInactive: boolean = false;
 
 public patiantStatus = false;
+sending: boolean;
 onActiveInactiveChanged(value:boolean){
 	this.saveActiveInactive = value;
 	this.patiantStatus = value;
 }
     public tabledata:any;
-  
+	patientfirstName:any;
+	patientlastName:any;
+	patientrefId:any;
+	patientAddressStreet:any;
+	patientCity:any;
+	patientresidingState:any;
+	
 	public jsonObj = {
 	  firstName: '',
 	  lastName: '',
@@ -91,7 +100,7 @@ onActiveInactiveChanged(value:boolean){
 	//public objMedicationLength: any[] = []
 	public attachmentFiles: any[] = []
 	paramPatientId: any;
-	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
+	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) {
 		this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
 	}
 
@@ -99,12 +108,10 @@ onActiveInactiveChanged(value:boolean){
 		this.getallpatiant();
 	}
 	getallpatiant() {
+		this.sending = true;
 		this.tabledata = '';
 		this.objInsuranceview = '';
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		
 		//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
@@ -116,9 +123,16 @@ onActiveInactiveChanged(value:boolean){
 		.subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				this.sending = false;
 				this.tabledata = JSON.parse(Response.toString());
 				//alert(this.tabledata.image);
+				this.patientfirstName = decode(this.tabledata.firstName);
+				this.patientlastName = decode(this.tabledata.lastName);
+				this.patientrefId = decode(this.tabledata.refId);
+				this.patientAddressStreet = decode(this.tabledata.address.street);
+				this.patientCity = decode(this.tabledata.city);
+				this.patientresidingState = decode(this.tabledata.residingState);
+				
 				this.patientImage = this.tabledata.image;
 				this.saveActiveInactive = this.tabledata.isActive;
 				if(this.tabledata.medication.length > 0)
@@ -255,13 +269,14 @@ onActiveInactiveChanged(value:boolean){
 	}
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		//alert(this.cv.returnCvfast().isTrue);
-		this.jsonObj['firstName'] = data.firstName;
-		this.jsonObj['lastName'] = data.lastName;
+		this.jsonObj['firstName'] = encode(data.firstName);
+		this.jsonObj['lastName'] = encode(data.lastName);
 		this.jsonObj['dob'] = Date.parse(data.dob);
 		this.jsonObj['email'] = data.email;
 		this.jsonObj['patientId'] = data.patientId;
-		this.jsonObj['residingState'] = data.residingState;
+		this.jsonObj['residingState'] = encode(data.residingState);
 		this.jsonObj['isActive'] = this.patiantStatus;
 		if(data.refId)
 		{
@@ -273,11 +288,11 @@ onActiveInactiveChanged(value:boolean){
 		}
 		if(data.city)
 		{
-		this.jsonObj['city'] = data.city;
+		this.jsonObj['city'] = encode(data.city);
 		}
 		if(data.address)
 		{
-		this.objAddress['street'] = data.address;
+		this.objAddress['street'] = encode(data.address);
 		this.jsonObj['address'] = this.objAddress;
 		}
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
@@ -313,7 +328,7 @@ onActiveInactiveChanged(value:boolean){
 		if(form.value.image)
 		{
 			let requests = this.attachmentFiles.map((object) => {
-			  return this.utilitydev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {
@@ -413,19 +428,19 @@ onActiveInactiveChanged(value:boolean){
 	}
 		if(str == 'medication')
 		{
-		this.medicationsArray[i].medication=event.target.value;
+		this.medicationsArray[i].medication=encode(event.target.value);
 		}
 		if(str == 'dosage')
 		{
-		this.medicationsArray[i].dosage=event.target.value;
+		this.medicationsArray[i].dosage=encode(event.target.value);
 		}
 		if(str == 'duration')
 		{
-		this.medicationsArray[i].duration=event.target.value;
+		this.medicationsArray[i].duration=encode(event.target.value);
 		}
 		if(str == 'notes')
 		{
-		this.medicationsArray[i].notes=event.target.value;
+		this.medicationsArray[i].notes=encode(event.target.value);
 		}
 		//alert(JSON.stringify(this.medications));
   }

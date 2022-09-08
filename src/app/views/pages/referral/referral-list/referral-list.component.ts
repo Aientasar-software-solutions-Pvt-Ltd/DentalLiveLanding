@@ -13,22 +13,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./referral-list.component.css']
 })
 export class ReferralListComponent implements OnInit {
-
+	isLoadingData = true;
 	masterSelected:boolean;
 	tabledata:any;
 	detailsdata:any;
 	checkedList:any;
-	
+	shimmer = Array;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 
 	ngOnInit(): void {
-		sessionStorage.setItem('checkCase', '');
-		sessionStorage.setItem('caseId', '');
-		sessionStorage.setItem('checkmilestoneidref', '');
-		sessionStorage.setItem('backurl', '/referral/referral-list');
+		localStorage.setItem('checkCase', '');
+		localStorage.setItem('caseId', '');
+		localStorage.setItem('checkmilestoneidref', '');
+		localStorage.setItem('backurl', '/referrals/referral-list');
 		this.getallreferrals();
 		this.getCaseDetails();
 		this.dtOptions = {
@@ -59,13 +59,13 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -78,6 +78,11 @@ export class ReferralListComponent implements OnInit {
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					//alert(JSON.stringify(GetAllData));
+					if(GetAllData.length == '0')
+					{
+						//swal.close();
+						this.isLoadingData = false;
+					}
 					this.tabledata = Array();
 					for(var k = 0; k < GetAllData.length; k++)
 					{
@@ -137,13 +142,13 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			
 			if(caseId != '')
 			{
@@ -162,16 +167,6 @@ export class ReferralListComponent implements OnInit {
 			  return false;
 			});
 		}
-	}
-	
-	viewReferralDetails(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-details/'+referralId]);
-	}
-	
-	editReferrals(referralId: any) {
-		//sessionStorage.setItem('referralId', referralId);
-		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
 	onSubmit(form: NgForm) {
@@ -237,7 +232,8 @@ export class ReferralListComponent implements OnInit {
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 				}
 				}, (error) => {
 				  swal( 'Unable to fetch data, please try again');

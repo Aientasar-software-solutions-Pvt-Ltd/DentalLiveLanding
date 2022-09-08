@@ -13,7 +13,7 @@ export class AccdetailsService {
   constructor(private router: Router) { }
   getUserDetails(redirect = true) {
     try {
-      let user = sessionStorage.getItem("usr");
+      let user = localStorage.getItem("usr");
       if (user) {
         let decrypt = JSON.parse(CryptoJS.AES.decrypt(user, environment.decryptKey).toString(CryptoJS.enc.Utf8));
         if (decrypt.exp >= Date.now()) {
@@ -21,7 +21,7 @@ export class AccdetailsService {
         }
       }
     } catch (e) { }
-    sessionStorage.removeItem("usr");
+    localStorage.removeItem("usr");
     this.router.navigate(['/auth/login']);
     return false;
   }

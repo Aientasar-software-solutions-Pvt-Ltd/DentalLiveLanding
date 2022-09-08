@@ -11,6 +11,7 @@ import { PatientCaseListComponent } from './patient-case-list/patient-case-list.
 import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Cvfast } from 'src/app/cvfast/cvfast.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 const routes: Routes = [
   {
     path: '',
@@ -63,6 +64,7 @@ const routes: Routes = [
     FormsModule,
     PickerModule,
     RouterModule.forChild(routes),
+	NgxShimmerLoadingModule ,
     DataTablesModule,
     ReactiveFormsModule
   ],

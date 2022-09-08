@@ -13,6 +13,7 @@ import { WorkOrderEditComponent } from './work-order-edit/work-order-edit.compon
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
 import { WorkOrderGuideComponent } from './work-order-guide/work-order-guide.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 const routes: Routes = [
   {
@@ -66,7 +67,8 @@ const routes: Routes = [
 	NgSelectModule,
     AutocompleteLibModule,
 	PatientsModule,
-    ReactiveFormsModule					 
+    ReactiveFormsModule,				 
+    NgxShimmerLoadingModule					 
   ],
    schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

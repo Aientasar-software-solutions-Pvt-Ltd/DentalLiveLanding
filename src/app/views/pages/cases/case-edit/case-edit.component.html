@@ -26,7 +26,15 @@
 		<div class="card shadow-sm">
 			<div class="card-body">
 				<div class="row mt-2">
-					<div class="col-md-12">
+					<div *ngIf="sending" class="row">
+						<div class="col-md-12">
+							<lottie-player class="mt-3 m-auto"
+							src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+							background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+							<h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+						</div>
+					</div>
+					<div *ngIf="!sending" class="col-md-12">
 						<form  #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 							<div class="row">
 								<div class="col-md-6"> 
@@ -39,7 +47,7 @@
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title</label>
-										<input type="text" class="form-control" name="title" id="title" ngModel="{{this.tabledata.title}}">
+										<input type="text" class="form-control" name="title" id="title" ngModel="{{this.caseTitle}}">
 									</div>
 								</div>
 								<div class="col-md-6"> 
@@ -73,7 +81,7 @@
 											</div>
 											<div class="col-12 col-sm-12 col-md-12mb-2"  *ngIf="(this.caseType == false)">
 												<div class="form-check form-check-inline">
-													<label class="form-check-label text-danger" >Please select at least one casetype!</label>
+													<label class="form-check-label text-danger" >Please select atleast one case type !</label>
 												</div>
 											</div>
 											<!-- <div class="col-6 col-sm-4 col-md-3 mb-2">

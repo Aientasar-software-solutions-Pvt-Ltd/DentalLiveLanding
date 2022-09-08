@@ -5,7 +5,6 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
@@ -17,6 +16,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 })
 export class MilestoneAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	sending = false;
 	public isvalidDate = false;
 	
 	public allcases: any[] = []
@@ -37,7 +37,7 @@ export class MilestoneAddComponent implements OnInit {
 	  reminder: 0,
 	}
 	tabledata:any;
-  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { }
   
 	back(): void {
 		this.location.back()
@@ -65,6 +65,7 @@ export class MilestoneAddComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
+		this.sending = true;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientName;
@@ -135,7 +136,7 @@ export class MilestoneAddComponent implements OnInit {
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("invitecaseId");
+		let caseId = localStorage.getItem("invitecaseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

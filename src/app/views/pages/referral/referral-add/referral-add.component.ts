@@ -8,9 +8,9 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
-
+import {encode} from 'html-entities';
 
 @Component({
   selector: 'app-referral-add',
@@ -25,14 +25,14 @@ export class ReferralAddComponent implements OnInit {
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
     selectedCity = '';
-	
+	public parmCaseId = '';
 	public allcases: any[] = []
 	public caseid = '';
 	public patientid = '';
 	public casesName = '';
 	public patientName = '';
-	milestoneid = sessionStorage.getItem("checkmilestoneidref");
-	checkCase = sessionStorage.getItem("checkCase");
+	milestoneid = localStorage.getItem("checkmilestoneidref");
+	checkCase = localStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -48,7 +48,7 @@ export class ReferralAddComponent implements OnInit {
 	minDate = new Date();
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
 
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
@@ -94,7 +94,7 @@ export class ReferralAddComponent implements OnInit {
 		{
 		this.jsonObj['milestoneId'] = data.milestoneid;
 		}
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -109,7 +109,7 @@ export class ReferralAddComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = sessionStorage.getItem('backurl');
+		const backurl = localStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', backurl, 'post', '','notes');
 	}
@@ -262,8 +262,8 @@ export class ReferralAddComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCases.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
-			if(caseId != '')
+			let caseId = this.parmCaseId;
+			if(caseId != 0)
 			{
 				swal("Processing...please wait...", {
 				  buttons: [false, false],

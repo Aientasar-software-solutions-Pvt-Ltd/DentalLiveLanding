@@ -20,9 +20,11 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 })
 export class ReferralDetailsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	isLoadingData = true;
 	show = false;
 	show1 = false;
 	id:any = "tab1";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
 	}
@@ -118,10 +120,10 @@ export class ReferralDetailsComponent implements OnInit {
   
 	getReferralDetails() {
 		this.tabledata = '';
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let referralId = this.referralId;
@@ -134,7 +136,8 @@ export class ReferralDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					this.setcvFast(this.tabledata.notes);
 					this.toothData = this.tabledata.toothguide;
@@ -228,13 +231,13 @@ export class ReferralDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			swal("Processing...please wait...", {
+			/* swal("Processing...please wait...", {
 			  buttons: [false, false],
 			  closeOnClickOutside: false,
-			});
+			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = sessionStorage.getItem("caseId");
+			let caseId = localStorage.getItem("caseId");
 			
 			if(caseId != '')
 			{
@@ -244,7 +247,8 @@ export class ReferralDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.detailsdata = JSON.parse(Response.toString());
 					//alert(JSON.stringify(this.detailsdata));
 				}
@@ -302,7 +306,7 @@ export class ReferralDetailsComponent implements OnInit {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  this.getReferralDetails();
 		  swal( 'Referral Due Date updated successfully');
-		  //this.router.navigate(['/referral/referral-details']);
+		  //this.router.navigate(['/referrals/referral-details']);
 		}, error => {
 		   if (error.status === 404)
 			swal('E-Mail ID does not exists,please signup to continue');

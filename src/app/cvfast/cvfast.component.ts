@@ -1,6 +1,5 @@
 //@ts-nocheck
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import Swal from 'sweetalert2';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -8,7 +7,7 @@ import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import * as MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
 Wavesurfer.microphone = MicrophonePlugin;
 import { v4 as uuidv4 } from "uuid";
-import swal from 'sweetalert2';
+import Swal from 'sweetalert';
 import Webcam from 'webcam-easy';
 import * as Record from 'videojs-record/dist/videojs.record.js';
 import { ApiDataService } from '../views/pages/users/api-data.service';
@@ -21,6 +20,7 @@ import { UtilityService } from '../views/pages/users/utility.service';
   styleUrls: ['./cvfast.component.css']
 })
 export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
+  sending: boolean;
   // @Input() module: any;
   private VideoConfig: any;
   VideoPlayer: any;
@@ -251,7 +251,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
       let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
       Array.from(event.target.files).forEach(element => {
         if (!allowedtypes.some(type => element['type'].includes(type))) {
-          swal.fire("File Extenion Not Allowed");
+          Swal("File Extenion Not Allowed");
           return;
         } else {
           this.attachmentFiles.push({ name: this.getUniqueName(element['name']), binaryData: element });
@@ -260,7 +260,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   removeFiles(index, attachment) {
-    swal.fire({
+    Swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this file!",
       icon: "warning",
@@ -320,7 +320,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   pipEnabled = false;
   togglePictureInPicture() {
     if (!('pictureInPictureEnabled' in document)) {
-      swal.fire("Your Browser dosent support this feature,please use Goole Chrome or Safari for this Feature");
+      Swal("Your Browser dosent support this feature,please use Goole Chrome or Safari for this Feature");
     } else {
       if (!this.pipEnabled) {
         this.popupVideoPlayer.record().getDevice();
@@ -344,6 +344,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
 	this.processing = true;
+	
     let requests = this.attachmentFiles.map((object) => {
       if (object["binaryData"]) {
         this.processingcheck = true;
@@ -352,13 +353,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     });
 	if(this.processingcheck == true)
 	{
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			timer: 2200
-		});
 		Promise.all(requests)
 		.then((values) => {
 			this.processing = false;
@@ -389,19 +383,22 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 			jsonObj[field] = this.cvfast;
 			}
+			this.sending = true;
 			//alert(JSON.stringify(jsonObj));
 			if(datatype == 'put')
 			{
 				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
+					//Swal.close();
+					this.sending = false;
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
-						Swal.fire(message);
+						Swal(message);
 					}
 					if(sessionName)
 					{
-						sessionStorage.setItem(sessionName, AllDate.resourceId);
+						localStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -416,28 +413,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}, error => {
 				  if (error.status === 404)
 				  {
-					Swal.fire('E-Mail ID does not exists,please signup to continue');
+					Swal('E-Mail ID does not exists,please signup to continue');
 				  }
 				  else if (error.status === 403)
 				  {
-					Swal.fire('Account Disabled,contact Dental-Live');
+					Swal('Account Disabled,contact Dental-Live');
 				  }
 				  else if (error.status === 400)
 				  {
-					Swal.fire('Wrong Password,please try again');
+					Swal('Wrong Password,please try again');
 				  }
 				  else if (error.status === 401)
 				  {
-					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  }
 				  else if (error.status === 428)
 				  {
-					Swal.fire(error.error);
+					Swal(error.error);
 				  }
 				  else
 				  {
 					let   errormsg = error;
-					Swal.fire('Unable to fetch the data, please try again');
+					Swal('Unable to fetch the data, please try again');
 				  }
 				});
 			}
@@ -445,14 +442,16 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			{
 				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				.subscribe(Response => {
+					this.sending = false;
+					//Swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					if(message)
 					{
-						Swal.fire(message);
+						Swal(message);
 					}
 					if(sessionName)
 					{
-						sessionStorage.setItem(sessionName, AllDate.resourceId);
+						localStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -467,28 +466,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}, error => {
 				  if (error.status === 404)
 				  {
-					Swal.fire('E-Mail ID does not exists,please signup to continue');
+					Swal('E-Mail ID does not exists,please signup to continue');
 				  }
 				  else if (error.status === 403)
 				  {
-					Swal.fire('Account Disabled,contact Dental-Live');
+					Swal('Account Disabled,contact Dental-Live');
 				  }
 				  else if (error.status === 400)
 				  {
-					Swal.fire('Wrong Password,please try again');
+					Swal('Wrong Password,please try again');
 				  }
 				  else if (error.status === 401)
 				  {
-					Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 				  }
 				  else if (error.status === 428)
 				  {
-					Swal.fire(error.error);
+					Swal(error.error);
 				  }
 				  else
 				  {
 					let   errormsg = error;
-					Swal.fire('Unable to fetch the data, please try again');
+					Swal('Unable to fetch the data, please try again');
 				  }
 				});
 			}
@@ -502,13 +501,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 	}
 	else
 	{
-		var sweet_loader = '<div class="sweet_loader"><img style="width:50px;" src="https://www.boasnotas.com/img/loading2.gif"/></div>';
-		swal.fire({
-			html: sweet_loader,
-			showConfirmButton: false,
-			allowOutsideClick: false,     
-			timer: 2200
-		});
+		this.sending = true;
 		// start for edit cvfast by conmverthink
 		this.cvfast = {
           text: this.baseText,
@@ -524,18 +517,21 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 		jsonObj[field] = this.cvfast;
 		}
+		//alert(JSON.stringify(jsonObj));
 		if(datatype == 'put')
 		{
 			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
+				//Swal.close();
+				this.sending = false;
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{
-					Swal.fire(message);
+					Swal(message);
 				}
 				if(sessionName)
 				{
-					sessionStorage.setItem(sessionName, AllDate.resourceId);
+					localStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{
@@ -550,28 +546,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			}, error => {
 			  if (error.status === 404)
 			  {
-				Swal.fire('E-Mail ID does not exists,please signup to continue');
+				Swal('E-Mail ID does not exists,please signup to continue');
 			  }
 			  else if (error.status === 403)
 			  {
-				Swal.fire('Account Disabled,contact Dental-Live');
+				Swal('Account Disabled,contact Dental-Live');
 			  }
 			  else if (error.status === 400)
 			  {
-				Swal.fire('Wrong Password,please try again');
+				Swal('Wrong Password,please try again');
 			  }
 			  else if (error.status === 401)
 			  {
-				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  }
 			  else if (error.status === 428)
 			  {
-				Swal.fire(error.error);
+				Swal(error.error);
 			  }
 			  else
 			  {
 				let   errormsg = error;
-				Swal.fire('Unable to fetch the data, please try again');
+				Swal('Unable to fetch the data, please try again');
 			  }
 			});
 		}
@@ -579,14 +575,16 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		{
 			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 			.subscribe(Response => {
+				this.sending = false;
+				//Swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				if(message)
 				{
-					Swal.fire(message);
+					Swal(message);
 				}
 				if(sessionName)
 				{
-					sessionStorage.setItem(sessionName, AllDate.resourceId);
+					localStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{
@@ -601,28 +599,28 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			}, error => {
 			  if (error.status === 404)
 			  {
-				Swal.fire('E-Mail ID does not exists,please signup to continue');
+				Swal('E-Mail ID does not exists,please signup to continue');
 			  }
 			  else if (error.status === 403)
 			  {
-				Swal.fire('Account Disabled,contact Dental-Live');
+				Swal('Account Disabled,contact Dental-Live');
 			  }
 			  else if (error.status === 400)
 			  {
-				Swal.fire('Wrong Password,please try again');
+				Swal('Wrong Password,please try again');
 			  }
 			  else if (error.status === 401)
 			  {
-				Swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 			  }
 			  else if (error.status === 428)
 			  {
-				Swal.fire(error.error);
+				Swal(error.error);
 			  }
 			  else
 			  {
 				let   errormsg = error;
-				Swal.fire('Unable to fetch the data, please try again');
+				Swal('Unable to fetch the data, please try again');
 			  }
 			});
 		}

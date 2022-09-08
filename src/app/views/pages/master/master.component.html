@@ -7,12 +7,18 @@
 		<a routerLink="/patients">Patients</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/patients/patient-case-list">Patient Cases</a>
+		<a routerLink="/patients/patient-details/{{this.tabledata.patientId}}">Patient Cases</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Case Details
 	</li>
 </ol>
+<ng-container class="mt-3" *ngIf="isLoadingData">
+  <div class="mt-5 w-100"></div>
+  <ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+	[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+  </ngx-shimmer-loading>
+</ng-container>
 <div>
 	<div class="page-header d-sm-flex">
 		<div class="d-sm-flex d-block">
@@ -51,13 +57,13 @@
 			<div class="box-body">
 				<!-- Nav tabs -->
 				<ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist" style="overflow-x: auto;">
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab1'" (click)="tabClick('tab1')" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab2'" (click)="tabClick('tab2')" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab3'" (click)="tabClick('tab3')" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab4'" (click)="tabClick('tab4')" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab5'" (click)="tabClick('tab5')" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab6'" (click)="tabClick('tab6')" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
-					<li class="nav-item"><a href="javascript:void(0);" [class.active]="tab === 'tab7'" (click)="tabClick('tab7')" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
+					<li class="nav-item"><a href="/cases-view/caseDetails/{{this.paramCaseId}}" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
+					<li class="nav-item"><a href="/cases-view/threads/{{this.paramCaseId}}" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
+					<li class="nav-item"><a href="/cases-view/colleagues/{{this.paramCaseId}}" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
+					<li class="nav-item"><a href="/cases-view/workorders/{{this.paramCaseId}}" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
+					<li class="nav-item"><a href="/cases-view/referrals/{{this.paramCaseId}}" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
+					<li class="nav-item"><a href="/cases-view/milestones/{{this.paramCaseId}}" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
+					<li class="nav-item"><a href="/cases-view/casefiles/{{this.paramCaseId}}" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
 				</ul>
 				<!-- Tab panes -->
 				<div class="panel-body tabs-menu-body">
@@ -167,7 +173,7 @@
 													</div>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end">
-													<a href="javascript:void(0);" (click)="editcase(tabledata.caseId)" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
+													<a href="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
 												<!--<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
 													<div class="d-flex flex-column align-items-end">
@@ -205,14 +211,14 @@
 										</div>
 									</div>
 								</div>
-								<div class="card-body" 
-								infinite-scroll
-								(scrolled)="onScrollDown($event,this.fromDate)"
-								>
+								
+								<div class="card-body" infinite-scroll (scrolled)="onScrollDown($event,this.fromDate)">
 									<div class="row py-2 border-bottom px-2" *ngFor="let message of messageDataArray; let i = index;">
 										<div class="col-md-4 col-lg-6 d-flex">
-											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-												<img alt="..." src={{this.patientImg}} class="avatar avatar-sm rounded-circle me-2 ">{{message.patientName}}
+											<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+												<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" class="avatar avatar-sm rounded-circle me-2 " />
+												<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="avatar avatar-sm rounded-circle me-2 "/>
+												{{message.patientName}}
 										   </div>
 										   
 										</div>
@@ -322,7 +328,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-body p-0 pb-3">
+										<ng-container class="mt-3" *ngIf="isLoadingData">
+										  <div class="mt-5 w-100"></div>
+										  <ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+											[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+										  </ngx-shimmer-loading>
+										</ng-container>
+										<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 											<div class="table-responsive">
 												<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 													<thead class="thead-light">
@@ -375,10 +387,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a href="javascript:void(0);" (click)="viewColleagueDetails(invite.invitedUserId,invite.caseId);" class="me-1">
+																	<a href="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																	<a *ngIf="(invite.presentStatus != 3)" href="javascript:void(0);" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
+																	<a *ngIf="(invite.presentStatus != 3)" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
 																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
@@ -403,7 +415,7 @@
 													<h5 class="body1 card-title my-2">Work Orders</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addWorkOrders()" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
+													<a href="workorders/work-order-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
 														<i class="bx bx-search"></i>
@@ -413,7 +425,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-body p-0 pb-3">
+										<ng-container class="mt-3" *ngIf="isLoadingData">
+											<div class="mt-5 w-100"></div>
+											<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+											[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+											</ngx-shimmer-loading>
+										</ng-container>
+										<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 											<div class="table-responsive">
 												<table *ngIf="workordersdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
@@ -463,10 +481,10 @@
 
 
 
-																	<a href="javascript:void(0);" class="me-1" (click)="editWorkOrders(data.workorderId)">
+																	<a href="/workorders/work-order-edit/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
-																	<a routerLink="javascript:void(0);" (click)="viewWorkorders(data.workorderId)" class="me-1">
+																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons fs-4 text-light-green">
 																			visibility
 																		</i>
@@ -492,7 +510,7 @@
 													<h5 class="body1 card-title my-2">Referral</h5>
 												</div>
 												<div class="col-md-7">
-													<a (click)="addReferal()" class="btn btn-default my-1 float-end">
+													<a href="referrals/referral-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end">
 														<i class="bx bx-user-plus" aria-hidden="true"></i>
 														Add Referral 
 													</a>
@@ -504,7 +522,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-body p-0 pb-3">
+										<ng-container class="mt-3" *ngIf="isLoadingData">
+											<div class="mt-5 w-100"></div>
+											<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+											[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+											</ngx-shimmer-loading>
+										</ng-container>
+										<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 											<div class="table-responsive">
 											  <table *ngIf="referraldata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 												<thead class="thead-light">
@@ -552,13 +576,13 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a href="javascript:void(0);" class="me-1" (click)="editReferrals(data.referralId)">
+																<a href="/referrals/referral-edit/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a href="javascript:void();" (click)="viewReferralDetails(data.referralId);" class="me-1">
+																<a href="/referrals/referral-details/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a href="javascript:void();" class="me-1" (click)="deletereferral(data.referralId)">
+																<a style="cursor: pointer;" class="me-1" (click)="deletereferral(data.referralId)">
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -582,7 +606,7 @@
 												  <h5 class="body1 card-title my-2">Milestones</h5>
 												</div>
 												<div class="col-md-10 col-lg-9">  
-													<a class="btn btn-default my-1 me-2 float-end" href="javascript:void(0);" (click)="addMilestone(this.tabledata.caseId)">
+													<a class="btn btn-default my-1 me-2 float-end" href="milestones/milestone-add/{{this.tabledata.caseId}}">
 														<i class="bx bx-award"></i> Add Milestone
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
@@ -603,7 +627,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-body p-0 pb-3">
+										<ng-container class="mt-3" *ngIf="isLoadingData">
+											<div class="mt-5 w-100"></div>
+											<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+											[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+											</ngx-shimmer-loading>
+										</ng-container>
+										<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 											<div *ngIf="id === 'listView'">
 												<div class="table-responsive">
 													<table *ngIf="milestonedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
@@ -655,15 +685,15 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a href="javascript:void(0);" class="me-1" (click)="editMilestone(data.milestoneId)">
+																		<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="javascript:void(0);" (click)="viewmilestone(data.milestoneId)" class="me-1">
+																		<a href="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
 																		</a>
-																		<a routerLink="javascript:void(0);" (click)="deletemilestone(data.milestoneId)" class="me-1">
+																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>
@@ -705,7 +735,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-body p-0 pb-3">
+										<ng-container class="mt-3" *ngIf="isLoadingData">
+											<div class="mt-5 w-100"></div>
+											<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+											[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+											</ngx-shimmer-loading>
+										</ng-container>
+										<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 											<div class="table-responsive">
 												<table *ngIf="filesdata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 													<thead class="thead-light">
@@ -752,7 +788,7 @@
 															</td>
 														   
 															<td>
-																<a href="javascript:void(0);" class="me-2" (click)="viewFiles(this.data.dateCreated)">
+																<a href="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>
@@ -844,7 +880,7 @@
 						</div>-->
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Upload File</label>
-							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,audio/*,.pdf,.ppt,.pptx">
+							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept="application/msword,.xls,.xlsx,image/*,video/*,audio/*,.pdf">
 						</div>
 						<!--<div class="col-md-12"> 
 							<label class="form-label body2 text-dark">Created Date</label>

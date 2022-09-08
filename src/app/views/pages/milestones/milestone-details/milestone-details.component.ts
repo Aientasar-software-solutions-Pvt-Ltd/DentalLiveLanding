@@ -18,12 +18,14 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 
 export class MilestoneDetailsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	isLoadingData = true;
 	show = false;
 	show1 = false;
 	id:any = "tab1";
+	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
-		sessionStorage.setItem("tabActive", ids);
+		localStorage.setItem("tabActive", ids);
 	}
 	
 	showComment: any;
@@ -108,7 +110,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.getallmilestone();
 		this.getalltasks();
 		//Set current tab
-		let tabActive = sessionStorage.getItem("tabActive");
+		let tabActive = localStorage.getItem("tabActive");
 		(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	}
 	searchText(event: any) {
@@ -117,23 +119,23 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addWorkOrders(milestoneId: any, caseId: any) {
-		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneid', milestoneId);
-		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['work-orders/work-order-add']);
+		localStorage.setItem('checkCase', '1');
+		localStorage.setItem('checkmilestoneid', milestoneId);
+		localStorage.setItem('caseId', caseId);
+		this.router.navigate(['workorders/work-order-add/'+caseId]);
 	}
 	addReferal(milestoneId: any, caseId: any) {
-		sessionStorage.setItem('checkCase', '1');
-		sessionStorage.setItem('checkmilestoneidref', milestoneId);
-		sessionStorage.setItem('caseId', caseId);
-		this.router.navigate(['referral/referral-add']);
+		localStorage.setItem('checkCase', '1');
+		localStorage.setItem('checkmilestoneidref', milestoneId);
+		localStorage.setItem('caseId', caseId);
+		this.router.navigate(['referrals/referral-add/'+caseId]);
 	}
 	getallmilestone() {
 		this.tabledata = '';
-		swal("Processing...please wait...", {
+		/* swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
-		});
+		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
@@ -146,7 +148,8 @@ export class MilestoneDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					//swal.close();
+					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
 					//this.tabledata.description = JSON.stringify(this.tabledata.description);
 					this.descriptionObj.text = this.tabledata.description.text;
@@ -165,8 +168,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addGeneralTask(milestoneId: any, caseId: any) {
-		sessionStorage.setItem('milestoneId', milestoneId);
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('milestoneId', milestoneId);
+		localStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/general-task-add']);
 	}
 	
@@ -174,6 +177,8 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		let milestoneId = this.getmilestoneId;
+		//alert(JSON.stringify(user));
+		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -225,7 +230,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
 		let milestoneId = this.getmilestoneId;
-		
+		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -330,8 +335,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	editGeneralTask(taskId: any, caseId: any, taskType: any) {
-		sessionStorage.setItem('taskId', taskId);
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('taskId', taskId);
+		localStorage.setItem('caseId', caseId);
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-edit/'+taskId]);
 		}
@@ -345,10 +350,13 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	deleteTask(taskId: any) {
+		let milestoneId = this.getmilestoneId;
+		//alert(milestoneId);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		this.dataService.deleteDataRecord(url, taskId, 'taskId').subscribe(Response => {
 			swal('Task deleted successfully');
 			this.getalltasks();
+			
 		}, (error) => {
 		  swal( 'Unable to fetch data, please try again');
 		  return false;
@@ -356,8 +364,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	viewGeneralTask(taskId: any, caseId: any, taskType: any) {
-		sessionStorage.setItem('taskId', taskId);
-		sessionStorage.setItem('caseId', caseId);
+		localStorage.setItem('taskId', taskId);
+		localStorage.setItem('caseId', caseId);
 		
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-view/'+taskId]);

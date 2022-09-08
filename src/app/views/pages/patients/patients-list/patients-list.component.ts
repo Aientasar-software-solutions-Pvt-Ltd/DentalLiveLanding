@@ -7,6 +7,7 @@ import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
+import "@lottiefiles/lottie-player";
 
 @Component({
   selector: 'app-patients-list',
@@ -14,10 +15,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./patients-list.component.css']
 })
 export class PatientsListComponent implements OnInit {
-
+  isLoadingData = true;
   masterSelected:boolean;
   tabledata:any;
   colleaguesData:any;
+  shimmer = Array;
   allMember:any;
   checkedList:any;
 	public loading = false;
@@ -32,9 +34,8 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.getAllMembers();
+	//this.getAllMembers();
 	this.getallpatiant();
-	this.getColleguespatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 	  pagingType: 'full_numbers',
@@ -68,21 +69,52 @@ export class PatientsListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
 		let url = this.utility.apiData.userPatients.ApiUrl;
+		//url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
 				let AllDate = JSON.parse(Response.toString());
 				
 				let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+				this.colleaguesData = Array();	
+				this.tabledata = Array();	
 				//alert(JSON.stringify(patientDate));
-				this.tabledata = patientDate.reverse();
-				//alert(JSON.stringify(this.tabledata[0].isActive));
+				for(var k=0; k < patientDate.length; k++)
+				{
+					//if(patientDate[k].resourceOwner)
+					//{
+						if(user.emailAddress == patientDate[k].resourceOwner)
+						{
+							this.tabledata.push({
+							  resourceOwner: patientDate[k].resourceOwner,
+							  firstName: patientDate[k].firstName,
+							  lastName: patientDate[k].lastName,
+							  dob: patientDate[k].dob,
+							  email: patientDate[k].email,
+							  isActive: patientDate[k].isActive,
+							  dateCreated: patientDate[k].dateCreated,
+							  patientId: patientDate[k].patientId
+							});
+						}
+						else
+						{
+							this.colleaguesData.push({
+							  resourceOwner: patientDate[k].email,
+							  firstName: patientDate[k].firstName,
+							  lastName: patientDate[k].lastName,
+							  dob: patientDate[k].dob,
+							  email: patientDate[k].email,
+							  isActive: patientDate[k].isActive,
+							  dateCreated: patientDate[k].dateCreated,
+							  patientId: patientDate[k].patientId
+							});
+						}
+					//}
+				}
+				this.tabledata = this.tabledata.reverse();
+				this.colleaguesData = this.colleaguesData.reverse();
+				this.isLoadingData = false;
 			}
 		}, (error) => {
 			swal({
@@ -93,11 +125,11 @@ export class PatientsListComponent implements OnInit {
 		}
 	}
 	editpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
+		//localStorage.setItem('patientId', patientId);
 		this.router.navigate(['/patients/patient-edit/'+patientId]);
 	}
 	viewpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
+		//localStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-details/'+patientId]);
 	}
 	deletepatiant(patientId: any) {
@@ -224,14 +256,16 @@ export class PatientsListComponent implements OnInit {
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
 			//url += "&invitedUserId="+user.dentalId;
-			url += "?resourceOwner="+user.dentalId;
-			//url += "&presentStatus=0";
+			url += "?invitedUserMail="+user.emailAddress;
+			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					//alert(JSON.stringify(this.allMember));
+					this.getColleguespatiant();
 					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
@@ -252,30 +286,41 @@ export class PatientsListComponent implements OnInit {
 	}
 	
 	getColleguespatiant() {
-		this.colleaguesData = '';
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		//alert(JSON.stringify(this.allMember));
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			let url1 = this.utility.apiData.userPatients.ApiUrl;
-				//url += "?resourceOwner="+this.allMember[k].invitedUserId;
-				this.dataService.getallData(url1, true).subscribe(Response => {
-					if (Response)
-					{
-						swal.close();
-						let AllDate = JSON.parse(Response.toString());
-						
-						this.colleaguesData = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
-					}
-				}, (error) => {
-				swal({
-					title: 'Unable to fetch data, please try again'
+			this.colleaguesData = Array();	
+			//alert(JSON.stringify(this.allMember[k].patientId));
+			for(var k=0; k < this.allMember.length; k++)
+			{
+				let url1 = this.utility.apiData.userPatients.ApiUrl;
+					url1 += "?patientId="+this.allMember[k].patientId;
+					this.dataService.getallData(url1, true).subscribe(Response => {
+						if (Response)
+						{
+							let AllDate = JSON.parse(Response.toString());
+							//alert(JSON.stringify(AllDate));
+							this.colleaguesData.push({
+							  resourceOwner: AllDate.firstName,
+							  firstName: AllDate.firstName,
+							  lastName: AllDate.lastName,
+							  dob: AllDate.dob,
+							  email: AllDate.email,
+							  isActive: AllDate.isActive,
+							  dateCreated: AllDate.dateCreated,
+							  patientId: AllDate.patientId
+							});
+						}
+					}, (error) => {
+					swal({
+						title: 'Unable to fetch data, please try again'
+					});
+				  return false;
 				});
-			  return false;
-			});
+			}
+			this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+			//alert(JSON.stringify(this.colleaguesData));
 		}
 	}
 }

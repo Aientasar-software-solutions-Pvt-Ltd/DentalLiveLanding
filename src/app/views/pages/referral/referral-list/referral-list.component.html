@@ -12,7 +12,7 @@
 		<h3>Referral</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a routerLink="/referral/referral-add" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Referral</a> 
+		<a routerLink="/referrals/referral-add/0" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Referral</a> 
 	</div>
 </div>
 
@@ -33,7 +33,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-body p-0 pb-3">
+			<ng-container class="mt-3" *ngIf="isLoadingData">
+				<div class="mt-5 w-100"></div>
+				<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
+				[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
+				</ngx-shimmer-loading>
+			</ng-container>
+			<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
 				<div class="table-responsive">
 					<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light text-uppercase">
@@ -70,10 +76,10 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a href="javascript:void(0);" (click)="viewReferralDetails(data.referralId);">
+										<a href="/referrals/referral-details/{{data.referralId}}" >
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a href="javascript:void(0);" class="me-1" (click)="editReferrals(data.referralId)">
+										<a href="/referrals/referral-edit/{{data.referralId}}" class="me-1" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>

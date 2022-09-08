@@ -8,6 +8,8 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import {encode} from 'html-entities';
+import {decode} from 'html-entities';
 
 @Component({
   selector: 'app-general-task-edit',
@@ -41,6 +43,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	editedDate:any;
 	editedstartDate:any;
 	tabledata:any;
+	editedTitle:any;
 	public isvalidDate = false;
 	gettaskId: any;
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
@@ -164,7 +167,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -183,13 +186,13 @@ export class GeneralTaskEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details', 'put', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description');
 		
 	}
 	
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = sessionStorage.getItem("caseId");
+		//let caseId = localStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -243,6 +246,7 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.allMemberEmail = this.editdata.memberMail.split(",");
 				this.allMemberName = this.editdata.memberName.split(",");
 				this.editedstartDate = new Date(this.editdata.startdate);
+				this.editedTitle = decode(this.editdata.title);
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
