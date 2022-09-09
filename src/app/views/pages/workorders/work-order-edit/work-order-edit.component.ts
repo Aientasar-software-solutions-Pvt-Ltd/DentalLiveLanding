@@ -18,7 +18,7 @@ import {decode} from 'html-entities';
   styleUrls: ['./work-order-edit.component.css']
 })
 export class WorkOrderEditComponent implements OnInit {
-	sending: boolean;
+	sending: false;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
@@ -259,7 +259,6 @@ export class WorkOrderEditComponent implements OnInit {
 		let url = this.utility.apiData.userCases.ApiUrl;
 		if(caseId != '')
 		{
-			this.sending = true;
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -269,7 +268,6 @@ export class WorkOrderEditComponent implements OnInit {
 					let caseDtls = JSON.parse(Response.toString());
 					this.casesName = caseDtls.title;
 					this.patientName = caseDtls.patientName;
-					this.sending = false;
 				}
 			}, error => {
 			  if (error.status === 404)
