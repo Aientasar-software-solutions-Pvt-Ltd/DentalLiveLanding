@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userLogin.ApiUrl;
-			let loginResourceId = localStorage.getItem('loginResourceId');
+			let loginResourceId = sessionStorage.getItem('loginResourceId');
 			url += "?emailAddress="+loginResourceId;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)

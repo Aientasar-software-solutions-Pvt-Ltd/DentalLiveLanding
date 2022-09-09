@@ -48,7 +48,7 @@ export class PatientCaseListComponent implements OnInit {
 	}
 	
 	viewCase(caseId: any, patientId: any) {
-		//localStorage.setItem('caseId', caseId);
+		//sessionStorage.setItem('caseId', caseId);
 		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}

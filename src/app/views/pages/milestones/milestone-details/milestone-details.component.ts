@@ -25,7 +25,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
-		localStorage.setItem("tabActive", ids);
+		sessionStorage.setItem("tabActive", ids);
 	}
 	
 	showComment: any;
@@ -115,7 +115,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.getallmilestone();
 		this.getalltasks();
 		//Set current tab
-		let tabActive = localStorage.getItem("tabActive");
+		let tabActive = sessionStorage.getItem("tabActive");
 		(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	}
 	searchText(event: any) {
@@ -124,15 +124,15 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addWorkOrders(milestoneId: any, caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneid', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneid', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['workorders/work-order-add/'+caseId]);
 	}
 	addReferal(milestoneId: any, caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneidref', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneidref', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['referrals/referral-add/'+caseId]);
 	}
 	getallmilestone() {
@@ -176,8 +176,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	
 	addGeneralTask(milestoneId: any, caseId: any) {
 		//alert(milestoneId);
-		localStorage.setItem('milestoneId', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('milestoneId', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/general-task-add']);
 	}
 	
@@ -343,8 +343,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	editGeneralTask(taskId: any, caseId: any, taskType: any) {
-		localStorage.setItem('taskId', taskId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('taskId', taskId);
+		sessionStorage.setItem('caseId', caseId);
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-edit/'+taskId]);
 		}
@@ -371,8 +371,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	viewGeneralTask(taskId: any, caseId: any, taskType: any) {
-		localStorage.setItem('taskId', taskId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('taskId', taskId);
+		sessionStorage.setItem('caseId', caseId);
 		
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-view/'+taskId]);

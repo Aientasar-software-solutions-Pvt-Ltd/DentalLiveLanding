@@ -28,7 +28,7 @@ export class MilestoneAddComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public parmCaseId = '';
-	checkCase = localStorage.getItem("checkCase");
+	checkCase = sessionStorage.getItem("checkCase");
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -85,7 +85,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['reminder'] = Number(data.reminder);
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = localStorage.getItem('backurl');
+		const backurl = sessionStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', backurl, 'post', '','description');
 	}

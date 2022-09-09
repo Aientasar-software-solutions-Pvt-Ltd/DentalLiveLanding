@@ -196,7 +196,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = localStorage.getItem("caseId");
+		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

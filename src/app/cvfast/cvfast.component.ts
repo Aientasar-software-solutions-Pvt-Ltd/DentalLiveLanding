@@ -398,7 +398,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					}
 					if(sessionName)
 					{
-						localStorage.setItem(sessionName, AllDate.resourceId);
+						sessionStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -451,7 +451,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					}
 					if(sessionName)
 					{
-						localStorage.setItem(sessionName, AllDate.resourceId);
+						sessionStorage.setItem(sessionName, AllDate.resourceId);
 					}
 					if(redirectUrl)
 					{
@@ -531,7 +531,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}
 				if(sessionName)
 				{
-					localStorage.setItem(sessionName, AllDate.resourceId);
+					sessionStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{
@@ -584,7 +584,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				}
 				if(sessionName)
 				{
-					localStorage.setItem(sessionName, AllDate.resourceId);
+					sessionStorage.setItem(sessionName, AllDate.resourceId);
 				}
 				if(redirectUrl)
 				{

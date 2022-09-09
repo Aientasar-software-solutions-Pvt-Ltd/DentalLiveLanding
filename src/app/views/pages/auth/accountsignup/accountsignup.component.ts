@@ -30,7 +30,7 @@ export class AccountsignupComponent implements OnInit {
         this.package = params.get('package');
       }
     });
-    localStorage.removeItem("usr");
+    sessionStorage.removeItem("usr");
     this.sending = false;
   }
 

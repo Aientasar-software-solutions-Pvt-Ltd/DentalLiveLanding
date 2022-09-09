@@ -140,7 +140,7 @@ export class FileDetailsComponent implements OnInit {
 	}
 	
 	deleteFile(fileUploadId: any) {
-		let dateCreated = localStorage.getItem("dateCreated");
+		let dateCreated = sessionStorage.getItem("dateCreated");
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		this.dataService.deleteFilesData(url, fileUploadId).subscribe(Response => {
 			swal.fire("Case Files deleted successfully");

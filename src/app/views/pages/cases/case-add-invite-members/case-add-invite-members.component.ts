@@ -59,7 +59,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		  closeOnClickOutside: false,
 		});
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("invitecaseId");
+		let caseId = sessionStorage.getItem("invitecaseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

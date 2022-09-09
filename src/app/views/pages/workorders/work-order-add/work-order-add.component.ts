@@ -32,8 +32,8 @@ export class WorkOrderAddComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public parmCaseId = '';
-	milestoneid = localStorage.getItem("checkmilestoneid");
-	checkCase = localStorage.getItem("checkCase");
+	milestoneid = sessionStorage.getItem("checkmilestoneid");
+	checkCase = sessionStorage.getItem("checkCase");
 	//checkCase = '2';
 	keyword = 'name';
 	public jsonObj = {
@@ -114,7 +114,7 @@ export class WorkOrderAddComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = localStorage.getItem('backurl');
+		const backurl = sessionStorage.getItem('backurl');
 		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes');
 		
 	}

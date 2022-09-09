@@ -110,7 +110,7 @@ export class ReferralEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = localStorage.getItem('backurl');
+		const backurl = sessionStorage.getItem('backurl');
 		
 		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes');
 		
@@ -155,7 +155,7 @@ export class ReferralEditComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			//let caseId = localStorage.getItem("caseId");
+			//let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;

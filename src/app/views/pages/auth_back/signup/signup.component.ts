@@ -27,8 +27,8 @@ export class SignupComponent implements OnInit {
   }
   onRegister(e: any) {
     e.preventDefault();
-    localStorage.setItem('isLoggedin', 'true');
-    if (localStorage.getItem('isLoggedin')) {
+    sessionStorage.setItem('isLoggedin', 'true');
+    if (sessionStorage.getItem('isLoggedin')) {
       this.router.navigate(['/auth/login']);
     }
   }

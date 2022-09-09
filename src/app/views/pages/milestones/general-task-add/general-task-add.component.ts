@@ -59,7 +59,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.selectedMember = this.defaultBindingsList[0];
 		this.getCaseDetails();
 		this.getAllMembers();
-		this.milestoneIdadd = localStorage.getItem("milestoneId");
+		this.milestoneIdadd = sessionStorage.getItem("milestoneId");
 		//alert(this.milestoneIdadd);
 	}
 	getuserdetailsall(userId, index) {
@@ -102,7 +102,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		{
 			this.sending = true;
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			let caseId = localStorage.getItem("caseId");
+			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -211,7 +211,7 @@ export class GeneralTaskAddComponent implements OnInit {
 	
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("caseId");
+		let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

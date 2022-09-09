@@ -181,9 +181,9 @@ export class MasterComponent implements OnInit {
 	}
 	
 	let tabName = (this.paramTabName == 'caseDetails') ? 'tab1' : (this.paramTabName == 'threads') ? 'tab2' : (this.paramTabName == 'colleagues') ? 'tab3' : (this.paramTabName == 'workorders') ? 'tab4' : (this.paramTabName == 'referrals') ? 'tab5' : (this.paramTabName == 'milestones') ? 'tab6' : (this.paramTabName == 'casefiles') ? 'tab7' : 'tab1';
-	localStorage.setItem("masterTab", tabName);
+	sessionStorage.setItem("masterTab", tabName);
 	//Set current tab
-	let masterTab = localStorage.getItem("masterTab");
+	let masterTab = sessionStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
 	this.sending = false;
 	}
@@ -484,7 +484,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			localStorage.setItem('backurl', '/cases-view/workorders/'+this.paramCaseId);
+			sessionStorage.setItem('backurl', '/cases-view/workorders/'+this.paramCaseId);
 			/* swal("Processing...please wait...", {
 				buttons: [false, false],
 				closeOnClickOutside: false,
@@ -547,24 +547,24 @@ export class MasterComponent implements OnInit {
 	}
 	
 	addReferal(caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneidref', '');
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneidref', '');
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['referral/referral-add']);
 	}
 	addWorkOrders(caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneid', '');
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneid', '');
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['work-orders/work-order-add']);
 	}
 	editWorkOrders(workorderId: any) {
-		//localStorage.setItem('workorderId', workorderId);
+		//sessionStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-edit/'+workorderId]);
 	}
 	
 	viewWorkorders(workorderId: any) {
-		//localStorage.setItem('workorderId', workorderId);
+		//sessionStorage.setItem('workorderId', workorderId);
 		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
 	}
 	getallmilestone() {
@@ -575,7 +575,7 @@ export class MasterComponent implements OnInit {
 				buttons: [false, false],
 				closeOnClickOutside: false,
 			}); */
-			localStorage.setItem('backurl', '/cases-view/milestones/'+this.paramCaseId);
+			sessionStorage.setItem('backurl', '/cases-view/milestones/'+this.paramCaseId);
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = this.paramCaseId;
 			if(caseId != '')
@@ -619,7 +619,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		//localStorage.setItem('milestoneId', milestoneId);
+		//sessionStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	deletemilestone(milestoneId: any) {
@@ -633,18 +633,18 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editMilestone(milestoneId: any) {
-		//localStorage.setItem('milestoneId', milestoneId);
+		//sessionStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	
 	editcase(caseId: any) {
-		//localStorage.setItem('caseId', caseId);
+		//sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['/cases/case-edit/'+caseId]);
 	}
 	getCaseDetails() {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
-		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
+		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
 		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
@@ -965,7 +965,7 @@ export class MasterComponent implements OnInit {
 	}
 
 	getFilesListing() {
-		localStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
+		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		/* swal("Processing...please wait...", {
 			buttons: [false, false],
@@ -1045,7 +1045,7 @@ export class MasterComponent implements OnInit {
 	}
 	getFilesDetails() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		let fileUploadId = localStorage.getItem("fileUploadId");
+		let fileUploadId = sessionStorage.getItem("fileUploadId");
 		//let fileUploadId = "013213d3-eb8c-446e-8a52-4aa8de59664d";
 		//alert(fileUploadId);
 		if(fileUploadId != '')
@@ -1083,7 +1083,7 @@ export class MasterComponent implements OnInit {
 		{
 			url += "?ownerName="+ownerName[0];
 		}
-		//let fileUploadId = localStorage.getItem("fileUploadId");
+		//let fileUploadId = sessionStorage.getItem("fileUploadId");
 		//if(fileUploadId != '')
 		//{
 			//url += "?fileUploadId="+fileUploadId;
@@ -1127,8 +1127,8 @@ export class MasterComponent implements OnInit {
 		});
 	};
 	addMilestone(caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/milestone-add']);
 	}
 	
@@ -1232,7 +1232,7 @@ export class MasterComponent implements OnInit {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		}); */
-		localStorage.setItem('backurl', '/cases-view/referrals/'+this.paramCaseId);
+		sessionStorage.setItem('backurl', '/cases-view/referrals/'+this.paramCaseId);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -1296,7 +1296,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	viewReferralDetails(referralId: any) {
-		//localStorage.setItem('referralId', referralId);
+		//sessionStorage.setItem('referralId', referralId);
 		this.router.navigate(['referral/referral-details/'+referralId]);
 	}
 	
@@ -1311,7 +1311,7 @@ export class MasterComponent implements OnInit {
 		});
 	}
 	editReferrals(referralId: any) {
-		//localStorage.setItem('referralId', referralId);
+		//sessionStorage.setItem('referralId', referralId);
 		this.router.navigate(['referral/referral-edit/'+referralId]);
 	}
 	
@@ -1788,7 +1788,7 @@ export class MasterComponent implements OnInit {
 			if(this.caseDate <= toDate.getTime())
 			{
 				let url = this.utility.apiData.userThreads.ApiUrl;
-				let caseId = localStorage.getItem("caseId");
+				let caseId = sessionStorage.getItem("caseId");
 				let GetToDate = toDate.getTime();
 				this.fromDate = toDate;
 				this.fromDate.setDate(this.fromDate.getDate() - 14);

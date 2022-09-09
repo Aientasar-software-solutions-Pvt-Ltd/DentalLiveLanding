@@ -33,8 +33,8 @@ export class CaseListComponent implements OnInit {
   constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
   ngOnInit(): void {
-  localStorage.setItem('checkPatient', '');
-  localStorage.setItem('patientId', '');
+  sessionStorage.setItem('checkPatient', '');
+  sessionStorage.setItem('patientId', '');
 	this.getallcase();
     this.dtOptions = {
 		dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
