@@ -86,12 +86,12 @@ export class UtilityService {
     }
   }
 
-  uploadBinaryData(objectName, binaryData, module) {
+  uploadBinaryData(objectName, binaryData, s3BucketName) {
     var that = this;
     return new Promise(function (resolve, reject) {
-      that.getPreSignedUrl(objectName, module, 'put', binaryData.type).then((response) => {
-        that.saveDataS3(binaryData, response["url"]).then(() => {
-          resolve(response["name"]);
+      that.getPreSignedUrl(objectName, s3BucketName, binaryData.type).then((url) => {
+        that.saveDataS3(binaryData, url).then(() => {
+          resolve({ 'name': objectName, 'url': url });
         }).catch((e) => {
           console.log(e);
           reject("Failed to Upload");
@@ -103,16 +103,11 @@ export class UtilityService {
     });
   }
 
-  async getPreSignedUrl(objectName, module, type = 'get', media) {
-    let headers = new HttpHeaders();
-    let auth = sessionStorage.getItem("usr");
-    headers = headers.set('authorization', auth);
-
-    let Response = await this.http.get(`https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name=${objectName}&module=${module}&type=${type}&media=${media}`, {
-      headers: headers
-    }).toPromise();
-
-    return Response;
+  async getPreSignedUrl(objectName, s3BucketName, ext) {
+    let data = { "name": objectName, 'type': 'put', 'ext': ext, "storage": s3BucketName }
+    let Response = await this.http.post("https://oihqs7mi22.execute-api.us-west-2.amazonaws.com/default/createPreSignedURLSecured", JSON.stringify(data)).toPromise();
+    let decrypt = CryptoJS.AES.decrypt(Response['url'], environment.decryptKey).toString(CryptoJS.enc.Utf8);
+    return decrypt;
   }
 
   async saveDataS3(binaryData: any, url: any) {
