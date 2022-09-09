@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
 		{
 			this.classFlag = false;
 		}
-		if(this.AccountImg != undefined)
+		if((this.AccountImg != undefined) && (this.AccountImg != '') && (this.AccountImg != null))
 		{
 			this.imgSrc = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+this.AccountImg;
 		}
