@@ -14,12 +14,17 @@ const routes: Routes = [
 		path: '',
 		component: BaseComponent,
 		//permission guard to be added
-		canActivate: [AuthGuard, PermissionGuardService],
+		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'dashboard',
 				loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-				canActivate: [AuthGuard, PermissionGuardService]
+				canActivate: [AuthGuard]
+			},
+			{
+				path: 'accounts',
+				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule),
+				canActivate: [AuthGuard]
 			},
 			{
 				path: 'patients',
@@ -64,11 +69,6 @@ const routes: Routes = [
 			{
 				path: 'casefiles',
 				loadChildren: () => import('./views/pages/files/files.module').then(m => m.FilesModule),
-				canActivate: [AuthGuard, PermissionGuardService]
-			},
-			{
-				path: 'accounts',
-				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule),
 				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{

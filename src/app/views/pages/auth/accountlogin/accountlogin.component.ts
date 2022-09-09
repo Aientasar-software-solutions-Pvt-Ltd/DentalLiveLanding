@@ -23,6 +23,7 @@ export class AccountloginComponent implements OnInit {
 
   onSubmit(form: NgForm, issubuser) {
 
+    console.log('submit');
     if (form.invalid) {
       form.form.markAllAsTouched();
       return;

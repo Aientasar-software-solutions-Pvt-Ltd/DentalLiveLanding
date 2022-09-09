@@ -51,6 +51,7 @@ export class PermissionGuardService implements CanActivate {
   plannerPermissionArray = ['colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'casefiles'];
 
   activate(state): boolean {
+    if (this.products.length == 0) return false;
     if (this.isAdmin || state.url.includes("dashboard") || state.url.includes("accounts")) return true;
     for (let permission of this.permissionsArray) {
       if (state.url.includes(permission) && this.permissions.includes(permission)) return true
@@ -64,6 +65,7 @@ export class PermissionGuardService implements CanActivate {
   }
 
   hasPermission(module) {
+    if (this.products.length == 0) return false;
     if (this.isAdmin) return true;
     if (this.plannerPermissionArray.includes(module)) {
       if (this.products.includes("Planner") && this.permissions.includes(module)) return true;

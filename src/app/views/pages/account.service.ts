@@ -32,6 +32,8 @@ export class AccountService {
   }
   login() {
     let user = this.usr.getUserDetails(false);
+
+
     const json1: JSON = {};
     json1['dentalId'] = user.dentalId;
     json1['emailAddress'] = user.emailAddress;
@@ -61,6 +63,7 @@ export class AccountService {
         else
           swal('Unable to login, please try again');
       });
+
     swal("Login initiated...please wait...", {
       buttons: [false, false],
       closeOnClickOutside: false,
