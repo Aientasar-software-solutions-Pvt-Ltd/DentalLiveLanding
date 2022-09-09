@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+			setTimeout(() => {
 			let url = this.utility.apiData.userLogin.ApiUrl;
 			let loginResourceId = sessionStorage.getItem('loginResourceId');
 			url += "?emailAddress="+loginResourceId;
@@ -48,6 +49,7 @@ export class DashboardComponent implements OnInit {
 			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
+			},1000);
 			
 		}
 	}

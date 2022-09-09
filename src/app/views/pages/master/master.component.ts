@@ -148,6 +148,39 @@ export class MasterComponent implements OnInit {
 		this.paramCaseId = this.route.snapshot.paramMap.get('caseId');
 		this.paramTabName = this.route.snapshot.paramMap.get('tabName');
 	}
+	tabClick(tabs:any){
+		this.tab = tabs;
+		sessionStorage.setItem("masterTab", tabs);
+		if(tabs == 'tab1')
+		{
+			this.getCaseDetails();
+		}
+		if(tabs == 'tab2')
+		{
+			this.getMessage();
+			this.getThread();
+		}
+		if(tabs == 'tab3')
+		{
+			this.getInviteListing();
+		}
+		if(tabs == 'tab4')
+		{
+			this.getallworkorder();
+		}
+		if(tabs == 'tab5')
+		{
+			this.getReferralListing();
+		}
+		if(tabs == 'tab6')
+		{
+			this.getallmilestone();
+		}
+		if(tabs == 'tab7')
+		{
+			this.getFilesListing();
+		}
+	}
   ngOnInit(): void {
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',

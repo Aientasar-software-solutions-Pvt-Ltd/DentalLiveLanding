@@ -57,13 +57,13 @@
 			<div class="box-body">
 				<!-- Nav tabs -->
 				<ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist" style="overflow-x: auto;">
-					<li class="nav-item"><a href="/cases-view/caseDetails/{{this.paramCaseId}}" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
-					<li class="nav-item"><a href="/cases-view/threads/{{this.paramCaseId}}" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
-					<li class="nav-item"><a href="/cases-view/colleagues/{{this.paramCaseId}}" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
-					<li class="nav-item"><a href="/cases-view/workorders/{{this.paramCaseId}}" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
-					<li class="nav-item"><a href="/cases-view/referrals/{{this.paramCaseId}}" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
-					<li class="nav-item"><a href="/cases-view/milestones/{{this.paramCaseId}}" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
-					<li class="nav-item"><a href="/cases-view/casefiles/{{this.paramCaseId}}" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/caseDetails/{{this.paramCaseId}}" (click)="tabClick('tab1')" [class.active]="tab === 'tab1'" class="nav-link"><img class="me-2" src="assets/images/planner/CaseDetails.svg">Case Details </a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/threads/{{this.paramCaseId}}" (click)="tabClick('tab2')" [class.active]="tab === 'tab2'" class="nav-link"><img class="me-2" src="assets/images/planner/Thread.svg">Thread</a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/colleagues/{{this.paramCaseId}}" (click)="tabClick('tab3')" [class.active]="tab === 'tab3'" class="nav-link"><img class="me-2" src="assets/images/planner/Colleagues.svg">Colleagues</a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/workorders/{{this.paramCaseId}}" (click)="tabClick('tab4')" [class.active]="tab === 'tab4'" class="nav-link"><img class="me-2" src="assets/images/planner/WorkOrders.svg">Work Orders </a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/referrals/{{this.paramCaseId}}" (click)="tabClick('tab5')" [class.active]="tab === 'tab5'" class="nav-link"><img class="me-2" src="assets/images/planner/refferal.svg">Referral </a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/milestones/{{this.paramCaseId}}" (click)="tabClick('tab6')" [class.active]="tab === 'tab6'" class="nav-link"><img class="me-2" src="assets/images/planner/milstone.svg">Milestone </a> </li>
+					<li class="nav-item"><a routerLink="/cases-view/casefiles/{{this.paramCaseId}}" (click)="tabClick('tab7')" [class.active]="tab === 'tab7'" class="nav-link"><img class="me-2" src="assets/images/planner/file.svg">Files</a> </li>
 				</ul>
 				<div *ngIf="sending" class="row">
 					<div class="col-md-12">
@@ -181,7 +181,7 @@
 													</div>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end">
-													<a href="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
+													<a routerLink="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
 												<!--<div class="col-sm-6 col-md-auto col-lg-auto align-self-end mt-2">
 													<div class="d-flex flex-column align-items-end">
@@ -395,7 +395,7 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a href="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
+																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
 																	<a *ngIf="(invite.presentStatus != 3)" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
@@ -423,7 +423,7 @@
 													<h5 class="body1 card-title my-2">Work Orders</h5>
 												</div>
 												<div class="col-md-7">
-													<a href="workorders/work-order-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
+													<a routerLink="/workorders/work-order-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end"><i class="bx bx-folder-plus me-1" style="font-size: large;"></i> Add Work Order  
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
 														<i class="bx bx-search"></i>
@@ -489,7 +489,7 @@
 
 
 
-																	<a href="/workorders/work-order-edit/{{data.workorderId}}" class="me-1">
+																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
 																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
@@ -518,7 +518,7 @@
 													<h5 class="body1 card-title my-2">Referral</h5>
 												</div>
 												<div class="col-md-7">
-													<a href="referrals/referral-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end">
+													<a routerLink="/referrals/referral-add/{{this.tabledata.caseId}}" class="btn btn-default my-1 float-end">
 														<i class="bx bx-user-plus" aria-hidden="true"></i>
 														Add Referral 
 													</a>
@@ -584,10 +584,10 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a href="/referrals/referral-edit/{{data.referralId}}" class="me-1">
+																<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a href="/referrals/referral-details/{{data.referralId}}" class="me-1">
+																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 																<a style="cursor: pointer;" class="me-1" (click)="deletereferral(data.referralId)">
@@ -614,7 +614,7 @@
 												  <h5 class="body1 card-title my-2">Milestones</h5>
 												</div>
 												<div class="col-md-10 col-lg-9">  
-													<a class="btn btn-default my-1 me-2 float-end" href="milestones/milestone-add/{{this.tabledata.caseId}}">
+													<a class="btn btn-default my-1 me-2 float-end" routerLink="/milestones/milestone-add/{{this.tabledata.caseId}}">
 														<i class="bx bx-award"></i> Add Milestone
 													</a>
 													<div class="search search-md my-1 me-2 float-end">
@@ -693,10 +693,10 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
+																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a href="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
+																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
@@ -796,7 +796,7 @@
 															</td>
 														   
 															<td>
-																<a href="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
+																<a routerLink="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>

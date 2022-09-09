@@ -324,7 +324,7 @@ export class ListComponent implements OnInit, ListData {
   urlify(text) {
     var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;;
     return text.replace(urlRegex, function (url) {
-      return '<br><a target="_blank" href="' + url + '">' + url + '</a><br>';
+      return '<br><a target="_blank" routerLink="/' + url + '">' + url + '</a><br>';
     })
   }
 
