@@ -5,6 +5,7 @@ import { CalendarOptions } from '@fullcalendar/angular';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -34,7 +35,7 @@ export class AllFilesComponent implements OnInit {
   dateCreated: string;
   getcaseId: string;
   shimmer = Array;
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute, private UtilityDev: UtilityServicedev) {
 	this.dateCreated = this.route.snapshot.paramMap.get('dateCreated');
 	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
   }
@@ -297,7 +298,7 @@ export class AllFilesComponent implements OnInit {
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {

@@ -144,7 +144,7 @@ export class MasterComponent implements OnInit {
 	//Set parameter from URL
 	paramCaseId: string;
 	paramTabName: string;
-	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute, private UtilityDev: UtilityServicedev) { 
 		this.paramCaseId = this.route.snapshot.paramMap.get('caseId');
 		this.paramTabName = this.route.snapshot.paramMap.get('tabName');
 	}
@@ -909,7 +909,7 @@ export class MasterComponent implements OnInit {
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {
@@ -1008,7 +1008,7 @@ export class MasterComponent implements OnInit {
 						  files: this.filesdataArray[i].files,
 						  caseId: this.filesdataArray[i].caseId,
 						  fileUploadId: this.filesdataArray[i].fileUploadId,
-						  ownerName: this.filesdataArray[i].ownerName,
+						  ownerName: this.filesdataArray[i].resourceOwner,
 						  filecount: 1,
 						});
 						//alert(JSON.stringify(this.casefilesArray));

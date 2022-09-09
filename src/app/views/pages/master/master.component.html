@@ -133,7 +133,7 @@
 														<div class="row gx-2">
 															<label class="text-muted col-6 col-sm-4 col-md-4 col-lg-5 mb-2">Case Owner : </label> 
 															<div class="mb-3 col-6 col-sm-8 col-md-8 col-lg-7">
-																<strong *ngIf="this.tabledata; else emptyresorceownerone">{{tabledata.resorceOwner}}</strong>
+																<strong *ngIf="this.tabledata; else emptyresorceownerone">{{tabledata.resourceOwner}}</strong>
 						
 																<ng-template #emptyresorceownerone>
 																	<strong></strong>
@@ -1214,7 +1214,7 @@
 								<option>Last Modified</option>
 								<option>Date Created</option>
 							</select>
-						</div>-->
+						</div>
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
@@ -1226,7 +1226,7 @@
 								<i class="bx bx-search"></i>
 								<input type="text" class="form-control" ngModel name="caseName" id="caseName" placeholder="Search by Case Name" >
 							</div>
-						</div>
+						</div>-->
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Search by Date:</label>
 						</div>
@@ -1288,6 +1288,38 @@
 									</ng-select>
 								</div>
 							</div>
+						</div>
+						<div _ngcontent-fux-c93="" class="col-md-12 text-end">
+							<button _ngcontent-fux-c93="" type="button" style="padding: 7px;" class="btn btn-default btn-sm px-2"><i _ngcontent-fux-c93="" data-bs-toggle="modal" data-bs-target="#inviteNewMembers" class="bx bx-plus me-0"></i></button>
+						</div>
+						<div class="col-md-12">
+							<app-cvfast></app-cvfast>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer text-center justify-content-center border-top-0">
+					<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
+					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="inviteNewMembers" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
+				<div class="modal-header">
+					<h5 class="modal-title body1" id="inviteMembersLabel">Invite New Members</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row gy-3">
+						<div class="col-md-12">
+							<input type="email"  name="name" class="form-control" placeholder="please enter email id" id="name" ngModel="">
 						</div>
 						<div class="col-md-12">
 							<app-cvfast></app-cvfast>

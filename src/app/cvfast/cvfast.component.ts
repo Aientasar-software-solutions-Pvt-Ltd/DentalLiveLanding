@@ -13,6 +13,7 @@ import * as Record from 'videojs-record/dist/videojs.record.js';
 import { ApiDataService } from '../views/pages/users/api-data.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '../views/pages/users/utility.service';
+import { UtilityServicedev } from '../utilitydev.service';
 
 @Component({
   selector: 'app-cvfast',
@@ -58,7 +59,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   //attachmentList contains array of all the binary data related to CVFAST --> upon process this binary data is stored in S3 bucket fo AWS with a pre signed URL and the link is returned-->these links are added to cvfast object with there respective name and urls-->this cvfast object is stored in contextual data.
 
-  constructor(private dataService: ApiDataService, private router: Router, private cdref: ChangeDetectorRef, private utility: UtilityService) {
+  constructor(private dataService: ApiDataService, private router: Router, private cdref: ChangeDetectorRef, private utility: UtilityService, private UtilityDev: UtilityServicedev) {
   }
   ngOnInit(): void {
     this.initPlayers();
@@ -344,11 +345,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
 	this.processing = true;
-	
     let requests = this.attachmentFiles.map((object) => {
       if (object["binaryData"]) {
         this.processingcheck = true;
-        return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+        return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
       }
     });
 	if(this.processingcheck == true)
@@ -411,6 +411,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 						window.location.reload();
 					}
 				}, error => {
+				  this.sending = true;
 				  if (error.status === 404)
 				  {
 					Swal('E-Mail ID does not exists,please signup to continue');
@@ -464,6 +465,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 						window.location.reload();
 					}
 				}, error => {
+				  this.sending = true;
 				  if (error.status === 404)
 				  {
 					Swal('E-Mail ID does not exists,please signup to continue');
@@ -544,6 +546,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					window.location.reload();
 				}
 			}, error => {
+			  this.sending = true;
 			  if (error.status === 404)
 			  {
 				Swal('E-Mail ID does not exists,please signup to continue');
@@ -597,6 +600,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					window.location.reload();
 				}
 			}, error => {
+			  this.sending = true;
 			  if (error.status === 404)
 			  {
 				Swal('E-Mail ID does not exists,please signup to continue');

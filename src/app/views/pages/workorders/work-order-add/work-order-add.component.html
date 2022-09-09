@@ -81,7 +81,7 @@
 											ngModel="{{this.casesName}}"
 											name="casesName" 
 											id="casesName"
-											*ngIf="(this.checkCase == '1')"
+											*ngIf="(this.checkCase != '')"
 											[required]="true"
 											[disabled]="true"
 											class="form-control"

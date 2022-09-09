@@ -60,7 +60,7 @@
 										</select> -->
 										<ng-select *ngIf="(this.checkCase == '')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select"  name="caseName" id="caseName">
 										</ng-select>
-										<input type="text" *ngIf="(this.checkCase == '1')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
+										<input type="text" *ngIf="(this.checkCase != '')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
 									</div>
 								</div>
 								<div class="col-md-4"> 

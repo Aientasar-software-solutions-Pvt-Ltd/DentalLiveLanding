@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -100,7 +101,7 @@ onActiveInactiveChanged(value:boolean){
 	//public objMedicationLength: any[] = []
 	public attachmentFiles: any[] = []
 	paramPatientId: any;
-	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) {
+	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute, private UtilityDev: UtilityServicedev) {
 		this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
 	}
 
@@ -328,7 +329,7 @@ onActiveInactiveChanged(value:boolean){
 		if(form.value.image)
 		{
 			let requests = this.attachmentFiles.map((object) => {
-			  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
 			});
 			Promise.all(requests)
 			  .then((values) => {

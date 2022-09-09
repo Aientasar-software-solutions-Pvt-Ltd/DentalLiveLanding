@@ -32,7 +32,7 @@ export class ReferralAddComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	milestoneid = sessionStorage.getItem("checkmilestoneidref");
-	checkCase = sessionStorage.getItem("checkCase");
+	checkCase = '';
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -48,7 +48,10 @@ export class ReferralAddComponent implements OnInit {
 	minDate = new Date();
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
+	this.parmCaseId = this.route.snapshot.paramMap.get('caseId');
+	this.checkCase = this.route.snapshot.paramMap.get('caseId');
+	}
 
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
