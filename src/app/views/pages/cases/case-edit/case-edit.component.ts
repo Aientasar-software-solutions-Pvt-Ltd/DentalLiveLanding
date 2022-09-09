@@ -24,7 +24,7 @@ export class CaseEditComponent implements OnInit {
 	public tabledata: any;
 	public patientdata: any;
 	public module = 'patient';
-	public Img = 'assets/images/avatar3.png';
+	public Img = 'assets/images/users.png';
 	public resourceOwn = '';
 	public patientName = '';
 	public patientImage = '';
@@ -90,6 +90,7 @@ export class CaseEditComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {

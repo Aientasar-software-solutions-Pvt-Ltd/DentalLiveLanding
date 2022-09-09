@@ -22,6 +22,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 	public allMemberName: any[] = []
 	public allMemberDentalId: any[] = []
     selectedCity = '';
+	public isvalidDate = false;
 	
 	public jsonObjInvite = {
 		patientId: '',
@@ -144,7 +145,16 @@ export class CaseAddInviteMembersComponent implements OnInit {
 	onSubmitInvite(form: NgForm){
 		this.sending = true;
 		let user = this.usr.getUserDetails(false);
-		if (form.invalid) {
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidDate =true;
+			this.sending = false;
+		}
+		else
+		{
+			this.isvalidDate =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true)) {
 		  form.form.markAllAsTouched();
 		  return;
 		}

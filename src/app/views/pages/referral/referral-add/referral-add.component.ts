@@ -19,7 +19,7 @@ import {encode} from 'html-entities';
 })
 export class ReferralAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	
+	sending: boolean;
 	
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
@@ -83,6 +83,7 @@ export class ReferralAddComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetalldata(form.value);
 	}
 	
@@ -211,15 +212,12 @@ export class ReferralAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		});
+		this.sending = true;
 		let url = this.utility.apiData.userCases.ApiUrl;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				swal.close();
+				
 				this.tabledataAll = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
@@ -239,6 +237,7 @@ export class ReferralAddComponent implements OnInit {
 					}
 				}
 				//alert(JSON.stringify(this.allcases));
+				this.sending = false;
 			}
 		}, (error) => {
 		  swal("Unable to fetch data, please try again");
@@ -265,22 +264,19 @@ export class ReferralAddComponent implements OnInit {
 			let caseId = this.parmCaseId;
 			if(caseId != 0)
 			{
-				swal("Processing...please wait...", {
-				  buttons: [false, false],
-				  closeOnClickOutside: false,
-				});
+				this.sending = true;
 				url += "?caseId="+caseId;
 				this.dataService.getallData(url, true)
 				.subscribe(Response => {
 					if (Response)
 					{
-						swal.close();
 						this.tabledata = JSON.parse(Response.toString());
 						this.casesName = this.tabledata.title;
 						this.patientName = this.tabledata.patientName;
 						this.caseid = this.tabledata.caseId;
 						this.patientid = this.tabledata.patientId;
 						this.getAllMembers(this.tabledata.caseId);
+						this.sending = false;
 					}
 				}, error => {
 				  if (error.status === 404)
@@ -299,6 +295,4 @@ export class ReferralAddComponent implements OnInit {
 			}
 		}
 	}
-	
-	
 }

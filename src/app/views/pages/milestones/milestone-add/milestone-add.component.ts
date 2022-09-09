@@ -49,7 +49,6 @@ export class MilestoneAddComponent implements OnInit {
 	ngOnInit(): void {
 		this.getCaseDetails();
 		this.getAllCases();
-		this.sending = false;
 	}
 	
 	onSubmitMilestone(form: NgForm){
@@ -65,6 +64,7 @@ export class MilestoneAddComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetdateData(form.value);
 	}
 	
@@ -99,7 +99,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				this.sending = false;
+				
 				this.tabledataAll = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
@@ -118,6 +118,7 @@ export class MilestoneAddComponent implements OnInit {
 						});
 					}
 				}
+				this.sending = false;
 				//alert(JSON.stringify(this.allcases));
 			}
 		}, (error) => {

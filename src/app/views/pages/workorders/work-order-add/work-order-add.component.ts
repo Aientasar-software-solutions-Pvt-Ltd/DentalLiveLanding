@@ -19,7 +19,7 @@ import {encode} from 'html-entities';
 })
 export class WorkOrderAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	sending = false;
+	sending: boolean;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -88,13 +88,13 @@ export class WorkOrderAddComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		//alert(JSON.stringify(this.orders.getToothGuide()));
 		this.onGetdateData(form.value);
 	}
 	
 	onGetdateData(data: any)
 	{
-		this.sending = true;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		if(data.milestoneid !='')
@@ -217,16 +217,13 @@ export class WorkOrderAddComponent implements OnInit {
 		let caseId = this.parmCaseId;
 		if(caseId != 0)
 		{
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			});
+			this.sending = true;
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					
 					this.tabledata = JSON.parse(Response.toString());
 					this.casesName = this.tabledata.title;
 					this.patientName = this.tabledata.patientName;
@@ -234,6 +231,7 @@ export class WorkOrderAddComponent implements OnInit {
 					this.patientid = this.tabledata.patientId;
 					//alert(JSON.stringify(this.tabledata));
 					this.getAllMembers(this.tabledata.caseId);
+					this.sending = false;
 				}
 			}, error => {
 			  if (error.status === 404)

@@ -7,9 +7,9 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Router } from '@angular/router';
 
 @Component({
-	selector: 'app-case-add-file-upload',
-	templateUrl: './case-add-file-upload.component.html',
-	styleUrls: ['./case-add-file-upload.component.css']
+  selector: 'app-case-add-file-upload',
+  templateUrl: './case-add-file-upload.component.html',
+  styleUrls: ['./case-add-file-upload.component.css']
 })
 export class CaseAddFileUploadComponent implements OnInit {
 	sending = false;
@@ -17,7 +17,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 	public attachmentUploadFiles: any[] = []
 	public tabledata: any;
 	public module = 'patient';
-
+	
 	public jsonObj = {
 	  ownerName: '',
 	  caseId: '',
@@ -33,7 +33,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 	}
 	getTimeStamp(input: any) {
 		var date = input.split('/');
-		var d = new Date(date[2], date[0] - 1, date[1]);
+		var d = new Date( date[2], date[0]-1 , date[1] );
 		return d.getTime();
 	}
 	getCaseDetails() {
@@ -44,50 +44,52 @@ export class CaseAddFileUploadComponent implements OnInit {
 			url += "?caseId="+caseId;
 		}
 		this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response) {
-					this.tabledata = JSON.parse(Response.toString());
-					//alert(JSON.stringify(this.tabledata));
-				}
-			}, error => {
-				if (error.status === 404)
-					swal('E-Mail ID does not exists,please signup to continue');
-				else if (error.status === 403)
-					swal('Account Disabled,contact Dental-Live');
-				else if (error.status === 400)
-					swal('Wrong Password,please try again');
-				else if (error.status === 401)
-					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				else if (error.status === 428)
-					swal(error.error);
-				else
-					swal('Unable to fetch the data, please try again');
-			});
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.tabledata = JSON.parse(Response.toString());
+				//alert(JSON.stringify(this.tabledata));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
 	}
 	getUniqueName(name: any) {
 		let i = 0;
 		do {
-			if (i > 0) name = name.split('.')[0] + '_' + i + '.' + name.split('.')[1];
-			i++;
+		  if (i > 0) name = name.split('.')[0] + '_' + i + '.' + name.split('.')[1];
+		  i++;
 		} while ('');
 		return name;
 	}
-
-	loadFiles(event: any) {
+	
+	loadFiles(event : any) {
 		if (event.target.files.length > 0) {
-			let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel', 'docx', 'doc', 'xls', 'xlsx', 'txt'];
-			if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
-				swal("File Extenion Not Allowed");
-				return;
-			} else {
-				this.attachmentUploadFiles = Array();
-				this.attachmentUploadFiles.push({ name: this.getUniqueName(event.target.files[0]['name']), binaryData: event.target.files[0], size: event.target.files[0]['size'], type: event.target.files[0]['type'] });
-			}
+		  let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel', 'docx', 'doc', 'xls', 'xlsx', 'txt'];
+		if (!allowedtypes.some(type => event.target.files[0]['type'].includes(type))) {
+		  swal("File Extenion Not Allowed");
+		  return;
+		} else {
+		  this.attachmentUploadFiles = Array();
+		  this.attachmentUploadFiles.push({ name: this.getUniqueName(event.target.files[0]['name']), binaryData: event.target.files[0], size: event.target.files[0]['size'], type: event.target.files[0]['type'] });
+		}
 		}
 	}
-
-
-	onGetdateData(data: any) {
+	
+	
+	onGetdateData(data: any)
+	{
 		//alert(data);
 		this.jsonObj['ownerName'] = data.resorceowner;
 		this.jsonObj['caseId'] = data.caseid;
@@ -118,12 +120,12 @@ export class CaseAddFileUploadComponent implements OnInit {
 			swal('Unable to fetch the data, please try again');
 		});
 	}
-
-
-	onSubmitFiles(form: NgForm) {
+	
+	
+	onSubmitFiles(form: NgForm){
 		if (form.invalid) {
-			form.form.markAllAsTouched();
-			return;
+		  form.form.markAllAsTouched();
+		  return;
 		}
 		
 		if(form.value.uploadfile)
@@ -175,7 +177,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 				return false;
 			  });
 		}
-		else {
+		else{
 			this.onGetdateData(form.value);
 		}
 	};

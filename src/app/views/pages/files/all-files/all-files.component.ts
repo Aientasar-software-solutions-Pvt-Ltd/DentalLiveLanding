@@ -42,6 +42,7 @@ export class AllFilesComponent implements OnInit {
   ngOnInit(): void {
 	this.getAllFiles();
 	this.getCaseDetails();
+	
   }
 	getTimeStamp(input: any) {
 		var date = input.split('/');
@@ -87,6 +88,7 @@ export class AllFilesComponent implements OnInit {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
 		}); */
+		localStorage.setItem("dateCreated", this.dateCreated);
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
 		let dateCreated = Number(this.dateCreated);

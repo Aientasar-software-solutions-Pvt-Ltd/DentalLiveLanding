@@ -17,7 +17,7 @@ import { Cvfast } from '../../../cvfast/cvfast.component';
 export class MasterComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	calendarOptions: CalendarOptions = {}
-	
+	sending: boolean;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -185,6 +185,7 @@ export class MasterComponent implements OnInit {
 	//Set current tab
 	let masterTab = localStorage.getItem("masterTab");
 	(masterTab) ? this.tab = masterTab : this.tab = 'tab1';
+	this.sending = false;
 	}
 
 	getMessage() {
@@ -904,10 +905,7 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			swal("Processing...please wait...", {
-				buttons: [false, false],
-				closeOnClickOutside: false,
-			});
+			this.sending = true;
 			let mediatype= this.attachmentUploadFiles[0].type;
 			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
 			let requests = this.attachmentUploadFiles.map((object) => {
@@ -923,7 +921,7 @@ export class MasterComponent implements OnInit {
 				.subscribe(Response => {
 					if (Response)
 					{
-						swal.close();
+						this.sending = false;
 						this.UploadFiles = Array();
 						this.UploadFiles.push({
 						  url: Response,
@@ -1359,6 +1357,7 @@ export class MasterComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.jsonObjmsg['caseId'] = form.value.CcaseId;
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
@@ -1377,6 +1376,7 @@ export class MasterComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.jsonObjmsg['caseId'] = form.value.caseId;
 		this.jsonObjmsg['patientId'] = form.value.patientId;
 		this.jsonObjmsg['patientName'] = form.value.patientName;
@@ -1444,8 +1444,10 @@ export class MasterComponent implements OnInit {
 		//alert(JSON.stringify(this.allMemberDentalId));
 	}
 	
+	
 	onSubmitInvite(form: NgForm){
 		let user = this.usr.getUserDetails(false);
+		
 		if (form.invalid) {
 		  form.form.markAllAsTouched();
 		  return;
@@ -1478,7 +1480,6 @@ export class MasterComponent implements OnInit {
 			}
 		}
 	};
-	
 	
 	getInviteListing() {
 		let user = this.usr.getUserDetails(false);

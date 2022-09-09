@@ -19,7 +19,7 @@
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
 		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">Diana Hiden <span class="fw-bold d-block">Root Canal Treatment</span>
+			<h3 class="mt-2 fw-normal">{{this.patientName}} <span class="fw-bold d-block">{{this.casesName}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
@@ -165,7 +165,9 @@
 						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
 							<div class="col-md-4 col-lg-6 d-flex">
 								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">Sophia
+									<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" class="avatar avatar-sm rounded-circle me-2 " />
+									<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="avatar avatar-sm rounded-circle me-2 "/>
+									{{message.patientName}}
 							   </div>
 							   
 							</div>
