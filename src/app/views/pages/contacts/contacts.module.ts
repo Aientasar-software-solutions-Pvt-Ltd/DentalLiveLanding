@@ -13,8 +13,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 const routes: Routes = [
   { path: '', component: ContactlistComponent },
   { path: 'contacts', component: ContactlistComponent },
-  { path: 'contacts/contact', component: AddcontactsComponent },
-  { path: 'contacts/contact/:id', component: AddcontactsComponent },
+  { path: 'contact', component: AddcontactsComponent },
+  { path: 'contact/:id', component: AddcontactsComponent },
 ]
 
 

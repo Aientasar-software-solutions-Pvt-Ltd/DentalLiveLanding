@@ -83,10 +83,11 @@
                     <div class="profile-img justify-content-center p-md-2">
                       <div class="capture">
                         <label for="profileImage">
-                          <img [src]="imageSrc? imageSrc: 'assets/avatar3.png'" alt="" class="mb-2" />
+                          <img [src]="imageSrc? imageSrc: '../../../../../assets/images/user-circle.png'" alt=""
+                            class="mb-2" />
                         </label>
-                        <input type="file" name="profileImage" id="profileImage" style="display: none"
-                          accept="image/*" (change)="loadBinaryFile($event)" />
+                        <input type="file" name="profileImage" id="profileImage" style="display: none" accept="image/*"
+                          (change)="loadBinaryFile($event)" />
                       </div>
                       <a (click)="object.imageSrc = '';imageSrc=null" class="mb-2 me-2 border-0">
                         Remove picture
