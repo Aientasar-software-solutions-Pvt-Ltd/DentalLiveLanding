@@ -92,7 +92,6 @@ export class PatientAddComponent implements OnInit {
   constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
-	 // alert(this.maxDate);
   }
   
   numberOnly(event:any): boolean {
@@ -156,8 +155,9 @@ export class PatientAddComponent implements OnInit {
 	}
     }
   }
-  onGetdateData(data: any)
+  onGetdateData(data: any,cvfast: any)
   {	
+	// alert(cvfast);
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
 	this.jsonObj['firstName'] = encode(data.firstName);
@@ -199,7 +199,7 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.jsonObj['image'] = this.PatientImg;
 	}
-	this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes');
+	cvfast.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes');
 	
   }
   onSubmit(form: NgForm) {
@@ -210,6 +210,8 @@ export class PatientAddComponent implements OnInit {
 	this.sending = true;
 	if(form.value.image)
 	{
+		let GetForm = form.value;
+		let cvfast = this.cv;
 		let requests = this.attachmentFiles.map((object) => {
 		  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
 		});
@@ -217,8 +219,9 @@ export class PatientAddComponent implements OnInit {
 		  .then((values) => {
 			this.attachmentFiles = [];
 			//console.log(this.cvfast);
+			//alert(cvfast);
 			this.PatientImg = values[0];
-			this.onGetdateData(form.value);
+			this.onGetdateData(GetForm,cvfast);
 		  })
 		  .catch((error) => {
 			console.log(error);
@@ -226,7 +229,7 @@ export class PatientAddComponent implements OnInit {
 		  });
 	}
 	else{
-		this.onGetdateData(form.value);
+		this.onGetdateData(form.value,this.cv);
 	}
   };
   addMedication() {

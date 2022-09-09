@@ -42,7 +42,8 @@ export class AccountService {
     this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
-        //alert(JSON.stringify(Response.resourceId));
+        //alert(JSON.stringify(Response));
+       // alert(JSON.stringify(Response.resourceId));
         sessionStorage.setItem('loginResourceId', Response.resourceId);
         if (!Response) {
           swal("Unable to save login time,please try again");
