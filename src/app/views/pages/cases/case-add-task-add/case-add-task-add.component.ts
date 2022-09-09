@@ -57,7 +57,7 @@ export class CaseAddTaskAddComponent implements OnInit {
 	this.selectedMember = this.defaultBindingsList[0];
 	this.getCaseDetails();
 	this.getAllMembers();
-	this.milestoneIdadd = localStorage.getItem("invitemilestoneId");
+	this.milestoneIdadd = sessionStorage.getItem("invitemilestoneId");
   }
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
@@ -98,7 +98,7 @@ export class CaseAddTaskAddComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			let caseId = localStorage.getItem("invitecaseId");
+			let caseId = sessionStorage.getItem("invitecaseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -208,7 +208,7 @@ export class CaseAddTaskAddComponent implements OnInit {
 	
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("invitecaseId");
+		let caseId = sessionStorage.getItem("invitecaseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;

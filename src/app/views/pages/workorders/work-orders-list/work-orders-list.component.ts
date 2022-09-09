@@ -23,9 +23,9 @@ export class WorkOrdersListComponent implements OnInit {
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
-		localStorage.setItem('checkCase', '');
-		localStorage.setItem('caseId', '');
-		localStorage.setItem('backurl', '/workorders/work-orders');
+		sessionStorage.setItem('checkCase', '');
+		sessionStorage.setItem('caseId', '');
+		sessionStorage.setItem('backurl', '/workorders/work-orders');
 		this.getallworkorder();
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -61,7 +61,7 @@ export class WorkOrdersListComponent implements OnInit {
 			  closeOnClickOutside: false,
 			}); */
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
-			//let caseId = localStorage.getItem("caseId");
+			//let caseId = sessionStorage.getItem("caseId");
 			//if(caseId != '')
 			//{
 				//url += "?caseId="+caseId;

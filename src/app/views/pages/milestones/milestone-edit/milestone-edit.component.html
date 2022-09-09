@@ -34,7 +34,7 @@
 	</div>
 </div>
 <form #milestoneForm="ngForm" id="milestoneForm" *ngIf="!sending" (ngSubmit)="onSubmitMilestone(milestoneForm)">
-	<div class="row align-items-center pt-2">
+	<div *ngIf="!sending" class="row align-items-center pt-2">
 		<div class="col-md-12">
 			<div class="card shadow-sm">
 				<div class="card-header border-bottom-0 bg-white">

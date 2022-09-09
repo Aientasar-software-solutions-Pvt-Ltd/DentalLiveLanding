@@ -25,10 +25,10 @@ export class ReferralListComponent implements OnInit {
 
 
 	ngOnInit(): void {
-		localStorage.setItem('checkCase', '');
-		localStorage.setItem('caseId', '');
-		localStorage.setItem('checkmilestoneidref', '');
-		localStorage.setItem('backurl', '/referrals/referral-list');
+		sessionStorage.setItem('checkCase', '');
+		sessionStorage.setItem('caseId', '');
+		sessionStorage.setItem('checkmilestoneidref', '');
+		sessionStorage.setItem('backurl', '/referrals/referral-list');
 		this.getallreferrals();
 		this.getCaseDetails();
 		this.dtOptions = {
@@ -65,7 +65,7 @@ export class ReferralListComponent implements OnInit {
 			}); */
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
-			let caseId = localStorage.getItem("caseId");
+			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -148,7 +148,7 @@ export class ReferralListComponent implements OnInit {
 			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
-			let caseId = localStorage.getItem("caseId");
+			let caseId = sessionStorage.getItem("caseId");
 			
 			if(caseId != '')
 			{

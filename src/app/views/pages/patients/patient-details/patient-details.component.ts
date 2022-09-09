@@ -269,18 +269,18 @@ export class PatientDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	addcases() {
-		localStorage.setItem('checkPatient', "1");
-		localStorage.setItem('patientId', this.paramPatientId);
+		sessionStorage.setItem('checkPatient', "1");
+		sessionStorage.setItem('patientId', this.paramPatientId);
 		this.router.navigate(['cases/case-add']);
 	}
 
 	viewCase(caseId: any, patientId: any) {
-		//localStorage.setItem('caseId', caseId);
+		//sessionStorage.setItem('caseId', caseId);
 		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	viewAllCase(patientId: any) {
-		//localStorage.setItem('patientId', patientId);
+		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-case-list/'+patientId]);
 	}
 }

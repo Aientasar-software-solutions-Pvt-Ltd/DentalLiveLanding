@@ -33,8 +33,8 @@
 		<h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
 	</div>
 </div>
-<form *ngIf="!sending" #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkOrders(workordersForm)">
-	<div class="row align-items-center pt-2">
+<form #workordersForm="ngForm" id="workordersForm" (ngSubmit)="onSubmitWorkOrders(workordersForm)">
+	<div *ngIf="!sending" class="row align-items-center pt-2">
 		<div class="col-md-12">
 			<div class="card shadow-sm">
 				<div class="card-header border-bottom-0 bg-white">

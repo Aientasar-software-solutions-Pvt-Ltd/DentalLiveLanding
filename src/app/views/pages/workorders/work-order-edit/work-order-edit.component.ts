@@ -18,7 +18,7 @@ import {decode} from 'html-entities';
   styleUrls: ['./work-order-edit.component.css']
 })
 export class WorkOrderEditComponent implements OnInit {
-
+	sending: boolean;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
@@ -91,6 +91,7 @@ export class WorkOrderEditComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetdateData(form.value);
 	}
 	
@@ -119,7 +120,7 @@ export class WorkOrderEditComponent implements OnInit {
 		}
 		
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = localStorage.getItem('backurl');
+		const backurl = sessionStorage.getItem('backurl');
 		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes');
 	}
 	
@@ -163,7 +164,7 @@ export class WorkOrderEditComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			//let caseId = localStorage.getItem("caseId");
+			//let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -258,19 +259,17 @@ export class WorkOrderEditComponent implements OnInit {
 		let url = this.utility.apiData.userCases.ApiUrl;
 		if(caseId != '')
 		{
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			});
+			this.sending = true;
 			url += "?caseId="+caseId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
-					swal.close();
+					
 					let caseDtls = JSON.parse(Response.toString());
 					this.casesName = caseDtls.title;
 					this.patientName = caseDtls.patientName;
+					this.sending = false;
 				}
 			}, error => {
 			  if (error.status === 404)

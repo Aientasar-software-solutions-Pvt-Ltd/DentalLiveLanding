@@ -11,6 +11,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 import {encode} from 'html-entities';
 import {decode} from 'html-entities';
 
+
 @Component({
   selector: 'app-general-task-edit',
   templateUrl: './general-task-edit.component.html',
@@ -18,7 +19,7 @@ import {decode} from 'html-entities';
 })
 export class GeneralTaskEditComponent implements OnInit {
   @ViewChild(Cvfast) cvfastval!: Cvfast;
- 
+ sending: boolean;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -96,6 +97,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+			this.sending = true;
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			if(caseId != '')
 			{
@@ -120,6 +122,7 @@ export class GeneralTaskEditComponent implements OnInit {
 						});
 						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 					}
+					this.sending = false;
 				}
 			}, error => {
 			  if (error.status === 404)
@@ -159,6 +162,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetdateData(form.value);
 	}
 	
@@ -192,7 +196,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = localStorage.getItem("caseId");
+		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -231,6 +235,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 			url += "?taskId="+taskId;
 		}
+		
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)

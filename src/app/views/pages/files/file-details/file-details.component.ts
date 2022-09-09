@@ -140,6 +140,7 @@ export class FileDetailsComponent implements OnInit {
 	}
 	
 	deleteFile(fileUploadId: any) {
+		let dateCreated = sessionStorage.getItem("dateCreated");
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		this.dataService.deleteFilesData(url, fileUploadId).subscribe(Response => {
 			swal.fire("Case Files deleted successfully");
@@ -147,7 +148,7 @@ export class FileDetailsComponent implements OnInit {
 		  swal.fire("Unable to fetch data, please try again");
 		  return false;
 		});
-		this.router.navigate(['files/files']);
+		this.router.navigate(['casefiles/'+dateCreated+'/'+this.getcaseId]);
 	}
 	
 	downloadImg(url: any, name: any) {

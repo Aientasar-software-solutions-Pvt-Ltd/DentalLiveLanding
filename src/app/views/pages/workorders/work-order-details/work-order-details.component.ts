@@ -68,6 +68,13 @@ export class WorkOrderDetailsComponent implements OnInit {
 	public messageAry: any[] = []
 	messagedata:any;
 	
+	public Img = 'assets/images/users.png';
+	public caseImage = false;
+	patientImg: any;
+	parmCaseId:any;
+	casesName:any;
+	patientName:any;
+	
 	public isvalidDate = false;
 	minDate = new Date();
 	public descriptionObj = {
@@ -128,8 +135,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.descriptionObj.text = this.tabledata.notes.text;
 					this.descriptionObj.links = this.tabledata.notes.links;
 					this.getMessage(this.tabledata.caseId);
+					this.parmCaseId = this.tabledata.caseId;
 					//alert(JSON.stringify(this.tabledata.workorderId));
 					//alert(JSON.stringify(this.tabledata));
+					this.getCaseDetails();
 					
 				}
 			}, (error) => {
@@ -306,11 +315,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.messagedata[i].message.text,
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomments: this.messagedata[i].comments
 							});
 							this.setcvFastComment(this.messagedata[i].comments,i);
@@ -323,10 +333,11 @@ export class WorkOrderDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: '',
 								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
 						}
@@ -468,7 +479,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'work-orders/work-orders', 'put', '','comments');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1');
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -484,8 +495,42 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'work-orders/work-orders', 'post', '','message');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1');
 		//this.getMessage(this.tabledata.caseId);
 	};
+	
+	getCaseDetails() {
+		let url = this.utility.apiData.userCases.ApiUrl;
+		let caseId = this.parmCaseId;
+		if(caseId != 0)
+		{
+			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.tabledata = JSON.parse(Response.toString());
+					this.casesName = this.tabledata.title;
+					this.patientName = this.tabledata.patientName;
+					//this.caseid = this.tabledata.caseId;
+					//this.patientid = this.tabledata.patientId;
+					//alert(JSON.stringify(this.tabledata));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal(error.error);
+			  else
+				swal('Unable to fetch the data, please try again');
+			});
+		}
+	}
 	
 }

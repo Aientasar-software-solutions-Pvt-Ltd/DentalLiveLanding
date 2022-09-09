@@ -176,7 +176,9 @@
 						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
 							<div class="col-md-4 col-lg-6 d-flex">
 								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img alt="..." src="assets/images/circle.png" class="avatar avatar-sm rounded-circle me-2 ">Sophia
+									<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" class="avatar avatar-sm rounded-circle me-2 " />
+									<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="avatar avatar-sm rounded-circle me-2 "/>
+									{{message.patientName}}
 							   </div>
 							   
 							</div>
@@ -244,9 +246,9 @@
 							<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
 							<div class="row">
 								<div class="col-md-12 mb-2">
-									<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
-									<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
-									<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+									<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.detailsdata.caseId}}">
+									<input type="hidden" name="patientId" id="patientId" ngModel="{{this.detailsdata.patientId}}">
+									<input type="hidden" name="patientName" id="patientName" ngModel="{{this.detailsdata.patientName}}">
 									<input type="hidden" name="messageReferenceId" id="messageReferenceId" ngModel="{{this.tabledata.referralId}}">
 									<button type="submit" class="btn btn-default mt-1 me-2" >Add Message</button> 
 								</div>
@@ -532,8 +534,9 @@
 			<div class="modal-footer">
 				<input type="hidden" class="form-control" name="referralId" id="referralId" ngModel={{this.tabledata.referralId}} >
 				<input type="hidden" class="form-control" name="startdate" id="startdate" ngModel={{this.tabledata.startdate}} >
-				<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.detailsdata.caseId}}">
-				<input type="hidden" name="patientid" id="patientid" ngModel="{{this.detailsdata.patientId}}">
+				<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.detailsdata.caseId}}">
+				<input type="hidden" name="patientId" id="patientId" ngModel="{{this.detailsdata.patientId}}">
+				<input type="hidden" name="patientName" id="patientName" ngModel="{{this.detailsdata.patientName}}">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
 			</div>

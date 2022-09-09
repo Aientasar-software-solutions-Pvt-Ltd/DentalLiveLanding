@@ -25,7 +25,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
-		localStorage.setItem("tabActive", ids);
+		sessionStorage.setItem("tabActive", ids);
 	}
 	
 	showComment: any;
@@ -62,6 +62,9 @@ export class MilestoneDetailsComponent implements OnInit {
 	tabledata:any;
 	checkedList:any;
 	messagedata:any;
+	parmCaseId:any;
+	casesName:any;
+	patientName:any;
 	public module = 'patient';
 	public indexRow = 0;
 	taskdata = Array();
@@ -75,7 +78,9 @@ export class MilestoneDetailsComponent implements OnInit {
 	public messageArray: any[] = []
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
-	
+	public Img = 'assets/images/users.png';
+	public caseImage = false;
+	public patientImg: any;
 	dtOptions: DataTables.Settings = {};
 	
 	getmilestoneId: any;
@@ -110,7 +115,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.getallmilestone();
 		this.getalltasks();
 		//Set current tab
-		let tabActive = localStorage.getItem("tabActive");
+		let tabActive = sessionStorage.getItem("tabActive");
 		(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	}
 	searchText(event: any) {
@@ -119,15 +124,15 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addWorkOrders(milestoneId: any, caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneid', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneid', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['workorders/work-order-add/'+caseId]);
 	}
 	addReferal(milestoneId: any, caseId: any) {
-		localStorage.setItem('checkCase', '1');
-		localStorage.setItem('checkmilestoneidref', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('checkCase', '1');
+		sessionStorage.setItem('checkmilestoneidref', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['referrals/referral-add/'+caseId]);
 	}
 	getallmilestone() {
@@ -157,7 +162,9 @@ export class MilestoneDetailsComponent implements OnInit {
 					this.setcvFast(this.tabledata.description);
 					this.cvfastText = true;
 					this.getMessage(this.tabledata.caseId);
+					this.parmCaseId = this.tabledata.caseId;
 					//alert(this.tabledata['0'].presentStatus);
+					this.getCaseDetails();
 				}
 			}, (error) => {
 					alert(JSON.stringify(error));
@@ -168,8 +175,9 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addGeneralTask(milestoneId: any, caseId: any) {
-		localStorage.setItem('milestoneId', milestoneId);
-		localStorage.setItem('caseId', caseId);
+		//alert(milestoneId);
+		sessionStorage.setItem('milestoneId', milestoneId);
+		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/general-task-add']);
 	}
 	
@@ -335,8 +343,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	editGeneralTask(taskId: any, caseId: any, taskType: any) {
-		localStorage.setItem('taskId', taskId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('taskId', taskId);
+		sessionStorage.setItem('caseId', caseId);
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-edit/'+taskId]);
 		}
@@ -351,21 +359,20 @@ export class MilestoneDetailsComponent implements OnInit {
 	
 	deleteTask(taskId: any) {
 		let milestoneId = this.getmilestoneId;
-		//alert(milestoneId);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		this.dataService.deleteDataRecord(url, taskId, 'taskId').subscribe(Response => {
 			swal('Task deleted successfully');
-			this.getalltasks();
 			
 		}, (error) => {
 		  swal( 'Unable to fetch data, please try again');
 		  return false;
 		});
+		this.router.navigate(['/milestones/milestone-details/'+this.getmilestoneId]);
 	}
 	
 	viewGeneralTask(taskId: any, caseId: any, taskType: any) {
-		localStorage.setItem('taskId', taskId);
-		localStorage.setItem('caseId', caseId);
+		sessionStorage.setItem('taskId', taskId);
+		sessionStorage.setItem('caseId', caseId);
 		
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-view/'+taskId]);
@@ -523,12 +530,14 @@ export class MilestoneDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.messagedata[i].message.text,
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomments: this.messagedata[i].comments
+								
 							});
 							this.setcvFastComment(this.messagedata[i].comments,i);
 							this.setcvFastMsg(this.messagedata[i].message,i);
@@ -540,11 +549,12 @@ export class MilestoneDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: '',
 								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
-								messagecomment: this.messagedata[i].comments
+								messagecomment: this.messagedata[i].comments,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 							});
 						}
 					}
@@ -685,7 +695,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments',1);
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -701,7 +711,7 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message',1);
 		//this.getMessage(this.tabledata.caseId);
 	};
 	
@@ -741,6 +751,40 @@ export class MilestoneDetailsComponent implements OnInit {
 				  return false;
 				});
 			}
+		}
+	}
+	
+	getCaseDetails() {
+		let url = this.utility.apiData.userCases.ApiUrl;
+		let caseId = this.parmCaseId;
+		if(caseId != 0)
+		{
+			url += "?caseId="+caseId;
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					let caseDetails = JSON.parse(Response.toString());
+					this.casesName = caseDetails.title;
+					this.patientName = caseDetails.patientName;
+					this.caseid = caseDetails.caseId;
+					this.patientid = caseDetails.patientId;
+					//alert(JSON.stringify(this.tabledata));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal(error.error);
+			  else
+				swal('Unable to fetch the data, please try again');
+			});
 		}
 	}
 }

@@ -81,6 +81,14 @@ export class ReferralDetailsComponent implements OnInit {
 	public messageAry: any[] = []
 	messagedata:any;
     referralId:any;
+	
+	public Img = 'assets/images/users.png';
+	public caseImage = false;
+	patientImg: any;
+	parmCaseId:any;
+	casesName:any;
+	patientName:any;
+	
  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	this.referralId = this.route.snapshot.paramMap.get('referralId');
  }
@@ -114,7 +122,6 @@ export class ReferralDetailsComponent implements OnInit {
 		$($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
 	});
 	this.getReferralDetails();
-	this.getCaseDetails();
   }
   
   
@@ -139,6 +146,7 @@ export class ReferralDetailsComponent implements OnInit {
 					//swal.close();
 					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
+					this.getCaseDetails(this.tabledata.caseId);
 					this.setcvFast(this.tabledata.notes);
 					this.toothData = this.tabledata.toothguide;
 					this.cvfastText = true;
@@ -226,7 +234,7 @@ export class ReferralDetailsComponent implements OnInit {
 		}
 	}
 	
-	getCaseDetails() {
+	getCaseDetails(caseId) {
 		this.detailsdata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -236,9 +244,7 @@ export class ReferralDetailsComponent implements OnInit {
 			  closeOnClickOutside: false,
 			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
-			
-			let caseId = localStorage.getItem("caseId");
-			
+						
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -352,11 +358,12 @@ export class ReferralDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.messagedata[i].message.text,
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomments: this.messagedata[i].comments
 							});
 							this.setcvFastComment(this.messagedata[i].comments,i);
@@ -369,10 +376,11 @@ export class ReferralDetailsComponent implements OnInit {
 								patientId: this.messagedata[i].patientId,
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
+								patientName: this.messagedata[i].resourceOwner,
 								messagetext: '',
 								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
+								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
 						}
@@ -511,9 +519,9 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '4';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
+		alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'referral/referral-list', 'put', '','comments');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments',1);
 		//this.getMessage(this.tabledata.caseId);
 	};
 	
@@ -530,7 +538,7 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'referral/referral-list', 'post', '','message');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message',1);
 		this.getMessage(this.tabledata.caseId);
 	};
 }

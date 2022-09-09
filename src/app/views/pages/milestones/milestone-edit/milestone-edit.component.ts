@@ -72,7 +72,7 @@ export class MilestoneEditComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				this.sending = false;
+				
 				this.editdata = JSON.parse(Response.toString());
 				//alert(JSON.stringify(this.editdata));
 				setTimeout(()=>{     
@@ -82,6 +82,7 @@ export class MilestoneEditComponent implements OnInit {
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.getCaseDetails(this.editdata.caseId);
 				this.editedTitle = decode(this.editdata.title);
+				this.sending = false;
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -112,13 +113,14 @@ export class MilestoneEditComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		//alert(JSON.stringify(form.value));
 		this.onGetdateData(form.value);
 	}
 	
 	onGetdateData(data: any)
 	{
-		this.sending = true;
+		
 		this.jsonObj['milestoneId'] = data.milestoneId;
 		this.jsonObj['title'] = encode(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
@@ -136,7 +138,7 @@ export class MilestoneEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.cvfastval.returnCvfast()));
 		//alert(JSON.stringify(this.jsonObj));
-		const backurl = localStorage.getItem('backurl');
+		const backurl = sessionStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone updated successfully', backurl, 'put','','description');
 		

@@ -73,7 +73,7 @@ export class UtilityService {
 
   getUserDetails() {
     try {
-      let user = localStorage.getItem("usr");
+      let user = sessionStorage.getItem("usr");
       if (!user)
         return false;
       let decrypt = JSON.parse(CryptoJS.AES.decrypt(user, environment.decryptKey).toString(CryptoJS.enc.Utf8));
@@ -81,7 +81,7 @@ export class UtilityService {
         return false;
       return decrypt;
     } catch (e) {
-      localStorage.removeItem("usr");
+      sessionStorage.removeItem("usr");
       return false;
     }
   }
@@ -105,7 +105,7 @@ export class UtilityService {
 
   async getPreSignedUrl(objectName, module, type = 'get', media) {
     let headers = new HttpHeaders();
-    let auth = localStorage.getItem("usr");
+    let auth = sessionStorage.getItem("usr");
     headers = headers.set('authorization', auth);
 
     let Response = await this.http.get(`https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name=${objectName}&module=${module}&type=${type}&media=${media}`, {

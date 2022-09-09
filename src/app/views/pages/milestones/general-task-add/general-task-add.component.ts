@@ -17,7 +17,7 @@ import {encode} from 'html-entities';
 })
 export class GeneralTaskAddComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	
+	sending: boolean;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -59,7 +59,8 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.selectedMember = this.defaultBindingsList[0];
 		this.getCaseDetails();
 		this.getAllMembers();
-		this.milestoneIdadd = localStorage.getItem("milestoneId");
+		this.milestoneIdadd = sessionStorage.getItem("milestoneId");
+		//alert(this.milestoneIdadd);
 	}
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
@@ -99,8 +100,9 @@ export class GeneralTaskAddComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
+			this.sending = true;
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			let caseId = localStorage.getItem("caseId");
+			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
@@ -124,6 +126,7 @@ export class GeneralTaskAddComponent implements OnInit {
 						});
 						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 					}
+					this.sending = false;
 				}
 			}, error => {
 			  if (error.status === 404)
@@ -177,6 +180,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		this.sending = true;
 		this.onGetdateData(form.value);
 	}
 	onGetdateData(data: any)
@@ -207,7 +211,7 @@ export class GeneralTaskAddComponent implements OnInit {
 	
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = localStorage.getItem("caseId");
+		let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
