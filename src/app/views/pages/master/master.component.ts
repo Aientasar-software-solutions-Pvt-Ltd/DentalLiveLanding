@@ -372,6 +372,109 @@ export class MasterComponent implements OnInit {
 			});
 		}
 	}
+	
+	onSubmitFilesFilter(form: NgForm){
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			//alert(JSON.stringify(form.value));
+			let url = this.utility.apiData.userCaseFiles.ApiUrl;
+			let caseId = this.paramCaseId;
+			let patientId = this.paramPatientId;
+			
+			if(caseId != '')
+			{
+				url += "?caseId="+caseId;
+			}
+			if(form.value.dateFrom != '')
+			{
+				if(caseId != '')
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
+				}
+				else
+				{
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				}
+			}
+			if(form.value.dateTo != '')
+			{
+				if(form.value.dateFrom != '' || caseId != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
+			}
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.isLoadingData = false;
+					this.filesdataArray = JSON.parse(Response.toString()).reverse();
+					//alert(JSON.stringify(this.filesdataArray));
+					if(this.filesdataArray.length == 0)
+					{
+						this.setcvFast('','file');
+					}
+					this.casefilesArray = Array();
+					let casefilesDate = Array();
+					if(this.filesdataArray.length > 0)
+					{
+						for(var i = 0; i < this.filesdataArray.length; i++)
+						{
+							//alert(new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US"));
+							casefilesDate.push({
+							  checkdate: new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US")
+							});
+							let createddate = new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US");
+							var isPresent = this.casefilesArray.some(function(el){
+							return el.checkdate === createddate
+							});
+							if(isPresent == false)
+							{
+								this.casefilesArray.push({
+								  checkdate: createddate,
+								  dateCreated: this.filesdataArray[i].dateCreated,
+								  patientId: this.filesdataArray[i].patientId,
+								  files: this.filesdataArray[i].files,
+								  caseId: this.filesdataArray[i].caseId,
+								  fileUploadId: this.filesdataArray[i].fileUploadId,
+								  ownerName: this.filesdataArray[i].resourceOwner,
+								  filecount: 1,
+								});
+								//alert(JSON.stringify(this.casefilesArray));
+							}
+						}
+						for(var k = 0; k < this.casefilesArray.length; k++)
+						{
+							let count = this.getFilesCount(casefilesDate,this.casefilesArray[k].checkdate);
+							this.casefilesArray[k].filecount = count;
+						}
+						this.setcvFast(this.casefilesArray,'file');
+					}
+					//this.filesdata = this.groupByKey(this.casefilesArray, 'checkdate');
+					//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
+					//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
+				}
+			}, error => {
+			  if (error.status === 404)
+				swal('E-Mail ID does not exists,please signup to continue');
+			  else if (error.status === 403)
+				swal('Account Disabled,contact Dental-Live');
+			  else if (error.status === 400)
+				swal('Wrong Password,please try again');
+			  else if (error.status === 401)
+				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  else if (error.status === 428)
+				swal(error.error);
+			  else
+				swal('Unable to fetch the data, please try again');
+			});
+		}
+	}
 	setcvFastComment(obj: any, index: any)
 	{
 		obj.links = '';
@@ -597,7 +700,7 @@ export class MasterComponent implements OnInit {
 						  end: new Date(this.milestonedata[i].duedate)
 						});
 					}
-					//alert(this.milestonedata.length);
+					//alert(JSON.stringify(this.milestonedata));
 					this.calendarOptions = {
 						initialView: 'dayGridMonth',
 						themeSystem: 'bootstrap5',
@@ -1551,6 +1654,9 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(userData));
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
+			this.invitedata[index].userEducation = userData.education;
+			this.invitedata[index].userCity = userData.city;
+			this.invitedata[index].userCountry = userData.country;
 			//alert(JSON.stringify(this.invitedata));
 			this.isLoadingData = false;
 		}

@@ -58,9 +58,9 @@
 											<option value="Jhone Duo">Jhone Duo</option>
 											<option value="Danel Gray">Danel Gray</option>
 										</select> -->
-										<ng-select *ngIf="(this.checkCase == '')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select" required  name="caseName" id="caseName">
+										<ng-select *ngIf="(this.checkCase == '0')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select" required  name="caseName" id="caseName">
 										</ng-select>
-										<input type="text" *ngIf="(this.checkCase != '')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
+										<input type="text" *ngIf="(this.checkCase != '0')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
 									</div>
 								</div>
 								<div class="col-md-6">

@@ -379,13 +379,13 @@
 																</div>
 															</td>
 															<td>
-																<span class="body2">BDS/DDS/DMD </span>
+																<span class="body2">{{invite.userEducation}} </span>
 															</td>
 															<td>
-																<span class="body2">Toronto</span>
+																<span class="body2">{{invite.userCity}}</span>
 															</td>
 															<td style="vertical-align:middle;">
-																<span class="body2">Canada </span>
+																<span class="body2">{{invite.userCountry}} </span>
 															</td>
 															<td style="vertical-align:middle;">
 																<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>
@@ -669,10 +669,10 @@
 																</td>
 																<td>
 																	<div class="d-flex align-items-center">
-																		<span class="avatar-icon my-2">{{data.patientName.charAt(0)}}</span>
+																		<span class="avatar-icon my-2">{{data.resourceOwner.charAt(0)}}</span>
 																		<div class="ps-2">
 																			<!--<span class="body2 d-block">Colin</span>-->
-																			<span class="body2 d-block">{{data.patientName}}</span>
+																			<span class="body2 d-block">{{data.resourceOwner}}</span>
 																		</div>
 																	</div>
 																</td>
@@ -1036,7 +1036,7 @@
 								<option>Date Created</option>
 																		
 							</select>
-						</div>-->
+						</div>
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
@@ -1048,7 +1048,7 @@
 								<i class="bx bx-search"></i>
 								<input type="text" class="form-control" ngModel name="patientId" id="patientId" placeholder="Search by Patient Id" >
 							</div>
-						</div>
+						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
@@ -1095,7 +1095,7 @@
 							<option>Response Date</option>
 					   </select>
 					</div>
-					<div class="col-md-12">
+					<!-- <div class="col-md-12">
 						<div class="search">
 							<i class="bx bx-search"></i>
 							<input type="text" class="form-control" placeholder="Search by Patients Name" >
@@ -1106,7 +1106,7 @@
 							<i class="bx bx-search"></i>
 							<input type="text" class="form-control" placeholder="Search by Case Name" >
 						</div>
-					</div>
+					</div> -->
 					<div class="col-md-12">
 						<label class="form-label body2 text-dark">Search by Date:</label>
 					</div>
@@ -1214,7 +1214,7 @@
 								<option>Last Modified</option>
 								<option>Date Created</option>
 							</select>
-						</div>
+						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
@@ -1226,7 +1226,7 @@
 								<i class="bx bx-search"></i>
 								<input type="text" class="form-control" ngModel name="caseName" id="caseName" placeholder="Search by Case Name" >
 							</div>
-						</div>-->
+						</div>
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Search by Date:</label>
 						</div>
@@ -1303,6 +1303,65 @@
 					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
 					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
 					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="filterModalFile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form #FilesForm="ngForm" id="fileForm" (ngSubmit)="onSubmitFilesFilter(FilesForm)">
+				<div class="modal-body">
+					<div class="row gy-3">
+						<!--<div class="col-md-12">
+							<select class="form-select" placeholder="search">
+								<option disabled="" selected="">Sort By</option>
+								<option>Patients</option>
+								<option>Cases</option>
+								<option>Last Modified</option>
+								<option>Date Created</option>
+							</select>
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="patientName" id="patientName" placeholder="Search by Patients Name" >
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<div class="search">
+								<i class="bx bx-search"></i>
+								<input type="text" class="form-control" ngModel name="caseName" id="caseName" placeholder="Search by Case Name" >
+							</div>
+						</div>-->
+						<div class="col-md-12">
+							<label class="form-label body2 text-dark">Search by Date:</label>
+						</div>
+						<div class="col-md-6 "> 
+							<label class="form-label body2 text-dark">From</label>
+							<input type="date" ngModel name="dateFrom" id="dateFrom" class="form-control">
+						</div>
+						<div class="col-md-6"> 
+							<label class="form-label body2 text-dark">To</label>
+							<input type="date" ngModel name="dateTo" id="dateTo" class="form-control">
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+
+
+
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
 				</div>
 			</form>
 		</div>
