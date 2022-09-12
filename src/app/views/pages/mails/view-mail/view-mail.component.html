@@ -67,7 +67,7 @@
             <div *ngIf="message.mailType=='INC' && message.attachmentList.length>0">
               <strong class="d-block"><u>Attachments</u></strong>
               <div *ngFor="let attachment of message.attachmentList">
-                <a class="d-block my-2" target="_blank" href="/file/{{attachment}}">{{attachment}}</a>
+                <a class="d-block my-2" target="_blank" routerLink="/file/{{attachment}}">{{attachment}}</a>
               </div>
             </div>
             <div class="body2" [innerHTML]="sanitizer.bypassSecurityTrustHtml(message.htmlText)"></div>

@@ -147,6 +147,9 @@ export class ColleagueViewProfileComponent implements OnInit {
 			let userData = JSON.parse(Response.toString());
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
+			this.invitedata[index].userEducation = userData[0].education;
+			this.invitedata[index].userCity = userData[0].city;
+			this.invitedata[index].userCountry = userData[0].country;
 			//this.inviteReceivedData[index].userName = name;
 			//alert(JSON.stringify(this.inviteReceivedData));
 		}

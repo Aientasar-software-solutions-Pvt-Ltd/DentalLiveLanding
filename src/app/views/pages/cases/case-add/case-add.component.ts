@@ -95,22 +95,25 @@ export class CaseAddComponent implements OnInit {
 				{
 					if(this.tabledataAll[k].isActive == true)
 					{
-						let name = this.tabledataAll[k].firstName+' '+this.tabledataAll[k].lastName;
-						if(this.tabledataAll[k].image)
+						if(this.tabledataAll[k].resourceOwner == user.emailAddress)
 						{
-							this.allpatient.push({
-							  id: this.tabledataAll[k].patientId,
-							  name: name,
-							  patientimage: this.tabledataAll[k].image
-							});
-						}
-						else
-						{
-							this.allpatient.push({
-							  id: this.tabledataAll[k].patientId,
-							  name: name,
-							  patientimage: ''
-							});
+							let name = this.tabledataAll[k].firstName+' '+this.tabledataAll[k].lastName;
+							if(this.tabledataAll[k].image)
+							{
+								this.allpatient.push({
+								  id: this.tabledataAll[k].patientId,
+								  name: name,
+								  patientimage: this.tabledataAll[k].image
+								});
+							}
+							else
+							{
+								this.allpatient.push({
+								  id: this.tabledataAll[k].patientId,
+								  name: name,
+								  patientimage: ''
+								});
+							}
 						}
 					}
 				}
@@ -158,8 +161,9 @@ export class CaseAddComponent implements OnInit {
 	}
 	onGetdateData(data: any)
 	{
+		let user = this.usr.getUserDetails(false);
 		this.sending = true;
-		this.jsonObj['resourceOwner'] = data.resourceOwner;
+		this.jsonObj['resourceOwner'] = user.emailAddress;
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['image'] = data.image;

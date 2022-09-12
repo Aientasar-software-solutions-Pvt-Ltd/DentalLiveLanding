@@ -117,7 +117,6 @@
 									<th class="body2">PATIENT NAME </th>
 									<th class="body2">CASE TITLE</th>
 									<th class="body2">STATUS</th>
-									<th class="body2" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody *ngIf="invitedata?.length != 0">
@@ -146,22 +145,6 @@
 											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 3)">Removed</span><br/>
 											<small class="text-muted">Invited on : {{invite.dateCreated | date:'MM/dd/YYYY'}}</small>
 										</div>                     
-									</td>
-									<td>
-										<div *ngIf="(invite.resourceOwner != invite.dentalId)">
-											<div class="dropdown" *ngIf="(invite.presentStatus == 0)">
-												<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-													<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
-												</a>
-												<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-													
-													<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invite.invitationId, 1);">Accepted</button></li>
-													
-													<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invite.invitationId, 2);">Declined</button></li>
-													
-												</ul>
-											</div>
-										</div>
 									</td>
 								</tr>
 							</tbody>

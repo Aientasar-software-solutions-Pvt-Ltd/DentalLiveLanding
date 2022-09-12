@@ -20,7 +20,7 @@ import {decode} from 'html-entities';
 })
 export class ReferralEditComponent implements OnInit {
 	@ViewChild(Cvfast) cv!: Cvfast;
-	sending: boolean;
+	sending: false;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -209,7 +209,6 @@ export class ReferralEditComponent implements OnInit {
 		//alert(JSON.stringify(this.allMemberName));
 	}
 	getEditReferral() {
-		this.sending = true;
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let referralId = this.referralId;
 		if(referralId != '')
@@ -231,7 +230,6 @@ export class ReferralEditComponent implements OnInit {
 				}, 1000);
 				this.getCaseDetails(this.editedDate.caseId);
 				this.getAllMembers(this.editedDate.caseId);
-				this.sending = false;
 			}
 		}, error => {
 		  if (error.status === 404)

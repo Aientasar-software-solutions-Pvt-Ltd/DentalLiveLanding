@@ -17,12 +17,15 @@ export class CaseAddInviteMembersComponent implements OnInit {
 
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	sending = false;
+	public inviteEmailArray: any[] = []
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
 	public allMemberDentalId: any[] = []
     selectedCity = '';
 	public isvalidDate = false;
+	isLoadingData = true;
+	invitedata:any;
 	
 	public jsonObjInvite = {
 		patientId: '',
@@ -50,7 +53,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.getCaseDetails();
-		this.getAllMembers();
+		this.getInviteListing();
 	}
 	
 	getCaseDetails() {
@@ -98,27 +101,32 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			let Colleague = JSON.parse(Response.toString());
 			//alert(JSON.stringify(Colleague));
 			this.allMember = Array();
+			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)
 			{
-				if(user.emailAddress != Colleague[k].emailAddress)
-				{
-					let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
-					let avatar = ''
-					if(Colleague[k].imageSrc != undefined)
+				if (checkInviteEmail.includes(Colleague[k].emailAddress)) {
+				}
+				else{
+					if(user.emailAddress != Colleague[k].emailAddress)
 					{
-					avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
+						let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
+						let avatar = ''
+						if(Colleague[k].imageSrc != undefined)
+						{
+						avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
+						}
+						else
+						{
+						avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+						}
+						this.allMember.push({
+						  id: k,
+						  avatar: avatar,
+						  emailAddress: Colleague[k].emailAddress,
+						  dentalId: Colleague[k].dentalId,
+						  name: name
+						});
 					}
-					else
-					{
-					avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
-					}
-					this.allMember.push({
-					  id: k,
-					  avatar: avatar,
-					  emailAddress: Colleague[k].emailAddress,
-					  dentalId: Colleague[k].dentalId,
-					  name: name
-					});
 				}
 			}
 			//alert(JSON.stringify(this.allMember));
@@ -185,5 +193,97 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText');
 			}
 		}
+	};
+	
+	getInviteListing() {
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		let caseId = sessionStorage.getItem("invitecaseId");
+		if(caseId != '')
+		{
+			url += "?caseId="+caseId;
+		}
+		url += "&resourceOwner="+user.emailAddress;
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.isLoadingData = false;
+				let GetAllData = JSON.parse(Response.toString());
+				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				this.invitedata = Array();
+				this.inviteEmailArray = Array();
+				for(var k = 0; k < GetAllData.length; k++)
+				{
+					this.invitedata.push({
+					  id: k,
+					  patientId: GetAllData[k].patientId,
+					  invitedUserId: GetAllData[k].invitedUserId,
+					  invitedUserMail: GetAllData[k].invitedUserMail,
+					  invitationId: GetAllData[k].invitationId,
+					  userName: '',
+					  presentStatus: GetAllData[k].presentStatus,
+					  invitationText: GetAllData[k].invitationText,
+					  patientName: GetAllData[k].patientName,
+					  caseId: GetAllData[k].caseId,
+					  dateUpdated: GetAllData[k].dateUpdated,
+					  resourceOwner: GetAllData[k].resourceOwner
+					});
+					this.inviteEmailArray.push(GetAllData[k].invitedUserMail);
+					//this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+				}
+				this.getAllMembers();
+			}
+		}, error => {
+		  this.getAllMembers();
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
+	}
+	
+	onSubmitInviteNew(form: NgForm){
+		let user = this.usr.getUserDetails(false);
+		
+		if (form.invalid) {
+		  form.form.markAllAsTouched();
+		  return;
+		}
+		
+		let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/sendinvite';
+	
+		url += "?caseId="+form.value.caseId+'&name='+form.value.name+'&email='+form.value.email;
+		
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+		  if (Response) Response = JSON.parse(Response.toString());
+		  swal('New member invited successfully');
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			 swal({
+					text: error.error
+				}).then(function() {
+					window.location.reload();
+				});
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
 	};
 }

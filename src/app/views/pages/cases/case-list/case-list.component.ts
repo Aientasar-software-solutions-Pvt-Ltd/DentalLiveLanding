@@ -197,6 +197,7 @@ export class CaseListComponent implements OnInit {
 			url += "?caseId="+caseId;
 		}
 		url += "&resourceOwner="+user.emailAddress;
+		url += "&presentStatus=1";
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)

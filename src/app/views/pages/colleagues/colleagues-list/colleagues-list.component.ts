@@ -116,6 +116,7 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
+		
 		if(user)
 		{
 		let url = this.utility.apiData.userColleague.ApiUrl;
@@ -127,8 +128,12 @@ export class ColleaguesListComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
+			//alert(JSON.stringify(userData));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
+			this.invitedata[index].userEducation = userData[0].education;
+			this.invitedata[index].userCity = userData[0].city;
+			this.invitedata[index].userCountry = userData[0].country;
 			//this.inviteReceivedData[index].userName = name;
 			//alert(JSON.stringify(this.inviteReceivedData));
 		}

@@ -33,7 +33,7 @@ export class WorkOrderAddComponent implements OnInit {
 	public patientName = '';
 	public parmCaseId = '';
 	milestoneid = sessionStorage.getItem("checkmilestoneid");
-	checkCase = sessionStorage.getItem("checkCase");
+	checkCase = '';
 	//checkCase = '2';
 	keyword = 'name';
 	public jsonObj = {
@@ -51,7 +51,10 @@ export class WorkOrderAddComponent implements OnInit {
 	minDate = new Date();
 	tabledata:any;
 	tabledataAll:any;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { this.parmCaseId = this.route.snapshot.paramMap.get('caseId'); }
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
+	this.parmCaseId = this.route.snapshot.paramMap.get('caseId');
+	this.checkCase = this.route.snapshot.paramMap.get('caseId');
+	}
 	
 	@ViewChild(WorkOrderGuideComponent)
 	orders: WorkOrderGuideComponent;

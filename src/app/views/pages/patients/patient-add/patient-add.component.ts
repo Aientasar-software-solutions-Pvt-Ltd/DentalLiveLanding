@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router } from '@angular/router';
@@ -89,7 +90,7 @@ export class PatientAddComponent implements OnInit {
 	},{
 		id: 3
 	}];
-  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { }
+  constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private UtilityDev: UtilityServicedev) { }
 
   ngOnInit(): void {
   }
@@ -213,7 +214,7 @@ export class PatientAddComponent implements OnInit {
 		let GetForm = form.value;
 		let cvfast = this.cv;
 		let requests = this.attachmentFiles.map((object) => {
-		  return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
+		  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
 		});
 		Promise.all(requests)
 		  .then((values) => {

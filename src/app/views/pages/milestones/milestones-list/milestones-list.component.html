@@ -67,10 +67,10 @@
 								</td>
 								<td>
 									<div class="d-flex align-items-center">
-										<span class="avatar-icon my-2">{{data.patientName.charAt(0)}}</span>
+										<span class="avatar-icon my-2">{{data.resourceOwner.charAt(0)}}</span>
 										<div class="ps-2">
 											<!--<span class="body2 d-block">Colin</span>-->
-											<span class="body2 d-block">{{data.patientName}}</span>
+											<span class="body2 d-block">{{data.resourceOwner}}</span>
 										</div>
 									</div>
 								</td>
@@ -91,10 +91,10 @@
 								</td>  
 								<td>
 									<div class="d-flex">
-										<a href="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
+										<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
-										<a href="/milestones/milestone-details/{{data.milestoneId}}" class="me-1">
+										<a routerLink="/milestones/milestone-details/{{data.milestoneId}}" class="me-1">
 											<i class="material-icons fs-4 text-light-green">
 												visibility
 											</i>
@@ -133,7 +133,7 @@
 								<option>Last Modified</option>
 								<option>Date Created</option>
 							</select>
-						</div>-->
+						</div>
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
@@ -145,7 +145,7 @@
 								<i class="bx bx-search"></i>
 								<input type="text" class="form-control" ngModel name="patientId" id="patientId" placeholder="Search by Patient Id" >
 							</div>
-						</div>
+						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>

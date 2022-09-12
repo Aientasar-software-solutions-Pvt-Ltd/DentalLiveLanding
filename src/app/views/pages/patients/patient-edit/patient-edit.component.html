@@ -240,7 +240,7 @@
 										<div class="row">
 											<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
 											<div class="col-sm-8 col-lg-10">
-												<textarea rows="2" class="form-control" (ngModel)="medication.notes" name="notes_{{medication.id}}" id="notes_{{medication.id}}" (keyup)="addMedicationValidation(i,'notes',$event);" placeholder=""></textarea>
+												<textarea rows="2" class="form-control" ngModel={{medication.notes}} name="notes_{{medication.id}}" id="notes_{{medication.id}}" (keyup)="addMedicationValidation(i,'notes',$event);" placeholder=""></textarea>
 											</div>
 										</div>
 									</div>

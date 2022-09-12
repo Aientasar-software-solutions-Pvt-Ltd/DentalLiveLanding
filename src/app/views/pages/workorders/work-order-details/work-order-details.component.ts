@@ -509,12 +509,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 			.subscribe(Response => {
 				if (Response)
 				{
-					this.tabledata = JSON.parse(Response.toString());
-					this.casesName = this.tabledata.title;
-					this.patientName = this.tabledata.patientName;
-					//this.caseid = this.tabledata.caseId;
-					//this.patientid = this.tabledata.patientId;
-					//alert(JSON.stringify(this.tabledata));
+					let CaseDetails = JSON.parse(Response.toString());
+					//alert(JSON.stringify(CaseDetails));
+					this.casesName = CaseDetails.title;
+					this.patientName = CaseDetails.patientName;
+					//this.caseid = CaseDetails.caseId;
+					//this.patientid = CaseDetails.patientId;
 				}
 			}, error => {
 			  if (error.status === 404)

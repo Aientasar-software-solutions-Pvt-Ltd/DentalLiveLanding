@@ -15,10 +15,10 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
-		<h3>Diana > <span class="text-primary">  Cases</span></h3>
+		<h3>{{this.tabledata.firstName}} {{this.tabledata.lastName}} > <span class="text-primary">  Cases</span></h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<a routerLink="/cases/case-add" class="btn btn-default"><i class="bx bx-briefcase-alt"></i> Add Case</a>
+		<a routerLink="/cases/case-add/{{this.paramPatientId}}" class="btn btn-default"><i class="bx bx-briefcase-alt"></i> Add Case</a>
 	</div>
 </div>
 

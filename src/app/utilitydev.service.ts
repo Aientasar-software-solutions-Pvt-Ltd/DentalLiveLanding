@@ -8,9 +8,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class UtilityServicedev {
-
   constructor(private http: HttpClient) { }
-
   getUserDetails() {
     try {
       let user = sessionStorage.getItem("usr");

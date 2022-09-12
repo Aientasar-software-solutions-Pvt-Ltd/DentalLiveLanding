@@ -1,6 +1,6 @@
 <section id="header">
   <nav class="px-4 navbar navbar-expand-md bg-white navbar-dark fixed-top">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" routerLink="/">
       <img src="assets/images/Logo_Dark.png">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -93,7 +93,7 @@
             </div>
             <div *ngIf="isuser.checked" class="mb-2">
               <span class="body1" style="color: #5D6A7E;">New user? <a class="fw-bold"
-                  style="color:#00D9CC;text-decoration: none;" href="/auth/signup">Sign
+                  style="color:#00D9CC;text-decoration: none;" routerLink="/auth/signup">Sign
                   Up</a></span>
             </div>
             <div *ngIf="isuser.checked" class="my-4 text-center body1 orLine position-relative" style="color: #5D6A7E;">

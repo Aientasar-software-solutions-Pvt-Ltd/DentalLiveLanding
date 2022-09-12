@@ -341,27 +341,27 @@
 										<td>
 											<div class="d-flex">
 												
-												<a *ngIf="(data.taskType == 'Referral')" href="/referrals/referral-edit/{{data.referralId}}" class="me-1">
+												<a *ngIf="(data.taskType == 'Referral')" routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1">
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
-												<a *ngIf="(data.taskType == 'WorkOrder')" href="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" >
+												<a *ngIf="(data.taskType == 'WorkOrder')" routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" >
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
-												<a *ngIf="(data.taskType == 'General')" href="/milestones/general-task-edit/{{data.taskId}}" class="me-1">
+												<a *ngIf="(data.taskType == 'General')" routerLink="/milestones/general-task-edit/{{data.taskId}}" class="me-1">
 													<i class="material-icons text-bright-blue">edit</i>
 												</a>
 												
-												<a *ngIf="(data.taskType == 'Referral')" href="/referral/referral-details/{{data.referralId}}" class="me-1">
+												<a *ngIf="(data.taskType == 'Referral')" routerLink="/referral/referral-details/{{data.referralId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
-												<a *ngIf="(data.taskType == 'WorkOrder')" href="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
+												<a *ngIf="(data.taskType == 'WorkOrder')" routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
 												</a>
-												<a *ngIf="(data.taskType == 'General')" href="/milestones/general-task-view/{{data.taskId}}" class="me-1">
+												<a *ngIf="(data.taskType == 'General')" routerLink="/milestones/general-task-view/{{data.taskId}}" class="me-1">
 													<i class="material-icons fs-4 text-light-green">
 														visibility
 													</i>
