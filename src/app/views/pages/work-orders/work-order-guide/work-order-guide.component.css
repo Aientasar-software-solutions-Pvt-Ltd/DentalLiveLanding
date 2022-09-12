@@ -1,7 +1,6 @@
 .selectionTree {
-    background: #EEEEEE;
     overflow: auto;
-    max-height: 400px;
+    max-height: 350px;
 }
 
 .selectionTree h6,
@@ -70,7 +69,8 @@ h6.showNode::before {
 #toothGuide {
     text-align: center;
     position: relative;
-    padding: 3em;
+    padding: 2em;
+    padding-top: 4em;
 }
 
 .mapshell * {

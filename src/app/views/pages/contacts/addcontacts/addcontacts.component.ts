@@ -61,7 +61,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
         if (Response) Response = JSON.parse(Response.toString());
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
-          this.router.navigate(['mail/contacts']);
+          this.router.navigate(['contacts']);
         }
         this.object = Response;
         if (this.object.imageSrc) this.imageSrc = this.section.bucketUrl + this.object.imageSrc;
@@ -69,7 +69,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
       },
       (error) => {
         swal("No data exists");
-        this.router.navigate(['mail/contacts']);
+        this.router.navigate(['contacts']);
       });
   }
 
@@ -120,7 +120,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
       .subscribe((Response) => {
         ;
         this.isEditMode ? swal("Contact updated succesfully") : swal("Contact added succesfully");
-        this.router.navigate(['mail/contacts']);
+        this.router.navigate(['contacts']);
       }, (error) => {
         if (error.status == 406)
           swal("Failed to add,E-Mail Address exists");
@@ -159,7 +159,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
       .subscribe((Response) => {
         ;
         swal("Contact Updated Succesfully");
-        this.router.navigate(['mail/contacts']);
+        this.router.navigate(['contacts']);
       }, (error) => {
         swal("Failed to process request,please try again");
 
@@ -177,7 +177,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
       (Response) => {
         ;
         swal("Contact Deleted Succesfully");
-        this.router.navigate(['mail/contacts']);
+        this.router.navigate(['contacts']);
       },
       (error) => {
         swal("Failed to process request,please try again");

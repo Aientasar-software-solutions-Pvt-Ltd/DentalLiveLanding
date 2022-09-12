@@ -1,77 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Dentallive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-	img{
-		max-width:100%;
-	}
-	*, :after, :before {
-		box-sizing: border-box;
-	}
-	body{
-		font-family:arial;
-	}
-</style>
-</head>
-<body>
-	<div style="width:640px;margin:50px auto;padding:0px;">
-		<div style="width:100%;padding:0px;">
-			<table style="width:100%;font-size:15px;">
-				<thead>
-					<tr>
-						<td valign="top" align="left" style="padding-bottom:10px;">
-							<img src="https://www.converthink.in/dentallive/assets/images/Logo_Dark.png" style="max-width:250px;"/>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" align="left" style="padding-bottom:5px;padding-top:5px;background:#3dad4b;text-align:center;lineiheight:1;color:#ffffff;font-size:24px;">
-							Notification on New Work Order
-						</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td valign="top" style="padding-top:10px;padding-bottom:10px;">
-							Dear <strong style="color:#1f497d;">Dr.Issac Samuel</strong>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" style="padding-bottom:10px;">
-							A new Work Order 'Work Order Title' has been created for Patient (Name) and Case (Case Title) with a Due Date of Jan 20 2022.
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" style="padding-bottom:10px;">
-							<a href="#" style="background:#c6d9f1;border:1px solid #000000;color:#000000;width:124px;height:32px;line-height:32px;display:inline-block;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">Login To Reply</a>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" style="padding-bottom:10px;padding-top:20px;line-height:2;">
-							Thank you <br/>
-							<strong style="color:#1f497d;">Team Dental Live</strong><br/>
-							<em style="color:#4f81bd;">Connect, Communicate, Collaborate!</em>
-						</td>
-					</tr>
-					<tr>
-						<td valign="top" style="padding-top:20px;padding-bottom:40px;line-height:2;">
-							Welcome to the <strong>Dental Live</strong> community!!!!
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td style="padding-bottom:15px;padding-top:15px;padding-left:15px;padding-right:15px;background:#e1e1e1;color:#5f5f5f;line-height: 1.4;">
-							<strong style="color:#5f5f5f;">Regards,</strong><br/>
-							Dental Live Team<br/>
-							For any queries, write to us at <a href="mailto:contact@dentallive.com;" style="color:#0000ff;">contact@dentallive.com</a> or call us at 623-244-2525
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+<div style='width:640px;margin:50px auto;padding:0px;'>
+	<div style='width:100%;padding:0px;'>
+		<table style='width:100%;font-size:15px;'>
+			<thead>
+				<tr>
+					<td valign='top' style='padding-bottom:10px;'><img
+							src='https://www.converthink.in/dentallive/assets/images/Logo_Dark.png'
+							style='max-width:250px;' /></td>
+				</tr>
+				<tr>
+					<td valign='top'
+						style='padding-bottom:5px;padding-top:5px;background:#3dad4b;text-align:center;line-height:1;color:#ffffff;font-size:24px;'>
+						Invitation to Join {{method}} Case</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td valign='top' style='padding-top:10px;padding-bottom:10px;'>Dear <strong
+							style='color:#1f497d;'>{{name}}</strong></td>
+				</tr>
+				<tr>
+					<td valign='top' style='padding-bottom:10px;'>You have been invited to join a new case from
+						({{doctorname}}). The case summary is as follows:</td>
+				</tr>
+				<tr>
+					<td valign='top' style='padding-bottom:20px;'>
+						<h4
+							style='color:#6c757d;margin-top:0px;margin-bottom:10px;color:#354053;font-size:15px;padding-bottom:10px;border-bottom:1pxsolid #dfdfdf;'>
+							Case Details</h4>
+						<table style='width:100%;font-size: 13px;'>
+							<tbody>
+								<tr>
+									<td valign='top'>
+										<table style='width:100%;'>
+											<tbody>
+												<tr>
+													<td valign='top'><span style='color:#6c757d;'>Case Title:</span>
+													</td>
+													<td valign='top'>{{casetitle}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+									<td valign='top'>
+										<table style='width:100%;'>
+											<tbody>
+												<tr>
+													<td valign='top' style='padding-bottom:5px;'>
+														<span style='color:#6c757d;'>Date of Creation :</span>
+													</td>
+													<td valign='top' style='padding-bottom:5px;'>{{datecreated}}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+									<td valign='top' style='padding-bottom:10px;width:40%;'>
+										<div style='border: 1px solid #c8cdd2;border-radius:
+											3px;padding:5px;background:#f8f9fa;'>
+											<table style='width:100%;'>
+												<tbody>
+													<tr>
+														<td valign='top' style='padding-bottom:5px;'>
+															<span style='color:#6c757d;'>Type of Dental Case :
+															</span>
+														</td>
+														<td valign='top' style='padding-bottom:5px;'>{{casetype}}
+														</td>
+													</tr>
+													<tr>
+														<td valign='top' style='padding-bottom:5px;'>
+															<span style='color:#6c757d;'>Case Status :</span>
+														</td>
+														<td valign='top' style='padding-bottom:5px;'>
+															<strong style='background-color: #e6fbfd;color:
+																#1991eb;display:inline-block;height: 20px;width:
+																100px;padding: 2px 5px;font-size: 12px;line-height:
+																18px;border-radius:20px;text-align:center;'>
+																{{status}}</strong>
+														</td>
+													</tr>
+													<tr>
+														<td valign='top'><span style='color:#6c757d;'>Case
+																Owner:</span></td>
+														<td valign='top'>{{caseowner}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan='3'>
+										<h5 style='color: #6c757d;margin-top:0px;margin-bottom:10px;'>CaseDescription
+										</h5>
+										<div
+											style='border: 1px solid #c8cdd2;box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background-color:#fff;border-radius: 3px;padding: 15px;width:100%;line-height:1.5;font-size: 13px;'>
+											{{casedescription}}
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign='top' style='padding-bottom:20px;'>If you wish to accept the case, please Sign-up/Login
+						to <strong style='color:#1f497d;'>DentalLive</strong></td>
+				</tr>
+				<tr>
+					<td valign='top' style='padding-bottom:20px;'>
+						<table style='width:100%;'>
+							<tbody>
+								<tr>
+									<td style='width:25%;padding-bottom:10px;'>For External Email:</td>
+									<td style='width:75%;padding-bottom:10px;'><a href={{urlnew}}
+											style='background:#c6d9f1;border:1px solid #000000;color:#000000;width:124px;height:32px;line-height:32px;display:inline-block;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;'>Sign-Up</a>
+									</td>
+								</tr>
+								<tr>
+									<td style='width:25%;'>For Existing Account:</td>
+									<td style='width:75%;'><a href={{url}}
+											style='background:#c6d9f1;border:1px solid #000000;color:#000000;width:124px;height:32px;line-height:32px;display:inline-block;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;'>LoginTo
+											Accept</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign='top' style='padding-bottom:40px;line-height:2;'>Thank you <br /><strong
+							style='color:#1f497d;'>Team
+							Dental Live</strong><br /><em style='color:#4f81bd;'>Connect, Communicate,
+							Collaborate!</em><br />Welcome to
+						the <strong>Dental Live</strong> community!!!!</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td
+						style='padding-bottom:15px;padding-top:15px;padding-left:15px;padding-right:15px;background:#e1e1e1;color:#5f5f5f;line-height:1.4;'>
+						<strong style='color:#5f5f5f;'>Regards,</strong><br />Dental Live Team<br />For any queries,
+						write to
+						us at <a href='mailto:contact@dentallive.com;' style='color:#0000ff;'>contact@dentallive.com</a>
+						or call us
+						at 623-244-2525
+					</td>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
-</body>
-</html>
+</div>

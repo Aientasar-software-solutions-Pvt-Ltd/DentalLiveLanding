@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@an
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
 import 'cardinal-spline-js/src/curve.js'
-import Swal from 'sweetalert2';
 
 
 @Component({
@@ -13,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ReferralGuideComponent implements OnInit {
 
-
+  isFdi = false;
   @ViewChild('notes')
   notes: ElementRef;
   referralObject = {
@@ -260,12 +259,39 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   selectedTeeths: any = [];
+  selectedTeethsNames: any = [];
+
+  getToothName(tooth) {
+    if (document.querySelector("." + tooth.trim() + " label"))
+      return document.querySelector("." + tooth.trim() + " label").innerHTML;
+    return null;
+  }
+
+  getCheckboxName(selection) {
+    let loop = "";
+    if (document.querySelector("label[for=" + selection + "]")) {
+      //@ts-ignore
+      loop = document.querySelector("label[for=" + selection + "]").innerHTML;
+      let parentElem = document.getElementById(selection);
+      while (parentElem.parentNode) {
+        if (parentElem.nodeName == "UL") {
+          //@ts-ignore
+          loop = parentElem.previousSibling.innerHTML + " --> " + loop;
+        }
+        parentElem = <HTMLElement>parentElem.parentNode;
+      }
+    }
+    return loop;
+  }
+
   clickTeeth(event: any) {
     this.resetListandTeeths();
     if (this.activeAssignedTeeth)
       this.selectedTeeths = [];
+    this.selectedTeethsNames = [];
     if (this.toothGuide[event.target.getAttribute('id')]) {
       this.selectedTeeths = [];
+      this.selectedTeethsNames = [];
       this.activeAssignedTeeth = event.target.getAttribute('id');
       this.redrawGuide('rcurrmap', [this.activeAssignedTeeth], "rgba(255, 255, 0, 0.9)");
       this.notes.nativeElement.value = this.toothGuide[event.target.getAttribute('id')].notes;
@@ -294,8 +320,9 @@ export class ReferralGuideComponent implements OnInit {
         this.selectedTeeths = this.selectedTeeths.filter(e => e !== event.target.getAttribute('id'))
       else
         this.selectedTeeths.push(event.target.getAttribute('id'))
-      this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
+
     }
+    this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
   }
 
   resetListandTeeths() {
@@ -307,6 +334,22 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   toothGuide: any = {};
+
+  getToothGuideAsArray() {
+    let array = [];
+    Object.entries(this.toothGuide).forEach(
+      ([key, value]) => {
+        array.push({
+          name: this.getToothName(key),
+          selctions: value['selections'],
+          notes: value['notes'],
+          key: key
+        });
+      }
+    );
+    return array;
+  }
+
 
   getToothGuide() {
     return this.toothGuide;
@@ -368,7 +411,6 @@ export class ReferralGuideComponent implements OnInit {
         }
         this.activeAssignedTeeth = this.selectedTeeths[0];
       }
-      console.log(this.toothGuide);
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     } else {
       var path = event.path || (event.composedPath && event.composedPath());
@@ -389,24 +431,25 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   deleteSelection() {
-    Swal.fire({
-      title: 'Do you want to delete this selection?',
-      showDenyButton: true,
-      confirmButtonText: 'Yes,delete tooth',
-      denyButtonText: `No,don't delete`,
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        if (this.activeAssignedTeeth) {
-          delete this.toothGuide[this.activeAssignedTeeth];
-          this.resetListandTeeths();
-          this.activeAssignedTeeth = null;
-          this.selectedTeeths = [];
-          this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.8)");
-          this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
-        }
-      }
+    sweetAlert({
+      title: "Do you want to delete this selection?",
+      icon: "warning",
+      buttons: [`No,don't delete`, 'Yes,delete tooth'],
+      dangerMode: true,
     })
+      .then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result) {
+          if (this.activeAssignedTeeth) {
+            delete this.toothGuide[this.activeAssignedTeeth];
+            this.resetListandTeeths();
+            this.activeAssignedTeeth = null;
+            this.selectedTeeths = [];
+            this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.8)");
+            this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
+          }
+        }
+      });
   }
 
   redrawGuide(canvasName: any, teethArray: any, color: any) {
