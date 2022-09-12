@@ -18,6 +18,7 @@ export class MasterComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	calendarOptions: CalendarOptions = {}
 	sending: boolean;
+	public inviteEmailArray: any[] = []
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -126,6 +127,11 @@ export class MasterComponent implements OnInit {
 		invitedUserId: '',
 		presentStatus: 0,
 		resourceOwner: ''
+	}
+	public jsonObjInviteNew = {
+		caseId: '',
+		name: '',
+		email: '',
 	}
 	
 	public jsonObjInviteEdit = {
@@ -1535,27 +1541,32 @@ export class MasterComponent implements OnInit {
 			let Colleague = JSON.parse(Response.toString());
 			//alert(JSON.stringify(this.invitedata));
 			this.allMember = Array();
+			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)
 			{
-				if(user.emailAddress != Colleague[k].emailAddress)
-				{
-					let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
-					let avatar = ''
-					if(Colleague[k].imageSrc != undefined)
+				if (checkInviteEmail.includes(Colleague[k].emailAddress)) {
+				}
+				else{
+					if(user.emailAddress != Colleague[k].emailAddress)
 					{
-					avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
+						let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
+						let avatar = ''
+						if(Colleague[k].imageSrc != undefined)
+						{
+						avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
+						}
+						else
+						{
+						avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+						}
+						this.allMember.push({
+						  id: k,
+						  avatar: avatar,
+						  emailAddress: Colleague[k].emailAddress,
+						  dentalId: Colleague[k].dentalId,
+						  name: name
+						});
 					}
-					else
-					{
-					avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
-					}
-					this.allMember.push({
-					  id: k,
-					  avatar: avatar,
-					  emailAddress: Colleague[k].emailAddress,
-					  dentalId: Colleague[k].dentalId,
-					  name: name
-					});
 				}
 			}
 			//alert(JSON.stringify(this.allMember));
@@ -1634,6 +1645,7 @@ export class MasterComponent implements OnInit {
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 				this.invitedata = Array();
+				this.inviteEmailArray = Array();
 				for(var k = 0; k < GetAllData.length; k++)
 				{
 					this.invitedata.push({
@@ -1650,6 +1662,7 @@ export class MasterComponent implements OnInit {
 					  dateUpdated: GetAllData[k].dateUpdated,
 					  resourceOwner: GetAllData[k].resourceOwner
 					});
+					this.inviteEmailArray.push(GetAllData[k].invitedUserMail);
 					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 				}
 				this.getAllMembers();
@@ -2183,4 +2196,40 @@ export class MasterComponent implements OnInit {
 	viewColleagueDetails(colleagueId: any,caseId: any) {
 		this.router.navigate(['colleagues/colleague-view-profile/'+colleagueId+'/'+caseId]);
 	}
+	
+	onSubmitInviteNew(form: NgForm){
+		let user = this.usr.getUserDetails(false);
+		
+		if (form.invalid) {
+		  form.form.markAllAsTouched();
+		  return;
+		}
+		
+		let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/sendinvite';
+	
+		url += "?caseId="+form.value.caseId+'&name='+form.value.name+'&email='+form.value.email;
+		
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+		  if (Response) Response = JSON.parse(Response.toString());
+		  swal('New member invited successfully');
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal({
+				text: error.error
+			}).then(function() {
+				window.location.reload();
+			});
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
+	};
 }

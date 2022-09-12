@@ -424,6 +424,15 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				  {
 					Swal('Wrong Password,please try again');
 				  }
+				  else if (error.status === 405)
+				  {
+					 Swal({
+						text: error.error,
+						type: "success"
+					}).then(function() {
+						window.location.reload();
+					});
+				  }
 				  else if (error.status === 401)
 				  {
 					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
@@ -481,6 +490,15 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				  else if (error.status === 401)
 				  {
 					Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+				  }
+				  else if (error.status === 405)
+				  {
+					 Swal({
+						text: error.error,
+						type: "success"
+					}).then(function() {
+						window.location.reload();
+					});
 				  }
 				  else if (error.status === 428)
 				  {
@@ -546,7 +564,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					window.location.reload();
 				}
 			}, error => {
-			  this.sending = true;
 			  if (error.status === 404)
 			  {
 				Swal('E-Mail ID does not exists,please signup to continue');
@@ -566,6 +583,15 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			  else if (error.status === 428)
 			  {
 				Swal(error.error);
+			  }
+			  else if (error.status === 405)
+			  {
+				 Swal({
+					text: error.error,
+					type: "success"
+				}).then(function() {
+					window.location.reload();
+				});
 			  }
 			  else
 			  {
@@ -616,6 +642,15 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			  else if (error.status === 401)
 			  {
 				Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			  }
+			  else if (error.status === 405)
+			  {
+				 Swal({
+					text: error.error,
+					type: "success"
+				}).then(function() {
+					window.location.reload();
+				});
 			  }
 			  else if (error.status === 428)
 			  {

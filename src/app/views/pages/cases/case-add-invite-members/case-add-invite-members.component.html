@@ -81,6 +81,9 @@
 										<app-cvfast></app-cvfast>
 									</div>
 								</div>
+								<div _ngcontent-fux-c93="" class="col-md-12 text-end">
+									<button _ngcontent-fux-c93="" type="button" style="padding: 7px;" class="btn btn-default btn-sm px-2"><i _ngcontent-fux-c93="" data-bs-toggle="modal" data-bs-target="#inviteNewMembers" class="bx bx-plus me-0"></i></button>
+								</div>
 							</div>
 							<div class="modal-footer text-center justify-content-center border-top-0">
 								<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
@@ -108,4 +111,34 @@
 			</div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="inviteNewMembers" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<form #InviteNewForm="ngForm" id="InviteNewForm" (ngSubmit)="onSubmitInviteNew(InviteNewForm)">
+				<div class="modal-header">
+					<h5 class="modal-title body1" id="inviteMembersLabel">Invite New Members</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row gy-3">
+						<div class="col-md-12">
+							<input type="text"  name="name" class="form-control" placeholder="Please enter name" id="name" ngModel="" required>
+						</div>
+						<div class="col-md-12">
+							<input type="email"  name="email" class="form-control" placeholder="Please enter email id" id="email" ngModel=""required>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer text-center justify-content-center border-top-0">
+					<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
+					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
+					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
+					<button type="submit" [disabled]="!InviteNewForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
+					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

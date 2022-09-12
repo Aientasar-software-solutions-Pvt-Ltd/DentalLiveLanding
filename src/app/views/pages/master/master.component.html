@@ -1370,7 +1370,7 @@
 <div class="modal fade" id="inviteNewMembers" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
-			<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
+			<form #InviteNewForm="ngForm" id="InviteNewForm" (ngSubmit)="onSubmitInviteNew(InviteNewForm)">
 				<div class="modal-header">
 					<h5 class="modal-title body1" id="inviteMembersLabel">Invite New Members</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1378,10 +1378,10 @@
 				<div class="modal-body">
 					<div class="row gy-3">
 						<div class="col-md-12">
-							<input type="email"  name="name" class="form-control" placeholder="please enter email id" id="name" ngModel="">
+							<input type="text"  name="name" class="form-control" placeholder="Please enter name" id="name" ngModel="" required>
 						</div>
 						<div class="col-md-12">
-							<app-cvfast></app-cvfast>
+							<input type="email"  name="email" class="form-control" placeholder="Please enter email id" id="email" ngModel=""required>
 						</div>
 					</div>
 				</div>
@@ -1389,7 +1389,7 @@
 					<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
 					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
 					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">
-					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
+					<button type="submit" [disabled]="!InviteNewForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Save</button>
 					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
 				</div>
 			</form>

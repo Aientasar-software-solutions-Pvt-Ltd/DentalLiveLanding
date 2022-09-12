@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class PatientCaseListComponent implements OnInit {
 
   casedata:any;
+  tabledata:any;
   dtOptions: DataTables.Settings = {};
   paramPatientId: any;
   invitedatas:any;
@@ -22,7 +23,7 @@ export class PatientCaseListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.getallcase();
+	this.getallpatiant();
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
       pagingType: 'full_numbers',
@@ -52,16 +53,40 @@ export class PatientCaseListComponent implements OnInit {
 		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
+	
+	getallpatiant() {
+		this.getallcase();
+		let url = this.utility.apiData.userPatients.ApiUrl;
+		let patientId = this.paramPatientId;
+		if(patientId != '')
+		{
+			url += "?patientId="+patientId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.tabledata = JSON.parse(Response.toString());
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
+	}
 	getallcase() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-
-			swal.fire({
-				title: 'Loading....',
-				showConfirmButton: false,
-				timer: 3000
-			});
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientId = this.paramPatientId;
 			if(patientId != '')
@@ -94,7 +119,7 @@ export class PatientCaseListComponent implements OnInit {
 				
 				}
 			}, (error) => {
-			  swal.fire("Unable to fetch data, please try again");
+			  swal("Unable to fetch data, please try again");
 			  return false;
 			});
 		}
@@ -132,17 +157,17 @@ export class PatientCaseListComponent implements OnInit {
 			}
 		}, error => {
 		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
+			swal('E-Mail ID does not exists,please signup to continue');
 		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
+			swal('Account Disabled,contact Dental-Live');
 		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
+			swal('Wrong Password,please try again');
 		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
 		  else if (error.status === 428)
-			swal.fire(error.error);
+			swal(error.error);
 		  else
-			swal.fire('Unable to fetch the data, please try again');
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -170,7 +195,7 @@ export class PatientCaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
+		  swal("Unable to fetch data, please try again");
 		  return false;
 		});
 		}

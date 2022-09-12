@@ -260,8 +260,20 @@ onActiveInactiveChanged(value:boolean){
 			swal("Patient deleted successfully");
 			this.router.navigate(['patients/patients-list']);
 		}, (error) => {
-		  swal("Unable to fetch data, please try again");
-		  return false;
+		  if(error.status === 405)
+		  {
+			 swal({
+				text: error.error,
+				type: "success"
+			}).then(function() {
+				window.location.reload();
+			});
+		  }
+		  else
+		  {
+			swal("Unable to fetch data, please try again");
+			return false;
+		  }
 		});
 	}
 	onSubmitInsurance(form: NgForm) {
