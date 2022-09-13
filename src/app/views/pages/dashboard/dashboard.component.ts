@@ -23,35 +23,73 @@ export class DashboardComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-	this.getLoginDeatils();
+	this.getThread(sessionStorage.getItem('loginResourceId'));
+	this.getInviteListingReceived(sessionStorage.getItem('loginResourceId'));
+	this.getInviteListing(sessionStorage.getItem('loginResourceId'));
 	}
-	getLoginDeatils() {
-		swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		});
+	getInviteListingReceived(fromDate) {
 		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			setTimeout(() => {
-			let url = this.utility.apiData.userLogin.ApiUrl;
-			//let loginResourceId = sessionStorage.getItem('loginResourceId');
-			url += "?emailAddress="+user.emailAddress;
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		url += "?invitedUserMail="+user.emailAddress;
+		let toDate: Date = new Date();
+		url += "&dateTo="+toDate.getTime();
+		url += "&dateFrom="+fromDate;
+		this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				let GetAllData = JSON.parse(Response.toString());
+				for(var k = 0; k < GetAllData.length; k++)
 				{
-					swal.close();
-					let treadAllData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(treadAllData[0].lastLoggedIn));
-					this.getThread(treadAllData[0].lastLoggedIn);
+					this.caseinvitationCount++;
 				}
-			}, (error) => {
-			  swal("Unable to fetch data, please try again");
-			  return false;
-			});
-			},1000);
-			
-		}
+				//alert(JSON.stringify(GetAllData));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
+	}
+	getInviteListing(fromDate) {
+		let user = this.usr.getUserDetails(false);
+		let url = this.utility.apiData.userCaseInvites.ApiUrl;
+		url += "?resourceOwner="+user.emailAddress;
+		let toDate: Date = new Date();
+		url += "&dateTo="+toDate.getTime();
+		url += "&dateFrom="+fromDate;
+		this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				let GetAllData = JSON.parse(Response.toString());
+				for(var k = 0; k < GetAllData.length; k++)
+				{
+					this.caseinvitationCount++;
+				}
+				//alert(JSON.stringify(GetAllData));
+			}
+		}, error => {
+		  if (error.status === 404)
+			swal('E-Mail ID does not exists,please signup to continue');
+		  else if (error.status === 403)
+			swal('Account Disabled,contact Dental-Live');
+		  else if (error.status === 400)
+			swal('Wrong Password,please try again');
+		  else if (error.status === 401)
+			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+		  else if (error.status === 428)
+			swal(error.error);
+		  else
+			swal('Unable to fetch the data, please try again');
+		});
 	}
 	getThread(fromDate) {
 		swal("Processing...please wait...", {
@@ -82,10 +120,6 @@ export class DashboardComponent implements OnInit {
 						if(skarray[0] == 'DETAILS')
 						{
 							this.caseCount++;
-						}
-						else if(skarray[0] == 'CASEINVITES')
-						{
-							this.caseinvitationCount++;
 						}
 						else if(skarray[0] == 'WORKORDERS')
 						{

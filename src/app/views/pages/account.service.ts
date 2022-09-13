@@ -32,8 +32,21 @@ export class AccountService {
   }
   login() {
     let user = this.usr.getUserDetails(false);
-
-
+	let url = this.utility.apiData.userLogin.ApiUrl;
+	url += "?emailAddress="+user.emailAddress;
+	this.dataService.getallData(url, true).subscribe(Response => {
+		if (Response)
+		{
+			swal.close();
+			let treadAllData = JSON.parse(Response.toString());
+			//alert(JSON.stringify(treadAllData));
+			sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedOut);
+		}
+	}, (error) => {
+	  swal("Unable to fetch data, please try again");
+	  return false;
+	});
+	setTimeout(() => {
     const json1: JSON = {};
     json1['dentalId'] = user.dentalId;
     json1['emailAddress'] = user.emailAddress;
@@ -44,7 +57,6 @@ export class AccountService {
         if (Response) Response = JSON.parse(Response.toString());
         //alert(JSON.stringify(Response));
        // alert(JSON.stringify(Response.resourceId));
-        //sessionStorage.setItem('loginResourceId', Response.resourceId);
         if (!Response) {
           swal("Unable to save login time,please try again");
           return;
@@ -87,6 +99,7 @@ export class AccountService {
       swal("Unable to login, please try again");
       return false;
     });
+	},1000);
   }
   SocailLogin(user) {
     if (!user) return;

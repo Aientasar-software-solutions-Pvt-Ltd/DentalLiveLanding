@@ -23,7 +23,6 @@ export class AccountlogoutComponent implements OnInit {
 	}
 	logout()
 	{
-		let loginResourceId = sessionStorage.getItem('loginResourceId');
 		let user = this.usr.getUserDetails(false);
 		const json1: JSON = {};
 		json1['dentalId'] = user.dentalId;
@@ -32,7 +31,7 @@ export class AccountlogoutComponent implements OnInit {
 		//alert(JSON.stringify(json1));
 		this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
 		.subscribe(Response => {
-		  sessionStorage.removeItem('loginResourceId');
+		  sessionStorage.removeItem('lastLoginInTime');
 		  sessionStorage.removeItem('usr');
 		  if (Response) Response = JSON.parse(Response.toString());
 		  this.router.navigate(['/auth/login']);
