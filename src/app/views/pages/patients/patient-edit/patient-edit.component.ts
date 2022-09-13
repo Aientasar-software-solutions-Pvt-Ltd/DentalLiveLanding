@@ -290,7 +290,7 @@ onActiveInactiveChanged(value:boolean){
 		this.jsonObj['email'] = data.email;
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['residingState'] = encode(data.residingState);
-		this.jsonObj['isActive'] = this.patiantStatus;
+		this.jsonObj['isActive'] = this.saveActiveInactive;
 		if(data.refId)
 		{
 		this.jsonObj['refId'] = data.refId;

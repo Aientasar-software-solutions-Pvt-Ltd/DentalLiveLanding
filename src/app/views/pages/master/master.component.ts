@@ -35,7 +35,7 @@ export class MasterComponent implements OnInit {
 	show6 = false;
 	show7 = false;
 	show8 = false;
-	
+	caseEdit = false;
 	showComment: any;
 	replyToggle(index){
 		this.setMessageRpValue = false;
@@ -125,8 +125,7 @@ export class MasterComponent implements OnInit {
 		invitationText: {},
 		invitedUserMail: '',
 		invitedUserId: '',
-		presentStatus: 0,
-		resourceOwner: ''
+		presentStatus: 0
 	}
 	public jsonObjInviteNew = {
 		caseId: '',
@@ -786,11 +785,12 @@ export class MasterComponent implements OnInit {
 	getCaseDetails() {
 		//tabledata.fetchedData = '';
 		this.tabledata = '';
-		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/caseDetails');
+		sessionStorage.setItem('backurl', '/cases-view/caseDetails/'+this.paramCaseId);
 		/* swal("Processing...please wait...", {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		}); */
+		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCases.ApiUrl;
 		let caseId = this.paramCaseId;
 		if(caseId != '')
@@ -813,6 +813,9 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 				this.setcvFast(this.tabledata.description);
 				this.cvfastText = true;
+				if(user.emailAddress == this.tabledata.resourceOwner){
+					this.caseEdit = true;
+				}
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -1603,7 +1606,7 @@ export class MasterComponent implements OnInit {
 		for(var i = 0; i < this.allMemberEmail.length; i++)
 		{
 			z++;
-			this.jsonObjInvite['resourceOwner'] = user.emailAddress;
+			//this.jsonObjInvite['resourceOwner'] = user.emailAddress;
 			this.jsonObjInvite['caseId'] = form.value.caseId;
 			this.jsonObjInvite['patientId'] = form.value.patientId;
 			this.jsonObjInvite['patientName'] = form.value.patientName;

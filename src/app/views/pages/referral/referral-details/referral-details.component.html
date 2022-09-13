@@ -60,9 +60,9 @@
 						</div>    
 					</div>
 					<div class="col-md-7 text-end">
-						<div class="avatar-list justify-content-end mt-2">
-							<span class="avatar-icon my-1 ms-2">C</span>
-							<span class="avatar-icon my-1 ms-2">M</span>
+						<div class="avatar-list justify-content-end mt-2 my-1 ms-2">
+							<span class="avatar-icon my-1 ms-2" style="background-color: #FFF;">&nbsp;</span>
+							<!--<span class="avatar-icon my-1 ms-2">M</span>-->
 						</div>
 					</div>
 				</div>         
@@ -534,6 +534,7 @@
 			<div class="modal-footer">
 				<input type="hidden" class="form-control" name="referralId" id="referralId" ngModel={{this.tabledata.referralId}} >
 				<input type="hidden" class="form-control" name="startdate" id="startdate" ngModel={{this.tabledata.startdate}} >
+				<input type="hidden" class="form-control" name="presentStatus" id="presentStatus" ngModel={{this.tabledata.presentStatus}} >
 				<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.detailsdata.caseId}}">
 				<input type="hidden" name="patientId" id="patientId" ngModel="{{this.detailsdata.patientId}}">
 				<input type="hidden" name="patientName" id="patientName" ngModel="{{this.detailsdata.patientName}}">

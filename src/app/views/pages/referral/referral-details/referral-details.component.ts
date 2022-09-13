@@ -49,12 +49,10 @@ export class ReferralDetailsComponent implements OnInit {
 	  caseId: '',
 	  patientId: '',
 	  title: '',
-	  notes: {},
 	  toothguide: {},
-	  duedate: 0,
-	  startdate: 0,
 	  enddate: 0,
-	  presentStatus: 0
+	  presentStatus: 0,
+	  members: 0
 	}
 	public jsonObjmsg = {
 		patientId: '',
@@ -81,13 +79,15 @@ export class ReferralDetailsComponent implements OnInit {
 	public messageAry: any[] = []
 	messagedata:any;
     referralId:any;
-	
+	referaltitle:any;
 	public Img = 'assets/images/users.png';
 	public caseImage = false;
 	patientImg: any;
 	parmCaseId:any;
 	casesName:any;
 	patientName:any;
+	referalmembers:any;
+	referalmilestoneId:any;
 	
  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	this.referralId = this.route.snapshot.paramMap.get('referralId');
@@ -149,6 +149,9 @@ export class ReferralDetailsComponent implements OnInit {
 					this.getCaseDetails(this.tabledata.caseId);
 					this.setcvFast(this.tabledata.notes);
 					this.toothData = this.tabledata.toothguide;
+					this.referaltitle = this.tabledata.title;
+					this.referalmembers = this.tabledata.members;
+					this.referalmilestoneId = this.tabledata.milestoneId;
 					this.cvfastText = true;
 					this.descriptionObj.text = this.tabledata.notes.text;
 					this.descriptionObj.links = this.tabledata.notes.links;
@@ -293,18 +296,15 @@ export class ReferralDetailsComponent implements OnInit {
 	
 	onGetalldata(data: any)
 	{
+		//alert(JSON.stringify(data));
 		this.jsonObj['referralId'] = data.referralId;
-		this.jsonObj['caseId'] = data.caseid;
-		this.jsonObj['patientId'] = data.patientid;
-		//this.jsonObj['title'] = data.title;
-		//this.jsonObj['startdate'] = Date.parse(data.startdate);
+		this.jsonObj['caseId'] = data.caseId;
+		this.jsonObj['patientId'] = data.patientId;
+		this.jsonObj['title'] = this.referaltitle;
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
-		//this.jsonObj['presentStatus'] = Number(data.presentStatus);
+		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
-		
-		this.jsonObj['notes'] = this.descriptionObj;
-	
-		
+		this.jsonObj['members'] = this.referalmembers;
 		//alert(JSON.stringify(this.jsonObj));
 		
 		this.dataService.putData(this.utility.apiData.userReferrals.ApiUrl, JSON.stringify(this.jsonObj), true)

@@ -27,10 +27,10 @@ export class AccountlogoutComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		const json1: JSON = {};
 		json1['dentalId'] = user.dentalId;
-		json1['emailAddress'] = loginResourceId;
+		json1['emailAddress'] = user.emailAddress;
 		json1['lastLoggedOut'] = Date.now();
 		//alert(JSON.stringify(json1));
-		this.dataService.putData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
+		this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
 		.subscribe(Response => {
 		  sessionStorage.removeItem('loginResourceId');
 		  sessionStorage.removeItem('usr');

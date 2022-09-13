@@ -64,6 +64,9 @@ export class PatientDetailsComponent implements OnInit {
 			{
 				this.patientImg = Response;
 				this.caseImage = true;
+				setTimeout(()=>{     
+					this.isLoadingData = false;
+				}, 1000);
 			}
 		}, error => {
 		  if (error.status === 404)
@@ -120,8 +123,11 @@ export class PatientDetailsComponent implements OnInit {
 					{
 						this.setcvImage(this.tabledata.image);
 					}
+					else{
+						this.isLoadingData = false;
+					}
 				}, 1000);
-				this.isLoadingData = false;
+				//this.isLoadingData = false;
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {

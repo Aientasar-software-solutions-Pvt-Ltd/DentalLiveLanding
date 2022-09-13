@@ -44,7 +44,7 @@ export class AccountService {
         if (Response) Response = JSON.parse(Response.toString());
         //alert(JSON.stringify(Response));
        // alert(JSON.stringify(Response.resourceId));
-        sessionStorage.setItem('loginResourceId', Response.resourceId);
+        //sessionStorage.setItem('loginResourceId', Response.resourceId);
         if (!Response) {
           swal("Unable to save login time,please try again");
           return;

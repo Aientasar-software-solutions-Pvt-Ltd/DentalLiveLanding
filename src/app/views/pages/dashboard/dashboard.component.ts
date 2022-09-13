@@ -35,15 +35,15 @@ export class DashboardComponent implements OnInit {
 		{
 			setTimeout(() => {
 			let url = this.utility.apiData.userLogin.ApiUrl;
-			let loginResourceId = sessionStorage.getItem('loginResourceId');
-			url += "?emailAddress="+loginResourceId;
+			//let loginResourceId = sessionStorage.getItem('loginResourceId');
+			url += "?emailAddress="+user.emailAddress;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(treadAllData));
-					this.getThread(treadAllData.lastLoggedIn);
+					//alert(JSON.stringify(treadAllData[0].lastLoggedIn));
+					this.getThread(treadAllData[0].lastLoggedIn);
 				}
 			}, (error) => {
 			  swal("Unable to fetch data, please try again");

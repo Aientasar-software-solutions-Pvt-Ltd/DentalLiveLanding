@@ -38,12 +38,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 	  caseId: '',
 	  patientId: '',
 	  title: '',
-	  notes: {},
-	  startdate: 0,
 	  enddate: 0,
 	  toothguide: {},
-	  milestoneId: '',
 	  presentStatus: 0,
+	  members: 0
 	}
 	public jsonObjmsg = {
 		patientId: '',
@@ -67,6 +65,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
 	messagedata:any;
+	referalmembers:any;
 	
 	public Img = 'assets/images/users.png';
 	public caseImage = false;
@@ -135,6 +134,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.descriptionObj.text = this.tabledata.notes.text;
 					this.descriptionObj.links = this.tabledata.notes.links;
 					this.getMessage(this.tabledata.caseId);
+					this.referalmembers = this.tabledata.members;
 					this.parmCaseId = this.tabledata.caseId;
 					//alert(JSON.stringify(this.tabledata.workorderId));
 					//alert(JSON.stringify(this.tabledata));
@@ -248,21 +248,15 @@ export class WorkOrderDetailsComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
+		//alert(JSON.stringify(data));
 		this.jsonObj['workorderId'] = data.workorderId;
 		this.jsonObj['caseId'] = data.caseId;
 		this.jsonObj['patientId'] = data.patientId;
-		if(data.milestoneId !='')
-		{
-			this.jsonObj['milestoneId'] = data.milestoneId;
-		}
 		this.jsonObj['title'] = data.title;
-		//this.jsonObj['presentStatus'] = Number(data.presentStatus);
-		//this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
+		this.jsonObj['members'] = this.referalmembers;
 		this.jsonObj['patientName'] = data.patientName;
-		
-		this.jsonObj['notes'] = this.descriptionObj;
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
