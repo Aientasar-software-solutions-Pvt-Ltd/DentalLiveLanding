@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { PurchaseComponent } from './purchases/purchase/purchase.component';
 import { PackagesListComponent } from './purchases/packages-list/packages-list.component';
 import { PackagesDetailsComponent } from './purchases/packages-details/packages-details.component';
+import "@lottiefiles/lottie-player";
 
 const routes: Routes = [
   {

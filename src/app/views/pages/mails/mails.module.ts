@@ -14,6 +14,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { MailDashboardComponent } from './mail-dashboard/mail-dashboard.component';
+import "@lottiefiles/lottie-player";
 
 const routes: Routes = [
   {

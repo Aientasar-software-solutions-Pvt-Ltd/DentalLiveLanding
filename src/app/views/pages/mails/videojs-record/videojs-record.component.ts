@@ -39,7 +39,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
   StepVideo = 1;
   StepAudio = 1;
   StepScreen = 1;
-  sending = true;
+  sending = false;
   invalidForm = false;
   patientList: any = [];
   caseList: any = [];
