@@ -31,8 +31,8 @@ const routes: Routes = [
     ]
   },
   { path: 'compose', component: VideojsRecordComponent },
-  { path: 'view/:patientId', component: VideojsRecordComponent },
-  { path: 'view/:patientId/:caseId', component: VideojsRecordComponent },
+  { path: 'compose/:patientId', component: VideojsRecordComponent },
+  { path: 'compose/:patientId/:caseId', component: VideojsRecordComponent },
   { path: 'view/:type/:id', component: ViewMailComponent }
 ]
 

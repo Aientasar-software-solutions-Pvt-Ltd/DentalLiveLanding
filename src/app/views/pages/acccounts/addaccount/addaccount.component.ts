@@ -128,6 +128,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
       this.binaryFiles = [
         { name: uuidv4(), binaryData: event.target.files[0] },
       ];
+      console.log(this.binaryFiles);
       //display selected file in image tag
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); //initiates converting file to blob

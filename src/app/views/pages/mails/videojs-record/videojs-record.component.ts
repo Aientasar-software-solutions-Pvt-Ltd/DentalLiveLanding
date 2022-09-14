@@ -39,7 +39,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
   StepVideo = 1;
   StepAudio = 1;
   StepScreen = 1;
-  sending = false;
+  sending = true;
   invalidForm = false;
   patientList: any = [];
   caseList: any = [];
@@ -273,22 +273,8 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     this.updateCaseFilter(patientId);
   }
   istouched = false;
-  // addtoList(value, to, auto) {
-  //   if (!auto.showPanel && value && value != '') {
-  //     if (this.validMail.test(String(value).toLowerCase())) {
-  //       if (!this.addressList.includes(value)) {
-  //         this.addressList.push(value);
-  //       }
-  //       to.value = '';
-  //     } else {
-  //       swal("Invalid E-Mail address");
-  //     }
-  //   }
-  // }
-
-
-  addtoList(value, to) {
-    if (!value && value != '') {
+  addtoList(value, to, auto) {
+    if (!auto.showPanel && value && value != '') {
       if (this.validMail.test(String(value).toLowerCase())) {
         if (!this.addressList.includes(value)) {
           this.addressList.push(value);
@@ -302,6 +288,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
   addMailOption(value, to) {
+    console.log(value, to);
     if (!this.addressList.includes(value)) {
       this.addressList.push(value);
     }
@@ -342,13 +329,13 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
             this.isPatientDisable = true;
             if (!this.patientList.some(el => el.patientId === params.get('patientId'))) {
               swal("Invalid patient");
-              this.router.navigate(['../']);
+              this.router.navigate(['/mail/inbox']);
             }
           }
         });
       }, error => {
         swal("Invalid patient");
-        this.router.navigate(['../']);
+        this.router.navigate(['/mail/inbox']);
         return null;
       })
 
@@ -361,13 +348,13 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
             this.isCaseDisabled = true;
             if (!this.caseList.some(el => el.caseId === params.get('caseId'))) {
               swal("Invalid case");
-              this.router.navigate(['../']);
+              this.router.navigate(['/mail/inbox']);
             }
           }
         });
       }, error => {
         swal("Invalid case");
-        this.router.navigate(['../']);
+        this.router.navigate(['/mail/inbox']);
         return null;
       })
 
@@ -457,38 +444,16 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     });
     Promise.all(requests)
       .then((responses) => {
-        console.log(responses);
         this.attachmentNames = responses;
-        //this.savetoDB();
+        this.savetoDB();
       })
       .catch((error) => {
         swal("Error sending email,please try again");
         this.sending = false;
       });
-    // this.Service.getPreSignedUrl(elem.name, 'put', elem.data.type)
-    //   .subscribe(Response => {
-    //     if (!Response || !Response['url'])
-    //       return swal("Error sending email,please try again");
-    //     Response["url"] = CryptoJS.AES.decrypt(Response['url'], environment.decryptKey).toString(CryptoJS.enc.Utf8);
-    //     this.Service.saveDataS3(elem.data, Response["url"])
-    //       .subscribe(Response_nested => {
-    //         this.attachmentNames.push({ 'name': elem.name, 'url': Response['url'] })
-    //         this.recordings.splice(this.recordings.indexOf(elem), 1);
-    //         if (this.recordings.length == 0) {
-    //           this.savetoDB();
-    //         }
-    //       }, error => {
-    //         swal("Error sending email,please try again");
-    //         this.sending = false;
-    //       })
-    //   }, error => {
-    //     swal("Error sending email,please try again");
-    //     this.sending = false;
-    //   })
   }
   savetoDB() {
     //create html div and text using links
-    this.saveFiles();
     let htmlText = document.getElementById('message').innerHTML + '<br>';
     let plainText = document.getElementById('message').textContent + '\n\n';
     this.attachmentNames.forEach(element => {
@@ -590,6 +555,6 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     }
     this.sending = true;
     this.form = form;
-    this.savetoDB();
+    this.saveFiles();
   }
 }

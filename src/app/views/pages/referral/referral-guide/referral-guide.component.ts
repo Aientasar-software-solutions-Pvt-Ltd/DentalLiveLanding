@@ -11,10 +11,6 @@ import 'cardinal-spline-js/src/curve.js'
   encapsulation: ViewEncapsulation.None
 })
 export class ReferralGuideComponent implements OnInit {
-
-  isFdi = false;
-  @ViewChild('notes')
-  notes: ElementRef;
   referralObject = {
     "Endodontics": {
       "Consultation for": [
@@ -197,12 +193,16 @@ export class ReferralGuideComponent implements OnInit {
       ]
     }
   }
+  isFdi = false;
+  @ViewChild('notes')
+  notes: ElementRef;
+
 
   constructor(private location: Location) { }
   ngOnInit(): void { }
 
   ngAfterViewInit() {
-    this.populateListRecurse(this.referralObject, "referralTree");
+    this.populateListRecurse(this.referralObject, "tree");
   }
 
   selectionCount = 0;
@@ -284,19 +284,20 @@ export class ReferralGuideComponent implements OnInit {
     return loop;
   }
 
-  clickTeeth(event: any) {
+  clickTeeth(event: any, key = null) {
+    if (!key) key = event.target.getAttribute('id');
     this.resetListandTeeths();
     if (this.activeAssignedTeeth)
       this.selectedTeeths = [];
     this.selectedTeethsNames = [];
-    if (this.toothGuide[event.target.getAttribute('id')]) {
+    if (this.toothGuide[key]) {
       this.selectedTeeths = [];
       this.selectedTeethsNames = [];
-      this.activeAssignedTeeth = event.target.getAttribute('id');
+      this.activeAssignedTeeth = key;
       this.redrawGuide('rcurrmap', [this.activeAssignedTeeth], "rgba(255, 255, 0, 0.9)");
-      this.notes.nativeElement.value = this.toothGuide[event.target.getAttribute('id')].notes;
+      this.notes.nativeElement.value = this.toothGuide[key].notes;
       //loop and assign values of selected teeth
-      this.toothGuide[event.target.getAttribute('id')].selections.forEach(selection => {
+      this.toothGuide[key].selections.forEach(selection => {
         //@ts-ignore
         document.getElementById(selection).checked = true;
         document.getElementById(selection).classList.add('showNode', 'active');
@@ -316,10 +317,10 @@ export class ReferralGuideComponent implements OnInit {
     } else {
       this.activeAssignedTeeth = null;
       //toggle from selected teeths
-      if (this.selectedTeeths.includes(event.target.getAttribute('id')))
-        this.selectedTeeths = this.selectedTeeths.filter(e => e !== event.target.getAttribute('id'))
+      if (this.selectedTeeths.includes(key))
+        this.selectedTeeths = this.selectedTeeths.filter(e => e !== key)
       else
-        this.selectedTeeths.push(event.target.getAttribute('id'))
+        this.selectedTeeths.push(key)
 
     }
     this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
@@ -430,7 +431,7 @@ export class ReferralGuideComponent implements OnInit {
     }
   }
 
-  deleteSelection() {
+  deleteSelection(key) {
     sweetAlert({
       title: "Do you want to delete this selection?",
       icon: "warning",
@@ -440,8 +441,8 @@ export class ReferralGuideComponent implements OnInit {
       .then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result) {
-          if (this.activeAssignedTeeth) {
-            delete this.toothGuide[this.activeAssignedTeeth];
+          if (key) {
+            delete this.toothGuide[key];
             this.resetListandTeeths();
             this.activeAssignedTeeth = null;
             this.selectedTeeths = [];

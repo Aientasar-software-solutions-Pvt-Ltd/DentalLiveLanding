@@ -41,20 +41,28 @@
                   (click)="addressList.splice(i,1)" class="fa fa-times m-1"></i></small>
 
 
-              <input matInput (blur)="istouched=true" #toAddress type="email" autocomplete="email"
+              <!-- <input matInput (blur)="istouched=true" #toAddress type="email" autocomplete="email"
                 pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" (keydown)="addMail($event,$any($event.target).value,toAddress);"
                 (blur)="addtoList($any($event.target).value,toAddress);"
                 (keyup)="filterContact($any($event.target).value);"
                 class="form-control  border-0 p-0 m-0 h-auto w-100 shadow-none" id="floatingInput"
                 [(ngModel)]="mail.toAddresses" placeholder="Eg. jhon@gmail.com" name="toAddresses"
+                [required]="addressList.length==0 && toAddress.value==''"> -->
+
+
+              <input (blur)="istouched=true" #toAddress type="email" [matAutocomplete]="auto" autocomplete="email"
+                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" (keydown)="addMail($event,$any($event.target).value,toAddress);"
+                (blur)="addtoList($any($event.target).value,toAddress,auto);" (keyup)="filterContact($any($event.target).value);"
+                class="form-control  border-0 p-0 m-0 h-auto w-100 shadow-none" id="floatingInput"
+                [(ngModel)]="mail.toAddresses" placeholder="Eg. jhon@gmail.com" name="toAddresses"
                 [required]="addressList.length==0 && toAddress.value==''">
 
-              <!-- <mat-autocomplete (optionSelected)="addMailOption($any($event.target).value,toAddress);" class="w-100"
+              <mat-autocomplete (optionSelected)="addMailOption($any($event.option).value,toAddress);" class="w-100"
                 #auto="matAutocomplete">
                 <mat-option *ngFor="let contact of contactFilterdList" [value]="contact.email">
                   {{contact.firstName+' '+contact.lastName+' \<'+contact.email+'>'}}
                 </mat-option>
-              </mat-autocomplete> -->
+              </mat-autocomplete>
 
             </div>
             <label for="floatingInput">To<small> (Seperated by commas or hit enter for

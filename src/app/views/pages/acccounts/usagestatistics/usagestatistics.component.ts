@@ -23,8 +23,8 @@ export class UsagestatisticsComponent implements OnInit {
     this.dataService.getallData(this.utility.apiData.usage.ApiUrl + `?email=${this.user}&type=stats`, true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
-        console.log(Response);
         this.object = Response;
+        console.log(this.object);
       }, error => {
 
       }, () => {
@@ -52,7 +52,7 @@ export class UsagestatisticsComponent implements OnInit {
     this.pageNumber = number * this.itemsPerPage;
   }
   formatData(val) {
-    if (val == 0) return val + 'GB';
+    if (!val || val == 0) return '0B';
     let tempval = val;
     val = tempval.toFixed(2) + 'GB';
     if (tempval < 1) {
