@@ -85,18 +85,10 @@ export class MilestoneEditComponent implements OnInit {
 				this.sending = false;
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -161,18 +153,10 @@ export class MilestoneEditComponent implements OnInit {
 					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {
-			  if (error.status === 404)
-				swal.fire('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal.fire('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal.fire('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
-				swal.fire(error.error);
-			  else
-				swal.fire('Unable to fetch the data, please try again');
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
 			});
 		}
 	}

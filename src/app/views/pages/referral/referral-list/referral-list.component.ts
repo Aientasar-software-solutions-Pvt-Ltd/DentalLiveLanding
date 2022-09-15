@@ -111,8 +111,11 @@ export class ReferralListComponent implements OnInit {
 					
 				}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+				return false;
 			});
 		}
 	}
@@ -132,8 +135,11 @@ export class ReferralListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+				return false;
 			});
 		}
 	}
@@ -163,8 +169,11 @@ export class ReferralListComponent implements OnInit {
 					//alert(JSON.stringify(this.detailsdata));
 				}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+				return false;
 			});
 		}
 	}
@@ -195,8 +204,11 @@ export class ReferralListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, (error) => {
-		  swal( 'Unable to fetch data, please try again');
-		  return false;
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
+			return false;
 		});
 	};
 	
@@ -236,8 +248,11 @@ export class ReferralListComponent implements OnInit {
 					this.isLoadingData = false;
 				}
 				}, (error) => {
-				  swal( 'Unable to fetch data, please try again');
-				  return false;
+					if (error.status)
+					swal(error.error);
+					else
+					swal('Unable to fetch the data, please try again');
+					return false;
 				});
 			}
 		}

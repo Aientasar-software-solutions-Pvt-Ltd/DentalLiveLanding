@@ -106,8 +106,11 @@ export class WorkOrdersListComponent implements OnInit {
 					
 				}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+				return false;
 			});
 		}
 	}
@@ -125,8 +128,12 @@ export class WorkOrdersListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+
+				return false;
 			});
 		}
 	}
@@ -157,8 +164,12 @@ export class WorkOrdersListComponent implements OnInit {
 				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
-		  swal( 'Unable to fetch data, please try again');
-		  return false;
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
+
+			return false;
 		});
 	};
 	
@@ -196,8 +207,12 @@ export class WorkOrdersListComponent implements OnInit {
 					this.isLoadingData = false;
 				}
 				}, (error) => {
-				  swal( 'Unable to fetch data, please try again');
-				  return false;
+					if (error.status)
+					swal(error.error);
+					else
+					swal('Unable to fetch the data, please try again');
+
+					return false;
 				});
 			}
 		}

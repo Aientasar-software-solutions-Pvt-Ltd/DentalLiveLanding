@@ -78,8 +78,11 @@ export class MilestonesListComponent implements OnInit {
 					//alert(this.tabledata['0'].title);
 				}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
-			  return false;
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
+				return false;
 			});
 		}
 	}
@@ -99,8 +102,11 @@ export class MilestonesListComponent implements OnInit {
 			swal('Milestones deleted successfully');
 			this.getallmilestone();
 		}, (error) => {
-		  swal( 'Unable to fetch data, please try again');
-		  return false;
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
+			return false;
 		});
 	}
 	
@@ -163,7 +169,10 @@ export class MilestonesListComponent implements OnInit {
 				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
-			swal( 'Unable to fetch data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 			return false;
 		});
 	};

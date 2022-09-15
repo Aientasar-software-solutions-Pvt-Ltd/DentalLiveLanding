@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
 	public caseCount = 0;
 	public caseinvitationCount = 0;
 	public workworderCount = 0;
-	public inboxCount = 15;
+	public inboxCount = 0;
 	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
 	}
 
@@ -33,7 +33,12 @@ export class DashboardComponent implements OnInit {
 		url += "?invitedUserMail="+user.emailAddress;
 		let toDate: Date = new Date();
 		url += "&dateTo="+toDate.getTime();
-		url += "&dateFrom="+fromDate;
+		if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+			url += "&dateFrom="+toDate.getTime();
+			}
+			else{
+				url += "&dateFrom="+fromDate;
+			}
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
@@ -45,17 +50,9 @@ export class DashboardComponent implements OnInit {
 				//alert(JSON.stringify(GetAllData));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+		  if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -65,7 +62,12 @@ export class DashboardComponent implements OnInit {
 		url += "?resourceOwner="+user.emailAddress;
 		let toDate: Date = new Date();
 		url += "&dateTo="+toDate.getTime();
-		url += "&dateFrom="+fromDate;
+		if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+			url += "&dateFrom="+toDate.getTime();
+			}
+			else{
+				url += "&dateFrom="+fromDate;
+			}
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
@@ -77,17 +79,9 @@ export class DashboardComponent implements OnInit {
 				//alert(JSON.stringify(GetAllData));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -102,7 +96,12 @@ export class DashboardComponent implements OnInit {
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let toDate: Date = new Date();
 			url += "?dateTo="+toDate.getTime();
-			url += "&dateFrom="+fromDate;
+			if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+			url += "&dateFrom="+toDate.getTime();
+			}
+			else{
+				url += "&dateFrom="+fromDate;
+			}
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
@@ -110,35 +109,37 @@ export class DashboardComponent implements OnInit {
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 					//alert(JSON.stringify(treadAllData));
-					
+					this.inboxCount = treadAllData[0].mailCount;
 					this.messageDataArray = Array();
 					for(var i = 0; i < treadAllData.length; i++)
 					{
 						let skVal = treadAllData[i].sk;
-						var skarray = skVal.split("#"); 
-						//alert(skarray[0]);
-						if(skarray[0] == 'DETAILS')
-						{
-							this.caseCount++;
-						}
-						else if(skarray[0] == 'WORKORDERS')
-						{
-							this.workworderCount++;
-						}
-						else if(skarray[0] == 'MILESTONES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].patientName,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
+						if(skVal){
+							var skarray = skVal.split("#"); 
+							//alert(skarray[0]);
+							if(skarray[0] == 'DETAILS')
+							{
+								this.caseCount++;
+							}
+							else if(skarray[0] == 'WORKORDERS')
+							{
+								this.workworderCount++;
+							}
+							else if(skarray[0] == 'MILESTONES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].patientName,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+							}
 						}
 					}
 					
@@ -149,7 +150,10 @@ export class DashboardComponent implements OnInit {
 					}, 1000);
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
 			  return false;
 			});
 			

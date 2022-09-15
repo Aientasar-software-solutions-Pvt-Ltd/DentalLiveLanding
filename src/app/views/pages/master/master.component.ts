@@ -162,7 +162,6 @@ export class MasterComponent implements OnInit {
 		}
 		if(tabs == 'tab2')
 		{
-			this.getMessage();
 			this.getThread();
 		}
 		if(tabs == 'tab3')
@@ -207,7 +206,6 @@ export class MasterComponent implements OnInit {
     };
 	this.getCaseDetails();
 	if(this.paramTabName == 'threads'){
-		this.getMessage();
 		this.getThread();
 	}
 	(this.paramTabName == 'casefiles') ? this.getFilesListing() : '';
@@ -226,73 +224,6 @@ export class MasterComponent implements OnInit {
 	this.sending = false;
 	}
 
-	getMessage() {
-		let user = this.usr.getUserDetails(false);
-		
-		if(user)
-		{
-			let url = this.utility.apiData.userMessage.ApiUrl;
-			let caseId = this.paramCaseId;
-			let messageType = "1";
-			if(caseId != '')
-			{
-				url += "?caseId="+caseId;
-			}
-			url += "&messageType="+messageType;
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
-					//alert(JSON.stringify(this.messagedata));
-					
-					this.messageDataArray = Array();
-					for(var i = 0; i < this.messagedata.length; i++)
-					{
-						let strVal = JSON.stringify(this.messagedata[i].message);
-						if(strVal.length > 2)
-						{
-							this.messageDataArray.push({
-								patientId: this.messagedata[i].patientId,
-								messageId: this.messagedata[i].messageId,
-								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
-								messagetext: this.messagedata[i].message.text,
-								messageimg: this.messagedata[i].message.links,
-								messagedate: this.messagedata[i].dateCreated,
-								messagecomment: this.messagedata[i].comments,
-								messagecomments: this.messagedata[i].comments
-							});
-							this.setcvFastComment(this.messagedata[i].comments,i);
-							this.setcvFastMsg(this.messagedata[i].message,i);
-							this.cvfastMsgText = true;
-						}
-						else
-						{
-							this.messageDataArray.push({
-								patientId: this.messagedata[i].patientId,
-								messageId: this.messagedata[i].messageId,
-								caseId: this.messagedata[i].caseId,
-								patientName: this.messagedata[i].patientName,
-								messagetext: '',
-								messageimg: [],
-								messagedate: this.messagedata[i].dateCreated,
-								messagecomment: this.messagedata[i].comments
-							});
-						}
-					}
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
-					}, 2000);
-				}
-			}, (error) => {
-			  swal("Unable to fetch data, please try again");
-			  return false;
-			});
-			
-		}
-	}
 	onSubmitMessages(form: NgForm){
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -498,17 +429,9 @@ export class MasterComponent implements OnInit {
 					//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
 				}
 			}, error => {
-			  if (error.status === 404)
-				swal('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
+				if (error.status)
 				swal(error.error);
-			  else
+				else
 				swal('Unable to fetch the data, please try again');
 			});
 		}
@@ -517,7 +440,6 @@ export class MasterComponent implements OnInit {
 	{
 		obj.links = '';
 		let Comments = Array();
-		//alert(obj.links.length);
 		if(obj.length > 0)
 		{
 			for(var i = 0; i < obj.length; i++)
@@ -541,17 +463,9 @@ export class MasterComponent implements OnInit {
 									NewCommentArray.push({ imgName: ImageName, ImageUrl: Response });
 								}
 							}, error => {
-							  if (error.status === 404)
-								swal('E-Mail ID does not exists,please signup to continue');
-							  else if (error.status === 403)
-								swal('Account Disabled,contact Dental-Live');
-							  else if (error.status === 400)
-								swal('Wrong Password,please try again');
-							  else if (error.status === 401)
-								swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-							  else if (error.status === 428)
+								if (error.status)
 								swal(error.error);
-							  else
+								else
 								swal('Unable to fetch the data, please try again');
 							});
 						}
@@ -602,17 +516,9 @@ export class MasterComponent implements OnInit {
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
 					}
 				}, error => {
-				  if (error.status === 404)
-					swal('E-Mail ID does not exists,please signup to continue');
-				  else if (error.status === 403)
-					swal('Account Disabled,contact Dental-Live');
-				  else if (error.status === 400)
-					swal('Wrong Password,please try again');
-				  else if (error.status === 401)
-					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				  else if (error.status === 428)
+					if (error.status)
 					swal(error.error);
-				  else
+					else
 					swal('Unable to fetch the data, please try again');
 				});
 			}
@@ -818,17 +724,9 @@ export class MasterComponent implements OnInit {
 				}
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -854,17 +752,9 @@ export class MasterComponent implements OnInit {
 				}, 1000);
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -909,17 +799,9 @@ export class MasterComponent implements OnInit {
 							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
 						}
 					}, error => {
-					  if (error.status === 404)
-						swal('E-Mail ID does not exists,please signup to continue');
-					  else if (error.status === 403)
-						swal('Account Disabled,contact Dental-Live');
-					  else if (error.status === 400)
-						swal('Wrong Password,please try again');
-					  else if (error.status === 401)
-						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-					  else if (error.status === 428)
+						if (error.status)
 						swal(error.error);
-					  else
+						else
 						swal('Unable to fetch the data, please try again');
 					});
 				}
@@ -941,17 +823,9 @@ export class MasterComponent implements OnInit {
 							this.casefilesArray[i-1].files[0].url = Response;
 						}
 					}, error => {
-					  if (error.status === 404)
-						swal('E-Mail ID does not exists,please signup to continue');
-					  else if (error.status === 403)
-						swal('Account Disabled,contact Dental-Live');
-					  else if (error.status === 400)
-						swal('Wrong Password,please try again');
-					  else if (error.status === 401)
-						swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-					  else if (error.status === 428)
+						if (error.status)
 						swal(error.error);
-					  else
+						else
 						swal('Unable to fetch the data, please try again');
 					});
 				}
@@ -970,17 +844,9 @@ export class MasterComponent implements OnInit {
 				this.caseImage = true;
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1027,17 +893,9 @@ export class MasterComponent implements OnInit {
 		  //this.getFilesListing();
 		  window.location.reload();
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1078,17 +936,9 @@ export class MasterComponent implements OnInit {
 						this.onGetdateData(form.value);
 					}
 				}, error => {
-				  if (error.status === 404)
-					swal('E-Mail ID does not exists,please signup to continue');
-				  else if (error.status === 403)
-					swal('Account Disabled,contact Dental-Live');
-				  else if (error.status === 400)
-					swal('Wrong Password,please try again');
-				  else if (error.status === 401)
-					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				  else if (error.status === 428)
+					if (error.status)
 					swal(error.error);
-				  else
+					else
 					swal('Unable to fetch the data, please try again');
 				});	
 			  })
@@ -1171,17 +1021,9 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1205,17 +1047,9 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.uploaddata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1257,17 +1091,9 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.filesdata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	};
@@ -1425,17 +1251,9 @@ export class MasterComponent implements OnInit {
 				//alert(JSON.stringify(this.referraldata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1671,18 +1489,10 @@ export class MasterComponent implements OnInit {
 				this.getAllMembers();
 			}
 		}, error => {
-		  this.getAllMembers();
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			this.getAllMembers();
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1732,17 +1542,9 @@ export class MasterComponent implements OnInit {
 		  this.getInviteListing();
 		  swal("Case invitation removed successfully");
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -1779,147 +1581,151 @@ export class MasterComponent implements OnInit {
 					//alert(JSON.stringify(treadAllData));
 					
 					this.messageDataArray = Array();
+					let countIndex = 0;
 					for(var i = 0; i < treadAllData.length; i++)
 					{
 						let skVal = treadAllData[i].sk;
-						var skarray = skVal.split("#"); 
-						//alert(skarray[0]);
-						if(skarray[0] == 'MESSAGES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: treadAllData[i].messageId,
-								messagetext: treadAllData[i].message.text,
-								messageimg: '',
-								messagecomment: treadAllData[i].comments,
-								messagecomments: ''
-							});
-							this.setcvFastComment(treadAllData[i].comments,i);
-							this.setcvFastMsg(treadAllData[i].message,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'CASEINVITES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].invitationText,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'DETAILS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'DETAILS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'WORKORDERS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].notes,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'MILESTONES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'MILESTONES#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'REFERRALS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'REFERRALS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							//this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'TASKS')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'TASKS#  : '+treadAllData[i].title,
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
-						}
-						else if(skarray[0] == 'FILES')
-						{
-							this.messageDataArray.push({
-								patientId: treadAllData[i].patientId,
-								caseId: treadAllData[i].caseId,
-								patientName: treadAllData[i].resourceOwner,
-								dateUpdated: treadAllData[i].dateUpdated,
-								dateCreated: treadAllData[i].dateCreated,
-								messageId: '',
-								messagetext: 'Files Uploaded',
-								messageimg: '',
-								messagecomment: '',
-								messagecomments: ''
-							});
-							//this.setcvFastMsg(treadAllData[i].description,i);
-							this.cvfastMsgText = true;
+						if((skVal != undefined) && (skVal != '') && (skVal != null)) {
+						var skarray = skVal.split("#");
+							//alert(skarray[0]);
+							if(skarray[0] == 'MESSAGES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: treadAllData[i].messageId,
+									messagetext: treadAllData[i].message.text,
+									messageimg: '',
+									messagecomment: treadAllData[i].comments,
+									messagecomments: ''
+								});
+								this.setcvFastComment(treadAllData[i].comments,countIndex);
+								this.setcvFastMsg(treadAllData[i].message,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'CASEINVITES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].invitationText,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'DETAILS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'DETAILS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'WORKORDERS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].notes,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'MILESTONES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'REFERRALS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								//this.setcvFastMsg(treadAllData[i].description,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'TASKS')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'TASKS#  : '+treadAllData[i].title,
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								this.setcvFastMsg(treadAllData[i].description,countIndex);
+								this.cvfastMsgText = true;
+							}
+							else if(skarray[0] == 'FILES')
+							{
+								this.messageDataArray.push({
+									patientId: treadAllData[i].patientId,
+									caseId: treadAllData[i].caseId,
+									patientName: treadAllData[i].resourceOwner,
+									dateUpdated: treadAllData[i].dateUpdated,
+									dateCreated: treadAllData[i].dateCreated,
+									messageId: '',
+									messagetext: 'Files Uploaded',
+									messageimg: '',
+									messagecomment: '',
+									messagecomments: ''
+								});
+								//this.setcvFastMsg(treadAllData[i].description,countIndex);
+								this.cvfastMsgText = true;
+							}
+							countIndex++;
 						}
 					}
 					this.isLoadingData = false;
@@ -1960,152 +1766,153 @@ export class MasterComponent implements OnInit {
 						let treadAllData = JSON.parse(Response.toString());
 						treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 						//alert(JSON.stringify(treadAllData));
-						
-						//this.messageDataArray = Array();
+						let countIndex = 0;
 						for(var i = 0; i < treadAllData.length; i++)
 						{
 							let skVal = treadAllData[i].sk;
-							var skarray = skVal.split("#"); 
-							//alert(skarray[0]);
-							if(skarray[0] == 'MESSAGES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: treadAllData[i].messageId,
-									messagetext: treadAllData[i].message.text,
-									messageimg: '',
-									messagecomment: treadAllData[i].comments,
-									messagecomments: ''
-								});
-								this.setcvFastComment(treadAllData[i].comments,i);
-								this.setcvFastMsg(treadAllData[i].message,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'CASEINVITES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].invitationText,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'DETAILS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'DETAILS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'WORKORDERS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].notes,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'MILESTONES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'MILESTONES#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'REFERRALS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'REFERRALS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								//this.setcvFastMsg(treadAllData[i].description,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'TASKS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'TASKS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,i);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'FILES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'Files Uploaded',
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								//this.setcvFastMsg(treadAllData[i].description,i);
-								this.cvfastMsgText = true;
+							if((skVal != undefined) && (skVal != '') && (skVal != null)) {
+							var skarray = skVal.split("#");
+								//alert(skarray[0]);
+								if(skarray[0] == 'MESSAGES')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: treadAllData[i].messageId,
+										messagetext: treadAllData[i].message.text,
+										messageimg: '',
+										messagecomment: treadAllData[i].comments,
+										messagecomments: ''
+									});
+									this.setcvFastComment(treadAllData[i].comments,countIndex);
+									this.setcvFastMsg(treadAllData[i].message,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'CASEINVITES')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									this.setcvFastMsg(treadAllData[i].invitationText,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'DETAILS')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'DETAILS#  : '+treadAllData[i].title,
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									this.setcvFastMsg(treadAllData[i].description,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'WORKORDERS')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									this.setcvFastMsg(treadAllData[i].notes,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'MILESTONES')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									this.setcvFastMsg(treadAllData[i].description,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'REFERRALS')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									//this.setcvFastMsg(treadAllData[i].description,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'TASKS')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'TASKS#  : '+treadAllData[i].title,
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									this.setcvFastMsg(treadAllData[i].description,countIndex);
+									this.cvfastMsgText = true;
+								}
+								else if(skarray[0] == 'FILES')
+								{
+									this.messageDataArray.push({
+										patientId: treadAllData[i].patientId,
+										caseId: treadAllData[i].caseId,
+										patientName: treadAllData[i].resourceOwner,
+										dateUpdated: treadAllData[i].dateUpdated,
+										dateCreated: treadAllData[i].dateCreated,
+										messageId: '',
+										messagetext: 'Files Uploaded',
+										messageimg: '',
+										messagecomment: '',
+										messagecomments: ''
+									});
+									//this.setcvFastMsg(treadAllData[i].description,countIndex);
+									this.cvfastMsgText = true;
+								}
+								countIndex++;
 							}
 						}
-						
 						setTimeout(()=>{   
 							this.messageAry = this.messageDataArray;
 							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
@@ -2217,22 +2024,19 @@ export class MasterComponent implements OnInit {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  swal('New member invited successfully');
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
+			if (error.status === 400)
 			swal({
 				text: error.error
 			}).then(function() {
 				window.location.reload();
 			});
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			else
 			swal(error.error);
-		  else
-			swal('Unable to fetch the data, please try again');
 		});
 	};
+	@ViewChild('videoPlayer') videoplayer: ElementRef;
+
+	video() {
+		this.videoplayer?.nativeElement.play();
+	}
 }

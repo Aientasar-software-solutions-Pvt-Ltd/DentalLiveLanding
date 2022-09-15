@@ -121,7 +121,10 @@ export class CaseListComponent implements OnInit {
 					
 				}
 			}, (error) => {
-			  swal('Unable to fetch data, please try again');
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
 			  return false;
 			});
 		}
@@ -173,19 +176,10 @@ export class CaseListComponent implements OnInit {
 					this.tabledata = JSON.parse(Response.toString()).reverse();
 				}
 			}, error => {
-			  if (error.status === 404)
-				swal('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
+				if (error.status)
 				swal(error.error);
-			  else
-				swal('Unable to fetch the data, please try again');
-			});
+				else
+				swal('Unable to fetch the data, please try again');			});
 	};
 	  
 	getCaseMemberList(caseId, index, type) {
@@ -221,17 +215,9 @@ export class CaseListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -267,7 +253,10 @@ export class CaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-			swal('Unable to fetch data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 			return false;
 		});
 		}
@@ -293,17 +282,9 @@ export class CaseListComponent implements OnInit {
 					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
-			  if (error.status === 404)
-				swal('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
+				if (error.status)
 				swal(error.error);
-			  else
+				else
 				swal('Unable to fetch the data, please try again');
 			});
 		}
@@ -334,10 +315,10 @@ export class CaseListComponent implements OnInit {
 							});
 						}
 					}, (error) => {
-					swal({
-						title: 'Unable to fetch data, please try again'
-					});
-				  return false;
+						if (error.status)
+						swal(error.error);
+						else
+						swal('Unable to fetch the data, please try again');				  return false;
 				});
 			}
 			//alert(JSON.stringify(this.colleaguesdata));

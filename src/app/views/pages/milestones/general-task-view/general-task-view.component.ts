@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
 import { UtilityServicedev } from '../../../../utilitydev.service';
@@ -58,18 +58,10 @@ export class GeneralTaskViewComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -91,18 +83,10 @@ export class GeneralTaskViewComponent implements OnInit {
 				this.cvfastText = true;
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -126,18 +110,10 @@ export class GeneralTaskViewComponent implements OnInit {
 							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
 						}
 					}, error => {
-					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
-					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
-					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
-					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-					  else if (error.status === 428)
-						swal.fire(error.error);
-					  else
-						swal.fire('Unable to fetch the data, please try again');
+						if (error.status)
+						swal(error.error);
+						else
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 			}
@@ -158,18 +134,10 @@ export class GeneralTaskViewComponent implements OnInit {
 							this.casefilesArray[i-1].files[0].url = Response;
 						}
 					}, error => {
-					  if (error.status === 404)
-						swal.fire('E-Mail ID does not exists,please signup to continue');
-					  else if (error.status === 403)
-						swal.fire('Account Disabled,contact Dental-Live');
-					  else if (error.status === 400)
-						swal.fire('Wrong Password,please try again');
-					  else if (error.status === 401)
-						swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-					  else if (error.status === 428)
-						swal.fire(error.error);
-					  else
-						swal.fire('Unable to fetch the data, please try again');
+						if (error.status)
+						swal(error.error);
+						else
+						swal('Unable to fetch the data, please try again');
 					});
 				}
 				this.editdata = this.casefilesArray;

@@ -182,17 +182,9 @@ onActiveInactiveChanged(value:boolean){
 				}, 1000);
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -210,17 +202,9 @@ onActiveInactiveChanged(value:boolean){
 				this.patientImg = Response;
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+			if (error.status)
 			swal(error.error);
-		  else
+			else
 			swal('Unable to fetch the data, please try again');
 		});
 	}
@@ -260,20 +244,20 @@ onActiveInactiveChanged(value:boolean){
 			swal("Patient deleted successfully");
 			this.router.navigate(['patients/patients-list']);
 		}, (error) => {
-		  if(error.status === 405)
-		  {
-			 swal({
-				text: error.error,
-				type: "success"
-			}).then(function() {
-				window.location.reload();
-			});
-		  }
-		  else
-		  {
-			swal("Unable to fetch data, please try again");
-			return false;
-		  }
+			if (error.status === 405)
+			{
+				swal({
+					text: error.error,
+					type: "success"
+				}).then(function() {
+					window.location.reload();
+				});
+			}
+			else
+			{
+				swal(error.error);
+				return false;
+			}
 		});
 	}
 	onSubmitInsurance(form: NgForm) {

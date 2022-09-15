@@ -225,6 +225,10 @@ export class PatientAddComponent implements OnInit {
 			this.onGetdateData(GetForm,cvfast);
 		  })
 		  .catch((error) => {
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 			console.log(error);
 			return false;
 		  });

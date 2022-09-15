@@ -412,34 +412,18 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-                this.sending = true;
-                if (error.status === 404) {
-                  Swal('E-Mail ID does not exists,please signup to continue');
-                }
-                else if (error.status === 403) {
-                  Swal('Account Disabled,contact Dental-Live');
-                }
-                else if (error.status === 400) {
-                  Swal('Wrong Password,please try again');
-                }
-                else if (error.status === 405) {
-                  Swal({
-                    text: error.error,
-                    type: "success"
-                  }).then(function () {
-                    window.location.reload();
-                  });
-                }
-                else if (error.status === 401) {
-                  Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-                }
-                else if (error.status === 428) {
-                  Swal(error.error);
-                }
-                else {
-                  let errormsg = error;
-                  Swal('Unable to fetch the data, please try again');
-                }
+				this.sending = true;
+				if (error.status === 405)
+				{
+				 Swal({
+					text: error.error,
+					type: "success"
+				}).then(function() {
+					window.location.reload();
+				});
+				}
+				else
+				Swal(error.error);
               });
           }
           else {
@@ -463,34 +447,18 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-                this.sending = true;
-                if (error.status === 404) {
-                  Swal('E-Mail ID does not exists,please signup to continue');
-                }
-                else if (error.status === 403) {
-                  Swal('Account Disabled,contact Dental-Live');
-                }
-                else if (error.status === 400) {
-                  Swal('Wrong Password,please try again');
-                }
-                else if (error.status === 401) {
-                  Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-                }
-                else if (error.status === 405) {
-                  Swal({
-                    text: error.error,
-                    type: "success"
-                  }).then(function () {
-                    window.location.reload();
-                  });
-                }
-                else if (error.status === 428) {
-                  Swal(error.error);
-                }
-                else {
-                  let errormsg = error;
-                  Swal('Unable to fetch the data, please try again');
-                }
+				this.sending = true;
+				if (error.status === 405)
+				{
+				 Swal({
+					text: error.error,
+					type: "success"
+				}).then(function() {
+					window.location.reload();
+				});
+				}
+				else
+				Swal(error.error);
               });
           }
           //return this.cvfast;
@@ -538,33 +506,18 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            if (error.status === 404) {
-              Swal('E-Mail ID does not exists,please signup to continue');
-            }
-            else if (error.status === 403) {
-              Swal('Account Disabled,contact Dental-Live');
-            }
-            else if (error.status === 400) {
-              Swal('Wrong Password,please try again');
-            }
-            else if (error.status === 401) {
-              Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-            }
-            else if (error.status === 428) {
-              Swal(error.error);
-            }
-            else if (error.status === 405) {
-              Swal({
-                text: error.error,
-                type: "success"
-              }).then(function () {
-                window.location.reload();
-              });
-            }
-            else {
-              let errormsg = error;
-              Swal('Unable to fetch the data, please try again');
-            }
+			this.sending = true;
+			if (error.status === 405)
+			{
+			 Swal({
+				text: error.error,
+				type: "success"
+			}).then(function() {
+				window.location.reload();
+			});
+			}
+			else
+			Swal(error.error);
           });
       }
       else {
@@ -588,34 +541,18 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            this.sending = true;
-            if (error.status === 404) {
-              Swal('E-Mail ID does not exists,please signup to continue');
-            }
-            else if (error.status === 403) {
-              Swal('Account Disabled,contact Dental-Live');
-            }
-            else if (error.status === 400) {
-              Swal('Wrong Password,please try again');
-            }
-            else if (error.status === 401) {
-              Swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-            }
-            else if (error.status === 405) {
-              Swal({
-                text: error.error,
-                type: "success"
-              }).then(function () {
-                window.location.reload();
-              });
-            }
-            else if (error.status === 428) {
-              Swal(error.error);
-            }
-            else {
-              let errormsg = error;
-              Swal('Unable to fetch the data, please try again');
-            }
+			this.sending = true;
+			if (error.status === 405)
+			{
+			 Swal({
+				text: error.error,
+				type: "success"
+			}).then(function() {
+				window.location.reload();
+			});
+			}
+			else
+			Swal(error.error);
           });
       }
 

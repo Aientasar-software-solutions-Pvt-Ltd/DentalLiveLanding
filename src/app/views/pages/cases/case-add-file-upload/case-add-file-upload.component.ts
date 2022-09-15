@@ -52,15 +52,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+		  if (error.status)
 			swal(error.error);
 		  else
 			swal('Unable to fetch the data, please try again');
@@ -107,15 +99,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 				this.router.navigate(['cases/case-list']);
 			}, 1000);
 		}, error => {
-		  if (error.status === 404)
-			swal('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
+		  if (error.status)
 			swal(error.error);
 		  else
 			swal('Unable to fetch the data, please try again');
@@ -159,21 +143,17 @@ export class CaseAddFileUploadComponent implements OnInit {
 					    this.onGetdateData(isData);
 					}
 				}, error => {
-				  if (error.status === 404)
-					swal('E-Mail ID does not exists,please signup to continue');
-				  else if (error.status === 403)
-					swal('Account Disabled,contact Dental-Live');
-				  else if (error.status === 400)
-					swal('Wrong Password,please try again');
-				  else if (error.status === 401)
-					swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				  else if (error.status === 428)
+				  if (error.status)
 					swal(error.error);
 				  else
 					swal('Unable to fetch the data, please try again');
 				});	
 			  })
 			  .catch((error) => {
+				if (error.status)
+				swal(error.error);
+				else
+				swal('Unable to fetch the data, please try again');
 				console.log(error);
 				return false;
 			  });
