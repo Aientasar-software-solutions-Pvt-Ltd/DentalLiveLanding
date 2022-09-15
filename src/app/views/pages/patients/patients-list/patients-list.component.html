@@ -148,9 +148,6 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a routerLink="/patients/patient-edit/{{data.patientId}}" class="me-2">
-												<i class="material-icons text-bright-blue">edit</i>
-											</a>
 											<a routerLink="/patients/patient-details/{{data.patientId}}" class="me-2">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
@@ -161,34 +158,6 @@
 						</table>
 					</div>
 				</div>
-				<!--<div class="row">
-					<div class="col-sm-3 mb-3">
-					  <div class="form-group">
-						<label for="sel1" class="form-label">Date Filter:</label>
-						
-					  </div>
-					</div>
-				</div>
-				<table id="dataTables-example" class="table table-striped table-bordered table-sm row-border hover" datatable>
-					<thead>
-					  <tr>
-						<th><input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1" (change)="checkUncheckAll()" /> <strong>Select/ Unselect All</strong></th>
-						<th>FirstName</th>
-						<th>Email</th>
-						<th>Website</th>
-						<th>Date Added</th>
-					  </tr>
-					</thead>
-					<tbody>
-					 <tr *ngFor="let group of tabledata">
-						   <td><input type="checkbox" [(ngModel)]="group.isSelected" name="list_name" value="{{group.id}}"(change)="isAllSelected()" /> </td>
-						   <td>{{group.name}}</td>
-						   <td>{{group.email}}</td> 
-						   <td>{{group.website}}</td>
-						   <td>{{group.date}}</td>
-					   </tr>
-					</tbody>
-				</table>-->
 			</div>
 		</div>
 	</div>
@@ -206,14 +175,6 @@
 			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 				<div class="modal-body">
 					<div class="row gy-3">
-						<!--<div class="col-md-12">
-							<select class="form-select" placeholder="search" >
-								<option disabled selected>Sort By</option>
-								<option>Status</option>
-								<option>Last Modified</option>
-								<option>Date Created</option>
-							</select>
-						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>

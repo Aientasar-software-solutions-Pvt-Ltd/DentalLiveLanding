@@ -413,17 +413,26 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                 }
               }, error => {
 				this.sending = true;
-				if (error.status === 405)
-				{
-				 Swal({
-					text: error.error,
-					type: "success"
+				if (error.status === 404)
+				Swal('No data found');
+				else if (error.status === 403)
+				Swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				Swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				Swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				Swal('Duplicate data entered');
+				else if (error.status === 405)
+				Swal({
+				text: 'Due to dependency data unable to complete operation'
 				}).then(function() {
-					window.location.reload();
+				window.location.reload();
 				});
-				}
+				else if (error.status === 500)
+				Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				Swal(error.error);
+				Swal('Oops something went wrong, please try again');
               });
           }
           else {
@@ -448,17 +457,26 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                 }
               }, error => {
 				this.sending = true;
-				if (error.status === 405)
-				{
-				 Swal({
-					text: error.error,
-					type: "success"
+				if (error.status === 404)
+				Swal('No data found');
+				else if (error.status === 403)
+				Swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				Swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				Swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				Swal('Duplicate data entered');
+				else if (error.status === 405)
+				Swal({
+				text: 'Due to dependency data unable to complete operation'
 				}).then(function() {
-					window.location.reload();
+				window.location.reload();
 				});
-				}
+				else if (error.status === 500)
+				Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				Swal(error.error);
+				Swal('Oops something went wrong, please try again');
               });
           }
           //return this.cvfast;
@@ -507,17 +525,26 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
             }
           }, error => {
 			this.sending = true;
-			if (error.status === 405)
-			{
-			 Swal({
-				text: error.error,
-				type: "success"
+			if (error.status === 404)
+			Swal('No data found');
+			else if (error.status === 403)
+			Swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			Swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			Swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			Swal('Duplicate data entered');
+			else if (error.status === 405)
+			Swal({
+			text: 'Due to dependency data unable to complete operation'
 			}).then(function() {
-				window.location.reload();
+			window.location.reload();
 			});
-			}
+			else if (error.status === 500)
+			Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			Swal(error.error);
+			Swal('Oops something went wrong, please try again');
           });
       }
       else {
@@ -542,17 +569,26 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
             }
           }, error => {
 			this.sending = true;
-			if (error.status === 405)
-			{
-			 Swal({
-				text: error.error,
-				type: "success"
+			if (error.status === 404)
+			Swal('No data found');
+			else if (error.status === 403)
+			Swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			Swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			Swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			Swal('Duplicate data entered');
+			else if (error.status === 405)
+			Swal({
+			text: 'Due to dependency data unable to complete operation'
 			}).then(function() {
-				window.location.reload();
+			window.location.reload();
 			});
-			}
+			else if (error.status === 500)
+			Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			Swal(error.error);
+			Swal('Oops something went wrong, please try again');
           });
       }
 

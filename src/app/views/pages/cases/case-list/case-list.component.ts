@@ -121,10 +121,26 @@ export class CaseListComponent implements OnInit {
 					
 				}
 			}, (error) => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No case found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -176,10 +192,27 @@ export class CaseListComponent implements OnInit {
 					this.tabledata = JSON.parse(Response.toString()).reverse();
 				}
 			}, error => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No case found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');			});
+				swal('Oops something went wrong, please try again');	
+			});
 	};
 	  
 	getCaseMemberList(caseId, index, type) {
@@ -215,10 +248,26 @@ export class CaseListComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No case found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -253,10 +302,26 @@ export class CaseListComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No case found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 			return false;
 		});
 		}
@@ -282,10 +347,26 @@ export class CaseListComponent implements OnInit {
 					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No case found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 			});
 		}
 	}
@@ -299,26 +380,42 @@ export class CaseListComponent implements OnInit {
 			for(var k=0; k < this.allMember.length; k++)
 			{
 				let url1 = this.utility.apiData.userCases.ApiUrl;
-					url1 += "?caseId="+this.allMember[k].caseId;
-					this.dataService.getallData(url1, true).subscribe(Response => {
-						if (Response)
-						{
-							let AllDate = JSON.parse(Response.toString());
-							this.colleaguesdata.push({
-							  patientName: AllDate.patientName,
-							  title: AllDate.title,
-							  caseStatus: AllDate.caseStatus,
-							  dateCreated: AllDate.dateCreated,
-							  memberName: '',
-							  patientId: AllDate.patientId,
-							  caseId: AllDate.caseId
-							});
-						}
-					}, (error) => {
-						if (error.status)
-						swal(error.error);
-						else
-						swal('Unable to fetch the data, please try again');				  return false;
+				url1 += "?caseId="+this.allMember[k].caseId;
+				this.dataService.getallData(url1, true).subscribe(Response => {
+					if (Response)
+					{
+						let AllDate = JSON.parse(Response.toString());
+						this.colleaguesdata.push({
+						  patientName: AllDate.patientName,
+						  title: AllDate.title,
+						  caseStatus: AllDate.caseStatus,
+						  dateCreated: AllDate.dateCreated,
+						  memberName: '',
+						  patientId: AllDate.patientId,
+						  caseId: AllDate.caseId
+						});
+					}
+				}, (error) => {
+					if (error.status === 404)
+					swal('No case found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');			  return false;
 				});
 			}
 			//alert(JSON.stringify(this.colleaguesdata));

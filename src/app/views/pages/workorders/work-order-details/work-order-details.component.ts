@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { Location } from '@angular/common';
@@ -66,6 +67,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 	public messageAry: any[] = []
 	messagedata:any;
 	referalmembers:any;
+	public referalmembersName = '';
 	
 	public Img = 'assets/images/users.png';
 	public caseImage = false;
@@ -138,16 +140,87 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.parmCaseId = this.tabledata.caseId;
 					//alert(JSON.stringify(this.tabledata.workorderId));
 					//alert(JSON.stringify(this.tabledata));
+					this.getuserdetailsall(this.referalmembers);
 					this.getCaseDetails();
 					
 				}
 			}, (error) => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 				return false;
 			});
+		}
+	}
+	
+	getuserdetailsall(userId) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			for(var i=0; i < userId.length; i++)
+			{
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
+				{
+					url += "?dentalId="+userId[i];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+					if(this.referalmembersName)
+					{
+						this.referalmembersName += " , "+name;
+					}
+					else
+					{
+						this.referalmembersName += name;
+					}
+					//this.inviteReceivedData[index].userName = name;
+					//alert(JSON.stringify(this.referalmembersName));
+				}
+				}, (error) => {
+				  if (error.status === 404)
+					swal('No workorder found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+				  return false;
+				});
+			}
 		}
 	}
 	setcvFast(obj: any, page = 'task')
@@ -170,10 +243,26 @@ export class WorkOrderDetailsComponent implements OnInit {
 							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
 						}
 					}, error => {
-						if (error.status)
-						swal(error.error);
+						if (error.status === 404)
+						swal('No workorder found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 						else
-						swal('Unable to fetch the data, please try again');
+						swal('Oops something went wrong, please try again');
 					});
 				}
 			}
@@ -194,10 +283,26 @@ export class WorkOrderDetailsComponent implements OnInit {
 							this.casefilesArray[i-1].files[0].url = Response;
 						}
 					}, error => {
-						if (error.status)
-						swal(error.error);
+						if (error.status === 404)
+						swal('No workorder found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 						else
-						swal('Unable to fetch the data, please try again');
+						swal('Oops something went wrong, please try again');
 					});
 				}
 				this.tabledata = this.casefilesArray;
@@ -252,10 +357,26 @@ export class WorkOrderDetailsComponent implements OnInit {
 		  this.getallworkorder();
 		  swal('WorkOrder Due date updated successfully');
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No workorder found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	getMessage(caseId: any) {
@@ -320,10 +441,26 @@ export class WorkOrderDetailsComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 				return false;
 			});
 			
@@ -409,10 +546,26 @@ export class WorkOrderDetailsComponent implements OnInit {
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
 					}
 				}, error => {
-					if (error.status)
-					swal(error.error);
+					if (error.status === 404)
+					swal('No workorder found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 					else
-					swal('Unable to fetch the data, please try again');
+					swal('Oops something went wrong, please try again');
 				});
 			}
 			setTimeout(() => 
@@ -476,12 +629,33 @@ export class WorkOrderDetailsComponent implements OnInit {
 					//this.patientid = CaseDetails.patientId;
 				}
 			}, error => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 			});
 		}
 	}
 	
+	@ViewChild('videoPlayer') videoplayer: ElementRef;
+
+	video() {
+		this.videoplayer?.nativeElement.play();
+	}
 }

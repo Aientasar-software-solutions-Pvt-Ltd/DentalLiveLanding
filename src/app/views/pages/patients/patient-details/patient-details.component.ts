@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
@@ -27,7 +27,10 @@ export class PatientDetailsComponent implements OnInit {
   public module = 'patient';
   public indexRow = 0;
   paramPatientId: any;
+  public attachmentFiles: any[] = []
   invitedatas:any;
+  cvfastText: boolean = false;
+  cvfastLinks: boolean = false;
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
 	this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
   }
@@ -69,10 +72,22 @@ export class PatientDetailsComponent implements OnInit {
 				}, 1000);
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No patient found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for first name or last name');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	getallpatiant() {
@@ -121,15 +136,67 @@ export class PatientDetailsComponent implements OnInit {
 				}, 1000);
 				//this.isLoadingData = false;
 				//alert(JSON.stringify(this.tabledata));
+				this.setcvFast(this.tabledata.notes);
+				this.cvfastText = true;
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No patient found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for first name or last name');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
+	setcvFast(obj: any)
+	{
+		this.attachmentFiles = Array();
+		if(obj.links.length > 0)
+		{
+			this.cvfastLinks = true;
+			for(var i = 0; i < obj.links.length; i++)
+			{
+				
+				let ImageName = obj.links[i];
+				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+				this.dataService.getallData(url, true)
+				.subscribe(Response => {
+					if (Response)
+					{
+						this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+					}
+				}, error => {
+					if (error.status === 404)
+					swal('No patient found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered for first name or last name');
+					else if (error.status === 405)
+					swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+				});
+			}
+		}
+	}
 	getallcase() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -173,10 +240,22 @@ export class PatientDetailsComponent implements OnInit {
 				
 				}
 			}, (error) => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No patient found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered for first name or last name');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -213,10 +292,22 @@ export class PatientDetailsComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No patient found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for first name or last name');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -244,10 +335,22 @@ export class PatientDetailsComponent implements OnInit {
 			}
 		}
 		}, (error) => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No patient found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for first name or last name');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 		}
@@ -270,5 +373,10 @@ export class PatientDetailsComponent implements OnInit {
 	viewAllCase(patientId: any) {
 		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-case-list/'+patientId]);
+	}
+	@ViewChild('videoPlayer') videoplayer: ElementRef;
+
+	video() {
+		this.videoplayer?.nativeElement.play();
 	}
 }
