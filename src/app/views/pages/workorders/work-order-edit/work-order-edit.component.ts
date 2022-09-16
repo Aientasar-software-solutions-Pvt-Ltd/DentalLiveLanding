@@ -23,7 +23,7 @@ export class WorkOrderEditComponent implements OnInit {
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity = '';
+    selectedCity:any;
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
 	minDate = new Date();
@@ -31,7 +31,6 @@ export class WorkOrderEditComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public tabledataTitle = '';
-	
 	tabledata:any;
 	toothData:any;
 	
@@ -151,6 +150,8 @@ export class WorkOrderEditComponent implements OnInit {
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
 			this.allMember[index].memberid = userData.dentalId;
+			//alert(JSON.stringify(this.allMember[0]));
+			this.selectedCity = this.allMember[0].name;
 		}
 		}, (error) => {
 			if (error.status === 404)

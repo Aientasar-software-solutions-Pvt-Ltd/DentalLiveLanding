@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
 		url += "?invitedUserMail="+user.emailAddress;
 		let toDate: Date = new Date();
 		url += "&dateTo="+toDate.getTime();
-		if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+		if((fromDate == 'undefined') || (fromDate == '') || (fromDate == null)) {
 			url += "&dateFrom="+toDate.getTime();
 			}
 			else{
@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit {
 		url += "?resourceOwner="+user.emailAddress;
 		let toDate: Date = new Date();
 		url += "&dateTo="+toDate.getTime();
-		if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+		if((fromDate == 'undefined') || (fromDate == '') || (fromDate == null)) {
 			url += "&dateFrom="+toDate.getTime();
 			}
 			else{
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let toDate: Date = new Date();
 			url += "?dateTo="+toDate.getTime();
-			if((fromDate != undefined) && (fromDate != '') && (fromDate != null)) {
+			if((fromDate == 'undefined') || (fromDate == '') || (fromDate == null)) {
 			url += "&dateFrom="+toDate.getTime();
 			}
 			else{

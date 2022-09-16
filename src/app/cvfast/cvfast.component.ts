@@ -433,27 +433,56 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-                this.sending = true;
-                if (error.status === 404)
-                  Swal('No data found');
-                else if (error.status === 403)
-                  Swal('You are unauthorized to access the data');
-                else if (error.status === 400)
-                  Swal('Invalid data provided, please try again');
-                else if (error.status === 401)
-                  Swal('You are unauthorized to access the page');
-                else if (error.status === 409)
-                  Swal('Duplicate data entered');
-                else if (error.status === 405)
-                  Swal({
-                    text: 'Due to dependency data unable to complete operation'
-                  }).then(function () {
-                    window.location.reload();
-                  });
-                else if (error.status === 500)
-                  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-                else
-                  Swal('Oops something went wrong, please try again');
+				this.sending = false;
+				this.cdref.detectChanges();
+				if (error.status === 404)
+				  Swal({
+					text: 'No data found'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 403)
+				  Swal({
+					text: 'You are unauthorized to access the data'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 400)
+				  Swal({
+					text: 'Invalid data provided, please try again'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 401)
+				  Swal({
+					text: 'You are unauthorized to access the page'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 409)
+				  Swal({
+					text: 'Duplicate data entered'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 405)
+				  Swal({
+					text: 'Due to dependency data unable to complete operation'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 500)
+				  Swal({
+					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else
+				  Swal({
+					text: 'Oops something went wrong, please try again'
+				  }).then(function () {
+					window.location.reload();
+				  });
               });
           }
           else {
@@ -477,27 +506,56 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-                this.sending = true;
-                if (error.status === 404)
-                  Swal('No data found');
-                else if (error.status === 403)
-                  Swal('You are unauthorized to access the data');
-                else if (error.status === 400)
-                  Swal('Invalid data provided, please try again');
-                else if (error.status === 401)
-                  Swal('You are unauthorized to access the page');
-                else if (error.status === 409)
-                  Swal('Duplicate data entered');
-                else if (error.status === 405)
-                  Swal({
-                    text: 'Due to dependency data unable to complete operation'
-                  }).then(function () {
-                    window.location.reload();
-                  });
-                else if (error.status === 500)
-                  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-                else
-                  Swal('Oops something went wrong, please try again');
+                this.sending = false;
+				this.cdref.detectChanges();
+				if (error.status === 404)
+				  Swal({
+					text: 'No data found'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 403)
+				  Swal({
+					text: 'You are unauthorized to access the data'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 400)
+				  Swal({
+					text: 'Invalid data provided, please try again'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 401)
+				  Swal({
+					text: 'You are unauthorized to access the page'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 409)
+				  Swal({
+					text: 'Duplicate data entered'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 405)
+				  Swal({
+					text: 'Due to dependency data unable to complete operation'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else if (error.status === 500)
+				  Swal({
+					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
+				  }).then(function () {
+					window.location.reload();
+				  });
+				else
+				  Swal({
+					text: 'Oops something went wrong, please try again'
+				  }).then(function () {
+					window.location.reload();
+				  });
               });
           }
           //return this.cvfast;
@@ -545,17 +603,38 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            this.sending = true;
+            this.sending = false;
+			this.cdref.detectChanges();
             if (error.status === 404)
-              Swal('No data found');
+			  Swal({
+                text: 'No data found'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 403)
-              Swal('You are unauthorized to access the data');
+			  Swal({
+                text: 'You are unauthorized to access the data'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 400)
-              Swal('Invalid data provided, please try again');
+			  Swal({
+                text: 'Invalid data provided, please try again'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 401)
-              Swal('You are unauthorized to access the page');
+			  Swal({
+                text: 'You are unauthorized to access the page'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 409)
-              Swal('Duplicate data entered');
+			  Swal({
+                text: 'Duplicate data entered'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 405)
               Swal({
                 text: 'Due to dependency data unable to complete operation'
@@ -563,9 +642,17 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                 window.location.reload();
               });
             else if (error.status === 500)
-              Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			  Swal({
+                text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
+              }).then(function () {
+                window.location.reload();
+              });
             else
-              Swal('Oops something went wrong, please try again');
+			  Swal({
+                text: 'Oops something went wrong, please try again'
+              }).then(function () {
+                window.location.reload();
+              });
           });
       }
       else {
@@ -589,17 +676,38 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            this.sending = true;
+            this.sending = false;
+			this.cdref.detectChanges();
             if (error.status === 404)
-              Swal('No data found');
+			  Swal({
+                text: 'No data found'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 403)
-              Swal('You are unauthorized to access the data');
+			  Swal({
+                text: 'You are unauthorized to access the data'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 400)
-              Swal('Invalid data provided, please try again');
+			  Swal({
+                text: 'Invalid data provided, please try again'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 401)
-              Swal('You are unauthorized to access the page');
+			  Swal({
+                text: 'You are unauthorized to access the page'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 409)
-              Swal('Duplicate data entered');
+			  Swal({
+                text: 'Duplicate data entered'
+              }).then(function () {
+                window.location.reload();
+              });
             else if (error.status === 405)
               Swal({
                 text: 'Due to dependency data unable to complete operation'
@@ -607,9 +715,17 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                 window.location.reload();
               });
             else if (error.status === 500)
-              Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			  Swal({
+                text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
+              }).then(function () {
+                window.location.reload();
+              });
             else
-              Swal('Oops something went wrong, please try again');
+			  Swal({
+                text: 'Oops something went wrong, please try again'
+              }).then(function () {
+                window.location.reload();
+              });
           });
       }
 
