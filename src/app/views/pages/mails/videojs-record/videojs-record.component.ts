@@ -183,14 +183,9 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
       plugins: {
         record: {
           audio: true,
+          video: true,
           maxLength: 1800,
-          video: {
-            width: { min: 1024, ideal: 1280, max: 1920 },
-            height: { min: 576, ideal: 720, max: 1080 }
-          },
-          // dimensions of captured video frames
-          frameWidth: 1920,
-          frameHeight: 1080
+          debug: true
         }
       }
     };

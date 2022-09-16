@@ -1,4 +1,3 @@
-
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
@@ -6,6 +5,7 @@ import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
 import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import * as MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
 Wavesurfer.microphone = MicrophonePlugin;
+
 import { v4 as uuidv4 } from "uuid";
 import Swal from 'sweetalert';
 import Webcam from 'webcam-easy';
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { UtilityService } from '../views/pages/users/utility.service';
 import { UtilityServicedev } from '../utilitydev.service';
 import { AccdetailsService } from '../views/pages/accdetails.service';
+import RecordRTC from 'recordrtc';
 
 @Component({
   selector: 'app-cvfast',
@@ -65,10 +66,11 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   constructor(private usr: AccdetailsService, private dataService: ApiDataService, private router: Router, private cdref: ChangeDetectorRef, private utility: UtilityService, private UtilityDev: UtilityServicedev) {
   }
   ngOnInit(): void {
-    this.initPlayers();
+
   }
   ngAfterViewInit() {
     this.initWebcam();
+    this.initPlayers();
     this.VideoPlayer = videojs(document.getElementById('videoPlayer'), this.VideoConfig);
     this.VideoPlayer.on('finishRecord', () => {
       this.latestVideoRecord = this.VideoPlayer.recordedData;
@@ -150,14 +152,9 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
       plugins: {
         record: {
           audio: true,
+          video: true,
           maxLength: 1800,
-          video: {
-            width: { min: 1024, ideal: 1280, max: 1920 },
-            height: { min: 576, ideal: 720, max: 1080 }
-          },
-          // dimensions of captured video frames
-          frameWidth: 1920,
-          frameHeight: 1080
+          debug: true
         }
       }
     };
