@@ -7,16 +7,16 @@
   </div> -->
   <div class="row">
     <div class="form-group mb-md-0 mb-3 d-flex col-md-3 position-relative">
-      <select #patient (change)="filterPatient(patient.value)" ngModel id="patientId" name="patientId"
-        class="form-select">
+      <select #patient (ngModelChange)="filterPatient(patient.value)" [(ngModel)]="patientId" id="patientId"
+        name="patientId" class="form-select">
         <option selected value="">All Patients</option>
         <option *ngFor="let patient of patientList" [value]="patient.patientId">
           {{patient.firstName+' '+patient.lastName}}</option>
       </select>
     </div>
     <div class="form-group mb-md-0 mb-3 d-flex col-md-3 position-relative">
-      <select [disabled]="!patient.value" #case (change)="filterCase(case.value)" ngModel id="caseId" name="caseId"
-        class="form-select">
+      <select [disabled]="!patient.value" #case (ngModelChange)="filterCase(case.value)" [(ngModel)]="caseId"
+        id="caseId" name="caseId" class="form-select">
         <option selected value="">All Cases</option>
         <option *ngFor="let case of caseList" [value]="case.caseId">
           {{case.title}}</option>

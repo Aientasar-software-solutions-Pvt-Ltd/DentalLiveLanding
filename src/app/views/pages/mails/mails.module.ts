@@ -27,6 +27,8 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       { path: 'inbox', component: MailInboxComponent },
+      { path: 'inbox/:patientId', component: MailInboxComponent },
+      { path: 'inbox/:patientId/:caseId', component: MailInboxComponent },
       { path: 'sent', component: MailInboxComponent },
 
     ]
