@@ -31,7 +31,8 @@
           <button [disabled]="latestScreenRecord==null" *ngIf="StepScreen==5" type='button'
             (click)="latestScreenRecord = null;screenPlayer.record().reset(); screenName.value ? '' : null;StepScreen=1;"
             class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-          <button [disabled]="latestScreenRecord==null" type='button' *ngIf="StepScreen==5" (click)="addScreen();"
+          <button [disabled]="latestScreenRecord==null" type='button' *ngIf="StepScreen==5"
+            (click)="addScreen(screenName.value.trim());validNaming.test(screenName.value.trim())?screenName.value='':screenName.value=screenName.value;"
             class="btn btn-primary mb-2 small col-md-6">Add
             Screen</button>
         </div>
@@ -60,7 +61,8 @@
           <button [disabled]="latestAudioRecord==null" *ngIf="StepAudio==5" type='button'
             (click)="latestAudioRecord = null; audioPlayer.record().reset();audioName.value ? '' : null;StepAudio=1;"
             class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-          <button [disabled]="latestAudioRecord==null" type='button' *ngIf="StepAudio==5" (click)="addAudio();"
+          <button [disabled]="latestAudioRecord==null" type='button' *ngIf="StepAudio==5"
+            (click)="addAudio(audioName.value.trim());validNaming.test(audioName.value.trim())?audioName.value='':audioName.value=audioName.value;"
             class="btn btn-primary mb-2 small col-md-6">Add
             Audio</button>
         </div>
@@ -89,7 +91,8 @@
           <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
             (click)="VideoPlayer.record().reset();latestVideoRecord = null;StepVideo=1;videoName.value=''"
             class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-          <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button' (click)="addVideo();"
+          <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
+            (click)="addVideo(videoName.value.trim());validNaming.test(videoName.value.trim())?videoName.value='':videoName.value=videoName.value;"
             class="btn btn-primary mb-2 small col-md-6">Add
             Video</button>
         </div>
@@ -135,6 +138,10 @@
       <div class="mb-2">
         <textarea (keyup)="autoGrowTextZone($event)" style="resize: none;height:100px" [(ngModel)]="baseText"
           class="form-control border-3" placeholder="Enter text here"></textarea>
+        <div *ngIf="showEmoji" class="col-12">
+          <i (click)="resetAll('showEmoji')" role="button" class='bx bx-x bx-lg float-end'></i>
+          <emoji-mart (emojiClick)="addEmoji($event);"></emoji-mart>
+        </div>
       </div>
       <div class="col-12 mb-2">
         <ul class="list-group">
@@ -189,10 +196,6 @@
             <i [ngClass]="{'text-primary': showEmoji}" (click)="showEmoji=!showEmoji"
               class='bx bx-md d-block bxs-smile'></i>
             <small class="mt-2">Emoji</small>
-          </div>
-
-          <div style="position: absolute;left: -17em;margin-top: 2em;z-index:99;">
-            <emoji-mart *ngIf="showEmoji" (emojiClick)="addEmoji($event);"></emoji-mart>
           </div>
         </button>
         <button class="position-relative btn bg-transparent text-secondary" data-bs-toggle="tooltip"

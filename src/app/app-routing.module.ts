@@ -19,12 +19,12 @@ const routes: Routes = [
 			{
 				path: 'dashboard',
 				loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-				canActivate: [AuthGuard]
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'accounts',
 				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule),
-				canActivate: [AuthGuard]
+				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
 				path: 'patients',
