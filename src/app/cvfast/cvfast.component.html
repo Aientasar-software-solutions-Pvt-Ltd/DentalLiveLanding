@@ -2,7 +2,8 @@
   <div class="row">
     <div class="row contentArea">
       <div [hidden]="!showScreen" class="col-md-12 mb-4">
-        <p class="body2" style="color:#6E81A4;">Record Screen</p>
+        <p class="body2" style="color:#6E81A4;">Record Screen <i (click)="resetAll('showScreen')" role="button"
+            class='bx bx-x  bx-lg float-end'></i></p>
         <div class="position-relative">
           <video id="screenPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
           <button type='button' style="background-color: #01579B;color:white" [hidden]="pipEnabled || StepScreen==1"
@@ -36,7 +37,8 @@
         </div>
       </div>
       <div [hidden]="!showAudio" class="col-md-12 mb-4">
-        <p class="body2" style="color:#6E81A4;">Record Audio</p>
+        <p class="body2" style="color:#6E81A4;">Record Audio<i (click)="resetAll('showAudio')" role="button"
+            class='bx bx-x  bx-lg float-end'></i></p>
         <audio id="audioPlayer" class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></audio>
         <div class="row gx-0 justify-content-between">
           <button type='button' *ngIf="StepAudio==1" (click)="audioPlayer.record().getDevice();StepAudio=2"
@@ -64,7 +66,8 @@
         </div>
       </div>
       <div [hidden]="!showVideo" class="col-md-12 mb-4 ">
-        <p class="body2" style="color:#6E81A4;">Record Video</p>
+        <p class="body2" style="color:#6E81A4;">Record Video<i (click)="resetAll('showVideo')" role="button"
+            class='bx bx-x  bx-lg float-end'></i></p>
         <video id="videoPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
         <div class="row gx-0 justify-content-between">
           <button type='button' *ngIf="StepVideo==1" (click)="VideoPlayer.record().getDevice();StepVideo=2"
@@ -92,6 +95,7 @@
         </div>
       </div>
       <div [hidden]="!showCamera" class="col-md-12 mb-4 position-relative">
+        <i (click)="resetAll('showCamera')" role="button" class='bx bx-x  bx-lg float-end'></i>
         <h6 [hidden]="pic" class="position-absolute w-100 text-center top-50">Initialising camera....please wait....
         </h6>
         <video [hidden]="pic" id="webcam" autoplay playsinline style="width: 100%;" width="640" height="480"></video>

@@ -223,7 +223,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   }
 
   resetAll(type) {
-
     this.latestVideoRecord = null; this.VideoPlayer.record().reset(); this.StepVideo = 1;
     this.latestAudioRecord = null; this.audioPlayer.record().reset(); this.StepAudio = 1;
     this.latestScreenRecord = null; this.screenPlayer.record().reset(); this.StepScreen = 1;
