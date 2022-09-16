@@ -102,13 +102,18 @@
 									<div class="mb-3">
 										<label class="me-2 mb-3 text-muted" >Assets : </label>
 										<div class="row">
-											<div class="col-md-4 col-lg-6" *ngFor="let links of attachmentFiles">
-												<div class="card mb-3" style="border: 1px solid #D0D6DE;"><div class="card-body d-flex align-items-center">
-												<img src="{{links.ImageUrl}}" height="36px" *ngIf="(links.imgName.split('.').pop() =='jpg' || links.imgName.split('.').pop() =='JPG' || links.imgName.split('.').pop() =='png' || links.imgName.split('.').pop() =='PNG' || links.imgName.split('.').pop() =='jpeg' || links.imgName.split('.').pop() =='JPEG' || links.imgName.split('.').pop() =='gif' || links.imgName.split('.').pop() =='GIF'); else noimage">
-												<ng-template #noimage><img src="assets/images/file.png" height="58px"/></ng-template>
-												<a href="{{links.ImageUrl}}" target="_tblank"><p class="card-text ps-2">{{links.imgName}}</p></a>
-												</div></div>
+											<div class="col-md-4 col-lg-4" *ngFor="let links of attachmentFiles">
+												<div class="card mb-3" style="border: 1px solid #D0D6DE;">
+													<div class="card-body d-flex align-items-center">
+														&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;"/></a>
+														<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()!='png' && links.imgName.split('.').pop()!='jpg' && links.imgName.split('.').pop()!='jpeg' && links.imgName.split('.').pop() !='gif' && links.imgName.split('.').pop()!='PNG' && links.imgName.split('.').pop() !='JPG' && links.imgName.split('.').pop()!='JPEG' && links.imgName.split('.').pop() !='GIF' && links.imgName.split('.').pop()!='mp4' && links.imgName.split('.').pop()!='MP4' && links.imgName.split('.').pop()!='3gp' && links.imgName.split('.').pop()!='3GP' && links.imgName.split('.').pop()!='avi' && links.imgName.split('.').pop()!='AVI' && links.imgName.split('.').pop()!='wmv' && links.imgName.split('.').pop()!='WMV' && links.imgName.split('.').pop()!='mov' && links.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{links.imgName}}</a>
+														<video controls class="video" style="display:inline-block;vertical-align:middle;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer>
+														<source src="{{links.ImageUrl}}" type="video/mp4">
+														</video>
+													</div>
+												</div>
 											</div>
+
 										</div>
 									</div>
 								</div>

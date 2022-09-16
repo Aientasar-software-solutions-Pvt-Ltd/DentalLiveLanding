@@ -117,18 +117,26 @@ export class ColleagueViewProfileComponent implements OnInit {
 					}
 				}
 			}, error => {
-			   if (error.status === 404)
-				swal('E-Mail ID does not exists,please signup to continue');
-			  else if (error.status === 403)
-				swal('Account Disabled,contact Dental-Live');
-			  else if (error.status === 400)
-				swal('Wrong Password,please try again');
-			  else if (error.status === 401)
-				swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-			  else if (error.status === 428)
-				swal(error.error);
-			  else
-				swal('Unable to fetch the data, please try again');
+				if (error.status === 404)
+				swal('No colleagues found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			});
 		}
 	}
@@ -150,11 +158,38 @@ export class ColleagueViewProfileComponent implements OnInit {
 			this.invitedata[index].userEducation = userData[0].education;
 			this.invitedata[index].userCity = userData[0].city;
 			this.invitedata[index].userCountry = userData[0].country;
+			if((userData[0].imageSrc != undefined) && (userData[0].imageSrc != '') && (userData[0].imageSrc != null))
+			{
+				this.invitedata[index].imageSrc = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData[0].imageSrc;
+			}
+			else
+			{
+				this.invitedata[index].imageSrc = "assets/images/users.png";
+			}
 			//this.inviteReceivedData[index].userName = name;
 			//alert(JSON.stringify(this.inviteReceivedData));
 		}
 		}, (error) => {
-		  swal( 'Unable to fetch data, please try again');
+			if (error.status === 404)
+			swal('No patient found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for first name or last name');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 		}
@@ -174,7 +209,26 @@ export class ColleagueViewProfileComponent implements OnInit {
 				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
+				if (error.status === 404)
+				swal('No patient found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered for first name or last name');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -206,7 +260,26 @@ export class ColleagueViewProfileComponent implements OnInit {
 					//alert(JSON.stringify(this.detailsdata));
 				}
 			}, (error) => {
-			  swal( 'Unable to fetch data, please try again');
+				if (error.status === 404)
+				swal('No patient found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered for first name or last name');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}

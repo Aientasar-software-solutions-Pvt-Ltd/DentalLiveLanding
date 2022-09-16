@@ -153,10 +153,26 @@ export class WorkOrderEditComponent implements OnInit {
 			this.allMember[index].memberid = userData.dentalId;
 		}
 		}, (error) => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No workorder found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 
 			return false;
 		});
@@ -195,10 +211,26 @@ export class WorkOrderEditComponent implements OnInit {
 					}
 				}
 			}, error => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 
 			});
 			
@@ -237,10 +269,26 @@ export class WorkOrderEditComponent implements OnInit {
 				}, 1000);
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No workorder found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 
 		});
 	}
@@ -260,10 +308,26 @@ export class WorkOrderEditComponent implements OnInit {
 					this.patientName = caseDtls.patientName;
 				}
 			}, error => {
-				if (error.status)
-				swal(error.error);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				swal('Unable to fetch the data, please try again');
+				swal('Oops something went wrong, please try again');
 
 			});
 		}

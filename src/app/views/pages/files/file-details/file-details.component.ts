@@ -58,18 +58,10 @@ export class FileDetailsComponent implements OnInit {
 				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -91,18 +83,10 @@ export class FileDetailsComponent implements OnInit {
 						//alert(this.urlSafe);
 					}
 				}, error => {
-				  if (error.status === 404)
-					swal.fire('E-Mail ID does not exists,please signup to continue');
-				  else if (error.status === 403)
-					swal.fire('Account Disabled,contact Dental-Live');
-				  else if (error.status === 400)
-					swal.fire('Wrong Password,please try again');
-				  else if (error.status === 401)
-					swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-				  else if (error.status === 428)
-					swal.fire(error.error);
-				  else
-					swal.fire('Unable to fetch the data, please try again');
+					if (error.status)
+					swal(error.error);
+					else
+					swal('Unable to fetch the data, please try again');
 				});
 			}
 			this.filedetails = this.allfilesdata;
@@ -124,18 +108,10 @@ export class FileDetailsComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-		  if (error.status === 404)
-			swal.fire('E-Mail ID does not exists,please signup to continue');
-		  else if (error.status === 403)
-			swal.fire('Account Disabled,contact Dental-Live');
-		  else if (error.status === 400)
-			swal.fire('Wrong Password,please try again');
-		  else if (error.status === 401)
-			swal.fire('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-		  else if (error.status === 428)
-			swal.fire(error.error);
-		  else
-			swal.fire('Unable to fetch the data, please try again');
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
 		});
 	}
 	
@@ -143,10 +119,13 @@ export class FileDetailsComponent implements OnInit {
 		let dateCreated = sessionStorage.getItem("dateCreated");
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		this.dataService.deleteFilesData(url, fileUploadId).subscribe(Response => {
-			swal.fire("Case Files deleted successfully");
+			swal("Case Files deleted successfully");
 		}, (error) => {
-		  swal.fire("Unable to fetch data, please try again");
-		  return false;
+			if (error.status)
+			swal(error.error);
+			else
+			swal('Unable to fetch the data, please try again');
+			return false;
 		});
 		this.router.navigate(['casefiles/'+dateCreated+'/'+this.getcaseId]);
 	}

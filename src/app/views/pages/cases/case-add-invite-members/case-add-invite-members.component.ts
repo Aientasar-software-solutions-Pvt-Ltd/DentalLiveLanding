@@ -75,10 +75,26 @@ export class CaseAddInviteMembersComponent implements OnInit {
 				this.tabledata = JSON.parse(Response.toString());
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No member found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for case id or inviteusemail');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -124,10 +140,26 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No member found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for case id or inviteusemail');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 		}
@@ -164,7 +196,8 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		var z=0;
 		for(var i = 0; i < this.allMemberEmail.length; i++)
 		{
-			this.jsonObjInvite['resourceOwner'] = user.dentalId;
+			z++;
+			//this.jsonObjInvite['resourceOwner'] = user.dentalId;
 			this.jsonObjInvite['caseId'] = form.value.caseId;
 			this.jsonObjInvite['patientId'] = form.value.patientId;
 			this.jsonObjInvite['patientName'] = form.value.patientName;
@@ -178,7 +211,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
 			
 			//alert(JSON.stringify(this.jsonObjInvite));
-			z++;
 			if(z == this.allMemberEmail.length)
 			{
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText');
@@ -231,10 +263,26 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			}
 		}, error => {
 		  this.getAllMembers();
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No member found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered for case id or inviteusemail');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -255,18 +303,11 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  swal('New member invited successfully');
 		}, error => {
-			if (error.status === 400)
-			{
-				swal({
-					text: error.error
-				}).then(function() {
-					window.location.reload();
-				});
-			}
-			else
-			{
-				swal(error.error);
-			}
+			swal({
+				text: error.error
+			}).then(function() {
+				window.location.reload();
+			});
 		});
 	};
 }

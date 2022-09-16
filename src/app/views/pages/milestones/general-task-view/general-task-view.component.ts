@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -44,6 +45,7 @@ export class GeneralTaskViewComponent implements OnInit {
 	}
 	
 	getCaseDetails(caseId) {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
 		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
@@ -58,10 +60,26 @@ export class GeneralTaskViewComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No task found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -83,10 +101,26 @@ export class GeneralTaskViewComponent implements OnInit {
 				this.cvfastText = true;
 			}
 		}, error => {
-			if (error.status)
-			swal(error.error);
+			if (error.status === 404)
+			swal('No task found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
-			swal('Unable to fetch the data, please try again');
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -110,10 +144,26 @@ export class GeneralTaskViewComponent implements OnInit {
 							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
 						}
 					}, error => {
-						if (error.status)
-						swal(error.error);
+						if (error.status === 404)
+						swal('No task found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 						else
-						swal('Unable to fetch the data, please try again');
+						swal('Oops something went wrong, please try again');
 					});
 				}
 			}
@@ -134,14 +184,35 @@ export class GeneralTaskViewComponent implements OnInit {
 							this.casefilesArray[i-1].files[0].url = Response;
 						}
 					}, error => {
-						if (error.status)
-						swal(error.error);
+						if (error.status === 404)
+						swal('No task found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 						else
-						swal('Unable to fetch the data, please try again');
+						swal('Oops something went wrong, please try again');
 					});
 				}
 				this.editdata = this.casefilesArray;
 			}
 		}
+	}
+	@ViewChild('videoPlayer') videoplayer: ElementRef;
+
+	video() {
+		this.videoplayer?.nativeElement.play();
 	}
 }

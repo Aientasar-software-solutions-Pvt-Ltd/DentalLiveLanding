@@ -52,10 +52,26 @@ export class CaseAddFileUploadComponent implements OnInit {
 				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
-		  if (error.status)
-			swal(error.error);
-		  else
-			swal('Unable to fetch the data, please try again');
+			if (error.status === 404)
+			swal('No case files found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	getUniqueName(name: any) {
@@ -99,10 +115,11 @@ export class CaseAddFileUploadComponent implements OnInit {
 				this.router.navigate(['cases/case-list']);
 			}, 1000);
 		}, error => {
-		  if (error.status)
-			swal(error.error);
-		  else
-			swal('Unable to fetch the data, please try again');
+			swal({
+				text: error.error
+			}).then(function() {
+				window.location.reload();
+			});
 		});
 	}
 	
@@ -143,18 +160,49 @@ export class CaseAddFileUploadComponent implements OnInit {
 					    this.onGetdateData(isData);
 					}
 				}, error => {
-				  if (error.status)
-					swal(error.error);
-				  else
-					swal('Unable to fetch the data, please try again');
+					if (error.status === 404)
+					swal('No case files found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
 				});	
 			  })
 			  .catch((error) => {
-				if (error.status)
-				swal(error.error);
-				else
-				swal('Unable to fetch the data, please try again');
-				console.log(error);
+					if (error.status === 404)
+					swal('No case files found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
 				return false;
 			  });
 		}
