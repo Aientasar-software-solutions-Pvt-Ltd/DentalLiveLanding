@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { Injectable } from '@angular/core';
 import {
     HttpRequest,
@@ -6,9 +6,10 @@ import {
     HttpEvent,
     HttpInterceptor,
     HttpResponse,
+    HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, concatMap, delay, map, retry, retryWhen } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { AccdetailsService } from './accdetails.service';
@@ -20,7 +21,7 @@ import { AccdetailsService } from './accdetails.service';
 
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private usr: AccdetailsService) { }
-    msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental', 'cases', 'casefiles', 'milestones', 'tasks', 'workorders', 'referrals', 'messages', 'users', 'caseinvites', 'threads', 'login','sendinvite'];
+    msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental', 'cases', 'casefiles', 'milestones', 'tasks', 'workorders', 'referrals', 'messages', 'users', 'caseinvites', 'threads', 'login', 'sendinvite'];
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         //Outgoing Request handler
@@ -51,6 +52,29 @@ export class AuthInterceptorService implements HttpInterceptor {
                     event = event.clone({ body: decrypt });
                 }
                 return event;
+            }),
+            retryWhen(error =>
+                error.pipe(
+                    concatMap((error, count) => {
+                        if (request.method == "GET" && request.url.includes('execute-api.us-west-2.amazonaws.com') && count <= 2 && error.status == 500) {
+                            return of(error);
+                        }
+                        return throwError(error);
+                    }),
+                    delay(100)
+                )
+            ),
+            catchError((error: HttpErrorResponse) => {
+                let errorMsg = '';
+                if (error.error instanceof ErrorEvent) {
+                    console.log('This is client side error');
+                    errorMsg = `Error: ${error.error.message}`;
+                } else {
+                    console.log('This is server side error');
+                    errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+                }
+                console.log(errorMsg);
+                return throwError(errorMsg);
             })
         );
     }

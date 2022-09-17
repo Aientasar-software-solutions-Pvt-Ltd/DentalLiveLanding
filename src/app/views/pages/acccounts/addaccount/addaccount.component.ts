@@ -57,6 +57,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
     this.dataService.getData(this.section.ApiUrl, id, true).subscribe(
       (Response) => {
         if (Response) Response = JSON.parse(Response.toString());
+        console.log(Response);
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
           this.router.navigate(['/auth/login']);
@@ -107,9 +108,10 @@ export class AddaccountComponent implements OnInit, AddEditData {
     usr.forwards = this.object.forwards;
     let encrypt = CryptoJS.AES.encrypt(JSON.stringify(usr), environment.decryptKey).toString();
     sessionStorage.setItem('usr', encrypt);
-    window.location.reload();
+    // window.location.reload();
   }
   uploadFormData() {
+    console.log(this.object);
     //post request here,both add & update are sent as post
     this.dataService
       .putData(this.section.ApiUrl, JSON.stringify(this.object))

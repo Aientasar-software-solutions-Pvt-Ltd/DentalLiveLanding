@@ -1049,9 +1049,9 @@ export class UtilityService {
         "imageSrc": null,
         "phoneNumber": "",
         "forwards": [],
-        "education": null,
-        "country": null,
-        "city": null
+        "education": "",
+        "country": "",
+        "city": ""
       },
       "schema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
