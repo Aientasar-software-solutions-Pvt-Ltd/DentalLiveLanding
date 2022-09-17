@@ -1641,6 +1641,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		
 		if (form.invalid) {
+		  swal("Enter values properly");
 		  form.form.markAllAsTouched();
 		  return;
 		}

@@ -81,6 +81,7 @@ export class ReferralEditComponent implements OnInit {
 			this.isvalidToothGuide =false;
 		}
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
+		  swal("Enter values properly");
 		  form.form.markAllAsTouched();
 		  return;
 		}

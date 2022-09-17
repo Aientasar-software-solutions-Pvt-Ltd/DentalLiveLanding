@@ -24,6 +24,7 @@ export class CaseEditComponent implements OnInit {
 	public tabledata: any;
 	public patientdata: any;
 	public module = 'patient';
+	public caseType = true;
 	public Img = 'assets/images/users.png';
 	public resourceOwn = '';
 	public patientName = '';
@@ -86,7 +87,13 @@ export class CaseEditComponent implements OnInit {
 		
 	}
 	onSubmit(form: NgForm) {
-		if (form.invalid) {
+		if (form.invalid || (form.value.caseType == 0)) {
+		  swal("Enter values properly");
+		  this.caseType = false;
+		  if(form.value.caseType > 0)
+		  {
+		  this.caseType = true;
+		  }
 		  form.form.markAllAsTouched();
 		  return;
 		}
