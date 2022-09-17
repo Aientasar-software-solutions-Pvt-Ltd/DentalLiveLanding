@@ -186,6 +186,7 @@ export class GeneralTaskEditComponent implements OnInit {
 			this.isvalidDate =false;
 		}
 		if ((form.invalid) || (this.isvalidDate == true)) {
+		  swal("Enter values properly");
 		  form.form.markAllAsTouched();
 		  return;
 		}

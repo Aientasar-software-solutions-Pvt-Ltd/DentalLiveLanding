@@ -18,12 +18,12 @@ import {decode} from 'html-entities';
   styleUrls: ['./work-order-edit.component.css']
 })
 export class WorkOrderEditComponent implements OnInit {
-	sending: false;
+	sending: boolean = false;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity:any;
+    selectedCity: any[] = []
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
 	minDate = new Date();
@@ -87,6 +87,7 @@ export class WorkOrderEditComponent implements OnInit {
 			this.isvalidToothGuide =false;
 		}
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
+		  swal("Enter values properly");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -123,7 +124,7 @@ export class WorkOrderEditComponent implements OnInit {
 		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes');
 	}
 	
-	getuserdetailsall(userId, index) {
+	getuserdetailsall(userId, index, arrayObj) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -150,8 +151,14 @@ export class WorkOrderEditComponent implements OnInit {
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
 			this.allMember[index].memberid = userData.dentalId;
-			//alert(JSON.stringify(this.allMember[0]));
-			this.selectedCity = this.allMember[0].name;
+			for(var k = 0; k < arrayObj.length; k++)
+			{
+				if(arrayObj[k] == userData.dentalId)
+				{
+				this.selectedCity.push(name);
+				}
+			}
+			alert(JSON.stringify(this.selectedCity));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -180,7 +187,7 @@ export class WorkOrderEditComponent implements OnInit {
 		}
 	}
 	
-	getAllMembers(caseId) {
+	getAllMembers(caseId, arrayObj) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -208,7 +215,7 @@ export class WorkOrderEditComponent implements OnInit {
 						  name: '',
 						  memberid: ''
 						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+						this.getuserdetailsall(GetAllData[k].invitedUserMail,k,arrayObj);
 					}
 				}
 			}, error => {
@@ -259,11 +266,11 @@ export class WorkOrderEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
+				//alert(JSON.stringify(this.tabledata.members));
 				this.allMemberEmail = this.tabledata.members;
 				this.tabledataTitle = decode(this.tabledata.title);
 				this.getCaseDetails(this.tabledata.caseId);
-				this.getAllMembers(this.tabledata.caseId);
+				this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
 				this.toothData = this.tabledata.toothguide;
 				setTimeout(()=>{     
 					this.setcvFast();

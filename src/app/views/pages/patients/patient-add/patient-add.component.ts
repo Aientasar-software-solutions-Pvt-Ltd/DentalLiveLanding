@@ -205,6 +205,7 @@ export class PatientAddComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     if (form.invalid) {
+	  swal("Enter values properly");
       form.form.markAllAsTouched();
       return;
     }

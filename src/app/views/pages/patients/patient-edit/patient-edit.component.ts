@@ -348,6 +348,7 @@ onActiveInactiveChanged(value:boolean){
 	onSubmit(form: NgForm) {
 	//alert(JSON.stringify(this.cv.returnCvfast()));
 		if (form.invalid) {
+		  swal("Enter values properly");
 		  form.form.markAllAsTouched();
 		  return;
 		}
