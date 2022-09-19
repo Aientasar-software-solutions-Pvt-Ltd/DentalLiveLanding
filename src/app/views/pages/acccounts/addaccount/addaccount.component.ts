@@ -108,7 +108,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
     usr.forwards = this.object.forwards;
     let encrypt = CryptoJS.AES.encrypt(JSON.stringify(usr), environment.decryptKey).toString();
     sessionStorage.setItem('usr', encrypt);
-    // window.location.reload();
+    window.location.reload();
   }
   uploadFormData() {
     console.log(this.object);

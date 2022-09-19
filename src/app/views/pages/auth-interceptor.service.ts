@@ -53,29 +53,7 @@ export class AuthInterceptorService implements HttpInterceptor {
                 }
                 return event;
             }),
-            retryWhen(error =>
-                error.pipe(
-                    concatMap((error, count) => {
-                        if (request.method == "GET" && request.url.includes('execute-api.us-west-2.amazonaws.com') && count <= 2 && error.status == 500) {
-                            return of(error);
-                        }
-                        return throwError(error);
-                    }),
-                    delay(100)
-                )
-            ),
-            catchError((error: HttpErrorResponse) => {
-                let errorMsg = '';
-                if (error.error instanceof ErrorEvent) {
-                    console.log('This is client side error');
-                    errorMsg = `Error: ${error.error.message}`;
-                } else {
-                    console.log('This is server side error');
-                    errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-                }
-                console.log(errorMsg);
-                return throwError(errorMsg);
-            })
+            retry(2)
         );
     }
 }

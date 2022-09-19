@@ -83,8 +83,7 @@ export class AccountloginComponent implements OnInit {
           else if (error.status === 428)
             sweetAlert(error.error);
           else
-            sweetAlert(error);
-          sweetAlert('Unable to login, please try again');
+            sweetAlert('Unable to login, please try again');
         });
     }
   };

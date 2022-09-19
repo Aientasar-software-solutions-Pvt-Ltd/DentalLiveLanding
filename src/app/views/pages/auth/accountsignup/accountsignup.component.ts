@@ -1,8 +1,6 @@
-//@ts-nocheck
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import swal from 'sweetalert';
 import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { AccountService } from '../../account.service';
@@ -50,9 +48,9 @@ export class AccountsignupComponent implements OnInit {
       }, error => {
         this.sending = false;
         if (error.status == 409)
-          swal("E-Mail ID exists already,please login to continue");
+          sweetAlert("E-Mail ID exists already,please login to continue");
         else
-          swal("Unable to signup,please try again");
+          sweetAlert("Unable to signup,please try again");
       })
   }
 
