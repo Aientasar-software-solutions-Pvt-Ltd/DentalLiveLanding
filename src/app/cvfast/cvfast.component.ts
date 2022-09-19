@@ -384,6 +384,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
       }
     });
+	
     if (this.processingcheck == true) {
       Promise.all(requests)
         .then((values) => {
@@ -613,62 +614,10 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-			if (error.status === 404)
-			  Swal({
-                text: 'No data found'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 403)
-			  Swal({
-                text: 'You are unauthorized to access the data'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 400)
-			  Swal({
-                text: 'Invalid data provided, please try again'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 401)
-			  Swal({
-                text: 'You are unauthorized to access the page'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 409)
-			  Swal({
-                text: 'Duplicate data entered'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 405)
-              Swal({
-                text: 'Due to dependency data unable to complete operation'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 500)
-			  Swal({
-                text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else
-			  Swal({
-                text: 'Oops something went wrong, please try again'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
+				//alert(error);
+				Swal('Oops something went wrong, please try again');
+				this.loaderchange.emit("true");
+				return;
           });
       }
       else {

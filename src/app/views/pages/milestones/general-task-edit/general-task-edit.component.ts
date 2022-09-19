@@ -170,11 +170,15 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	selectEvent(item: any) {
 		//alert(JSON.stringify(item));
+		this.allMemberEmail = Array();
+		this.allMemberName = Array();
 		for(var k = 0; k < item.length; k++)
 		{
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
 		}
+		//alert(JSON.stringify(this.allMemberEmail));
+		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))

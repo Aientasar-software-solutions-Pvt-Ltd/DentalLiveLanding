@@ -238,7 +238,7 @@ export class ReferralEditComponent implements OnInit {
 		}
 	}
 	selectEvents(item: any) {
-		this.allMemberName = Array();
+		this.allMemberEmail = Array();
 		for(var k = 0; k < item.length; k++)
 		{
 			this.allMemberEmail.push(item[k].memberid);
