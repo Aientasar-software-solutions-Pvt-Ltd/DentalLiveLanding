@@ -344,7 +344,13 @@ onActiveInactiveChanged(value:boolean){
 		this.jsonObj['medication'] = this.medicationsArray;
 		//alert(JSON.stringify(this.jsonObj));
 		//alert(JSON.stringify(this.medicationsArray));
-		this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient updated successfully', 'patients/patients-list', 'put', '','notes');
+		this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient updated successfully', 'patients/patients-list', 'put', '','notes').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	removeImage()
 	{

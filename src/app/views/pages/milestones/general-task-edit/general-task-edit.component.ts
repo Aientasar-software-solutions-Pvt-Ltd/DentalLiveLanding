@@ -222,7 +222,13 @@ export class GeneralTaskEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	

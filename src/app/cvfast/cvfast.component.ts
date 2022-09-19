@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -60,7 +59,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   processing = false;
   module = 'patient';
   validNaming = /^([a-zA-Z0-9 _]+)$/;
-  @Output() loaderchange = new EventEmitter<string>();
 
   //attachmentList contains array of all the binary data related to CVFAST --> upon process this binary data is stored in S3 bucket fo AWS with a pre signed URL and the link is returned-->these links are added to cvfast object with there respective name and urls-->this cvfast object is stored in contextual data.
 
@@ -376,333 +374,225 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   }
 
   processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
-    this.processing = true;
-    //@ts-ignore
-    let requests = this.attachmentFiles.map((object) => {
-      if (object["binaryData"]) {
-        this.processingcheck = true;
-        return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
-      }
-    });
-	
-    if (this.processingcheck == true) {
-      Promise.all(requests)
-        .then((values) => {
-          this.processing = false;
-          this.attachmentFiles = [];
-          // start for edit cvfast by conmverthink
-          let newArray = Array();
-          for (var k = 0; k < values.length; k++) {
-            if (this.cvfast.links[k]) {
-              newArray.push(this.cvfast.links[k]);
-            }
-            else {
-              newArray.push(values[k]);
-            }
-          }
-          this.cvfast = {
-            text: this.baseText,
-            links: newArray
-          }
-          if (field == 'comments') {
-            let comment = jsonObj.comment;
-            comment.push(this.cvfast);
-            jsonObj[field] = comment;
-          }
-          else {
-            jsonObj[field] = this.cvfast;
-          }
-          //alert(JSON.stringify(jsonObj));
-          if (datatype == 'put') {
-            this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
-              .subscribe(Response => {
-                //Swal.close();
-				this.loaderchange.emit("true");
-                let AllDate = JSON.parse(Response.toString());
-                if (message) {
-                  Swal(message);
-                }
-                if (sessionName) {
-                  sessionStorage.setItem(sessionName, AllDate.resourceId);
-                }
-                if (redirectUrl) {
-                  setTimeout(() => {
-                    this.router.navigate([redirectUrl]);
-                  }, 1000);
-                }
-                if (reload) {
-                  window.location.reload();
-                }
-              }, error => {
+	return new Promise((Resolve, myReject) => {
+		this.processing = true;
+		//@ts-ignore
+		let requests = this.attachmentFiles.map((object) => {
+		  if (object["binaryData"]) {
+			this.processingcheck = true;
+			return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+		  }
+		});
+		if (this.processingcheck == true) {
+		  Promise.all(requests)
+			.then((values) => {
+			  this.processing = false;
+			  this.attachmentFiles = [];
+			  // start for edit cvfast by conmverthink
+			  let newArray = Array();
+			  for (var k = 0; k < values.length; k++) {
+				if (this.cvfast.links[k]) {
+				  newArray.push(this.cvfast.links[k]);
+				}
+				else {
+				  newArray.push(values[k]);
+				}
+			  }
+			  this.cvfast = {
+				text: this.baseText,
+				links: newArray
+			  }
+			  if (field == 'comments') {
+				let comment = jsonObj.comment;
+				comment.push(this.cvfast);
+				jsonObj[field] = comment;
+			  }
+			  else {
+				jsonObj[field] = this.cvfast;
+			  }
+			  //alert(JSON.stringify(jsonObj));
+			  if (datatype == 'put') {
+				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
+				  .subscribe(Response => {
+					Resolve(true);
+					let AllDate = JSON.parse(Response.toString());
+					if (message) {
+					  Swal(message);
+					}
+					if (sessionName) {
+					  sessionStorage.setItem(sessionName, AllDate.resourceId);
+					}
+					if (redirectUrl) {
+					  setTimeout(() => {
+						this.router.navigate([redirectUrl]);
+					  }, 1000);
+					}
+					if (reload) {
+					  window.location.reload();
+					}
+				  }, error => {
+					Resolve(true);
+					if (error.status === 404)
+					  Swal('No data found');
+					else if (error.status === 403)
+					  Swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					  Swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					  Swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					  Swal('Duplicate data entered');
+					else if (error.status === 405)
+					  Swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					  Swal('Oops something went wrong, please try again');
+				  });
+			  }
+			  else {
+				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
+				  .subscribe(Response => {
+					Resolve(true);
+					let AllDate = JSON.parse(Response.toString());
+					if (message) {
+					  Swal(message);
+					}
+					if (sessionName) {
+					  sessionStorage.setItem(sessionName, AllDate.resourceId);
+					}
+					if (redirectUrl) {
+					  setTimeout(() => {
+						this.router.navigate([redirectUrl]);
+					  }, 1000);
+					}
+					if (reload) {
+					  window.location.reload();
+					}
+				  }, error => {
+					Resolve(true);
+					if (error.status === 404)
+					  Swal('No data found');
+					else if (error.status === 403)
+					  Swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					  Swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					  Swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					  Swal('Duplicate data entered');
+					else if (error.status === 405)
+					  Swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					  Swal('Oops something went wrong, please try again');
+				  });
+			  }
+			  //return this.cvfast;
+			})
+			.catch((error) => {
+			  this.processing = false;
+			  console.log(error);
+			  return false;
+			});
+		}
+		else {
+		  // start for edit cvfast by conmverthink
+		  this.cvfast = {
+			text: this.baseText,
+			links: this.cvfast.links
+		  }
+		  if (field == 'comments') {
+			let comment = jsonObj.comment;
+			comment.push(this.cvfast);
+			jsonObj[field] = comment;
+		  }
+		  else {
+			jsonObj[field] = this.cvfast;
+		  }
+		  //alert(JSON.stringify(jsonObj));
+		  if (datatype == 'put') {
+			this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
+			  .subscribe(Response => {
+				let AllDate = JSON.parse(Response.toString());
+				if (message) {
+				  Swal(message);
+				}
+				if (sessionName) {
+				  sessionStorage.setItem(sessionName, AllDate.resourceId);
+				}
+				if (redirectUrl) {
+				  setTimeout(() => {
+					this.router.navigate([redirectUrl]);
+				  }, 1000);
+				}
+				if (reload) {
+				  window.location.reload();
+				}
+			  }, error => {
+				Resolve(true);
 				if (error.status === 404)
-				  Swal({
-					text: 'No data found'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('No data found');
 				else if (error.status === 403)
-				  Swal({
-					text: 'You are unauthorized to access the data'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('You are unauthorized to access the data');
 				else if (error.status === 400)
-				  Swal({
-					text: 'Invalid data provided, please try again'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Invalid data provided, please try again');
 				else if (error.status === 401)
-				  Swal({
-					text: 'You are unauthorized to access the page'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('You are unauthorized to access the page');
 				else if (error.status === 409)
-				  Swal({
-					text: 'Duplicate data entered'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Duplicate data entered');
 				else if (error.status === 405)
-				  Swal({
-					text: 'Due to dependency data unable to complete operation'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Due to dependency data unable to complete operation');
 				else if (error.status === 500)
-				  Swal({
-					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				  Swal({
-					text: 'Oops something went wrong, please try again'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
-              });
-          }
-          else {
-            this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
-              .subscribe(Response => {
-                //Swal.close();
-                let AllDate = JSON.parse(Response.toString());
-                if (message) {
-                  Swal(message);
-                }
-                if (sessionName) {
-                  sessionStorage.setItem(sessionName, AllDate.resourceId);
-                }
-                if (redirectUrl) {
-                  setTimeout(() => {
-                    this.router.navigate([redirectUrl]);
-                  }, 1000);
-                }
-                if (reload) {
-                  window.location.reload();
-                }
-              }, error => {
+				  Swal('Oops something went wrong, please try again');
+			  });
+		  }
+		  else {
+			this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
+			  .subscribe(Response => {
+				let AllDate = JSON.parse(Response.toString());
+				if (message) {
+				  Swal(message);
+				}
+				if (sessionName) {
+				  sessionStorage.setItem(sessionName, AllDate.resourceId);
+				}
+				if (redirectUrl) {
+				  setTimeout(() => {
+					this.router.navigate([redirectUrl]);
+				  }, 1000);
+				}
+				if (reload) {
+				  window.location.reload();
+				}
+			  }, error => {
+				Resolve(true);
 				if (error.status === 404)
-				  Swal({
-					text: 'No data found'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('No data found');
 				else if (error.status === 403)
-				  Swal({
-					text: 'You are unauthorized to access the data'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('You are unauthorized to access the data');
 				else if (error.status === 400)
-				  Swal({
-					text: 'Invalid data provided, please try again'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Invalid data provided, please try again');
 				else if (error.status === 401)
-				  Swal({
-					text: 'You are unauthorized to access the page'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('You are unauthorized to access the page');
 				else if (error.status === 409)
-				  Swal({
-					text: 'Duplicate data entered'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Duplicate data entered');
 				else if (error.status === 405)
-				  Swal({
-					text: 'Due to dependency data unable to complete operation'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('Due to dependency data unable to complete operation');
 				else if (error.status === 500)
-				  Swal({
-					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
+				  Swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
-				  Swal({
-					text: 'Oops something went wrong, please try again'
-				  }).then(function () {
-					this.loaderchange.emit("true");
-					return;
-				  });
-              });
-          }
-          //return this.cvfast;
-        })
-        .catch((error) => {
-          this.processing = false;
-          console.log(error);
-          return false;
-        });
-    }
-    else {
-      // start for edit cvfast by conmverthink
-      this.cvfast = {
-        text: this.baseText,
-        links: this.cvfast.links
-      }
-      if (field == 'comments') {
-        let comment = jsonObj.comment;
-        comment.push(this.cvfast);
-        jsonObj[field] = comment;
-      }
-      else {
-        jsonObj[field] = this.cvfast;
-      }
-      //alert(JSON.stringify(jsonObj));
-	
-      if (datatype == 'put') {
-        this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
-          .subscribe(Response => {
-            //Swal.close();
-            let AllDate = JSON.parse(Response.toString());
-            if (message) {
-              Swal(message);
-            }
-            if (sessionName) {
-              sessionStorage.setItem(sessionName, AllDate.resourceId);
-            }
-            if (redirectUrl) {
-              setTimeout(() => {
-                this.router.navigate([redirectUrl]);
-              }, 1000);
-            }
-            if (reload) {
-              window.location.reload();
-            }
-          }, error => {
-				//alert(error);
-				Swal('Oops something went wrong, please try again');
-				this.loaderchange.emit("true");
-				return;
-          });
-      }
-      else {
-        this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
-          .subscribe(Response => {
-			this.loaderchange.emit("true");
-            //Swal.close();
-            let AllDate = JSON.parse(Response.toString());
-            if (message) {
-              Swal(message);
-            }
-            if (sessionName) {
-              sessionStorage.setItem(sessionName, AllDate.resourceId);
-            }
-            if (redirectUrl) {
-              setTimeout(() => {
-                this.router.navigate([redirectUrl]);
-              }, 1000);
-            }
-            if (reload) {
-              window.location.reload();
-            }
-          }, error => {
-            if (error.status === 404)
-			  Swal({
-                text: 'No data found'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 403)
-			  Swal({
-                text: 'You are unauthorized to access the data'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 400)
-			  Swal({
-                text: 'Invalid data provided, please try again'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 401)
-			  Swal({
-                text: 'You are unauthorized to access the page'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 409)
-			  Swal({
-                text: 'Duplicate data entered'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 405)
-              Swal({
-                text: 'Due to dependency data unable to complete operation'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else if (error.status === 500)
-			  Swal({
-                text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-            else
-			  Swal({
-                text: 'Oops something went wrong, please try again'
-              }).then(function () {
-                this.loaderchange.emit("true");
-					return;
-              });
-          });
-      }
+				  Swal('Oops something went wrong, please try again');
+			  });
+		  }
 
-      //return this.cvfast;
-      // end for edit cvfast by conmverthink
-    }
+		  //return this.cvfast;
+		  // end for edit cvfast by conmverthink
+		}
+	});
   }
   //get data of cvfast ##converthink 
   returnCvfast() {

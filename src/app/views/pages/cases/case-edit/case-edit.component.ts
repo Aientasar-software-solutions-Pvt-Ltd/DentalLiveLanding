@@ -82,8 +82,13 @@ export class CaseEditComponent implements OnInit {
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
 		let returnUrl = 'cases-view/caseDetails/'+this.getcaseId;
-		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', returnUrl, 'put','','description',0);
-		//alert(JSON.stringify(this.jsonObj));
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Case updated successfully', returnUrl, 'put','','description',0).then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	onSubmit(form: NgForm) {

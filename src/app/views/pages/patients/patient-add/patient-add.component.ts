@@ -200,8 +200,13 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.jsonObj['image'] = this.PatientImg;
 	}
-	cvfast.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes');
-	
+	cvfast.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes').then(
+	(value) => {
+	this.sending = false;
+	},
+	(error) => {
+	this.sending = false;
+	});
   }
   onSubmit(form: NgForm) {
     if (form.invalid) {

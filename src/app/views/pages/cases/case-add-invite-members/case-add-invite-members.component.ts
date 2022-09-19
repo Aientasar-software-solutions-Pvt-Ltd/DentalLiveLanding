@@ -213,11 +213,23 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText');
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText').then(
+				(value) => {
+				this.sending = false;
+				},
+				(error) => {
+				this.sending = false;
+				});
 			}
 			else
 			{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText');
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText').then(
+				(value) => {
+				this.sending = false;
+				},
+				(error) => {
+				this.sending = false;
+				});
 			}
 		}
 	};

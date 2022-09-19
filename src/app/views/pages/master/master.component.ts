@@ -1555,7 +1555,13 @@ export class MasterComponent implements OnInit {
 		//alert(JSON.stringify(this.jsonObjmsg));
 		//alert(JSON.stringify(this.messageDataArray[form.value.Ccomments].messagecomment));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -1572,7 +1578,13 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		//this.getMessage(this.tabledata.caseId);
 	};
 	getAllMembers() {
@@ -1665,11 +1677,23 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1');
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1').then(
+				(value) => {
+				this.sending = false;
+				},
+				(error) => {
+				this.sending = false;
+				});
 			}
 			else
 			{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText');
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText').then(
+				(value) => {
+				this.sending = false;
+				},
+				(error) => {
+				this.sending = false;
+				});
 			}
 		}
 	};

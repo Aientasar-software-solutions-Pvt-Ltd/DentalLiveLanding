@@ -653,7 +653,13 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments',1);
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments',1).then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		//this.getMessage(this.tabledata.caseId);
 	};
 	
@@ -670,7 +676,13 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message',1);
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message',1).then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		this.getMessage(this.tabledata.caseId);
 	};
 	@ViewChild('videoPlayer') videoplayer: ElementRef;

@@ -195,7 +195,13 @@ export class CaseAddComponent implements OnInit {
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
 		//alert(JSON.stringify(this.jsonObj));
-		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description');
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	setcvImage(img: any)
 	{
