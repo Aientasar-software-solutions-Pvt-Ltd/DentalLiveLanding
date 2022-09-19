@@ -452,7 +452,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'work-orders/work-orders', 'put', '','comments');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'work-orders/work-orders', 'put', '','comments','1','Comments already exists.');
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -468,7 +468,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'work-orders/work-orders', 'post', '','message');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'work-orders/work-orders', 'post', '','message','1','Message title already exists.');
 		//this.getMessage(this.tabledata.caseId);
 	};
 	

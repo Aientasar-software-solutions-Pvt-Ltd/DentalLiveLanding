@@ -213,7 +213,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText').then(
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText','','User already invited.').then(
 				(value) => {
 				this.sending = false;
 				},
@@ -223,7 +223,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			}
 			else
 			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText').then(
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','','User already invited.').then(
 				(value) => {
 				this.sending = false;
 				},

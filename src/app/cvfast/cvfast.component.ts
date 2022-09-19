@@ -373,7 +373,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
     console.log(event.emoji.native)
   }
 
-  processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '') {
+  processFiles(ApiUrl, jsonObj, responceType, message, redirectUrl, datatype, sessionName = '', field = 'notes', reload = '', errorMsg = '') {
 	return new Promise((Resolve, myReject) => {
 		this.processing = true;
 		//@ts-ignore
@@ -441,7 +441,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					else if (error.status === 401)
 					  Swal('You are unauthorized to access the page');
 					else if (error.status === 409)
-					  Swal('Duplicate data entered');
+					  Swal(errorMsg);
 					else if (error.status === 405)
 					  Swal('Due to dependency data unable to complete operation');
 					else if (error.status === 500)
@@ -480,7 +480,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 					else if (error.status === 401)
 					  Swal('You are unauthorized to access the page');
 					else if (error.status === 409)
-					  Swal('Duplicate data entered');
+					  Swal(errorMsg);
 					else if (error.status === 405)
 					  Swal('Due to dependency data unable to complete operation');
 					else if (error.status === 500)
@@ -541,7 +541,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				else if (error.status === 401)
 				  Swal('You are unauthorized to access the page');
 				else if (error.status === 409)
-				  Swal('Duplicate data entered');
+				  Swal(errorMsg);
 				else if (error.status === 405)
 				  Swal('Due to dependency data unable to complete operation');
 				else if (error.status === 500)
@@ -579,7 +579,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				else if (error.status === 401)
 				  Swal('You are unauthorized to access the page');
 				else if (error.status === 409)
-				  Swal('Duplicate data entered');
+				  Swal(errorMsg);
 				else if (error.status === 405)
 				  Swal('Due to dependency data unable to complete operation');
 				else if (error.status === 500)

@@ -1555,7 +1555,7 @@ export class MasterComponent implements OnInit {
 		//alert(JSON.stringify(this.jsonObjmsg));
 		//alert(JSON.stringify(this.messageDataArray[form.value.Ccomments].messagecomment));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
 		this.sending = false;
 		},
@@ -1578,7 +1578,7 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1','Message already exists.').then(
 		(value) => {
 		this.sending = false;
 		},
@@ -1677,7 +1677,7 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1').then(
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1','User already invited.').then(
 				(value) => {
 				this.sending = false;
 				},
@@ -1687,7 +1687,7 @@ export class MasterComponent implements OnInit {
 			}
 			else
 			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText').then(
+				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','1','User already invited.').then(
 				(value) => {
 				this.sending = false;
 				},

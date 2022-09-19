@@ -305,7 +305,7 @@ export class CaseInvitationListComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObjInvite));
 		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1).then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
 			(value) => {
 			this.sending = false;
 			},
@@ -314,7 +314,7 @@ export class CaseInvitationListComponent implements OnInit {
 			});
 		}
 		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1).then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
 			(value) => {
 			this.sending = false;
 			},
