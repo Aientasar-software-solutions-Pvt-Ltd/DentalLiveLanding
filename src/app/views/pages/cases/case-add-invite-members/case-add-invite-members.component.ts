@@ -125,7 +125,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 						}
 						else
 						{
-						avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+						avatar = 'assets/images/users.png';
 						}
 						this.allMember.push({
 						  id: k,
