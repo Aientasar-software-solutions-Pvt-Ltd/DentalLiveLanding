@@ -23,7 +23,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity = '';
+    selectedCity: any;
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -223,6 +223,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	
 	getCaseDetails(caseId) {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
 		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
@@ -261,6 +262,9 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	setcvFast()
 	{
+		setTimeout(()=>{    
+			this.selectedCity = this.allMemberName; 
+		}, 1000);
 		//alert(JSON.stringify(this.editdata.description));
 		this.cvfastval.setCvfast(this.editdata.description);
 	}
@@ -288,7 +292,7 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.allMemberName = this.editdata.memberName.split(",");
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.editedTitle = decode(this.editdata.title);
-				setTimeout(()=>{     
+				setTimeout(()=>{    
 					this.setcvFast();
 				}, 1000);
 			}

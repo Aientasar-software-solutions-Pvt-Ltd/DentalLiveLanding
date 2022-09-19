@@ -850,19 +850,22 @@ export class MilestoneDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(userData));
-					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-					if(memberResult)
+					if(userData)
 					{
-						memberResult += ','+name;
-					}
-					else{
-						memberResult += name;
-					}
-					//alert(JSON.stringify(memberResult));
-					if(j == userId.length)
-					{
-						this.taskdata[index].memberName = memberResult;
+						//alert(JSON.stringify(userData));
+						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+						if(memberResult)
+						{
+							memberResult += ','+name;
+						}
+						else{
+							memberResult += name;
+						}
+						//alert(JSON.stringify(memberResult));
+						if(j == userId.length)
+						{
+							this.taskdata[index].memberName = memberResult;
+						}
 					}
 				}
 				}, (error) => {

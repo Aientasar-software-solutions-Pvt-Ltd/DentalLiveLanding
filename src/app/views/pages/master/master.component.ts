@@ -1584,7 +1584,7 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let Colleague = JSON.parse(Response.toString());
-			//alert(JSON.stringify(this.invitedata));
+			//alert(JSON.stringify(Colleague));
 			this.allMember = Array();
 			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)

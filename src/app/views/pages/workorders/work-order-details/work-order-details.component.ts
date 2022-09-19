@@ -139,7 +139,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.referalmembers = this.tabledata.members;
 					this.parmCaseId = this.tabledata.caseId;
 					//alert(JSON.stringify(this.tabledata.workorderId));
-					//alert(JSON.stringify(this.tabledata));
+					//alert(JSON.stringify(this.tabledata.toothguide));
 					this.getuserdetailsall(this.referalmembers);
 					this.getCaseDetails();
 					

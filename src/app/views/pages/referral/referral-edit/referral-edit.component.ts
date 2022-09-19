@@ -24,7 +24,8 @@ export class ReferralEditComponent implements OnInit {
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity = '';
+    selectedCity: any;
+    selectedCityName: any[] = []
 	
 	public jsonObj = {
 	  referralId: '',
@@ -116,7 +117,7 @@ export class ReferralEditComponent implements OnInit {
 		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes');
 		
 	}
-	getuserdetailsall(userId, index) {
+	getuserdetailsall(userId, index, arrayObj) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -143,10 +144,18 @@ export class ReferralEditComponent implements OnInit {
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
 			this.allMember[index].memberid = userData.dentalId;
+			for(var k = 0; k < arrayObj.length; k++)
+			{
+				if(arrayObj[k] == userData.dentalId)
+				{
+				this.selectedCityName.push(name);
+				}
+			}
+			//alert(JSON.stringify(this.selectedCityName));
 		}
 		}, (error) => {
 			if (error.status === 404)
-			swal('No referral found');
+			swal('No workorder found');
 			else if (error.status === 403)
 			swal('You are unauthorized to access the data');
 			else if (error.status === 400)
@@ -165,12 +174,13 @@ export class ReferralEditComponent implements OnInit {
 			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 			else
 			swal('Oops something went wrong, please try again');
+
 			return false;
 		});
 		}
 	}
 	
-	getAllMembers(caseId) {
+	getAllMembers(caseId, arrayObj) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -195,15 +205,15 @@ export class ReferralEditComponent implements OnInit {
 						  id: k,
 						  avatar: '',
 						  emailAddress: '',
-						  name: '',
-						  memberid: ''
+						  memberid: '',
+						  name: ''
 						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+						this.getuserdetailsall(GetAllData[k].invitedUserMail,k,arrayObj);
 					}
 				}
 			}, error => {
 				if (error.status === 404)
-				swal('No referral found');
+				swal('No workorder found');
 				else if (error.status === 403)
 				swal('You are unauthorized to access the data');
 				else if (error.status === 400)
@@ -222,6 +232,7 @@ export class ReferralEditComponent implements OnInit {
 				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 				else
 				swal('Oops something went wrong, please try again');
+
 			});
 			
 		}
@@ -257,7 +268,7 @@ export class ReferralEditComponent implements OnInit {
 					this.setcvFast();
 				}, 1000);
 				this.getCaseDetails(this.editedDate.caseId);
-				this.getAllMembers(this.editedDate.caseId);
+				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
 			}
 		}, error => {
 			if (error.status === 404)
@@ -286,6 +297,10 @@ export class ReferralEditComponent implements OnInit {
 	setcvFast()
 	{
 		this.cv.setCvfast(this.editedDate.notes);
+		setTimeout(()=>{    
+			//alert(this.selectedCityName);
+			this.selectedCity = this.selectedCityName;
+		}, 1000);
 	}
 	ngAfterViewInit() {
 		this.orders.setToothGuide(this.toothData)

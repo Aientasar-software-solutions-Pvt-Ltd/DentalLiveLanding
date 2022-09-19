@@ -37,10 +37,17 @@ export class AccountService {
 	this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
-			swal.close();
+			//alert(JSON.stringify(3213));
 			let treadAllData = JSON.parse(Response.toString());
 			//alert(JSON.stringify(treadAllData));
+			if((treadAllData[0].lastLoggedIn != undefined) && (treadAllData[0].lastLoggedIn != '') && (treadAllData[0].lastLoggedIn != null))
+			{
+			sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedIn);
+			}
+			if((treadAllData[0].lastLoggedOut != undefined) && (treadAllData[0].lastLoggedOut != '') && (treadAllData[0].lastLoggedOut != null))
+			{
 			sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedOut);
+			}
 		}
 	}, (error) => {
 	  swal("Unable to fetch data, please try again");
