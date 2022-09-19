@@ -107,7 +107,7 @@
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Notes</label>
 										<!-- <input type="text" class="form-control" ngModel={{this.tabledata.notes.note}} name="notes" id="notes"> -->
-										<app-cvfast></app-cvfast>
+										<app-cvfast (loaderchange)="removeload($event)"></app-cvfast>
 									</div>
 								</div>
 							</div>

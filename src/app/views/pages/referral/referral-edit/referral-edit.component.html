@@ -61,12 +61,12 @@
 										<label class="form-label body2 text-dark">Referred To </label>
 										<div class="search search-md search-filter  search-filter-sm">
 											<i class="bx bx-search"></i>
-											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+											<ng-select [items]="allMember" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)" [(ngModel)]="selectedCity" [ngModelOptions]="{standalone: true}" [hideSelected]="true">
 												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 													<div class="card card-lists">
 														<div class="card-body p-0">
 															<div class="d-flex align-items-center">
-																<img height="36" width="36" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
+																<img style="height: 50px;width:50px;" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
 																<div class="d-flex align-items-center justify-content-between search-list-content">
 																	<div>
 																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>

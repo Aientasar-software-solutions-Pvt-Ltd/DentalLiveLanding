@@ -205,7 +205,7 @@ export class ReferralAddComponent implements OnInit {
 			}
 			else
 			{
-			avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+			avatar = 'assets/images/users.png';
 			}
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.allMember[index].name = name;

@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+//@ts-nocheck
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -24,7 +25,6 @@ import RecordRTC from 'recordrtc';
   exportAs: 'Cvfast'
 })
 export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
-  sending: boolean;
   // @Input() module: any;
   private VideoConfig: any;
   VideoPlayer: any;
@@ -60,6 +60,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
   processing = false;
   module = 'patient';
   validNaming = /^([a-zA-Z0-9 _]+)$/;
+  @Output() loaderchange = new EventEmitter<string>();
 
   //attachmentList contains array of all the binary data related to CVFAST --> upon process this binary data is stored in S3 bucket fo AWS with a pre signed URL and the link is returned-->these links are added to cvfast object with there respective name and urls-->this cvfast object is stored in contextual data.
 
@@ -383,6 +384,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
       }
     });
+	
     if (this.processingcheck == true) {
       Promise.all(requests)
         .then((values) => {
@@ -410,13 +412,12 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
           else {
             jsonObj[field] = this.cvfast;
           }
-          this.sending = true;
           //alert(JSON.stringify(jsonObj));
           if (datatype == 'put') {
             this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
               .subscribe(Response => {
                 //Swal.close();
-                this.sending = false;
+				this.loaderchange.emit("true");
                 let AllDate = JSON.parse(Response.toString());
                 if (message) {
                   Swal(message);
@@ -433,62 +434,67 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-				this.sending = false;
-				this.cdref.detectChanges();
 				if (error.status === 404)
 				  Swal({
 					text: 'No data found'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 403)
 				  Swal({
 					text: 'You are unauthorized to access the data'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 400)
 				  Swal({
 					text: 'Invalid data provided, please try again'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 401)
 				  Swal({
 					text: 'You are unauthorized to access the page'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 409)
 				  Swal({
 					text: 'Duplicate data entered'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 405)
 				  Swal({
 					text: 'Due to dependency data unable to complete operation'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 500)
 				  Swal({
 					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else
 				  Swal({
 					text: 'Oops something went wrong, please try again'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
               });
           }
           else {
             this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
               .subscribe(Response => {
-                this.sending = false;
                 //Swal.close();
                 let AllDate = JSON.parse(Response.toString());
                 if (message) {
@@ -506,55 +512,61 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
                   window.location.reload();
                 }
               }, error => {
-                this.sending = false;
-				this.cdref.detectChanges();
 				if (error.status === 404)
 				  Swal({
 					text: 'No data found'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 403)
 				  Swal({
 					text: 'You are unauthorized to access the data'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 400)
 				  Swal({
 					text: 'Invalid data provided, please try again'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 401)
 				  Swal({
 					text: 'You are unauthorized to access the page'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 409)
 				  Swal({
 					text: 'Duplicate data entered'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 405)
 				  Swal({
 					text: 'Due to dependency data unable to complete operation'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else if (error.status === 500)
 				  Swal({
 					text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
 				else
 				  Swal({
 					text: 'Oops something went wrong, please try again'
 				  }).then(function () {
-					window.location.reload();
+					this.loaderchange.emit("true");
+					return;
 				  });
               });
           }
@@ -567,7 +579,6 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         });
     }
     else {
-      this.sending = true;
       // start for edit cvfast by conmverthink
       this.cvfast = {
         text: this.baseText,
@@ -582,11 +593,11 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
         jsonObj[field] = this.cvfast;
       }
       //alert(JSON.stringify(jsonObj));
+	
       if (datatype == 'put') {
         this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
           .subscribe(Response => {
             //Swal.close();
-            this.sending = false;
             let AllDate = JSON.parse(Response.toString());
             if (message) {
               Swal(message);
@@ -603,62 +614,16 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            this.sending = false;
-			this.cdref.detectChanges();
-            if (error.status === 404)
-			  Swal({
-                text: 'No data found'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 403)
-			  Swal({
-                text: 'You are unauthorized to access the data'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 400)
-			  Swal({
-                text: 'Invalid data provided, please try again'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 401)
-			  Swal({
-                text: 'You are unauthorized to access the page'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 409)
-			  Swal({
-                text: 'Duplicate data entered'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 405)
-              Swal({
-                text: 'Due to dependency data unable to complete operation'
-              }).then(function () {
-                window.location.reload();
-              });
-            else if (error.status === 500)
-			  Swal({
-                text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-              }).then(function () {
-                window.location.reload();
-              });
-            else
-			  Swal({
-                text: 'Oops something went wrong, please try again'
-              }).then(function () {
-                window.location.reload();
-              });
+				//alert(error);
+				Swal('Oops something went wrong, please try again');
+				this.loaderchange.emit("true");
+				return;
           });
       }
       else {
         this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
           .subscribe(Response => {
-            this.sending = false;
+			this.loaderchange.emit("true");
             //Swal.close();
             let AllDate = JSON.parse(Response.toString());
             if (message) {
@@ -676,55 +641,61 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
               window.location.reload();
             }
           }, error => {
-            this.sending = false;
-			this.cdref.detectChanges();
             if (error.status === 404)
 			  Swal({
                 text: 'No data found'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 403)
 			  Swal({
                 text: 'You are unauthorized to access the data'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 400)
 			  Swal({
                 text: 'Invalid data provided, please try again'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 401)
 			  Swal({
                 text: 'You are unauthorized to access the page'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 409)
 			  Swal({
                 text: 'Duplicate data entered'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 405)
               Swal({
                 text: 'Due to dependency data unable to complete operation'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else if (error.status === 500)
 			  Swal({
                 text: 'The server encountered an unexpected condition that prevented it from fulfilling the request'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
             else
 			  Swal({
                 text: 'Oops something went wrong, please try again'
               }).then(function () {
-                window.location.reload();
+                this.loaderchange.emit("true");
+					return;
               });
           });
       }

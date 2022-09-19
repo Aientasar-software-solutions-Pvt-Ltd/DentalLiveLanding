@@ -49,7 +49,7 @@
 				<div class="card-body" style="background: #E4F0FF;">
 					<div class="row mt-2">
 						<div class="col-md-12">
-							<div class="row">
+							<div class="row"  *ngIf="tabledata">
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title </label>
@@ -67,12 +67,12 @@
 										<label class="form-label body2 text-dark">Referred To </label>
 										<div class="search search-md search-filter  search-filter-sm">
 											<i class="bx bx-search"></i>
-											<ng-select [items]="allMember" [(ngModel)]="selectedCity"  [ngModelOptions]="{standalone: true}"  bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+											<ng-select [items]="allMember" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)" [(ngModel)]="selectedCity" [ngModelOptions]="{standalone: true}" [hideSelected]="true">
 												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 													<div class="card card-lists">
 														<div class="card-body p-0">
 															<div class="d-flex align-items-center">
-																<img height="36" width="36" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
+																<img style="height: 50px;width:50px;" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
 																<div class="d-flex align-items-center justify-content-between search-list-content">
 																	<div>
 																		<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
@@ -135,7 +135,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12 mt-3">
+		<div class="col-md-12 mt-3"  *ngIf="tabledata">
 			<input type="hidden" name="workorderId" id="workorderId" ngModel="{{this.tabledata.workorderId}}">
 			<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
 			<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">

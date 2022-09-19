@@ -1584,7 +1584,7 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let Colleague = JSON.parse(Response.toString());
-			//alert(JSON.stringify(this.invitedata));
+			//alert(JSON.stringify(Colleague));
 			this.allMember = Array();
 			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)
@@ -1602,7 +1602,7 @@ export class MasterComponent implements OnInit {
 						}
 						else
 						{
-						avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+						avatar = 'assets/images/users.png';
 						}
 						this.allMember.push({
 						  id: k,

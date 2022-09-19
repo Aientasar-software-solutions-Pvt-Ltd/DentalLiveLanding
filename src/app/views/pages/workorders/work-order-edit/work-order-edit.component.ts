@@ -23,7 +23,8 @@ export class WorkOrderEditComponent implements OnInit {
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity: any[] = []
+    selectedCity: any;
+    selectedCityName: any[] = []
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
 	minDate = new Date();
@@ -144,7 +145,7 @@ export class WorkOrderEditComponent implements OnInit {
 			}
 			else
 			{
-			avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+			avatar = 'assets/images/users.png';
 			}
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.allMember[index].name = name;
@@ -155,10 +156,10 @@ export class WorkOrderEditComponent implements OnInit {
 			{
 				if(arrayObj[k] == userData.dentalId)
 				{
-				this.selectedCity.push(name);
+				this.selectedCityName.push(name);
 				}
 			}
-			alert(JSON.stringify(this.selectedCity));
+			//alert(JSON.stringify(this.selectedCityName));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -212,8 +213,8 @@ export class WorkOrderEditComponent implements OnInit {
 						  id: k,
 						  avatar: '',
 						  emailAddress: '',
-						  name: '',
-						  memberid: ''
+						  memberid: '',
+						  name: ''
 						});
 						this.getuserdetailsall(GetAllData[k].invitedUserMail,k,arrayObj);
 					}
@@ -245,7 +246,7 @@ export class WorkOrderEditComponent implements OnInit {
 		}
 	}
 	selectEvents(item: any) {
-		this.allMemberName = Array();
+		this.allMemberEmail = Array();
 		for(var k = 0; k < item.length; k++)
 		{
 			this.allMemberEmail.push(item[k].memberid);
@@ -266,7 +267,7 @@ export class WorkOrderEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata.members));
+				//alert(JSON.stringify(this.tabledata.toothguide));
 				this.allMemberEmail = this.tabledata.members;
 				this.tabledataTitle = decode(this.tabledata.title);
 				this.getCaseDetails(this.tabledata.caseId);
@@ -343,6 +344,10 @@ export class WorkOrderEditComponent implements OnInit {
 	setcvFast()
 	{
 		this.cv.setCvfast(this.tabledata.notes);
+		setTimeout(()=>{    
+			//alert(this.selectedCityName);
+			this.selectedCity = this.selectedCityName;
+		}, 1000);
 	}
 	
 	ngAfterViewInit() {

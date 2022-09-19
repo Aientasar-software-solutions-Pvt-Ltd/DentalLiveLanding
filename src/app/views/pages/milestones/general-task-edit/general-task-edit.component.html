@@ -12,7 +12,7 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
-		<div class="d-inline-block">
+		<div class="d-inline-block" *ngIf="tabledata">
 			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
@@ -49,7 +49,7 @@
 			<div class="card-body" style="background: #E4F0FF;">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<div class="row">
+						<div class="row"  *ngIf="editdata">
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Title </label>
@@ -107,12 +107,12 @@
 									<label class="form-label body2 text-dark">Assign Member</label>
 									<div class="search search-md search-filter  search-filter-sm">
 										<i class="bx bx-search"></i>
-										<ng-select [items]="allMember" [(ngModel)]="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true">
+										<ng-select [items]="allMember" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)" [(ngModel)]="selectedCity" [ngModelOptions]="{standalone: true}" [hideSelected]="true">
 											<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 												<div class="card card-lists">
 													<div class="card-body p-0">
 														<div class="d-flex align-items-center">
-															<img height="36" width="36" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
+															<img style="height: 50px;width:50px;" [src]="item.avatar" class="rounded-circle me-2 img-thumbnail shadow-sm"/>
 															<div class="d-flex align-items-center justify-content-between search-list-content">
 																<div>
 																	<h5 class="card-title" style="white-space: normal;" ngOptionHighlight="search">{{item.name}}</h5>
@@ -160,7 +160,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 mt-3">
+	<div class="col-md-12 mt-3"  *ngIf="editdata">
 		<input type="hidden" name="taskId" id="taskId" ngModel="{{this.editdata.taskId}}">
 		<input type="hidden"  name="caseid" id="caseid" ngModel="{{this.editdata.caseId}}">
 		<input type="hidden" name="patientid" id="patientid" ngModel="{{this.editdata.patientId}}">

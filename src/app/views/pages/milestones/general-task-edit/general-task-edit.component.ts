@@ -23,7 +23,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
-    selectedCity = '';
+    selectedCity: any;
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -78,7 +78,7 @@ export class GeneralTaskEditComponent implements OnInit {
 			}
 			else
 			{
-			avatar = '//www.gravatar.com/avatar/b0d8c6e5ea589e6fc3d3e08afb1873bb?d=retro&r=g&s=30 2x';
+			avatar = 'assets/images/users.png';
 			}
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.allMember[index].name = name;
@@ -170,11 +170,15 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	selectEvent(item: any) {
 		//alert(JSON.stringify(item));
+		this.allMemberEmail = Array();
+		this.allMemberName = Array();
 		for(var k = 0; k < item.length; k++)
 		{
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
 		}
+		//alert(JSON.stringify(this.allMemberEmail));
+		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
@@ -223,6 +227,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	
 	getCaseDetails(caseId) {
+		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
 		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
@@ -261,6 +266,9 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	setcvFast()
 	{
+		setTimeout(()=>{    
+			this.selectedCity = this.allMemberName; 
+		}, 1000);
 		//alert(JSON.stringify(this.editdata.description));
 		this.cvfastval.setCvfast(this.editdata.description);
 	}
@@ -288,7 +296,7 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.allMemberName = this.editdata.memberName.split(",");
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.editedTitle = decode(this.editdata.title);
-				setTimeout(()=>{     
+				setTimeout(()=>{    
 					this.setcvFast();
 				}, 1000);
 			}

@@ -204,6 +204,12 @@ onActiveInactiveChanged(value:boolean){
 	{
 		this.cv.setCvfast(this.tabledata.notes);
 	}
+	removeload(event)
+	{
+		//remove loader
+		//alert(1111);
+		this.sending = false;
+	}
 	setcvImage(img: any)
 	{
 		let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
