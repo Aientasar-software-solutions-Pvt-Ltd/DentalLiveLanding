@@ -101,23 +101,8 @@ export class CaseListComponent implements OnInit {
 							this.getCaseMemberList(AllDate[k].caseId,j,1);
 							j++;
 						}
-						else
-						{
-							this.colleaguesdata.push({
-							  id: l,
-							  patientName: AllDate[k].patientName,
-							  title: AllDate[k].title,
-							  caseStatus: AllDate[k].caseStatus,
-							  dateCreated: AllDate[k].dateCreated,
-							  memberName: '',
-							  patientId: AllDate[k].patientId,
-							  caseId: AllDate[k].caseId
-							});
-							this.getCaseMemberList(AllDate[k].caseId,l,0);
-							l++;
-						}
 					}
-					//this.getAllMembers();
+					this.getAllMembers();
 					
 				}
 			}, (error) => {

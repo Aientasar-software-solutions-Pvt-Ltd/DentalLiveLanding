@@ -186,7 +186,11 @@
 									</p>
 									<div class="mt-2 mb-2">
 										<span *ngFor="let imgUrl of message.messageimg;">
-										<a target="_tblank" href="{{imgUrl.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+										  &nbsp;<a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()=='png' || imgUrl.imgName.split('.').pop()=='jpg' || imgUrl.imgName.split('.').pop()=='jpeg' || imgUrl.imgName.split('.').pop()=='gif' || imgUrl.imgName.split('.').pop()=='PNG' || imgUrl.imgName.split('.').pop()=='JPG' || imgUrl.imgName.split('.').pop()=='JPEG' || imgUrl.imgName.split('.').pop()=='GIF'"><img src="{{imgUrl.ImageUrl}}" width="200px" style="display:inline-block;vertical-align:middle;"/></a>
+										  <a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()!='png' && imgUrl.imgName.split('.').pop()!='jpg' && imgUrl.imgName.split('.').pop()!='jpeg' && imgUrl.imgName.split('.').pop() !='gif' && imgUrl.imgName.split('.').pop()!='PNG' && imgUrl.imgName.split('.').pop() !='JPG' && imgUrl.imgName.split('.').pop()!='JPEG' && imgUrl.imgName.split('.').pop() !='GIF' && imgUrl.imgName.split('.').pop()!='mp4' && imgUrl.imgName.split('.').pop()!='MP4' && imgUrl.imgName.split('.').pop()!='3gp' && imgUrl.imgName.split('.').pop()!='3GP' && imgUrl.imgName.split('.').pop()!='avi' && imgUrl.imgName.split('.').pop()!='AVI' && imgUrl.imgName.split('.').pop()!='wmv' && imgUrl.imgName.split('.').pop()!='WMV' && imgUrl.imgName.split('.').pop()!='mov' && imgUrl.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{imgUrl.imgName}}</a>
+										  <video controls class="video" style="display:inline-block;vertical-align:middle;" (play)="video()" width="200px" *ngIf="imgUrl.imgName.split('.').pop()=='mp4' || imgUrl.imgName.split('.').pop()=='MP4' || imgUrl.imgName.split('.').pop()=='3gp' || imgUrl.imgName.split('.').pop()=='3GP' || imgUrl.imgName.split('.').pop()=='avi' || imgUrl.imgName.split('.').pop()=='AVI' || imgUrl.imgName.split('.').pop()=='wmv' || imgUrl.imgName.split('.').pop()=='WMV' || imgUrl.imgName.split('.').pop()=='mov' || imgUrl.imgName.split('.').pop()=='MOV'"  #videoPlayer>
+										   <source src="{{imgUrl.ImageUrl}}" type="video/mp4">
+										  </video>
 										</span>
 									</div>
 								</div>
@@ -198,7 +202,11 @@
 											<p class="body2" *ngIf="comments.isShow == '1'">{{comments.text}}</p>
 											<div class="mt-2 mb-2"  >
 												<span *ngFor="let link of comments.links;">
-													<a target="_tblank" href="{{link.ImageUrl}}"><span class="body2 p-2 rounded-pill" style="color: #1991EB;background: rgba(201, 226, 255, 0.5);"><i class='bx bx-file'></i>Files</span></a>
+													&nbsp;<a target="_tblank" href="{{link.ImageUrl}}" *ngIf="link.imgName.split('.').pop()=='png' || link.imgName.split('.').pop()=='jpg' || link.imgName.split('.').pop()=='jpeg' || link.imgName.split('.').pop()=='gif' || link.imgName.split('.').pop()=='PNG' || link.imgName.split('.').pop()=='JPG' || link.imgName.split('.').pop()=='JPEG' || link.imgName.split('.').pop()=='GIF'"><img src="{{link.ImageUrl}}" width="200px" style="display:inline-block;vertical-align:middle;"/></a>
+													<a target="_tblank" href="{{link.ImageUrl}}" *ngIf="link.imgName.split('.').pop()!='png' && link.imgName.split('.').pop()!='jpg' && link.imgName.split('.').pop()!='jpeg' && link.imgName.split('.').pop() !='gif' && link.imgName.split('.').pop()!='PNG' && link.imgName.split('.').pop() !='JPG' && link.imgName.split('.').pop()!='JPEG' && link.imgName.split('.').pop() !='GIF' && link.imgName.split('.').pop()!='mp4' && link.imgName.split('.').pop()!='MP4' && link.imgName.split('.').pop()!='3gp' && link.imgName.split('.').pop()!='3GP' && link.imgName.split('.').pop()!='avi' && link.imgName.split('.').pop()!='AVI' && link.imgName.split('.').pop()!='wmv' && link.imgName.split('.').pop()!='WMV' && link.imgName.split('.').pop()!='mov' && link.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{link.imgName}}</a>
+													<video controls class="video" style="display:inline-block;vertical-align:middle;" (play)="video()" width="200px" *ngIf="link.imgName.split('.').pop()=='mp4' || link.imgName.split('.').pop()=='MP4' || link.imgName.split('.').pop()=='3gp' || link.imgName.split('.').pop()=='3GP' || link.imgName.split('.').pop()=='avi' || link.imgName.split('.').pop()=='AVI' || link.imgName.split('.').pop()=='wmv' || link.imgName.split('.').pop()=='WMV' || link.imgName.split('.').pop()=='mov' || link.imgName.split('.').pop()=='MOV'"  #videoPlayer>
+													<source src="{{link.ImageUrl}}" type="video/mp4">
+													</video>
 												</span>
 											</div>
 										</div>
