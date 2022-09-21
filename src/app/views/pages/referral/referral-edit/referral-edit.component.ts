@@ -43,6 +43,7 @@ export class ReferralEditComponent implements OnInit {
 	public patientName = '';
 	tabledata:any;
 	editedDate:any;
+	toothData = '';
 	editedDateTitle:any;
 	minDate = new Date();
 	public isvalidDate = false;
@@ -62,6 +63,12 @@ export class ReferralEditComponent implements OnInit {
 	}
 	ngOnInit(): void {
 		this.getEditReferral();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	onSubmitReferral(form: NgForm){
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
@@ -309,7 +316,12 @@ export class ReferralEditComponent implements OnInit {
 		}, 1000);
 	}
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;

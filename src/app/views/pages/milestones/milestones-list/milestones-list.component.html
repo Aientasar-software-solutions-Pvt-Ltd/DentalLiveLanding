@@ -99,7 +99,7 @@
 												visibility
 											</i>
 										</a>
-										<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
+										<a style="cursor: pointer;" *ngIf="(userEmailAddress == data.resourceOwner)" (click)="deletemilestone(data.milestoneId)" class="me-1">
 											<i class="material-icons fs-4 text-danger">close</i>
 										</a>
 									</div>

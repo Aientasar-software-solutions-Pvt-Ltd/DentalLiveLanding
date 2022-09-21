@@ -26,6 +26,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -112,6 +118,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 			},
 		};
 		this.getallworkorder();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	
 	getallworkorder() {

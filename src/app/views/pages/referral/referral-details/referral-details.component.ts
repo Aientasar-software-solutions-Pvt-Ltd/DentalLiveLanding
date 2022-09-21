@@ -27,6 +27,12 @@ export class ReferralDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	showComment: any;
 	replyToggle(index){

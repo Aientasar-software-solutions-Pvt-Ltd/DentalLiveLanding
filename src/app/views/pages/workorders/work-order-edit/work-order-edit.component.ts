@@ -20,6 +20,8 @@ import {decode} from 'html-entities';
 export class WorkOrderEditComponent implements OnInit {
 	sending: boolean = false;
 	@ViewChild(Cvfast) cv!: Cvfast;
+	@ViewChild(WorkOrderGuideComponent)
+	orders: WorkOrderGuideComponent;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -33,7 +35,6 @@ export class WorkOrderEditComponent implements OnInit {
 	public patientName = '';
 	public tabledataTitle = '';
 	tabledata:any;
-	toothData:any;
 	
 	public patiantStatus = false;
 	
@@ -56,11 +57,10 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	maxDate = new Date();
 	workorderId: any;
+	toothData = '';
 	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
 		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
 	}
-	@ViewChild(WorkOrderGuideComponent)
-	orders: WorkOrderGuideComponent;
 	
 	back(): void {
 		this.location.back()
@@ -68,6 +68,12 @@ export class WorkOrderEditComponent implements OnInit {
   
 	ngOnInit(): void {
 		this.getallworkorder();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 2000);
 	}
 	onSubmitWorkOrders(form: NgForm) {
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
@@ -258,8 +264,6 @@ export class WorkOrderEditComponent implements OnInit {
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	getallworkorder() {
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
@@ -273,12 +277,11 @@ export class WorkOrderEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata.toothguide));
+				this.toothData = this.tabledata.toothguide;
 				this.allMemberEmail = this.tabledata.members;
 				this.tabledataTitle = decode(this.tabledata.title);
 				this.getCaseDetails(this.tabledata.caseId);
 				this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
-				this.toothData = this.tabledata.toothguide;
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
@@ -351,12 +354,16 @@ export class WorkOrderEditComponent implements OnInit {
 	{
 		this.cv.setCvfast(this.tabledata.notes);
 		setTimeout(()=>{    
-			//alert(this.selectedCityName);
 			this.selectedCity = this.selectedCityName;
 		}, 1000);
 	}
 	
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 2000);
 	}
 }
