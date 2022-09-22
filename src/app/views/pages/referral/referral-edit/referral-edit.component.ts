@@ -112,12 +112,6 @@ export class ReferralEditComponent implements OnInit {
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
 		this.jsonObj['members'] = this.allMemberEmail;
-		
-		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
-		{
-			this.jsonObj['notes'] = this.cv.returnCvfast();
-		}
-		
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
