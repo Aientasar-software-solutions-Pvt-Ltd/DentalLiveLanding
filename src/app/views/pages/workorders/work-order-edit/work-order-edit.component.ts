@@ -20,6 +20,8 @@ import {decode} from 'html-entities';
 export class WorkOrderEditComponent implements OnInit {
 	sending: boolean = false;
 	@ViewChild(Cvfast) cv!: Cvfast;
+	@ViewChild(WorkOrderGuideComponent)
+	orders: WorkOrderGuideComponent;
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -27,13 +29,13 @@ export class WorkOrderEditComponent implements OnInit {
     selectedCityName: any[] = []
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
+	public isvalidRefereTo = false;
 	minDate = new Date();
 	saveActiveInactive: boolean = false;
 	public casesName = '';
 	public patientName = '';
 	public tabledataTitle = '';
 	tabledata:any;
-	toothData:any;
 	
 	public patiantStatus = false;
 	
@@ -56,11 +58,10 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	maxDate = new Date();
 	workorderId: any;
+	toothData = '';
 	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
 		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
 	}
-	@ViewChild(WorkOrderGuideComponent)
-	orders: WorkOrderGuideComponent;
 	
 	back(): void {
 		this.location.back()
@@ -68,6 +69,12 @@ export class WorkOrderEditComponent implements OnInit {
   
 	ngOnInit(): void {
 		this.getallworkorder();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 2000);
 	}
 	onSubmitWorkOrders(form: NgForm) {
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
@@ -87,8 +94,16 @@ export class WorkOrderEditComponent implements OnInit {
 		{
 			this.isvalidToothGuide =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -122,7 +137,13 @@ export class WorkOrderEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
-		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes');
+		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes','','Workorder title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	
 	getuserdetailsall(userId, index, arrayObj) {
@@ -198,7 +219,7 @@ export class WorkOrderEditComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -251,9 +272,8 @@ export class WorkOrderEditComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	getallworkorder() {
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
@@ -267,12 +287,11 @@ export class WorkOrderEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata.toothguide));
+				this.toothData = this.tabledata.toothguide;
 				this.allMemberEmail = this.tabledata.members;
 				this.tabledataTitle = decode(this.tabledata.title);
 				this.getCaseDetails(this.tabledata.caseId);
 				this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
-				this.toothData = this.tabledata.toothguide;
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
@@ -345,12 +364,16 @@ export class WorkOrderEditComponent implements OnInit {
 	{
 		this.cv.setCvfast(this.tabledata.notes);
 		setTimeout(()=>{    
-			//alert(this.selectedCityName);
 			this.selectedCity = this.selectedCityName;
 		}, 1000);
 	}
 	
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 2000);
 	}
 }

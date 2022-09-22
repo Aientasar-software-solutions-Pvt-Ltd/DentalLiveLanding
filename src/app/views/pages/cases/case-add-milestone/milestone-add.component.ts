@@ -82,7 +82,13 @@ export class MilestoneAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'cases/case-add-task-add', 'post', 'invitemilestoneId','description');
+		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'cases/case-add-task-add', 'post', 'invitemilestoneId','description','','Milestone title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	
 	getAllCases() {

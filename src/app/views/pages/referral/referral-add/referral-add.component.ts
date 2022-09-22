@@ -48,6 +48,7 @@ export class ReferralAddComponent implements OnInit {
 	minDate = new Date();
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
+	public isvalidRefereTo = false;
 	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
 	this.parmCaseId = this.route.snapshot.paramMap.get('caseId');
 	this.checkCase = this.route.snapshot.paramMap.get('caseId');
@@ -82,8 +83,16 @@ export class ReferralAddComponent implements OnInit {
 		{
 			this.isvalidToothGuide =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -116,7 +125,13 @@ export class ReferralAddComponent implements OnInit {
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', backurl, 'post', '','notes');
+		this.cvfastval.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral added successfully', backurl, 'post', '','notes','','Referal title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	
 	getAllMembers(caseId) {
@@ -128,7 +143,7 @@ export class ReferralAddComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -181,6 +196,7 @@ export class ReferralAddComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));

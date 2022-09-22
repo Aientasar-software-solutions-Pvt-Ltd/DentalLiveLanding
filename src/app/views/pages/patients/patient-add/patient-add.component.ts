@@ -200,12 +200,17 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.jsonObj['image'] = this.PatientImg;
 	}
-	cvfast.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes');
-	
+	cvfast.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient added successfully', 'patients/patients-list', 'post', '','notes','','Patient name already exists.').then(
+	(value) => {
+	this.sending = false;
+	},
+	(error) => {
+	this.sending = false;
+	});
   }
   onSubmit(form: NgForm) {
-    if (form.invalid) {
-	  swal("Enter values properly");
+    if (form.invalid || (form.value.dob == 0)) {
+	  swal("Please enter values for the mandatory fields");
       form.form.markAllAsTouched();
       return;
     }

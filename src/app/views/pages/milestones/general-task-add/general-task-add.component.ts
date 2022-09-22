@@ -31,6 +31,7 @@ export class GeneralTaskAddComponent implements OnInit {
     ];
 	selectedMember: any;
 	public isvalidDate = false;
+	public isvalidRefereTo = false;
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -126,7 +127,7 @@ export class GeneralTaskAddComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -179,21 +180,20 @@ export class GeneralTaskAddComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		//alert(JSON.stringify(form.value));
-		let meberEmail = this.allMemberEmail.join(', ');
-		let meberName = this.allMemberName.join(', ');
-		if(meberEmail)
+		if(this.allMemberEmail.length == 0)
 		{
-			
+			this.isvalidRefereTo =true;
 		}
 		else
 		{
-			
+			this.isvalidRefereTo =false;
 		}
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
 		{
@@ -203,8 +203,8 @@ export class GeneralTaskAddComponent implements OnInit {
 		{
 			this.isvalidDate =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Enter values properly");
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -234,7 +234,13 @@ export class GeneralTaskAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description','','Task title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	
 	getCaseDetails() {

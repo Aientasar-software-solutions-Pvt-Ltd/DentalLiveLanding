@@ -229,7 +229,13 @@ export class CaseAddTaskAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', 'cases/case-add-file-upload', 'post','','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', 'cases/case-add-file-upload', 'post','','description','','Task title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	

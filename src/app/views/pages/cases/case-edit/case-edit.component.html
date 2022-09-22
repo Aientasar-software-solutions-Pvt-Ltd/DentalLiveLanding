@@ -43,7 +43,7 @@
 										<input type="text" class="form-control" readonly required ngModel="{{this.patientName}}" name="patientName" id="patientName" >
 										<input type="hidden" class="form-control" required ngModel="{{this.Pid}}" name="patientId" >
 										<input type="hidden" class="form-control" required ngModel="{{this.casetypeArray.length}}" name="caseType" id="caseType" >
-										<input type="hidden" class="form-control" required ngModel="{{this.patientImage}}" name="image" >
+										<input type="hidden" class="form-control" ngModel="{{this.patientImage}}" name="image" >
 									</div>
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title</label>

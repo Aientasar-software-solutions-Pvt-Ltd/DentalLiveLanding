@@ -114,7 +114,7 @@ export class WorkOrderAddComponent implements OnInit {
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes');
+		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes','','Workorder title already exists.');
 		
 	}
 	

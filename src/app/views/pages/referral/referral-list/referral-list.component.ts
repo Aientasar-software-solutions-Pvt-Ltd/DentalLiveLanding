@@ -105,6 +105,7 @@ export class ReferralListComponent implements OnInit {
 						  memberName: ''
 						});
 						this.getcasedtls(GetAllData[k].caseId,k);
+						//alert(GetAllData[k].members);
 						this.getuserdetailsall(GetAllData[k].members,k);
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -295,21 +296,24 @@ export class ReferralListComponent implements OnInit {
 					
 					let userData = JSON.parse(Response.toString());
 					//alert(JSON.stringify(userData));
-					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-					if(memberResult)
+					if(userData.length > 0)
 					{
-						memberResult += ','+name;
+						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+						if(memberResult)
+						{
+							memberResult += ','+name;
+						}
+						else{
+							memberResult += name;
+						}
+						//alert(JSON.stringify(memberResult));
+						if(j == userId.length)
+						{
+							this.tabledata[index].memberName = memberResult;
+						}
+						//swal.close();
+						this.isLoadingData = false;
 					}
-					else{
-						memberResult += name;
-					}
-					//alert(JSON.stringify(memberResult));
-					if(j == userId.length)
-					{
-						this.tabledata[index].memberName = memberResult;
-					}
-					//swal.close();
-					this.isLoadingData = false;
 				}
 				}, (error) => {
 					if (error.status === 404)

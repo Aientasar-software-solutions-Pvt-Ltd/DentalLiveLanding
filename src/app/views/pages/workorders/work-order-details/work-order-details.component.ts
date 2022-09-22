@@ -26,6 +26,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -112,6 +118,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 			},
 		};
 		this.getallworkorder();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	
 	getallworkorder() {
@@ -314,7 +326,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	
 	
@@ -591,7 +608,13 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
@@ -607,7 +630,13 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1');
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		//this.getMessage(this.tabledata.caseId);
 	};
 	

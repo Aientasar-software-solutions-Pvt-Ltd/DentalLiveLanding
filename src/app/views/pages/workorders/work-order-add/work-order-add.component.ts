@@ -26,6 +26,7 @@ export class WorkOrderAddComponent implements OnInit {
     selectedCity = '';
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
+	public isvalidRefereTo = false;
 	public allcases: any[] = []
 	public caseid = '';
 	public patientid = '';
@@ -86,8 +87,16 @@ export class WorkOrderAddComponent implements OnInit {
 		{
 			this.isvalidToothGuide =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -118,7 +127,13 @@ export class WorkOrderAddComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
-		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes');
+		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes','','Workorder title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	
@@ -131,6 +146,7 @@ export class WorkOrderAddComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
+			url += "&presentStatus="+1;
 			//url += "&invitedUserId="+user.dentalId;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
@@ -184,6 +200,7 @@ export class WorkOrderAddComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));

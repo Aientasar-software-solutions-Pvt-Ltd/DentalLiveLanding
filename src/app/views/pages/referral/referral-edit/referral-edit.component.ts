@@ -43,9 +43,11 @@ export class ReferralEditComponent implements OnInit {
 	public patientName = '';
 	tabledata:any;
 	editedDate:any;
+	toothData = '';
 	editedDateTitle:any;
 	minDate = new Date();
 	public isvalidDate = false;
+	public isvalidRefereTo = false;
 	
 	public isvalidToothGuide = false;
     referralId:any;
@@ -62,6 +64,12 @@ export class ReferralEditComponent implements OnInit {
 	}
 	ngOnInit(): void {
 		this.getEditReferral();
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	onSubmitReferral(form: NgForm){
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
@@ -81,8 +89,16 @@ export class ReferralEditComponent implements OnInit {
 		{
 			this.isvalidToothGuide =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -105,16 +121,16 @@ export class ReferralEditComponent implements OnInit {
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
 		this.jsonObj['members'] = this.allMemberEmail;
-		
-		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
-		{
-			this.jsonObj['notes'] = this.cv.returnCvfast();
-		}
-		
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes');
+		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes','','Referal title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	getuserdetailsall(userId, index, arrayObj) {
@@ -190,7 +206,7 @@ export class ReferralEditComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -243,6 +259,7 @@ export class ReferralEditComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));
@@ -303,7 +320,12 @@ export class ReferralEditComponent implements OnInit {
 		}, 1000);
 	}
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;

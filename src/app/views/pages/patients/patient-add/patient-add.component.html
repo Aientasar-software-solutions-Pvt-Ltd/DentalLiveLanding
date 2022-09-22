@@ -35,32 +35,32 @@
 								<div class="col-md-6"> 
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">First Name <span class="text-danger">*</span></label>
-									  <input type="text" required class="form-control" maxlength="40" ngModel name="firstName" id="firstName">
+									  <input type="text" required class="form-control" maxlength="40" ngModel={{jsonObj.firstName}} name="firstName" id="firstName">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Last Name <span class="text-danger">*</span></label>
-									  <input type="text" required class="form-control" maxlength="40" ngModel name="lastName" id="lastName">
+									  <input type="text" required class="form-control" maxlength="40" ngModel={{jsonObj.lastName}} name="lastName" id="lastName">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Reference ID</label>
-									  <input type="text" class="form-control" maxlength="30" ngModel name="refId" id="refId">
+									  <input type="text" class="form-control" maxlength="30" ngModel={{jsonObj.refId}} name="refId" id="refId">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 									  <label class="form-label body2 text-dark">Patient Image</label>
-									  <input type="file" name="image" accept="image/*" (change)="loadFiles($event)" id="image" ngModel class="form-control" style="line-height: 2.2;background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
+									  <input type="file" name="image" accept="image/*" (change)="loadFiles($event)" id="image" ngModel={{jsonObj.image}} class="form-control" style="line-height: 2.2;background-color: #EFF3F7; border: 2px dashed #AEB4BF;">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Gender</label>
 										<div>
-											<select class="form-select" name="gender" ngModel="0" id="gender">
+											<select class="form-select" name="gender" ngModel={{jsonObj.gender}} id="gender">
 												<option value="0">Male</option>
 												<option value="1">Female</option>
 											</select>
@@ -70,43 +70,44 @@
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
-										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel id="dob">
+										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel *ngIf="jsonObj.dob == 0" id="dob">
+										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel={{jsonObj.dob}} *ngIf="jsonObj.dob != 0" id="dob">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Email <span class="text-danger">*</span></label>
-										<input type="email" class="form-control" maxlength="150" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" ngModel required name="email" id="email">
+										<input type="email" class="form-control" maxlength="150" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" ngModel={{jsonObj.email}} required name="email" id="email">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Phone Number</label>
-										<input type="tel" class="form-control" maxlength="10" minlength="10" (keypress)="numberOnly($event)" name="phone" ngModel id="phone">
+										<input type="tel" class="form-control" maxlength="10" minlength="10" (keypress)="numberOnly($event)" name="phone" ngModel={{jsonObj.phone}} id="phone">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Address</label>
-										<textarea rows="2" class="form-control" ngModel name="address" id="address"></textarea>
+										<textarea rows="2" class="form-control" ngModel={{objAddress.street}} name="address" id="address"></textarea>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">City</label>
-										<input type="text" class="form-control" ngModel name="city" maxlength="100" id="city">
+										<input type="text" class="form-control" ngModel={{jsonObj.city}} name="city" maxlength="100" id="city">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">State/Province <span class="text-danger">*</span></label>
-										<input type="text" required class="form-control" ngModel name="residingState" maxlength="100" id="residingState">
+										<input type="text" required class="form-control" ngModel={{jsonObj.residingState}} name="residingState" maxlength="100" id="residingState">
 									</div>
 								</div>
 								<div class="col-md-12">
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Notes</label>
-										<input type="hidden" class="form-control" ngModel name="notes" id="notes">
+										<input type="hidden" class="form-control" ngModel={{objNote.note}} name="notes" id="notes">
 										<app-cvfast #cvfast></app-cvfast>
 										<input type="hidden" class="form-control" ngModel={{this.Medication}} name="medication" id="medication">
 										<input type="hidden" class="form-control" ngModel={{this.Insurance}} name="insurance" id="insurance">

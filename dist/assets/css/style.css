@@ -1001,7 +1001,7 @@ color: #00D9CC;
 .underline:hover:before {left: 0;right: auto;width: 100%;}
 .underline.style1:before{background-color: #01ABA1;}
 
-.ng-invalid.ng-touched.form-control, .ng-invalid.ng-touched.form-select {border-color: #F7517F;border-width: 2px;box-shadow: 0px 2px 4px #f7518067;}
+.ng-invalid.ng-touched.form-control, .ng-invalid.ng-touched.form-select{border-color: #F7517F;border-width: 2px;box-shadow: 0px 2px 4px #f7518067;}
 
 /* form css */
 .h-auto {height: auto!important;}
@@ -1233,7 +1233,6 @@ table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_de
 border-color: #F7517F;
 border-width: 2px;
 box-shadow: 0px 2px 4px #f7518067;}
-
 .autocomplete-container {
   box-shadow: none !important;
 }

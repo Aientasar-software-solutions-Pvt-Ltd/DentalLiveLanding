@@ -64,7 +64,7 @@ export class MilestoneAddComponent implements OnInit {
 			this.isvalidDate =false;
 		}
 		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Enter values properly");
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -91,7 +91,13 @@ export class MilestoneAddComponent implements OnInit {
 		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', backurl, 'post', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', backurl, 'post', '','description','','Milestone title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	
 	getAllCases() {

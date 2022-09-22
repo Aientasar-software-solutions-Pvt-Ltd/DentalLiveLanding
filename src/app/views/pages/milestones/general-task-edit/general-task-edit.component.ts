@@ -24,6 +24,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
     selectedCity: any;
+    selectedCityName: any[] = []
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',
@@ -46,6 +47,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	tabledata:any;
 	editedTitle:any;
 	public isvalidDate = false;
+	public isvalidRefereTo = false;
 	gettaskId: any;
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
 		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
@@ -122,7 +124,7 @@ export class GeneralTaskEditComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -176,6 +178,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));
@@ -189,8 +192,16 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 			this.isvalidDate =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -222,7 +233,13 @@ export class GeneralTaskEditComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObj));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description');
+		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description','','Task title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 		
 	}
 	
@@ -266,11 +283,55 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	setcvFast()
 	{
-		setTimeout(()=>{    
-			this.selectedCity = this.allMemberName; 
-		}, 1000);
 		//alert(JSON.stringify(this.editdata.description));
 		this.cvfastval.setCvfast(this.editdata.description);
+		setTimeout(()=>{    
+			this.selectedCity = this.selectedCityName; 
+		}, 1000);
+	}
+	userdetailsall(obj: any) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+		for(var k = 0; k < obj.length; k++)
+		{
+			let apiUrl = this.utility.apiData.userColleague.ApiUrl;
+			apiUrl += "?emailAddress="+obj[k].trim();
+			this.dataService.getallData(apiUrl, true).subscribe(Response => {
+			if (Response)
+			{
+				let userData = JSON.parse(Response.toString());
+				//alert(JSON.stringify(userData));
+				let name = userData.accountfirstName+' '+userData.accountlastName;
+				this.selectedCityName.push(name);
+				//alert(JSON.stringify(this.selectedCityName));
+			}
+			}, (error) => {
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
+
+				return false;
+			});
+			}
+		}
 	}
 	getEditTasks() {
 		let url = this.utility.apiData.userTasks.ApiUrl;
@@ -285,6 +346,9 @@ export class GeneralTaskEditComponent implements OnInit {
 			if (Response)
 			{
 				this.editdata = JSON.parse(Response.toString());
+				this.allMemberEmail = this.editdata.memberMail.split(",");
+				this.userdetailsall(this.allMemberEmail);
+				this.allMemberName = this.editdata.memberName.split(",");
 				//alert(JSON.stringify(this.editdata.memberMail));
 				
 				//alert(JSON.stringify(this.allMember));
@@ -292,8 +356,6 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.getAllMembers(this.editdata.caseId);
 				this.getCaseDetails(this.editdata.caseId);
 				this.editedDate = new Date(this.editdata.duedate);
-				this.allMemberEmail = this.editdata.memberMail.split(",");
-				this.allMemberName = this.editdata.memberName.split(",");
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.editedTitle = decode(this.editdata.title);
 				setTimeout(()=>{    

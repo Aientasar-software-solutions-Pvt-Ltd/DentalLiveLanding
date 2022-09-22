@@ -146,7 +146,7 @@ export class CaseAddComponent implements OnInit {
 	}
 	onSubmit(form: NgForm) {
 		if ((form.invalid) || (form.value.caseType == 0)) {
-		  swal("Enter values properly");
+		  swal("Please enter values for the mandatory fields");
 		  this.caseType = false;
 		  if(form.value.caseType > 0)
 		  {
@@ -195,7 +195,13 @@ export class CaseAddComponent implements OnInit {
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
 		//alert(JSON.stringify(this.jsonObj));
-		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description');
+		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description','','Case title already exists.').then(
+		(value) => {
+		this.sending = false;
+		},
+		(error) => {
+		this.sending = false;
+		});
 	}
 	setcvImage(img: any)
 	{

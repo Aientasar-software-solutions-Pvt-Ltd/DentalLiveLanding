@@ -18,6 +18,7 @@ export class MilestonesListComponent implements OnInit {
 	masterSelected:boolean;
 	tabledata:any;
 	checkedList:any;
+	userEmailAddress:any;
 	shimmer = Array;
 	dtOptions: DataTables.Settings = {};
 	
@@ -73,7 +74,9 @@ export class MilestonesListComponent implements OnInit {
 					//swal.close();
 					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
-					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					this.userEmailAddress = user.emailAddress;
+					//alert(this.userEmailAddress);
 					//alert(JSON.stringify(this.tabledata));
 					//alert(this.tabledata['0'].title);
 				}
