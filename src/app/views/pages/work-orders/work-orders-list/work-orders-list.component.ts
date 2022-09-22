@@ -132,12 +132,12 @@ export class WorkOrdersListComponent implements OnInit {
 	}
 	editWorkOrders(workorderId: any) {
 		//sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-edit/'+workorderId]);
+		this.router.navigate(['workorders/work-order-edit/'+workorderId]);
 	}
 	
 	viewWorkorders(workorderId: any) {
 		//sessionStorage.setItem('workorderId', workorderId);
-		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
+		this.router.navigate(['workorders/work-order-details/'+workorderId]);
 	}
 	
 	onSubmit(form: NgForm) {
