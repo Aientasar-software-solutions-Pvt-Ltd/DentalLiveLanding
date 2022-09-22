@@ -64,7 +64,7 @@ export class MilestoneAddComponent implements OnInit {
 			this.isvalidDate =false;
 		}
 		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Enter values properly");
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}

@@ -47,6 +47,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	tabledata:any;
 	editedTitle:any;
 	public isvalidDate = false;
+	public isvalidRefereTo = false;
 	gettaskId: any;
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
 		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
@@ -123,7 +124,7 @@ export class GeneralTaskEditComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -177,6 +178,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 		//alert(JSON.stringify(this.allMemberEmail));
 		//alert(JSON.stringify(this.allMemberName));
@@ -190,8 +192,16 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 			this.isvalidDate =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}

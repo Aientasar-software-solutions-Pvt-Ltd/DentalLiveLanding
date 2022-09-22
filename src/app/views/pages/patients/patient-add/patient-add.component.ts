@@ -209,8 +209,8 @@ export class PatientAddComponent implements OnInit {
 	});
   }
   onSubmit(form: NgForm) {
-    if (form.invalid) {
-	  swal("Enter values properly");
+    if (form.invalid || (form.value.dob == 0)) {
+	  swal("Please enter values for the mandatory fields");
       form.form.markAllAsTouched();
       return;
     }

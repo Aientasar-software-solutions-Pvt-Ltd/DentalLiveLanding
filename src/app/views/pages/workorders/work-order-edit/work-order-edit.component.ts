@@ -29,6 +29,7 @@ export class WorkOrderEditComponent implements OnInit {
     selectedCityName: any[] = []
 	public isvalidDate = false;
 	public isvalidToothGuide = false;
+	public isvalidRefereTo = false;
 	minDate = new Date();
 	saveActiveInactive: boolean = false;
 	public casesName = '';
@@ -93,8 +94,16 @@ export class WorkOrderEditComponent implements OnInit {
 		{
 			this.isvalidToothGuide =false;
 		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true)) {
-		  swal("Enter values properly");
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidRefereTo =true;
+		}
+		else
+		{
+			this.isvalidRefereTo =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -210,7 +219,7 @@ export class WorkOrderEditComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
+			url += "&presentStatus="+1;
 			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
@@ -263,6 +272,7 @@ export class WorkOrderEditComponent implements OnInit {
 		{
 			this.allMemberEmail.push(item[k].memberid);
 			this.allMemberName.push(item[k].name);
+			this.isvalidRefereTo = false;
 		}
 	}
 	getallworkorder() {

@@ -336,7 +336,22 @@ export class MasterComponent implements OnInit {
 					}, 2000);
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No message found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Message already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -635,7 +650,22 @@ export class MasterComponent implements OnInit {
 					//alert(this.workordersdata['0'].title);
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Workorder title already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -707,7 +737,22 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No milestone found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Milestone title already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -723,7 +768,22 @@ export class MasterComponent implements OnInit {
 			swal("Milestones deleted successfully");
 			this.getallmilestone();
 		}, (error) => {
-		  swal("Unable to fetch data, please try again");
+			if (error.status === 404)
+			swal('No milestone found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Milestone already exist!');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 	}
@@ -1400,7 +1460,22 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No milestone found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('milestone title already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -1493,7 +1568,22 @@ export class MasterComponent implements OnInit {
 			swal("Referral deleted successfully");
 			this.getReferralListing();
 		}, (error) => {
-		  swal("Unable to fetch data, please try again");
+			if (error.status === 404)
+			swal('No referal found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Referal title already exist');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 	}
@@ -1534,7 +1624,22 @@ export class MasterComponent implements OnInit {
 					};
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No referal found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Referal title already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -1629,7 +1734,22 @@ export class MasterComponent implements OnInit {
 			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
-		  swal("Unable to fetch data, please try again");
+			if (error.status === 404)
+			swal('No user found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('User already exist!');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 		}
@@ -1653,7 +1773,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		
 		if (form.invalid) {
-		  swal("Enter values properly");
+		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
@@ -1785,7 +1905,22 @@ export class MasterComponent implements OnInit {
 			this.isLoadingData = false;
 		}
 		}, (error) => {
-		  swal("Unable to fetch data, please try again");
+			if (error.status === 404)
+			swal('No user found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('User already exist!');
+			else if (error.status === 405)
+			swal('Due to dependency data unable to complete operation');
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		  return false;
 		});
 		}
@@ -2017,7 +2152,22 @@ export class MasterComponent implements OnInit {
 					}, 1000);
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No thread found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 			
@@ -2201,7 +2351,22 @@ export class MasterComponent implements OnInit {
 						}, 2000);
 					}
 				}, (error) => {
-				  swal("Unable to fetch data, please try again");
+					if (error.status === 404)
+					swal('No thread found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
 				  return false;
 				});
 			}
@@ -2233,7 +2398,22 @@ export class MasterComponent implements OnInit {
 					}
 				}
 			}, (error) => {
-			  swal("Unable to fetch data, please try again");
+				if (error.status === 404)
+				swal('No milestone found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Milestone title already exist!');
+				else if (error.status === 405)
+				swal('Due to dependency data unable to complete operation');
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
 			  return false;
 			});
 		}
@@ -2278,7 +2458,22 @@ export class MasterComponent implements OnInit {
 					}
 				}
 				}, (error) => {
-				  swal("Unable to fetch data, please try again");
+					if (error.status === 404)
+					swal('No user found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
 				  return false;
 				});
 			}

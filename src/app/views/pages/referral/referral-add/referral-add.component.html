@@ -58,7 +58,7 @@
 											<option value="Jhone Duo">Jhone Duo</option>
 											<option value="Danel Gray">Danel Gray</option>
 										</select> -->
-										<ng-select *ngIf="(this.checkCase == '0')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select"  name="caseName" id="caseName">
+										<ng-select *ngIf="(this.checkCase == '0')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" required="true" placeholder="Select"  name="caseName" id="caseName">
 										</ng-select>
 										<input type="text" *ngIf="(this.checkCase != '0')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
 									</div>
@@ -68,7 +68,7 @@
 										<label class="form-label body2 text-dark">Referred To </label>
 										<div class="search search-md search-filter  search-filter-sm">
 											<i class="bx bx-search"></i>
-											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)"  [hideSelected]="true">
+											<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvents($event)" required  [hideSelected]="true">
 												<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
 													<div class="card card-lists">
 														<div class="card-body p-0">
@@ -93,6 +93,7 @@
 												</ng-template>
 											</ng-select>
 										</div>
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidRefereTo == true)">Referal to should not be blank!</span>
 									</div>
 								</div>
 								<div class="col-md-4"> 

@@ -146,7 +146,7 @@ export class CaseAddComponent implements OnInit {
 	}
 	onSubmit(form: NgForm) {
 		if ((form.invalid) || (form.value.caseType == 0)) {
-		  swal("Enter values properly");
+		  swal("Please enter values for the mandatory fields");
 		  this.caseType = false;
 		  if(form.value.caseType > 0)
 		  {

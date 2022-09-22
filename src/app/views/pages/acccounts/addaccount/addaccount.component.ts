@@ -140,7 +140,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Enter values properly");
+      swal("Please enter values for the mandatory fields");
       return false;
     }
     this.isUploadingData = true;
@@ -153,7 +153,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
   updatePassword(opass, npass, cpass) {
     if (this.subForm.invalid || (npass != cpass)) {
       this.mainForm.form.markAllAsTouched();
-      swal("Enter values properly");
+      swal("Please enter values for the mandatory fields");
       return false;
     }
     this.isUploadingData = true;
