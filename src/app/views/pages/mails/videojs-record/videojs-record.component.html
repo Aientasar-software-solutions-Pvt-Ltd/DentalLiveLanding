@@ -52,7 +52,8 @@
 
               <input (blur)="istouched=true" #toAddress type="email" [matAutocomplete]="auto" autocomplete="email"
                 pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" (keydown)="addMail($event,$any($event.target).value,toAddress);"
-                (blur)="addtoList($any($event.target).value,toAddress,auto);" (keyup)="filterContact($any($event.target).value);"
+                (blur)="addtoList($any($event.target).value,toAddress,auto);"
+                (keyup)="filterContact($any($event.target).value);"
                 class="form-control  border-0 p-0 m-0 h-auto w-100 shadow-none" id="floatingInput"
                 [(ngModel)]="mail.toAddresses" placeholder="Eg. jhon@gmail.com" name="toAddresses"
                 [required]="addressList.length==0 && toAddress.value==''">
@@ -233,7 +234,7 @@
               data in required
               feilds</small>
             <button type="submit" class="btn  btn-primary add me-2" style="line-height:12px;">Send</button>
-            <a routerLink="../" type="button" class="btn  btn-outline-primary cancel"
+            <a routerLink="/mail/inbox" type="button" class="btn  btn-outline-primary cancel"
               style="border-color: #00D9CC;text-transform: capitalize;">Discard</a>
           </div>
         </div>
