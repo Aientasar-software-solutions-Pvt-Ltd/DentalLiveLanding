@@ -159,6 +159,7 @@ export class MasterComponent implements OnInit {
 		if(tabs == 'tab1')
 		{
 			this.getCaseDetails();
+			this.CaseTypeVal = '';
 		}
 		if(tabs == 'tab2')
 		{
@@ -204,7 +205,10 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
-	this.getCaseDetails();
+	if(this.paramTabName == 'caseDetails'){
+		this.getCaseDetails();
+		this.CaseTypeVal = '';
+	}
 	if(this.paramTabName == 'threads'){
 		this.getThread();
 	}
