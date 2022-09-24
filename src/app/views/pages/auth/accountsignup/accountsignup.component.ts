@@ -44,7 +44,7 @@ export class AccountsignupComponent implements OnInit {
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
         this.sending = false;
-        this.router.navigate(['/dovalidate', json['emailAddress']]);
+        this.router.navigate(['/auth/dovalidate', json['emailAddress']]);
       }, error => {
         this.sending = false;
         if (error.status == 409)
