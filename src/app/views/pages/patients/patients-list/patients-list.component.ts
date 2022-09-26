@@ -34,7 +34,6 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	//this.getAllMembers();
 	this.getallpatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -53,10 +52,6 @@ export class PatientsListComponent implements OnInit {
 			last : "<i class='bx bx-last-page'></i>"
 			},
 	  },
-	  /*columnDefs: [
-			{ orderable: false, targets: 0 },
-			{ orderable: false, targets: 5 },
-		]*/
 	};
   }
 	searchText(event: any) {
@@ -70,7 +65,6 @@ export class PatientsListComponent implements OnInit {
 		if(user)
 		{
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		//url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
@@ -82,8 +76,6 @@ export class PatientsListComponent implements OnInit {
 				//alert(JSON.stringify(patientDate));
 				for(var k=0; k < patientDate.length; k++)
 				{
-					//if(patientDate[k].resourceOwner)
-					//{
 						if(user.emailAddress == patientDate[k].resourceOwner)
 						{
 							this.tabledata.push({
@@ -110,7 +102,6 @@ export class PatientsListComponent implements OnInit {
 							  patientId: patientDate[k].patientId
 							});
 						}
-					//}
 				}
 				this.tabledata = this.tabledata.reverse();
 				this.colleaguesData = this.colleaguesData.reverse();
@@ -138,11 +129,9 @@ export class PatientsListComponent implements OnInit {
 		}
 	}
 	editpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['/patients/patient-edit/'+patientId]);
 	}
 	viewpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-details/'+patientId]);
 	}
 	deletepatiant(patientId: any) {
@@ -223,7 +212,6 @@ export class PatientsListComponent implements OnInit {
 					let AllDate = JSON.parse(Response.toString());
 				
 					let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-					//alert(JSON.stringify(sortedCountries));
 					this.tabledata = patientDate.reverse();
 				}
 			}, error => {
@@ -250,12 +238,10 @@ export class PatientsListComponent implements OnInit {
 			});
 	  };
 	
-  // The master checkbox will check/ uncheck all items
   checkUncheckAll() {
     for (var i = 0; i < this.tabledata.length; i++) {
       this.tabledata[i].isSelected = this.masterSelected;
     }
-    //this.getCheckedItemList();
   }
 
   // Check All Checkbox Checked
@@ -263,18 +249,9 @@ export class PatientsListComponent implements OnInit {
     this.masterSelected = this.tabledata.every(function(item:any) {
         return item.isSelected == true;
       })
-    //this.getCheckedItemList();
   }
 
   // Get List of Checked Items
-  /*getCheckedItemList(){
-    this.checkedList = [];
-    for (var i = 0; i < this.checklist.length; i++) {
-      if(this.checklist[i].isSelected)
-      this.checkedList.push(this.checklist[i]);
-    }
-    this.checkedList = JSON.stringify(this.checkedList);
-  }*/
 
 	
 	getAllMembers() {
@@ -283,7 +260,6 @@ export class PatientsListComponent implements OnInit {
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
-			//url += "&invitedUserId="+user.dentalId;
 			url += "?invitedUserMail="+user.emailAddress;
 			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
@@ -292,9 +268,7 @@ export class PatientsListComponent implements OnInit {
 				{
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					//alert(JSON.stringify(this.allMember));
 					this.getColleguespatiant();
-					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -322,12 +296,10 @@ export class PatientsListComponent implements OnInit {
 	}
 	
 	getColleguespatiant() {
-		//alert(JSON.stringify(this.allMember));
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 			this.colleaguesData = Array();	
-			//alert(JSON.stringify(this.allMember[k].patientId));
 			for(var k=0; k < this.allMember.length; k++)
 			{
 				let url1 = this.utility.apiData.userPatients.ApiUrl;
@@ -369,7 +341,6 @@ export class PatientsListComponent implements OnInit {
 				});
 			}
 			this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
-			//alert(JSON.stringify(this.colleaguesData));
 		}
 	}
 }

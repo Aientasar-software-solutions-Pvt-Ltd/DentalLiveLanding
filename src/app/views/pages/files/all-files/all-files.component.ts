@@ -52,7 +52,6 @@ export class AllFilesComponent implements OnInit {
 	}
 	setcvFast(obj: any)
 	{
-				//alert(JSON.stringify(obj));
 		if(obj.length > 0)
 		{
 			for(var i = 0; i < obj.length; i++)
@@ -77,10 +76,6 @@ export class AllFilesComponent implements OnInit {
 		}
 	}
 	getAllFiles() {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		sessionStorage.setItem("dateCreated", this.dateCreated);
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
@@ -89,7 +84,6 @@ export class AllFilesComponent implements OnInit {
 		let formDate = this.getTimeStamp(date1);
 		let todate = formDate+oneday;
 		let caseId = this.getcaseId;
-		//alert(caseId);
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -97,7 +91,6 @@ export class AllFilesComponent implements OnInit {
 		if(formDate)
 		{
 			url += "&dateFrom="+formDate+"&dateTo="+todate;
-			//url += "?dateFrom="+dateCreated;
 		}
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
@@ -105,9 +98,7 @@ export class AllFilesComponent implements OnInit {
 			{
 				this.allfilesdata = JSON.parse(Response.toString());
 				this.setcvFast(this.allfilesdata);
-				//swal.close();
 				this.isLoadingData = false;
-				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
 			if (error.status)
@@ -130,7 +121,6 @@ export class AllFilesComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status)
@@ -141,10 +131,6 @@ export class AllFilesComponent implements OnInit {
 	}
 	
 	onSubmit(form: NgForm) {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let strName = form.value.ownerName;
 		let ownerName =strName.split(' ');
@@ -152,11 +138,6 @@ export class AllFilesComponent implements OnInit {
 		{
 			url += "?ownerName="+ownerName[0];
 		}
-		//let fileUploadId = sessionStorage.getItem("fileUploadId");
-		//if(fileUploadId != '')
-		//{
-			//url += "?fileUploadId="+fileUploadId;
-		//}
 		if(ownerName.length > 1)
 		{
 			if(ownerName[1] != '')
@@ -179,7 +160,6 @@ export class AllFilesComponent implements OnInit {
 				this.allfilesdata = JSON.parse(Response.toString());
 				//swal.close();
 				this.isLoadingData = false;
-				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
 			if (error.status)
@@ -216,7 +196,6 @@ export class AllFilesComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
-		//alert(data);
 		this.jsonObj['ownerName'] = data.resorceowner;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
@@ -225,7 +204,6 @@ export class AllFilesComponent implements OnInit {
 		{
 			this.jsonObj['files'] = this.UploadFiles;
 		}
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
@@ -263,7 +241,6 @@ export class AllFilesComponent implements OnInit {
 			Promise.all(requests)
 			  .then((values) => {
 				this.attachmentUploadFiles = [];
-				//console.log(this.cvfast);
 				let img = values[0];
 				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
 				this.dataService.getallData(url, true)
@@ -277,7 +254,6 @@ export class AllFilesComponent implements OnInit {
 						  mediaType: mediatype,
 						  mediaSize: mediasize.toString()
 						});
-						//this.PatientImg = values[0];
 						this.onGetdateData(form.value);
 					}
 				}, error => {

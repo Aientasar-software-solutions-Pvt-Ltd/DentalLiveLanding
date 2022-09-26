@@ -101,7 +101,6 @@ export class WorkOrderAddComponent implements OnInit {
 		  return;
 		}
 		this.sending = true;
-		//alert(JSON.stringify(this.orders.getToothGuide()));
 		this.onGetdateData(form.value);
 	}
 	
@@ -125,7 +124,6 @@ export class WorkOrderAddComponent implements OnInit {
 			this.jsonObj['notes'] = this.cvfastval.returnCvfast();
 		}
 		
-		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes','','Workorder title already exists.').then(
 		(value) => {
@@ -147,8 +145,6 @@ export class WorkOrderAddComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "&invitedUserId="+user.dentalId;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -202,8 +198,6 @@ export class WorkOrderAddComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.isvalidRefereTo = false;
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
@@ -232,7 +226,6 @@ export class WorkOrderAddComponent implements OnInit {
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
 			this.allMember[index].memberid = userData.dentalId;
-			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -276,7 +269,6 @@ export class WorkOrderAddComponent implements OnInit {
 					this.patientName = this.tabledata.patientName;
 					this.caseid = this.tabledata.caseId;
 					this.patientid = this.tabledata.patientId;
-					//alert(JSON.stringify(this.tabledata));
 					this.getAllMembers(this.tabledata.caseId);
 					this.sending = false;
 				}
@@ -314,7 +306,6 @@ export class WorkOrderAddComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledataAll = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
 				for(var k = 0; k < this.tabledataAll.length; k++)
 				{
@@ -329,7 +320,6 @@ export class WorkOrderAddComponent implements OnInit {
 						});
 					}
 				}
-				//alert(JSON.stringify(this.allcases));
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -358,13 +348,11 @@ export class WorkOrderAddComponent implements OnInit {
 	}
 	
 	selectEvent(item: any) {
-		//alert(JSON.stringify(item));
 		this.caseid = item.caseId;
 		this.patientid = item.patientId;
 		this.patientName = item.patientName;
 		this.casesName = item.name;
 		this.getAllMembers(item.caseId);
-	// do something with selected item
 	}
 	
 	onChangeSearch(search: string) {

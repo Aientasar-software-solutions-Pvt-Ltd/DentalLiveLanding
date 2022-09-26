@@ -18,10 +18,8 @@ import "@lottiefiles/lottie-player";
       
 export class PatientAddComponent implements OnInit {
 	sending = false;
-	//@ViewChild('Cvfast') Cvfast!: ElementRef;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
-	//@ViewChild('Cvfast') Cvfast: CvfastComponent;
 	public patiantStatus = true;
 	public isRequired = true;
 	onActiveInactiveChanged(value:boolean){
@@ -158,7 +156,6 @@ export class PatientAddComponent implements OnInit {
   }
   onGetdateData(data: any,cvfast: any)
   {	
-	// alert(cvfast);
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
 	this.jsonObj['firstName'] = encode(data.firstName);
@@ -225,8 +222,6 @@ export class PatientAddComponent implements OnInit {
 		Promise.all(requests)
 		  .then((values) => {
 			this.attachmentFiles = [];
-			//console.log(this.cvfast);
-			//alert(cvfast);
 			this.PatientImg = values[0];
 			this.onGetdateData(GetForm,cvfast);
 		  })
@@ -270,9 +265,7 @@ export class PatientAddComponent implements OnInit {
 
   removeMedication(i: number): void {
 	this.objMedicationLength.splice(i, 1);
-    //this.medications.splice(i, 1);
 	if (this.medications.length > 1) this.medications.splice(i, 1);
-    //else this.medications.patchValue([{medication: null, dosage: null, duration: null, notes: null}]);
   }
   
   addMedicationValidation(i: number, str: string, event: any): void {
@@ -300,7 +293,6 @@ export class PatientAddComponent implements OnInit {
 	{
 	this.medications[i].notes=encode(event.target.value);
 	}
-	//alert(JSON.stringify(this.medications));
   }
   
   logValue() {

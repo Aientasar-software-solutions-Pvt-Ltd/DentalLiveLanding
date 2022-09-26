@@ -59,10 +59,6 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
 			let caseId = sessionStorage.getItem("caseId");
@@ -77,10 +73,8 @@ export class ReferralListComponent implements OnInit {
 					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(GetAllData));
 					if(GetAllData.length == '0')
 					{
-						//swal.close();
 						this.isLoadingData = false;
 					}
 					this.tabledata = Array();
@@ -105,7 +99,6 @@ export class ReferralListComponent implements OnInit {
 						  memberName: ''
 						});
 						this.getcasedtls(GetAllData[k].caseId,k);
-						//alert(GetAllData[k].members);
 						this.getuserdetailsall(GetAllData[k].members,k);
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -149,7 +142,6 @@ export class ReferralListComponent implements OnInit {
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
 				this.tabledata[index].patientName = caseData.patientName;
-				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -181,10 +173,6 @@ export class ReferralListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
 			let caseId = sessionStorage.getItem("caseId");
@@ -197,9 +185,7 @@ export class ReferralListComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					//swal.close();
 					this.detailsdata = JSON.parse(Response.toString());
-					//alert(JSON.stringify(this.detailsdata));
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -250,7 +236,6 @@ export class ReferralListComponent implements OnInit {
 			{
 				this.tabledata = JSON.parse(Response.toString());
 				this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -295,7 +280,6 @@ export class ReferralListComponent implements OnInit {
 				{
 					
 					let userData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(userData));
 					if(userData.length > 0)
 					{
 						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
@@ -306,7 +290,6 @@ export class ReferralListComponent implements OnInit {
 						else{
 							memberResult += name;
 						}
-						//alert(JSON.stringify(memberResult));
 						if(j == userId.length)
 						{
 							this.tabledata[index].memberName = memberResult;

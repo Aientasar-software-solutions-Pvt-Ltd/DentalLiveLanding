@@ -117,7 +117,6 @@ export class CaseAddComponent implements OnInit {
 						}
 					}
 				}
-				//alert(JSON.stringify(this.allpatient));
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -194,7 +193,6 @@ export class CaseAddComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//alert(JSON.stringify(this.jsonObj));
 		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description','','Case title already exists.').then(
 		(value) => {
 		this.sending = false;

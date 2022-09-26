@@ -49,8 +49,6 @@ export class PatientCaseListComponent implements OnInit {
 	}
 	
 	viewCase(caseId: any, patientId: any) {
-		//sessionStorage.setItem('caseId', caseId);
-		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	
@@ -101,7 +99,6 @@ export class PatientCaseListComponent implements OnInit {
 				if (Response)
 				{
 					let casedataResult = JSON.parse(Response.toString());
-					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					casedataResult.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					
 					this.casedata = Array();
@@ -119,7 +116,6 @@ export class PatientCaseListComponent implements OnInit {
 						});
 						this.getCaseMemberList(casedataResult[k].caseId,k);
 					}
-					//alert(JSON.stringify(this.casedata));
 				
 				}
 			}, (error) => {
@@ -158,7 +154,6 @@ export class PatientCaseListComponent implements OnInit {
 			{
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
 				this.invitedatas = Array();
 				this.indexRow = 0;
 				for(var k = 0; k < GetAllData.length; k++)
@@ -167,12 +162,9 @@ export class PatientCaseListComponent implements OnInit {
 					  id: this.indexRow,
 					  userName: ''
 					});
-					//alert(GetAllData[k].invitedUserId);
 					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
 					this.indexRow++;
 				} 
-				//alert(JSON.stringify(this.invitedata));
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -208,13 +200,11 @@ export class PatientCaseListComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(GetArray));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			GetArray[index].userName = name;
 			if((index+1) == GetArray.length)
 			{
 				this.casedata[Row].memberName = GetArray;
-				//alert(JSON.stringify(this.casedata[Row].memberName));
 			}
 		}
 		}, (error) => {

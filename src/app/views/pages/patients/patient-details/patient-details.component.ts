@@ -92,10 +92,6 @@ export class PatientDetailsComponent implements OnInit {
 	}
 	getallpatiant() {
 		this.tabledata = '';
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		this.getallcase();
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
@@ -134,8 +130,6 @@ export class PatientDetailsComponent implements OnInit {
 						this.isLoadingData = false;
 					}
 				}, 1000);
-				//this.isLoadingData = false;
-				//alert(JSON.stringify(this.tabledata));
 				this.setcvFast(this.tabledata.notes);
 				this.cvfastText = true;
 			}
@@ -201,11 +195,6 @@ export class PatientDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientId = this.paramPatientId;
 			if(patientId != '')
@@ -215,9 +204,7 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
-					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					let casedataResult = AllDate.slice(0, 5);
 					
@@ -236,7 +223,6 @@ export class PatientDetailsComponent implements OnInit {
 						});
 						this.getCaseMemberList(casedataResult[k].caseId,k);
 					}
-					//alert(JSON.stringify(this.casedata));
 				
 				}
 			}, (error) => {
@@ -275,7 +261,6 @@ export class PatientDetailsComponent implements OnInit {
 			{
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
 				this.invitedatas = Array();
 				this.indexRow = 0;
 				for(var k = 0; k < GetAllData.length; k++)
@@ -284,12 +269,9 @@ export class PatientDetailsComponent implements OnInit {
 					  id: this.indexRow,
 					  userName: ''
 					});
-					//alert(GetAllData[k].invitedUserId);
 					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
 					this.indexRow++;
 				} 
-				//alert(JSON.stringify(this.invitedata));
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -325,13 +307,11 @@ export class PatientDetailsComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(GetArray));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			GetArray[index].userName = name;
 			if((index+1) == GetArray.length)
 			{
 				this.casedata[Row].memberName = GetArray;
-				//alert(JSON.stringify(this.casedata[Row].memberName));
 			}
 		}
 		}, (error) => {
@@ -366,8 +346,6 @@ export class PatientDetailsComponent implements OnInit {
 	}
 
 	viewCase(caseId: any, patientId: any) {
-		//sessionStorage.setItem('caseId', caseId);
-		//this.router.navigate(['master/master-list']);
 		this.router.navigate(['master/master-list/'+caseId+'/caseDetails']);
 	}
 	viewAllCase(patientId: any) {

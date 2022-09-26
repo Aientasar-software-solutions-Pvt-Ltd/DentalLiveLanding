@@ -79,69 +79,12 @@ export class CaseInvitationListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	
-	/*confirmBox(){
-		swal.fire({
-		  title: 'Are you sure want to remove?',
-		  text: 'You will not be able to recover this file!',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#0070D2',
-		  cancelButtonColor: '#F7517F',
-		  confirmButtonText: 'Yes, delete it!',
-		  cancelButtonText: 'No, keep it'
-		}).then((result) => {
-		  if (result.value) {
-			swal.fire(
-			  'Deleted!',
-			  'Your imaginary file has been deleted.',
-			  'success'
-			)
-		  } else if (result.dismiss === swal.DismissReason.cancel) {
-			swal.fire(
-			  'Cancelled',
-			  'Your imaginary file is safe',
-			  'error'
-			)
-		  }
-		})
-	}
 	
-	confirmArchive(){
-		swal.fire({
-		  title: 'Are you sure want to archive?',
-		  text: 'You will not be able to undo this file!',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#0070D2',
-		  cancelButtonColor: '#F7517F',
-		  confirmButtonText: 'Yes, archive it!',
-		  cancelButtonText: 'No, keep it'
-		}).then((result) => {
-		  if (result.value) {
-			swal.fire(
-			  'Archived!',
-			  'Your imaginary file has been archived.',
-			  'success'
-			)
-		  } else if (result.dismiss === swal.DismissReason.cancel) {
-			swal.fire(
-			  'Cancelled',
-			  'Your imaginary file is no change',
-			  'error'
-			)
-		  }
-		})
-	}*/
 	
 	getInviteListing() {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
+
 		let user = this.usr.getUserDetails(false);
-		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		//url += "?invitedUserId="+user.dentalId;
 		url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
@@ -212,7 +155,6 @@ export class CaseInvitationListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -253,10 +195,8 @@ export class CaseInvitationListComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(userData));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
-			//alert(JSON.stringify(this.invitedata));
 		}
 		}, (error) => {
 			if (error.status === 404)

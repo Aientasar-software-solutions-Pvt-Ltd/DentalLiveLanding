@@ -150,8 +150,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.getMessage(this.tabledata.caseId);
 					this.referalmembers = this.tabledata.members;
 					this.parmCaseId = this.tabledata.caseId;
-					//alert(JSON.stringify(this.tabledata.workorderId));
-					//alert(JSON.stringify(this.tabledata.toothguide));
 					this.getuserdetailsall(this.referalmembers);
 					this.getCaseDetails();
 					
@@ -206,8 +204,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 					{
 						this.referalmembersName += name;
 					}
-					//this.inviteReceivedData[index].userName = name;
-					//alert(JSON.stringify(this.referalmembersName));
 				}
 				}, (error) => {
 				  if (error.status === 404)
@@ -356,7 +352,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
-		//alert(JSON.stringify(data));
 		this.jsonObj['workorderId'] = data.workorderId;
 		this.jsonObj['caseId'] = data.caseId;
 		this.jsonObj['patientId'] = data.patientId;
@@ -366,7 +361,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObj['members'] = this.referalmembers;
 		this.jsonObj['patientName'] = data.patientName;
 		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.dataService.putData(this.utility.apiData.userWorkOrders.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
@@ -412,8 +406,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 				if (Response)
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
-					//alert(JSON.stringify(this.messagedata));
 					
 					this.messageDataArray = Array();
 					for(var i = 0; i < this.messagedata.length; i++)
@@ -486,7 +478,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 	setcvFastComment(obj: any, index: any)
 	{
 		let Comments = Array();
-		//alert(obj.links.length);
 		if(obj.length > 0)
 		{
 			for(var i = 0; i < obj.length; i++)
@@ -606,7 +597,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
@@ -615,7 +605,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		(error) => {
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
 		if (form.invalid) {
@@ -628,7 +617,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['message'] = this.cvfastval.returnCvfast();
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
 		(value) => {
@@ -637,7 +625,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		(error) => {
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	
 	getCaseDetails() {
@@ -651,11 +638,8 @@ export class WorkOrderDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let CaseDetails = JSON.parse(Response.toString());
-					//alert(JSON.stringify(CaseDetails));
 					this.casesName = CaseDetails.title;
 					this.patientName = CaseDetails.patientName;
-					//this.caseid = CaseDetails.caseId;
-					//this.patientid = CaseDetails.patientId;
 				}
 			}, error => {
 				if (error.status === 404)

@@ -86,8 +86,6 @@ export class GeneralTaskEditComponent implements OnInit {
 			this.allMember[index].name = name;
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
-			//this.selectEvent(this.allMember);
-			//alert(JSON.stringify(this.invitedata));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -125,7 +123,6 @@ export class GeneralTaskEditComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -171,7 +168,6 @@ export class GeneralTaskEditComponent implements OnInit {
 		}
 	}
 	selectEvent(item: any) {
-		//alert(JSON.stringify(item));
 		this.allMemberEmail = Array();
 		this.allMemberName = Array();
 		for(var k = 0; k < item.length; k++)
@@ -180,8 +176,6 @@ export class GeneralTaskEditComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.isvalidRefereTo = false;
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
@@ -219,7 +213,6 @@ export class GeneralTaskEditComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//this.jsonObj['description'] = data.description;
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -231,7 +224,6 @@ export class GeneralTaskEditComponent implements OnInit {
 		this.jsonObj['memberName'] = meberName;
 		this.jsonObj['milestoneId'] = data.milestoneId;
 		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task Updated successfully', 'milestones/milestone-details/'+data.milestoneId, 'put', '','description','','Task title already exists.').then(
 		(value) => {
@@ -246,7 +238,6 @@ export class GeneralTaskEditComponent implements OnInit {
 	getCaseDetails(caseId) {
 		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -256,7 +247,6 @@ export class GeneralTaskEditComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -283,7 +273,6 @@ export class GeneralTaskEditComponent implements OnInit {
 	}
 	setcvFast()
 	{
-		//alert(JSON.stringify(this.editdata.description));
 		this.cvfastval.setCvfast(this.editdata.description);
 		setTimeout(()=>{    
 			this.selectedCity = this.selectedCityName; 
@@ -301,10 +290,8 @@ export class GeneralTaskEditComponent implements OnInit {
 			if (Response)
 			{
 				let userData = JSON.parse(Response.toString());
-				//alert(JSON.stringify(userData));
 				let name = userData.accountfirstName+' '+userData.accountlastName;
 				this.selectedCityName.push(name);
-				//alert(JSON.stringify(this.selectedCityName));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -349,10 +336,6 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.allMemberEmail = this.editdata.memberMail.split(",");
 				this.userdetailsall(this.allMemberEmail);
 				this.allMemberName = this.editdata.memberName.split(",");
-				//alert(JSON.stringify(this.editdata.memberMail));
-				
-				//alert(JSON.stringify(this.allMember));
-				//this.selectedCity = 'chita';
 				this.getAllMembers(this.editdata.caseId);
 				this.getCaseDetails(this.editdata.caseId);
 				this.editedDate = new Date(this.editdata.duedate);

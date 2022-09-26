@@ -131,11 +131,9 @@ export class WorkOrderEditComponent implements OnInit {
 		
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
 		{
-			//alert(JSON.stringify(this.cv.returnCvfast()));
 			this.jsonObj['notes'] = this.cv.returnCvfast();
 		}
 		
-		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes','','Workorder title already exists.').then(
 		(value) => {
@@ -220,7 +218,6 @@ export class WorkOrderEditComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)

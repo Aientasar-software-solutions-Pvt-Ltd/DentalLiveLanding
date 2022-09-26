@@ -205,10 +205,8 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
-	if(this.paramTabName == 'caseDetails'){
-		this.getCaseDetails();
-		this.CaseTypeVal = '';
-	}
+	this.getCaseDetails();
+	this.CaseTypeVal = '';
 	if(this.paramTabName == 'threads'){
 		this.getThread();
 	}

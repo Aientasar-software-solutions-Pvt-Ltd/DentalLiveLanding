@@ -74,13 +74,11 @@ export class MilestoneAddComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//this.jsonObj['description'] = data.description;
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['reminder'] = Number(data.reminder);
 		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'cases/case-add-task-add', 'post', 'invitemilestoneId','description','','Milestone title already exists.').then(
 		(value) => {
@@ -106,7 +104,6 @@ export class MilestoneAddComponent implements OnInit {
 			{
 				swal.close();
 				this.tabledataAll = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledataAll));
 				this.allcases = Array();
 				for(var k = 0; k < this.tabledataAll.length; k++)
 				{
@@ -123,7 +120,6 @@ export class MilestoneAddComponent implements OnInit {
 						});
 					}
 				}
-				//alert(JSON.stringify(this.allcases));
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -152,12 +148,10 @@ export class MilestoneAddComponent implements OnInit {
 	}
 	
 	selectEvent(item: any) {
-		//alert(JSON.stringify(item));
 		this.caseid = item.caseId;
 		this.patientid = item.patientId;
 		this.patientName = item.patientName;
 		this.casesName = item.name;
-	// do something with selected item
 	}
 	getCaseDetails() {
 		let url = this.utility.apiData.userCases.ApiUrl;
@@ -174,7 +168,6 @@ export class MilestoneAddComponent implements OnInit {
 					this.patientName = this.tabledata.patientName;
 					this.caseid = this.tabledata.caseId;
 					this.patientid = this.tabledata.patientId;
-					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {
 				if (error.status === 404)

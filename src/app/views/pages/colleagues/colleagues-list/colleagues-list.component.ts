@@ -45,13 +45,8 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	getInviteListing() {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		
 		let user = this.usr.getUserDetails(false);
-		//alert(user.dentalId);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner="+user.emailAddress;
 		url += "&presentStatus=1";
@@ -61,7 +56,6 @@ export class ColleaguesListComponent implements OnInit {
 			{
 				//swal.close();
 				this.isLoadingData = false;
-				//alert(JSON.stringify(Response.toString()));
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
@@ -117,9 +111,6 @@ export class ColleaguesListComponent implements OnInit {
 		});
 	}
 	viewColleagueDetails(colleagueId: any,caseId: any) {
-		//alert(caseId);
-		//sessionStorage.setItem('colleagueId', colleagueId);
-		//sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['colleagues/colleague-view-profile/'+colleagueId+'/'+caseId]);
 	}
 	getuserdetailsall(userId, index) {
@@ -136,14 +127,11 @@ export class ColleaguesListComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(userData));
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
 			this.invitedata[index].userEducation = userData[0].education;
 			this.invitedata[index].userCity = userData[0].city;
 			this.invitedata[index].userCountry = userData[0].country;
-			//this.inviteReceivedData[index].userName = name;
-			//alert(JSON.stringify(this.inviteReceivedData));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -180,11 +168,8 @@ export class ColleaguesListComponent implements OnInit {
 			if (Response)
 			{
 				let caseData = JSON.parse(Response.toString());
-				//alert(JSON.stringify(caseData));
 				this.invitedata[index].caseTitle = caseData.title;
 				this.inviteReceivedData[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(caseData.title));
-				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -216,7 +201,6 @@ export class ColleaguesListComponent implements OnInit {
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let user = this.usr.getUserDetails(false);
 		url += "?resourceOwner="+user.dentalId;
-		//url += "&presentStatus=1";
 		
 		if(form.value.dateFrom != '')
 		{
@@ -233,11 +217,10 @@ export class ColleaguesListComponent implements OnInit {
 				url += "?dateTo="+Date.parse(form.value.dateTo);
 			}
 		}
-		//alert(url);
+
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				//alert(JSON.stringify(Response.toString()));
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();

@@ -55,7 +55,6 @@ export class FileDetailsComponent implements OnInit {
 				swal.close();
 				this.allfilesdata = JSON.parse(Response.toString());
 				this.setcvFast(this.allfilesdata);
-				//alert(JSON.stringify(this.allfilesdata));
 			}
 		}, error => {
 			if (error.status)
@@ -80,7 +79,6 @@ export class FileDetailsComponent implements OnInit {
 					{
 						this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(Response);
 						this.allfilesdata.files[0].url = Response;
-						//alert(this.urlSafe);
 					}
 				}, error => {
 					if (error.status)
@@ -105,7 +103,6 @@ export class FileDetailsComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status)

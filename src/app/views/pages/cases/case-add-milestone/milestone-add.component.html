@@ -57,11 +57,6 @@
 								<div class="col-md-6"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title </label>
-										<!-- <select class="form-select">
-											<option value="">Select</option>
-											<option value="Jhone Duo">Jhone Duo</option>
-											<option value="Danel Gray">Danel Gray</option>
-										</select> -->
 										<ng-select *ngIf="(this.checkCase == '')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" placeholder="Select" required  name="caseName" id="caseName">
 										</ng-select>
 										<input type="text" *ngIf="(this.checkCase == '1')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
@@ -82,7 +77,6 @@
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
-										<!-- <input  type="datetime-local" class="form-control" name="dueDatetime"> -->
 										<input class="form-control" name="startdate" id="startdate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Start Date & Time" ngModel required>
 										<owl-date-time #dt2></owl-date-time>
 									</div>
@@ -90,24 +84,11 @@
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Due Date & Time</label>
-										<!-- <input  type="datetime-local" class="form-control" name="dueDatetime"> -->
 										<input class="form-control" name="dueDatetime" id="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" ngModel required>
 										<owl-date-time #dt1></owl-date-time>
 										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date & time should be greater than start date</span>
 									</div>
 								</div>
-								<!--<div class="col-ms-6 col-md-4">
-									<div class="mb-4">
-										<label class="form-label body2 mb-3 text-dark">Status</label>
-										<select class="form-select" name="presentStatus" id="presentStatus" ngModel required>  
-											<option value="">Select</option>
-											<option value="1" selected>Active</option>
-											<option value="2">Inactive</option>
-											<option value="3">Pending</option>
-											<option value="4">Completed</option>
-										</select> 
-									</div>
-								</div>-->
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Add Reminder</label>

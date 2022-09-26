@@ -75,65 +75,9 @@ export class InvitationListsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	
-	/*confirmBox(){
-		swal.fire({
-		  title: 'Are you sure want to remove?',
-		  text: 'You will not be able to recover this file!',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#0070D2',
-		  cancelButtonColor: '#F7517F',
-		  confirmButtonText: 'Yes, delete it!',
-		  cancelButtonText: 'No, keep it'
-		}).then((result) => {
-		  if (result.value) {
-			swal.fire(
-			  'Deleted!',
-			  'Your imaginary file has been deleted.',
-			  'success'
-			)
-		  } else if (result.dismiss === swal.DismissReason.cancel) {
-			swal.fire(
-			  'Cancelled',
-			  'Your imaginary file is safe',
-			  'error'
-			)
-		  }
-		})
-	}
 	
-	confirmArchive(){
-		swal.fire({
-		  title: 'Are you sure want to archive?',
-		  text: 'You will not be able to undo this file!',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#0070D2',
-		  cancelButtonColor: '#F7517F',
-		  confirmButtonText: 'Yes, archive it!',
-		  cancelButtonText: 'No, keep it'
-		}).then((result) => {
-		  if (result.value) {
-			swal.fire(
-			  'Archived!',
-			  'Your imaginary file has been archived.',
-			  'success'
-			)
-		  } else if (result.dismiss === swal.DismissReason.cancel) {
-			swal.fire(
-			  'Cancelled',
-			  'Your imaginary file is no change',
-			  'error'
-			)
-		  }
-		})
-	}*/
 	
 	getInviteListing() {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner="+user.emailAddress;
@@ -141,7 +85,6 @@ export class InvitationListsComponent implements OnInit {
 			if (Response)
 			{
 				let GetAllData = JSON.parse(Response.toString());
-				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.invitedata = Array();
 				if(GetAllData.length == '0')
@@ -208,7 +151,6 @@ export class InvitationListsComponent implements OnInit {
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
 				this.inviteReceivedData[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -251,8 +193,6 @@ export class InvitationListsComponent implements OnInit {
 			let userData = JSON.parse(Response.toString());
 			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 			this.invitedata[index].userName = name;
-			//this.inviteReceivedData[index].userName = name;
-			//alert(JSON.stringify(this.inviteReceivedData));
 			swal.close();
 		}
 		}, (error) => {
@@ -300,7 +240,6 @@ export class InvitationListsComponent implements OnInit {
 			this.jsonObjInvite['responseText'] = this.cvfastval.returnCvfast();
 		}
 		
-		//alert(JSON.stringify(this.jsonObjInvite));
 		if(status_check == 1){
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
 			(value) => {
@@ -323,10 +262,6 @@ export class InvitationListsComponent implements OnInit {
 	};
 	
 	getInviteSubmitData(invitationId: any, status_value: any) {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitationId="+invitationId;
 		this.dataService.getallData(url, true)
@@ -369,19 +304,13 @@ export class InvitationListsComponent implements OnInit {
 	}
 	
 	getInviteListingReceived() {
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitedUserMail="+user.emailAddress;
-		//alert(url);
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
 				let GetAllData = JSON.parse(Response.toString());
-				//alert(JSON.stringify(GetAllData));
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.inviteReceivedData = Array();
 				this.isLoadingData = false;
@@ -407,7 +336,6 @@ export class InvitationListsComponent implements OnInit {
 					this.getuserdetailsallRecvd(GetAllData[k].resourceOwner,k);
 					this.getcasedetailsRecvd(GetAllData[k].caseId,k);
 				}
-				//alert(JSON.stringify(this.inviteReceivedData));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -444,7 +372,6 @@ export class InvitationListsComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.inviteReceivedData[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.inviteReceivedData));
 			}
 			}, (error) => {
 				if (error.status === 404)

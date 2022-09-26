@@ -64,21 +64,13 @@ export class CaseListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
-			//url += "?resourceOwner="+user.emailAddress;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
-					//let caseDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					//this.tabledata = caseDate.reverse();
-					//alert(JSON.stringify(AllDate));
 					this.isLoadingData = false;
 					this.tabledata = Array();
 					this.colleaguesdata = Array();
@@ -216,7 +208,6 @@ export class CaseListComponent implements OnInit {
 			{
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
 				this.invitedatas = Array();
 				this.indexRow = 0;
 				for(var k = 0; k < GetAllData.length; k++)
@@ -225,12 +216,9 @@ export class CaseListComponent implements OnInit {
 					  id: this.indexRow,
 					  userName: ''
 					});
-					//alert(GetAllData[k].invitedUserMail);
 					this.getuserdetailsall(GetAllData[k].invitedUserMail,this.indexRow,index,type);
 					this.indexRow++;
 				} 
-				//alert(JSON.stringify(this.invitedata));
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -283,7 +271,6 @@ export class CaseListComponent implements OnInit {
 				{
 				this.colleaguesdata[Row].memberName = GetArray;
 				}
-				//alert(JSON.stringify(this.tabledata[Row].memberName));
 			}
 		}
 		}, (error) => {
@@ -318,7 +305,6 @@ export class CaseListComponent implements OnInit {
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
-			//url += "&invitedUserId="+user.dentalId;
 			url += "?invitedUserMail="+user.emailAddress;
 			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
@@ -327,9 +313,7 @@ export class CaseListComponent implements OnInit {
 				{
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					//alert(JSON.stringify(this.allMember));
 					this.getColleaguesCase();
-					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -357,7 +341,6 @@ export class CaseListComponent implements OnInit {
 	}
 	
 	getColleaguesCase() {
-		//alert(JSON.stringify(this.allMember));
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -403,7 +386,6 @@ export class CaseListComponent implements OnInit {
 					swal('Oops something went wrong, please try again');			  return false;
 				});
 			}
-			//alert(JSON.stringify(this.colleaguesdata));
 		}
 	}
 }

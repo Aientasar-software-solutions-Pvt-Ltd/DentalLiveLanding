@@ -86,8 +86,6 @@
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Assign Member</label>
-									<!--<ng-select name="memberName" id="memberName" ngModel [items]="defaultBindingsList" (ngModel)="selectedMember" [editableSearchTerm]="true" placeholder="Select" required >
-									</ng-select>-->
 									<div class="search search-md search-filter  search-filter-sm">
 										<i class="bx bx-search"></i>
 										<ng-select [items]="allMember" (ngModel)="selectedCity" bindLabel="name" bindValue="name" [multiple]="true" (change)="selectEvent($event)"  [hideSelected]="true">
@@ -135,7 +133,6 @@
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Description</label>
 									<app-cvfast></app-cvfast>
-									<!-- <textarea class="form-control" placeholder="Enter Description" name="description" id="description" style="height: 100px" ngModel required></textarea> -->
 								</div>
 							</div>
 						</div>

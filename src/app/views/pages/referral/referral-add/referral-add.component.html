@@ -53,11 +53,6 @@
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title </label>
-										<!-- <select class="form-select">
-											<option value="">Select</option>
-											<option value="Jhone Duo">Jhone Duo</option>
-											<option value="Danel Gray">Danel Gray</option>
-										</select> -->
 										<ng-select *ngIf="(this.checkCase == '0')" [items]="allcases" (ngModel)="this.casesName" [editableSearchTerm]="true" (change)="selectEvent($event)" required="true" placeholder="Select"  name="caseName" id="caseName">
 										</ng-select>
 										<input type="text" *ngIf="(this.checkCase != '0')" readonly ngModel={{this.casesName}} class="form-control" placeholder="Enter Title here" name="caseName" id="caseName" ngModel required>
@@ -125,12 +120,6 @@
 									<app-referral-guide #orders></app-referral-guide>
 									<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidToothGuide == true)"> Tooth guide should not be blank!</span>
 								</div>
-								<!-- <div class="col-md-6"> 
-									<div class="mb-3">
-										<label class="form-label body2 text-dark">Referral Form</label>
-										<input type="file" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" name="referral_form" id="referral_form" ngModel required>
-									</div>
-								</div> -->
 							</div>
 						</div>
 					</div>

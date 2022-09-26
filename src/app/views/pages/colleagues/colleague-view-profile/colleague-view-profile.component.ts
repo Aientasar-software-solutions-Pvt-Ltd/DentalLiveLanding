@@ -72,24 +72,17 @@ export class ColleagueViewProfileComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
+
 			let user = this.usr.getUserDetails(false);
-			//alert(user.dentalId);
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			url += "?resourceOwner="+user.emailAddress;
-			//url += "&presentStatus=1";
 			var colleagueId = this.profileId;
 			url += "&invitedUserId="+colleagueId;
-			//alert(url);
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					//swal.close();
 					this.isLoadingData = false;
-					//alert(JSON.stringify(Response.toString()));
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.invitedata = Array();
@@ -166,8 +159,6 @@ export class ColleagueViewProfileComponent implements OnInit {
 			{
 				this.invitedata[index].imageSrc = "assets/images/users.png";
 			}
-			//this.inviteReceivedData[index].userName = name;
-			//alert(JSON.stringify(this.inviteReceivedData));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -206,7 +197,6 @@ export class ColleagueViewProfileComponent implements OnInit {
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
 				this.inviteReceivedData[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.invitedata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -238,10 +228,6 @@ export class ColleagueViewProfileComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userCases.ApiUrl;
 			
 			let caseId = this.caseId;
@@ -257,7 +243,6 @@ export class ColleagueViewProfileComponent implements OnInit {
 					//swal.close();
 					this.isLoadingData = false;
 					this.detailsdata = JSON.parse(Response.toString());
-					//alert(JSON.stringify(this.detailsdata));
 				}
 			}, (error) => {
 				if (error.status === 404)

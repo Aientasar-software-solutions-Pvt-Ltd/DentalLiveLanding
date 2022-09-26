@@ -58,10 +58,6 @@ export class MilestonesListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			/* swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
@@ -76,9 +72,6 @@ export class MilestonesListComponent implements OnInit {
 					this.tabledata = JSON.parse(Response.toString());
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.userEmailAddress = user.emailAddress;
-					//alert(this.userEmailAddress);
-					//alert(JSON.stringify(this.tabledata));
-					//alert(this.tabledata['0'].title);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -107,11 +100,9 @@ export class MilestonesListComponent implements OnInit {
 	}
 	
 	viewmilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
 	}
 	editMilestone(milestoneId: any) {
-		//sessionStorage.setItem('milestoneId', milestoneId);
 		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
 	}
 	

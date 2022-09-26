@@ -46,7 +46,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		invitedUserId: '',
 		invitationId: "",
 		presentStatus: 3
-		//responseText: {}
 	}
 	
 	constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
@@ -107,7 +106,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		if (Response)
 		{
 			let Colleague = JSON.parse(Response.toString());
-			//alert(JSON.stringify(Colleague));
 			this.allMember = Array();
 			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)
@@ -137,7 +135,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 					}
 				}
 			}
-			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -174,8 +171,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.allMemberDentalId.push(item[k].dentalId);
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberDentalId));
 	}
 	onSubmitInvite(form: NgForm){
 		this.sending = true;
@@ -197,7 +192,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		for(var i = 0; i < this.allMemberEmail.length; i++)
 		{
 			z++;
-			//this.jsonObjInvite['resourceOwner'] = user.dentalId;
 			this.jsonObjInvite['caseId'] = form.value.caseId;
 			this.jsonObjInvite['patientId'] = form.value.patientId;
 			this.jsonObjInvite['patientName'] = form.value.patientName;
@@ -210,7 +204,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 			this.jsonObjInvite['invitedUserMail'] = this.allMemberEmail[i];
 			this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
 			
-			//alert(JSON.stringify(this.jsonObjInvite));
 			if(z == this.allMemberEmail.length)
 			{
 				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText','','User already invited.').then(
@@ -269,7 +262,6 @@ export class CaseAddInviteMembersComponent implements OnInit {
 					  resourceOwner: GetAllData[k].resourceOwner
 					});
 					this.inviteEmailArray.push(GetAllData[k].invitedUserMail);
-					//this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 				}
 				this.getAllMembers();
 			}

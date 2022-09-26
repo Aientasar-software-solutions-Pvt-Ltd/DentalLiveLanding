@@ -61,7 +61,6 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.getCaseDetails();
 		this.getAllMembers();
 		this.milestoneIdadd = sessionStorage.getItem("milestoneId");
-		//alert(this.milestoneIdadd);
 	}
 	getuserdetailsall(userId, index) {
 		let user = this.usr.getUserDetails(false);
@@ -89,7 +88,6 @@ export class GeneralTaskAddComponent implements OnInit {
 			this.allMember[index].name = name;
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
-			//alert(JSON.stringify(this.invitedata));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -128,7 +126,6 @@ export class GeneralTaskAddComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -182,8 +179,6 @@ export class GeneralTaskAddComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.isvalidRefereTo = false;
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		//alert(JSON.stringify(form.value));
@@ -221,7 +216,6 @@ export class GeneralTaskAddComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//this.jsonObj['description'] = data.description;
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -231,8 +225,6 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.jsonObj['memberMail'] = meberEmail;
 		this.jsonObj['memberName'] = meberName;
 		this.jsonObj['milestoneId'] = this.milestoneIdadd;
-		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description','','Task title already exists.').then(
 		(value) => {

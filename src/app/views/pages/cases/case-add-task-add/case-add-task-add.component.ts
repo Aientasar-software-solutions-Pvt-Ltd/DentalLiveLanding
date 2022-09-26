@@ -85,7 +85,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 			this.allMember[index].name = name;
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
-			//alert(JSON.stringify(this.invitedata));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -122,8 +121,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
-			//url += "&invitedUserId="+user.dentalId;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -175,8 +172,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 			this.allMemberEmail.push(item[k].emailAddress);
 			this.allMemberName.push(item[k].name);
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	onSubmitTask(form: NgForm){
 		//alert(JSON.stringify(form.value));
@@ -216,7 +211,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//this.jsonObj['description'] = data.description;
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -227,7 +221,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 		this.jsonObj['memberName'] = meberName;
 		this.jsonObj['milestoneId'] = this.milestoneIdadd;
 		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', 'cases/case-add-file-upload', 'post','','description','','Task title already exists.').then(
 		(value) => {
@@ -251,7 +244,6 @@ export class CaseAddTaskAddComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)

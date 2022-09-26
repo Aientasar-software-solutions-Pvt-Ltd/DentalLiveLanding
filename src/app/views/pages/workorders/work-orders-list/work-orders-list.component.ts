@@ -55,24 +55,14 @@ export class WorkOrdersListComponent implements OnInit {
 	getallworkorder() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
-		{/* 
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
+		{
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
-			//let caseId = sessionStorage.getItem("caseId");
-			//if(caseId != '')
-			//{
-				//url += "?caseId="+caseId;
-			//}
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(GetAllData));
 					this.tabledata = Array();
 					if(GetAllData.length == '0')
 					{
@@ -141,7 +131,6 @@ export class WorkOrdersListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -192,8 +181,6 @@ export class WorkOrdersListComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
-				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -237,7 +224,6 @@ export class WorkOrdersListComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(userData));
 					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 					if(memberResult)
 					{
@@ -246,12 +232,10 @@ export class WorkOrdersListComponent implements OnInit {
 					else{
 						memberResult += name;
 					}
-					//alert(JSON.stringify(memberResult));
 					if(j == userId.length)
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
-					//swal.close();
 					this.isLoadingData = false;
 				}
 				}, (error) => {
