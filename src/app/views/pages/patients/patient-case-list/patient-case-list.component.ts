@@ -18,6 +18,7 @@ export class PatientCaseListComponent implements OnInit {
   paramPatientId: any;
   invitedatas:any;
   userDeatils:any;
+  allMember:any;
   public indexRow = 0;
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
 	this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
@@ -55,7 +56,7 @@ export class PatientCaseListComponent implements OnInit {
 	}
 	
 	getallpatiant() {
-		this.getallcase();
+		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
 		if(patientId != '')
@@ -67,6 +68,14 @@ export class PatientCaseListComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
+				if((this.tabledata.resourceOwner == user.emailAddress))
+				{
+					this.getallcase();
+				}
+				else
+				{
+					this.getAllMembers();
+				}
 			}
 		}, error => {
 			if (error.status === 404)
@@ -116,7 +125,7 @@ export class PatientCaseListComponent implements OnInit {
 						  patientId: casedataResult[k].patientId,
 						  caseId: casedataResult[k].caseId
 						});
-						this.getCaseMemberList(casedataResult[k].caseId,k);
+						this.getCaseMemberList(casedataResult[k].caseId,k,1);
 					}
 				
 				}
@@ -141,7 +150,104 @@ export class PatientCaseListComponent implements OnInit {
 			});
 		}
 	}
-	getCaseMemberList(caseId, index) {
+	
+	getAllMembers() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let url = this.utility.apiData.userCaseInvites.ApiUrl;
+			
+			url += "?invitedUserMail="+user.emailAddress;
+			url += "&presentStatus=1";
+			let patientId = this.paramPatientId;
+			if(patientId != '')
+			{
+				url += "&patientId="+patientId;
+			}
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.allMember = JSON.parse(Response.toString());
+					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+					this.getColleaguesCase();
+				}
+			}, error => {
+				if (error.status === 404)
+				swal('No case found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
+			});
+		}
+	}
+	
+	getColleaguesCase() {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			this.casedata = Array();	
+			for(var k=0; k < this.allMember.length; k++)
+			{
+				let url1 = this.utility.apiData.userCases.ApiUrl;
+				url1 += "?caseId="+this.allMember[k].caseId;
+				this.dataService.getallData(url1, true).subscribe(Response => {
+					if (Response)
+					{
+						let AllDate = JSON.parse(Response.toString());
+						this.casedata.push({
+						  patientName: AllDate.patientName,
+						  title: AllDate.title,
+						  caseStatus: AllDate.caseStatus,
+						  dateCreated: AllDate.dateCreated,
+						  memberName: '',
+						  patientId: AllDate.patientId,
+						  caseId: AllDate.caseId
+						});
+						this.getCaseMemberList(AllDate.caseId,(k-1),2);
+					}
+				}, (error) => {
+					if (error.status === 404)
+					swal('No case found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');		
+					return false;
+				});
+			}
+		}
+	}
+	getCaseMemberList(caseId, index, type) {
 		
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -149,7 +255,11 @@ export class PatientCaseListComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
-		url += "&resourceOwner="+user.dentalId;
+		url += "&presentStatus=1";
+		if(type == 1)
+		{
+		url += "&resourceOwner="+user.emailAddress;
+		}
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)
