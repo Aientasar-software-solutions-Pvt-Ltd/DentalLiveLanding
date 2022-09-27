@@ -446,7 +446,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					}
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
 					}, 2000);
 				}
 			}, (error) => {
@@ -590,6 +590,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.CcaseId;
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
@@ -600,9 +604,11 @@ export class WorkOrderDetailsComponent implements OnInit {
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
 	};
@@ -611,6 +617,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.caseId;
 		this.jsonObjmsg['patientId'] = form.value.patientId;
 		this.jsonObjmsg['patientName'] = form.value.patientName;
@@ -620,9 +630,11 @@ export class WorkOrderDetailsComponent implements OnInit {
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
 	};

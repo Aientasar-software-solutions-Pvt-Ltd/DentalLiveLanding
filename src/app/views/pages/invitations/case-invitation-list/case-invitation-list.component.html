@@ -66,6 +66,7 @@
 								<tr *ngFor="let invitereceived of inviteReceivedData; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
+											<span style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invitereceived.userName.charAt(0)}}</span>
 											<span class="body2">{{invitereceived.userName}}</span>
 										</div>
@@ -124,6 +125,7 @@
 								<tr *ngFor="let invite of invitedata; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
+											<span style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invite.userName.charAt(0)}}</span>
 											<span class="body2">{{invite.userName}}</span>
 										</div>

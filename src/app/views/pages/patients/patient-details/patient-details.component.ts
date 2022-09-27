@@ -29,6 +29,7 @@ export class PatientDetailsComponent implements OnInit {
   paramPatientId: any;
   public attachmentFiles: any[] = []
   invitedatas:any;
+  userDeatils:any;
   cvfastText: boolean = false;
   cvfastLinks: boolean = false;
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
@@ -36,6 +37,7 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+		this.userDeatils = this.usr.getUserDetails(false);
 		this.getallpatiant();
 		this.dtOptions = {
 			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -254,7 +256,7 @@ export class PatientDetailsComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
-		url += "&resourceOwner="+user.dentalId;
+		url += "&resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)

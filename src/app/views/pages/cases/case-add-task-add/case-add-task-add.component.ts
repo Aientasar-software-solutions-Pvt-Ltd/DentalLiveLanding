@@ -22,6 +22,7 @@ export class CaseAddTaskAddComponent implements OnInit {
 	public allMemberName: any[] = []
     selectedCity = '';
 	public module = 'patient';
+	minDate = new Date();
 	
 	defaultBindingsList = [
         { value: 1, label: 'Jhone Duo' },

@@ -29,6 +29,7 @@ export class MilestoneAddComponent implements OnInit {
 	public patientName = '';
 	public parmCaseId = '';
 	checkCase = '';
+	minDate = new Date();
 	public jsonObj = {
 	  caseId: '',
 	  patientId: '',

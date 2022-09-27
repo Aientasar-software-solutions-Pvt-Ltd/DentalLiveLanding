@@ -49,6 +49,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	public isvalidDate = false;
 	public isvalidRefereTo = false;
 	gettaskId: any;
+	minDate = new Date();
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
 		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
 	}
@@ -209,10 +210,6 @@ export class GeneralTaskEditComponent implements OnInit {
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
 		this.jsonObj['title'] = encode(data.title);
-		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-		{
-		this.jsonObj['description'] = this.cvfastval.returnCvfast();
-		}
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -343,7 +340,7 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.editedTitle = decode(this.editdata.title);
 				setTimeout(()=>{    
 					this.setcvFast();
-				}, 1000);
+				}, 2000);
 			}
 		}, error => {
 			if (error.status === 404)

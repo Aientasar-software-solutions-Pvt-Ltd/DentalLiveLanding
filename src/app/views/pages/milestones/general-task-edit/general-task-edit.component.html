@@ -61,6 +61,7 @@
 									<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
 									<div class="date-container">
 										<input
+											 min="{{this.minDate | date:'yyyy-MM-dd'}}"
 											class="shadow-input"
 											name="startdate"
 											[(ngModel)]="editedstartDate"
@@ -78,6 +79,7 @@
 									
 									<div class="date-container">
 									<input
+										 min="{{this.minDate | date:'yyyy-MM-dd'}}"
 										class="shadow-input"
 										name="dueDatetime"
 										[(ngModel)]="editedDate"

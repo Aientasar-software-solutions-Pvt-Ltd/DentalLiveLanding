@@ -85,7 +85,7 @@
 									<button _ngcontent-fux-c93="" type="button" style="padding: 7px;" class="btn btn-default btn-sm px-2"><i _ngcontent-fux-c93="" data-bs-toggle="modal" data-bs-target="#inviteNewMembers" class="bx bx-plus me-0"></i></button>
 								</div>
 							</div>
-							<div class="modal-footer text-center justify-content-center border-top-0">
+							<div class="modal-footer text-center justify-content-center border-top-0" *ngIf="tabledata">
 								<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.tabledata.caseId}}">
 								<input type="hidden" name="patientId" id="patientId" ngModel="{{this.tabledata.patientId}}">
 								<input type="hidden" name="patientName" id="patientName" ngModel="{{this.tabledata.patientName}}">

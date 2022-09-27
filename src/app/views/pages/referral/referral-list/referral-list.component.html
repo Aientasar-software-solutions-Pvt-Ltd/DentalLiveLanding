@@ -77,7 +77,7 @@
 										<a routerLink="/referrals/referral-details/{{data.referralId}}" >
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" >
+										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>

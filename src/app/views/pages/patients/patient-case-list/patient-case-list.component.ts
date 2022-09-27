@@ -17,12 +17,14 @@ export class PatientCaseListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   paramPatientId: any;
   invitedatas:any;
+  userDeatils:any;
   public indexRow = 0;
   constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private route: ActivatedRoute) {
 	this.paramPatientId = this.route.snapshot.paramMap.get('patientId');
   }
 
   ngOnInit(): void {
+	this.userDeatils = this.usr.getUserDetails(false);
 	this.getallpatiant();
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',

@@ -84,6 +84,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	dtOptions: DataTables.Settings = {};
 	
 	getmilestoneId: any;
+	userDeatils: any;
 	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) { 
 		this.masterSelected = false; 
 		this.getmilestoneId = this.route.snapshot.paramMap.get('milestoneId');
@@ -94,6 +95,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
   
 	ngOnInit(): void {
+		this.userDeatils = this.usr.getUserDetails(false);
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 		  pagingType: 'full_numbers',
@@ -212,6 +214,7 @@ export class MilestoneDetailsComponent implements OnInit {
 						this.taskdata.push({
 						  id: this.indexRow,
 						  title: getTask[k].title,
+						  resourceOwner: getTask[k].resourceOwner,
 						  description: getTask[k].description.text,
 						  startdate: getTask[k].startdate,
 						  duedate: getTask[k].duedate,
@@ -276,6 +279,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					{
 						this.taskdata.push({
 						  id: this.indexRow,
+						  resourceOwner: getWorkOrders[k].resourceOwner,
 						  title: getWorkOrders[k].title,
 						  description: getWorkOrders[k].notes.text,
 						  startdate: getWorkOrders[k].startdate,
@@ -343,6 +347,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					{
 						this.taskdata.push({
 						  id: this.indexRow,
+						  resourceOwner: getReferrals[k].resourceOwner,
 						  title: getReferrals[k].title,
 						  description: getReferrals[k].notes.text,
 						  startdate: getReferrals[k].startdate,
@@ -650,7 +655,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					}
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
 					}, 2000);
 				}
 			}, (error) => {
@@ -794,6 +799,10 @@ export class MilestoneDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.CcaseId;
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
@@ -804,9 +813,11 @@ export class MilestoneDetailsComponent implements OnInit {
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments',1,'Comments already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
 	};
@@ -815,6 +826,10 @@ export class MilestoneDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.caseId;
 		this.jsonObjmsg['patientId'] = form.value.patientId;
 		this.jsonObjmsg['patientName'] = form.value.patientName;
@@ -825,9 +840,11 @@ export class MilestoneDetailsComponent implements OnInit {
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message',1,'Message already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
 	};

@@ -86,6 +86,7 @@ export class InvitationListsComponent implements OnInit {
 			{
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				//alert(JSON.stringify(GetAllData));
 				this.invitedata = Array();
 				if(GetAllData.length == '0')
 				{
@@ -112,7 +113,7 @@ export class InvitationListsComponent implements OnInit {
 					  caseTitle: ''
 					});
 					this.getcasedetails(GetAllData[k].caseId,k);
-					this.getuserdetailsall(GetAllData[k].invitedUserId,k);
+					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 				}
 			}
 		}, error => {
@@ -150,7 +151,6 @@ export class InvitationListsComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
-				this.inviteReceivedData[index].caseTitle = caseData.title;
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -185,13 +185,13 @@ export class InvitationListsComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
 			swal.close();
 		}
@@ -227,6 +227,10 @@ export class InvitationListsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjInvite['invitationId'] = form.value.invitationId;
 		this.jsonObjInvite['caseId'] = form.value.caseId;
 		this.jsonObjInvite['patientId'] = form.value.patientId;
@@ -243,18 +247,22 @@ export class InvitationListsComponent implements OnInit {
 		if(status_check == 1){
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
 			(value) => {
+			swal.close();
 			this.sending = false;
 			},
 			(error) => {
+			swal.close();
 			this.sending = false;
 			});
 		}
 		else{
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
 			(value) => {
+			swal.close();
 			this.sending = false;
 			},
 			(error) => {
+			swal.close();
 			this.sending = false;
 			});
 		}

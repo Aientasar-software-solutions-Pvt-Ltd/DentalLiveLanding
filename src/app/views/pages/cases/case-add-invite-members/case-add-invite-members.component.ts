@@ -56,6 +56,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 	}
 	
 	getCaseDetails() {
+		this.tabledata = '';
 		swal("Processing...please wait...", {
 		  buttons: [false, false],
 		  closeOnClickOutside: false,
@@ -188,42 +189,40 @@ export class CaseAddInviteMembersComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
-		var z=0;
-		for(var i = 0; i < this.allMemberEmail.length; i++)
+		let cvObj = this.cvfastval;
+		this.Invitememberlist(form.value,this.allMemberEmail,cvObj);
+	};
+	Invitememberlist(data: any, obj, cvObj){
+		let user = this.usr.getUserDetails(false);
+		var i = 0;
+		this.jsonObjInvite['caseId'] = data.caseId;
+		this.jsonObjInvite['patientId'] = data.patientId;
+		this.jsonObjInvite['patientName'] = data.patientName;
+		this.jsonObjInvite['presentStatus'] = 0;
+		this.jsonObjInvite['invitedUserMail'] = this.allMemberEmail[i];
+		this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
+		
+		if(1 == obj.length)
 		{
-			z++;
-			this.jsonObjInvite['caseId'] = form.value.caseId;
-			this.jsonObjInvite['patientId'] = form.value.patientId;
-			this.jsonObjInvite['patientName'] = form.value.patientName;
-			this.jsonObjInvite['presentStatus'] = 0;
-			if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-			{
-				this.jsonObjInvite['invitationText'] = this.cvfastval.returnCvfast();
-			}
-			
-			this.jsonObjInvite['invitedUserMail'] = this.allMemberEmail[i];
-			this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
-			
-			if(z == this.allMemberEmail.length)
-			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText','','User already invited.').then(
-				(value) => {
-				this.sending = false;
-				},
-				(error) => {
-				this.sending = false;
-				});
-			}
-			else
-			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','','User already invited.').then(
-				(value) => {
-				this.sending = false;
-				},
-				(error) => {
-				this.sending = false;
-				});
-			}
+			cvObj.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', 'cases/case-add-milestone', 'post', '','invitationText','','User already invited.').then(
+			(value) => {
+			this.sending = false;
+			},
+			(error) => {
+			this.sending = false;
+			});
+		}
+		else
+		{
+			cvObj.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','','User already invited.').then(
+			(value) => {
+			this.allMemberEmail.splice(i, 1);
+			this.Invitememberlist(data,this.allMemberEmail,cvObj);
+			},
+			(error) => {
+			this.allMemberEmail.splice(i, 1);
+			this.Invitememberlist(data,this.allMemberEmail,cvObj);
+			});
 		}
 	};
 	

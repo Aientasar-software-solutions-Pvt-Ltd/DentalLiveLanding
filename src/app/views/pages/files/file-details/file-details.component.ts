@@ -2,6 +2,7 @@
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CalendarOptions } from '@fullcalendar/angular'; 
 import swal from 'sweetalert';
@@ -24,18 +25,22 @@ export class FileDetailsComponent implements OnInit {
 	base64Image: any;
     urlSafe: SafeResourceUrl;
 	
-  filesId: string;
-  getcaseId: string;
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, public sanitizer: DomSanitizer, private route: ActivatedRoute) { 
-	this.filesId = this.route.snapshot.paramMap.get('filesId');
-	this.getcaseId = this.route.snapshot.paramMap.get('caseId');
-  }
-
-  ngOnInit(): void {
-  this.filedetails = '';
-  this.getFileDetails();
-  this.getCaseDetails();
-  }
+	filesId: string;
+	getcaseId: string;
+	userDeatils: any;
+	constructor(private location: Location, private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev, public sanitizer: DomSanitizer, private route: ActivatedRoute) { 
+		this.filesId = this.route.snapshot.paramMap.get('filesId');
+		this.getcaseId = this.route.snapshot.paramMap.get('caseId');
+	}
+	back(): void {
+		this.location.back()
+	}
+	ngOnInit(): void {
+	this.userDeatils = this.usr.getUserDetails(false);
+	this.filedetails = '';
+	this.getFileDetails();
+	this.getCaseDetails();
+	}
   
 	getFileDetails() {
 		swal("Processing...please wait...", {

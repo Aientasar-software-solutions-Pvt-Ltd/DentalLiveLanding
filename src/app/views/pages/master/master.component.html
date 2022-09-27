@@ -385,7 +385,7 @@
 																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																	<a *ngIf="(invite.presentStatus != 3)" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
+																	<a *ngIf="((invite.presentStatus != 3) && (invite.resourceOwner == this.userDeatils.emailAddress))" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
 																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
@@ -473,10 +473,7 @@
 															</td>
 															<td>
 																<div class="d-flex">
-
-
-
-																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1">
+																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
 																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
@@ -571,13 +568,13 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1">
+																<a routerLink="/referrals/referral-edit/{{data.referralId}}"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
 																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a style="cursor: pointer;" class="me-1" (click)="deletereferral(data.referralId)">
+																<a style="cursor: pointer;" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" (click)="deletereferral(data.referralId)">
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -680,7 +677,7 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1">
+																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
 																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
@@ -688,7 +685,7 @@
 																				visibility
 																			</i>
 																		</a>
-																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1">
+																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>

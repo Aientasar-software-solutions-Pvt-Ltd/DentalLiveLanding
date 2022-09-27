@@ -77,14 +77,14 @@
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
-										<input class="form-control" name="startdate" id="startdate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Start Date & Time" ngModel required>
+										<input class="form-control" name="startdate" id="startdate" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" min="{{this.minDate | date:'yyyy-MM-dd'}}" placeholder="Start Date & Time" ngModel required>
 										<owl-date-time #dt2></owl-date-time>
 									</div>
 								</div>
 								<div class="col-ms-6 col-md-4">
 									<div class="mb-4">
 										<label class="form-label body2 mb-3 text-dark">Due Date & Time</label>
-										<input class="form-control" name="dueDatetime" id="dueDatetime" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" ngModel required>
+										<input class="form-control" name="dueDatetime" id="dueDatetime" min="{{this.minDate | date:'yyyy-MM-dd'}}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Due Date & Time" ngModel required>
 										<owl-date-time #dt1></owl-date-time>
 										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date & time should be greater than start date</span>
 									</div>

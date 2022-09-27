@@ -19,12 +19,14 @@ export class ReferralListComponent implements OnInit {
 	detailsdata:any;
 	checkedList:any;
 	shimmer = Array;
+	userDeatils: any;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 
 	ngOnInit(): void {
+		this.userDeatils = this.usr.getUserDetails(false);
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
 		sessionStorage.setItem('checkmilestoneidref', '');
@@ -82,6 +84,7 @@ export class ReferralListComponent implements OnInit {
 					{
 						this.tabledata.push({
 						  id: k,
+						  resourceOwner: GetAllData[k].resourceOwner,
 						  dateCreated: GetAllData[k].dateCreated,
 						  presentStatus: GetAllData[k].presentStatus,
 						  startdate: GetAllData[k].startdate,

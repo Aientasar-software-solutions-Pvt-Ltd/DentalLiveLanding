@@ -71,9 +71,7 @@ export class CaseListComponent implements OnInit {
 					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					this.isLoadingData = false;
 					this.tabledata = Array();
-					this.colleaguesdata = Array();
 					var j = 0;
 					var l = 0;
 					for(var k = 0; k < AllDate.length; k++)
@@ -92,6 +90,10 @@ export class CaseListComponent implements OnInit {
 							});
 							this.getCaseMemberList(AllDate[k].caseId,j,1);
 							j++;
+						}
+						if((k+1) == AllDate.length)
+						{
+						this.isLoadingData = false;
 						}
 					}
 					this.getAllMembers();
@@ -200,7 +202,10 @@ export class CaseListComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
+		if(type == 1)
+		{
 		url += "&resourceOwner="+user.emailAddress;
+		}
 		url += "&presentStatus=1";
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
@@ -362,6 +367,7 @@ export class CaseListComponent implements OnInit {
 						  patientId: AllDate.patientId,
 						  caseId: AllDate.caseId
 						});
+						this.getCaseMemberList(AllDate.caseId,(k-1),2);
 					}
 				}, (error) => {
 					if (error.status === 404)

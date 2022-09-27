@@ -45,6 +45,7 @@ export class MilestoneEditComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public isvalidDate = false;
+	minDate = new Date();
 	
 	getmilestoneId: any;
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
