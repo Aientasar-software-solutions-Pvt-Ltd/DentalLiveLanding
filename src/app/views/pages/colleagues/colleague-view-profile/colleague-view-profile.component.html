@@ -12,7 +12,7 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
-		<div class="d-inline-block">
+		<div class="d-inline-block" *ngIf="detailsdata">
 			<h3 class="mt-2 fw-normal">{{detailsdata.patientName}} <span class="fw-bold d-block">{{detailsdata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
@@ -36,7 +36,7 @@
 			<div class="card-header bg-white">
 				<div class="row">
 					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Referral Details</h5>
+						<h5 class="body1 card-title my-2">Profile Details</h5>
 					</div>
 					<div class="col-md-7 text-end">
 						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
@@ -46,7 +46,7 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<div class="row">            
+						<div class="row" *ngIf="invitedata">            
 							<div class="col-md-12"> 
 								<div class="mb-3 row">
 									<div class="col-sm-12">

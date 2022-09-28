@@ -27,12 +27,6 @@ export class ReferralDetailsComponent implements OnInit {
 	shimmer = Array;
 	tabContent(ids:any){
 		this.id = ids;
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -129,6 +123,12 @@ export class ReferralDetailsComponent implements OnInit {
 		$($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
 	});
 	this.getReferralDetails();
+	setTimeout(()=>{    
+		if(this.toothData)
+		{
+			this.orders.setToothGuide(this.toothData);
+		}
+	}, 1000);
   }
   
   
@@ -148,9 +148,9 @@ export class ReferralDetailsComponent implements OnInit {
 				{
 					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
+					this.toothData = this.tabledata.toothguide;
 					this.getCaseDetails(this.tabledata.caseId);
 					this.setcvFast(this.tabledata.notes);
-					this.toothData = this.tabledata.toothguide;
 					this.referaltitle = this.tabledata.title;
 					this.referalmembers = this.tabledata.members;
 					this.referalmilestoneId = this.tabledata.milestoneId;

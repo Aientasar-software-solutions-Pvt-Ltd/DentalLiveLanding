@@ -67,7 +67,7 @@
 						<div class="card-body">
 							<div class="row mt-2">
 								<div class="col-md-12">
-									<div class="row"   *ngIf="tabledata">
+									<div class="row"   >
 										<div class="col-md-8"> 
 											<div class="mb-3 row">
 												<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
@@ -79,20 +79,20 @@
 										<div class="col-md-8"> 
 											<div class="mb-3 row">
 												<label for="title" class="col-sm-3 col-form-label">Title</label>
-												<div class="col-sm-8">
+												<div class="col-sm-8" *ngIf="tabledata">
 													<input class="form-control" type="text" name="title" id="title" value="{{this.tabledata.title}}" aria-label="readonly input example" readonly>
 												</div>
 											</div>
 										</div>
 										<div class="col-md-2"> 
-											<div class="mb-4">
-												<label class="form-label body2 text-gray">Start Date</label>
+											<label class="form-label body2 text-gray">Start Date</label>
+											<div class="mb-4" *ngIf="tabledata">
 												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.startdate | date:'mediumDate'}}">
 											</div>
 										</div>
 										<div class="col-md-2"> 
-											<div class="mb-4">
-												<label class="form-label body2 text-gray">Expected Date</label>
+											<label class="form-label body2 text-gray">Expected Date</label>
+											<div class="mb-4" *ngIf="tabledata">
 												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.enddate | date:'mediumDate'}}">
 											</div>
 										</div>

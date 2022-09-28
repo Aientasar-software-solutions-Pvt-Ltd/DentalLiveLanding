@@ -11,7 +11,7 @@
 	</li>
 </ol>
 <div class="page-header row align-items-center gx-0">
-	<div class="col-md-6">
+	<div class="col-md-6" *ngIf="detailsdata">
 		<div class="d-inline-block">
 			<h3 class="mt-2 fw-normal">{{detailsdata.patientName}} <span class="fw-bold d-block">{{detailsdata.title}}</span>
 				<div class="progress progress-sm mt-2">
@@ -78,20 +78,20 @@
 									<div class="col-md-8"> 
 										<div class="mb-3 row">
 											<label for="staticEmail" class="col-sm-3 col-form-label">Title</label>
-											<div class="col-sm-8">
+											<div class="col-sm-8" *ngIf="tabledata">
 												<input class="form-control" type="text" value="{{tabledata.title}}" aria-label="readonly input example" readonly>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-2"> 
-										<div class="mb-4">
-											<label class="form-label body2 text-gray">Start Date</label>
+										<label class="form-label body2 text-gray">Start Date</label>
+										<div class="mb-4" *ngIf="tabledata">
 											<input type="text" readonly class="form-control-plaintext"  value="{{tabledata.startdate | date:'mediumDate'}}">
 										</div>
 									</div>
 									<div class="col-md-2"> 
-										<div class="mb-4">
-											<label class="form-label body2 text-gray">Due Date</label>
+										<label class="form-label body2 text-gray">Due Date</label>
+										<div class="mb-4" *ngIf="tabledata">
 											<input type="text" readonly class="form-control-plaintext"  value="{{tabledata.enddate | date:'mediumDate'}}">
 										</div>
 									</div>
@@ -158,7 +158,7 @@
 				
 				
 				<div *ngIf="id === 'tab2'">  
-					<div class="card-body">
+					<div class="card-body"  *ngIf="messageAry">
 						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
 							<div class="col-md-4 col-lg-6 d-flex">
 								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
@@ -234,7 +234,7 @@
 							</ng-container>
 						</div>
 					</div>
-					<div class="card-footer" style="background-color: #F7F9FB;">
+					<div class="card-footer" style="background-color: #F7F9FB;" *ngIf="detailsdata">
 						<form #MessageId="ngForm" id="mainForm" (ngSubmit)="onSubmitMessage(MessageId)">
 							<app-cvfast></app-cvfast>
 							<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
@@ -271,7 +271,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
+			<div class="modal-footer"  *ngIf="detailsdata">
 				<input type="hidden" class="form-control" name="referralId" id="referralId" ngModel={{this.tabledata.referralId}} >
 				<input type="hidden" class="form-control" name="startdate" id="startdate" ngModel={{this.tabledata.startdate}} >
 				<input type="hidden" class="form-control" name="presentStatus" id="presentStatus" ngModel={{this.tabledata.presentStatus}} >

@@ -169,7 +169,6 @@ export class ColleaguesListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
-				this.inviteReceivedData[index].caseTitle = caseData.title;
 			}
 			}, (error) => {
 				if (error.status === 404)

@@ -55,6 +55,7 @@ export class MasterComponent implements OnInit {
 	cvfastLinks: boolean = false;
 	cvfastMsgText: boolean = false;
 	cvfastMsgLinks: boolean = false;
+	public isvalidDate = false;
 	fromDate: Date = new Date();
 
 	onCompletedArchiveChanged(value:boolean){
@@ -1714,8 +1715,16 @@ export class MasterComponent implements OnInit {
 	
 	onSubmitInvite(form: NgForm){
 		let user = this.usr.getUserDetails(false);
-		
-		if (form.invalid) {
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidDate =true;
+			this.sending = false;
+		}
+		else
+		{
+			this.isvalidDate =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;

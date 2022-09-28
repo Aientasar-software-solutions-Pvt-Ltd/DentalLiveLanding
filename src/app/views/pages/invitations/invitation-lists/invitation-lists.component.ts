@@ -193,7 +193,6 @@ export class InvitationListsComponent implements OnInit {
 			let userData = JSON.parse(Response.toString());
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
-			swal.close();
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -276,7 +275,6 @@ export class InvitationListsComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
 				this.isLoadingData = false;
 				this.getSubmitData = JSON.parse(Response.toString());
 				this.case_id = this.getSubmitData.caseId;

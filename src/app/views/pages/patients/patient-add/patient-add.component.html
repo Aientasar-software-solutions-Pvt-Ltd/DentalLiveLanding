@@ -219,21 +219,21 @@
 				<form #medicationForm="ngForm" id="medicationForm" (ngSubmit)="onSubmitMedication(medicationForm)"> 
 					<section class="repeatsec">
 						<ng-container *ngFor="let medication of medications; let i = index;">
-							<div class="repeatbox mb-3 p-3" *ngIf="medication.isRequired; else elseMedication">
+							<div class="repeatbox mb-3 p-3" >
 								<div class="mb-3 row">
-									<label class="col-sm-4 col-lg-2 col-form-label">Medication {{i + 1}} <span class="text-danger">*</span></label>
+									<label class="col-sm-4 col-lg-2 col-form-label">Medication {{i + 1}} <span class="text-danger" *ngIf="medication.isRequired == true">*</span></label>
 									<div class="col-sm-8 col-lg-10">
-										<input type="text" class="form-control" required ngModel={{medication.medication}} name="medication_{{medication.id}}" id="medication_{{medication.id}}"  (keyup)="addMedicationValidation(i,'medication',$event);" placeholder=""/>
+										<input type="text" class="form-control" [required]="medication.isRequired" ngModel={{medication.medication}} name="medication_{{medication.id}}" id="medication_{{medication.id}}"  (keyup)="addMedicationValidation(i,'medication',$event);" placeholder=""/>
 									</div>
 								</div>
 								<div class="row">
-									<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger">*</span></label>
+									<label class="col-sm-4 col-lg-2 col-form-label">Dosage <span class="text-danger" *ngIf="medication.isRequired == true">*</span></label>
 									<div class="col-sm-8 col-lg-4 mb-3">
-										<input type="text" class="form-control" required ngModel={{medication.dosage}} name="dosage_{{medication.id}}" id="dosage_{{medication.id}}" (keyup)="addMedicationValidation(i,'dosage',$event);" placeholder=""/>
+										<input type="text" class="form-control" [required]="medication.isRequired" ngModel={{medication.dosage}} name="dosage_{{medication.id}}" id="dosage_{{medication.id}}" (keyup)="addMedicationValidation(i,'dosage',$event);" placeholder=""/>
 									</div>
-									<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger">*</span></label>
+									<label class="col-sm-4 col-lg-2 col-form-label">Duration <span class="text-danger" *ngIf="medication.isRequired == true">*</span></label>
 									<div class="col-sm-8 col-lg-4 mb-3">
-										<input type="text" class="form-control" required ngModel={{medication.duration}} name="duration_{{medication.id}}" id="duration_{{medication.id}}" (keyup)="addMedicationValidation(i,'duration',$event);" placeholder=""/>
+										<input type="text" class="form-control" [required]="medication.isRequired" ngModel={{medication.duration}} name="duration_{{medication.id}}" id="duration_{{medication.id}}" (keyup)="addMedicationValidation(i,'duration',$event);" placeholder=""/>
 										
 									</div>
 								</div>
@@ -248,37 +248,6 @@
 									</div>
 								</div>
 							</div>
-							<ng-template #elseMedication>
-								<div class="repeatbox mb-3 p-3">
-									<div class="mb-3 row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Medication {{i + 1}}</label>
-										<div class="col-sm-8 col-lg-10">
-											<input type="text" class="form-control" ngModel={{medication.medication}} name="medication_{{medication.id}}" id="medication_{{medication.id}}" placeholder="" (keyup)="addMedicationValidation(i,'medication',$event);"/>
-										</div>
-									</div>
-									<div class="row">
-										<label class="col-sm-4 col-lg-2 col-form-label">Dosage </label>
-										<div class="col-sm-8 col-lg-4 mb-3">
-											<input type="text" class="form-control" ngModel={{medication.dosage}} name="dosage_{{medication.id}}" id="dosage_{{medication.id}}" placeholder="" (keyup)="addMedicationValidation(i,'dosage',$event);"/>
-										</div>
-										<label class="col-sm-4 col-lg-2 col-form-label">Duration </label>
-										<div class="col-sm-8 col-lg-4 mb-3">
-											<input type="text" class="form-control" ngModel={{medication.duration}} name="duration_{{medication.id}}" id="duration_{{medication.id}}" placeholder="" (keyup)="addMedicationValidation(i,'duration',$event);"/>
-											
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-12">
-											<div class="row">
-												<label class="col-sm-4 col-lg-2 col-form-label">Notes</label>
-												<div class="col-sm-8 col-lg-10">
-													<textarea rows="2" class="form-control" ngModel={{medication.notes}} name="notes_{{medication.id}}" id="notes_{{medication.id}}" placeholder="" (keyup)="addMedicationValidation(i,'notes',$event);"></textarea>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</ng-template>
 							<div class="text-end mb-3 remove-button">
 								<button type="button" *ngIf="(i > 2)" class="btn btn-pink btn-sm px-2" (click)="removeMedication(i)"><i class="bx bx-trash me-0"></i></button>
 								<span>&nbsp;</span>

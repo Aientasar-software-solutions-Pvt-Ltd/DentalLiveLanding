@@ -21,7 +21,7 @@ export class PatientAddComponent implements OnInit {
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
 	public patiantStatus = true;
-	public isRequired = true;
+	public isRequired: boolean;
 	onActiveInactiveChanged(value:boolean){
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;

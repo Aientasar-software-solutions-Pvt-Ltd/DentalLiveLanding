@@ -322,12 +322,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	ngAfterViewInit() {
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		this.orders.setToothGuide(this.toothData);
 	}
 	
 	
