@@ -3,4 +3,5 @@
 .tabview .nav-link.active{color: #ffffff !important;background:#0070D2 !important;}
 @media(max-width:575px){
 .tabview {width: 100%;}
+.tabview .nav-link{font-size: 13px;padding: .3rem 0.5rem;}
 }

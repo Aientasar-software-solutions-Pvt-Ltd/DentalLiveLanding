@@ -56,7 +56,7 @@
 									<th class="body2" data-orderable="false">Actions</th>
 								</tr>
 							</thead>
-							<tbody *ngIf="tabledata?.length != 0">
+							<tbody >
 								<tr *ngFor="let data of tabledata; let i = index;">
 									<td>
 										<div class="form-check form-check-inline">
@@ -93,6 +93,9 @@
 										</div>
 									</td>
 								</tr>
+								<tr *ngIf="this.tabledata.length == 0">
+									<td colspan="6" class="dataTables_empty" valign="top">No data available in table</td>
+								</tr>
 								
 							</tbody>
 						</table>
@@ -111,7 +114,7 @@
 									<th class="body2" data-orderable="false">Actions</th>
 								</tr>
 							</thead>
-							<tbody *ngIf="colleaguesdata?.length != 0">
+							<tbody >
 								<tr *ngFor="let data of colleaguesdata; let i = index;">
 									<td>
 										<div class="form-check form-check-inline">
@@ -148,7 +151,9 @@
 										</div>
 									</td>
 								</tr>
-								
+								<tr *ngIf="this.colleaguesdata.length == 0">
+									<td colspan="6" class="dataTables_empty" valign="top">No data available in table</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

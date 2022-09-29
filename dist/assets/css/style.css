@@ -1200,6 +1200,10 @@ table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_de
 .datatable-bottom .dataTables_paginate .pagination .page-link {font-weight: normal;font-style: normal;font-size: 24px;line-height: 1;letter-spacing: normal;display: block;white-space: nowrap;}
 .datatable-bottom .dataTables_paginate .pagination .page-link {padding: 1px;color:#0070D2;line-height: 20px;}
 .datatable-bottom .dataTables_length select option{font-family: Rubik !important;}
+.datatable-bottom .dataTables_length label{display: flex;align-items: center;}
+.datatable-bottom .dataTables_length label select{width: 100px;margin-left: 12px;}
+.datatable-bottom .pagination {margin-bottom:0px;}
+
 
 .owl-dt-calendar-table .owl-dt-calendar-cell-selected {color: rgba(255,255,255,.85);background-color: #0070d2;}
 .owl-dt-container-buttons {color: #0070d2;}
@@ -1241,4 +1245,8 @@ box-shadow: 0px 2px 4px #f7518067;}
 }
 .autocomplete-container .input-container input {
   height: 45px !important;
+}
+.dataTables_empty{
+  text-align: center;
+  color: red;
 }

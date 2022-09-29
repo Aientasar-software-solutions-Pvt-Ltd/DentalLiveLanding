@@ -125,46 +125,48 @@ export class CaseListComponent implements OnInit {
 		}
 	}
 	onSubmit(form: NgForm) {
-		let url = this.utility.apiData.userCases.ApiUrl;
-		let patientName = form.value.patientName;
-		if(patientName != '')
+		if(this.id == 'myCases')
 		{
-			url += "?patientName="+patientName;
-		}
-		if(form.value.title != '')
-		{
+			let url = this.utility.apiData.userCases.ApiUrl;
+			let patientName = form.value.patientName;
 			if(patientName != '')
-			{ 
-				url += "&title="+form.value.title;
-			}
-			else
 			{
-				url += "?title="+form.value.title;
+				url += "?patientName="+patientName;
 			}
-		}
-		if(form.value.dateFrom != '')
-		{
-			if(patientName != '' || form.value.title != '')
-			{ 
-				url += "&dateFrom="+Date.parse(form.value.dateFrom);
-			}
-			else
+			if(form.value.title != '')
 			{
-				url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				if(patientName != '')
+				{ 
+					url += "&title="+form.value.title;
+				}
+				else
+				{
+					url += "?title="+form.value.title;
+				}
 			}
-		}
-		if(form.value.dateTo != '')
-		{
-			if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+			if(form.value.dateFrom != '')
 			{
-				url += "&dateTo="+Date.parse(form.value.dateTo);
+				if(patientName != '' || form.value.title != '')
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
+				}
+				else
+				{
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				}
 			}
-			else
+			if(form.value.dateTo != '')
 			{
-				url += "?dateTo="+Date.parse(form.value.dateTo);
+				if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
 			}
-		}
-		this.dataService.getallData(url, true)
+			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
@@ -192,6 +194,77 @@ export class CaseListComponent implements OnInit {
 				else
 				swal('Oops something went wrong, please try again');	
 			});
+		}
+		else
+		{
+			let user = this.usr.getUserDetails(false);
+			if(user)
+			{
+				this.colleaguesdata = Array();	
+				let mn = 0;
+				for(var k=0; k < this.allMember.length; k++)
+				{
+					let url1 = this.utility.apiData.userCases.ApiUrl;
+					url1 += "?caseId="+this.allMember[k].caseId;
+					let patientName = form.value.patientName;
+					if(patientName != '')
+					{
+						url1 += "&patientName="+patientName;
+					}
+					if(form.value.title != '')
+					{
+						url1 += "&title="+form.value.title;
+					}
+					if(form.value.dateFrom != '')
+					{
+						url1 += "&dateFrom="+Date.parse(form.value.dateFrom);
+					}
+					if(form.value.dateTo != '')
+					{
+						url1 += "&dateTo="+Date.parse(form.value.dateTo);
+					}
+					this.dataService.getallData(url1, true).subscribe(Response => {
+						if (Response)
+						{
+							let AllDate = JSON.parse(Response.toString());
+							this.colleaguesdata.push({
+							  patientName: AllDate.patientName,
+							  title: AllDate.title,
+							  caseStatus: AllDate.caseStatus,
+							  dateCreated: AllDate.dateCreated,
+							  memberName: '',
+							  patientId: AllDate.patientId,
+							  caseId: AllDate.caseId
+							});
+							this.getCaseMemberList(AllDate.caseId,mn,2);
+							mn++;
+						}
+					}, (error) => {
+						if (error.status === 404)
+						swal('No case found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');			  
+						return false;
+					});
+				}
+			}
+		}
 	};
 	  
 	getCaseMemberList(caseId, index, type) {
@@ -350,6 +423,7 @@ export class CaseListComponent implements OnInit {
 		if(user)
 		{
 			this.colleaguesdata = Array();	
+			let mn = 0;
 			for(var k=0; k < this.allMember.length; k++)
 			{
 				let url1 = this.utility.apiData.userCases.ApiUrl;
@@ -367,7 +441,8 @@ export class CaseListComponent implements OnInit {
 						  patientId: AllDate.patientId,
 						  caseId: AllDate.caseId
 						});
-						this.getCaseMemberList(AllDate.caseId,(k-1),2);
+						this.getCaseMemberList(AllDate.caseId,mn,2);
+						mn++;
 					}
 				}, (error) => {
 					if (error.status === 404)
@@ -389,7 +464,8 @@ export class CaseListComponent implements OnInit {
 					else if (error.status === 500)
 					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
 					else
-					swal('Oops something went wrong, please try again');			  return false;
+					swal('Oops something went wrong, please try again');			  
+					return false;
 				});
 			}
 		}

@@ -167,57 +167,111 @@ export class PatientsListComponent implements OnInit {
 		});
 	}
 	onSubmit(form: NgForm) {
-		let url = this.utility.apiData.userPatients.ApiUrl;
-		let strName = form.value.firstName;
-		let patiantName =strName.split(' ');
-		if(patiantName[0] != '')
+		let user = this.usr.getUserDetails(false);
+		if(user)
 		{
-			url += "?firstName="+patiantName[0];
-		}
-		if(patiantName.length > 1)
-		{
-			if(patiantName[1] != '')
+			let url = this.utility.apiData.userPatients.ApiUrl;
+			let strName = form.value.firstName;
+			let patiantName =strName.split(' ');
+			if(patiantName[0] != '')
 			{
-				if(patiantName[0] != '')
+				url += "?firstName="+patiantName[0];
+			}
+			if(patiantName.length > 1)
+			{
+				if(patiantName[1] != '')
 				{
-					url += "&lastName="+patiantName[1];
+					if(patiantName[0] != '')
+					{
+						url += "&lastName="+patiantName[1];
+					}
+					else
+					{
+						url += "?lastName="+patiantName[1];
+					}
+				}
+			}
+			if(form.value.dateFrom != '')
+			{
+				if(patiantName[0] != '' || (patiantName.length > 1))
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
 				}
 				else
 				{
-					url += "?lastName="+patiantName[1];
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
 				}
 			}
-		}
-		if(form.value.dateFrom != '')
-		{
-			if(patiantName[0] != '' || (patiantName.length > 1))
-			{ 
-				url += "&dateFrom="+Date.parse(form.value.dateFrom);
-			}
-			else
+			if(form.value.dateTo != '')
 			{
-				url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				if(patiantName[0] != '' || form.value.dateFrom != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
 			}
-		}
-		if(form.value.dateTo != '')
-		{
-			if(patiantName[0] != '' || form.value.dateFrom != '')
-			{
-				url += "&dateTo="+Date.parse(form.value.dateTo);
-			}
-			else
-			{
-				url += "?dateTo="+Date.parse(form.value.dateTo);
-			}
-		}
-		this.dataService.getallData(url, true)
+			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
 					let AllDate = JSON.parse(Response.toString());
 				
 					let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-					this.tabledata = patientDate.reverse();
+					if(this.id == 'colleaguesPatients')
+					{
+					this.colleaguesData = Array();	
+					}
+					if(this.id != 'colleaguesPatients')
+					{
+					this.tabledata = Array();	
+					}
+					for(var k=0; k < patientDate.length; k++)
+					{
+							if(user.emailAddress == patientDate[k].resourceOwner)
+							{
+								if(this.id != 'colleaguesPatients')
+								{
+									this.tabledata.push({
+									  resourceOwner: patientDate[k].resourceOwner,
+									  firstName: patientDate[k].firstName,
+									  lastName: patientDate[k].lastName,
+									  dob: patientDate[k].dob,
+									  email: patientDate[k].email,
+									  isActive: patientDate[k].isActive,
+									  dateCreated: patientDate[k].dateCreated,
+									  patientId: patientDate[k].patientId
+									});
+								}
+							}
+							else
+							{
+								if(this.id == 'colleaguesPatients')
+								{
+									this.colleaguesData.push({
+									  resourceOwner: patientDate[k].resourceOwner,
+									  firstName: patientDate[k].firstName,
+									  lastName: patientDate[k].lastName,
+									  dob: patientDate[k].dob,
+									  email: patientDate[k].email,
+									  isActive: patientDate[k].isActive,
+									  dateCreated: patientDate[k].dateCreated,
+									  patientId: patientDate[k].patientId
+									});
+								}
+							}
+					}
+					if(this.id != 'colleaguesPatients')
+					{
+					this.tabledata = this.tabledata.reverse();
+					}
+					if(this.id == 'colleaguesPatients')
+					{
+					this.colleaguesData = this.colleaguesData.reverse();
+					}
+					this.isLoadingData = false;
 				}
 			}, error => {
 				if (error.status === 404)
@@ -241,7 +295,8 @@ export class PatientsListComponent implements OnInit {
 				else
 				swal('Oops something went wrong, please try again');
 			});
-	  };
+		}
+	}
 	
   checkUncheckAll() {
     for (var i = 0; i < this.tabledata.length; i++) {
