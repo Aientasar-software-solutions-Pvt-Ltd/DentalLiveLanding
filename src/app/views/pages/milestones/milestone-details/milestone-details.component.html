@@ -104,7 +104,7 @@
 													<div class="card-body">
 														<p class="text-light body1" *ngIf="this.tabledata.description; else emptydesc">
 
-														{{this.tabledata.description.text}}
+														{{this.removeHTML(this.tabledata.description.text)}}
 														</p>
 														<ng-template #emptydesc>
 															<p class="text-light body1"></p>
@@ -320,7 +320,7 @@
 											<span class="body2">{{data.title}}</span>
 										</td>
 										<td>
-											<span class="body2">{{data.description}}</span>
+											<span class="body2">{{this.removeHTML(data.description)}}</span>
 										</td>
 										<td>
 											<span class="body2">{{data.startdate | date:'MM/dd/yyyy'}}</span>

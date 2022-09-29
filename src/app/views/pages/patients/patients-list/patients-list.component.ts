@@ -59,6 +59,11 @@ export class PatientsListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 	getallpatiant() {
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
@@ -92,7 +97,7 @@ export class PatientsListComponent implements OnInit {
 						else
 						{
 							this.colleaguesData.push({
-							  resourceOwner: patientDate[k].email,
+							  resourceOwner: patientDate[k].resourceOwner,
 							  firstName: patientDate[k].firstName,
 							  lastName: patientDate[k].lastName,
 							  dob: patientDate[k].dob,
@@ -310,7 +315,7 @@ export class PatientsListComponent implements OnInit {
 							let AllDate = JSON.parse(Response.toString());
 							//alert(JSON.stringify(AllDate));
 							this.colleaguesData.push({
-							  resourceOwner: AllDate.firstName,
+							  resourceOwner: AllDate.resourceOwner,
 							  firstName: AllDate.firstName,
 							  lastName: AllDate.lastName,
 							  dob: AllDate.dob,

@@ -121,7 +121,7 @@ export class WorkOrderEditComponent implements OnInit {
 			this.jsonObj['milestoneId'] = data.milestoneId;
 		}
 		this.jsonObj['toothguide'] = {};
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
@@ -372,5 +372,10 @@ export class WorkOrderEditComponent implements OnInit {
 				this.orders.setToothGuide(this.toothData);
 			}
 		}, 2000);
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

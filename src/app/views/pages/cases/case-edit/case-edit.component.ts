@@ -71,7 +71,7 @@ export class CaseEditComponent implements OnInit {
   onGetdateData(data: any)
 	{
 		this.jsonObj['image'] = data.image;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['caseId'] = this.caseId;
@@ -268,5 +268,10 @@ export class CaseEditComponent implements OnInit {
 			myCasetypeArray.push(typeid);
 			this.casetypeArray = myCasetypeArray;
 		}
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

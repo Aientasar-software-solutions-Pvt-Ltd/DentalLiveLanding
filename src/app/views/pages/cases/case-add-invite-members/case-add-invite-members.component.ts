@@ -118,7 +118,7 @@ export class CaseAddInviteMembersComponent implements OnInit {
 					{
 						let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
 						let avatar = ''
-						if(Colleague[k].imageSrc != undefined)
+						if((Colleague[k].imageSrc != undefined) && (Colleague[k].imageSrc != '') && (Colleague[k].imageSrc != null))
 						{
 						avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
 						}

@@ -93,6 +93,11 @@ export class PatientDetailsComponent implements OnInit {
 			swal('Oops something went wrong, please try again');
 		});
 	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 	getallpatiant() {
 		let user = this.usr.getUserDetails(false);
 		this.tabledata = '';
@@ -118,7 +123,7 @@ export class PatientDetailsComponent implements OnInit {
 				}
 				if(this.tabledata.refId)
 				{
-				this.refrernceNo = this.tabledata.refId;
+				this.refrernceNo = this.removeHTML(this.tabledata.refId);
 				}
 				if(this.tabledata.phone)
 				{
@@ -126,11 +131,11 @@ export class PatientDetailsComponent implements OnInit {
 				}
 				if(this.tabledata.insurance.policyno)
 				{
-					this.policyNo = this.tabledata.insurance.policyno;
+					this.policyNo = this.removeHTML(this.tabledata.insurance.policyno);
 				}
 				if(this.tabledata.insurance.carrier)
 				{
-					this.insurance = this.tabledata.insurance.carrier;
+					this.insurance = this.removeHTML(this.tabledata.insurance.carrier);
 				}
 				setTimeout(()=>{     
 					if(this.tabledata.image)

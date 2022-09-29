@@ -130,7 +130,7 @@ export class MilestoneEditComponent implements OnInit {
 	{
 		
 		this.jsonObj['milestoneId'] = data.milestoneId;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -198,5 +198,10 @@ export class MilestoneEditComponent implements OnInit {
 	setcvFast()
 	{
 		this.cvfastval.setCvfast(this.editdata.description);
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

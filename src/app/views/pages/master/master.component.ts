@@ -514,22 +514,22 @@ export class MasterComponent implements OnInit {
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 					else
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 				}
@@ -1959,7 +1959,7 @@ export class MasterComponent implements OnInit {
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: treadAllData[i].messageId,
-									messagetext: treadAllData[i].message.text,
+									messagetext: this.removeHTML(treadAllData[i].message.text),
 									messageimg: '',
 									messagecomment: treadAllData[i].comments,
 									messagecomments: ''
@@ -2154,7 +2154,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: treadAllData[i].messageId,
-										messagetext: treadAllData[i].message.text,
+										messagetext: this.removeHTML(treadAllData[i].message.text),
 										messageimg: '',
 										messagecomment: treadAllData[i].comments,
 										messagecomments: ''
@@ -2448,5 +2448,11 @@ export class MasterComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

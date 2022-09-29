@@ -212,7 +212,7 @@ export class GeneralTaskAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -272,6 +272,11 @@ export class GeneralTaskAddComponent implements OnInit {
 			else
 			swal('Oops something went wrong, please try again');
 		});
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 
 }

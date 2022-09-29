@@ -94,7 +94,7 @@
 							<div class="col-md-12">
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Description</label>
-									<textarea class="form-control" placeholder="Enter Description" name="description" id="description" style="height: 100px" ngModel={{this.editdata.description.text}} readonly></textarea>
+									<textarea class="form-control" placeholder="Enter Description" name="description" id="description" style="height: 100px" ngModel={{this.removeHTML(this.editdata.description.text)}} readonly></textarea>
 								</div>
 							</div>
 							<div class="col-md-12"> 

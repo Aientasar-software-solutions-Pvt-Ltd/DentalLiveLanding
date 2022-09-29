@@ -296,16 +296,16 @@ onActiveInactiveChanged(value:boolean){
 	onGetdateData(data: any)
 	{
 		this.sending = true;
-		this.jsonObj['firstName'] = encode(data.firstName);
-		this.jsonObj['lastName'] = encode(data.lastName);
+		this.jsonObj['firstName'] = this.removeHTML(data.firstName);
+		this.jsonObj['lastName'] = this.removeHTML(data.lastName);
 		this.jsonObj['dob'] = Date.parse(data.dob);
 		this.jsonObj['email'] = data.email;
 		this.jsonObj['patientId'] = data.patientId;
-		this.jsonObj['residingState'] = encode(data.residingState);
+		this.jsonObj['residingState'] = this.removeHTML(data.residingState);
 		this.jsonObj['isActive'] = this.saveActiveInactive;
 		if(data.refId)
 		{
-		this.jsonObj['refId'] = data.refId;
+		this.jsonObj['refId'] = this.removeHTML(data.refId);
 		}
 		if(data.phone)
 		{
@@ -313,11 +313,11 @@ onActiveInactiveChanged(value:boolean){
 		}
 		if(data.city)
 		{
-		this.jsonObj['city'] = encode(data.city);
+		this.jsonObj['city'] = this.removeHTML(data.city);
 		}
 		if(data.address)
 		{
-		this.objAddress['street'] = encode(data.address);
+		this.objAddress['street'] = this.removeHTML(data.address);
 		this.jsonObj['address'] = this.objAddress;
 		}
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
@@ -454,19 +454,24 @@ onActiveInactiveChanged(value:boolean){
 	}
 		if(str == 'medication')
 		{
-		this.medicationsArray[i].medication=encode(event.target.value);
+		this.medicationsArray[i].medication=this.removeHTML(event.target.value);
 		}
 		if(str == 'dosage')
 		{
-		this.medicationsArray[i].dosage=encode(event.target.value);
+		this.medicationsArray[i].dosage=this.removeHTML(event.target.value);
 		}
 		if(str == 'duration')
 		{
-		this.medicationsArray[i].duration=encode(event.target.value);
+		this.medicationsArray[i].duration=this.removeHTML(event.target.value);
 		}
 		if(str == 'notes')
 		{
-		this.medicationsArray[i].notes=encode(event.target.value);
+		this.medicationsArray[i].notes=this.removeHTML(event.target.value);
 		}
   }
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 }

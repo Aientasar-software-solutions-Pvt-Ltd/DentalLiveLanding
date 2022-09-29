@@ -209,7 +209,7 @@ export class GeneralTaskEditComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -364,5 +364,10 @@ export class GeneralTaskEditComponent implements OnInit {
 			else
 			swal('Oops something went wrong, please try again');
 		});
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

@@ -70,7 +70,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
 		this.jsonObj['patientName'] = data.patientName;
-		this.jsonObj['title'] = data.title;
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -193,5 +193,10 @@ export class MilestoneAddComponent implements OnInit {
 				swal('Oops something went wrong, please try again');
 			});
 		}
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

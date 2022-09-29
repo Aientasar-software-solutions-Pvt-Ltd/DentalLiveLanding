@@ -626,7 +626,7 @@ export class MilestoneDetailsComponent implements OnInit {
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
-								messagetext: this.messagedata[i].message.text,
+								messagetext: this.removeHTML(this.messagedata[i].message.text),
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
@@ -721,22 +721,22 @@ export class MilestoneDetailsComponent implements OnInit {
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 					else
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 				}
@@ -952,5 +952,10 @@ export class MilestoneDetailsComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

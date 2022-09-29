@@ -158,15 +158,15 @@ export class PatientAddComponent implements OnInit {
   {	
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
-	this.jsonObj['firstName'] = encode(data.firstName);
-	this.jsonObj['lastName'] = encode(data.lastName);
+	this.jsonObj['firstName'] = this.removeHTML(data.firstName);
+	this.jsonObj['lastName'] = this.removeHTML(data.lastName);
 	this.jsonObj['dob'] = Date.parse(data.dob);
 	this.jsonObj['email'] = data.email;
-	this.jsonObj['residingState'] = encode(data.residingState);
+	this.jsonObj['residingState'] = this.removeHTML(data.residingState);
 	this.jsonObj['isActive'] = this.patiantStatus;
 	if(data.refId)
 	{
-	this.jsonObj['refId'] = encode(data.refId);
+	this.jsonObj['refId'] = this.removeHTML(data.refId);
 	}
 	if(data.phone)
 	{
@@ -174,11 +174,11 @@ export class PatientAddComponent implements OnInit {
 	}
 	if(data.city)
 	{
-	this.jsonObj['city'] = encode(data.city);
+	this.jsonObj['city'] = this.removeHTML(data.city);
 	}
 	if(data.address)
 	{
-	this.objAddress['street'] = encode(data.address);
+	this.objAddress['street'] = this.removeHTML(data.address);
 	this.jsonObj['address'] = this.objAddress;
 	}
 	if(data.gender)
@@ -279,24 +279,29 @@ export class PatientAddComponent implements OnInit {
 	
 	if(str == 'medication')
 	{
-	this.medications[i].medication=encode(event.target.value);
+	this.medications[i].medication=this.removeHTML(event.target.value);
 	}
 	if(str == 'dosage')
 	{
-	this.medications[i].dosage=encode(event.target.value);
+	this.medications[i].dosage=this.removeHTML(event.target.value);
 	}
 	if(str == 'duration')
 	{
-	this.medications[i].duration=encode(event.target.value);
+	this.medications[i].duration=this.removeHTML(event.target.value);
 	}
 	if(str == 'notes')
 	{
-	this.medications[i].notes=encode(event.target.value);
+	this.medications[i].notes=this.removeHTML(event.target.value);
 	}
   }
   
   logValue() {
     console.log(this.medications);
   }
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 
 }
