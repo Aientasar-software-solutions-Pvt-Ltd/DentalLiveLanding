@@ -504,17 +504,24 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 				links: this.cvfast.links
 			  }
 			  if (field == 'comments') {
-				let comment = jsonObj.comment;
-				comment.push(this.cvfast);
-				jsonObj[field] = comment;
+				if(this.removeHTML(this.baseText) != '')
+				{
+					let comment = jsonObj.comment;
+					comment.push(this.cvfast);
+					jsonObj[field] = comment;
+				}
 			  }
 			  else {
-				jsonObj[field] = this.cvfast;
+				if(this.removeHTML(this.baseText) != '')
+				{
+					jsonObj[field] = this.cvfast;
+				}
 			  }
 			  //alert(JSON.stringify(jsonObj));
 			  if (datatype == 'put') {
 				this.dataService.putData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				  .subscribe(Response => {
+					Resolve(true);
 					let AllDate = JSON.parse(Response.toString());
 					if (message) {
 					  Swal(message);
@@ -553,6 +560,7 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 			  else {
 				this.dataService.postData(ApiUrl, JSON.stringify(jsonObj), responceType)
 				  .subscribe(Response => {
+					Resolve(true);
 					let AllDate = JSON.parse(Response.toString());
 					if (message) {
 					  Swal(message);

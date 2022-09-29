@@ -1660,7 +1660,7 @@ export class MasterComponent implements OnInit {
 					{
 						let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
 						let avatar = ''
-						if(Colleague[k].imageSrc != undefined)
+						if((Colleague[k].imageSrc != undefined) && (Colleague[k].imageSrc != '') && (Colleague[k].imageSrc != null))
 						{
 						avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
 						}
@@ -1761,12 +1761,10 @@ export class MasterComponent implements OnInit {
 		{
 			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','','User already invited.').then(
 			(value) => {
-			this.sending = false;
 			this.allMemberEmail.splice(i, 1);
 			this.Invitememberlist(data,this.allMemberEmail);
 			},
 			(error) => {
-			this.sending = false;
 			this.allMemberEmail.splice(i, 1);
 			this.Invitememberlist(data,this.allMemberEmail);
 			});
