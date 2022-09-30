@@ -57,8 +57,6 @@
 								<td>
 									<div>
 										<span class="d-none">{{i}}</span>
-										<!--<span class="avatar-icon">D</span>
-										<span class="body2 ms-1">Danial Doolittle</span>-->
 										<span class="body2">{{data.memberName}}</span>  
 									</div>
 								</td>		 
@@ -79,7 +77,7 @@
 										<a routerLink="/referrals/referral-details/{{data.referralId}}" >
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" >
+										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>
@@ -105,15 +103,6 @@
 			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 				<div class="modal-body">
 					<div class="row gy-3">
-						<!--<div class="col-md-12">
-							<select class="form-select" placeholder="search" >
-								<option disabled selected>Sort By</option>
-								<option>Patients</option>
-								<option>Cases</option>
-								<option>Last Modified</option>
-								<option>Date Created</option>
-							</select>
-						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>

@@ -49,7 +49,6 @@ export class CaseAddFileUploadComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -99,7 +98,6 @@ export class CaseAddFileUploadComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
-		//alert(data);
 		this.jsonObj['ownerName'] = data.resorceowner;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
@@ -142,14 +140,12 @@ export class CaseAddFileUploadComponent implements OnInit {
 			Promise.all(requests)
 			  .then((values) => {
 				this.attachmentUploadFiles = [];
-				//console.log(this.cvfast);
 				let img = values[0];
 				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
 				this.dataService.getallData(url, true)
 				.subscribe(Response => {
 					if (Response)
 					{
-						//alert(JSON.stringify(Response));
 						this.UploadFiles = Array();
 						this.UploadFiles.push({
 						  url: Response,

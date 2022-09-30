@@ -18,12 +18,10 @@ import "@lottiefiles/lottie-player";
       
 export class PatientAddComponent implements OnInit {
 	sending = false;
-	//@ViewChild('Cvfast') Cvfast!: ElementRef;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
-	//@ViewChild('Cvfast') Cvfast: CvfastComponent;
 	public patiantStatus = true;
-	public isRequired = true;
+	public isRequired: boolean;
 	onActiveInactiveChanged(value:boolean){
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;
@@ -158,18 +156,17 @@ export class PatientAddComponent implements OnInit {
   }
   onGetdateData(data: any,cvfast: any)
   {	
-	// alert(cvfast);
 	let user = this.usr.getUserDetails(false);
 	this.jsonObj['resourceOwner'] = user.emailAddress;
-	this.jsonObj['firstName'] = encode(data.firstName);
-	this.jsonObj['lastName'] = encode(data.lastName);
+	this.jsonObj['firstName'] = this.removeHTML(data.firstName);
+	this.jsonObj['lastName'] = this.removeHTML(data.lastName);
 	this.jsonObj['dob'] = Date.parse(data.dob);
 	this.jsonObj['email'] = data.email;
-	this.jsonObj['residingState'] = encode(data.residingState);
+	this.jsonObj['residingState'] = this.removeHTML(data.residingState);
 	this.jsonObj['isActive'] = this.patiantStatus;
 	if(data.refId)
 	{
-	this.jsonObj['refId'] = encode(data.refId);
+	this.jsonObj['refId'] = this.removeHTML(data.refId);
 	}
 	if(data.phone)
 	{
@@ -177,11 +174,11 @@ export class PatientAddComponent implements OnInit {
 	}
 	if(data.city)
 	{
-	this.jsonObj['city'] = encode(data.city);
+	this.jsonObj['city'] = this.removeHTML(data.city);
 	}
 	if(data.address)
 	{
-	this.objAddress['street'] = encode(data.address);
+	this.objAddress['street'] = this.removeHTML(data.address);
 	this.jsonObj['address'] = this.objAddress;
 	}
 	if(data.gender)
@@ -225,8 +222,6 @@ export class PatientAddComponent implements OnInit {
 		Promise.all(requests)
 		  .then((values) => {
 			this.attachmentFiles = [];
-			//console.log(this.cvfast);
-			//alert(cvfast);
 			this.PatientImg = values[0];
 			this.onGetdateData(GetForm,cvfast);
 		  })
@@ -270,9 +265,7 @@ export class PatientAddComponent implements OnInit {
 
   removeMedication(i: number): void {
 	this.objMedicationLength.splice(i, 1);
-    //this.medications.splice(i, 1);
 	if (this.medications.length > 1) this.medications.splice(i, 1);
-    //else this.medications.patchValue([{medication: null, dosage: null, duration: null, notes: null}]);
   }
   
   addMedicationValidation(i: number, str: string, event: any): void {
@@ -286,25 +279,29 @@ export class PatientAddComponent implements OnInit {
 	
 	if(str == 'medication')
 	{
-	this.medications[i].medication=encode(event.target.value);
+	this.medications[i].medication=this.removeHTML(event.target.value);
 	}
 	if(str == 'dosage')
 	{
-	this.medications[i].dosage=encode(event.target.value);
+	this.medications[i].dosage=this.removeHTML(event.target.value);
 	}
 	if(str == 'duration')
 	{
-	this.medications[i].duration=encode(event.target.value);
+	this.medications[i].duration=this.removeHTML(event.target.value);
 	}
 	if(str == 'notes')
 	{
-	this.medications[i].notes=encode(event.target.value);
+	this.medications[i].notes=this.removeHTML(event.target.value);
 	}
-	//alert(JSON.stringify(this.medications));
   }
   
   logValue() {
     console.log(this.medications);
   }
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 
 }

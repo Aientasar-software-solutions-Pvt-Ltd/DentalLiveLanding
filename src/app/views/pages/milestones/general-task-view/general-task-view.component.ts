@@ -47,7 +47,6 @@ export class GeneralTaskViewComponent implements OnInit {
 	getCaseDetails(caseId) {
 		this.tabledata = '';
 		let url = this.utility.apiData.userCases.ApiUrl;
-		//let caseId = sessionStorage.getItem("caseId");
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -57,7 +56,6 @@ export class GeneralTaskViewComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -95,7 +93,6 @@ export class GeneralTaskViewComponent implements OnInit {
 			if (Response)
 			{
 				this.editdata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.editdata));
 				this.getCaseDetails(this.editdata.caseId);
 				this.setcvFast(this.editdata.description);
 				this.cvfastText = true;
@@ -214,5 +211,10 @@ export class GeneralTaskViewComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

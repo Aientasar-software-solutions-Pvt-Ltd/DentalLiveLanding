@@ -12,7 +12,7 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
 	<div class="col-md-6">
-		<div class="d-inline-block">
+		<div class="d-inline-block" *ngIf="detailsdata">
 			<h3 class="mt-2 fw-normal">{{detailsdata.patientName}} <span class="fw-bold d-block">{{detailsdata.title}}</span>
 				<div class="progress progress-sm mt-2">
 					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
@@ -36,12 +36,9 @@
 			<div class="card-header bg-white">
 				<div class="row">
 					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Referral Details</h5>
+						<h5 class="body1 card-title my-2">Profile Details</h5>
 					</div>
 					<div class="col-md-7 text-end">
-						<!-- <a data-bs-toggle="modal" data-bs-target="#addNonMembers" class="btn btn-light-cyan my-1 me-2">
-							<i class="bx bx-plus me-2" aria-hidden="true"></i>Add Non Members
-						</a> --> 
 						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
 					</div>
 				</div>         
@@ -49,7 +46,7 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<div class="row">            
+						<div class="row" *ngIf="invitedata">            
 							<div class="col-md-12"> 
 								<div class="mb-3 row">
 									<div class="col-sm-12">
@@ -87,56 +84,6 @@
 									</div>
 								</div>
 							</div>
-							<!-- <div class="col-md-12"> 
-								<div class="mb-3 row">
-									<label for="staticEmail" class="col-sm-12 col-form-label" style="color:#AEB4BF">Request</label>
-									<div class="col-sm-10">
-										<div class="card bg-light">
-											<div class="card-body">
-												<p class=" body2">Hi Jene,
-												Dr Perrine Gillot,
-												I am done with root canal temporary crown, Looking for the other one by upcoming 25/8/21. Photos, and x-rays are attached in files. Plz check UI Guide too.
-												Thanks  </p>
-											</div>
-										</div> 
-										<div class="row">
-											<div class="col-md-6">
-												<img src="assets/images/AVIpng.png">
-												<p class="body2 mb-0">#cust_iv25</p>
-											</div>
-											<div class="col-md-6">
-												<p class="body2" style="float: right;"> 20 Aug, 17:15 PM</p>
-											</div>        
-										</div>
-									</div>
-								</div> 
-							</div>
-							<div class="col-md-12"> 
-								<div class="mb-3 row">
-									<div class="col-sm-4">
-
-									</div>
-									<div class="col-sm-8">
-										<label for="staticEmail" class=" col-form-label" style="color:#AEB4BF">Response <span class="badge badge-pill badge-success body2 px-2">Accepted </span></label>
-										<div class="card bg-light">
-											<div class="card-body">
-												<p class=" body2">Dr Jene,
-												Sure Perrine I will work on crown. I will  send it up by 25/8/21 
-												Thanks </p>
-											</div>
-										</div> 
-										<div class="row">
-											<div class="col-md-6">
-												<img src="assets/images/AVIpng.png">
-												<p class="body2 mb-0">#cust_iv25</p>
-											</div>
-											<div class="col-md-6">
-												<p class="body2" style="float: right;"> 20 Aug, 18:15 PM</p>
-											</div>        
-										</div>
-									</div>
-								</div> 
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -144,34 +91,3 @@
 		</div>
 	</div>
 </div>
-  
-<!-- <div class="modal fade" id="addNonMembers" tabindex="-1" aria-labelledby="addNonMembersLabel" style="display: none;" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title body1" id="addNonMembersLabel">Invite Non Members</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body ">
-				<div class="row">
-					<div class="col-md-12"> 
-						<div class="mb-3 row">
-							<label  class="col-sm-3 col-form-label">Email Address :</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="email"  >           
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12"> 
-						<div class="mb-3">
-							<textarea class="form-control" placeholder="Enter text here" id="floatingTextarea2" style="height: 100px"></textarea>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer text-center justify-content-center border-top-0">
-				<a class="btn btn-default" data-bs-dismiss="modal">Send E-Mail</a>
-			</div>
-		</div>
-	</div>
-</div> -->

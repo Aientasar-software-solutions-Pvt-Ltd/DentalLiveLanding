@@ -55,6 +55,7 @@ export class MasterComponent implements OnInit {
 	cvfastLinks: boolean = false;
 	cvfastMsgText: boolean = false;
 	cvfastMsgLinks: boolean = false;
+	public isvalidDate = false;
 	fromDate: Date = new Date();
 
 	onCompletedArchiveChanged(value:boolean){
@@ -146,6 +147,7 @@ export class MasterComponent implements OnInit {
 	public PatientImg: any;
 	
 	paramPatientId: any;
+	userDeatils: any;
 	//Set parameter from URL
 	paramCaseId: string;
 	paramTabName: string;
@@ -187,6 +189,7 @@ export class MasterComponent implements OnInit {
 		}
 	}
   ngOnInit(): void {
+	this.userDeatils = this.usr.getUserDetails(false);
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
       pagingType: 'full_numbers',
@@ -205,10 +208,8 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
-	if(this.paramTabName == 'caseDetails'){
-		this.getCaseDetails();
-		this.CaseTypeVal = '';
-	}
+	this.getCaseDetails();
+	this.CaseTypeVal = '';
 	if(this.paramTabName == 'threads'){
 		this.getThread();
 	}
@@ -232,7 +233,6 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userMessage.ApiUrl;
 			let caseId = this.paramCaseId;
 			let patientId = this.paramPatientId;
@@ -291,14 +291,10 @@ export class MasterComponent implements OnInit {
 					url += "?dateTo="+Date.parse(form.value.dateTo);
 				}
 			}
-			//alert(url);
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
-					//alert(JSON.stringify(this.messagedata));
-					
 					this.messageDataArray = Array();
 					for(var i = 0; i < this.messagedata.length; i++)
 					{
@@ -365,7 +361,6 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userCaseFiles.ApiUrl;
 			let caseId = this.paramCaseId;
 			let patientId = this.paramPatientId;
@@ -402,7 +397,6 @@ export class MasterComponent implements OnInit {
 				{
 					this.isLoadingData = false;
 					this.filesdataArray = JSON.parse(Response.toString()).reverse();
-					//alert(JSON.stringify(this.filesdataArray));
 					if(this.filesdataArray.length == 0)
 					{
 						this.setcvFast('','file');
@@ -413,7 +407,6 @@ export class MasterComponent implements OnInit {
 					{
 						for(var i = 0; i < this.filesdataArray.length; i++)
 						{
-							//alert(new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US"));
 							casefilesDate.push({
 							  checkdate: new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US")
 							});
@@ -433,7 +426,6 @@ export class MasterComponent implements OnInit {
 								  ownerName: this.filesdataArray[i].resourceOwner,
 								  filecount: 1,
 								});
-								//alert(JSON.stringify(this.casefilesArray));
 							}
 						}
 						for(var k = 0; k < this.casefilesArray.length; k++)
@@ -443,9 +435,6 @@ export class MasterComponent implements OnInit {
 						}
 						this.setcvFast(this.casefilesArray,'file');
 					}
-					//this.filesdata = this.groupByKey(this.casefilesArray, 'checkdate');
-					//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
-					//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -525,22 +514,22 @@ export class MasterComponent implements OnInit {
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 					else
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 				}
@@ -599,10 +588,6 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			sessionStorage.setItem('backurl', '/cases-view/workorders/'+this.paramCaseId);
-			/* swal("Processing...please wait...", {
-				buttons: [false, false],
-				closeOnClickOutside: false,
-			}); */
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
 
 			let caseId = this.paramCaseId;
@@ -613,18 +598,16 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					//swal.close();
 					this.isLoadingData = false;
-					//this.workordersdata = JSON.parse(Response.toString()).reverse();
 					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(GetAllData));
 					this.workordersdata = Array();
 					for(var k = 0; k < GetAllData.length; k++)
 					{
 						this.workordersdata.push({
 						  id: k,
+						  resourceOwner: GetAllData[k].resourceOwner,
 						  dateCreated: GetAllData[k].dateCreated,
 						  presentStatus: GetAllData[k].presentStatus,
 						  startdate: GetAllData[k].startdate,
@@ -642,16 +625,12 @@ export class MasterComponent implements OnInit {
 						  memberName: '',
 						  milestoneTitle: ''
 						});
-						//this.getcasedetails(GetAllData[k].caseId,k);
 						this.getuserdetailsallCase(GetAllData[k].members,k,'workorder');
 						if(GetAllData[k].milestoneId != ''){
 							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'workorder');
 						}
 					}
-					//this.workordersdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					
-					//alert(JSON.stringify(this.workordersdata));
-					//alert(this.workordersdata['0'].title);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -714,7 +693,6 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					//swal.close();
 					this.isLoadingData = false;
 					this.milestonedata = JSON.parse(Response.toString()).reverse();
 					this.eventsData = Array();
@@ -726,7 +704,6 @@ export class MasterComponent implements OnInit {
 						  end: new Date(this.milestonedata[i].duedate)
 						});
 					}
-					//alert(JSON.stringify(this.milestonedata));
 					this.calendarOptions = {
 						initialView: 'dayGridMonth',
 						themeSystem: 'bootstrap5',
@@ -819,16 +796,13 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
 				this.isLoadingData = false;
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
 				let patientId = this.tabledata.patientId;
 				this.caseDate = this.tabledata.dateCreated;
 				this.paramPatientId = this.tabledata.patientId;
 				this.getallPatient();
 				this.setCaseType(this.tabledata.caseType);
-				//alert(JSON.stringify(this.tabledata));
 				this.setcvFast(this.tabledata.description);
 				this.cvfastText = true;
 				if(user.emailAddress == this.tabledata.resourceOwner){
@@ -871,7 +845,6 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.patientdata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.patientdata.image));
 				setTimeout(()=>{     
 					if(this.patientdata.image)
 					{
@@ -1067,7 +1040,6 @@ export class MasterComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
-		//alert(data);
 		this.jsonObj['ownerName'] = data.resorceowner;
 		this.jsonObj['caseId'] = data.caseid;
 		this.jsonObj['patientId'] = data.patientid;
@@ -1076,7 +1048,6 @@ export class MasterComponent implements OnInit {
 		{
 			this.jsonObj['files'] = this.UploadFiles;
 		}
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.dataService.postData(this.utility.apiData.userCaseFiles.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
@@ -1186,12 +1157,7 @@ export class MasterComponent implements OnInit {
 	getFilesListing() {
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
-		/* swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		}); */
 		let caseId = this.paramCaseId;
-		//alert(caseId);
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -1200,17 +1166,14 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
 				this.isLoadingData = false;
 				this.filesdataArray = JSON.parse(Response.toString()).reverse();
-				//alert(JSON.stringify(this.filesdataArray));
 				this.casefilesArray = Array();
 				let casefilesDate = Array();
 				if(this.filesdataArray.length > 0)
 				{
 					for(var i = 0; i < this.filesdataArray.length; i++)
 					{
-						//alert(new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US"));
 						casefilesDate.push({
 						  checkdate: new Date(this.filesdataArray[i].dateCreated).toLocaleDateString("en-US")
 						});
@@ -1230,7 +1193,6 @@ export class MasterComponent implements OnInit {
 						  ownerName: this.filesdataArray[i].resourceOwner,
 						  filecount: 1,
 						});
-						//alert(JSON.stringify(this.casefilesArray));
 						}
 					}
 					for(var k = 0; k < this.casefilesArray.length; k++)
@@ -1240,9 +1202,6 @@ export class MasterComponent implements OnInit {
 					}
 					this.setcvFast(this.casefilesArray,'file');
 				}
-				//this.filesdata = this.groupByKey(this.casefilesArray, 'checkdate');
-				//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
-				//alert(JSON.stringify(this.groupByKey(this.casefilesArray, 'checkdate')));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1273,8 +1232,6 @@ export class MasterComponent implements OnInit {
 	getFilesDetails() {
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let fileUploadId = sessionStorage.getItem("fileUploadId");
-		//let fileUploadId = "013213d3-eb8c-446e-8a52-4aa8de59664d";
-		//alert(fileUploadId);
 		if(fileUploadId != '')
 		{
 			url += "?fileUploadId="+fileUploadId;
@@ -1284,7 +1241,6 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.uploaddata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.uploaddata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1344,7 +1300,6 @@ export class MasterComponent implements OnInit {
 			{
 				this.filesdata = JSON.parse(Response.toString());
 				
-				//alert(JSON.stringify(this.filesdata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1380,11 +1335,9 @@ export class MasterComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	onSubmitMilestone(form: NgForm) {
-		//alert(11111111);
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userMilestones.ApiUrl;
 			let patientName = form.value.patientName;
 			if(patientName != '')
@@ -1449,7 +1402,6 @@ export class MasterComponent implements OnInit {
 						  end: new Date(this.milestonedata[i].duedate)
 						});
 					}
-					//alert(this.milestonedata.length);
 					this.calendarOptions = {
 						initialView: 'dayGridMonth',
 						themeSystem: 'bootstrap5',
@@ -1505,12 +1457,12 @@ export class MasterComponent implements OnInit {
 				this.isLoadingData = false;
 				let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(GetAllData));
 					this.referraldata = Array();
 					for(var k = 0; k < GetAllData.length; k++)
 					{
 						this.referraldata.push({
 						  id: k,
+						  resourceOwner: GetAllData[k].resourceOwner,
 						  dateCreated: GetAllData[k].dateCreated,
 						  presentStatus: GetAllData[k].presentStatus,
 						  startdate: GetAllData[k].startdate,
@@ -1535,7 +1487,6 @@ export class MasterComponent implements OnInit {
 						}
 					}
 				
-				//alert(JSON.stringify(this.referraldata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1597,11 +1548,9 @@ export class MasterComponent implements OnInit {
 	}
 	
 	onSubmitReferral(form: NgForm) {
-		//alert(11111111);
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			//alert(JSON.stringify(form.value));
 			let url = this.utility.apiData.userReferrals.ApiUrl;
 			
 			if(form.value.title != '')
@@ -1661,8 +1610,6 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['comment'] = this.messageDataArray[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '1';
 		this.jsonObjmsg['messageReferenceId'] = "31313";
-		//alert(JSON.stringify(this.jsonObjmsg));
-		//alert(JSON.stringify(this.messageDataArray[form.value.Ccomments].messagecomment));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
@@ -1671,7 +1618,6 @@ export class MasterComponent implements OnInit {
 		(error) => {
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
 		if (form.invalid) {
@@ -1685,7 +1631,6 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['message'] = this.cvfastval.returnCvfast();
 		this.jsonObjmsg['messageType'] = '1';
 		this.jsonObjmsg['messageReferenceId'] = "31313";
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1','Message already exists.').then(
 		(value) => {
@@ -1694,7 +1639,6 @@ export class MasterComponent implements OnInit {
 		(error) => {
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	getAllMembers() {
 		let user = this.usr.getUserDetails(false);
@@ -1705,7 +1649,6 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let Colleague = JSON.parse(Response.toString());
-			//alert(JSON.stringify(Colleague));
 			this.allMember = Array();
 			let checkInviteEmail = this.inviteEmailArray;
 			for(var k = 0; k < Colleague.length; k++)
@@ -1717,7 +1660,7 @@ export class MasterComponent implements OnInit {
 					{
 						let name = Colleague[k].accountfirstName+' '+Colleague[k].accountlastName;
 						let avatar = ''
-						if(Colleague[k].imageSrc != undefined)
+						if((Colleague[k].imageSrc != undefined) && (Colleague[k].imageSrc != '') && (Colleague[k].imageSrc != null))
 						{
 						avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+Colleague[k].imageSrc;
 						}
@@ -1735,7 +1678,6 @@ export class MasterComponent implements OnInit {
 					}
 				}
 			}
-			//alert(JSON.stringify(this.allMember));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -1768,57 +1710,64 @@ export class MasterComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.allMemberDentalId.push(item[k].dentalId);
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberDentalId));
 	}
 	
 	
 	onSubmitInvite(form: NgForm){
 		let user = this.usr.getUserDetails(false);
-		
-		if (form.invalid) {
+		if(this.allMemberEmail.length == 0)
+		{
+			this.isvalidDate =true;
+			this.sending = false;
+		}
+		else
+		{
+			this.isvalidDate =false;
+		}
+		if ((form.invalid) || (this.isvalidDate == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
-		var z=0;
-		for(var i = 0; i < this.allMemberEmail.length; i++)
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
+		this.Invitememberlist(form.value,this.allMemberEmail);
+	};
+	Invitememberlist(data: any, obj){
+		let user = this.usr.getUserDetails(false);
+		var i = 0;
+		//this.jsonObjInvite['resourceOwner'] = user.emailAddress;
+		this.jsonObjInvite['caseId'] = data.caseId;
+		this.jsonObjInvite['patientId'] = data.patientId;
+		this.jsonObjInvite['patientName'] = data.patientName;
+		this.jsonObjInvite['presentStatus'] = 0;
+		this.jsonObjInvite['invitedUserMail'] = obj[i];
+		this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
+		if(obj.length == 1)
 		{
-			z++;
-			//this.jsonObjInvite['resourceOwner'] = user.emailAddress;
-			this.jsonObjInvite['caseId'] = form.value.caseId;
-			this.jsonObjInvite['patientId'] = form.value.patientId;
-			this.jsonObjInvite['patientName'] = form.value.patientName;
-			this.jsonObjInvite['presentStatus'] = 0;
-			if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-			{
-				this.jsonObjInvite['invitationText'] = this.cvfastval.returnCvfast();
-			}
-			
-			this.jsonObjInvite['invitedUserMail'] = this.allMemberEmail[i];
-			this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
-			
-			//alert(JSON.stringify(this.jsonObjInvite));
-			if(z == this.allMemberEmail.length)
-			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1','User already invited.').then(
-				(value) => {
-				this.sending = false;
-				},
-				(error) => {
-				this.sending = false;
-				});
-			}
-			else
-			{
-				this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','1','User already invited.').then(
-				(value) => {
-				this.sending = false;
-				},
-				(error) => {
-				this.sending = false;
-				});
-			}
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1','User already invited.').then(
+			(value) => {
+			swal.close();
+			this.sending = false;
+			},
+			(error) => {
+			swal.close();
+			this.sending = false;
+			});
+		}
+		else
+		{
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, '', '', 'post', '','invitationText','','User already invited.').then(
+			(value) => {
+			this.allMemberEmail.splice(i, 1);
+			this.Invitememberlist(data,this.allMemberEmail);
+			},
+			(error) => {
+			this.allMemberEmail.splice(i, 1);
+			this.Invitememberlist(data,this.allMemberEmail);
+			});
 		}
 	};
 	
@@ -1830,7 +1779,7 @@ export class MasterComponent implements OnInit {
 		{
 			url += "?caseId="+caseId;
 		}
-		url += "&resourceOwner="+user.emailAddress;
+		//url += "&resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true)
 		.subscribe(Response => {
 			if (Response)
@@ -1899,13 +1848,11 @@ export class MasterComponent implements OnInit {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(userData));
 			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
 			this.invitedata[index].userEducation = userData.education;
 			this.invitedata[index].userCity = userData.city;
 			this.invitedata[index].userCountry = userData.country;
-			//alert(JSON.stringify(this.invitedata));
 			this.isLoadingData = false;
 		}
 		}, (error) => {
@@ -1938,7 +1885,6 @@ export class MasterComponent implements OnInit {
 		this.jsonObjInviteEdit['invitationId'] = invitationId;
 		this.jsonObjInviteEdit['presentStatus'] = 3;
 		
-		//alert(JSON.stringify(this.jsonObjInviteEdit));
 		
 		this.dataService.putData(this.utility.apiData.userCaseInvites.ApiUrl, JSON.stringify(this.jsonObjInviteEdit), true)
 		.subscribe(Response => {
@@ -1986,19 +1932,14 @@ export class MasterComponent implements OnInit {
 			this.fromDate.setMinutes(0);
 			this.fromDate.setSeconds(0);
 			this.fromDate.setMilliseconds(0);
-			//let datePipe: DatePipe = new DatePipe('en-US');
-			//alert(this.fromDate.getTime());
-			//alert(toDate.getTime());
 			url += "?caseId="+caseId;
 			url += "&dateTo="+toDate.getTime();
 			url += "&dateFrom="+this.fromDate.getTime();
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					//swal.close();
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					//alert(JSON.stringify(treadAllData));
 					
 					this.messageDataArray = Array();
 					let countIndex = 0;
@@ -2007,7 +1948,6 @@ export class MasterComponent implements OnInit {
 						let skVal = treadAllData[i].sk;
 						if((skVal != undefined) && (skVal != '') && (skVal != null)) {
 						var skarray = skVal.split("#");
-							//alert(skarray[0]);
 							if(skarray[0] == 'MESSAGES')
 							{
 								this.messageDataArray.push({
@@ -2017,7 +1957,7 @@ export class MasterComponent implements OnInit {
 									dateUpdated: treadAllData[i].dateUpdated,
 									dateCreated: treadAllData[i].dateCreated,
 									messageId: treadAllData[i].messageId,
-									messagetext: treadAllData[i].message.text,
+									messagetext: this.removeHTML(treadAllData[i].message.text),
 									messageimg: '',
 									messagecomment: treadAllData[i].comments,
 									messagecomments: ''
@@ -2108,7 +2048,6 @@ export class MasterComponent implements OnInit {
 									messagecomment: '',
 									messagecomments: ''
 								});
-								//this.setcvFastMsg(treadAllData[i].description,countIndex);
 								this.cvfastMsgText = true;
 							}
 							else if(skarray[0] == 'TASKS')
@@ -2142,7 +2081,6 @@ export class MasterComponent implements OnInit {
 									messagecomment: '',
 									messagecomments: ''
 								});
-								//this.setcvFastMsg(treadAllData[i].description,countIndex);
 								this.cvfastMsgText = true;
 							}
 							countIndex++;
@@ -2152,7 +2090,6 @@ export class MasterComponent implements OnInit {
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
 						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-						//alert(JSON.stringify(this.messageAry));
 					}, 1000);
 				}
 			}, (error) => {
@@ -2200,14 +2137,12 @@ export class MasterComponent implements OnInit {
 					{
 						let treadAllData = JSON.parse(Response.toString());
 						treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-						//alert(JSON.stringify(treadAllData));
 						let countIndex = 0;
 						for(var i = 0; i < treadAllData.length; i++)
 						{
 							let skVal = treadAllData[i].sk;
 							if((skVal != undefined) && (skVal != '') && (skVal != null)) {
 							var skarray = skVal.split("#");
-								//alert(skarray[0]);
 								if(skarray[0] == 'MESSAGES')
 								{
 									this.messageDataArray.push({
@@ -2217,7 +2152,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: treadAllData[i].messageId,
-										messagetext: treadAllData[i].message.text,
+										messagetext: this.removeHTML(treadAllData[i].message.text),
 										messageimg: '',
 										messagecomment: treadAllData[i].comments,
 										messagecomments: ''
@@ -2351,7 +2286,6 @@ export class MasterComponent implements OnInit {
 						setTimeout(()=>{   
 							this.messageAry = this.messageDataArray;
 							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-							//alert(JSON.stringify(this.messageAry));
 						}, 2000);
 					}
 				}, (error) => {
@@ -2390,7 +2324,6 @@ export class MasterComponent implements OnInit {
 				if (Response)
 				{
 					let milestoneData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(milestoneData.title));
 					let title = milestoneData.title;
 					if(str == 'workorder')
 					{
@@ -2439,7 +2372,6 @@ export class MasterComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(userData));
 					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 					if(memberResult)
 					{
@@ -2448,7 +2380,6 @@ export class MasterComponent implements OnInit {
 					else{
 						memberResult += name;
 					}
-					//alert(JSON.stringify(memberResult));
 					if(j == userId.length)
 					{
 						if(str == 'workorder')
@@ -2515,5 +2446,11 @@ export class MasterComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

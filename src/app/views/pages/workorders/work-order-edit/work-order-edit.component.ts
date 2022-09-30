@@ -121,7 +121,7 @@ export class WorkOrderEditComponent implements OnInit {
 			this.jsonObj['milestoneId'] = data.milestoneId;
 		}
 		this.jsonObj['toothguide'] = {};
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
@@ -131,11 +131,9 @@ export class WorkOrderEditComponent implements OnInit {
 		
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
 		{
-			//alert(JSON.stringify(this.cv.returnCvfast()));
 			this.jsonObj['notes'] = this.cv.returnCvfast();
 		}
 		
-		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		this.cv.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order Updated successfully', backurl, 'put', '','notes','','Workorder title already exists.').then(
 		(value) => {
@@ -220,7 +218,6 @@ export class WorkOrderEditComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -375,5 +372,10 @@ export class WorkOrderEditComponent implements OnInit {
 				this.orders.setToothGuide(this.toothData);
 			}
 		}, 2000);
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

@@ -108,7 +108,7 @@ export class ReferralAddComponent implements OnInit {
 		{
 		this.jsonObj['milestoneId'] = data.milestoneid;
 		}
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
@@ -368,5 +368,10 @@ export class ReferralAddComponent implements OnInit {
 				});
 			}
 		}
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

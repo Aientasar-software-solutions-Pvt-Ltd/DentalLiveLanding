@@ -45,6 +45,7 @@ export class MilestoneEditComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public isvalidDate = false;
+	minDate = new Date();
 	
 	getmilestoneId: any;
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
@@ -74,7 +75,6 @@ export class MilestoneEditComponent implements OnInit {
 			{
 				
 				this.editdata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.editdata));
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
@@ -123,7 +123,6 @@ export class MilestoneEditComponent implements OnInit {
 		  return;
 		}
 		this.sending = true;
-		//alert(JSON.stringify(form.value));
 		this.onGetdateData(form.value);
 	}
 	
@@ -131,7 +130,7 @@ export class MilestoneEditComponent implements OnInit {
 	{
 		
 		this.jsonObj['milestoneId'] = data.milestoneId;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
@@ -145,8 +144,6 @@ export class MilestoneEditComponent implements OnInit {
 		this.jsonObj['patientId'] = this.patientId;
 		this.jsonObj['patientName'] = this.patientName;
 		
-		//alert(JSON.stringify(this.cvfastval.returnCvfast()));
-		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone updated successfully', backurl, 'put','','description','','Milestone title already exists.').then(
@@ -173,7 +170,6 @@ export class MilestoneEditComponent implements OnInit {
 					this.patientName = this.tabledata.patientName;
 					this.patientId = this.tabledata.patientId;
 					this.caseId = this.tabledata.caseId;
-					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -201,7 +197,11 @@ export class MilestoneEditComponent implements OnInit {
 	}
 	setcvFast()
 	{
-		//alert(JSON.stringify(this.editdata.description));
 		this.cvfastval.setCvfast(this.editdata.description);
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

@@ -115,13 +115,12 @@ export class ReferralEditComponent implements OnInit {
 		{
 		this.jsonObj['milestoneId'] = data.milestoneId;
 		}
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['startdate'] = Date.parse(data.startdate);
 		this.jsonObj['enddate'] = Date.parse(data.enddate);
 		this.jsonObj['presentStatus'] = Number(data.presentStatus);
 		this.jsonObj['toothguide'] = this.orders.getToothGuide();
 		this.jsonObj['members'] = this.allMemberEmail;
-		//alert(JSON.stringify(this.jsonObj));
 		const backurl = sessionStorage.getItem('backurl');
 		
 		this.cv.processFiles(this.utility.apiData.userReferrals.ApiUrl, this.jsonObj, true, 'Referral Updated successfully', backurl, 'put', '','notes','','Referal title already exists.').then(
@@ -167,7 +166,6 @@ export class ReferralEditComponent implements OnInit {
 				this.selectedCityName.push(name);
 				}
 			}
-			//alert(JSON.stringify(this.selectedCityName));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -201,13 +199,11 @@ export class ReferralEditComponent implements OnInit {
 		if(user)
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			//let caseId = sessionStorage.getItem("caseId");
 			if(caseId != '')
 			{
 				url += "?caseId="+caseId;
 			}
 			url += "&presentStatus="+1;
-			//url += "?resourceOwner="+user.dentalId;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
@@ -261,8 +257,6 @@ export class ReferralEditComponent implements OnInit {
 			this.allMemberName.push(item[k].name);
 			this.isvalidRefereTo = false;
 		}
-		//alert(JSON.stringify(this.allMemberEmail));
-		//alert(JSON.stringify(this.allMemberName));
 	}
 	getEditReferral() {
 		let url = this.utility.apiData.userReferrals.ApiUrl;
@@ -277,7 +271,6 @@ export class ReferralEditComponent implements OnInit {
 			{
 				
 				this.editedDate = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.editedDate));
 				this.editedDateTitle = decode(this.editedDate.title);
 				this.toothData = this.editedDate.toothguide;
 				this.allMemberEmail = this.editedDate.members;
@@ -315,7 +308,6 @@ export class ReferralEditComponent implements OnInit {
 	{
 		this.cv.setCvfast(this.editedDate.notes);
 		setTimeout(()=>{    
-			//alert(this.selectedCityName);
 			this.selectedCity = this.selectedCityName;
 		}, 1000);
 	}
@@ -339,8 +331,6 @@ export class ReferralEditComponent implements OnInit {
 					this.tabledata = JSON.parse(Response.toString());
 					this.casesName = this.tabledata.title;
 					this.patientName = this.tabledata.patientName;
-					//alert(JSON.stringify(this.tabledata));
-					//alert(JSON.stringify(this.tabledata.caseId));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -365,5 +355,10 @@ export class ReferralEditComponent implements OnInit {
 				swal('Oops something went wrong, please try again');
 			});
 		}
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

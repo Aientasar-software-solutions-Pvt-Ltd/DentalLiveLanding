@@ -84,6 +84,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	dtOptions: DataTables.Settings = {};
 	
 	getmilestoneId: any;
+	userDeatils: any;
 	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute) { 
 		this.masterSelected = false; 
 		this.getmilestoneId = this.route.snapshot.paramMap.get('milestoneId');
@@ -94,6 +95,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
   
 	ngOnInit(): void {
+		this.userDeatils = this.usr.getUserDetails(false);
 		this.dtOptions = {
 		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 		  pagingType: 'full_numbers',
@@ -137,10 +139,6 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	getallmilestone() {
 		this.tabledata = '';
-		/* swal("Processing...please wait...", {
-		  buttons: [false, false],
-		  closeOnClickOutside: false,
-		}); */
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
@@ -156,14 +154,12 @@ export class MilestoneDetailsComponent implements OnInit {
 					//swal.close();
 					this.isLoadingData = false;
 					this.tabledata = JSON.parse(Response.toString());
-					//this.tabledata.description = JSON.stringify(this.tabledata.description);
 					this.descriptionObj.text = this.tabledata.description.text;
 					this.descriptionObj.links = this.tabledata.description.links;
 					this.setcvFast(this.tabledata.description);
 					this.cvfastText = true;
 					this.getMessage(this.tabledata.caseId);
 					this.parmCaseId = this.tabledata.caseId;
-					//alert(this.tabledata['0'].presentStatus);
 					this.getCaseDetails();
 				}
 			}, (error) => {
@@ -193,7 +189,6 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	addGeneralTask(milestoneId: any, caseId: any) {
-		//alert(milestoneId);
 		sessionStorage.setItem('milestoneId', milestoneId);
 		sessionStorage.setItem('caseId', caseId);
 		this.router.navigate(['milestones/general-task-add']);
@@ -203,8 +198,6 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		let milestoneId = this.getmilestoneId;
-		//alert(JSON.stringify(user));
-		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
@@ -215,14 +208,13 @@ export class MilestoneDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let getTask = JSON.parse(Response.toString());
-					//alert(JSON.stringify(getTask));
-					//this.taskdata = Array();
 					
 					for(var k = 0; k < getTask.length; k++)
 					{
 						this.taskdata.push({
 						  id: this.indexRow,
 						  title: getTask[k].title,
+						  resourceOwner: getTask[k].resourceOwner,
 						  description: getTask[k].description.text,
 						  startdate: getTask[k].startdate,
 						  duedate: getTask[k].duedate,
@@ -241,7 +233,6 @@ export class MilestoneDetailsComponent implements OnInit {
 						});
 						this.indexRow++;
 					}
-					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				}
 				this.getallworkorders();
 			}, (error) => {
@@ -274,24 +265,21 @@ export class MilestoneDetailsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userWorkOrders.ApiUrl;
 		let milestoneId = this.getmilestoneId;
-		//alert(milestoneId);
 		if(milestoneId != '')
 		{
 			url += "?milestoneId="+milestoneId;
 		}
-		//alert(JSON.stringify(milestoneId));
 		if(user)
 		{
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					let getWorkOrders = JSON.parse(Response.toString());
-					//alert(JSON.stringify(getWorkOrders));
-					//this.taskdata = Array();
 					for(var k = 0; k < getWorkOrders.length; k++)
 					{
 						this.taskdata.push({
 						  id: this.indexRow,
+						  resourceOwner: getWorkOrders[k].resourceOwner,
 						  title: getWorkOrders[k].title,
 						  description: getWorkOrders[k].notes.text,
 						  startdate: getWorkOrders[k].startdate,
@@ -308,13 +296,9 @@ export class MilestoneDetailsComponent implements OnInit {
 						  milestoneId: getWorkOrders[k].milestoneId,
 						  taskType: 'WorkOrder',
 						});
-						//alert(this.indexRow);
-						//alert(getWorkOrders[k].members);
 						this.getuserdetailsall(getWorkOrders[k].members,this.indexRow);
 						this.indexRow++;
 					} 
-					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(getWorkOrders));
 				}
 				this.getallreferrals();
 			}, (error) => {
@@ -359,12 +343,11 @@ export class MilestoneDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let getReferrals = JSON.parse(Response.toString());
-					//alert(JSON.stringify(getReferrals));
-					//this.taskdata = Array();
 					for(var k = 0; k < getReferrals.length; k++)
 					{
 						this.taskdata.push({
 						  id: this.indexRow,
+						  resourceOwner: getReferrals[k].resourceOwner,
 						  title: getReferrals[k].title,
 						  description: getReferrals[k].notes.text,
 						  startdate: getReferrals[k].startdate,
@@ -381,12 +364,9 @@ export class MilestoneDetailsComponent implements OnInit {
 						  milestoneId: getReferrals[k].milestoneId,
 						  taskType: 'Referral',
 						});
-						//alert(JSON.stringify(getReferrals[k].members));
 						this.getuserdetailsall(getReferrals[k].members,this.indexRow);
 						this.indexRow++;
 					}
-					//alert(JSON.stringify(getReferrals));
-					//this.taskdata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					
 				}
 			}, (error) => {
@@ -634,7 +614,6 @@ export class MilestoneDetailsComponent implements OnInit {
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
 					
-					//alert(JSON.stringify(this.messagedata));
 					
 					this.messageDataArray = Array();
 					for(var i = 0; i < this.messagedata.length; i++)
@@ -647,7 +626,7 @@ export class MilestoneDetailsComponent implements OnInit {
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
-								messagetext: this.messagedata[i].message.text,
+								messagetext: this.removeHTML(this.messagedata[i].message.text),
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
@@ -676,7 +655,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					}
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
 					}, 2000);
 				}
 			}, (error) => {
@@ -708,7 +687,6 @@ export class MilestoneDetailsComponent implements OnInit {
 	setcvFastComment(obj: any, index: any)
 	{
 		let Comments = Array();
-		//alert(obj.links.length);
 		if(obj.length > 0)
 		{
 			for(var i = 0; i < obj.length; i++)
@@ -743,22 +721,22 @@ export class MilestoneDetailsComponent implements OnInit {
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 					else
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 				}
@@ -821,6 +799,10 @@ export class MilestoneDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.CcaseId;
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
@@ -828,22 +810,26 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '3';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments',1,'Comments already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
 		if (form.invalid) {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.caseId;
 		this.jsonObjmsg['patientId'] = form.value.patientId;
 		this.jsonObjmsg['patientName'] = form.value.patientName;
@@ -854,12 +840,13 @@ export class MilestoneDetailsComponent implements OnInit {
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message',1,'Message already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	
 	getuserdetailsall(userId, index) {
@@ -880,7 +867,6 @@ export class MilestoneDetailsComponent implements OnInit {
 					let userData = JSON.parse(Response.toString());
 					if(userData)
 					{
-						//alert(JSON.stringify(userData));
 						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 						if(memberResult)
 						{
@@ -889,7 +875,6 @@ export class MilestoneDetailsComponent implements OnInit {
 						else{
 							memberResult += name;
 						}
-						//alert(JSON.stringify(memberResult));
 						if(j == userId.length)
 						{
 							this.taskdata[index].memberName = memberResult;
@@ -938,7 +923,6 @@ export class MilestoneDetailsComponent implements OnInit {
 					this.patientName = caseDetails.patientName;
 					this.caseid = caseDetails.caseId;
 					this.patientid = caseDetails.patientId;
-					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -968,5 +952,10 @@ export class MilestoneDetailsComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

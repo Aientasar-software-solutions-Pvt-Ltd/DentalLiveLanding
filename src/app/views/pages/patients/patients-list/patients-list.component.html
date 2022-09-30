@@ -95,6 +95,9 @@
 										</div>
 									</td>
 								</tr>
+								<tr *ngIf="this.tabledata.length == 0">
+									<td colspan="6" class="dataTables_empty" valign="top">No data available in table</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -153,6 +156,9 @@
 											</a>
 										</div>
 									</td>
+								</tr>
+								<tr *ngIf="this.colleaguesData.length == 0">
+									<td colspan="7" class="dataTables_empty" valign="top">No data available in table</td>
 								</tr>
 							</tbody>
 						</table>

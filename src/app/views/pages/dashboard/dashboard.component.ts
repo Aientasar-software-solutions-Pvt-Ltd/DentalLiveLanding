@@ -47,7 +47,6 @@ export class DashboardComponent implements OnInit {
 				{
 					this.caseinvitationCount++;
 				}
-				//alert(JSON.stringify(GetAllData));
 			}
 		}, error => {
 		  if (error.status)
@@ -76,7 +75,6 @@ export class DashboardComponent implements OnInit {
 				{
 					this.caseinvitationCount++;
 				}
-				//alert(JSON.stringify(GetAllData));
 			}
 		}, error => {
 			if (error.status)
@@ -108,7 +106,6 @@ export class DashboardComponent implements OnInit {
 					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					//alert(JSON.stringify(treadAllData));
 					this.inboxCount = treadAllData[0].mailCount;
 					this.messageDataArray = Array();
 					for(var i = 0; i < treadAllData.length; i++)
@@ -116,7 +113,6 @@ export class DashboardComponent implements OnInit {
 						let skVal = treadAllData[i].sk;
 						if(skVal){
 							var skarray = skVal.split("#"); 
-							//alert(skarray[0]);
 							if(skarray[0] == 'DETAILS')
 							{
 								this.caseCount++;
@@ -146,7 +142,6 @@ export class DashboardComponent implements OnInit {
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
 						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-						//alert(JSON.stringify(this.messageAry));
 					}, 1000);
 				}
 			}, (error) => {

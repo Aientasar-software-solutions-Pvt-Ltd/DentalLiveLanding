@@ -67,7 +67,6 @@ onActiveInactiveChanged(value:boolean){
 	public objInsuranceview: any;
 	public objInsurance: any;
 	public medicationsArray1: any[] = []
-	//public medicationsArray: any[] = []
 	public medicationsArray: any[] = [{
 		id: 1,
 		medication: '',
@@ -98,7 +97,6 @@ onActiveInactiveChanged(value:boolean){
 	},{
 		id: 3
 	}];
-	//public objMedicationLength: any[] = []
 	public attachmentFiles: any[] = []
 	paramPatientId: any;
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private route: ActivatedRoute, private UtilityDev: UtilityServicedev) {
@@ -113,7 +111,6 @@ onActiveInactiveChanged(value:boolean){
 		this.tabledata = '';
 		this.objInsuranceview = '';
 		
-		//alert(this.cv);
 		let url = this.utility.apiData.userPatients.ApiUrl;
 		let patientId = this.paramPatientId;
 		if(patientId != '')
@@ -126,7 +123,6 @@ onActiveInactiveChanged(value:boolean){
 			{
 				this.sending = false;
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(this.tabledata.image);
 				this.patientfirstName = decode(this.tabledata.firstName);
 				this.patientlastName = decode(this.tabledata.lastName);
 				this.patientrefId = decode(this.tabledata.refId);
@@ -206,8 +202,6 @@ onActiveInactiveChanged(value:boolean){
 	}
 	removeload(event)
 	{
-		//remove loader
-		//alert(1111);
 		this.sending = false;
 	}
 	setcvImage(img: any)
@@ -302,17 +296,16 @@ onActiveInactiveChanged(value:boolean){
 	onGetdateData(data: any)
 	{
 		this.sending = true;
-		//alert(this.cv.returnCvfast().isTrue);
-		this.jsonObj['firstName'] = encode(data.firstName);
-		this.jsonObj['lastName'] = encode(data.lastName);
+		this.jsonObj['firstName'] = this.removeHTML(data.firstName);
+		this.jsonObj['lastName'] = this.removeHTML(data.lastName);
 		this.jsonObj['dob'] = Date.parse(data.dob);
 		this.jsonObj['email'] = data.email;
 		this.jsonObj['patientId'] = data.patientId;
-		this.jsonObj['residingState'] = encode(data.residingState);
+		this.jsonObj['residingState'] = this.removeHTML(data.residingState);
 		this.jsonObj['isActive'] = this.saveActiveInactive;
 		if(data.refId)
 		{
-		this.jsonObj['refId'] = data.refId;
+		this.jsonObj['refId'] = this.removeHTML(data.refId);
 		}
 		if(data.phone)
 		{
@@ -320,16 +313,15 @@ onActiveInactiveChanged(value:boolean){
 		}
 		if(data.city)
 		{
-		this.jsonObj['city'] = encode(data.city);
+		this.jsonObj['city'] = this.removeHTML(data.city);
 		}
 		if(data.address)
 		{
-		this.objAddress['street'] = encode(data.address);
+		this.objAddress['street'] = this.removeHTML(data.address);
 		this.jsonObj['address'] = this.objAddress;
 		}
 		if((this.cv.returnCvfast().text != '') || (this.cv.returnCvfast().links.length > 0))
 		{
-		//alert(JSON.stringify(this.cv.returnCvfast()));
 		this.jsonObj['notes'] = this.cv.returnCvfast();
 		}
 		if(data.gender)
@@ -342,8 +334,6 @@ onActiveInactiveChanged(value:boolean){
 		}
 		this.jsonObj['insurance'] = JSON.parse(this.objInsurance);
 		this.jsonObj['medication'] = this.medicationsArray;
-		//alert(JSON.stringify(this.jsonObj));
-		//alert(JSON.stringify(this.medicationsArray));
 		this.cv.processFiles(this.utility.apiData.userPatients.ApiUrl, this.jsonObj, true, 'Patient updated successfully', 'patients/patients-list', 'put', '','notes','','Patient name already exists.').then(
 		(value) => {
 		this.sending = false;
@@ -358,7 +348,6 @@ onActiveInactiveChanged(value:boolean){
 		this.patientImage = '';
 	}
 	onSubmit(form: NgForm) {
-	//alert(JSON.stringify(this.cv.returnCvfast()));
 		if (form.invalid) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
@@ -408,8 +397,6 @@ onActiveInactiveChanged(value:boolean){
 		  id: k+1
 		});
 	}
-	//alert(JSON.stringify(this.objMedicationLength));
-    //else this.medications.patchValue([{medication: null, dosage: null, duration: null, notes: null}]);
   }
   onSubmitMedication(form: NgForm) {
     if (form.invalid) {
@@ -467,20 +454,24 @@ onActiveInactiveChanged(value:boolean){
 	}
 		if(str == 'medication')
 		{
-		this.medicationsArray[i].medication=encode(event.target.value);
+		this.medicationsArray[i].medication=this.removeHTML(event.target.value);
 		}
 		if(str == 'dosage')
 		{
-		this.medicationsArray[i].dosage=encode(event.target.value);
+		this.medicationsArray[i].dosage=this.removeHTML(event.target.value);
 		}
 		if(str == 'duration')
 		{
-		this.medicationsArray[i].duration=encode(event.target.value);
+		this.medicationsArray[i].duration=this.removeHTML(event.target.value);
 		}
 		if(str == 'notes')
 		{
-		this.medicationsArray[i].notes=encode(event.target.value);
+		this.medicationsArray[i].notes=this.removeHTML(event.target.value);
 		}
-		//alert(JSON.stringify(this.medications));
   }
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 }

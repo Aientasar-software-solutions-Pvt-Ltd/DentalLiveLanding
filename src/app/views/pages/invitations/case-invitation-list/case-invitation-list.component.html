@@ -66,6 +66,7 @@
 								<tr *ngFor="let invitereceived of inviteReceivedData; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
+											<span style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invitereceived.userName.charAt(0)}}</span>
 											<span class="body2">{{invitereceived.userName}}</span>
 										</div>
@@ -95,9 +96,9 @@
 											</a>
 											<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
 												
-												<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">Accepted</button></li>
+												<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">Accept</button></li>
 												
-												<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">Declined</button></li>
+												<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">Decline</button></li>
 												
 											</ul>
 										</div>
@@ -124,6 +125,7 @@
 								<tr *ngFor="let invite of invitedata; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
+											<span style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invite.userName.charAt(0)}}</span>
 											<span class="body2">{{invite.userName}}</span>
 										</div>
@@ -166,15 +168,6 @@
 			<form #f="ngForm" id="mainForm" (ngSubmit)="onSubmit(f)">
 				<div class="modal-body">
 					<div class="row gy-3">
-						<!--<div class="col-md-12">
-							<select class="form-select" placeholder="search" >
-								<option disabled selected>Sort By</option>
-								<option>Patients</option>
-								<option>Cases</option>
-								<option>Last Modified</option>
-								<option>Date Created</option>
-							</select>
-						</div>-->
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>

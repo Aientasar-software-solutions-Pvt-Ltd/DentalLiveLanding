@@ -150,8 +150,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 					this.getMessage(this.tabledata.caseId);
 					this.referalmembers = this.tabledata.members;
 					this.parmCaseId = this.tabledata.caseId;
-					//alert(JSON.stringify(this.tabledata.workorderId));
-					//alert(JSON.stringify(this.tabledata.toothguide));
 					this.getuserdetailsall(this.referalmembers);
 					this.getCaseDetails();
 					
@@ -206,8 +204,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 					{
 						this.referalmembersName += name;
 					}
-					//this.inviteReceivedData[index].userName = name;
-					//alert(JSON.stringify(this.referalmembersName));
 				}
 				}, (error) => {
 				  if (error.status === 404)
@@ -326,12 +322,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	ngAfterViewInit() {
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		this.orders.setToothGuide(this.toothData);
 	}
 	
 	
@@ -356,7 +347,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 	
 	onGetdateData(data: any)
 	{
-		//alert(JSON.stringify(data));
 		this.jsonObj['workorderId'] = data.workorderId;
 		this.jsonObj['caseId'] = data.caseId;
 		this.jsonObj['patientId'] = data.patientId;
@@ -366,7 +356,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObj['members'] = this.referalmembers;
 		this.jsonObj['patientName'] = data.patientName;
 		
-		//alert(JSON.stringify(this.jsonObj));
 		
 		this.dataService.putData(this.utility.apiData.userWorkOrders.ApiUrl, JSON.stringify(this.jsonObj), true)
 		.subscribe(Response => {
@@ -413,8 +402,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
 					
-					//alert(JSON.stringify(this.messagedata));
-					
 					this.messageDataArray = Array();
 					for(var i = 0; i < this.messagedata.length; i++)
 					{
@@ -426,7 +413,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 								messageId: this.messagedata[i].messageId,
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
-								messagetext: this.messagedata[i].message.text,
+								messagetext: this.removeHTML(this.messagedata[i].message.text),
 								messageimg: this.messagedata[i].message.links,
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
@@ -454,7 +441,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 					}
 					setTimeout(()=>{   
 						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
 					}, 2000);
 				}
 			}, (error) => {
@@ -486,7 +473,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 	setcvFastComment(obj: any, index: any)
 	{
 		let Comments = Array();
-		//alert(obj.links.length);
 		if(obj.length > 0)
 		{
 			for(var i = 0; i < obj.length; i++)
@@ -521,22 +507,22 @@ export class WorkOrderDetailsComponent implements OnInit {
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 1, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 1, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 					else
 					{
 						if(NewCommentArray.length > 0)
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 1, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 						}
 						else
 						{
-							Comments.push({ text: CommentsText, isShow: 0, isShowLink: 0, links: NewCommentArray });
+							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
 				}
@@ -599,6 +585,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.CcaseId;
 		this.jsonObjmsg['patientId'] = form.value.CpatientId;
 		this.jsonObjmsg['patientName'] = form.value.CpatientName;
@@ -606,38 +596,42 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['comment'] = this.messageAry[form.value.Ccomments].messagecomment;
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	onSubmitMessage(form: NgForm){
 		if (form.invalid) {
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		swal("Processing...please wait...", {
+			buttons: [false, false],
+			closeOnClickOutside: false,
+		});
 		this.jsonObjmsg['caseId'] = form.value.caseId;
 		this.jsonObjmsg['patientId'] = form.value.patientId;
 		this.jsonObjmsg['patientName'] = form.value.patientName;
 		this.jsonObjmsg['message'] = this.cvfastval.returnCvfast();
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
-		//alert(JSON.stringify(this.jsonObjmsg));
 		
 		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
 		(value) => {
+		swal.close();
 		this.sending = false;
 		},
 		(error) => {
+		swal.close();
 		this.sending = false;
 		});
-		//this.getMessage(this.tabledata.caseId);
 	};
 	
 	getCaseDetails() {
@@ -651,11 +645,8 @@ export class WorkOrderDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let CaseDetails = JSON.parse(Response.toString());
-					//alert(JSON.stringify(CaseDetails));
 					this.casesName = CaseDetails.title;
 					this.patientName = CaseDetails.patientName;
-					//this.caseid = CaseDetails.caseId;
-					//this.patientid = CaseDetails.patientId;
 				}
 			}, error => {
 				if (error.status === 404)
@@ -686,5 +677,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 
 	video() {
 		this.videoplayer?.nativeElement.play();
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

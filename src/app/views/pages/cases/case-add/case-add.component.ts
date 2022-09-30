@@ -117,7 +117,6 @@ export class CaseAddComponent implements OnInit {
 						}
 					}
 				}
-				//alert(JSON.stringify(this.allpatient));
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -187,14 +186,13 @@ export class CaseAddComponent implements OnInit {
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['image'] = data.image;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['caseStatus'] = true;
 		this.jsonObj['caseType'] = this.casetypeArray;
 		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
 		{
 		this.jsonObj['description'] = this.cvfastval.returnCvfast();
 		}
-		//alert(JSON.stringify(this.jsonObj));
 		this.cvfastval.processFiles(this.utility.apiData.userCases.ApiUrl, this.jsonObj, true, 'Cases details added successfully', 'cases/case-add-invite-members', 'post', 'invitecaseId', 'description','','Case title already exists.').then(
 		(value) => {
 		this.sending = false;
@@ -297,5 +295,11 @@ export class CaseAddComponent implements OnInit {
 				swal('Oops something went wrong, please try again');
 			});
 		}
+	}
+	
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

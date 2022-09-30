@@ -34,7 +34,6 @@ export class PatientsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	//this.getAllMembers();
 	this.getallpatiant();
 	this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -53,10 +52,6 @@ export class PatientsListComponent implements OnInit {
 			last : "<i class='bx bx-last-page'></i>"
 			},
 	  },
-	  /*columnDefs: [
-			{ orderable: false, targets: 0 },
-			{ orderable: false, targets: 5 },
-		]*/
 	};
   }
 	searchText(event: any) {
@@ -64,13 +59,17 @@ export class PatientsListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
+	}
 	getallpatiant() {
 		this.tabledata = '';
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 		let url = this.utility.apiData.userPatients.ApiUrl;
-		//url += "?resourceOwner="+user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
@@ -82,8 +81,6 @@ export class PatientsListComponent implements OnInit {
 				//alert(JSON.stringify(patientDate));
 				for(var k=0; k < patientDate.length; k++)
 				{
-					//if(patientDate[k].resourceOwner)
-					//{
 						if(user.emailAddress == patientDate[k].resourceOwner)
 						{
 							this.tabledata.push({
@@ -100,7 +97,7 @@ export class PatientsListComponent implements OnInit {
 						else
 						{
 							this.colleaguesData.push({
-							  resourceOwner: patientDate[k].email,
+							  resourceOwner: patientDate[k].resourceOwner,
 							  firstName: patientDate[k].firstName,
 							  lastName: patientDate[k].lastName,
 							  dob: patientDate[k].dob,
@@ -110,7 +107,6 @@ export class PatientsListComponent implements OnInit {
 							  patientId: patientDate[k].patientId
 							});
 						}
-					//}
 				}
 				this.tabledata = this.tabledata.reverse();
 				this.colleaguesData = this.colleaguesData.reverse();
@@ -138,11 +134,9 @@ export class PatientsListComponent implements OnInit {
 		}
 	}
 	editpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['/patients/patient-edit/'+patientId]);
 	}
 	viewpatiant(patientId: any) {
-		//sessionStorage.setItem('patientId', patientId);
 		this.router.navigate(['patients/patient-details/'+patientId]);
 	}
 	deletepatiant(patientId: any) {
@@ -173,58 +167,111 @@ export class PatientsListComponent implements OnInit {
 		});
 	}
 	onSubmit(form: NgForm) {
-		let url = this.utility.apiData.userPatients.ApiUrl;
-		let strName = form.value.firstName;
-		let patiantName =strName.split(' ');
-		if(patiantName[0] != '')
+		let user = this.usr.getUserDetails(false);
+		if(user)
 		{
-			url += "?firstName="+patiantName[0];
-		}
-		if(patiantName.length > 1)
-		{
-			if(patiantName[1] != '')
+			let url = this.utility.apiData.userPatients.ApiUrl;
+			let strName = form.value.firstName;
+			let patiantName =strName.split(' ');
+			if(patiantName[0] != '')
 			{
-				if(patiantName[0] != '')
+				url += "?firstName="+patiantName[0];
+			}
+			if(patiantName.length > 1)
+			{
+				if(patiantName[1] != '')
 				{
-					url += "&lastName="+patiantName[1];
+					if(patiantName[0] != '')
+					{
+						url += "&lastName="+patiantName[1];
+					}
+					else
+					{
+						url += "?lastName="+patiantName[1];
+					}
+				}
+			}
+			if(form.value.dateFrom != '')
+			{
+				if(patiantName[0] != '' || (patiantName.length > 1))
+				{ 
+					url += "&dateFrom="+Date.parse(form.value.dateFrom);
 				}
 				else
 				{
-					url += "?lastName="+patiantName[1];
+					url += "?dateFrom="+Date.parse(form.value.dateFrom);
 				}
 			}
-		}
-		if(form.value.dateFrom != '')
-		{
-			if(patiantName[0] != '' || (patiantName.length > 1))
-			{ 
-				url += "&dateFrom="+Date.parse(form.value.dateFrom);
-			}
-			else
+			if(form.value.dateTo != '')
 			{
-				url += "?dateFrom="+Date.parse(form.value.dateFrom);
+				if(patiantName[0] != '' || form.value.dateFrom != '')
+				{
+					url += "&dateTo="+Date.parse(form.value.dateTo);
+				}
+				else
+				{
+					url += "?dateTo="+Date.parse(form.value.dateTo);
+				}
 			}
-		}
-		if(form.value.dateTo != '')
-		{
-			if(patiantName[0] != '' || form.value.dateFrom != '')
-			{
-				url += "&dateTo="+Date.parse(form.value.dateTo);
-			}
-			else
-			{
-				url += "?dateTo="+Date.parse(form.value.dateTo);
-			}
-		}
-		this.dataService.getallData(url, true)
+			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)
 				{
 					let AllDate = JSON.parse(Response.toString());
 				
 					let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-					//alert(JSON.stringify(sortedCountries));
-					this.tabledata = patientDate.reverse();
+					if(this.id == 'colleaguesPatients')
+					{
+					this.colleaguesData = Array();	
+					}
+					if(this.id != 'colleaguesPatients')
+					{
+					this.tabledata = Array();	
+					}
+					for(var k=0; k < patientDate.length; k++)
+					{
+							if(user.emailAddress == patientDate[k].resourceOwner)
+							{
+								if(this.id != 'colleaguesPatients')
+								{
+									this.tabledata.push({
+									  resourceOwner: patientDate[k].resourceOwner,
+									  firstName: patientDate[k].firstName,
+									  lastName: patientDate[k].lastName,
+									  dob: patientDate[k].dob,
+									  email: patientDate[k].email,
+									  isActive: patientDate[k].isActive,
+									  dateCreated: patientDate[k].dateCreated,
+									  patientId: patientDate[k].patientId
+									});
+								}
+							}
+							else
+							{
+								if(this.id == 'colleaguesPatients')
+								{
+									this.colleaguesData.push({
+									  resourceOwner: patientDate[k].resourceOwner,
+									  firstName: patientDate[k].firstName,
+									  lastName: patientDate[k].lastName,
+									  dob: patientDate[k].dob,
+									  email: patientDate[k].email,
+									  isActive: patientDate[k].isActive,
+									  dateCreated: patientDate[k].dateCreated,
+									  patientId: patientDate[k].patientId
+									});
+								}
+							}
+					}
+					if(this.id != 'colleaguesPatients')
+					{
+					this.tabledata = this.tabledata.reverse();
+					}
+					if(this.id == 'colleaguesPatients')
+					{
+					this.colleaguesData = this.colleaguesData.reverse();
+					}
+					this.isLoadingData = false;
 				}
 			}, error => {
 				if (error.status === 404)
@@ -248,14 +295,13 @@ export class PatientsListComponent implements OnInit {
 				else
 				swal('Oops something went wrong, please try again');
 			});
-	  };
+		}
+	}
 	
-  // The master checkbox will check/ uncheck all items
   checkUncheckAll() {
     for (var i = 0; i < this.tabledata.length; i++) {
       this.tabledata[i].isSelected = this.masterSelected;
     }
-    //this.getCheckedItemList();
   }
 
   // Check All Checkbox Checked
@@ -263,18 +309,9 @@ export class PatientsListComponent implements OnInit {
     this.masterSelected = this.tabledata.every(function(item:any) {
         return item.isSelected == true;
       })
-    //this.getCheckedItemList();
   }
 
   // Get List of Checked Items
-  /*getCheckedItemList(){
-    this.checkedList = [];
-    for (var i = 0; i < this.checklist.length; i++) {
-      if(this.checklist[i].isSelected)
-      this.checkedList.push(this.checklist[i]);
-    }
-    this.checkedList = JSON.stringify(this.checkedList);
-  }*/
 
 	
 	getAllMembers() {
@@ -283,7 +320,6 @@ export class PatientsListComponent implements OnInit {
 		{
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			
-			//url += "&invitedUserId="+user.dentalId;
 			url += "?invitedUserMail="+user.emailAddress;
 			url += "&presentStatus=1";
 			this.dataService.getallData(url, true)
@@ -292,9 +328,7 @@ export class PatientsListComponent implements OnInit {
 				{
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					//alert(JSON.stringify(this.allMember));
 					this.getColleguespatiant();
-					//alert(JSON.stringify(this.allMember));
 				}
 			}, error => {
 				if (error.status === 404)
@@ -322,12 +356,10 @@ export class PatientsListComponent implements OnInit {
 	}
 	
 	getColleguespatiant() {
-		//alert(JSON.stringify(this.allMember));
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
 			this.colleaguesData = Array();	
-			//alert(JSON.stringify(this.allMember[k].patientId));
 			for(var k=0; k < this.allMember.length; k++)
 			{
 				let url1 = this.utility.apiData.userPatients.ApiUrl;
@@ -338,7 +370,7 @@ export class PatientsListComponent implements OnInit {
 							let AllDate = JSON.parse(Response.toString());
 							//alert(JSON.stringify(AllDate));
 							this.colleaguesData.push({
-							  resourceOwner: AllDate.firstName,
+							  resourceOwner: AllDate.resourceOwner,
 							  firstName: AllDate.firstName,
 							  lastName: AllDate.lastName,
 							  dob: AllDate.dob,
@@ -369,7 +401,6 @@ export class PatientsListComponent implements OnInit {
 				});
 			}
 			this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
-			//alert(JSON.stringify(this.colleaguesData));
 		}
 	}
 }

@@ -1,4 +1,4 @@
 .repeatbox{background:#F3F6FF;border:1px solid #DDE4EB;border-radius:10px;}
 .repeatsec .repeatbox:nth-child(5) + .remove-button{display:none;}
-.repeatsec .add-button{position:absolute;right:70px;bottom:71px;}
+.repeatsec .add-button{position:absolute;right:70px;bottom:65px;}
 .repeatsec .repeatbox:nth-child(5) + .remove-button + .add-button{position:relative;right: 0px;bottom: 0px;}

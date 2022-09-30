@@ -18,11 +18,13 @@ export class WorkOrdersListComponent implements OnInit {
 	tabledata:any;
 	checkedList:any;
 	shimmer = Array;
+	userDeatils: any;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
+		this.userDeatils = this.usr.getUserDetails(false);
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
 		sessionStorage.setItem('backurl', '/workorders/work-orders');
@@ -55,24 +57,14 @@ export class WorkOrdersListComponent implements OnInit {
 	getallworkorder() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
-		{/* 
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			}); */
+		{
 			let url = this.utility.apiData.userWorkOrders.ApiUrl;
-			//let caseId = sessionStorage.getItem("caseId");
-			//if(caseId != '')
-			//{
-				//url += "?caseId="+caseId;
-			//}
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					//alert(JSON.stringify(GetAllData));
 					this.tabledata = Array();
 					if(GetAllData.length == '0')
 					{
@@ -83,6 +75,7 @@ export class WorkOrdersListComponent implements OnInit {
 					{
 						this.tabledata.push({
 						  id: k,
+						  resourceOwner: GetAllData[k].resourceOwner,
 						  dateCreated: GetAllData[k].dateCreated,
 						  presentStatus: GetAllData[k].presentStatus,
 						  startdate: GetAllData[k].startdate,
@@ -141,7 +134,6 @@ export class WorkOrdersListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
-				//alert(JSON.stringify(this.tabledata));
 			}
 			}, (error) => {
 				if (error.status === 404)
@@ -192,8 +184,6 @@ export class WorkOrdersListComponent implements OnInit {
 			if (Response)
 			{
 				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
-				//alert(this.tabledata['0'].title);
 			}
 		}, (error) => {
 			if (error.status === 404)
@@ -237,7 +227,6 @@ export class WorkOrdersListComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					//alert(JSON.stringify(userData));
 					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
 					if(memberResult)
 					{
@@ -246,12 +235,10 @@ export class WorkOrdersListComponent implements OnInit {
 					else{
 						memberResult += name;
 					}
-					//alert(JSON.stringify(memberResult));
 					if(j == userId.length)
 					{
 						this.tabledata[index].memberName = memberResult;
 					}
-					//swal.close();
 					this.isLoadingData = false;
 				}
 				}, (error) => {

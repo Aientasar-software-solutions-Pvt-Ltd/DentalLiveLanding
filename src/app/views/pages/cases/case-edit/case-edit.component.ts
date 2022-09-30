@@ -71,7 +71,7 @@ export class CaseEditComponent implements OnInit {
   onGetdateData(data: any)
 	{
 		this.jsonObj['image'] = data.image;
-		this.jsonObj['title'] = encode(data.title);
+		this.jsonObj['title'] = this.removeHTML(data.title);
 		this.jsonObj['patientId'] = data.patientId;
 		this.jsonObj['patientName'] = data.patientName;
 		this.jsonObj['caseId'] = this.caseId;
@@ -127,7 +127,6 @@ export class CaseEditComponent implements OnInit {
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
-				//let caseType = this.tabledata.caseType;
 				
 			}
 		}, error => {
@@ -166,7 +165,6 @@ export class CaseEditComponent implements OnInit {
 				 this.getDimensionsByFilter(obj[i]);
 			}
 		}
-			//alert(JSON.stringify(this.casetype));
 	}
 	getDimensionsByFilter(id: any){
 		this.onChange(id);
@@ -177,7 +175,6 @@ export class CaseEditComponent implements OnInit {
 				 this.casetype[i].isChecked = true;
 			}
 		}
-	  //return this.casetype.filter(x => x.id === id);
 	}
 	getallPatient(patientId: any) {
 		let url = this.utility.apiData.userPatients.ApiUrl;
@@ -271,5 +268,10 @@ export class CaseEditComponent implements OnInit {
 			myCasetypeArray.push(typeid);
 			this.casetypeArray = myCasetypeArray;
 		}
+	}
+	removeHTML(str){ 
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = str;
+		return tmp.textContent || tmp.innerText || "";
 	}
 }

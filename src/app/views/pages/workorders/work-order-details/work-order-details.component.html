@@ -67,7 +67,7 @@
 						<div class="card-body">
 							<div class="row mt-2">
 								<div class="col-md-12">
-									<div class="row"   *ngIf="tabledata">
+									<div class="row"   >
 										<div class="col-md-8"> 
 											<div class="mb-3 row">
 												<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
@@ -79,20 +79,20 @@
 										<div class="col-md-8"> 
 											<div class="mb-3 row">
 												<label for="title" class="col-sm-3 col-form-label">Title</label>
-												<div class="col-sm-8">
+												<div class="col-sm-8" *ngIf="tabledata">
 													<input class="form-control" type="text" name="title" id="title" value="{{this.tabledata.title}}" aria-label="readonly input example" readonly>
 												</div>
 											</div>
 										</div>
 										<div class="col-md-2"> 
-											<div class="mb-4">
-												<label class="form-label body2 text-gray">Start Date</label>
+											<label class="form-label body2 text-gray">Start Date</label>
+											<div class="mb-4" *ngIf="tabledata">
 												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.startdate | date:'mediumDate'}}">
 											</div>
 										</div>
 										<div class="col-md-2"> 
-											<div class="mb-4">
-												<label class="form-label body2 text-gray">Expected Date</label>
+											<label class="form-label body2 text-gray">Expected Date</label>
+											<div class="mb-4" *ngIf="tabledata">
 												<input type="text" readonly class="form-control-plaintext" value="{{this.tabledata.enddate | date:'mediumDate'}}">
 											</div>
 										</div>
@@ -103,7 +103,7 @@
 													<div class="card" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);background: #0070D2;">
 														<div class="card-body">
 															<p class="text-light body1">
-															 {{this.tabledata.notes.text}}
+															 {{this.removeHTML(this.tabledata.notes.text)}}
 															</p>
 															
 														</div>
@@ -171,7 +171,7 @@
 							<div class="col-md-8 col-lg-6 text-end ">
 								<div class="row">
 									<div class="col-md-10">
-										<span class="body2">{{message.messagedate | date:'medium'}} (3days ago)</span>  
+										<span class="body2">{{message.messagedate | date:'medium'}}</span>  
 									</div>
 									<div class="col-md-2">   
 										<a href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
@@ -186,7 +186,7 @@
 									</p>
 									<div class="mt-2 mb-2">
 										<span *ngFor="let imgUrl of message.messageimg;">
-										  &nbsp;<a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()=='png' || imgUrl.imgName.split('.').pop()=='jpg' || imgUrl.imgName.split('.').pop()=='jpeg' || imgUrl.imgName.split('.').pop()=='gif' || imgUrl.imgName.split('.').pop()=='PNG' || imgUrl.imgName.split('.').pop()=='JPG' || imgUrl.imgName.split('.').pop()=='JPEG' || imgUrl.imgName.split('.').pop()=='GIF'"><img src="{{imgUrl.ImageUrl}}" width="200px" style="display:inline-block;vertical-align:middle;"/></a>
+										  &nbsp;<a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()=='png' || imgUrl.imgName.split('.').pop()=='jpg' || imgUrl.imgName.split('.').pop()=='jpeg' || imgUrl.imgName.split('.').pop()=='gif' || imgUrl.imgName.split('.').pop()=='PNG' || imgUrl.imgName.split('.').pop()=='JPG' || imgUrl.imgName.split('.').pop()=='JPEG' || imgUrl.imgName.split('.').pop()=='GIF'"><img src="{{imgUrl.ImageUrl}}"  style="display:inline-block;vertical-align:middle;width:170px;height:150px"/></a>
 										  <a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()!='png' && imgUrl.imgName.split('.').pop()!='jpg' && imgUrl.imgName.split('.').pop()!='jpeg' && imgUrl.imgName.split('.').pop() !='gif' && imgUrl.imgName.split('.').pop()!='PNG' && imgUrl.imgName.split('.').pop() !='JPG' && imgUrl.imgName.split('.').pop()!='JPEG' && imgUrl.imgName.split('.').pop() !='GIF' && imgUrl.imgName.split('.').pop()!='mp4' && imgUrl.imgName.split('.').pop()!='MP4' && imgUrl.imgName.split('.').pop()!='3gp' && imgUrl.imgName.split('.').pop()!='3GP' && imgUrl.imgName.split('.').pop()!='avi' && imgUrl.imgName.split('.').pop()!='AVI' && imgUrl.imgName.split('.').pop()!='wmv' && imgUrl.imgName.split('.').pop()!='WMV' && imgUrl.imgName.split('.').pop()!='mov' && imgUrl.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" style="display:inline-block;vertical-align:middle;"/>{{imgUrl.imgName}}</a>
 										  <video controls class="video" style="display:inline-block;vertical-align:middle;width:170px;height:150px;" (play)="video()" width="200px" *ngIf="imgUrl.imgName.split('.').pop()=='mp4' || imgUrl.imgName.split('.').pop()=='MP4' || imgUrl.imgName.split('.').pop()=='3gp' || imgUrl.imgName.split('.').pop()=='3GP' || imgUrl.imgName.split('.').pop()=='avi' || imgUrl.imgName.split('.').pop()=='AVI' || imgUrl.imgName.split('.').pop()=='wmv' || imgUrl.imgName.split('.').pop()=='WMV' || imgUrl.imgName.split('.').pop()=='mov' || imgUrl.imgName.split('.').pop()=='MOV'"  #videoPlayer>
 										   <source src="{{imgUrl.ImageUrl}}" type="video/mp4">

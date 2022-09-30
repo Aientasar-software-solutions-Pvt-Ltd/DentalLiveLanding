@@ -12,10 +12,6 @@
 		<h3>Colleagues</h3>
 	</div>	
 	<div class="col-md-6 text-end"> 
-		<!--<a data-bs-toggle="modal" data-bs-target="#addColleagues" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Colleagues</a>
-		<a data-bs-toggle="modal" data-bs-target="#addNonMembers" class="btn btn-default my-1 me-2"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Non Members
-		</a>
-		<a routerLink="/colleagues/colleagues-add-members" class="btn btn-default"><i class="bx bx-plus-circle me-2" aria-hidden="true"></i> View Work History</a> --> 
 	</div>
 </div>
 
@@ -101,9 +97,6 @@
 										<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<!--<a routerLink="/colleagues/colleague-view-profile">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>-->
 									</div>
 								</td>
 							</tr>
@@ -127,20 +120,6 @@
 			<form #ColleagueForm="ngForm" id="ColleagueForm" (ngSubmit)="onSubmitColleague(ColleagueForm)">
 				<div class="modal-body">
 					<div class="row gy-3">
-						<!--<div class="col-md-12">
-							<select  class="form-select"  placeholder="search" >
-								<option disabled selected>Sort By</option>
-								<option>Status</option>
-								<option>Last Modified</option>
-								<option>Date Created</option>
-							</select>
-						</div>
-						<div class="col-md-12">
-							<div class="search">
-								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search by Colleague Name" >
-							</div>
-						</div>-->
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Search by Date:</label>
 						</div>
