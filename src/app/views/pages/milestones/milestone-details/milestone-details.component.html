@@ -377,6 +377,9 @@
 											</div>
 										</td>
 									</tr>
+									<tr *ngIf="this.taskdata.length == 0">
+										<td colspan="8" class="dataTables_empty" valign="top">No data available in table</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
