@@ -89,6 +89,7 @@ export class ReferralDetailsComponent implements OnInit {
 	referalmembers:any;
 	public referalmembersName = '';
 	referalmilestoneId:any;
+	userDetails:any;
 	
  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	this.referralId = this.route.snapshot.paramMap.get('referralId');
@@ -99,6 +100,7 @@ export class ReferralDetailsComponent implements OnInit {
   }
   
   ngOnInit(): void {
+	this.userDetails = this.usr.getUserDetails(false);
     this.dtOptions = {
 	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
       pagingType: 'full_numbers',

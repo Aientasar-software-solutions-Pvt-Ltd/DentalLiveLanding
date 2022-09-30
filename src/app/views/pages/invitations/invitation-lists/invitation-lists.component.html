@@ -168,7 +168,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer text-center justify-content-center border-top-0">
+				<div class="modal-footer text-center justify-content-center border-top-0" *ngIf="this.isSendingData == true">
 					<input type="hidden" name="caseId" id="caseId" ngModel="{{this.case_id}}">
 					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.patient_id}}">
 					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patient_name}}">

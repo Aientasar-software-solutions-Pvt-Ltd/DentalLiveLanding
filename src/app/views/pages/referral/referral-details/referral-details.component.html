@@ -145,7 +145,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12 my-2 mx-1">
-								<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate">
+								<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate"  *ngIf="(this.tabledata.resourceOwner == this.userDetails.emailAddress)">
 									<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
 								</button>
 								<a routerLink="/referrals/referral-list" class="btn btn-secondary">

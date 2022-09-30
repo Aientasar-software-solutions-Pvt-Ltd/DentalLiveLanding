@@ -18,6 +18,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 export class InvitationListsComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	isLoadingData = true;
+	isSendingData = false;
 	id:any = "Received";
 	shimmer = Array;
 	tabContent(ids:any){
@@ -284,6 +285,7 @@ export class InvitationListsComponent implements OnInit {
 				this.invited_user_mail = this.getSubmitData.invitedUserMail;
 				this.invited_user_id = this.getSubmitData.invitedUserId;
 				this.statusvalue = status_value;
+				this.isSendingData = true;
 			}
 		}, error => {
 			if (error.status === 404)
@@ -313,6 +315,7 @@ export class InvitationListsComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitedUserMail="+user.emailAddress;
+		//url += "&presentStatus=0";
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{

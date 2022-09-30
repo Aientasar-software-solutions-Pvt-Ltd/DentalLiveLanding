@@ -80,6 +80,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 	patientImg: any;
 	parmCaseId:any;
 	casesName:any;
+	userDetails:any;
 	patientName:any;
 	
 	public isvalidDate = false;
@@ -99,6 +100,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 	}
 	tabledata:any;
 	ngOnInit(): void {
+		this.userDetails = this.usr.getUserDetails(false);
 		this.dtOptions = {
 			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 			pagingType: 'full_numbers',
@@ -322,7 +324,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData);
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	
 	
