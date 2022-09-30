@@ -24,7 +24,7 @@ const routes: Routes = [
 			{
 				path: 'accounts',
 				loadChildren: () => import('./views/pages/acccounts/accounts.module').then(m => m.AccountsModule),
-				canActivate: [AuthGuard, PermissionGuardService]
+				canActivate: [AuthGuard]
 			},
 			{
 				path: 'patients',
