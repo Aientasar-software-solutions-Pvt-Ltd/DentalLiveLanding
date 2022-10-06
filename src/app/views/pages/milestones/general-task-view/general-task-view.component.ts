@@ -212,9 +212,17 @@ export class GeneralTaskViewComponent implements OnInit {
 	video() {
 		this.videoplayer?.nativeElement.play();
 	}
+	
 	removeHTML(str){ 
-		var tmp = document.createElement("DIV");
-		tmp.innerHTML = str;
-		return tmp.textContent || tmp.innerText || "";
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
+			var tmp = document.createElement("DIV");
+			tmp.innerHTML = str;
+			return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+			return "";
+		}
 	}
 }

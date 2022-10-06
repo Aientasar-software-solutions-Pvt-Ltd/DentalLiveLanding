@@ -363,9 +363,17 @@ export class WorkOrderAddComponent implements OnInit {
 	onFocused(e: any) {
 	// do something
 	}
+	
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

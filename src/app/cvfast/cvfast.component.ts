@@ -608,15 +608,18 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 	}
 	//show data in edit ##converthink
 	setCvfast(obj) {
-		this.baseText = obj.text;
-		if (obj.links.length > 0) {
-		  for (var i = 0; i < obj.links.length; i++) {
-			this.attachmentFiles.push({ name: obj.links[i], binaryData: '' });
-		  }
-		}
-		this.cvfast = {
-		  text: obj.text,
-		  links: obj.links
+		if(JSON.stringify(obj).length > 2)
+		{
+			this.baseText = obj.text;
+			if (obj.links.length > 0) {
+			  for (var i = 0; i < obj.links.length; i++) {
+				this.attachmentFiles.push({ name: obj.links[i], binaryData: '' });
+			  }
+			}
+			this.cvfast = {
+			  text: obj.text,
+			  links: obj.links
+			}
 		}
 		// return this.cvfast;
 	}
@@ -625,8 +628,15 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		e.target.style.height = (e.target.scrollHeight + 10) + "px";
 	}
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

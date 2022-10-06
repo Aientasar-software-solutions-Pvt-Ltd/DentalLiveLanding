@@ -58,6 +58,7 @@ export class ColleaguesListComponent implements OnInit {
 				this.isLoadingData = false;
 				let GetAllData = JSON.parse(Response.toString());
 				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				//alert(JSON.stringify(GetAllData));
 				this.invitedata = Array();
 				let Row = 0;
 				for(var k = 0; k < GetAllData.length; k++)
@@ -81,11 +82,12 @@ export class ColleaguesListComponent implements OnInit {
 						  dentalId: user.dentalId,
 						  caseTitle: ''
 						});
-						this.getuserdetailsall(GetAllData[k].invitedUserId,Row);
+						this.getuserdetailsall(GetAllData[k].invitedUserMail,Row);
 						this.getcasedetails(GetAllData[k].caseId,Row);
 						Row++;
 					}
 				}
+				//alert(JSON.stringify(this.invitedata));
 			}
 		}, error => {
 			if (error.status === 404)
@@ -121,18 +123,19 @@ export class ColleaguesListComponent implements OnInit {
 		let url = this.utility.apiData.userColleague.ApiUrl;
 		if(userId != '')
 		{
-			url += "?dentalId="+userId;
+			url += "?emailAddress="+userId;
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 		if (Response)
 		{
 			let userData = JSON.parse(Response.toString());
-			let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+			let name = userData.accountfirstName+' '+userData.accountlastName;
 			this.invitedata[index].userName = name;
-			this.invitedata[index].userEducation = userData[0].education;
-			this.invitedata[index].userCity = userData[0].city;
-			this.invitedata[index].userCountry = userData[0].country;
+			this.invitedata[index].userEducation = userData.education;
+			this.invitedata[index].userCity = userData.city;
+			this.invitedata[index].userCountry = userData.country;
 		}
+		//alert(JSON.stringify(this.invitedata));
 		}, (error) => {
 			if (error.status === 404)
 			swal('No colleagues found');
@@ -242,7 +245,7 @@ export class ColleaguesListComponent implements OnInit {
 					  dentalId: user.dentalId,
 					  caseTitle: ''
 					});
-					this.getuserdetailsall(GetAllData[k].invitedUserId,k);
+					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
 					this.getcasedetails(GetAllData[k].caseId,k);
 				}
 			}

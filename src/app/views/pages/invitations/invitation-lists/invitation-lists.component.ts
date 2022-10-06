@@ -154,8 +154,9 @@ export class InvitationListsComponent implements OnInit {
 				this.invitedata[index].caseTitle = caseData.title;
 			}
 			}, (error) => {
-				if (error.status === 404)
-				swal('No invitation found');
+				if (error.status === 404){
+				//swal('No invitation found');
+				}
 				else if (error.status === 403)
 				swal('You are unauthorized to access the data');
 				else if (error.status === 400)
@@ -196,8 +197,9 @@ export class InvitationListsComponent implements OnInit {
 			this.invitedata[index].userName = name;
 		}
 		}, (error) => {
-			if (error.status === 404)
-			swal('No invitation found');
+			if (error.status === 404){
+			//swal('No Member found');
+			}
 			else if (error.status === 403)
 			swal('You are unauthorized to access the data');
 			else if (error.status === 400)
@@ -383,8 +385,9 @@ export class InvitationListsComponent implements OnInit {
 				this.inviteReceivedData[index].caseTitle = caseData.title;
 			}
 			}, (error) => {
-				if (error.status === 404)
-				swal('No invitation found');
+				if (error.status === 404){
+				//swal('No invitation found');
+				}
 				else if (error.status === 403)
 				swal('You are unauthorized to access the data');
 				else if (error.status === 400)
@@ -425,8 +428,9 @@ export class InvitationListsComponent implements OnInit {
 			this.inviteReceivedData[index].userName = name;
 		}
 		}, (error) => {
-			if (error.status === 404)
-			swal('No invitation found');
+			if (error.status === 404){
+			//swal('No invitation found');
+			}
 			else if (error.status === 403)
 			swal('You are unauthorized to access the data');
 			else if (error.status === 400)

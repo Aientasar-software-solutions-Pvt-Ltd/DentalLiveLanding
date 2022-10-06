@@ -199,9 +199,17 @@ export class MilestoneEditComponent implements OnInit {
 	{
 		this.cvfastval.setCvfast(this.editdata.description);
 	}
+	
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

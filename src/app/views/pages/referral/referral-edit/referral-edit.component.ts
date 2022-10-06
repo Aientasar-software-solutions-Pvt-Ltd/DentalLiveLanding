@@ -274,11 +274,11 @@ export class ReferralEditComponent implements OnInit {
 				this.editedDateTitle = decode(this.editedDate.title);
 				this.toothData = this.editedDate.toothguide;
 				this.allMemberEmail = this.editedDate.members;
+				this.getCaseDetails(this.editedDate.caseId);
+				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
 				setTimeout(()=>{     
 					this.setcvFast();
 				}, 1000);
-				this.getCaseDetails(this.editedDate.caseId);
-				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
 			}
 		}, error => {
 			if (error.status === 404)
@@ -357,8 +357,15 @@ export class ReferralEditComponent implements OnInit {
 		}
 	}
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }
