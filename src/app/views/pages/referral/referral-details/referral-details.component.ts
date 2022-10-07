@@ -25,16 +25,23 @@ export class ReferralDetailsComponent implements OnInit {
 	show1 = false;
 	id:any = "tab1";
 	shimmer = Array;
+	@ViewChild(ReferralGuideComponent)
+	orders: ReferralGuideComponent;
+	toothData: any;
 	tabContent(ids:any){
 		this.id = ids;
+		setTimeout(()=>{    
+			if(this.toothData)
+			{
+				this.orders.setToothGuide(this.toothData);
+			}
+		}, 1000);
 	}
 	showComment: any;
 	replyToggle(index){
 		this.setMessageRpValue = false;
 		this.showComment =index;
 	}
-	@ViewChild(ReferralGuideComponent)
-	orders: ReferralGuideComponent;
 	
   dtOptions: DataTables.Settings = {};
   
@@ -124,69 +131,76 @@ export class ReferralDetailsComponent implements OnInit {
 		var target = $(e.target).attr("href"); // activated tab
 		$($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
 	});
-	this.getReferralDetails();
-	setTimeout(()=>{    
-		if(this.toothData)
-		{
-			this.orders.setToothGuide(this.toothData);
-		}
-	}, 1000);
+	this.getReferralDetails().then(
+	(value) => {
+	this.orders.setToothGuide(this.toothData);
+	},
+	(error) => {
+	this.orders.setToothGuide(this.toothData);
+	});
   }
   
   
 	getReferralDetails() {
-		this.tabledata = '';
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let referralId = this.referralId;
-		if(referralId != '')
-		{
-			url += "?referralId="+referralId;
-		}
-		if(user)
-		{
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					this.isLoadingData = false;
-					this.tabledata = JSON.parse(Response.toString());
-					this.toothData = this.tabledata.toothguide;
-					this.getCaseDetails(this.tabledata.caseId);
-					this.setcvFast(this.tabledata.notes);
-					this.referaltitle = this.tabledata.title;
-					this.referalmembers = this.tabledata.members;
-					this.referalmilestoneId = this.tabledata.milestoneId;
-					this.cvfastText = true;
-					this.descriptionObj.text = this.tabledata.notes.text;
-					this.descriptionObj.links = this.tabledata.notes.links;
-					//alert(JSON.stringify(this.tabledata));
-					this.getuserdetailsall(this.referalmembers);
-					this.getMessage(this.tabledata.caseId);
-				}
-			}, (error) => {
-				if (error.status === 404)
-				swal('No referral found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
+		return new Promise((Resolve, myReject) => {
+			this.tabledata = '';
+			let user = this.usr.getUserDetails(false);
+			let url = this.utility.apiData.userReferrals.ApiUrl;
+			let referralId = this.referralId;
+			if(referralId != '')
+			{
+				url += "?referralId="+referralId;
+			}
+			if(user)
+			{
+				this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
+					{
+						this.isLoadingData = false;
+						this.tabledata = JSON.parse(Response.toString());
+						this.toothData = this.tabledata.toothguide;
+						this.getCaseDetails(this.tabledata.caseId);
+						this.referaltitle = this.tabledata.title;
+						this.referalmembers = this.tabledata.members;
+						this.referalmilestoneId = this.tabledata.milestoneId;
+						this.descriptionObj.text = this.tabledata.notes.text;
+						if((this.tabledata.notes.text != '') && (this.tabledata.notes.text != 'undefined') && (this.tabledata.notes.text != undefined))
+						{
+						this.cvfastText = true;
+						}
+						this.descriptionObj.links = this.tabledata.notes.links;
+						//alert(JSON.stringify(this.tabledata));
+						this.getuserdetailsall(this.referalmembers);
+						this.getMessage(this.tabledata.caseId);
+						this.setcvFast(this.tabledata.notes);
+						Resolve(true);
+					}
+				}, (error) => {
+					Resolve(true);
+					if (error.status === 404)
+					swal('No referral found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+					return false;
 				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-				return false;
-			});
-		}
+			}
+		});
 	}
 	
 	getuserdetailsall(userId) {
@@ -226,84 +240,90 @@ export class ReferralDetailsComponent implements OnInit {
 		if(page == 'task')
 		{
 			this.attachmentFiles = Array();
-			if(obj.links.length > 0)
+			if(JSON.stringify(obj).length > 2)
 			{
-				this.cvfastLinks = true;
-				for(var i = 0; i < obj.links.length; i++)
+				if(obj.links.length > 0)
 				{
-					
-					let ImageName = obj.links[i];
-					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-					this.dataService.getallData(url, true)
-					.subscribe(Response => {
-						if (Response)
-						{
-							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
-						}
-					}, error => {
-					   if (error.status === 404)
-						swal('No referral found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
+					this.cvfastLinks = true;
+					for(var i = 0; i < obj.links.length; i++)
+					{
+						
+						let ImageName = obj.links[i];
+						let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+						this.dataService.getallData(url, true)
+						.subscribe(Response => {
+							if (Response)
+							{
+								this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+							}
+						}, error => {
+						   if (error.status === 404)
+							swal('No referral found');
+							else if (error.status === 403)
+							swal('You are unauthorized to access the data');
+							else if (error.status === 400)
+							swal('Invalid data provided, please try again');
+							else if (error.status === 401)
+							swal('You are unauthorized to access the page');
+							else if (error.status === 409)
+							swal('Duplicate data entered');
+							else if (error.status === 405)
+							swal({
+							text: 'Due to dependency data unable to complete operation'
+							}).then(function() {
+							window.location.reload();
+							});
+							else if (error.status === 500)
+							swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+							else
+							swal('Oops something went wrong, please try again');
 						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');
-					});
+					}
 				}
 			}
 		}
 		else
 		{
-			if(obj.length > 0)
+			if(JSON.stringify(obj).length > 2)
 			{
-				for(var i = 0; i < obj.length; i++)
+				if(obj.length > 0)
 				{
-					
-					let ImageName = obj[i].files[0].name;
-					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
-					this.dataService.getallData(url, true)
-					.subscribe(Response => {
-						if (Response)
-						{
-							this.casefilesArray[i-1].files[0].url = Response;
-						}
-					}, error => {
-						if (error.status === 404)
-						swal('No referral found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
+					for(var i = 0; i < obj.length; i++)
+					{
+						
+						let ImageName = obj[i].files[0].name;
+						let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
+						this.dataService.getallData(url, true)
+						.subscribe(Response => {
+							if (Response)
+							{
+								this.casefilesArray[i-1].files[0].url = Response;
+							}
+						}, error => {
+							if (error.status === 404)
+							swal('No referral found');
+							else if (error.status === 403)
+							swal('You are unauthorized to access the data');
+							else if (error.status === 400)
+							swal('Invalid data provided, please try again');
+							else if (error.status === 401)
+							swal('You are unauthorized to access the page');
+							else if (error.status === 409)
+							swal('Duplicate data entered');
+							else if (error.status === 405)
+							swal({
+							text: 'Due to dependency data unable to complete operation'
+							}).then(function() {
+							window.location.reload();
+							});
+							else if (error.status === 500)
+							swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+							else
+							swal('Oops something went wrong, please try again');
 						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');
-					});
+					}
+					this.editdata = this.casefilesArray;
 				}
-				this.editdata = this.casefilesArray;
 			}
 		}
 	}
@@ -689,8 +709,15 @@ export class ReferralDetailsComponent implements OnInit {
 		this.videoplayer?.nativeElement.play();
 	}
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

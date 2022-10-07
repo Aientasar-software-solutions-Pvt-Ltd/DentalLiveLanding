@@ -81,35 +81,22 @@ export class PatientsListComponent implements OnInit {
 				//alert(JSON.stringify(patientDate));
 				for(var k=0; k < patientDate.length; k++)
 				{
-						if(user.emailAddress == patientDate[k].resourceOwner)
-						{
-							this.tabledata.push({
-							  resourceOwner: patientDate[k].resourceOwner,
-							  firstName: patientDate[k].firstName,
-							  lastName: patientDate[k].lastName,
-							  dob: patientDate[k].dob,
-							  email: patientDate[k].email,
-							  isActive: patientDate[k].isActive,
-							  dateCreated: patientDate[k].dateCreated,
-							  patientId: patientDate[k].patientId
-							});
-						}
-						else
-						{
-							this.colleaguesData.push({
-							  resourceOwner: patientDate[k].resourceOwner,
-							  firstName: patientDate[k].firstName,
-							  lastName: patientDate[k].lastName,
-							  dob: patientDate[k].dob,
-							  email: patientDate[k].email,
-							  isActive: patientDate[k].isActive,
-							  dateCreated: patientDate[k].dateCreated,
-							  patientId: patientDate[k].patientId
-							});
-						}
+					if(user.emailAddress == patientDate[k].resourceOwner)
+					{
+						this.tabledata.push({
+						  resourceOwner: patientDate[k].resourceOwner,
+						  firstName: patientDate[k].firstName,
+						  lastName: patientDate[k].lastName,
+						  dob: patientDate[k].dob,
+						  email: patientDate[k].email,
+						  isActive: patientDate[k].isActive,
+						  dateCreated: patientDate[k].dateCreated,
+						  patientId: patientDate[k].patientId
+						});
+					}
 				}
 				this.tabledata = this.tabledata.reverse();
-				this.colleaguesData = this.colleaguesData.reverse();
+				this.getAllMembers();
 				this.isLoadingData = false;
 			}
 		}, (error) => {
@@ -246,22 +233,6 @@ export class PatientsListComponent implements OnInit {
 									});
 								}
 							}
-							else
-							{
-								if(this.id == 'colleaguesPatients')
-								{
-									this.colleaguesData.push({
-									  resourceOwner: patientDate[k].resourceOwner,
-									  firstName: patientDate[k].firstName,
-									  lastName: patientDate[k].lastName,
-									  dob: patientDate[k].dob,
-									  email: patientDate[k].email,
-									  isActive: patientDate[k].isActive,
-									  dateCreated: patientDate[k].dateCreated,
-									  patientId: patientDate[k].patientId
-									});
-								}
-							}
 					}
 					if(this.id != 'colleaguesPatients')
 					{
@@ -269,7 +240,7 @@ export class PatientsListComponent implements OnInit {
 					}
 					if(this.id == 'colleaguesPatients')
 					{
-					this.colleaguesData = this.colleaguesData.reverse();
+					this.getAllMembers();
 					}
 					this.isLoadingData = false;
 				}

@@ -93,10 +93,18 @@ export class PatientDetailsComponent implements OnInit {
 			swal('Oops something went wrong, please try again');
 		});
 	}
+	
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 	getallpatiant() {
 		let user = this.usr.getUserDetails(false);

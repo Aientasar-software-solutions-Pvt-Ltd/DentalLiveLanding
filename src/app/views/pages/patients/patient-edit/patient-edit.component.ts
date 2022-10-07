@@ -469,9 +469,17 @@ onActiveInactiveChanged(value:boolean){
 		this.medicationsArray[i].notes=this.removeHTML(event.target.value);
 		}
   }
+	
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

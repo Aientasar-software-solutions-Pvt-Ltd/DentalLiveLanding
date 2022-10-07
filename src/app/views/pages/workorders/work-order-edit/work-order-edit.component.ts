@@ -366,16 +366,18 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	
 	ngAfterViewInit() {
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 2000);
+		this.orders.setToothGuide(this.toothData);
 	}
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 }

@@ -24,6 +24,8 @@ export class WorkOrderDetailsComponent implements OnInit {
 	toothData:any;
 	id:any = "tab1";
 	shimmer = Array;
+	@ViewChild(WorkOrderGuideComponent)
+	orders: WorkOrderGuideComponent;
 	tabContent(ids:any){
 		this.id = ids;
 		setTimeout(()=>{    
@@ -38,8 +40,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.setMessageRpValue = false;
 		this.showComment =index;
 	}
-	@ViewChild(WorkOrderGuideComponent)
-	orders: WorkOrderGuideComponent;
 	public jsonObj = {
 	  workorderId: '',
 	  caseId: '',
@@ -119,67 +119,73 @@ export class WorkOrderDetailsComponent implements OnInit {
 				},
 			},
 		};
-		this.getallworkorder();
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		this.getallworkorder().then(
+		(value) => {
+		this.orders.setToothGuide(this.toothData);
+		},
+		(error) => {
+		this.orders.setToothGuide(this.toothData);
+		});
 	}
 	
 	getallworkorder() {
-		
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let workorderId = this.workorderId;
-		if(workorderId != '')
-		{
-			url += "?workorderId="+workorderId;
-		}
-		if(user)
-		{
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					this.isLoadingData = false;
-					this.tabledata = JSON.parse(Response.toString());
-					this.toothData = this.tabledata.toothguide;
-					this.setcvFast(this.tabledata.notes);
-					this.cvfastText = true;
-					this.descriptionObj.text = this.tabledata.notes.text;
-					this.descriptionObj.links = this.tabledata.notes.links;
-					this.getMessage(this.tabledata.caseId);
-					this.referalmembers = this.tabledata.members;
-					this.parmCaseId = this.tabledata.caseId;
-					this.getuserdetailsall(this.referalmembers);
-					this.getCaseDetails();
-					
-				}
-			}, (error) => {
-				if (error.status === 404)
-				swal('No workorder found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
+		return new Promise((Resolve, myReject) => {
+			this.tabledata = '';
+			let user = this.usr.getUserDetails(false);
+			let url = this.utility.apiData.userWorkOrders.ApiUrl;
+			let workorderId = this.workorderId;
+			if(workorderId != '')
+			{
+				url += "?workorderId="+workorderId;
+			}
+			if(user)
+			{
+				this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
+					{
+						this.isLoadingData = false;
+						this.tabledata = JSON.parse(Response.toString());
+						this.toothData = this.tabledata.toothguide;
+						this.descriptionObj.text = this.tabledata.notes.text;
+						if((this.tabledata.notes.text != '') && (this.tabledata.notes.text != 'undefined') && (this.tabledata.notes.text != undefined))
+						{
+						this.cvfastText = true;
+						}
+						this.descriptionObj.links = this.tabledata.notes.links;
+						this.getMessage(this.tabledata.caseId);
+						this.referalmembers = this.tabledata.members;
+						this.parmCaseId = this.tabledata.caseId;
+						this.getuserdetailsall(this.referalmembers);
+						this.getCaseDetails();
+						this.setcvFast(this.tabledata.notes);
+						Resolve(true);
+					}
+				}, (error) => {
+					Resolve(true);
+					if (error.status === 404)
+					swal('No workorder found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+					return false;
 				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-				return false;
-			});
-		}
+			}
+		});
 	}
 	
 	getuserdetailsall(userId) {
@@ -197,14 +203,17 @@ export class WorkOrderDetailsComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-					if(this.referalmembersName)
+					if(userData.length > 0)
 					{
-						this.referalmembersName += " , "+name;
-					}
-					else
-					{
-						this.referalmembersName += name;
+						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+						if(this.referalmembersName)
+						{
+							this.referalmembersName += " , "+name;
+						}
+						else
+						{
+							this.referalmembersName += name;
+						}
 					}
 				}
 				}, (error) => {
@@ -238,98 +247,96 @@ export class WorkOrderDetailsComponent implements OnInit {
 		if(page == 'task')
 		{
 			this.attachmentFiles = Array();
-			if(obj.links.length > 0)
+			if(JSON.stringify(obj).length > 2)
 			{
-				this.cvfastLinks = true;
-				for(var i = 0; i < obj.links.length; i++)
+				if(obj.links.length > 0)
 				{
-					
-					let ImageName = obj.links[i];
-					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-					this.dataService.getallData(url, true)
-					.subscribe(Response => {
-						if (Response)
-						{
-							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
-						}
-					}, error => {
-						if (error.status === 404)
-						swal('No workorder found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
+					this.cvfastLinks = true;
+					for(var i = 0; i < obj.links.length; i++)
+					{
+						
+						let ImageName = obj.links[i];
+						let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+						this.dataService.getallData(url, true)
+						.subscribe(Response => {
+							if (Response)
+							{
+								this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+							}
+						}, error => {
+							if (error.status === 404)
+							swal('No workorder found');
+							else if (error.status === 403)
+							swal('You are unauthorized to access the data');
+							else if (error.status === 400)
+							swal('Invalid data provided, please try again');
+							else if (error.status === 401)
+							swal('You are unauthorized to access the page');
+							else if (error.status === 409)
+							swal('Duplicate data entered');
+							else if (error.status === 405)
+							swal({
+							text: 'Due to dependency data unable to complete operation'
+							}).then(function() {
+							window.location.reload();
+							});
+							else if (error.status === 500)
+							swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+							else
+							swal('Oops something went wrong, please try again');
 						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');
-					});
+					}
 				}
 			}
 		}
 		else
 		{
-			if(obj.length > 0)
+			if(JSON.stringify(obj).length > 2)
 			{
-				for(var i = 0; i < obj.length; i++)
+				if(obj.length > 0)
 				{
-					
-					let ImageName = obj[i].files[0].name;
-					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
-					this.dataService.getallData(url, true)
-					.subscribe(Response => {
-						if (Response)
-						{
-							this.casefilesArray[i-1].files[0].url = Response;
-						}
-					}, error => {
-						if (error.status === 404)
-						swal('No workorder found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
+					for(var i = 0; i < obj.length; i++)
+					{
+						
+						let ImageName = obj[i].files[0].name;
+						let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+ImageName+'&module='+this.module+'&type=get';
+						this.dataService.getallData(url, true)
+						.subscribe(Response => {
+							if (Response)
+							{
+								this.casefilesArray[i-1].files[0].url = Response;
+							}
+						}, error => {
+							if (error.status === 404)
+							swal('No workorder found');
+							else if (error.status === 403)
+							swal('You are unauthorized to access the data');
+							else if (error.status === 400)
+							swal('Invalid data provided, please try again');
+							else if (error.status === 401)
+							swal('You are unauthorized to access the page');
+							else if (error.status === 409)
+							swal('Duplicate data entered');
+							else if (error.status === 405)
+							swal({
+							text: 'Due to dependency data unable to complete operation'
+							}).then(function() {
+							window.location.reload();
+							});
+							else if (error.status === 500)
+							swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+							else
+							swal('Oops something went wrong, please try again');
 						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');
-					});
+					}
+					this.tabledata = this.casefilesArray;
 				}
-				this.tabledata = this.casefilesArray;
 			}
 		}
 	}
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
-	}
-	ngAfterViewInit() {
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
 	}
 	
 	
@@ -686,8 +693,18 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.videoplayer?.nativeElement.play();
 	}
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
+	}
+	ngAfterViewInit() {
+		this.orders.setToothGuide(this.toothData);
 	}
 }

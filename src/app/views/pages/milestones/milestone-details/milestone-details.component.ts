@@ -157,7 +157,10 @@ export class MilestoneDetailsComponent implements OnInit {
 					this.descriptionObj.text = this.tabledata.description.text;
 					this.descriptionObj.links = this.tabledata.description.links;
 					this.setcvFast(this.tabledata.description);
+					if(this.tabledata.description.text)
+					{
 					this.cvfastText = true;
+					}
 					this.getMessage(this.tabledata.caseId);
 					this.parmCaseId = this.tabledata.caseId;
 					this.getCaseDetails();

@@ -298,10 +298,18 @@ export class PatientAddComponent implements OnInit {
   logValue() {
     console.log(this.medications);
   }
+	
 	removeHTML(str){ 
+		if((str != '') && (str != 'undefined') && (str != undefined))
+		{
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
 		return tmp.textContent || tmp.innerText || "";
+		}
+		else
+		{
+		return "";
+		}
 	}
 
 }

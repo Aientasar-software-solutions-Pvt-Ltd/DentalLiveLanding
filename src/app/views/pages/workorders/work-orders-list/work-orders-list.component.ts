@@ -227,17 +227,20 @@ export class WorkOrdersListComponent implements OnInit {
 				if (Response)
 				{
 					let userData = JSON.parse(Response.toString());
-					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-					if(memberResult)
+					if(userData.length > 0)
 					{
-						memberResult += ','+name;
-					}
-					else{
-						memberResult += name;
-					}
-					if(j == userId.length)
-					{
-						this.tabledata[index].memberName = memberResult;
+						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+						if(memberResult)
+						{
+							memberResult += ' , '+name;
+						}
+						else{
+							memberResult += name;
+						}
+						if(j == userId.length)
+						{
+							this.tabledata[index].memberName = memberResult;
+						}
 					}
 					this.isLoadingData = false;
 				}

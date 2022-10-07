@@ -70,6 +70,9 @@ export class CaseListComponent implements OnInit {
 				{
 					//swal.close();
 					let AllDate = JSON.parse(Response.toString());
+					
+					if(AllDate == ''){ this.isLoadingData = false; }
+					
 					AllDate.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.tabledata = Array();
 					var j = 0;
