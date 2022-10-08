@@ -47,6 +47,7 @@ export class WorkOrdersListComponent implements OnInit {
 				},
 		  },
 		};
+		$('[data-bs-toggle="tooltip"]').tooltip();
 	}
 	
 	searchText(event: any) {

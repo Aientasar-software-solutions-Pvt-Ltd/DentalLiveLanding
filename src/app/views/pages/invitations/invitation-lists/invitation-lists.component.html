@@ -86,16 +86,12 @@
 									</td>
 									<td>
 										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
-											<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-												<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
+											<span class="badge badge-pill body2 px-2" style="background: rgba(0, 182, 128, 0.3);color: #00B680;">Accept</span>&nbsp;
 											</a>
-											<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-												
-												<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">Accept</button></li>
-												
-												<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">Decline</button></li>
-												
-											</ul>
+											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
+											<span class="badge badge-pill body2 px-2" style="background-color: #FEEEF2;color: #F7517F;">Decline</span>
+											</a>
 										</div>
 									</td>
 								</tr>

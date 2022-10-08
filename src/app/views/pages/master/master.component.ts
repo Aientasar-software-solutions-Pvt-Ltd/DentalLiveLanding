@@ -1957,141 +1957,143 @@ export class MasterComponent implements OnInit {
 						let skVal = treadAllData[i].sk;
 						if((skVal != undefined) && (skVal != '') && (skVal != null)) {
 						var skarray = skVal.split("#");
-							if(skarray[0] == 'MESSAGES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: treadAllData[i].messageId,
-									messagetext: this.removeHTML(treadAllData[i].message.text),
-									messageimg: '',
-									messagecomment: treadAllData[i].comments,
-									messagecomments: ''
-								});
-								this.setcvFastComment(treadAllData[i].comments,countIndex);
-								this.setcvFastMsg(treadAllData[i].message,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'CASEINVITES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].invitationText,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'DETAILS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'DETAILS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'WORKORDERS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].notes,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'MILESTONES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'MILESTONES#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'REFERRALS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'REFERRALS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'TASKS')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'TASKS#  : '+treadAllData[i].title,
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.setcvFastMsg(treadAllData[i].description,countIndex);
-								this.cvfastMsgText = true;
-							}
-							else if(skarray[0] == 'FILES')
-							{
-								this.messageDataArray.push({
-									patientId: treadAllData[i].patientId,
-									caseId: treadAllData[i].caseId,
-									patientName: treadAllData[i].resourceOwner,
-									dateUpdated: treadAllData[i].dateUpdated,
-									dateCreated: treadAllData[i].dateCreated,
-									messageId: '',
-									messagetext: 'Files Uploaded',
-									messageimg: '',
-									messagecomment: '',
-									messagecomments: ''
-								});
-								this.cvfastMsgText = true;
-							}
+						if(skarray[0] == 'MESSAGES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: treadAllData[i].messageId,
+								messagetext: this.removeHTML(treadAllData[i].message.text),
+								messageimg: '',
+								messagecomment: treadAllData[i].comments,
+								messagecomments: ''
+							});
+							this.setcvFastComment(treadAllData[i].comments,countIndex);
+							this.setcvFastMsg(treadAllData[i].message,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'CASEINVITES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'CASEINVITES#  : '+this.removeHTML(treadAllData[i].invitationText.text)+' ('+treadAllData[i].invitedUserMail+')',
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].invitationText,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'DETAILS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'DETAILS#  : '+this.removeHTML(treadAllData[i].title),
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'WORKORDERS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'WORKORDERS#  : '+this.removeHTML(treadAllData[i].title),
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].notes,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'MILESTONES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'MILESTONES#  : '+this.removeHTML(treadAllData[i].title),
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'REFERRALS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'REFERRALS#  : '+this.removeHTML(treadAllData[i].title),
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'TASKS')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'TASKS#  : '+this.removeHTML(treadAllData[i].title),
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.cvfastMsgText = true;
+						}
+						else if(skarray[0] == 'FILES')
+						{
+							this.messageDataArray.push({
+								patientId: treadAllData[i].patientId,
+								caseId: treadAllData[i].caseId,
+								patientName: treadAllData[i].resourceOwner,
+								dateUpdated: treadAllData[i].dateUpdated,
+								dateCreated: treadAllData[i].dateCreated,
+								messageId: '',
+								messagetext: 'Files Uploaded',
+								messageimg: '',
+								messagecomment: '',
+								messagecomments: ''
+							});
+							//this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.cvfastMsgText = true;
+						}
 							countIndex++;
 						}
 					}
@@ -2179,7 +2181,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'CASEINVITES#  : '+treadAllData[i].invitationText.text+' ('+treadAllData[i].invitedUserMail+')',
+										messagetext: 'CASEINVITES#  : '+this.removeHTML(treadAllData[i].invitationText.text)+' ('+treadAllData[i].invitedUserMail+')',
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''
@@ -2196,7 +2198,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'DETAILS#  : '+treadAllData[i].title,
+										messagetext: 'DETAILS#  : '+this.removeHTML(treadAllData[i].title),
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''
@@ -2213,7 +2215,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'WORKORDERS#  : '+treadAllData[i].title,
+										messagetext: 'WORKORDERS#  : '+this.removeHTML(treadAllData[i].title),
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''
@@ -2230,7 +2232,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'MILESTONES#  : '+treadAllData[i].title,
+										messagetext: 'MILESTONES#  : '+this.removeHTML(treadAllData[i].title),
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''
@@ -2247,7 +2249,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'REFERRALS#  : '+treadAllData[i].title,
+										messagetext: 'REFERRALS#  : '+this.removeHTML(treadAllData[i].title),
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''
@@ -2264,7 +2266,7 @@ export class MasterComponent implements OnInit {
 										dateUpdated: treadAllData[i].dateUpdated,
 										dateCreated: treadAllData[i].dateCreated,
 										messageId: '',
-										messagetext: 'TASKS#  : '+treadAllData[i].title,
+										messagetext: 'TASKS#  : '+this.removeHTML(treadAllData[i].title),
 										messageimg: '',
 										messagecomment: '',
 										messagecomments: ''

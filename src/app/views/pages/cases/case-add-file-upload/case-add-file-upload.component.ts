@@ -113,11 +113,27 @@ export class CaseAddFileUploadComponent implements OnInit {
 				this.router.navigate(['cases/case-list']);
 			}, 1000);
 		}, error => {
+			this.sending = false;
+			if (error.status === 404)
+			swal('No case files found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
 			swal({
-				text: error.error
+			text: 'Due to dependency data unable to complete operation'
 			}).then(function() {
-				window.location.reload();
+			window.location.reload();
 			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
 		});
 	}
 	
@@ -156,6 +172,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 					    this.onGetdateData(isData);
 					}
 				}, error => {
+					this.sending = false;
 					if (error.status === 404)
 					swal('No case files found');
 					else if (error.status === 403)
@@ -179,6 +196,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 				});	
 			  })
 			  .catch((error) => {
+					this.sending = false;
 					if (error.status === 404)
 					swal('No case files found');
 					else if (error.status === 403)

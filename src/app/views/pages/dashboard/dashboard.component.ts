@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit(): void {
 	this.getThread(sessionStorage.getItem('loginResourceId'));
 	this.getInviteListingReceived(sessionStorage.getItem('loginResourceId'));
-	this.getInviteListing(sessionStorage.getItem('loginResourceId'));
+	//this.getInviteListing(sessionStorage.getItem('loginResourceId'));
 	}
 	getInviteListingReceived(fromDate) {
 		let user = this.usr.getUserDetails(false);
