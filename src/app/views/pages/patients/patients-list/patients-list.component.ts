@@ -166,115 +166,198 @@ export class PatientsListComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			let url = this.utility.apiData.userPatients.ApiUrl;
-			let strName = form.value.firstName;
-			let patiantName =strName.split(' ');
-			if(patiantName[0] != '')
+			if(this.id != 'colleaguesPatients')
 			{
-				url += "?firstName="+patiantName[0];
-			}
-			if(patiantName.length > 1)
-			{
-				if(patiantName[1] != '')
+				let url = this.utility.apiData.userPatients.ApiUrl;
+				let strName = form.value.firstName;
+				let patiantName =strName.split(' ');
+				if(patiantName[0] != '')
 				{
-					if(patiantName[0] != '')
+					url += "?firstName="+patiantName[0];
+				}
+				if(patiantName.length > 1)
+				{
+					if(patiantName[1] != '')
 					{
-						url += "&lastName="+patiantName[1];
+						if(patiantName[0] != '')
+						{
+							url += "&lastName="+patiantName[1];
+						}
+						else
+						{
+							url += "?lastName="+patiantName[1];
+						}
+					}
+				}
+				if(form.value.dateFrom != '')
+				{
+					if(patiantName[0] != '' || (patiantName.length > 1))
+					{ 
+						url += "&dateFrom="+Date.parse(form.value.dateFrom);
 					}
 					else
 					{
-						url += "?lastName="+patiantName[1];
+						url += "?dateFrom="+Date.parse(form.value.dateFrom);
 					}
 				}
-			}
-			if(form.value.dateFrom != '')
-			{
-				if(patiantName[0] != '' || (patiantName.length > 1))
-				{ 
-					url += "&dateFrom="+Date.parse(form.value.dateFrom);
-				}
-				else
+				if(form.value.dateTo != '')
 				{
-					url += "?dateFrom="+Date.parse(form.value.dateFrom);
-				}
-			}
-			if(form.value.dateTo != '')
-			{
-				if(patiantName[0] != '' || form.value.dateFrom != '')
-				{
-					url += "&dateTo="+Date.parse(form.value.dateTo);
-				}
-				else
-				{
-					url += "?dateTo="+Date.parse(form.value.dateTo);
-				}
-			}
-			this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response)
-				{
-					let AllDate = JSON.parse(Response.toString());
-				
-					let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-					if(this.id == 'colleaguesPatients')
+					if(patiantName[0] != '' || form.value.dateFrom != '')
 					{
-					this.colleaguesData = Array();	
+						url += "&dateTo="+Date.parse(form.value.dateTo);
 					}
-					if(this.id != 'colleaguesPatients')
+					else
 					{
-					this.tabledata = Array();	
+						url += "?dateTo="+Date.parse(form.value.dateTo);
 					}
-					for(var k=0; k < patientDate.length; k++)
+				}
+				this.dataService.getallData(url, true)
+				.subscribe(Response => {
+					if (Response)
 					{
-							if(user.emailAddress == patientDate[k].resourceOwner)
-							{
-								if(this.id != 'colleaguesPatients')
+						let AllDate = JSON.parse(Response.toString());
+						let patientDate = AllDate.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+						this.tabledata = Array();	
+						for(var k=0; k < patientDate.length; k++)
+						{
+								if(user.emailAddress == patientDate[k].resourceOwner)
 								{
-									this.tabledata.push({
-									  resourceOwner: patientDate[k].resourceOwner,
-									  firstName: patientDate[k].firstName,
-									  lastName: patientDate[k].lastName,
-									  dob: patientDate[k].dob,
-									  email: patientDate[k].email,
-									  isActive: patientDate[k].isActive,
-									  dateCreated: patientDate[k].dateCreated,
-									  patientId: patientDate[k].patientId
-									});
+									if(this.id != 'colleaguesPatients')
+									{
+										this.tabledata.push({
+										  resourceOwner: patientDate[k].resourceOwner,
+										  firstName: patientDate[k].firstName,
+										  lastName: patientDate[k].lastName,
+										  dob: patientDate[k].dob,
+										  email: patientDate[k].email,
+										  isActive: patientDate[k].isActive,
+										  dateCreated: patientDate[k].dateCreated,
+										  patientId: patientDate[k].patientId
+										});
+									}
+								}
+						}
+						this.tabledata = this.tabledata.reverse();
+						this.isLoadingData = false;
+					}
+				}, error => {
+					if (error.status === 404)
+					swal('No patient found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered for first name or last name');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+				});
+			}
+			else
+			{
+				this.colleaguesData = Array();	
+				let url1 = this.utility.apiData.userPatients.ApiUrl;
+					//url1 += "?patientId="+this.allMember[k].patientId;
+					let strName = form.value.firstName;
+					let patiantName =strName.split(' ');
+					if(patiantName[0] != '')
+					{
+						url1 += "?firstName="+patiantName[0];
+					}
+					if(patiantName.length > 1)
+					{
+						if(patiantName[1] != '')
+						{
+							if(patiantName[0] != '')
+							{
+								url1 += "&lastName="+patiantName[1];
+							}
+							else
+							{
+								url1 += "?lastName="+patiantName[1];
+							}
+						}
+					}
+					if(form.value.dateFrom != '')
+					{
+						if(patiantName[0] != '' || (patiantName.length > 1))
+						{ 
+							url1 += "&dateFrom="+Date.parse(form.value.dateFrom);
+						}
+						else
+						{
+							url1 += "?dateFrom="+Date.parse(form.value.dateFrom);
+						}
+					}
+					if(form.value.dateTo != '')
+					{
+						if(patiantName[0] != '' || form.value.dateFrom != '')
+						{
+							url1 += "&dateTo="+Date.parse(form.value.dateTo);
+						}
+						else
+						{
+							url1 += "?dateTo="+Date.parse(form.value.dateTo);
+						}
+					}
+					this.dataService.getallData(url1, true).subscribe(Response => {
+						if (Response)
+						{
+							let AllDate = JSON.parse(Response.toString());
+							//alert(JSON.stringify(AllDate));
+							for(var k=0; k < AllDate.length; k++)
+							{
+								for(var l=0; l < this.allMember.length; l++)
+								{
+									if(this.allMember[l].patientId == AllDate[k].patientId)
+									{
+										this.colleaguesData.push({
+										  resourceOwner: AllDate[k].resourceOwner,
+										  firstName: AllDate[k].firstName,
+										  lastName: AllDate[k].lastName,
+										  dob: AllDate[k].dob,
+										  email: AllDate[k].email,
+										  isActive: AllDate[k].isActive,
+										  dateCreated: AllDate[k].dateCreated,
+										  patientId: AllDate[k].patientId
+										});
+									}
 								}
 							}
-					}
-					if(this.id != 'colleaguesPatients')
-					{
-					this.tabledata = this.tabledata.reverse();
-					}
-					if(this.id == 'colleaguesPatients')
-					{
-					this.getAllMembers();
-					}
-					this.isLoadingData = false;
-				}
-			}, error => {
-				if (error.status === 404)
-				swal('No patient found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered for first name or last name');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
+							this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
+							this.isLoadingData = false;
+							this.loadTooltip();
+						}
+					}, (error) => {
+						if (error.status === 404)
+						swal('No patient found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered for first name or last name');
+						else if (error.status === 405)
+						swal('Due to dependency data unable to complete operation');
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					return false;
 				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-			});
+			}
 		}
 	}
 	
@@ -360,6 +443,7 @@ export class PatientsListComponent implements OnInit {
 							  dateCreated: AllDate.dateCreated,
 							  patientId: AllDate.patientId
 							});
+							this.isLoadingData = false;
 							this.loadTooltip();
 						}
 					}, (error) => {

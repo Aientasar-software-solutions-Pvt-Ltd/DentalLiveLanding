@@ -215,67 +215,93 @@ export class CaseListComponent implements OnInit {
 			{
 				this.colleaguesdata = Array();	
 				let mn = 0;
-				for(var k=0; k < this.allMember.length; k++)
+				let url = this.utility.apiData.userCases.ApiUrl;
+				let patientName = form.value.patientName;
+				if(patientName != '')
 				{
-					let url1 = this.utility.apiData.userCases.ApiUrl;
-					url1 += "?caseId="+this.allMember[k].caseId;
-					let patientName = form.value.patientName;
-					if(patientName != '')
-					{
-						url1 += "&patientName="+patientName;
-					}
-					if(form.value.title != '')
-					{
-						url1 += "&title="+form.value.title;
-					}
-					if(form.value.dateFrom != '')
-					{
-						url1 += "&dateFrom="+Date.parse(form.value.dateFrom);
-					}
-					if(form.value.dateTo != '')
-					{
-						url1 += "&dateTo="+Date.parse(form.value.dateTo);
-					}
-					this.dataService.getallData(url1, true).subscribe(Response => {
-						if (Response)
-						{
-							let AllDate = JSON.parse(Response.toString());
-							this.colleaguesdata.push({
-							  patientName: AllDate.patientName,
-							  title: AllDate.title,
-							  caseStatus: AllDate.caseStatus,
-							  dateCreated: AllDate.dateCreated,
-							  memberName: '',
-							  patientId: AllDate.patientId,
-							  caseId: AllDate.caseId
-							});
-							this.getCaseMemberList(AllDate.caseId,mn,2);
-							mn++;
-						}
-					}, (error) => {
-						if (error.status === 404)
-						swal('No case found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
-						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');			  
-						return false;
-					});
+					url += "?patientName="+patientName;
 				}
+				if(form.value.title != '')
+				{
+					if(patientName != '')
+					{ 
+						url += "&title="+form.value.title;
+					}
+					else
+					{
+						url += "?title="+form.value.title;
+					}
+				}
+				if(form.value.dateFrom != '')
+				{
+					if(patientName != '' || form.value.title != '')
+					{ 
+						url += "&dateFrom="+Date.parse(form.value.dateFrom);
+					}
+					else
+					{
+						url += "?dateFrom="+Date.parse(form.value.dateFrom);
+					}
+				}
+				if(form.value.dateTo != '')
+				{
+					if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+					{
+						url += "&dateTo="+Date.parse(form.value.dateTo);
+					}
+					else
+					{
+						url += "?dateTo="+Date.parse(form.value.dateTo);
+					}
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
+					{
+						let AllDate = JSON.parse(Response.toString());
+						for(var k = 0; k < AllDate.length; k++)
+						{
+							for(var l=0; l < this.allMember.length; l++)
+							{
+								if(this.allMember[l].caseId ==AllDate[k].caseId)
+								{
+									this.colleaguesdata.push({
+									  patientName: AllDate[k].patientName,
+									  title: AllDate[k].title,
+									  caseStatus: AllDate[k].caseStatus,
+									  dateCreated: AllDate[k].dateCreated,
+									  memberName: '',
+									  patientId: AllDate[k].patientId,
+									  caseId: AllDate[k].caseId
+									});
+									this.getCaseMemberList(AllDate[k].caseId,mn,2);
+									mn++;
+								}
+							}
+						}
+					}
+				}, (error) => {
+					if (error.status === 404)
+					swal('No case found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');			  
+					return false;
+				});
 			}
 		}
 	};
