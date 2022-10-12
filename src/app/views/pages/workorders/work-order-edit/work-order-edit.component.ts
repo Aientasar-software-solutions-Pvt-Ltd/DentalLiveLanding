@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA , AfterViewInit, ChangeDetectorRef} from '@angular/core';
 import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
@@ -20,8 +19,9 @@ import {decode} from 'html-entities';
 export class WorkOrderEditComponent implements OnInit {
 	sending: boolean = false;
 	@ViewChild(Cvfast) cv!: Cvfast;
-	@ViewChild(WorkOrderGuideComponent)
-	orders: WorkOrderGuideComponent;
+	name = 'this is from app compoenent';
+	@ViewChild(WorkOrderGuideComponent) orders: WorkOrderGuideComponent;
+
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
 	public allMemberName: any[] = []
@@ -35,6 +35,9 @@ export class WorkOrderEditComponent implements OnInit {
 	public casesName = '';
 	public patientName = '';
 	public tabledataTitle = '';
+	public startDateEdit = 0;
+	public endDateEdit = 0;
+	public presentStatusEdit = 0;
 	tabledata:any;
 	
 	public patiantStatus = false;
@@ -58,8 +61,9 @@ export class WorkOrderEditComponent implements OnInit {
 	}
 	maxDate = new Date();
 	workorderId: any;
-	toothData = '';
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute) { 
+	toothData = {"idth4":{"selections":["d1"],"notes":"Test zonica"}};
+	//toothData = '';
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService, private utilitydev: UtilityServicedev, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) { 
 		this.workorderId = this.route.snapshot.paramMap.get('workorderId');
 	}
 	
@@ -68,14 +72,118 @@ export class WorkOrderEditComponent implements OnInit {
 	}
   
 	ngOnInit(): void {
+
 		this.getallworkorder();
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 2000);
+		/*callback function
+		this.getallworkorder().then(
+		(value) => {
+		},
+		(error) => {
+		});*/
 	}
+	getallworkorder() {
+		let url = this.utility.apiData.userWorkOrders.ApiUrl;
+		let workorderId = this.workorderId;
+		if(workorderId != '')
+		{
+			url += "?workorderId="+workorderId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				this.tabledata = JSON.parse(Response.toString());
+				this.toothData = this.tabledata.toothguide;
+				console.log("calling tooth guide");
+				console.log(this.orders);
+				console.log(this.toothData);
+				this.orders.setToothGuide(this.toothData);
+				this.allMemberEmail = this.tabledata.members;
+				this.tabledataTitle = decode(this.tabledata.title);
+				this.startDateEdit = this.tabledata.startdate;
+				this.endDateEdit = this.tabledata.enddate;
+				this.presentStatusEdit = this.tabledata.presentStatus;
+				this.getCaseDetails(this.tabledata.caseId);
+				this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
+				this.setcvFast();
+			}
+		}, error => {
+			if (error.status === 404)
+			swal('No workorder found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
+		});
+	}
+	/* Callback function
+	getallworkorder() {
+		return new Promise((Resolve, myReject) => {
+			let url = this.utility.apiData.userWorkOrders.ApiUrl;
+			let workorderId = this.workorderId;
+			if(workorderId != '')
+			{
+				url += "?workorderId="+workorderId;
+			}
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					this.tabledata = JSON.parse(Response.toString());
+					this.toothData = this.tabledata.toothguide;
+					console.log("calling tooth guide");
+					console.log(this.orders);
+					console.log(this.toothData);
+					this.orders.setToothGuide(this.toothData);
+					this.allMemberEmail = this.tabledata.members;
+					this.tabledataTitle = decode(this.tabledata.title);
+					this.startDateEdit = this.tabledata.startdate;
+					this.endDateEdit = this.tabledata.enddate;
+					this.presentStatusEdit = this.tabledata.presentStatus;
+					this.getCaseDetails(this.tabledata.caseId);
+					this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
+					Resolve(true);
+					this.setcvFast();
+				}
+			}, error => {
+				Resolve(true);
+				if (error.status === 404)
+				swal('No workorder found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
+			});
+		});
+	}*/
 	onSubmitWorkOrders(form: NgForm) {
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.enddate))
@@ -177,8 +285,12 @@ export class WorkOrderEditComponent implements OnInit {
 				{
 				this.selectedCityName.push(name);
 				}
+				if(arrayObj.length ==index)
+				{
+				//alert(JSON.stringify(this.selectedCityName));
+				this.selectedCity = this.selectedCityName;
+				}
 			}
-			//alert(JSON.stringify(this.selectedCityName));
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -272,52 +384,6 @@ export class WorkOrderEditComponent implements OnInit {
 			this.isvalidRefereTo = false;
 		}
 	}
-	getallworkorder() {
-		let url = this.utility.apiData.userWorkOrders.ApiUrl;
-		let workorderId = this.workorderId;
-		if(workorderId != '')
-		{
-			url += "?workorderId="+workorderId;
-		}
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
-				this.tabledata = JSON.parse(Response.toString());
-				this.toothData = this.tabledata.toothguide;
-				this.allMemberEmail = this.tabledata.members;
-				this.tabledataTitle = decode(this.tabledata.title);
-				this.getCaseDetails(this.tabledata.caseId);
-				this.getAllMembers(this.tabledata.caseId,this.tabledata.members);
-				setTimeout(()=>{     
-					this.setcvFast();
-				}, 1000);
-			}
-		}, error => {
-			if (error.status === 404)
-			swal('No workorder found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-
-		});
-	}
-	
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;
 		if(caseId != '')
@@ -360,14 +426,8 @@ export class WorkOrderEditComponent implements OnInit {
 	setcvFast()
 	{
 		this.cv.setCvfast(this.tabledata.notes);
-		setTimeout(()=>{    
-			this.selectedCity = this.selectedCityName;
-		}, 1000);
 	}
 	
-	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData);
-	}
 	removeHTML(str){ 
 		if((str != '') && (str != 'undefined') && (str != undefined))
 		{

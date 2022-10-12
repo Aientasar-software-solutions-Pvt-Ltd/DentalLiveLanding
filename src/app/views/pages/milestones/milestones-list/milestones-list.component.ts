@@ -48,9 +48,17 @@ export class MilestonesListComponent implements OnInit {
 		};
 	}
 	
+	
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
+	}
+	
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
 	}
 	getallmilestone() {
 		sessionStorage.setItem('backurl', '/milestones/milestones-list');
@@ -68,10 +76,12 @@ export class MilestonesListComponent implements OnInit {
 				if (Response)
 				{
 					//swal.close();
-					this.isLoadingData = false;
+					
 					this.tabledata = JSON.parse(Response.toString());
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.userEmailAddress = user.emailAddress;
+					this.isLoadingData = false;
+					this.loadTooltip();
 				}
 			}, (error) => {
 				if (error.status === 404)

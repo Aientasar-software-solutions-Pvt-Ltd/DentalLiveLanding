@@ -19,6 +19,7 @@ export class WorkOrdersListComponent implements OnInit {
 	checkedList:any;
 	shimmer = Array;
 	userDeatils: any;
+	getAllMember: any;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
@@ -47,9 +48,13 @@ export class WorkOrdersListComponent implements OnInit {
 				},
 		  },
 		};
-		$('[data-bs-toggle="tooltip"]').tooltip();
 	}
-	
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
@@ -64,37 +69,36 @@ export class WorkOrdersListComponent implements OnInit {
 				if (Response)
 				{
 					
-					let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					this.getAllMember = JSON.parse(Response.toString());
+					this.getAllMember.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.tabledata = Array();
-					if(GetAllData.length == '0')
+					if(this.getAllMember.length == '0')
 					{
 						//swal.close();
 						this.isLoadingData = false;
 					}
-					for(var k = 0; k < GetAllData.length; k++)
+					for(var k = 0; k < this.getAllMember.length; k++)
 					{
 						this.tabledata.push({
 						  id: k,
-						  resourceOwner: GetAllData[k].resourceOwner,
-						  dateCreated: GetAllData[k].dateCreated,
-						  presentStatus: GetAllData[k].presentStatus,
-						  startdate: GetAllData[k].startdate,
-						  workorderId: GetAllData[k].workorderId,
-						  patientName: GetAllData[k].patientName,
-						  caseId: GetAllData[k].caseId,
-						  patientId: GetAllData[k].patientId,
-						  toothguide: GetAllData[k].toothguide,
-						  enddate: GetAllData[k].enddate,
-						  notes: GetAllData[k].notes,
-						  dateUpdated: GetAllData[k].dateUpdated,
-						  milestoneId: GetAllData[k].milestoneId,
-						  title: GetAllData[k].title,
+						  resourceOwner: this.getAllMember[k].resourceOwner,
+						  dateCreated: this.getAllMember[k].dateCreated,
+						  presentStatus: this.getAllMember[k].presentStatus,
+						  startdate: this.getAllMember[k].startdate,
+						  workorderId: this.getAllMember[k].workorderId,
+						  patientName: this.getAllMember[k].patientName,
+						  caseId: this.getAllMember[k].caseId,
+						  patientId: this.getAllMember[k].patientId,
+						  toothguide: this.getAllMember[k].toothguide,
+						  enddate: this.getAllMember[k].enddate,
+						  notes: this.getAllMember[k].notes,
+						  dateUpdated: this.getAllMember[k].dateUpdated,
+						  milestoneId: this.getAllMember[k].milestoneId,
+						  title: this.getAllMember[k].title,
 						  caseTitle: '',
 						  memberName: '',
 						});
-						this.getcasedetails(GetAllData[k].caseId,k);
-						this.getuserdetailsall(GetAllData[k].members,k);
+						this.getcasedetails(this.getAllMember[k].caseId,this.getAllMember[k].members,k);
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					
@@ -124,7 +128,7 @@ export class WorkOrdersListComponent implements OnInit {
 			});
 		}
 	}
-	getcasedetails(caseId, index) {
+	getcasedetails(caseId, member, index) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -135,8 +139,10 @@ export class WorkOrdersListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
+				this.getuserdetailsall(member,index);
 			}
 			}, (error) => {
+				this.getuserdetailsall(member,index);
 				if (error.status === 404)
 				swal('No workorder found');
 				else if (error.status === 403)
@@ -243,9 +249,14 @@ export class WorkOrdersListComponent implements OnInit {
 							this.tabledata[index].memberName = memberResult;
 						}
 					}
-					this.isLoadingData = false;
+					if(this.getAllMember.length == (index+1))
+					{
+						this.isLoadingData = false;
+					}
+					this.loadTooltip();
 				}
 				}, (error) => {
+					this.isLoadingData = false;
 					if (error.status === 404)
 					swal('No workorder found');
 					else if (error.status === 403)

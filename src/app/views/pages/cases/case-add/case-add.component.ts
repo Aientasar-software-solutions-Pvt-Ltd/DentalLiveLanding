@@ -161,12 +161,14 @@ export class CaseAddComponent implements OnInit {
 		this.patientName = item.name;
 		this.patientImage = item.patientimage;
 		this.Pid = item.id;
-		setTimeout(()=>{     
-			if(item.patientimage)
-			{
-				this.setcvImage(item.patientimage);
-			}
-		}, 1000);
+		if(item.patientimage)
+		{
+			this.setcvImage(item.patientimage);
+		}
+		else
+		{
+			this.caseImage = false;
+		}
 	// do something with selected item
 	}
 
@@ -264,12 +266,10 @@ export class CaseAddComponent implements OnInit {
 					this.patientName = this.tabledata.firstName+' '+this.tabledata.lastName;
 					this.patientImage = this.tabledata.image;
 					this.Pid = this.tabledata.patientId;
-					setTimeout(()=>{     
-						if(this.tabledata.image)
-						{
-							this.setcvImage(this.tabledata.image);
-						}
-					}, 1000);
+					if(this.tabledata.image)
+					{
+					this.setcvImage(this.tabledata.image);
+					}
 					//alert(JSON.stringify(this.tabledata));
 				}
 			}, error => {

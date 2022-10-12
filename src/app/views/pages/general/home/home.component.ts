@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { NgwWowService } from 'ngx-wow';
 import { Observable } from 'rxjs';
+import Typewriter from 't-writer.js';
+
 import {Md5} from "ts-md5/dist/md5";
 
 const baseURL = 'https://oms5sh4336.execute-api.us-west-2.amazonaws.com/default/packages';
@@ -14,7 +16,6 @@ const endPoint = 'https://crm.dentallive.com/webservice.php';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-	
 	scroll(el: HTMLElement) {
 		el.scrollIntoView({behavior: 'smooth'});
 	}
@@ -74,6 +75,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+	
 	 this.readPackages();
 	 //this.createProduct();
 	 this.solutionform = this.fb.group(
@@ -82,7 +85,52 @@ export class HomeComponent implements OnInit {
 		email: ['', [Validators.required, Validators.email]],
 	  }
 	);
+	
+	const target = document.querySelector('.tw')
+	const target2 = document.querySelector('.tw2')
+	const target3 = document.querySelector('.tw3')
+	const target4 = document.querySelector('.tw4')
+
+	const options = {
+		typeSpeed: 60,
+	}
+
+	const writer = new Typewriter(target, options)
+	const writer2 = new Typewriter(target2, options)
+	const writer3 = new Typewriter(target3, options)
+	const writer4 = new Typewriter(target4, options)
+	
+	//writer
+	//.type('An Audio Visual, Virtual treatment Management Platform for Dentistry')
+	//.start()
+	
+	writer
+	.type('An')
+	.removeCursor()
+	.then(writer2.start.bind(writer2))
+	.start()
+
+	writer2
+	.changeTypeColor('#0070D2')
+	.type(" Audio Visual,")
+	.removeCursor()
+	.then(writer3.start.bind(writer3))
+	//.rest(500)
+	
+	writer3
+	.type(" Virtual treatment")
+	.removeCursor()
+	.then(writer4.start.bind(writer4))
+	//.rest(500)
+	
+	writer4
+	.changeTypeColor('#0070D2')
+	.type(" Management Platform for Dentistry")
+	.removeCursor()
+	//.rest(500)
+	
   }
+  
   get f(): { [key: string]: AbstractControl } {
     return this.solutionform.controls;
   }

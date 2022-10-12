@@ -124,7 +124,12 @@ export class MilestoneDetailsComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	addWorkOrders(milestoneId: any, caseId: any) {
 		sessionStorage.setItem('checkCase', '1');
 		sessionStorage.setItem('checkmilestoneid', milestoneId);
@@ -370,7 +375,6 @@ export class MilestoneDetailsComponent implements OnInit {
 						this.getuserdetailsall(getReferrals[k].members,this.indexRow);
 						this.indexRow++;
 					}
-					
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -661,11 +665,12 @@ export class MilestoneDetailsComponent implements OnInit {
 								messageReferenceId: this.messagedata[i].messageReferenceId,
 							});
 						}
+						if(this.messagedata.length == (i+1))
+						{
+							this.messageAry = this.messageDataArray;
+							this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
+						}
 					}
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
-					}, 2000);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -771,6 +776,10 @@ export class MilestoneDetailsComponent implements OnInit {
 					if (Response)
 					{
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+						if(obj.links.length == i)
+						{
+						this.messageDataArray[index].messageimg = MessageDetails;  
+						}
 					}
 				}, error => {
 					if (error.status === 404)
@@ -795,11 +804,6 @@ export class MilestoneDetailsComponent implements OnInit {
 					swal('Oops something went wrong, please try again');
 				});
 			}
-			setTimeout(() => 
-			{
-				this.messageDataArray[index].messageimg = MessageDetails;  
-			},
-			500);
 		}
 	}
 	
@@ -932,6 +936,7 @@ export class MilestoneDetailsComponent implements OnInit {
 					this.patientName = caseDetails.patientName;
 					this.caseid = caseDetails.caseId;
 					this.patientid = caseDetails.patientId;
+					this.loadTooltip();
 				}
 			}, error => {
 				if (error.status === 404)

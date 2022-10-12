@@ -17,6 +17,8 @@ import { SolutionsComponent } from './solutions/solutions.component';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { BecomeVendorComponent } from './become-vendor/become-vendor.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { DentalliveMailComponent } from './dentallive-mail/dentallive-mail.component';
+import { DentalliveTalkComponent } from './dentallive-talk/dentallive-talk.component';
 
 
 const routes: Routes = [
@@ -52,6 +54,14 @@ const routes: Routes = [
 	  {
         path: 'contact-us',
         component: ContactUsComponent
+      },
+	  {
+        path: 'dentallive-mail',
+        component: DentalliveMailComponent
+      },
+	  {
+        path: 'dentallive-talk',
+        component: DentalliveTalkComponent
       }
     ]
   }
@@ -67,7 +77,9 @@ const routes: Routes = [
     SolutionsComponent,
     TermsOfUseComponent,
     BecomeVendorComponent,
-    ContactUsComponent
+    ContactUsComponent,
+	DentalliveMailComponent,
+    DentalliveTalkComponent
   ],
   imports: [
     CommonModule,

@@ -107,7 +107,6 @@ onActiveInactiveChanged(value:boolean){
 		this.getallpatiant();
 	}
 	getallpatiant() {
-		this.sending = true;
 		this.tabledata = '';
 		this.objInsuranceview = '';
 		
@@ -169,13 +168,11 @@ onActiveInactiveChanged(value:boolean){
 						}
 					}
 				}
-				setTimeout(()=>{     
-					if(this.tabledata.image)
-					{
-						this.setcvImage(this.tabledata.image);
-					}
-					this.setcvFast();
-				}, 1000);
+				if(this.tabledata.image)
+				{
+					this.setcvImage(this.tabledata.image);
+				}
+				this.setcvFast();
 			}
 		}, error => {
 			if (error.status === 404)

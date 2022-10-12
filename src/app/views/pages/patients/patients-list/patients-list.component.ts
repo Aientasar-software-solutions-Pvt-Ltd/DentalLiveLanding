@@ -52,13 +52,22 @@ export class PatientsListComponent implements OnInit {
 			last : "<i class='bx bx-last-page'></i>"
 			},
 	  },
+	  columnDefs: [{
+		"defaultContent": "-",
+		"targets": "_all"
+	  }]
 	};
   }
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	removeHTML(str){ 
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
@@ -300,6 +309,7 @@ export class PatientsListComponent implements OnInit {
 					this.allMember = JSON.parse(Response.toString());
 					this.allMember.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.getColleguespatiant();
+					
 				}
 			}, error => {
 				if (error.status === 404)
@@ -350,6 +360,7 @@ export class PatientsListComponent implements OnInit {
 							  dateCreated: AllDate.dateCreated,
 							  patientId: AllDate.patientId
 							});
+							this.loadTooltip();
 						}
 					}, (error) => {
 						if (error.status === 404)

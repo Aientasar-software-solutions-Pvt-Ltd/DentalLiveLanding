@@ -62,7 +62,6 @@ export class MilestoneEditComponent implements OnInit {
 	
 	getEditMilestone() {
 		this.editdata = '';
-		this.sending = true;
 		let url = this.utility.apiData.userMilestones.ApiUrl;
 		let milestoneId = this.getmilestoneId;
 		if(milestoneId != '')
@@ -75,14 +74,11 @@ export class MilestoneEditComponent implements OnInit {
 			{
 				
 				this.editdata = JSON.parse(Response.toString());
-				setTimeout(()=>{     
-					this.setcvFast();
-				}, 1000);
+				this.setcvFast();
 				this.editedDate = new Date(this.editdata.duedate);
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.getCaseDetails(this.editdata.caseId);
 				this.editedTitle = decode(this.editdata.title);
-				this.sending = false;
 			}
 		}, error => {
 			if (error.status === 404)

@@ -45,11 +45,7 @@
 					<table *ngIf="tabledata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 						<thead class="thead-light">
 							<tr style="text-transform:uppercase;">
-								<th data-orderable="false">   
-									<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
-										<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</th>
+								
 								<th class="body2">OWNER</th>
 								<th class="body2">TITLE</th>
 								<th class="body2">STATUS</th>
@@ -59,12 +55,7 @@
 						</thead>
 						<tbody >
 							<tr *ngFor="let data of tabledata; let i = index;">
-								<td>
-									<div class="form-check form-check-inline">
-										<span class="d-none">{{i}}</span>
-										<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-									</div>
-								</td>
+								
 								<td>
 									<div class="d-flex align-items-center">
 										<span class="avatar-icon my-2">{{data.resourceOwner.charAt(0)}}</span>
@@ -90,15 +81,15 @@
 								</td>  
 								<td>
 									<div class="d-flex">
-										<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}"  *ngIf="(userEmailAddress == data.resourceOwner)" class="me-1">
+										<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}"  *ngIf="(userEmailAddress == data.resourceOwner)" class="me-1" data-bs-toggle="tooltip" title="Edit">
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
-										<a routerLink="/milestones/milestone-details/{{data.milestoneId}}" class="me-1">
+										<a routerLink="/milestones/milestone-details/{{data.milestoneId}}" class="me-1" data-bs-toggle="tooltip" title="View">
 											<i class="material-icons fs-4 text-light-green">
 												visibility
 											</i>
 										</a>
-										<a style="cursor: pointer;" *ngIf="(userEmailAddress == data.resourceOwner)" (click)="deletemilestone(data.milestoneId)" class="me-1">
+										<a style="cursor: pointer;" *ngIf="(userEmailAddress == data.resourceOwner)" (click)="deletemilestone(data.milestoneId)" class="me-1" data-bs-toggle="tooltip" title="Delete">
 											<i class="material-icons fs-4 text-danger">close</i>
 										</a>
 									</div>

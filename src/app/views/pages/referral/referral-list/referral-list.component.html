@@ -74,10 +74,10 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/referrals/referral-details/{{data.referralId}}" >
+										<a routerLink="/referrals/referral-details/{{data.referralId}}" data-bs-toggle="tooltip" title="View">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" >
+										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>

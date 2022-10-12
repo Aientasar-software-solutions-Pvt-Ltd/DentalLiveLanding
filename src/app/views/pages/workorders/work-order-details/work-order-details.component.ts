@@ -28,12 +28,15 @@ export class WorkOrderDetailsComponent implements OnInit {
 	orders: WorkOrderGuideComponent;
 	tabContent(ids:any){
 		this.id = ids;
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		if(this.id == 'tab1')
+		{
+			setTimeout(()=>{    
+				if(this.toothData)
+				{
+					this.orders.setToothGuide(this.toothData);
+				}
+			}, 1000);
+		}
 	}
 	showComment: any;
 	replyToggle(index){
@@ -452,11 +455,12 @@ export class WorkOrderDetailsComponent implements OnInit {
 								messagecomment: this.messagedata[i].comments
 							});
 						}
-					}
-					setTimeout(()=>{   
+						if(this.messagedata.length == (i+1))
+						{
 						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
-					}, 2000);
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1);
+						}
+					}
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -561,6 +565,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 					if (Response)
 					{
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+						if(obj.links.length == i)
+						{
+							this.messageDataArray[index].messageimg = MessageDetails; 
+						}
 					}
 				}, error => {
 					if (error.status === 404)
@@ -585,11 +593,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 					swal('Oops something went wrong, please try again');
 				});
 			}
-			setTimeout(() => 
-			{
-				this.messageDataArray[index].messageimg = MessageDetails;  
-			},
-			500);
 		}
 		
 	}
@@ -703,8 +706,5 @@ export class WorkOrderDetailsComponent implements OnInit {
 		{
 		return "";
 		}
-	}
-	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData);
 	}
 }

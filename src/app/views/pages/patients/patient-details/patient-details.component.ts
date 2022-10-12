@@ -70,9 +70,7 @@ export class PatientDetailsComponent implements OnInit {
 			{
 				this.patientImg = Response;
 				this.caseImage = true;
-				setTimeout(()=>{     
-					this.isLoadingData = false;
-				}, 1000);
+				this.isLoadingData = false;
 			}
 		}, error => {
 			if (error.status === 404)
@@ -105,6 +103,12 @@ export class PatientDetailsComponent implements OnInit {
 		{
 		return "";
 		}
+	}
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
 	}
 	getallpatiant() {
 		let user = this.usr.getUserDetails(false);
@@ -144,16 +148,14 @@ export class PatientDetailsComponent implements OnInit {
 				if(this.tabledata.insurance.carrier)
 				{
 					this.insurance = this.removeHTML(this.tabledata.insurance.carrier);
+				}     
+				if(this.tabledata.image)
+				{
+					this.setcvImage(this.tabledata.image);
 				}
-				setTimeout(()=>{     
-					if(this.tabledata.image)
-					{
-						this.setcvImage(this.tabledata.image);
-					}
-					else{
-						this.isLoadingData = false;
-					}
-				}, 1000);
+				else{
+					this.isLoadingData = false;
+				}
 				this.setcvFast(this.tabledata.notes);
 				this.cvfastText = true;
 			}
@@ -275,38 +277,41 @@ export class PatientDetailsComponent implements OnInit {
 	setcvFast(obj: any)
 	{
 		this.attachmentFiles = Array();
-		if(obj.links.length > 0)
+		if(JSON.stringify(obj).length > 2)
 		{
-			this.cvfastLinks = true;
-			for(var i = 0; i < obj.links.length; i++)
+			if(obj.links.length > 0)
 			{
-				
-				let ImageName = obj.links[i];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
-					}
-				}, error => {
-					if (error.status === 404)
-					swal('No patient found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered for first name or last name');
-					else if (error.status === 405)
-					swal('Due to dependency data unable to complete operation');
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				});
+				this.cvfastLinks = true;
+				for(var i = 0; i < obj.links.length; i++)
+				{
+					
+					let ImageName = obj.links[i];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.attachmentFiles.push({ imgName: ImageName, ImageUrl: Response });
+						}
+					}, error => {
+						if (error.status === 404)
+						swal('No patient found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered for first name or last name');
+						else if (error.status === 405)
+						swal('Due to dependency data unable to complete operation');
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					});
+				}
 			}
 		}
 	}
@@ -342,7 +347,6 @@ export class PatientDetailsComponent implements OnInit {
 						});
 						this.getCaseMemberList(casedataResult[k].caseId,k,1);
 					}
-				
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -395,6 +399,7 @@ export class PatientDetailsComponent implements OnInit {
 					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
 					this.indexRow++;
 				} 
+				this.loadTooltip();
 			}
 		}, error => {
 			if (error.status === 404)

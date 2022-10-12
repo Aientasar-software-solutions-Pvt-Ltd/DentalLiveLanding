@@ -74,6 +74,7 @@ export class MasterComponent implements OnInit {
 	public module = 'patient';
 	public CaseTypeVal = '';
 	public caseDate = '';
+	public caseDescription = '';
 	public messageArray: any[] = []
 	public messageDataArray: any[] = []
 	public messageAry: any[] = []
@@ -208,6 +209,8 @@ export class MasterComponent implements OnInit {
 			},
       }
     };
+	this.cvfastText = false;
+	this.cvfastLinks = false;
 	this.getCaseDetails();
 	this.CaseTypeVal = '';
 	if(this.paramTabName == 'threads'){
@@ -329,11 +332,12 @@ export class MasterComponent implements OnInit {
 								messagecomment: this.messagedata[i].comments
 							});
 						}
+						if(this.messagedata.length == (i+1))
+						{
+							this.messageAry = this.messageDataArray;
+							this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+						}
 					}
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
-					}, 2000);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -542,45 +546,47 @@ export class MasterComponent implements OnInit {
 	setcvFastMsg(obj: any, index: any)
 	{
 		let MessageDetails = Array();
-		if(obj.links.length > 0)
+		if(JSON.stringify(obj).length > 2)
 		{
-			this.cvfastMsgLinks = true;
-			for(var i = 0; i < obj.links.length; i++)
+			if(obj.links.length > 0)
 			{
-				let ImageName = obj.links[i];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
-					}
-				}, error => {
-					if (error.status === 404)
-					swal('No patient found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered for first name or last name');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
+				this.cvfastMsgLinks = true;
+				for(var i = 0; i < obj.links.length; i++)
+				{
+					let ImageName = obj.links[i];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+						}
+					}, error => {
+						if (error.status === 404)
+						swal('No patient found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered for first name or last name');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
 					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				});
+				}
+				this.messageDataArray[index].messageimg = MessageDetails;  
 			}
-			this.messageDataArray[index].messageimg = MessageDetails;  
 		}
-		
 	}
   
 	getallworkorder() {
@@ -630,7 +636,6 @@ export class MasterComponent implements OnInit {
 							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'workorder');
 						}
 					}
-					
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -803,9 +808,10 @@ export class MasterComponent implements OnInit {
 				this.paramPatientId = this.tabledata.patientId;
 				this.getallPatient();
 				this.setCaseType(this.tabledata.caseType);
-				this.setcvFast(this.tabledata.description);
 				if(this.tabledata.description.text)
 				{
+				this.caseDescription = this.tabledata.description.text;
+				this.setcvFast(this.tabledata.description);
 				this.cvfastText = true;
 				}
 				if(user.emailAddress == this.tabledata.resourceOwner){
@@ -847,13 +853,11 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				this.patientdata = JSON.parse(Response.toString());
-				setTimeout(()=>{     
-					if(this.patientdata.image)
-					{
-						this.setcvImage(this.patientdata.image);
-					}
-				}, 1000);
+				this.patientdata = JSON.parse(Response.toString());    
+				if(this.patientdata.image)
+				{
+					this.setcvImage(this.patientdata.image);
+				}
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1779,7 +1783,7 @@ export class MasterComponent implements OnInit {
 			});
 		}
 	};
-	
+	GetAllDataInvite:any;
 	getInviteListing() {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -1793,34 +1797,38 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				this.isLoadingData = false;
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				this.GetAllDataInvite = JSON.parse(Response.toString());
+				this.GetAllDataInvite.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 				this.invitedata = Array();
 				this.inviteEmailArray = Array();
-				for(var k = 0; k < GetAllData.length; k++)
+				
+				if(this.GetAllDataInvite.length == '0')
+				{
+					this.isLoadingData = false;
+				}
+				for(var k = 0; k < this.GetAllDataInvite.length; k++)
 				{
 					this.invitedata.push({
 					  id: k,
-					  patientId: GetAllData[k].patientId,
-					  invitedUserId: GetAllData[k].invitedUserId,
-					  invitedUserMail: GetAllData[k].invitedUserMail,
-					  invitationId: GetAllData[k].invitationId,
+					  patientId: this.GetAllDataInvite[k].patientId,
+					  invitedUserId: this.GetAllDataInvite[k].invitedUserId,
+					  invitedUserMail: this.GetAllDataInvite[k].invitedUserMail,
+					  invitationId: this.GetAllDataInvite[k].invitationId,
 					  userName: '',
-					  presentStatus: GetAllData[k].presentStatus,
-					  invitationText: GetAllData[k].invitationText,
-					  patientName: GetAllData[k].patientName,
-					  caseId: GetAllData[k].caseId,
-					  dateUpdated: GetAllData[k].dateUpdated,
-					  resourceOwner: GetAllData[k].resourceOwner
+					  presentStatus: this.GetAllDataInvite[k].presentStatus,
+					  invitationText: this.GetAllDataInvite[k].invitationText,
+					  patientName: this.GetAllDataInvite[k].patientName,
+					  caseId: this.GetAllDataInvite[k].caseId,
+					  dateUpdated: this.GetAllDataInvite[k].dateUpdated,
+					  resourceOwner: this.GetAllDataInvite[k].resourceOwner
 					});
-					this.inviteEmailArray.push(GetAllData[k].invitedUserMail);
-					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+					this.inviteEmailArray.push(this.GetAllDataInvite[k].invitedUserMail);
+					this.getuserdetailsall(this.GetAllDataInvite[k].invitedUserMail,k);
 				}
-				this.getAllMembers();
+				
 			}
 		}, error => {
-			this.getAllMembers();
+			
 			if (error.status === 404)
 			swal('No patient found');
 			else if (error.status === 403)
@@ -1862,7 +1870,11 @@ export class MasterComponent implements OnInit {
 			this.invitedata[index].userEducation = userData.education;
 			this.invitedata[index].userCity = userData.city;
 			this.invitedata[index].userCountry = userData.country;
-			this.isLoadingData = false;
+			if(this.GetAllDataInvite.length == (index+1))
+			{
+				this.getAllMembers();
+				this.isLoadingData = false;
+			}
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -2096,12 +2108,13 @@ export class MasterComponent implements OnInit {
 						}
 							countIndex++;
 						}
+						if(treadAllData.length == (i+1))
+						{
+							this.isLoadingData = false;
+							this.messageAry = this.messageDataArray;
+							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+						}
 					}
-					this.isLoadingData = false;
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					}, 1000);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -2293,11 +2306,12 @@ export class MasterComponent implements OnInit {
 								}
 								countIndex++;
 							}
+							if(treadAllData.length == (i+1))
+							{
+								this.messageAry = this.messageDataArray;
+								this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+							}
 						}
-						setTimeout(()=>{   
-							this.messageAry = this.messageDataArray;
-							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-						}, 2000);
 					}
 				}, (error) => {
 					if (error.status === 404)

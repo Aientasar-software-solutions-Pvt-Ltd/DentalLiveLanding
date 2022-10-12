@@ -106,7 +106,6 @@ export class CaseEditComponent implements OnInit {
 		this.onGetdateData(form.value);
 	};
   getCasedetails() {
-	this.sending = true;
 	this.tabledata = '';
 	let url = this.utility.apiData.userCases.ApiUrl;
 	this.caseId = this.getcaseId;
@@ -124,9 +123,7 @@ export class CaseEditComponent implements OnInit {
 				this.caseTitle = decode(this.tabledata.title);
 				this.setCaseType(this.tabledata.caseType);
 				this.getallPatient(this.tabledata.patientId);
-				setTimeout(()=>{     
-					this.setcvFast();
-				}, 1000);
+				this.setcvFast();
 				
 			}
 		}, error => {
@@ -190,13 +187,10 @@ export class CaseEditComponent implements OnInit {
 				this.patientName = this.patientdata.firstName+' '+this.patientdata.lastName;
 				this.patientImage = this.patientdata.image;
 				this.Pid = this.patientdata.patientId;
-				
-				setTimeout(()=>{     
-					if(this.patientdata.image)
-					{
-						this.setcvImage(this.patientdata.image);
-					}
-				}, 1000);
+				if(this.patientdata.image)
+				{
+					this.setcvImage(this.patientdata.image);
+				}
 			}
 		}, error => {
 			if (error.status === 404)

@@ -149,7 +149,7 @@
 														<label class="me-2 mb-3 text-muted">Case Description</label>
 														<div class="card border" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
 															<div class="card-body">
-																<p class="body2">{{this.removeHTML(tabledata.description.text)}}</p>
+																<p class="body2">{{this.removeHTML(this.caseDescription)}}</p>
 															</div>
 														</div>
 													</div>
@@ -334,11 +334,7 @@
 												<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
 													<thead class="thead-light">
 														<tr style="text-transform:uppercase;">
-															<th style="width: 15px;" data-orderable="false">   
-																<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
-																	<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</th>
+															
 															<th class="body2">MEMBER NAME</th>
 															<th class="body2">EDUCATION</th>
 															<th class="body2">CITY</th>
@@ -351,11 +347,7 @@
 
 													<tbody *ngIf="invitedata?.length != 0">
 														<tr *ngFor="let invite of invitedata; let i = index;">
-															<td>
-																<div class="form-check form-check-inline">
-																  <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																</div>
-															</td>
+															
 															<td>
 																<div class="d-flex align-items-center">
 
@@ -382,10 +374,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" class="me-1">
+																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" data-bs-toggle="tooltip" title="View" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																	<a *ngIf="((invite.presentStatus != 3) && (invite.resourceOwner == this.userDeatils.emailAddress))" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" class="me-1">
+																	<a *ngIf="((invite.presentStatus != 3) && (invite.resourceOwner == this.userDeatils.emailAddress))" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" data-bs-toggle="tooltip" title="Delete" class="me-1">
 																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
@@ -473,10 +465,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
+																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
-																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1">
+																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1" data-bs-toggle="tooltip" title="View">
 																		<i class="material-icons fs-4 text-light-green">
 																			visibility
 																		</i>
@@ -525,7 +517,7 @@
 											  <table *ngIf="referraldata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 												<thead class="thead-light">
 												  <tr style="text-transform:uppercase;">
-													<th style="width: 15px;" data-orderable="false">&nbsp;</th>
+													
 													<th class="body2">ASSIGNED TO</th>
 													<th class="body2">TITLE</th>
 													<th class="body2">MILESTONE TITLE</th>
@@ -536,12 +528,7 @@
 												</thead>
 												<tbody>
 													<tr *ngFor="let data of referraldata; let i = index;">
-														<td>
-															<div class="form-check form-check-inline">
-																<span class="d-none">{{i}}</span>
-																<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-															</div>
-														</td>
+														
 														<td>
 															<div class="d-flex align-items-center">
 																<span class="body2">{{data.memberName}}</span>
@@ -568,13 +555,13 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a routerLink="/referrals/referral-edit/{{data.referralId}}"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1">
+																<a routerLink="/referrals/referral-edit/{{data.referralId}}"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1" data-bs-toggle="tooltip" title="Edit">
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1">
+																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1" data-bs-toggle="tooltip" title="View">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a style="cursor: pointer;" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" (click)="deletereferral(data.referralId)">
+																<a style="cursor: pointer;" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" (click)="deletereferral(data.referralId)" data-bs-toggle="tooltip" title="Delete">
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -631,11 +618,7 @@
 													<table *ngIf="milestonedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables" style="margin-top: 0px !important;">
 														<thead class="thead-light">
 															<tr style="text-transform:uppercase;">
-																<th data-orderable="false">   
-																	<div class="form-check form-check-inline mb-0 " style="min-height: auto;">
-																		<input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</th>
+																
 																<th class="body2">OWNER</th>
 																<th class="body2">TITLE</th>
 																<th class="body2">STATUS</th>
@@ -645,12 +628,7 @@
 														</thead>
 														<tbody>
 															<tr *ngFor="let data of milestonedata; let i = index;">
-																<td>
-																	<div class="form-check form-check-inline">
-																		<span class="d-none">{{i}}</span>
-																	    <input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
-																	</div>
-																</td>
+																
 																<td>
 																	<div class="d-flex align-items-center">
 																		<span class="avatar-icon my-2">{{data.resourceOwner.charAt(0)}}</span>
@@ -677,15 +655,15 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
+																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1">
+																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1" data-bs-toggle="tooltip" title="View">
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
 																		</a>
-																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)">
+																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Delete">
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>
@@ -752,7 +730,7 @@
 															<td>
 																<div class="form-check form-check-inline">
 																	<span class="d-none">{{this.data.dateCreated}}</span>
-																	<input class="form-check-input mt-2" type="checkbox" value="" id="flexCheckDefault">
+																	
 																</div>
 															</td>
 															<td>
@@ -780,7 +758,7 @@
 															</td>
 														   
 															<td>
-																<a routerLink="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" >
+																<a routerLink="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" data-bs-toggle="tooltip" title="View">
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>

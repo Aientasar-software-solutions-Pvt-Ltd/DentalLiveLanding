@@ -20,6 +20,7 @@ export class ReferralListComponent implements OnInit {
 	checkedList:any;
 	shimmer = Array;
 	userDeatils: any;
+	GetAllData: any;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
@@ -56,7 +57,12 @@ export class ReferralListComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	getallreferrals() {
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -73,36 +79,36 @@ export class ReferralListComponent implements OnInit {
 				if (Response)
 				{
 					
-					let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					if(GetAllData.length == '0')
+					this.GetAllData = JSON.parse(Response.toString());
+					this.GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					if(this.GetAllData.length == '0')
 					{
 						this.isLoadingData = false;
 					}
 					this.tabledata = Array();
-					for(var k = 0; k < GetAllData.length; k++)
+					for(var k = 0; k < this.GetAllData.length; k++)
 					{
 						this.tabledata.push({
 						  id: k,
-						  resourceOwner: GetAllData[k].resourceOwner,
-						  dateCreated: GetAllData[k].dateCreated,
-						  presentStatus: GetAllData[k].presentStatus,
-						  startdate: GetAllData[k].startdate,
-						  referralId: GetAllData[k].referralId,
+						  resourceOwner: this.GetAllData[k].resourceOwner,
+						  dateCreated: this.GetAllData[k].dateCreated,
+						  presentStatus: this.GetAllData[k].presentStatus,
+						  startdate: this.GetAllData[k].startdate,
+						  referralId: this.GetAllData[k].referralId,
 						  patientName: '',
-						  caseId: GetAllData[k].caseId,
-						  patientId: GetAllData[k].patientId,
-						  toothguide: GetAllData[k].toothguide,
-						  enddate: GetAllData[k].enddate,
-						  notes: GetAllData[k].notes,
-						  dateUpdated: GetAllData[k].dateUpdated,
-						  milestoneId: GetAllData[k].milestoneId,
-						  title: GetAllData[k].title,
+						  caseId: this.GetAllData[k].caseId,
+						  patientId: this.GetAllData[k].patientId,
+						  toothguide: this.GetAllData[k].toothguide,
+						  enddate: this.GetAllData[k].enddate,
+						  notes: this.GetAllData[k].notes,
+						  dateUpdated: this.GetAllData[k].dateUpdated,
+						  milestoneId: this.GetAllData[k].milestoneId,
+						  title: this.GetAllData[k].title,
 						  caseTitle: '',
 						  memberName: ''
 						});
-						this.getcasedtls(GetAllData[k].caseId,k);
-						this.getuserdetailsall(GetAllData[k].members,k);
+						this.getcasedtls(this.GetAllData[k].caseId, this.GetAllData[k].members, k);
+						
 					}
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					
@@ -133,7 +139,7 @@ export class ReferralListComponent implements OnInit {
 		}
 	}
 	
-	getcasedtls(caseId, index) {
+	getcasedtls(caseId, members, index) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -145,8 +151,10 @@ export class ReferralListComponent implements OnInit {
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
 				this.tabledata[index].patientName = caseData.patientName;
+				this.getuserdetailsall(members,index);
 			}
 			}, (error) => {
+				this.getuserdetailsall(members,index);
 				if (error.status === 404)
 				swal('No referral found');
 				else if (error.status === 403)
@@ -298,8 +306,13 @@ export class ReferralListComponent implements OnInit {
 							this.tabledata[index].memberName = memberResult;
 						}
 						//swal.close();
+					}
+					
+					if(this.GetAllData.length == (index+1))
+					{
 						this.isLoadingData = false;
 					}
+					this.loadTooltip();
 				}
 				}, (error) => {
 					if (error.status === 404)

@@ -28,14 +28,18 @@ export class ReferralDetailsComponent implements OnInit {
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
 	toothData: any;
+	tabOrder: any;
 	tabContent(ids:any){
 		this.id = ids;
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		if(this.id == 'tab1')
+		{
+			setTimeout(()=>{    
+				if(this.toothData)
+				{
+					this.orders.setToothGuide(this.toothData);
+				}
+			}, 1000);
+		}
 	}
 	showComment: any;
 	replyToggle(index){
@@ -133,10 +137,8 @@ export class ReferralDetailsComponent implements OnInit {
 	});
 	this.getReferralDetails().then(
 	(value) => {
-	this.orders.setToothGuide(this.toothData);
 	},
 	(error) => {
-	this.orders.setToothGuide(this.toothData);
 	});
   }
   
@@ -173,6 +175,7 @@ export class ReferralDetailsComponent implements OnInit {
 						this.getuserdetailsall(this.referalmembers);
 						this.getMessage(this.tabledata.caseId);
 						this.setcvFast(this.tabledata.notes);
+						this.orders.setToothGuide(this.toothData);
 						Resolve(true);
 					}
 				}, (error) => {
@@ -376,9 +379,6 @@ export class ReferralDetailsComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	ngAfterViewInit() {
-		this.orders.setToothGuide(this.toothData)
-	}
 	
 	
 	onSubmitReferral(form: NgForm){
@@ -490,12 +490,13 @@ export class ReferralDetailsComponent implements OnInit {
 								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
+						}  
+						if(this.messagedata.length == (i+1))
+						{
+						this.messageAry = this.messageDataArray;
+						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1);
 						}
 					}
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1)
-					}, 2000);
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -616,6 +617,10 @@ export class ReferralDetailsComponent implements OnInit {
 					if (Response)
 					{
 						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+						if(obj.links.length == i)
+						{
+							this.messageDataArray[index].messageimg = MessageDetails; 
+						}						
 					}
 				}, error => {
 					if (error.status === 404)
@@ -640,11 +645,6 @@ export class ReferralDetailsComponent implements OnInit {
 					swal('Oops something went wrong, please try again');
 				});
 			}
-			setTimeout(() => 
-			{
-				this.messageDataArray[index].messageimg = MessageDetails;  
-			},
-			500);
 		}
 		
 	}

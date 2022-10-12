@@ -46,6 +46,8 @@ export class GeneralTaskEditComponent implements OnInit {
 	editedstartDate:any;
 	tabledata:any;
 	editedTitle:any;
+	presentStatusEdit = 0;
+	reminderEdit = 0;
 	public isvalidDate = false;
 	public isvalidRefereTo = false;
 	gettaskId: any;
@@ -62,62 +64,65 @@ export class GeneralTaskEditComponent implements OnInit {
 		this.getEditTasks();
 	}
 	getuserdetailsall(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?emailAddress="+userId;
-		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			let userData = JSON.parse(Response.toString());
-			let avatar = ''
-			if(userData.imageSrc != undefined)
+		return new Promise((Resolve, myReject) => {
+			let user = this.usr.getUserDetails(false);
+			if(user)
 			{
-			avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData.imageSrc;
-			}
-			else
+			let url = this.utility.apiData.userColleague.ApiUrl;
+			if(userId != '')
 			{
-			avatar = 'assets/images/users.png';
+				url += "?emailAddress="+userId;
 			}
-			let name = userData.accountfirstName+' '+userData.accountlastName;
-			this.allMember[index].name = name;
-			this.allMember[index].emailAddress = userData.emailAddress;
-			this.allMember[index].avatar = avatar;
-		}
-		}, (error) => {
-			if (error.status === 404)
-			swal('No task found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
+			this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response)
+			{
+				let userData = JSON.parse(Response.toString());
+				let avatar = ''
+				if(userData.imageSrc != undefined)
+				{
+				avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData.imageSrc;
+				}
+				else
+				{
+				avatar = 'assets/images/users.png';
+				}
+				let name = userData.accountfirstName+' '+userData.accountlastName;
+				this.allMember[index].name = name;
+				this.allMember[index].emailAddress = userData.emailAddress;
+				this.allMember[index].avatar = avatar;
+				Resolve(true);
+			}
+			}, (error) => {
+				Resolve(true);
+				if (error.status === 404)
+				swal('No task found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
+				return false;
 			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
+			}
 		});
-		}
 	}
 	getAllMembers(caseId) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-			this.sending = true;
 			let url = this.utility.apiData.userCaseInvites.ApiUrl;
 			if(caseId != '')
 			{
@@ -139,9 +144,22 @@ export class GeneralTaskEditComponent implements OnInit {
 						  emailAddress: '',
 						  name: ''
 						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
+						this.getuserdetailsall(GetAllData[k].invitedUserMail,k).then(
+						(value) => {
+							if(GetAllData.length ==(k))
+							{
+								//alert(JSON.stringify(this.selectedCityName));
+								this.selectedCity = this.selectedCityName;
+							}
+						},
+						(error) => {
+						if(GetAllData.length ==(k+1))
+						{
+							//alert(JSON.stringify(this.selectedCityName));
+							this.selectedCity = this.selectedCityName;
+						}
+						});
 					}
-					this.sending = false;
 				}
 			}, error => {
 				if (error.status === 404)
@@ -271,9 +289,6 @@ export class GeneralTaskEditComponent implements OnInit {
 	setcvFast()
 	{
 		this.cvfastval.setCvfast(this.editdata.description);
-		setTimeout(()=>{    
-			this.selectedCity = this.selectedCityName; 
-		}, 1000);
 	}
 	userdetailsall(obj: any) {
 		let user = this.usr.getUserDetails(false);
@@ -338,9 +353,9 @@ export class GeneralTaskEditComponent implements OnInit {
 				this.editedDate = new Date(this.editdata.duedate);
 				this.editedstartDate = new Date(this.editdata.startdate);
 				this.editedTitle = decode(this.editdata.title);
-				setTimeout(()=>{    
-					this.setcvFast();
-				}, 2000);
+				this.presentStatusEdit = this.editdata.presentStatus;
+				this.reminderEdit = this.editdata.reminder;
+				this.setcvFast();
 			}
 		}, error => {
 			if (error.status === 404)

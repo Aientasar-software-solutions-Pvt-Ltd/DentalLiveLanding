@@ -49,7 +49,7 @@
 				<div class="card-body" style="background: #E4F0FF;">
 					<div class="row mt-2">
 						<div class="col-md-12">
-							<div class="row" *ngIf="editedDate">
+							<div class="row" >
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Case Title </label>
@@ -98,13 +98,13 @@
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Start Date</label>
-										<input type="date" class="form-control" name="startdate" id="startdate" ngModel={{this.editedDate.startdate}} ngModel="{{this.editedDate.startdate | date:'yyyy-MM-dd'}}" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+										<input type="date" class="form-control" name="startdate" id="startdate" ngModel={{this.startDateEdit}} ngModel="{{this.startDateEdit | date:'yyyy-MM-dd'}}" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
 									</div>
 								</div>
 								<div class="col-md-4"> 
 									<div class="mb-4">
 										<label class="form-label body2 text-dark">Due Date</label>
-										<input type="date" class="form-control" name="enddate" id="enddate" ngModel={{this.editedDate.enddate}} ngModel="{{this.editedDate.enddate | date:'yyyy-MM-dd'}}" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
+										<input type="date" class="form-control" name="enddate" id="enddate" ngModel={{this.endDateEdit}} ngModel="{{this.endDateEdit | date:'yyyy-MM-dd'}}" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
 										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date should be greater than to start date</span>
 									</div>
 								</div>
@@ -121,7 +121,7 @@
 								<div class="col-md-6">
 									<div class="mb-3">
 										<label class="form-label body2 text-dark">Status</label>
-										<select class="form-select" name="presentStatus" id="presentStatus" ngModel={{this.editedDate.presentStatus}} required>
+										<select class="form-select" name="presentStatus" id="presentStatus" ngModel={{this.presentStatusEdit}} required>
 											<option value="">Select</option>
 											<option value="1">Active</option>
 											<option value="2">Inactive</option>
@@ -142,7 +142,7 @@
 			<input type="hidden" name="patientid" id="patientid" ngModel="{{this.editedDate.patientId}}">
 			<input type="hidden" name="milestoneId" id="milestoneId" ngModel="{{this.editedDate.milestoneId}}">
 			<button type="submit" class="btn btn-default me-2"><i class="bx bx-send"></i> Update Referral </button> 
-			<a routerLink="/referrals/referral-list" class="btn btn-secondary mt-1 me-2">Cancel</a>
+			<a routerLink="/referrals/referral-list" class="btn btn-secondary me-2">Cancel</a>
 		</div>
 	</div> 
 </form>

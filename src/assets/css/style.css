@@ -135,6 +135,116 @@ small {
   z-index: 1;
 }
 
+.about-area{position:relative;}
+.about-area .about-head {
+  font-weight: 700;
+  font-size: 2.5rem;
+  font-style: normal;
+  text-transform: none;
+  margin: 0 auto 0 1px;
+}
+.about-area .u-line {
+  margin-top: 19px;
+  margin-bottom: 0;
+  transform-origin: left center;
+  border-color: #00d9cc;
+  border-width: 1px;
+  border-style: solid;
+  width: 100% !important;
+margin-left: 0 !important;
+margin-right: 0 !important;
+}
+.about-area .aboutimg {
+  width: 355px;
+  height: 355px;
+  margin:  0px auto 0 auto;
+  object-fit:cover;
+  object-position:center;
+  border-radius: 50% !important;
+  display: block;
+}
+.about-area .imgcontainer {
+position: relative;
+flex: 1;
+max-width: 100%;
+transition-duration: inherit;
+padding: 30px;
+}
+.about-area .imgcontainer .ab-img-icon {
+  width: 111px;
+  height: 111px;
+  background-image: none;
+  margin: -350px auto 0 64px;
+  padding: 28px;
+  color: #ffffff !important;
+  background-color: #0070d2;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  overflow:hidden;
+}
+.ab-svg-icon {
+  width: 100%;
+  height: 100%;
+  fill: #ffffff;
+}
+.ab-svg-content {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.about-area .ab-text {
+  letter-spacing: 0px;
+  line-height: 2;
+  font-size: 1rem;
+  margin: 35px 1px 0;
+  word-wrap: break-word;
+position: relative;
+}
+.about-area .ab-sub-text {
+  line-height: 2;
+  font-size: 1rem;
+  word-wrap: break-word;
+color:#000000;
+}
+.about-area .phone-text {
+  border-style: none;
+  font-weight: 700;
+  font-size: 2.25rem;
+  letter-spacing: 1px;
+  margin: 19px auto 0 1px;
+  color: #000000 !important;
+}
+.phone-text .phone-icon {
+  position: relative;
+  display: inline;
+  line-height: inherit;
+  font-size: 1em;
+  fill: currentColor;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: #00d9cc !important;
+}
+@media(max-width:991px){
+.about-area .aboutimg{width: 300px;height: 300px;}
+.about-area .imgcontainer .ab-img-icon {width: 93px;height: 93px;margin-top: 0px;margin-bottom: 207px;margin-left: 0;padding: 23px;}
+.about-area .imgcontainer{display: flex;flex-direction: column;justify-content: center;padding: 0px;}
+.about-area .phone-text {font-size: 1.5rem;}
+}
+@media(max-width:767px){
+.about-area .aboutimg{width: 374px;height: 374px;margin-left: auto;margin-right: auto;margin-bottom:20px;}
+.about-area .imgcontainer .ab-img-icon {margin-top: -280px;margin-bottom: 0;margin-left: 73px;}
+.about-area .imgcontainer{display: flex;flex-direction: column;justify-content: center;padding: 0px;}
+.about-area .phone-text {font-size: 1.5rem;}
+.about-area .about-head {font-size: 2rem;}
+}
+@media(max-width:575px){
+.about-area .aboutimg{width: 280px;height: 280px;margin-left: auto;margin-right: auto;margin-bottom:20px;}
+.about-area .imgcontainer .ab-img-icon {margin-top: -200px;margin-bottom: 0;margin-left: 73px;}
+.about-area .imgcontainer{display: flex;flex-direction: column;justify-content: center;padding: 0px;}
+.about-area .phone-text {font-size: 1.5rem;}
+.about-area .about-head {font-size: 2rem;}
+}
 /* .seo-banner-area{
   position: relative;
   background-image: url(../images/leafone.png);
@@ -996,7 +1106,7 @@ color: #00D9CC;
 .btn-dark {color: #E6FBFD;background-color: #011A3E;border-color: #011A3E;}
 
 /* btn underline hover */
-.underline{ position: relative;}
+.underline{ position: relative;text-decoration: none;}
 .underline:before{ content: '';position: absolute;bottom: 0;right: 0;width: 0;height: 2px;background-color: #0074D9;transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);}
 .underline:hover:before {left: 0;right: auto;width: 100%;}
 .underline.style1:before{background-color: #01ABA1;}
@@ -1220,7 +1330,7 @@ table.dataTable>thead .sorting_desc:after,
 table.dataTable>thead .sorting_asc_disabled:before,
 table.dataTable>thead .sorting_asc_disabled:after,
 table.dataTable>thead .sorting_desc_disabled:before,
-table.dataTable>thead .sorting_desc_disabled:after {position:absolute;bottom:.5em;display:block;opacity:.3}
+table.dataTable>thead .sorting_desc_disabled:after {position:absolute;bottom:1.2em;display:block;opacity:.3}
 table.dataTable>thead .sorting:before,
 table.dataTable>thead .sorting_asc:before,
 table.dataTable>thead .sorting_desc:before,

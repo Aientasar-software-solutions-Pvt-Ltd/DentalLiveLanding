@@ -137,12 +137,12 @@ export class DashboardComponent implements OnInit {
 								});
 							}
 						}
+						if(treadAllData.length == (i+1))
+						{
+							this.messageAry = this.messageDataArray;
+							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
+						}
 					}
-					
-					setTimeout(()=>{   
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					}, 1000);
 				}
 			}, (error) => {
 				if (error.status)

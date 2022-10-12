@@ -122,6 +122,7 @@ export class CaseAddTaskAddComponent implements OnInit {
 			{
 				url += "?caseId="+caseId;
 			}
+			url += "&presentStatus="+1;
 			this.dataService.getallData(url, true)
 			.subscribe(Response => {
 				if (Response)

@@ -49,7 +49,7 @@
 			<div class="card-body" style="background: #E4F0FF;">
 				<div class="row mt-2">
 					<div class="col-md-12">
-						<div class="row"  *ngIf="editdata">
+						<div class="row" >
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Title </label>
@@ -94,7 +94,7 @@
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Status</label>
-									<select class="form-select" name="presentStatus" id="presentStatus" required ngModel={{this.editdata.presentStatus}} >
+									<select class="form-select" name="presentStatus" id="presentStatus" required ngModel={{this.presentStatusEdit}} >
 										<option value="">Select</option>
 										<option value="1">Active</option>
 										<option value="2">Inactive</option>
@@ -139,7 +139,7 @@
 							<div class="col-md-4">
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Add Reminder</label>
-									<select class="form-select" name="reminder" id="reminder" ngModel={{this.editdata.reminder}} required>  
+									<select class="form-select" name="reminder" id="reminder" ngModel={{this.reminderEdit}} required>  
 										<option value="">Select</option>
 										<option value="12">12 Hours</option>
 										<option value="24">1 Day</option>

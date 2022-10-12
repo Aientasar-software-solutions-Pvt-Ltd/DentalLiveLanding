@@ -52,12 +52,22 @@ export class CaseListComponent implements OnInit {
 				next: "<i class='bx bx-chevron-right'></i>",
 				last : "<i class='bx bx-last-page'></i>"
 			},
-		}
+		},
+		columnDefs: [{
+		"defaultContent": "-",
+		"targets": "_all"
+		}]
     };
   }
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
+	}
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
 	}
 	
 	getallcase() {
@@ -300,6 +310,7 @@ export class CaseListComponent implements OnInit {
 					this.getuserdetailsall(GetAllData[k].invitedUserMail,this.indexRow,index,type);
 					this.indexRow++;
 				} 
+				this.loadTooltip();
 			}
 		}, error => {
 			if (error.status === 404)

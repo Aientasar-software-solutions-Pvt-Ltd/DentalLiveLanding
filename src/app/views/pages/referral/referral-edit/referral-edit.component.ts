@@ -10,6 +10,7 @@ import { UtilityServicedev } from '../../../../utilitydev.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
+import { ChangeDetectorRef } from '@angular/core';
 import {encode} from 'html-entities';
 import {decode} from 'html-entities';
 
@@ -41,6 +42,9 @@ export class ReferralEditComponent implements OnInit {
 	}
 	public casesName = '';
 	public patientName = '';
+	public startDateEdit = 0;
+	public endDateEdit = 0;
+	public presentStatusEdit = 0;
 	tabledata:any;
 	editedDate:any;
 	toothData = '';
@@ -51,26 +55,132 @@ export class ReferralEditComponent implements OnInit {
 	
 	public isvalidToothGuide = false;
     referralId:any;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute)  {
+	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute, private cd: ChangeDetectorRef)  {
 	this.referralId = this.route.snapshot.paramMap.get('referralId');
 	}
   
-	@ViewChild(ReferralGuideComponent)
-	orders: ReferralGuideComponent;
+	@ViewChild(ReferralGuideComponent)	orders: ReferralGuideComponent;
+	
 	public patientImg: any;
 	
 	back(): void {
 		this.location.back()
 	}
 	ngOnInit(): void {
+		
 		this.getEditReferral();
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
+		/*callback function
+		this.getEditReferral().then(
+		(value) => {
+		},
+		(error) => {
+		});*/
 	}
+	getEditReferral() {
+		let url = this.utility.apiData.userReferrals.ApiUrl;
+		let referralId = this.referralId;
+		if(referralId != '')
+		{
+			url += "?referralId="+referralId;
+		}
+		this.dataService.getallData(url, true)
+		.subscribe(Response => {
+			if (Response)
+			{
+				
+				this.editedDate = JSON.parse(Response.toString());
+				this.toothData = this.editedDate.toothguide;
+				console.log("calling tooth guide");
+				console.log(this.orders);
+				console.log(this.toothData);
+				this.orders.setToothGuide(this.toothData);
+				this.editedDateTitle = decode(this.editedDate.title);
+				this.startDateEdit = this.editedDate.startdate;
+				this.endDateEdit = this.editedDate.enddate;
+				this.presentStatusEdit = this.editedDate.presentStatus;
+				this.allMemberEmail = this.editedDate.members;
+				this.getCaseDetails(this.editedDate.caseId);
+				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
+				this.setcvFast();   
+			}
+		}, error => {
+			if (error.status === 404)
+			swal('No referral found');
+			else if (error.status === 403)
+			swal('You are unauthorized to access the data');
+			else if (error.status === 400)
+			swal('Invalid data provided, please try again');
+			else if (error.status === 401)
+			swal('You are unauthorized to access the page');
+			else if (error.status === 409)
+			swal('Duplicate data entered');
+			else if (error.status === 405)
+			swal({
+			text: 'Due to dependency data unable to complete operation'
+			}).then(function() {
+			window.location.reload();
+			});
+			else if (error.status === 500)
+			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+			else
+			swal('Oops something went wrong, please try again');
+		});
+	}
+	/* Callback function
+	getEditReferral() {
+		return new Promise((Resolve, myReject) => {
+			let url = this.utility.apiData.userReferrals.ApiUrl;
+			let referralId = this.referralId;
+			if(referralId != '')
+			{
+				url += "?referralId="+referralId;
+			}
+			this.dataService.getallData(url, true)
+			.subscribe(Response => {
+				if (Response)
+				{
+					
+					this.editedDate = JSON.parse(Response.toString());
+					this.toothData = this.editedDate.toothguide;
+					console.log("calling tooth guide");
+					console.log(this.orders);
+					console.log(this.toothData);
+					this.orders.setToothGuide(this.toothData);
+					this.editedDateTitle = decode(this.editedDate.title);
+					this.startDateEdit = this.editedDate.startdate;
+					this.endDateEdit = this.editedDate.enddate;
+					this.presentStatusEdit = this.editedDate.presentStatus;
+					this.allMemberEmail = this.editedDate.members;
+					this.getCaseDetails(this.editedDate.caseId);
+					this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
+					Resolve(true);
+					this.setcvFast();   
+				}
+			}, error => {
+				Resolve(true);
+				if (error.status === 404)
+				swal('No referral found');
+				else if (error.status === 403)
+				swal('You are unauthorized to access the data');
+				else if (error.status === 400)
+				swal('Invalid data provided, please try again');
+				else if (error.status === 401)
+				swal('You are unauthorized to access the page');
+				else if (error.status === 409)
+				swal('Duplicate data entered');
+				else if (error.status === 405)
+				swal({
+				text: 'Due to dependency data unable to complete operation'
+				}).then(function() {
+				window.location.reload();
+				});
+				else if (error.status === 500)
+				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+				else
+				swal('Oops something went wrong, please try again');
+			});
+		});
+	}*/
 	onSubmitReferral(form: NgForm){
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.enddate))
@@ -165,6 +275,11 @@ export class ReferralEditComponent implements OnInit {
 				{
 				this.selectedCityName.push(name);
 				}
+				if(arrayObj.length ==index)
+				{
+				//alert(JSON.stringify(this.selectedCityName));
+				this.selectedCity = this.selectedCityName;
+				}
 			}
 		}
 		}, (error) => {
@@ -258,66 +373,9 @@ export class ReferralEditComponent implements OnInit {
 			this.isvalidRefereTo = false;
 		}
 	}
-	getEditReferral() {
-		let url = this.utility.apiData.userReferrals.ApiUrl;
-		let referralId = this.referralId;
-		if(referralId != '')
-		{
-			url += "?referralId="+referralId;
-		}
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
-				
-				this.editedDate = JSON.parse(Response.toString());
-				this.editedDateTitle = decode(this.editedDate.title);
-				this.toothData = this.editedDate.toothguide;
-				this.allMemberEmail = this.editedDate.members;
-				this.getCaseDetails(this.editedDate.caseId);
-				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
-				setTimeout(()=>{     
-					this.setcvFast();
-				}, 1000);
-			}
-		}, error => {
-			if (error.status === 404)
-			swal('No referral found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-		});
-	}
-	
 	setcvFast()
 	{
 		this.cv.setCvfast(this.editedDate.notes);
-		setTimeout(()=>{    
-			this.selectedCity = this.selectedCityName;
-		}, 1000);
-	}
-	ngAfterViewInit() {
-		setTimeout(()=>{    
-			if(this.toothData)
-			{
-				this.orders.setToothGuide(this.toothData);
-			}
-		}, 1000);
 	}
 	getCaseDetails(caseId) {
 		let url = this.utility.apiData.userCases.ApiUrl;

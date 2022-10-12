@@ -17,6 +17,7 @@ export class ColleaguesListComponent implements OnInit {
 	masterSelected:boolean;
 	colleaguedata:any;
 	invitedata: any;
+	GetAllData: any;
 	shimmer = Array;
 	
 	dtOptions: DataTables.Settings = {};
@@ -43,7 +44,17 @@ export class ColleaguesListComponent implements OnInit {
 		  }
 		};
 	}
+	searchText(event: any) {
+		var v = event.target.value;  // getting search input value
+		$('#dataTables').DataTable().search(v).draw();
+	}
 	
+	loadTooltip(){
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	getInviteListing() {
 		
 		let user = this.usr.getUserDetails(false);
@@ -54,36 +65,37 @@ export class ColleaguesListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
-				this.isLoadingData = false;
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
+				this.GetAllData = JSON.parse(Response.toString());
+				this.GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				//alert(JSON.stringify(this.GetAllData));
 				this.invitedata = Array();
 				let Row = 0;
-				for(var k = 0; k < GetAllData.length; k++)
+				if(this.GetAllData.length == '0')
 				{
-					if(GetAllData[k].presentStatus == 1)
+					this.isLoadingData = false;
+				}
+				for(var k = 0; k < this.GetAllData.length; k++)
+				{
+					if(this.GetAllData[k].presentStatus == 1)
 					{
 						this.invitedata.push({
 						  id: Row,
-						  patientId: GetAllData[k].patientId,
-						  invitedUserId: GetAllData[k].invitedUserId,
-						  invitedUserMail: GetAllData[k].invitedUserMail,
-						  invitationId: GetAllData[k].invitationId,
+						  patientId: this.GetAllData[k].patientId,
+						  invitedUserId: this.GetAllData[k].invitedUserId,
+						  invitedUserMail: this.GetAllData[k].invitedUserMail,
+						  invitationId: this.GetAllData[k].invitationId,
 						  userName: '',
-						  presentStatus: GetAllData[k].presentStatus,
-						  invitationText: GetAllData[k].invitationText,
-						  patientName: GetAllData[k].patientName,
-						  caseId: GetAllData[k].caseId,
-						  dateUpdated: GetAllData[k].dateUpdated,
-						  dateCreated: GetAllData[k].dateCreated,
-						  resourceOwner: GetAllData[k].resourceOwner,
+						  presentStatus: this.GetAllData[k].presentStatus,
+						  invitationText: this.GetAllData[k].invitationText,
+						  patientName: this.GetAllData[k].patientName,
+						  caseId: this.GetAllData[k].caseId,
+						  dateUpdated: this.GetAllData[k].dateUpdated,
+						  dateCreated: this.GetAllData[k].dateCreated,
+						  resourceOwner: this.GetAllData[k].resourceOwner,
 						  dentalId: user.dentalId,
 						  caseTitle: ''
 						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,Row);
-						this.getcasedetails(GetAllData[k].caseId,Row);
+						this.getcasedetails(this.GetAllData[k].invitedUserMail, this.GetAllData[k].caseId, Row);
 						Row++;
 					}
 				}
@@ -134,9 +146,16 @@ export class ColleaguesListComponent implements OnInit {
 			this.invitedata[index].userEducation = userData.education;
 			this.invitedata[index].userCity = userData.city;
 			this.invitedata[index].userCountry = userData.country;
+			
+			if(this.GetAllData.length == (index+1))
+			{
+				this.isLoadingData = false;
+			}
+			this.loadTooltip();
 		}
 		//alert(JSON.stringify(this.invitedata));
 		}, (error) => {
+			this.isLoadingData = false;
 			if (error.status === 404)
 			swal('No colleagues found');
 			else if (error.status === 403)
@@ -161,7 +180,7 @@ export class ColleaguesListComponent implements OnInit {
 		});
 		}
 	}
-	getcasedetails(caseId, index) {
+	getcasedetails(userId, caseId, index) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -172,8 +191,10 @@ export class ColleaguesListComponent implements OnInit {
 			{
 				let caseData = JSON.parse(Response.toString());
 				this.invitedata[index].caseTitle = caseData.title;
+				this.getuserdetailsall(userId, index);
 			}
 			}, (error) => {
+				this.getuserdetailsall(userId, index);
 				if (error.status === 404)
 				swal('No colleagues found');
 				else if (error.status === 403)
@@ -272,9 +293,4 @@ export class ColleaguesListComponent implements OnInit {
 			swal('Oops something went wrong, please try again');
 		});
 	};
-	searchText(event: any) {
-		var v = event.target.value;  // getting search input value
-		$('#dataTables').DataTable().search(v).draw();
-	}
-	
 }

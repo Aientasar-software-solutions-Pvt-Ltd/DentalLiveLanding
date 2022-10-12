@@ -109,9 +109,7 @@ export class CaseAddFileUploadComponent implements OnInit {
 		  if (Response) Response = JSON.parse(Response.toString());
 			this.sending = false;
 			swal('Files added successfully');
-			setTimeout(()=>{                     
-				this.router.navigate(['cases/case-list']);
-			}, 1000);
+			this.router.navigate(['cases/case-list']);
 		}, error => {
 			this.sending = false;
 			if (error.status === 404)
