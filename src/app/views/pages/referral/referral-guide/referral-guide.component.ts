@@ -6,8 +6,7 @@ import 'cardinal-spline-js/src/curve.js'
 
 @Component({
   selector: 'app-referral-guide',
-  templateUrl: './referral-guide.component.html',
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './referral-guide.component.html'
 })
 export class ReferralGuideComponent implements OnInit {
   referralObject = {
