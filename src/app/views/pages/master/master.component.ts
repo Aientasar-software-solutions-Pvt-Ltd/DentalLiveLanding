@@ -18,6 +18,8 @@ export class MasterComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	calendarOptions: CalendarOptions = {}
 	sending: boolean;
+	GetAllDataReferral:any;
+	GetAllDataWork:any;
 	public inviteEmailArray: any[] = []
 	public allMember: any[] = []
 	public allMemberEmail: any[] = []
@@ -590,6 +592,8 @@ export class MasterComponent implements OnInit {
 	}
   
 	getallworkorder() {
+		this.workordersdata = Array();
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -604,37 +608,36 @@ export class MasterComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.isLoadingData = false;
-					
-					let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+					this.GetAllDataWork = JSON.parse(Response.toString());
+					if(this.GetAllDataWork.length == '0')
+					{
+						this.isLoadingData = false;
+					}
+					this.GetAllDataWork.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.workordersdata = Array();
-					for(var k = 0; k < GetAllData.length; k++)
+					for(var k = 0; k < this.GetAllDataWork.length; k++)
 					{
 						this.workordersdata.push({
 						  id: k,
-						  resourceOwner: GetAllData[k].resourceOwner,
-						  dateCreated: GetAllData[k].dateCreated,
-						  presentStatus: GetAllData[k].presentStatus,
-						  startdate: GetAllData[k].startdate,
-						  workorderId: GetAllData[k].workorderId,
-						  patientName: GetAllData[k].patientName,
-						  caseId: GetAllData[k].caseId,
-						  patientId: GetAllData[k].patientId,
-						  toothguide: GetAllData[k].toothguide,
-						  enddate: GetAllData[k].enddate,
-						  notes: GetAllData[k].notes,
-						  dateUpdated: GetAllData[k].dateUpdated,
-						  milestoneId: GetAllData[k].milestoneId,
-						  title: GetAllData[k].title,
+						  resourceOwner: this.GetAllDataWork[k].resourceOwner,
+						  dateCreated: this.GetAllDataWork[k].dateCreated,
+						  presentStatus: this.GetAllDataWork[k].presentStatus,
+						  startdate: this.GetAllDataWork[k].startdate,
+						  workorderId: this.GetAllDataWork[k].workorderId,
+						  patientName: this.GetAllDataWork[k].patientName,
+						  caseId: this.GetAllDataWork[k].caseId,
+						  patientId: this.GetAllDataWork[k].patientId,
+						  toothguide: this.GetAllDataWork[k].toothguide,
+						  enddate: this.GetAllDataWork[k].enddate,
+						  notes: this.GetAllDataWork[k].notes,
+						  dateUpdated: this.GetAllDataWork[k].dateUpdated,
+						  milestoneId: this.GetAllDataWork[k].milestoneId,
+						  title: this.GetAllDataWork[k].title,
 						  caseTitle: '',
 						  memberName: '',
 						  milestoneTitle: ''
 						});
-						this.getuserdetailsallCase(GetAllData[k].members,k,'workorder');
-						if(GetAllData[k].milestoneId != ''){
-							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'workorder');
-						}
+						this.getuserdetailsallCase(this.GetAllDataWork[k].members,this.GetAllDataWork[k].milestoneId,k,'workorder');
 					}
 				}
 			}, (error) => {
@@ -1451,10 +1454,8 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getReferralListing() {
-		/* swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		}); */
+		this.referraldata = Array();
+		this.isLoadingData = true;
 		sessionStorage.setItem('backurl', '/cases-view/referrals/'+this.paramCaseId);
 		let url = this.utility.apiData.userReferrals.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1466,40 +1467,38 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
-				//swal.close();
-				this.isLoadingData = false;
-				let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					this.referraldata = Array();
-					for(var k = 0; k < GetAllData.length; k++)
-					{
-						this.referraldata.push({
-						  id: k,
-						  resourceOwner: GetAllData[k].resourceOwner,
-						  dateCreated: GetAllData[k].dateCreated,
-						  presentStatus: GetAllData[k].presentStatus,
-						  startdate: GetAllData[k].startdate,
-						  referralId: GetAllData[k].referralId,
-						  patientName: '',
-						  caseId: GetAllData[k].caseId,
-						  patientId: GetAllData[k].patientId,
-						  toothguide: GetAllData[k].toothguide,
-						  enddate: GetAllData[k].enddate,
-						  notes: GetAllData[k].notes,
-						  dateUpdated: GetAllData[k].dateUpdated,
-						  milestoneId: GetAllData[k].milestoneId,
-						  title: GetAllData[k].title,
-						  caseTitle: '',
-						  memberName: '',
-						  milestoneTitle: ''
-						});
-						//this.getcasedtls(GetAllData[k].caseId,k);
-						this.getuserdetailsallCase(GetAllData[k].members,k,'referal');
-						if(GetAllData[k].milestoneId != ''){
-							this.getallmilestoneCase(GetAllData[k].milestoneId,k,'referal');
-						}
-					}
-				
+				this.GetAllDataReferral = JSON.parse(Response.toString());
+				if(this.GetAllDataReferral.length == '0')
+				{
+					this.isLoadingData = false;
+				}
+				this.GetAllDataReferral.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				this.referraldata = Array();
+				for(var k = 0; k < this.GetAllDataReferral.length; k++)
+				{
+					this.referraldata.push({
+					  id: k,
+					  resourceOwner: this.GetAllDataReferral[k].resourceOwner,
+					  dateCreated: this.GetAllDataReferral[k].dateCreated,
+					  presentStatus: this.GetAllDataReferral[k].presentStatus,
+					  startdate: this.GetAllDataReferral[k].startdate,
+					  referralId: this.GetAllDataReferral[k].referralId,
+					  patientName: '',
+					  caseId: this.GetAllDataReferral[k].caseId,
+					  patientId: this.GetAllDataReferral[k].patientId,
+					  toothguide: this.GetAllDataReferral[k].toothguide,
+					  enddate: this.GetAllDataReferral[k].enddate,
+					  notes: this.GetAllDataReferral[k].notes,
+					  dateUpdated: this.GetAllDataReferral[k].dateUpdated,
+					  milestoneId: this.GetAllDataReferral[k].milestoneId,
+					  title: this.GetAllDataReferral[k].title,
+					  caseTitle: '',
+					  memberName: '',
+					  milestoneTitle: ''
+					});
+					//this.getcasedtls(GetAllData[k].caseId,k);
+					this.getuserdetailsallCase(this.GetAllDataReferral[k].members,this.GetAllDataReferral[k].milestoneId,k,'referal');
+				}
 			}
 		}, error => {
 			if (error.status === 404)
@@ -1785,6 +1784,8 @@ export class MasterComponent implements OnInit {
 	};
 	GetAllDataInvite:any;
 	getInviteListing() {
+		this.invitedata = Array();
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1798,14 +1799,13 @@ export class MasterComponent implements OnInit {
 			if (Response)
 			{
 				this.GetAllDataInvite = JSON.parse(Response.toString());
-				this.GetAllDataInvite.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-				this.invitedata = Array();
-				this.inviteEmailArray = Array();
-				
 				if(this.GetAllDataInvite.length == '0')
 				{
 					this.isLoadingData = false;
 				}
+				this.GetAllDataInvite.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
+				this.invitedata = Array();
+				this.inviteEmailArray = Array();
 				for(var k = 0; k < this.GetAllDataInvite.length; k++)
 				{
 					this.invitedata.push({
@@ -2352,11 +2352,19 @@ export class MasterComponent implements OnInit {
 					let title = milestoneData.title;
 					if(str == 'workorder')
 					{
-					this.workordersdata[rowIndex].milestoneTitle = title;
+						this.workordersdata[rowIndex].milestoneTitle = title;
+						if(this.GetAllDataWork.length == (rowIndex+1))
+						{
+							this.isLoadingData = false;
+						}
 					}
 					if(str == 'referal')
 					{
-					this.referraldata[rowIndex].milestoneTitle = title;
+						this.referraldata[rowIndex].milestoneTitle = title;
+						if(this.GetAllDataReferral.length == (rowIndex+1))
+						{
+							this.isLoadingData = false;
+						}
 					}
 				}
 			}, (error) => {
@@ -2381,7 +2389,7 @@ export class MasterComponent implements OnInit {
 		}
 	}
 	
-	getuserdetailsallCase(userId, index, str) {
+	getuserdetailsallCase(userId, milestoneId, index, str) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -2409,11 +2417,21 @@ export class MasterComponent implements OnInit {
 					{
 						if(str == 'workorder')
 						{
-						this.workordersdata[index].memberName = memberResult;
+							this.workordersdata[index].memberName = memberResult;
+							if(this.GetAllDataWork.length == (index+1))
+							{
+								this.isLoadingData = false;
+							}
+							this.getallmilestoneCase(milestoneId,index,'workorder');
 						}
 						if(str == 'referal')
 						{
-						this.referraldata[index].memberName = memberResult;
+							this.referraldata[index].memberName = memberResult;
+							if(this.GetAllDataReferral.length == (index+1))
+							{
+								this.isLoadingData = false;
+							}
+							this.getallmilestoneCase(milestoneId,index,'referal');
 						}
 					}
 				}
