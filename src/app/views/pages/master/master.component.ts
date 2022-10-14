@@ -814,9 +814,9 @@ export class MasterComponent implements OnInit {
 				if(this.tabledata.description.text)
 				{
 				this.caseDescription = this.tabledata.description.text;
-				this.setcvFast(this.tabledata.description);
 				this.cvfastText = true;
 				}
+				this.setcvFast(this.tabledata.description);
 				if(user.emailAddress == this.tabledata.resourceOwner){
 					this.caseEdit = true;
 				}
