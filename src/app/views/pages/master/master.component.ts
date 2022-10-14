@@ -1789,6 +1789,7 @@ export class MasterComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let caseId = this.paramCaseId;
+		//alert(caseId);
 		if(caseId != '')
 		{
 			url += "?caseId="+caseId;
@@ -1802,6 +1803,7 @@ export class MasterComponent implements OnInit {
 				if(this.GetAllDataInvite.length == '0')
 				{
 					this.isLoadingData = false;
+					this.getAllMembers();
 				}
 				this.GetAllDataInvite.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 				this.invitedata = Array();

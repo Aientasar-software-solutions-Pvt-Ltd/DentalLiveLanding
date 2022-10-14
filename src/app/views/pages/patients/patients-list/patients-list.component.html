@@ -59,8 +59,8 @@
 							</thead>
 							<tbody>
 								<tr *ngFor="let data of tabledata; let i = index;">
-									
 									<td>
+										<span class="d-none">{{i}}</span>
 										<div class="d-flex align-items-center">
 											<span class="avatar-icon">{{data.firstName.charAt(0)}}</span>
 											<span class="body2 ms-1">{{data.firstName}} {{data.lastName}}</span>
