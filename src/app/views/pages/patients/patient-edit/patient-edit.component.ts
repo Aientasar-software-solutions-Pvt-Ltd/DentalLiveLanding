@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import "@lottiefiles/lottie-player";
 import {encode} from 'html-entities';
 import {decode} from 'html-entities';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-patient-edit',
@@ -22,6 +23,7 @@ export class PatientEditComponent implements OnInit {
 saveActiveInactive: boolean = false;
 
 public patiantStatus = false;
+isvalidDate:any;
 sending: boolean;
 onActiveInactiveChanged(value:boolean){
 	this.saveActiveInactive = value;
@@ -345,7 +347,17 @@ onActiveInactiveChanged(value:boolean){
 		this.patientImage = '';
 	}
 	onSubmit(form: NgForm) {
-		if (form.invalid) {
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.dob > cValue)
+		{
+			this.isvalidDate =true;
+		}
+		else
+		{
+			this.isvalidDate =false;
+		}
+		if (form.invalid || (this.isvalidDate == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
@@ -414,6 +426,7 @@ onActiveInactiveChanged(value:boolean){
 		  notes: form.value[notes]
 		});
 	}
+	alert(JSON.stringify(this.medicationsArray));
   }
   
   confirmBox(){

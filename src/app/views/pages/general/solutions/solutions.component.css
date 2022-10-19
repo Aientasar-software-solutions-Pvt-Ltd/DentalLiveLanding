@@ -107,3 +107,32 @@ section {
 	margin-top: 0;
 }
 .tag-list .btn{cursor:default;}
+
+.dropdown-menu{
+max-width: 280px;
+border-radius: 0;
+border: 1px solid #EFF3F7;
+box-shadow: 0 5px 10px #b7c0ce33;
+font-size: .875rem;
+}
+.dropdown-menu a{
+color: #282c33;
+}
+.dropdown-menu a:hover{
+color: #0070d2;
+}
+.dropdown-menu a:active{
+color: #ffffff;
+background-color: #00d9cc;
+}
+
+.solution-hero{
+width: 100vw;
+height: 100vh;
+max-width: 100%;
+background: center / cover no-repeat url('src/assets/images/Solution.png');position: relative;
+}
+@media(max-width:767px){
+.solution-hero{background: none;position: relative;height: auto;}
+.solution-hero .so-hero-text{font-size:calc(1.275rem + 1vw);position:absolute;top:0px;left:0px;text-align:center;width:100%;}
+}

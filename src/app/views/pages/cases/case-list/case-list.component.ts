@@ -63,12 +63,6 @@ export class CaseListComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
-	}
 	
 	getallcase() {
 		let user = this.usr.getUserDetails(false);
@@ -142,13 +136,13 @@ export class CaseListComponent implements OnInit {
 		{
 			let url = this.utility.apiData.userCases.ApiUrl;
 			let patientName = form.value.patientName;
-			if(patientName != '')
+			if(patientName != '' && patientName != null)
 			{
 				url += "?patientName="+patientName;
 			}
-			if(form.value.title != '')
+			if(form.value.title != '' && form.value.title != null)
 			{
-				if(patientName != '')
+				if(patientName != '' && patientName != null)
 				{ 
 					url += "&title="+form.value.title;
 				}
@@ -157,9 +151,9 @@ export class CaseListComponent implements OnInit {
 					url += "?title="+form.value.title;
 				}
 			}
-			if(form.value.dateFrom != '')
+			if(form.value.dateFrom != '' && form.value.dateFrom != null)
 			{
-				if(patientName != '' || form.value.title != '')
+				if((patientName != '' && patientName != null) || (form.value.title != '' && form.value.title != null))
 				{ 
 					url += "&dateFrom="+Date.parse(form.value.dateFrom);
 				}
@@ -168,9 +162,9 @@ export class CaseListComponent implements OnInit {
 					url += "?dateFrom="+Date.parse(form.value.dateFrom);
 				}
 			}
-			if(form.value.dateTo != '')
+			if(form.value.dateTo != '' && form.value.dateTo != null)
 			{
-				if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+				if((patientName != '' && patientName != null) || (form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.title != '' || form.value.title != null))
 				{
 					url += "&dateTo="+Date.parse(form.value.dateTo);
 				}
@@ -184,8 +178,10 @@ export class CaseListComponent implements OnInit {
 				if (Response)
 				{
 					this.tabledata = JSON.parse(Response.toString()).reverse();
+					form.resetForm(); // or form.reset();
 				}
 			}, error => {
+				form.resetForm(); // or form.reset();
 				if (error.status === 404)
 				swal('No case found');
 				else if (error.status === 403)
@@ -217,13 +213,13 @@ export class CaseListComponent implements OnInit {
 				let mn = 0;
 				let url = this.utility.apiData.userCases.ApiUrl;
 				let patientName = form.value.patientName;
-				if(patientName != '')
+				if(patientName != '' && patientName != null)
 				{
 					url += "?patientName="+patientName;
 				}
-				if(form.value.title != '')
+				if(form.value.title != '' && form.value.title != null)
 				{
-					if(patientName != '')
+					if(patientName != '' && patientName != null)
 					{ 
 						url += "&title="+form.value.title;
 					}
@@ -232,9 +228,9 @@ export class CaseListComponent implements OnInit {
 						url += "?title="+form.value.title;
 					}
 				}
-				if(form.value.dateFrom != '')
+				if(form.value.dateFrom != '' && form.value.dateFrom != null)
 				{
-					if(patientName != '' || form.value.title != '')
+					if((patientName != '' && patientName != null) || (form.value.title != '' && form.value.title != null))
 					{ 
 						url += "&dateFrom="+Date.parse(form.value.dateFrom);
 					}
@@ -243,9 +239,9 @@ export class CaseListComponent implements OnInit {
 						url += "?dateFrom="+Date.parse(form.value.dateFrom);
 					}
 				}
-				if(form.value.dateTo != '')
+				if(form.value.dateTo != '' && form.value.dateTo != null)
 				{
-					if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+					if((patientName != '' && patientName != null) || (form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.title != '' || form.value.title != null))
 					{
 						url += "&dateTo="+Date.parse(form.value.dateTo);
 					}
@@ -278,8 +274,10 @@ export class CaseListComponent implements OnInit {
 								}
 							}
 						}
+						form.resetForm(); // or form.reset();
 					}
 				}, (error) => {
+					form.resetForm(); // or form.reset();
 					if (error.status === 404)
 					swal('No case found');
 					else if (error.status === 403)
@@ -336,7 +334,6 @@ export class CaseListComponent implements OnInit {
 					this.getuserdetailsall(GetAllData[k].invitedUserMail,this.indexRow,index,type);
 					this.indexRow++;
 				} 
-				this.loadTooltip();
 			}
 		}, error => {
 			if (error.status === 404)

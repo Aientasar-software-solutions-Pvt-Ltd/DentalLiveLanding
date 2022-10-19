@@ -104,12 +104,6 @@ export class PatientDetailsComponent implements OnInit {
 		return "";
 		}
 	}
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
-	}
 	getallpatiant() {
 		let user = this.usr.getUserDetails(false);
 		this.tabledata = '';
@@ -399,7 +393,6 @@ export class PatientDetailsComponent implements OnInit {
 					this.getuserdetailsall(GetAllData[k].invitedUserId,this.indexRow,index);
 					this.indexRow++;
 				} 
-				this.loadTooltip();
 			}
 		}, error => {
 			if (error.status === 404)

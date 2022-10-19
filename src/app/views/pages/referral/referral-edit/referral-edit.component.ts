@@ -89,6 +89,7 @@ export class ReferralEditComponent implements OnInit {
 			{
 				
 				this.editedDate = JSON.parse(Response.toString());
+				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
 				this.toothData = this.editedDate.toothguide;
 				console.log("calling tooth guide");
 				console.log(this.orders);
@@ -100,7 +101,6 @@ export class ReferralEditComponent implements OnInit {
 				this.presentStatusEdit = this.editedDate.presentStatus;
 				this.allMemberEmail = this.editedDate.members;
 				this.getCaseDetails(this.editedDate.caseId);
-				this.getAllMembers(this.editedDate.caseId,this.editedDate.members);
 				this.setcvFast();   
 			}
 		}, error => {
@@ -242,6 +242,38 @@ export class ReferralEditComponent implements OnInit {
 		});
 		
 	}
+	
+	getuserdetailsallEdit(userId) {
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let isArray = 0;
+			for(var i=0; i < userId.length; i++)
+			{
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
+				{
+					url += "?dentalId="+userId[i];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+					this.selectedCityName.push(name);
+					isArray++;
+					if(userId.length == isArray)
+					{
+						this.selectedCity = this.selectedCityName;
+					}
+				}
+				}, (error) => {
+				  swal( 'Unable to fetch data, please try again');
+				  return false;
+				});
+			}
+		}
+	}
 	getuserdetailsall(userId, index, arrayObj) {
 		let user = this.usr.getUserDetails(false);
 		if(user)
@@ -269,18 +301,6 @@ export class ReferralEditComponent implements OnInit {
 			this.allMember[index].emailAddress = userData.emailAddress;
 			this.allMember[index].avatar = avatar;
 			this.allMember[index].memberid = userData.dentalId;
-			for(var k = 0; k < arrayObj.length; k++)
-			{
-				if(arrayObj[k] == userData.dentalId)
-				{
-				this.selectedCityName.push(name);
-				}
-				if(arrayObj.length ==index)
-				{
-				//alert(JSON.stringify(this.selectedCityName));
-				this.selectedCity = this.selectedCityName;
-				}
-			}
 		}
 		}, (error) => {
 			if (error.status === 404)
@@ -336,6 +356,10 @@ export class ReferralEditComponent implements OnInit {
 						  name: ''
 						});
 						this.getuserdetailsall(GetAllData[k].invitedUserMail,k,arrayObj);
+						if(GetAllData.length == (k+1))
+						{
+						this.getuserdetailsallEdit(arrayObj);
+						}
 					}
 				}
 			}, error => {

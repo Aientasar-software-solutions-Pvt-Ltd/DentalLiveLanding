@@ -83,7 +83,7 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" data-bs-toggle="tooltip" title="View">
+											<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" tippy="View" placement="top" title="View">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>
@@ -114,6 +114,7 @@
 								<tr *ngFor="let data of colleaguesdata; let i = index;">
 									
 									<td>
+										<span class="d-none">{{i}}</span>
 										<div>
 											<span class="avatar-icon">{{data.patientName.charAt(0)}}</span>
 											<span class="body2 ms-1">{{data.patientName}}</span>
@@ -136,7 +137,7 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" >
+											<a  tippy="View" placement="top" routerLink="/cases-view/caseDetails/{{data.caseId}}" >
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>

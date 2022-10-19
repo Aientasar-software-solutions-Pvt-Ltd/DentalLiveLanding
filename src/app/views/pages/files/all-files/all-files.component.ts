@@ -229,44 +229,47 @@ export class AllFilesComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			swal("Processing...please wait...", {
-			  buttons: [false, false],
-			  closeOnClickOutside: false,
-			});
-			let mediatype= this.attachmentUploadFiles[0].type;
-			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
-			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
-			});
-			Promise.all(requests)
-			  .then((values) => {
-				this.attachmentUploadFiles = [];
-				let img = values[0];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						this.UploadFiles = Array();
-						this.UploadFiles.push({
-						  url: Response,
-						  name: img,
-						  mediaType: mediatype,
-						  mediaSize: mediasize.toString()
-						});
-						this.onGetdateData(form.value);
-					}
-				}, error => {
-					if (error.status)
-					swal(error.error);
-					else
-					swal('Unable to fetch the data, please try again');
-				});	
-			  })
-			  .catch((error) => {
-				console.log(error);
-				return false;
-			  });
+			if(this.attachmentUploadFiles.length > 0)
+			{
+				swal("Processing...please wait...", {
+				  buttons: [false, false],
+				  closeOnClickOutside: false,
+				});
+				let mediatype= this.attachmentUploadFiles[0].type;
+				let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
+				let requests = this.attachmentUploadFiles.map((object) => {
+				  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+				});
+				Promise.all(requests)
+				  .then((values) => {
+					this.attachmentUploadFiles = [];
+					let img = values[0];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.UploadFiles = Array();
+							this.UploadFiles.push({
+							  url: Response,
+							  name: img,
+							  mediaType: mediatype,
+							  mediaSize: mediasize.toString()
+							});
+							this.onGetdateData(form.value);
+						}
+					}, error => {
+						if (error.status)
+						swal(error.error);
+						else
+						swal('Unable to fetch the data, please try again');
+					});	
+				  })
+				  .catch((error) => {
+					console.log(error);
+					return false;
+				  });
+			}
 		}
 		else{
 			this.onGetdateData(form.value);

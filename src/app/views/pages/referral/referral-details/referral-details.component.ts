@@ -39,6 +39,7 @@ export class ReferralDetailsComponent implements OnInit {
 				}
 			}, 1000);
 		}
+		sessionStorage.setItem("referralTabActive", ids);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -136,8 +137,14 @@ export class ReferralDetailsComponent implements OnInit {
 	});
 	this.getReferralDetails().then(
 	(value) => {
+	//Set current tab
+	let tabActive = sessionStorage.getItem("referralTabActive");
+	(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	},
 	(error) => {
+	//Set current tab
+	let tabActive = sessionStorage.getItem("tabActive");
+	(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	});
   }
   
@@ -157,7 +164,6 @@ export class ReferralDetailsComponent implements OnInit {
 				this.dataService.getallData(url, true).subscribe(Response => {
 					if (Response)
 					{
-						this.isLoadingData = false;
 						this.tabledata = JSON.parse(Response.toString());
 						this.toothData = this.tabledata.toothguide;
 						this.getCaseDetails(this.tabledata.caseId);
@@ -174,7 +180,11 @@ export class ReferralDetailsComponent implements OnInit {
 						this.getuserdetailsall(this.referalmembers);
 						this.getMessage(this.tabledata.caseId);
 						this.setcvFast(this.tabledata.notes);
+						if(this.id == 'tab1')
+						{
+						this.isLoadingData = false;
 						this.orders.setToothGuide(this.toothData);
+						}
 						Resolve(true);
 					}
 				}, (error) => {
@@ -345,7 +355,6 @@ export class ReferralDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.isLoadingData = false;
 					this.detailsdata = JSON.parse(Response.toString());
 				}
 			}, (error) => {
@@ -449,12 +458,14 @@ export class ReferralDetailsComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&messageType="+Number(messageType);
+			url += "&messageReferenceId="+this.referralId;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
+					this.messagedata.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.messageDataArray = Array();
+					let checkArray = 0;
 					for(var i = 0; i < this.messagedata.length; i++)
 					{
 						let strVal = JSON.stringify(this.messagedata[i].message);
@@ -466,7 +477,7 @@ export class ReferralDetailsComponent implements OnInit {
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.removeHTML(this.messagedata[i].message.text),
-								messageimg: this.messagedata[i].message.links,
+								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
 								messageReferenceId: this.messagedata[i].messageReferenceId,
@@ -475,6 +486,7 @@ export class ReferralDetailsComponent implements OnInit {
 							this.setcvFastComment(this.messagedata[i].comments,i);
 							this.setcvFastMsg(this.messagedata[i].message,i);
 							this.cvfastMsgText = true;
+							checkArray++;
 						}
 						else
 						{
@@ -489,13 +501,13 @@ export class ReferralDetailsComponent implements OnInit {
 								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
+							checkArray++;
 						}  
-						if(this.messagedata.length == (i+1))
-						{
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1);
-						//alert(JSON.stringify(this.messageAry));
-						}
+					}
+					if(checkArray == this.messagedata.length)
+					{
+					this.messageAry = this.messageDataArray;
+					this.isLoadingData = false;
 					}
 				}
 			}, (error) => {
@@ -573,6 +585,7 @@ export class ReferralDetailsComponent implements OnInit {
 							});
 						}
 					}
+					//alert(JSON.stringify(NewCommentArray));
 					if(CommentObj.text)
 					{
 						if(NewCommentArray.length > 0)
@@ -594,6 +607,10 @@ export class ReferralDetailsComponent implements OnInit {
 						{
 							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
+					}
+					if(CommentObj.links && (CommentObj.text == ''))
+					{
+						Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 					}
 				}
 				

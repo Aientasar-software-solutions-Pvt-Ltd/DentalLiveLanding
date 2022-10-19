@@ -59,7 +59,6 @@
 																<img src="{{invitedata[0].imageSrc}}" alt="" class="mb-2 avatar-sm rounded-circle" width="36" height="36">
 															</a>
 															<p class="body2 text-light ms-3 me-2">{{invitedata[0].userName}}</p>
-															<span class="badge badge-pill badge-success body2 me-2 mb-2" *ngIf="(invitedata[0].presentStatus == 1)">Accepted </span>
 														</div>
 													</div>
 													<div class="col-md-2">
@@ -75,8 +74,8 @@
 														<p class="body2 text-light">{{invitedata[0].userCountry}}</p>
 													</div>
 													<div class="col-md-2">
-														<p class="body2 mb-0 text-light-green">Created Date</p>
-														<p class="body2 text-light">{{invitedata[0].dateCreated | date : 'dd-MM-yyyy'}}</p>
+														<p class="body2 mb-0 text-light-green">Mobile No</p>
+														<p class="body2 text-light">{{invitedata[0].phoneNumber}}</p>
 													</div>
 												</div>
 											</div>

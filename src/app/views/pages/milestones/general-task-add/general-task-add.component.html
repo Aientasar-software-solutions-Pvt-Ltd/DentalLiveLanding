@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/milestones">Milestones</a>
+		<a routerLink="/milestones/milestones-list">Milestones</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Add General Task
@@ -59,7 +59,7 @@
 							<div class="col-md-4"> 
 								<div class="mb-4">
 									<label class="form-label body2 text-dark">Start Date</label>
-									<input class="form-control" name="startdate" min="{{this.minDate | date:'yyyy-MM-dd'}}" id="startdate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date" required ngModel >
+									<input class="form-control" name="startdate" min="{{this.minStartDate | date:'yyyy-MM-dd'}}" id="startdate" [owlDateTime]="sd" [owlDateTimeTrigger]="sd" placeholder="Start Date" required ngModel >
 									<owl-date-time [pickerType]="'calendar'" #sd></owl-date-time>
 								</div>
 							</div>

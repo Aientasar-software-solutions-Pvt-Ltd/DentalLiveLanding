@@ -63,7 +63,8 @@
 								<td>  
 									<span class="body2">{{data.title}}</span>                
 								</td>
-								<td>  
+								<td >  
+									<span class="d-none">{{data.dateCreated}}</span>
 									<span class="body2">{{data.dateCreated | date:'mediumDate'}}</span>                
 								</td>
 								<td>  
@@ -74,10 +75,10 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/referrals/referral-details/{{data.referralId}}" data-bs-toggle="tooltip" title="View">
+										<a tippy="View" placement="top" routerLink="/referrals/referral-details/{{data.referralId}}" >
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
-										<a routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
+										<a tippy="Edit" placement="top" routerLink="/referrals/referral-edit/{{data.referralId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 									</div>
@@ -106,13 +107,7 @@
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search by Patients Name" >
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="search">
-								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search by Case Name" >
+								<input type="text" name="referral_title" ngModel id="referral_title" class="form-control" placeholder="Search by Referral Title" >
 							</div>
 						</div>
 						<div class="col-md-12">

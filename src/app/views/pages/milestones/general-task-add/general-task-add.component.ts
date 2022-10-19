@@ -24,6 +24,7 @@ export class GeneralTaskAddComponent implements OnInit {
     selectedCity = '';
 	public module = 'patient';
 	minDate = new Date();
+	minStartDate = new Date();
 	
 	defaultBindingsList = [
         { value: 1, label: 'Jhone Duo' },
@@ -58,6 +59,7 @@ export class GeneralTaskAddComponent implements OnInit {
   }
   
 	ngOnInit(): void {
+		this.minStartDate.setDate(this.minStartDate.getDate() - 1);
 		this.selectedMember = this.defaultBindingsList[0];
 		this.getCaseDetails();
 		this.getAllMembers();

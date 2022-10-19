@@ -52,6 +52,7 @@ export class GeneralTaskEditComponent implements OnInit {
 	public isvalidRefereTo = false;
 	gettaskId: any;
 	minDate = new Date();
+	minStartDate = new Date();
     constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
 		this.gettaskId = this.route.snapshot.paramMap.get('taskId');
 	}
@@ -61,6 +62,7 @@ export class GeneralTaskEditComponent implements OnInit {
   }
   
 	ngOnInit(): void {
+		this.minStartDate.setDate(this.minStartDate.getDate() - 1);
 		this.getEditTasks();
 	}
 	getuserdetailsall(userId, index) {
@@ -136,8 +138,10 @@ export class GeneralTaskEditComponent implements OnInit {
 					let GetAllData = JSON.parse(Response.toString());
 					GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.allMember = Array();
+					let isArray = 0;
 					for(var k = 0; k < GetAllData.length; k++)
 					{
+						isArray++;
 						this.allMember.push({
 						  id: k,
 						  avatar: '',
@@ -146,19 +150,13 @@ export class GeneralTaskEditComponent implements OnInit {
 						});
 						this.getuserdetailsall(GetAllData[k].invitedUserMail,k).then(
 						(value) => {
-							if(GetAllData.length ==(k))
-							{
-								//alert(JSON.stringify(this.selectedCityName));
-								this.selectedCity = this.selectedCityName;
-							}
 						},
 						(error) => {
-						if(GetAllData.length ==(k+1))
-						{
-							//alert(JSON.stringify(this.selectedCityName));
-							this.selectedCity = this.selectedCityName;
-						}
 						});
+					}
+					if(GetAllData.length == isArray)
+					{
+						this.userdetailsall(this.allMemberEmail);
 					}
 				}
 			}, error => {
@@ -294,41 +292,47 @@ export class GeneralTaskEditComponent implements OnInit {
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
-		for(var k = 0; k < obj.length; k++)
-		{
-			let apiUrl = this.utility.apiData.userColleague.ApiUrl;
-			apiUrl += "?emailAddress="+obj[k].trim();
-			this.dataService.getallData(apiUrl, true).subscribe(Response => {
-			if (Response)
+			let UserArray = 0;
+			for(var k = 0; k < obj.length; k++)
 			{
-				let userData = JSON.parse(Response.toString());
-				let name = userData.accountfirstName+' '+userData.accountlastName;
-				this.selectedCityName.push(name);
-			}
-			}, (error) => {
-				if (error.status === 404)
-				swal('No workorder found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
+				let apiUrl = this.utility.apiData.userColleague.ApiUrl;
+				apiUrl += "?emailAddress="+obj[k].trim();
+				this.dataService.getallData(apiUrl, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					let name = userData.accountfirstName+' '+userData.accountlastName;
+					this.selectedCityName.push(name);
+					UserArray++;
+					if(obj.length == UserArray)
+					{
+					this.selectedCity = this.selectedCityName;
+					}
+				}
+				}, (error) => {
+					if (error.status === 404)
+					swal('No workorder found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
 
-				return false;
-			});
+					return false;
+				});
 			}
 		}
 	}
@@ -346,7 +350,6 @@ export class GeneralTaskEditComponent implements OnInit {
 			{
 				this.editdata = JSON.parse(Response.toString());
 				this.allMemberEmail = this.editdata.memberMail.split(",");
-				this.userdetailsall(this.allMemberEmail);
 				this.allMemberName = this.editdata.memberName.split(",");
 				this.getAllMembers(this.editdata.caseId);
 				this.getCaseDetails(this.editdata.caseId);

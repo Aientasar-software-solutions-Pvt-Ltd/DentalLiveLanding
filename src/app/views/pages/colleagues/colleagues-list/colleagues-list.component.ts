@@ -49,12 +49,6 @@ export class ColleaguesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
-	}
 	getInviteListing() {
 		
 		let user = this.usr.getUserDetails(false);
@@ -151,7 +145,6 @@ export class ColleaguesListComponent implements OnInit {
 			{
 				this.isLoadingData = false;
 			}
-			this.loadTooltip();
 		}
 		//alert(JSON.stringify(this.invitedata));
 		}, (error) => {
@@ -221,17 +214,19 @@ export class ColleaguesListComponent implements OnInit {
 	}
 	
 	onSubmitColleague(form: NgForm) {
+		this.isLoadingData = true;
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		let user = this.usr.getUserDetails(false);
-		url += "?resourceOwner="+user.dentalId;
+		url += "?resourceOwner="+user.emailAddress;
+		url += "&presentStatus=1";
 		
-		if(form.value.dateFrom != '')
+		if(form.value.dateFrom != '' && form.value.dateFrom != null)
 		{
 			url += "&dateFrom="+Date.parse(form.value.dateFrom);
 		}
 		if(form.value.dateTo != '')
 		{
-			if(form.value.dateFrom != '')
+			if(form.value.dateFrom != '' && form.value.dateFrom != null)
 			{
 				url += "&dateTo="+Date.parse(form.value.dateTo);
 			}
@@ -240,37 +235,47 @@ export class ColleaguesListComponent implements OnInit {
 				url += "?dateTo="+Date.parse(form.value.dateTo);
 			}
 		}
-
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				this.GetAllData = JSON.parse(Response.toString());
+				this.GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				//alert(JSON.stringify(this.GetAllData));
 				this.invitedata = Array();
-				for(var k = 0; k < GetAllData.length; k++)
+				let Row = 0;
+				if(this.GetAllData.length == '0')
 				{
-					this.invitedata.push({
-					  id: k,
-					  patientId: GetAllData[k].patientId,
-					  invitedUserId: GetAllData[k].invitedUserId,
-					  invitedUserMail: GetAllData[k].invitedUserMail,
-					  invitationId: GetAllData[k].invitationId,
-					  userName: '',
-					  presentStatus: GetAllData[k].presentStatus,
-					  invitationText: GetAllData[k].invitationText,
-					  patientName: GetAllData[k].patientName,
-					  caseId: GetAllData[k].caseId,
-					  dateUpdated: GetAllData[k].dateUpdated,
-					  dateCreated: GetAllData[k].dateCreated,
-					  resourceOwner: GetAllData[k].resourceOwner,
-					  dentalId: user.dentalId,
-					  caseTitle: ''
-					});
-					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
-					this.getcasedetails(GetAllData[k].caseId,k);
+					this.isLoadingData = false;
 				}
+				for(var k = 0; k < this.GetAllData.length; k++)
+				{
+					if(this.GetAllData[k].presentStatus == 1)
+					{
+						this.invitedata.push({
+						  id: Row,
+						  patientId: this.GetAllData[k].patientId,
+						  invitedUserId: this.GetAllData[k].invitedUserId,
+						  invitedUserMail: this.GetAllData[k].invitedUserMail,
+						  invitationId: this.GetAllData[k].invitationId,
+						  userName: '',
+						  presentStatus: this.GetAllData[k].presentStatus,
+						  invitationText: this.GetAllData[k].invitationText,
+						  patientName: this.GetAllData[k].patientName,
+						  caseId: this.GetAllData[k].caseId,
+						  dateUpdated: this.GetAllData[k].dateUpdated,
+						  dateCreated: this.GetAllData[k].dateCreated,
+						  resourceOwner: this.GetAllData[k].resourceOwner,
+						  dentalId: user.dentalId,
+						  caseTitle: ''
+						});
+						this.getcasedetails(this.GetAllData[k].invitedUserMail, this.GetAllData[k].caseId, Row);
+						Row++;
+					}
+				}
+				form.resetForm(); // or form.reset();
 			}
 		}, error => {
+			form.resetForm(); // or form.reset();
 			if (error.status === 404)
 			swal('No colleagues found');
 			else if (error.status === 403)

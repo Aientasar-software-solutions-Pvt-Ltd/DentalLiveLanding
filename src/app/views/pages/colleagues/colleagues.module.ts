@@ -11,6 +11,7 @@ import { ColleaguesAddMembersComponent } from './colleagues-add-members/colleagu
 import { ColleagueViewProfileComponent } from './colleague-view-profile/colleague-view-profile.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
     path: '',
@@ -55,6 +56,13 @@ const routes: Routes = [
 	RouterModule.forChild(routes),
 	NgxShimmerLoadingModule,
 	DataTablesModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })
   ],
    schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

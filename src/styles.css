@@ -19,6 +19,10 @@
 @import '~video.js/dist/video-js.css';
 @import '~videojs-record/dist/css/videojs.record.css';
 
+@import '~tippy.js/dist/tippy.css';
+@import '~tippy.js/themes/light.css';
+@import '~tippy.js/animations/scale.css';
+
 @import 'assets/css/boxicons.min.css';
 @import 'assets/css/font-awesome.min.css';
 @import 'assets/css/mailStyle.css';

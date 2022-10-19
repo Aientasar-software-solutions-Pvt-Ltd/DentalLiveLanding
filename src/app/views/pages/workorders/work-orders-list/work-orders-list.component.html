@@ -65,6 +65,7 @@
 								</td>
 								<td>
 									<div>
+										<span class="d-none">{{data.dateCreated}}</span>
 										<span class="badge rounded-pill badge-info body2" *ngIf="(data.presentStatus == 1)">Active</span>
 										<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 2)">Inactive</span>
 										<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 3)">Pending</span>
@@ -80,11 +81,11 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit" class="me-1" >
+										<a tippy="Edit" placement="top" routerLink="/workorders/work-order-edit/{{data.workorderId}}" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1" >
 											<i class="material-icons text-bright-blue">edit</i>
 										</a>
 										
-										<a routerLink="/workorders/work-order-details/{{data.workorderId}}"  class="me-1" data-bs-toggle="tooltip" title="View">
+										<a tippy="View" placement="top" routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1" >
 											<i class="material-icons fs-4 text-light-green">
 												visibility
 											</i>
@@ -115,13 +116,7 @@
 						<div class="col-md-12">
 							<div class="search">
 								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search by Patients name" >
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="search">
-								<i class="bx bx-search"></i>
-								<input type="text" class="form-control" placeholder="Search by Case name" >
+								<input type="text" name="workorder_title" ngModel id="workorder_title" class="form-control" placeholder="Search by Work Order Title" >
 							</div>
 						</div>
 						<div class="col-md-12">

@@ -538,6 +538,10 @@ export class MasterComponent implements OnInit {
 							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
+					if(CommentObj.links && (CommentObj.text == ''))
+					{
+						Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
+					}
 				}
 				
 			}
@@ -592,8 +596,9 @@ export class MasterComponent implements OnInit {
 	}
   
 	getallworkorder() {
-		this.workordersdata = Array();
+		sessionStorage.removeItem("workorderTabActive");
 		this.isLoadingData = true;
+		this.workordersdata = Array();
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -804,7 +809,10 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				if(this.paramTabName == 'caseDetails')
+				{
 				this.isLoadingData = false;
+				}
 				this.tabledata = JSON.parse(Response.toString());
 				let patientId = this.tabledata.patientId;
 				this.caseDate = this.tabledata.dateCreated;
@@ -1103,60 +1111,63 @@ export class MasterComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			this.sending = true;
-			let mediatype= this.attachmentUploadFiles[0].type;
-			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
-			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
-			});
-			Promise.all(requests)
-			  .then((values) => {
-				this.attachmentUploadFiles = [];
-				//console.log(this.cvfast);
-				let img = values[0];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						this.sending = false;
-						this.UploadFiles = Array();
-						this.UploadFiles.push({
-						  url: Response,
-						  name: img,
-						  mediaType: mediatype,
-						  mediaSize: mediasize.toString()
+			if(this.attachmentUploadFiles.length > 0)
+			{
+				this.sending = true;
+				let mediatype= this.attachmentUploadFiles[0].type;
+				let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
+				let requests = this.attachmentUploadFiles.map((object) => {
+				  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+				});
+				Promise.all(requests)
+				  .then((values) => {
+					this.attachmentUploadFiles = [];
+					//console.log(this.cvfast);
+					let img = values[0];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.sending = false;
+							this.UploadFiles = Array();
+							this.UploadFiles.push({
+							  url: Response,
+							  name: img,
+							  mediaType: mediatype,
+							  mediaSize: mediasize.toString()
+							});
+							//this.PatientImg = values[0];
+							this.onGetdateData(form.value);
+						}
+					}, error => {
+						if (error.status === 404)
+						swal('No patient found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered for first name or last name');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
 						});
-						//this.PatientImg = values[0];
-						this.onGetdateData(form.value);
-					}
-				}, error => {
-					if (error.status === 404)
-					swal('No patient found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered for first name or last name');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
-					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				});	
-			  })
-			  .catch((error) => {
-				console.log(error);
-				return false;
-			  });
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					});	
+				  })
+				  .catch((error) => {
+					console.log(error);
+					return false;
+				  });
+			}
 		}
 		else{
 			this.onGetdateData(form.value);
@@ -1454,6 +1465,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getReferralListing() {
+		sessionStorage.removeItem("referralTabActive");
 		this.referraldata = Array();
 		this.isLoadingData = true;
 		sessionStorage.setItem('backurl', '/cases-view/referrals/'+this.paramCaseId);
@@ -2114,7 +2126,6 @@ export class MasterComponent implements OnInit {
 						{
 							this.isLoadingData = false;
 							this.messageAry = this.messageDataArray;
-							this.messageAry.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
 						}
 					}
 				}
@@ -2339,56 +2350,52 @@ export class MasterComponent implements OnInit {
 	}
 
 	getallmilestoneCase(milestoneId, rowIndex, str) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let url = this.utility.apiData.userMilestones.ApiUrl;
-			if(milestoneId != '')
+		return new Promise((Resolve, myReject) => {
+			let user = this.usr.getUserDetails(false);
+			if(user)
 			{
-				url += "?milestoneId="+milestoneId;
-			}
-			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
+				let url = this.utility.apiData.userMilestones.ApiUrl;
+				if(milestoneId != '')
 				{
-					let milestoneData = JSON.parse(Response.toString());
-					let title = milestoneData.title;
-					if(str == 'workorder')
-					{
-						this.workordersdata[rowIndex].milestoneTitle = title;
-						if(this.GetAllDataWork.length == (rowIndex+1))
-						{
-							this.isLoadingData = false;
-						}
-					}
-					if(str == 'referal')
-					{
-						this.referraldata[rowIndex].milestoneTitle = title;
-						if(this.GetAllDataReferral.length == (rowIndex+1))
-						{
-							this.isLoadingData = false;
-						}
-					}
+					url += "?milestoneId="+milestoneId;
 				}
-			}, (error) => {
-				if (error.status === 404)
-				swal('No milestone found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Milestone title already exist!');
-				else if (error.status === 405)
-				swal('Due to dependency data unable to complete operation');
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-			  return false;
-			});
-		}
+				this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
+					{
+						let milestoneData = JSON.parse(Response.toString());
+						let title = milestoneData.title;
+						if(str == 'workorder')
+						{
+							this.workordersdata[rowIndex].milestoneTitle = title;
+						}
+						if(str == 'referal')
+						{
+							this.referraldata[rowIndex].milestoneTitle = title;
+						}
+						Resolve(true);
+					}
+				}, (error) => {
+					Resolve(true);
+					if (error.status === 404)
+					swal('No milestone found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Milestone title already exist!');
+					else if (error.status === 405)
+					swal('Due to dependency data unable to complete operation');
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+				  return false;
+				});
+			}
+		});
 	}
 	
 	getuserdetailsallCase(userId, milestoneId, index, str) {
@@ -2420,20 +2427,36 @@ export class MasterComponent implements OnInit {
 						if(str == 'workorder')
 						{
 							this.workordersdata[index].memberName = memberResult;
-							if(this.GetAllDataWork.length == (index+1))
-							{
-								this.isLoadingData = false;
-							}
-							this.getallmilestoneCase(milestoneId,index,'workorder');
+							this.getallmilestoneCase(milestoneId,index,'workorder').then(
+							(value) => {
+								if(this.GetAllDataWork.length == (index+1))
+								{
+									this.isLoadingData = false;
+								}
+							},
+							(error) => {
+								if(this.GetAllDataWork.length == (index+1))
+								{
+									this.isLoadingData = false;
+								}
+							});
 						}
 						if(str == 'referal')
 						{
 							this.referraldata[index].memberName = memberResult;
-							if(this.GetAllDataReferral.length == (index+1))
-							{
-								this.isLoadingData = false;
-							}
-							this.getallmilestoneCase(milestoneId,index,'referal');
+							this.getallmilestoneCase(milestoneId,index,'referal').then(
+							(value) => {
+								if(this.GetAllDataReferral.length == (index+1))
+								{
+									this.isLoadingData = false;
+								}
+							},
+							(error) => {
+								if(this.GetAllDataReferral.length == (index+1))
+								{
+									this.isLoadingData = false;
+								}
+							});
 						}
 					}
 				}

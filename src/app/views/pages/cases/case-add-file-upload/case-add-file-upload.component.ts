@@ -144,79 +144,82 @@ export class CaseAddFileUploadComponent implements OnInit {
 		
 		if(form.value.uploadfile)
 		{
-			let isData = form.value;
-			this.sending = true;
-			let mediatype= this.attachmentUploadFiles[0].type;
-			let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
-			let requests = this.attachmentUploadFiles.map((object) => {
-			  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
-			});
-			Promise.all(requests)
-			  .then((values) => {
-				this.attachmentUploadFiles = [];
-				let img = values[0];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						this.UploadFiles = Array();
-						this.UploadFiles.push({
-						  url: Response,
-						  name: img,
-						  mediaType: mediatype,
-						  mediaSize: mediasize.toString()
+			if(this.attachmentUploadFiles.length > 0)
+			{
+				let isData = form.value;
+				this.sending = true;
+				let mediatype= this.attachmentUploadFiles[0].type;
+				let mediasize= Math.round(this.attachmentUploadFiles[0].size/1024);
+				let requests = this.attachmentUploadFiles.map((object) => {
+				  return this.UtilityDev.uploadBinaryData(object["name"], object["binaryData"], this.module);
+				});
+				Promise.all(requests)
+				  .then((values) => {
+					this.attachmentUploadFiles = [];
+					let img = values[0];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+img+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
+						{
+							this.UploadFiles = Array();
+							this.UploadFiles.push({
+							  url: Response,
+							  name: img,
+							  mediaType: mediatype,
+							  mediaSize: mediasize.toString()
+							});
+							this.onGetdateData(isData);
+						}
+					}, error => {
+						this.sending = false;
+						if (error.status === 404)
+						swal('No case files found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
 						});
-					    this.onGetdateData(isData);
-					}
-				}, error => {
-					this.sending = false;
-					if (error.status === 404)
-					swal('No case files found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
-					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				});	
-			  })
-			  .catch((error) => {
-					this.sending = false;
-					if (error.status === 404)
-					swal('No case files found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
-					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				return false;
-			  });
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					});	
+				  })
+				  .catch((error) => {
+						this.sending = false;
+						if (error.status === 404)
+						swal('No case files found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					return false;
+				  });
+			}
 		}
 		else{
 			this.onGetdateData(form.value);

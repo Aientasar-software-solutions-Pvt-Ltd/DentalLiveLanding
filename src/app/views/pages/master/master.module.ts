@@ -14,7 +14,7 @@ import { PatientsModule } from '../patients/patients.module';
 import { MasterComponent } from './master.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
-
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
 	{
         path: '',
@@ -52,7 +52,14 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
 	DataTablesModule,
 	NgxShimmerLoadingModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	})
   ]
 })
 export class MasterModule { }

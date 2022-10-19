@@ -190,11 +190,14 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" data-bs-toggle="tooltip" title="View">
+										<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" tippy="View" placement="top" title="View">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>
 								</td>
+							</tr>
+							<tr *ngIf="this.casedata.length == 0">
+								<td colspan="6" class="dataTables_empty" valign="top">No data available in table</td>
 							</tr>
 							
 						</tbody>

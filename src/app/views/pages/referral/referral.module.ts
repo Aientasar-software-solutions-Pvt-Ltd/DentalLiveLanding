@@ -15,6 +15,8 @@ import { PatientsModule } from '../patients/patients.module';
 import { ReferralGuideComponent } from './referral-guide/referral-guide.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+
 const routes: Routes = [
   {
     path: '',
@@ -67,7 +69,14 @@ const routes: Routes = [
 	FormsModule,
 	ReactiveFormsModule,
 	PatientsModule,
-	NgxShimmerLoadingModule
+	NgxShimmerLoadingModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA
