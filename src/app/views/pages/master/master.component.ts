@@ -26,6 +26,7 @@ export class MasterComponent implements OnInit {
 	public allMemberName: any[] = []
 	public allMemberDentalId: any[] = []
     selectedCity = '';
+    iscount = 0;
 	isLoadingData = true;
 	shimmer = Array;
 	show = false;
@@ -549,18 +550,58 @@ export class MasterComponent implements OnInit {
 		}
 		
 	}
-	setcvFastMsg(obj: any, index: any)
+	setcvFastMsg(obj: any, index: any, type = 'other')
 	{
 		let MessageDetails = Array();
 		if(JSON.stringify(obj).length > 2)
 		{
-			if(obj.links.length > 0)
+			if(type == 'other')
 			{
-				this.cvfastMsgLinks = true;
-				for(var i = 0; i < obj.links.length; i++)
+				if(obj.links.length > 0)
 				{
-					let ImageName = obj.links[i];
-					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.cvfastMsgLinks = true;
+					for(var i = 0; i < obj.links.length; i++)
+					{
+						let ImageName = obj.links[i];
+						let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+						this.dataService.getallData(url, true)
+						.subscribe(Response => {
+							if (Response)
+							{
+								MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+							}
+						}, error => {
+							if (error.status === 404)
+							swal('No patient found');
+							else if (error.status === 403)
+							swal('You are unauthorized to access the data');
+							else if (error.status === 400)
+							swal('Invalid data provided, please try again');
+							else if (error.status === 401)
+							swal('You are unauthorized to access the page');
+							else if (error.status === 409)
+							swal('Duplicate data entered for first name or last name');
+							else if (error.status === 405)
+							swal({
+							text: 'Due to dependency data unable to complete operation'
+							}).then(function() {
+							window.location.reload();
+							});
+							else if (error.status === 500)
+							swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+							else
+							swal('Oops something went wrong, please try again');
+						});
+					}
+					this.messageDataArray[index].messageimg = MessageDetails;  
+				}
+			}
+			else
+			{
+				for(var i = 0; i < obj.length; i++)
+				{
+					let ImageName = obj[i].name;
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj[i].name+'&module='+this.module+'&type=get';
 					this.dataService.getallData(url, true)
 					.subscribe(Response => {
 						if (Response)
@@ -590,7 +631,7 @@ export class MasterComponent implements OnInit {
 						swal('Oops something went wrong, please try again');
 					});
 				}
-				this.messageDataArray[index].messageimg = MessageDetails;  
+				this.messageDataArray[index].messageimg = MessageDetails; 
 			}
 		}
 	}
@@ -2117,7 +2158,7 @@ export class MasterComponent implements OnInit {
 								messagecomment: '',
 								messagecomments: ''
 							});
-							//this.setcvFastMsg(treadAllData[i].description,countIndex);
+							this.setcvFastMsg(treadAllData[i].files,countIndex,'files');
 							this.cvfastMsgText = true;
 						}
 							countIndex++;
@@ -2367,12 +2408,15 @@ export class MasterComponent implements OnInit {
 						if(str == 'workorder')
 						{
 							this.workordersdata[rowIndex].milestoneTitle = title;
+							this.iscount++;
+							Resolve(true);
 						}
 						if(str == 'referal')
 						{
 							this.referraldata[rowIndex].milestoneTitle = title;
+							this.iscount++;
+							Resolve(true);
 						}
-						Resolve(true);
 					}
 				}, (error) => {
 					Resolve(true);
@@ -2429,13 +2473,13 @@ export class MasterComponent implements OnInit {
 							this.workordersdata[index].memberName = memberResult;
 							this.getallmilestoneCase(milestoneId,index,'workorder').then(
 							(value) => {
-								if(this.GetAllDataWork.length == (index+1))
+								if(this.GetAllDataWork.length == this.iscount)
 								{
 									this.isLoadingData = false;
 								}
 							},
 							(error) => {
-								if(this.GetAllDataWork.length == (index+1))
+								if(this.GetAllDataWork.length == this.iscount)
 								{
 									this.isLoadingData = false;
 								}
@@ -2446,13 +2490,13 @@ export class MasterComponent implements OnInit {
 							this.referraldata[index].memberName = memberResult;
 							this.getallmilestoneCase(milestoneId,index,'referal').then(
 							(value) => {
-								if(this.GetAllDataReferral.length == (index+1))
+								if(this.GetAllDataReferral.length == this.iscount)
 								{
 									this.isLoadingData = false;
 								}
 							},
 							(error) => {
-								if(this.GetAllDataReferral.length == (index+1))
+								if(this.GetAllDataReferral.length == this.iscount)
 								{
 									this.isLoadingData = false;
 								}
