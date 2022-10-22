@@ -1,6 +1,6 @@
 
 section {
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 @media (min-width: 320px) and (max-width: 991px){
 	section {padding: 2rem 0;}
@@ -82,3 +82,42 @@ section {
 
 .pricing-table {box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); position: relative; background-color: #ffffff; border-radius: 10px;transition: 0.5s all ease;}
 .pricing-table:hover { box-shadow: 0px 4px 50px #D0D6DE;z-index: index 99999 !important;}
+
+.an-1 .letter{color:#00d9cc !important;}
+.collaborate-sec{
+position:relative;
+z-index:2;
+background-size:500px; 
+background-repeat:repeat; 
+background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' fill-opacity='1' style='enable-background:new 0 0 500 500'%3E%3Cstyle%3E .st2{fill:rgba(255,255,255,1)} %3C/style%3E%3Cg style='display:none'%3E%3Cpath style='display:inline;fill:%236D6E71' d='M-64.9-73.9h675v675h-675z' id='Layer_2'/%3E%3C/g%3E%3Cg id='Layer_1'%3E%3Ccircle class='st2' cx='417.4' cy='83.7' r='82.8'/%3E%3Cpath class='st2' d='M78.1 82.7C78.1 38.2 43.1 2-.8 0v165.3c43.9-2 78.9-38.2 78.9-82.6zM87.9 82.7c0 44.4 35 80.7 78.9 82.7V0c-43.9 2-78.9 38.2-78.9 82.7zM167.2 167.3v165.3c43.9-2 78.9-38.2 78.9-82.7s-34.9-80.6-78.9-82.6zM332.8 332.7V167.3c-43.9 2-78.9 38.2-78.9 82.7s34.9 80.7 78.9 82.7zM417.3 253.7c-44.4 0-80.7 35-82.7 78.9H500c-2-43.9-38.2-78.9-82.7-78.9zM417.3 246.5c44.4 0 80.7-35 82.7-78.9H334.7c2 43.9 38.2 78.9 82.6 78.9zM84 421.1c-44.4 0-80.7 35-82.7 78.9h165.3c-2-43.9-38.2-78.9-82.6-78.9zM84 413.4c44.4 0 80.7-35 82.7-78.9H1.3c2 43.9 38.2 78.9 82.7 78.9zM250.1 78.9c44.4 0 80.7-35 82.7-78.9H167.4c2 43.9 38.3 78.9 82.7 78.9zM250.1 87.5c-44.4 0-80.7 35-82.7 78.9h165.3c-1.9-43.9-38.2-78.9-82.6-78.9z'/%3E%3Ccircle class='st2' cx='84.1' cy='250.1' r='82.8'/%3E%3Cpath class='st2' d='M167.2 334.5v165.3c43.9-2 78.9-38.2 78.9-82.7s-34.9-80.6-78.9-82.6zM421.9 417.2c0 44.4 35 80.7 78.9 82.7V334.6c-43.9 1.9-78.9 38.2-78.9 82.6z'/%3E%3Ccircle class='st2' cx='333.2' cy='417.3' r='82.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+.lightbg-box{position:relative;background-size:500px; 
+background-repeat:repeat; 
+background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' fill-opacity='1' style='enable-background:new 0 0 500 500'%3E%3Cstyle%3E .st2{fill:rgba(217,245,253,0.23)} %3C/style%3E%3Cg style='display:none'%3E%3Cpath style='display:inline;fill:%236D6E71' d='M-64.9-73.9h675v675h-675z' id='Layer_2'/%3E%3C/g%3E%3Cg id='Layer_1'%3E%3Ccircle class='st2' cx='417.4' cy='83.7' r='82.8'/%3E%3Cpath class='st2' d='M78.1 82.7C78.1 38.2 43.1 2-.8 0v165.3c43.9-2 78.9-38.2 78.9-82.6zM87.9 82.7c0 44.4 35 80.7 78.9 82.7V0c-43.9 2-78.9 38.2-78.9 82.7zM167.2 167.3v165.3c43.9-2 78.9-38.2 78.9-82.7s-34.9-80.6-78.9-82.6zM332.8 332.7V167.3c-43.9 2-78.9 38.2-78.9 82.7s34.9 80.7 78.9 82.7zM417.3 253.7c-44.4 0-80.7 35-82.7 78.9H500c-2-43.9-38.2-78.9-82.7-78.9zM417.3 246.5c44.4 0 80.7-35 82.7-78.9H334.7c2 43.9 38.2 78.9 82.6 78.9zM84 421.1c-44.4 0-80.7 35-82.7 78.9h165.3c-2-43.9-38.2-78.9-82.6-78.9zM84 413.4c44.4 0 80.7-35 82.7-78.9H1.3c2 43.9 38.2 78.9 82.7 78.9zM250.1 78.9c44.4 0 80.7-35 82.7-78.9H167.4c2 43.9 38.3 78.9 82.7 78.9zM250.1 87.5c-44.4 0-80.7 35-82.7 78.9h165.3c-1.9-43.9-38.2-78.9-82.6-78.9z'/%3E%3Ccircle class='st2' cx='84.1' cy='250.1' r='82.8'/%3E%3Cpath class='st2' d='M167.2 334.5v165.3c43.9-2 78.9-38.2 78.9-82.7s-34.9-80.6-78.9-82.6zM421.9 417.2c0 44.4 35 80.7 78.9 82.7V334.6c-43.9 1.9-78.9 38.2-78.9 82.6z'/%3E%3Ccircle class='st2' cx='333.2' cy='417.3' r='82.8'/%3E%3C/g%3E%3C/svg%3E");}
+.c-heading{font-size:64px;color:#011a3e;font-weight:700;line-height: 1.2;}
+.c-heading sup{font-size:20px;color:#011a3e;top: -40px;}
+.c-sub-heading{font-size:24px;color:#000000;font-weight:500;}
+.collaborate-sec .btn-dark{background:#000000;box-shadow: 0px 2px 7px rgba(0,0,0,0.2);}
+.collaborate-sec .btn-dark:hover{background:#01ABA1;border-color:#01ABA1;}
+.dentallive-pmt-img{position:relative;}
+.dentallive-pmt-img:before {
+  position: absolute;
+  content: '';
+  left: 60%;
+  top: 65%;
+  height: 500px;
+  width: 500px;
+  transform: translate(-50%, -50%);
+  background: #FFF6E4;
+  border-radius: 70%;
+  z-index: -1;
+  filter: blur(80px);
+}
+@media(min-width:1400px){
+.vector-dentallive-img{transform: scale(1.2);}
+#screen2_container.normal .solutions{padding: 100px 0px 100px 0px;}
+}
+@media(max-width:575px){
+.c-heading{font-size:34px;}
+.c-heading sup{top: -21px;}
+}

@@ -37,6 +37,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 				}
 			}, 1000);
 		}
+		sessionStorage.setItem("workorderTabActive", ids);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -124,11 +125,23 @@ export class WorkOrderDetailsComponent implements OnInit {
 		};
 		this.getallworkorder().then(
 		(value) => {
+		if(this.id == 'tab1')
+		{
 		this.orders.setToothGuide(this.toothData);
+		this.isLoadingData = false;
+		}
 		},
 		(error) => {
+		if(this.id == 'tab1')
+		{
 		this.orders.setToothGuide(this.toothData);
+		this.isLoadingData = false;
+		}
 		});
+		
+		//Set current tab
+		let tabActive = sessionStorage.getItem("workorderTabActive");
+		(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	}
 	
 	getallworkorder() {
@@ -146,7 +159,6 @@ export class WorkOrderDetailsComponent implements OnInit {
 				this.dataService.getallData(url, true).subscribe(Response => {
 					if (Response)
 					{
-						this.isLoadingData = false;
 						this.tabledata = JSON.parse(Response.toString());
 						this.toothData = this.tabledata.toothguide;
 						this.descriptionObj.text = this.tabledata.notes.text;
@@ -414,12 +426,14 @@ export class WorkOrderDetailsComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&messageType="+Number(messageType);
+			url += "&messageReferenceId="+this.workorderId;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
+					this.messagedata.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.messageDataArray = Array();
+					let checkArray = 0;
 					for(var i = 0; i < this.messagedata.length; i++)
 					{
 						let strVal = JSON.stringify(this.messagedata[i].message);
@@ -431,7 +445,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.removeHTML(this.messagedata[i].message.text),
-								messageimg: this.messagedata[i].message.links,
+								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
 								messageReferenceId: this.messagedata[i].messageReferenceId,
@@ -440,6 +454,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 							this.setcvFastComment(this.messagedata[i].comments,i);
 							this.setcvFastMsg(this.messagedata[i].message,i);
 							this.cvfastMsgText = true;
+							checkArray++;
 						}
 						else
 						{
@@ -454,12 +469,13 @@ export class WorkOrderDetailsComponent implements OnInit {
 								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
+							checkArray++;
 						}
-						if(this.messagedata.length == (i+1))
-						{
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1);
-						}
+					}
+					if(this.messagedata.length == checkArray)
+					{
+					this.messageAry = this.messageDataArray;
+					this.isLoadingData = false;
 					}
 				}
 			}, (error) => {
@@ -521,6 +537,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 							});
 						}
 					}
+					//alert(JSON.stringify(CommentObj.text));
 					if(CommentObj.text)
 					{
 						if(NewCommentArray.length > 0)
@@ -542,6 +559,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 						{
 							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
+					}
+					if(CommentObj.links && (CommentObj.text == ''))
+					{
+						Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
 					}
 				}
 				
@@ -614,7 +635,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
@@ -640,7 +661,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message','1','Message already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;

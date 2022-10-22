@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 export class CaseInvitationListComponent implements OnInit {
 	@ViewChild(Cvfast) cvfastval!: Cvfast;
 	isLoadingData = true;
+	isSendingData = false;
 	id:any = "Received";
 	shimmer = Array;
 	tabContent(ids:any){
@@ -282,14 +283,16 @@ export class CaseInvitationListComponent implements OnInit {
 		.subscribe(Response => {
 			if (Response)
 			{
+				this.isLoadingData = false;
 				this.getSubmitData = JSON.parse(Response.toString());
 				this.case_id = this.getSubmitData.caseId;
-				this.patient_id = this.getSubmitData.patient_id;
+				this.patient_id = this.getSubmitData.patientId;
 				this.patient_name = this.getSubmitData.patientName;
 				this.invitation_id = this.getSubmitData.invitationId;
 				this.invited_user_mail = this.getSubmitData.invitedUserMail;
 				this.invited_user_id = this.getSubmitData.invitedUserId;
 				this.statusvalue = status_value;
+				this.isSendingData = true;
 			}
 		}, error => {
 			if (error.status === 404)

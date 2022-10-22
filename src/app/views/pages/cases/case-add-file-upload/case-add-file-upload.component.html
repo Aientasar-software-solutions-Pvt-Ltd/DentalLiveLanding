@@ -51,7 +51,7 @@
 							<div class="row gy-4">
 								<div class="col-md-6">
 									<label class="form-label body2 text-dark">Upload File</label>
-									<input type="file" ngModel multiple name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" required style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept=".doc,.docx,application/msword,.txt,.xls,.xlsx,image/*,video/*,.pdf,.ppt,.pptx">
+									<input type="file" ngModel multiple name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" required style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" accept="application/msword,.xls,.xlsx,image/*,video/*,audio/*,.pdf">
 								</div>
 							</div>
 							<div class="row" *ngIf="tabledata">

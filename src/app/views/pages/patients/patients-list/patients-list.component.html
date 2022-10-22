@@ -59,8 +59,8 @@
 							</thead>
 							<tbody>
 								<tr *ngFor="let data of tabledata; let i = index;">
-									
 									<td>
+										<span class="d-none">{{i}}</span>
 										<div class="d-flex align-items-center">
 											<span class="avatar-icon">{{data.firstName.charAt(0)}}</span>
 											<span class="body2 ms-1">{{data.firstName}} {{data.lastName}}</span>
@@ -81,10 +81,10 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a routerLink="/patients/patient-edit/{{data.patientId}}" data-bs-toggle="tooltip" title="Edit" class="me-2">
+											<a routerLink="/patients/patient-edit/{{data.patientId}}" tippy="Edit" placement="top" title="Edit" class="me-2">
 												<i class="material-icons text-bright-blue">edit</i>
 											</a>
-											<a routerLink="/patients/patient-details/{{data.patientId}}" data-bs-toggle="tooltip" title="View" class="me-2">
+											<a routerLink="/patients/patient-details/{{data.patientId}}" tippy="View" placement="top" title="View" class="me-2">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>
@@ -115,6 +115,7 @@
 								<tr *ngFor="let data of colleaguesData; let i = index;">
 									
 									<td>
+										<span class="d-none">{{i}}</span>
 										<div class="d-flex align-items-center">
 											<span class="avatar-icon">{{data.firstName.charAt(0)}}</span>
 											<span class="body2 ms-1">{{data.firstName}} {{data.lastName}}</span>
@@ -141,7 +142,7 @@
 									</td>
 									<td>
 										<div class="d-flex">
-											<a routerLink="/patients/patient-details/{{data.patientId}}" data-bs-toggle="tooltip" title="View" class="me-2">
+											<a routerLink="/patients/patient-details/{{data.patientId}}" tippy="View" placement="top" title="View" class="me-2">
 												<i class="material-icons text-light-green">visibility</i>
 											</a>
 										</div>

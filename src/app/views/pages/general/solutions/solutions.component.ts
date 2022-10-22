@@ -6,6 +6,7 @@ import { NgwWowService } from 'ngx-wow';
 import { Observable } from 'rxjs';
 import {Md5} from "ts-md5/dist/md5";
 
+
 const baseURL = 'https://oms5sh4336.execute-api.us-west-2.amazonaws.com/default/packages';
 const endPoint = 'https://crm.dentallive.com/webservice.php';
 
@@ -15,6 +16,9 @@ const endPoint = 'https://crm.dentallive.com/webservice.php';
   styleUrls: ['./solutions.component.css']
 })
 export class SolutionsComponent implements OnInit {
+	scroll(el: HTMLElement) {
+		el.scrollIntoView({behavior: 'smooth'});
+	}
 	currentYear: number = new Date().getFullYear();
 	solutionform!: FormGroup;
 	product = {

@@ -4,7 +4,7 @@
 		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a routerLink="/milestones">Milestones</a>
+		<a routerLink="/milestones/milestones-list">Milestones</a>
 	</li>
 	<li class="breadcrumb-item active" aria-current="page">
 		Edit General Task
@@ -61,7 +61,7 @@
 									<label class="form-label body2 mb-3 text-dark">Start Date & Time</label>
 									<div class="date-container">
 										<input
-											 min="{{this.minDate | date:'yyyy-MM-dd'}}"
+											 min="{{this.minStartDate | date:'yyyy-MM-dd'}}"
 											class="shadow-input"
 											name="startdate"
 											[(ngModel)]="editedstartDate"

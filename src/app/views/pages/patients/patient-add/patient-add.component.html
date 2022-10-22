@@ -72,6 +72,7 @@
 										<label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
 										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel *ngIf="jsonObj.dob == 0" id="dob">
 										<input type="date" required class="form-control" name="dob" max="{{this.maxDate | date:'yyyy-MM-dd'}}" ngModel={{jsonObj.dob}} *ngIf="jsonObj.dob != 0" id="dob">
+										<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Date Of Birth should not greater than to today date</span>
 									</div>
 								</div>
 								<div class="col-md-6">

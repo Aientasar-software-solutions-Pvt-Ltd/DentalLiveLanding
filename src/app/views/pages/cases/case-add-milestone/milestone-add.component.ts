@@ -81,7 +81,7 @@ export class MilestoneAddComponent implements OnInit {
 		this.jsonObj['reminder'] = Number(data.reminder);
 		
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'cases/case-add-task-add', 'post', 'invitemilestoneId','description','','Milestone title already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', 'cases/case-add-file-upload', 'post', 'invitemilestoneId','description','','Milestone title already exists.').then(
 		(value) => {
 		this.sending = false;
 		},

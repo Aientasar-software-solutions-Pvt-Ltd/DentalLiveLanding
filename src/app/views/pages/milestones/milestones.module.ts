@@ -16,7 +16,7 @@ import { GeneralTaskViewComponent } from './general-task-view/general-task-view.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
-
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
     path: '',
@@ -85,7 +85,14 @@ const routes: Routes = [
     OwlNativeDateTimeModule,
     FormsModule,
 	NgxShimmerLoadingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

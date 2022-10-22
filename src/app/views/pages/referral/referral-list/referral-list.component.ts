@@ -21,12 +21,14 @@ export class ReferralListComponent implements OnInit {
 	shimmer = Array;
 	userDeatils: any;
 	GetAllData: any;
+	isCount =0;
 	dtOptions: DataTables.Settings = {};
 	
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 
 	ngOnInit(): void {
+		sessionStorage.removeItem("referralTabActive");
 		this.userDeatils = this.usr.getUserDetails(false);
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
@@ -56,12 +58,6 @@ export class ReferralListComponent implements OnInit {
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
-	}
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
 	}
 	getallreferrals() {
 		let user = this.usr.getUserDetails(false);
@@ -151,10 +147,35 @@ export class ReferralListComponent implements OnInit {
 				let caseData = JSON.parse(Response.toString());
 				this.tabledata[index].caseTitle = caseData.title;
 				this.tabledata[index].patientName = caseData.patientName;
-				this.getuserdetailsall(members,index);
+				this.getuserdetailsall(members,index).then(
+				(value) => {
+					if(this.GetAllData.length == this.isCount)
+					{
+						this.isLoadingData = false;
+					}
+				},
+				(error) => {
+					if(this.GetAllData.length == this.isCount)
+					{
+						this.isLoadingData = false;
+					}
+				});
+				
 			}
 			}, (error) => {
-				this.getuserdetailsall(members,index);
+				this.getuserdetailsall(members,index).then(
+				(value) => {
+					if(this.GetAllData.length == (index+1))
+					{
+						this.isLoadingData = false;
+					}
+				},
+				(error) => {
+					if(this.GetAllData.length == (index+1))
+					{
+						this.isLoadingData = false;
+					}
+				});
 				if (error.status === 404)
 				swal('No referral found');
 				else if (error.status === 403)
@@ -225,30 +246,74 @@ export class ReferralListComponent implements OnInit {
 	}
 	
 	onSubmit(form: NgForm) {
-		
+		this.isCount = 0;
+		this.isLoadingData = true;
 		let url = this.utility.apiData.userReferrals.ApiUrl;
-		if(form.value.dateFrom != '')
+		if(form.value.referral_title != '' && form.value.referral_title != null)
 		{
-			url += "?startdate="+Date.parse(form.value.dateFrom);
+			url += "?title="+form.value.referral_title;
 		}
-		if(form.value.dateTo != '')
+		if(form.value.dateFrom != '' && form.value.dateFrom != null)
 		{
-			if(form.value.dateFrom != '')
+			if(form.value.referral_title != '' && form.value.referral_title != null)
 			{
-				url += "&enddate="+Date.parse(form.value.dateTo);
+				url += "&dateFrom="+Date.parse(form.value.dateFrom);
 			}
 			else
 			{
-				url += "?enddate="+Date.parse(form.value.dateTo);
+				url += "?dateFrom="+Date.parse(form.value.dateFrom);
+			}
+		}
+		if(form.value.dateTo != '' && form.value.dateTo != null)
+		{
+			if((form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.referral_title != '' && form.value.referral_title != null))
+			{
+				url += "&dateTo="+Date.parse(form.value.dateTo);
+			}
+			else
+			{
+				url += "?dateTo="+Date.parse(form.value.dateTo);
 			}
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				this.tabledata = JSON.parse(Response.toString());
-				this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1)
+				this.GetAllData = JSON.parse(Response.toString());
+				this.GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				if(this.GetAllData.length == '0')
+				{
+					this.isLoadingData = false;
+				}
+				this.tabledata = Array();
+				for(var k = 0; k < this.GetAllData.length; k++)
+				{
+					this.tabledata.push({
+					  id: k,
+					  resourceOwner: this.GetAllData[k].resourceOwner,
+					  dateCreated: this.GetAllData[k].dateCreated,
+					  presentStatus: this.GetAllData[k].presentStatus,
+					  startdate: this.GetAllData[k].startdate,
+					  referralId: this.GetAllData[k].referralId,
+					  patientName: '',
+					  caseId: this.GetAllData[k].caseId,
+					  patientId: this.GetAllData[k].patientId,
+					  toothguide: this.GetAllData[k].toothguide,
+					  enddate: this.GetAllData[k].enddate,
+					  notes: this.GetAllData[k].notes,
+					  dateUpdated: this.GetAllData[k].dateUpdated,
+					  milestoneId: this.GetAllData[k].milestoneId,
+					  title: this.GetAllData[k].title,
+					  caseTitle: '',
+					  memberName: ''
+					});
+					this.getcasedtls(this.GetAllData[k].caseId, this.GetAllData[k].members, k);
+					
+				}
+				this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				form.resetForm(); // or form.reset();
 			}
 		}, (error) => {
+			form.resetForm(); // or form.reset();
 			if (error.status === 404)
 			swal('No referral found');
 			else if (error.status === 403)
@@ -275,69 +340,69 @@ export class ReferralListComponent implements OnInit {
 	
 	
 	getuserdetailsall(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let memberResult = '';
-			for(var j = 0; j < userId.length; j++)
+		return new Promise((Resolve, myReject) => {
+			let user = this.usr.getUserDetails(false);
+			if(user)
 			{
-				let url = this.utility.apiData.userColleague.ApiUrl;
-				if(userId != '')
+				let memberResult = '';
+				let is_array = 0;
+				for(var j = 0; j < userId.length; j++)
 				{
-					url += "?dentalId="+userId[j];
-				}
-				this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					
-					let userData = JSON.parse(Response.toString());
-					if(userData.length > 0)
+					let url = this.utility.apiData.userColleague.ApiUrl;
+					if(userId != '')
 					{
-						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-						if(memberResult)
-						{
-							memberResult += ','+name;
-						}
-						else{
-							memberResult += name;
-						}
-						if(j == userId.length)
-						{
-							this.tabledata[index].memberName = memberResult;
-						}
-						//swal.close();
+						url += "?dentalId="+userId[j];
 					}
-					
-					if(this.GetAllData.length == (index+1))
+					this.dataService.getallData(url, true).subscribe(Response => {
+					if (Response)
 					{
-						this.isLoadingData = false;
+						is_array++;
+						let userData = JSON.parse(Response.toString());
+						if(userData.length > 0)
+						{
+							let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+							if(memberResult)
+							{
+								memberResult += ' , '+name;
+							}
+							else{
+								memberResult += name;
+							}
+							if(is_array == userId.length)
+							{
+								this.tabledata[index].memberName = memberResult;
+								this.isCount++;
+								Resolve(true);
+							}
+							//swal.close();
+						}
 					}
-					this.loadTooltip();
-				}
-				}, (error) => {
-					if (error.status === 404)
-					swal('No referral found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
+					}, (error) => {
+						Resolve(true);
+						if (error.status === 404)
+						swal('No referral found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+						return false;
 					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-					return false;
-				});
+				}
 			}
-		}
+		});
 	}
 }

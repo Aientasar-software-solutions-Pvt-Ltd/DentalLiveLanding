@@ -12,6 +12,8 @@ import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Cvfast } from 'src/app/cvfast/cvfast.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
     path: '',
@@ -66,7 +68,14 @@ const routes: Routes = [
     RouterModule.forChild(routes),
 	NgxShimmerLoadingModule ,
     DataTablesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

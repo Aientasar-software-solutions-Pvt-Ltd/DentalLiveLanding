@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import Typewriter from 't-writer.js';
 
 import {Md5} from "ts-md5/dist/md5";
+declare var anime: any;
 
 const baseURL = 'https://oms5sh4336.execute-api.us-west-2.amazonaws.com/default/packages';
 const endPoint = 'https://crm.dentallive.com/webservice.php';
@@ -16,9 +17,25 @@ const endPoint = 'https://crm.dentallive.com/webservice.php';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+
+	
 	scroll(el: HTMLElement) {
 		el.scrollIntoView({behavior: 'smooth'});
 	}
+	
+	isShowDivPlanner = false;  
+	toggleDisplayPlanner() {  
+		this.isShowDivPlanner = !this.isShowDivPlanner;  
+	} 
+	isShowDivTalk = false;  
+	toggleDisplayTalk() {  
+		this.isShowDivTalk = !this.isShowDivTalk;  
+	} 
+	isShowDivMail = false;  
+	toggleDisplayMail() {  
+		this.isShowDivMail = !this.isShowDivMail;  
+	}  
+	
 	currentYear: number = new Date().getFullYear();
 	solutionform!: FormGroup;
 	showProducts: any;
@@ -86,7 +103,7 @@ export class HomeComponent implements OnInit {
 	  }
 	);
 	
-	const target = document.querySelector('.tw')
+	/*const target = document.querySelector('.tw')
 	const target2 = document.querySelector('.tw2')
 	const target3 = document.querySelector('.tw3')
 	const target4 = document.querySelector('.tw4')
@@ -111,7 +128,7 @@ export class HomeComponent implements OnInit {
 	.start()
 
 	writer2
-	.changeTypeColor('#0070D2')
+	.changeTypeColor('#00d9cc')
 	.type(" Audio Visual,")
 	.removeCursor()
 	.then(writer3.start.bind(writer3))
@@ -124,11 +141,33 @@ export class HomeComponent implements OnInit {
 	//.rest(500)
 	
 	writer4
-	.changeTypeColor('#0070D2')
+	.changeTypeColor('#00d9cc')
 	.type(" Management Platform for Dentistry")
 	.removeCursor()
-	//.rest(500)
+	//.rest(500)*/
 	
+	
+      // Wrap every letter in a span
+	const textWrapper = document.querySelector('.an-1');
+	textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+	anime.timeline({loop: false})
+	  .add({
+		targets: '.an-1 .letter',
+		scale: [4,1],
+		opacity: [0,1],
+		translateZ: 0,
+		easing: "easeOutExpo",
+		duration: 950,
+		delay: (el, i) => 70*i
+	  }).add({
+		targets: '.an-1',
+		opacity: 1,
+		duration: 1000,
+		easing: "easeOutExpo",
+		delay: 1000
+	});
+
   }
   
   get f(): { [key: string]: AbstractControl } {

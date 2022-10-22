@@ -163,9 +163,9 @@
 															<div class="col-md-4 col-lg-4" *ngFor="let links of attachmentFiles">
 																<div class="card mb-3" style="border: 1px solid #D0D6DE;">
 																	<div class="card-body d-flex align-items-center">
-																		&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:170px;height:150px;"/></a>
+																		&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:100%;height:100%;"/></a>
 																		<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()!='png' && links.imgName.split('.').pop()!='jpg' && links.imgName.split('.').pop()!='jpeg' && links.imgName.split('.').pop() !='gif' && links.imgName.split('.').pop()!='PNG' && links.imgName.split('.').pop() !='JPG' && links.imgName.split('.').pop()!='JPEG' && links.imgName.split('.').pop() !='GIF' && links.imgName.split('.').pop()!='mp4' && links.imgName.split('.').pop()!='MP4' && links.imgName.split('.').pop()!='3gp' && links.imgName.split('.').pop()!='3GP' && links.imgName.split('.').pop()!='avi' && links.imgName.split('.').pop()!='AVI' && links.imgName.split('.').pop()!='wmv' && links.imgName.split('.').pop()!='WMV' && links.imgName.split('.').pop()!='mov' && links.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{links.imgName}}</a>
-																		<video controls class="video" style="display:inline-block;vertical-align:middle;width:170px;height:150px;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer>
+																		<video controls class="video" style="display:inline-block;vertical-align:middle;width:100%;height:100%;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer>
 																		<source src="{{links.ImageUrl}}" type="video/mp4">
 																		</video>
 																	</div>
@@ -175,7 +175,7 @@
 													</div>
 												</div>
 												<div class="col-sm-6 col-md-auto col-lg-auto ms-md-auto align-self-end" *ngIf="(caseEdit)">
-													<a routerLink="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
+													<a routerLink="/cases/case-edit/{{tabledata.caseId}}" class="btn btn-light-green px-3" tippy="Edit"><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a>
 												</div>
 											</div>
 										</div>
@@ -192,7 +192,7 @@
 										<div class="col-md-5 align-self-center">
 											<h5 class="body1 my-2 card-title">Thread</h5>
 										</div>
-										<div class="col-md-7">
+										<!--<div class="col-md-7">
 											<div class="d-flex flex-wrap align-items-center justify-content-end">
 												<button class="btn filter-btn mb-1 me-2 my-1" data-bs-toggle="modal" data-bs-target="#filterModalThread" id="upgrade"><i class="bx bx-filter-alt"></i></button> 
 												<div class="search search-md my-1 me-2">
@@ -200,7 +200,7 @@
 													<input type="text" class="form-control" placeholder="Search"/>
 												</div>
 											</div>      
-										</div>
+										</div>-->
 									</div>
 								</div>
 								
@@ -220,7 +220,7 @@
 													<span class="body2">{{message.dateCreated | date:'medium'}} </span>  
 												</div>
 												<div class="col-md-2">   
-													<a href="javascript:void(0);" *ngIf="(message.messageId != '')" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
+													<a href="javascript:void(0);" *ngIf="(message.messageId != '')" (click)="replyToggle(i)" tippy="Reply"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
 												</div>
 											</div>                     
 										</div>
@@ -311,7 +311,7 @@
 												</div>
 												<div class="col-md-10">
 													<div class="d-flex flex-wrap align-items-center justify-content-end">
-														<button class="btn filter-btn mb-1 me-2 my-1" data-bs-toggle="modal" data-bs-target="#Colleagues" id="upgrade"><i class="bx bx-filter-alt"></i></button> 
+														<!--<button class="btn filter-btn mb-1 me-2 my-1" data-bs-toggle="modal" data-bs-target="#Colleagues" id="upgrade"><i class="bx bx-filter-alt"></i></button>-->
 														<div class="search search-md my-1 me-2">
 															<i class="bx bx-search"></i>
 															<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
@@ -350,7 +350,7 @@
 															
 															<td>
 																<div class="d-flex align-items-center">
-
+																	<span class="d-none">{{i+1}}</span>
 																	<div class="ps-2">
 																		<span class="avatar-icon">{{invite.userName.charAt(0)}}</span>
 																		<span class="body2 ms-1">{{invite.userName}}</span>
@@ -374,10 +374,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" data-bs-toggle="tooltip" title="View" class="me-1">
+																	<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserMail}}/{{invite.caseId}}" tippy="View" placement="top" class="me-1">
 																		<i class="material-icons text-light-green">visibility</i>
 																	</a>
-																	<a *ngIf="((invite.presentStatus != 3) && (invite.resourceOwner == this.userDeatils.emailAddress))" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" data-bs-toggle="tooltip" title="Delete" class="me-1">
+																	<a *ngIf="((invite.presentStatus != 3) && (invite.resourceOwner == this.userDeatils.emailAddress))" style="cursor: pointer;" (click)="removeInvitaion(invite.invitationId, invite.patientId, invite.caseId, invite.patientName, invite.invitedUserMail, invite.invitedUserId);" tippy="Delete" placement="top"  class="me-1">
 																		<i class="material-icons text-danger">close</i>
 																	</a>
 																</div>
@@ -408,7 +408,7 @@
 														<i class="bx bx-search"></i>
 														<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
 													</div>
-													<button class="btn filter-btn my-1 me-2 float-end" data-bs-toggle="modal" data-bs-target="#workorderModal" ><i class="bx bx-filter-alt"></i></button> 
+													<!--<button class="btn filter-btn my-1 me-2 float-end" data-bs-toggle="modal" data-bs-target="#workorderModal" ><i class="bx bx-filter-alt"></i></button>-->
 												</div>
 											</div>
 										</div>
@@ -437,7 +437,7 @@
 														<tr *ngFor="let data of workordersdata; let i = index;">
 															<td>
 																<div>
-																	<span class="d-none">{{i}}</span>
+																	<span class="d-none" >{{i}}</span>
 																	<span class="body2 ms-1">{{data.memberName}}</span>
 																</div>
 															</td>		 
@@ -449,6 +449,7 @@
 															</td>
 															<td>
 																<div>
+																	<span class="d-none">{{data.dateCreated}}</span>
 																	<span class="badge rounded-pill badge-info body2" *ngIf="(data.presentStatus == 1)">Active</span>
 																	<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 2)">Inactive</span>
 																	<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 3)">Pending</span>
@@ -465,10 +466,10 @@
 															</td>
 															<td>
 																<div class="d-flex">
-																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
+																	<a routerLink="/workorders/work-order-edit/{{data.workorderId}}" class="me-1" *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" tippy="Edit" placement="top" >
 																		<i class="material-icons text-bright-blue">edit</i>
 																	</a>
-																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1" data-bs-toggle="tooltip" title="View">
+																	<a routerLink="/workorders/work-order-details/{{data.workorderId}}" class="me-1" tippy="View" placement="top" >
 																		<i class="material-icons fs-4 text-light-green">
 																			visibility
 																		</i>
@@ -502,7 +503,7 @@
 														<i class="bx bx-search"></i>
 														<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
 													</div>
-													<button class="btn my-1 me-2 filter-btn float-end" data-bs-toggle="modal" data-bs-target="#ReferralModal"><i class="bx bx-filter-alt"></i></button> 
+													<!--<button class="btn my-1 me-2 filter-btn float-end" data-bs-toggle="modal" data-bs-target="#ReferralModal"><i class="bx bx-filter-alt"></i></button>-->
 												</div>
 											</div>
 										</div>
@@ -530,6 +531,7 @@
 													<tr *ngFor="let data of referraldata; let i = index;">
 														
 														<td>
+															<span class="d-none">{{data.dateCreated}}</span>
 															<div class="d-flex align-items-center">
 																<span class="body2">{{data.memberName}}</span>
 															</div>                       
@@ -555,13 +557,13 @@
 														</td>
 														<td>
 															<div class="d-flex">
-																<a routerLink="/referrals/referral-edit/{{data.referralId}}"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1" data-bs-toggle="tooltip" title="Edit">
+																<a routerLink="/referrals/referral-edit/{{data.referralId}}"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" class="me-1" tippy="Edit" placement="top" >
 																	<i class="material-icons text-bright-blue">edit</i>
 																</a>
-																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1" data-bs-toggle="tooltip" title="View">
+																<a routerLink="/referrals/referral-details/{{data.referralId}}" class="me-1" tippy="View" placement="top" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
-																<a style="cursor: pointer;" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" (click)="deletereferral(data.referralId)" data-bs-toggle="tooltip" title="Delete">
+																<a style="cursor: pointer;" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" (click)="deletereferral(data.referralId)" tippy="Delete" placement="top" >
 																	<i class="material-icons text-danger">close</i>
 																</a>
 															</div>
@@ -593,7 +595,7 @@
 														<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
 													</div>
 													
-													<button data-bs-toggle="modal" data-bs-target="#MilestonesModal" class="btn filter-btn my-1 me-2 float-end"><i class="bx bx-filter-alt"></i></button>
+													<!--<button data-bs-toggle="modal" data-bs-target="#MilestonesModal" class="btn filter-btn my-1 me-2 float-end"><i class="bx bx-filter-alt"></i></button>-->
 													
 													<div class="nav panel-tabs float-end">
 														<button [class.text-light-green]="id === 'calendarView'" (click)="tabContent('calendarView')" class="btn mb-2 me-2 my-1 text-gray">
@@ -643,6 +645,7 @@
 																</td>                     
 																<td>
 																	<div>
+																		<span class="d-none">{{data.dateCreated}}</span>
 																		<span class="badge rounded-pill badge-info body2" *ngIf="(data.presentStatus == 1)">Active</span>
 																		<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 2)">Inactive</span>
 																		<span class="badge rounded-pill badge-warning body2" *ngIf="(data.presentStatus == 3)">Pending</span>
@@ -655,15 +658,15 @@
 																</td>  
 																<td>
 																	<div class="d-flex">
-																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Edit">
+																		<a routerLink="/milestones/milestone-edit/{{data.milestoneId}}" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" tippy="Edit" placement="top" >
 																			<i class="material-icons text-bright-blue">edit</i>
 																		</a>
-																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1" data-bs-toggle="tooltip" title="View">
+																		<a routerLink="/milestones/milestone-details/{{data.milestoneId}}"class="me-1" tippy="View" placement="top" >
 																			<i class="material-icons fs-4 text-light-green">
 																				visibility
 																			</i>
 																		</a>
-																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" data-bs-toggle="tooltip" title="Delete">
+																		<a style="cursor: pointer;" (click)="deletemilestone(data.milestoneId)" class="me-1"  *ngIf="(data.resourceOwner == this.userDeatils.emailAddress)" tippy="Delete" placement="top" >
 																			<i class="material-icons fs-4 text-danger">close</i>
 																		</a>
 																	</div>
@@ -758,7 +761,7 @@
 															</td>
 														   
 															<td>
-																<a routerLink="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" data-bs-toggle="tooltip" title="View">
+																<a routerLink="/casefiles/{{this.data.dateCreated}}/{{this.paramCaseId}}" class="me-2" tippy="View" placement="top" >
 																	<i class="material-icons text-light-green">visibility</i>
 																</a>
 															</td>
@@ -846,7 +849,7 @@
 					<div class="row gy-3">
 						<div class="col-md-12">
 							<label class="form-label body2 text-dark">Upload File</label>
-							<input type="file" ngModel name="uploadfile" id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept="application/msword,.xls,.xlsx,image/*,video/*,audio/*,.pdf">
+							<input type="file" ngModel name="uploadfile"  id="uploadfile" (change)="loadFiles($event)" class="form-control" style="line-height: 2.2; background-color: #EFF3F7; border: 2px dashed #AEB4BF;" required accept="application/msword,.xls,.xlsx,image/*,video/*,audio/*,.pdf">
 						</div>
 					</div>
 				</div>

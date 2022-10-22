@@ -31,6 +31,8 @@
     "@fullcalendar/timegrid": "^5.11.0",
     "@lottiefiles/lottie-player": "^1.5.7",
     "@ng-select/ng-select": "^8.1.1",
+    "@ngneat/helipopper": "^5.1.4",
+    "@ngneat/overview": "^3.0.4",
     "@types/video.js": "^7.3.26",
     "angular-datatables": "^13.0.1",
     "angular-ng-autocomplete": "^2.0.12",

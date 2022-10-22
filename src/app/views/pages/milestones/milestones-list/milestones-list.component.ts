@@ -25,6 +25,7 @@ export class MilestonesListComponent implements OnInit {
 	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
 
 	ngOnInit(): void {
+		sessionStorage.removeItem("milestoneTabActive");
 		sessionStorage.setItem('checkCase', '');
 		sessionStorage.setItem('caseId', '');
 		this.getallmilestone();
@@ -54,12 +55,6 @@ export class MilestonesListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 	
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
-	}
 	getallmilestone() {
 		sessionStorage.setItem('backurl', '/milestones/milestones-list');
 		this.tabledata = '';
@@ -81,7 +76,6 @@ export class MilestonesListComponent implements OnInit {
 					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 					this.userEmailAddress = user.emailAddress;
 					this.isLoadingData = false;
-					this.loadTooltip();
 				}
 			}, (error) => {
 				if (error.status === 404)
@@ -147,38 +141,18 @@ export class MilestonesListComponent implements OnInit {
 	}
 	
 	onSubmit(form: NgForm) {
+		this.tabledata = '';
+		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userMilestones.ApiUrl;
-		let patientName = form.value.patientName;
-		if(patientName != '')
+		this.isLoadingData = true;
+		if(form.value.title != '' && form.value.title != null)
 		{
-			url += "?patientName="+patientName;
+			url += "?title="+form.value.title;
 		}
-		if(form.value.title != '')
+		if(form.value.dateFrom != '' && form.value.dateFrom != null)
 		{
-			if(patientName != '')
-			{ 
-				url += "&title="+form.value.title;
-			}
-			else
+			if(form.value.title != '' && form.value.title != null)
 			{
-				url += "?title="+form.value.title;
-			}
-		}
-		if(form.value.patientId != '')
-		{
-			if(patientName != '' || form.value.patientId != '')
-			{ 
-				url += "&patientId="+Date.parse(form.value.patientId);
-			}
-			else
-			{
-				url += "?patientId="+Date.parse(form.value.patientId);
-			}
-		}
-		if(form.value.dateFrom != '')
-		{
-			if(patientName != '' || form.value.title != '')
-			{ 
 				url += "&dateFrom="+Date.parse(form.value.dateFrom);
 			}
 			else
@@ -186,9 +160,9 @@ export class MilestonesListComponent implements OnInit {
 				url += "?dateFrom="+Date.parse(form.value.dateFrom);
 			}
 		}
-		if(form.value.dateTo != '')
+		if(form.value.dateTo != '' && form.value.dateTo != null)
 		{
-			if(patientName != '' || form.value.dateFrom != '' || form.value.title != '')
+			if((form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.title != '' && form.value.title != null))
 			{
 				url += "&dateTo="+Date.parse(form.value.dateTo);
 			}
@@ -200,11 +174,14 @@ export class MilestonesListComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response)
 			{
-				this.tabledata = JSON.parse(Response.toString()).reverse();
-				//alert(JSON.stringify(this.tabledata));
-				//alert(this.tabledata['0'].title);
+				this.tabledata = JSON.parse(Response.toString());
+				this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
+				this.userEmailAddress = user.emailAddress;
+				this.isLoadingData = false;
+				form.resetForm(); // or form.reset();
 			}
 		}, (error) => {
+			form.resetForm(); // or form.reset();
 			if (error.status === 404)
 			swal('No milestone found');
 			else if (error.status === 403)

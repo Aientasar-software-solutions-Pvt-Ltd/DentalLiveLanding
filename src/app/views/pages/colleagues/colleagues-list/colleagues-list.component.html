@@ -58,6 +58,7 @@
 							<tr *ngFor="let invite of invitedata; let i = index;" >
 								
 								<td>
+									<span class="d-none">{{i}}</span>
 									<div class="d-flex align-items-center">
 										<div class="ps-2">
 											<span class="avatar-icon">{{invite.userName.charAt(0)}}</span>
@@ -90,7 +91,7 @@
 								</td>
 								<td>
 									<div class="d-flex">
-										<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserId}}/{{invite.caseId}}" data-bs-toggle="tooltip" title="View">
+										<a routerLink="/colleagues/colleague-view-profile/{{invite.invitedUserMail}}/{{invite.caseId}}" tippy="View" placement="top" title="View">
 											<i class="material-icons text-light-green">visibility</i>
 										</a>
 									</div>

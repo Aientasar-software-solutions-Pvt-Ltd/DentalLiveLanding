@@ -62,12 +62,6 @@ export class PatientsListComponent implements OnInit {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	loadTooltip(){
-		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-		  return new bootstrap.Tooltip(tooltipTriggerEl)
-		})
-	}
 	removeHTML(str){ 
 		var tmp = document.createElement("DIV");
 		tmp.innerHTML = str;
@@ -169,13 +163,17 @@ export class PatientsListComponent implements OnInit {
 			if(this.id != 'colleaguesPatients')
 			{
 				let url = this.utility.apiData.userPatients.ApiUrl;
-				let strName = form.value.firstName;
+				let strName = '';
+				if(form.value.firstName != null)
+				{
+					strName = form.value.firstName;
+				}
 				let patiantName =strName.split(' ');
-				if(patiantName[0] != '')
+				if(patiantName[0] != '' && patiantName[0] != null)
 				{
 					url += "?firstName="+patiantName[0];
 				}
-				if(patiantName.length > 1)
+				if((patiantName.length > 1) && patiantName[0] != null)
 				{
 					if(patiantName[1] != '')
 					{
@@ -189,9 +187,10 @@ export class PatientsListComponent implements OnInit {
 						}
 					}
 				}
-				if(form.value.dateFrom != '')
+				if(form.value.dateFrom != '' && form.value.dateFrom != null)
 				{
-					if(patiantName[0] != '' || (patiantName.length > 1))
+					//if(patiantName[0] != '' || (patiantName.length > 1) || patiantName[0] != null)
+					if(form.value.firstName != '' && form.value.firstName != null)
 					{ 
 						url += "&dateFrom="+Date.parse(form.value.dateFrom);
 					}
@@ -200,9 +199,9 @@ export class PatientsListComponent implements OnInit {
 						url += "?dateFrom="+Date.parse(form.value.dateFrom);
 					}
 				}
-				if(form.value.dateTo != '')
+				if(form.value.dateTo != '' && form.value.dateTo != null)
 				{
-					if(patiantName[0] != '' || form.value.dateFrom != '')
+					if(form.value.firstName != '' && form.value.firstName != null)
 					{
 						url += "&dateTo="+Date.parse(form.value.dateTo);
 					}
@@ -239,8 +238,10 @@ export class PatientsListComponent implements OnInit {
 						}
 						this.tabledata = this.tabledata.reverse();
 						this.isLoadingData = false;
+						form.resetForm(); // or form.reset();
 					}
 				}, error => {
+					form.resetForm(); // or form.reset();
 					if (error.status === 404)
 					swal('No patient found');
 					else if (error.status === 403)
@@ -268,13 +269,17 @@ export class PatientsListComponent implements OnInit {
 				this.colleaguesData = Array();	
 				let url1 = this.utility.apiData.userPatients.ApiUrl;
 					//url1 += "?patientId="+this.allMember[k].patientId;
-					let strName = form.value.firstName;
+					let strName = '';
+					if(form.value.firstName != null)
+					{
+						strName = form.value.firstName;
+					}
 					let patiantName =strName.split(' ');
-					if(patiantName[0] != '')
+					if(patiantName[0] != '' && patiantName[0] != null)
 					{
 						url1 += "?firstName="+patiantName[0];
 					}
-					if(patiantName.length > 1)
+					if((patiantName.length > 1) && patiantName[0] != null)
 					{
 						if(patiantName[1] != '')
 						{
@@ -288,9 +293,10 @@ export class PatientsListComponent implements OnInit {
 							}
 						}
 					}
-					if(form.value.dateFrom != '')
+					if(form.value.dateFrom != '' && form.value.dateFrom != null)
 					{
-						if(patiantName[0] != '' || (patiantName.length > 1))
+						//if(patiantName[0] != '' || (patiantName.length > 1) || patiantName[0] != null)
+						if(form.value.firstName != '' && form.value.firstName != null)
 						{ 
 							url1 += "&dateFrom="+Date.parse(form.value.dateFrom);
 						}
@@ -299,9 +305,10 @@ export class PatientsListComponent implements OnInit {
 							url1 += "?dateFrom="+Date.parse(form.value.dateFrom);
 						}
 					}
-					if(form.value.dateTo != '')
+					if(form.value.dateTo != '' && form.value.dateTo != null)
 					{
-						if(patiantName[0] != '' || form.value.dateFrom != '')
+						//if(patiantName[0] != '' || form.value.dateFrom != '' || patiantName[0] != null)
+						if(form.value.firstName != '' && form.value.firstName != null)
 						{
 							url1 += "&dateTo="+Date.parse(form.value.dateTo);
 						}
@@ -336,9 +343,10 @@ export class PatientsListComponent implements OnInit {
 							}
 							this.colleaguesData = this.colleaguesData.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? 1 : -1));
 							this.isLoadingData = false;
-							this.loadTooltip();
+							form.resetForm(); // or form.reset();
 						}
 					}, (error) => {
+						form.resetForm(); // or form.reset();
 						if (error.status === 404)
 						swal('No patient found');
 						else if (error.status === 403)
@@ -444,7 +452,6 @@ export class PatientsListComponent implements OnInit {
 							  patientId: AllDate.patientId
 							});
 							this.isLoadingData = false;
-							this.loadTooltip();
 						}
 					}, (error) => {
 						if (error.status === 404)

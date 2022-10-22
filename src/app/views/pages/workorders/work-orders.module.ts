@@ -15,6 +15,7 @@ import { PatientsModule } from '../patients/patients.module';
 import { WorkOrderGuideComponent } from './work-order-guide/work-order-guide.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
     path: '',
@@ -68,7 +69,14 @@ const routes: Routes = [
     AutocompleteLibModule,
 	PatientsModule,
     ReactiveFormsModule,				 
-    NgxShimmerLoadingModule					 
+    NgxShimmerLoadingModule	,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })				 
   ],
    schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

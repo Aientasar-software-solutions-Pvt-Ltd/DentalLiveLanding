@@ -66,7 +66,7 @@
 								<tr *ngFor="let invitereceived of inviteReceivedData; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
-											<span style="color:white;">{{i}}</span>
+											<span class="d-none" style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invitereceived.userName.charAt(0)}}</span>
 											<span class="body2">{{invitereceived.userName}}</span>
 										</div>
@@ -91,16 +91,12 @@
 									</td>
 									<td>
 										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
-											<a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-												<i class="bx bx-dots-vertical-rounded text-muted fs-4"></i>  
+											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
+											<span class="badge badge-pill body2 px-2" style="background: rgba(0, 182, 128, 0.3);color: #00B680;">Accept</span>&nbsp;
 											</a>
-											<ul class="dropdown-menu border-0 py-2 px-2" style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1rem 3rem;">
-												
-												<li><button class="btn dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">Accept</button></li>
-												
-												<li><button class="btn dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">Decline</button></li>
-												
-											</ul>
+											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
+											<span class="badge badge-pill body2 px-2" style="background-color: #FEEEF2;color: #F7517F;">Decline</span>
+											</a>
 										</div>
 									</td>
 								</tr>
@@ -125,7 +121,7 @@
 								<tr *ngFor="let invite of invitedata; let i = index;">
 									<td>
 										<div class="d-flex align-items-center">
-											<span style="color:white;">{{i}}</span>
+											<span class="d-none" style="color:white;">{{i}}</span>
 											<span class="avatar-icon my-2 me-2">{{invite.userName.charAt(0)}}</span>
 											<span class="body2">{{invite.userName}}</span>
 										</div>
@@ -217,7 +213,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer text-center justify-content-center border-top-0">
+				<div class="modal-footer text-center justify-content-center border-top-0" *ngIf="this.isSendingData == true">
 					<input type="hidden" name="caseId" id="caseId" ngModel="{{this.case_id}}">
 					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.patient_id}}">
 					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patient_name}}">

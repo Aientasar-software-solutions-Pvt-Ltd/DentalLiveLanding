@@ -9,19 +9,21 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router } from '@angular/router';
 import {encode} from 'html-entities';
 import "@lottiefiles/lottie-player";
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-patient-add',
   templateUrl: './patient-add.component.html',
   styleUrls: ['./patient-add.component.css']
-})  
-      
+})
+
 export class PatientAddComponent implements OnInit {
 	sending = false;
 	@ViewChild(Cvfast) cv!: Cvfast;
 	saveActiveInactive: boolean = true;
 	public patiantStatus = true;
 	public isRequired: boolean;
+	isvalidDate: any;
 	onActiveInactiveChanged(value:boolean){
 		this.saveActiveInactive = value;
 		this.patiantStatus = value;
@@ -206,7 +208,18 @@ export class PatientAddComponent implements OnInit {
 	});
   }
   onSubmit(form: NgForm) {
-    if (form.invalid || (form.value.dob == 0)) {
+	const now = new Date();
+	const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+	if(form.value.dob > cValue)
+	{
+		this.isvalidDate =true;
+	}
+	else
+	{
+		this.isvalidDate =false;
+	}
+		
+    if (form.invalid || (form.value.dob == 0) || (this.isvalidDate == true)) {
 	  swal("Please enter values for the mandatory fields");
       form.form.markAllAsTouched();
       return;

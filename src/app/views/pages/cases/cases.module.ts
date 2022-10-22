@@ -16,7 +16,7 @@ import { CaseAddFileUploadComponent } from './case-add-file-upload/case-add-file
 import { MilestoneAddComponent } from './case-add-milestone/milestone-add.component';
 import { PatientsModule } from '../patients/patients.module';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
-
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
     path: '',
@@ -82,6 +82,13 @@ const routes: Routes = [
 	ReactiveFormsModule,
     OwlNativeDateTimeModule,
 	NgxShimmerLoadingModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA

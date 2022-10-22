@@ -28,7 +28,6 @@ export class ReferralDetailsComponent implements OnInit {
 	@ViewChild(ReferralGuideComponent)
 	orders: ReferralGuideComponent;
 	toothData: any;
-	tabOrder: any;
 	tabContent(ids:any){
 		this.id = ids;
 		if(this.id == 'tab1')
@@ -40,6 +39,7 @@ export class ReferralDetailsComponent implements OnInit {
 				}
 			}, 1000);
 		}
+		sessionStorage.setItem("referralTabActive", ids);
 	}
 	showComment: any;
 	replyToggle(index){
@@ -137,8 +137,14 @@ export class ReferralDetailsComponent implements OnInit {
 	});
 	this.getReferralDetails().then(
 	(value) => {
+	//Set current tab
+	let tabActive = sessionStorage.getItem("referralTabActive");
+	(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	},
 	(error) => {
+	//Set current tab
+	let tabActive = sessionStorage.getItem("tabActive");
+	(tabActive) ? this.id = tabActive : this.id = 'tab1';
 	});
   }
   
@@ -158,7 +164,6 @@ export class ReferralDetailsComponent implements OnInit {
 				this.dataService.getallData(url, true).subscribe(Response => {
 					if (Response)
 					{
-						this.isLoadingData = false;
 						this.tabledata = JSON.parse(Response.toString());
 						this.toothData = this.tabledata.toothguide;
 						this.getCaseDetails(this.tabledata.caseId);
@@ -175,7 +180,11 @@ export class ReferralDetailsComponent implements OnInit {
 						this.getuserdetailsall(this.referalmembers);
 						this.getMessage(this.tabledata.caseId);
 						this.setcvFast(this.tabledata.notes);
+						if(this.id == 'tab1')
+						{
+						this.isLoadingData = false;
 						this.orders.setToothGuide(this.toothData);
+						}
 						Resolve(true);
 					}
 				}, (error) => {
@@ -346,7 +355,6 @@ export class ReferralDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
-					this.isLoadingData = false;
 					this.detailsdata = JSON.parse(Response.toString());
 				}
 			}, (error) => {
@@ -450,12 +458,14 @@ export class ReferralDetailsComponent implements OnInit {
 				url += "?caseId="+caseId;
 			}
 			url += "&messageType="+Number(messageType);
+			url += "&messageReferenceId="+this.referralId;
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response)
 				{
 					this.messagedata = JSON.parse(Response.toString()).reverse();
-					
+					this.messagedata.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
 					this.messageDataArray = Array();
+					let checkArray = 0;
 					for(var i = 0; i < this.messagedata.length; i++)
 					{
 						let strVal = JSON.stringify(this.messagedata[i].message);
@@ -467,7 +477,7 @@ export class ReferralDetailsComponent implements OnInit {
 								caseId: this.messagedata[i].caseId,
 								patientName: this.messagedata[i].resourceOwner,
 								messagetext: this.removeHTML(this.messagedata[i].message.text),
-								messageimg: this.messagedata[i].message.links,
+								messageimg: [],
 								messagedate: this.messagedata[i].dateCreated,
 								messagecomment: this.messagedata[i].comments,
 								messageReferenceId: this.messagedata[i].messageReferenceId,
@@ -476,6 +486,7 @@ export class ReferralDetailsComponent implements OnInit {
 							this.setcvFastComment(this.messagedata[i].comments,i);
 							this.setcvFastMsg(this.messagedata[i].message,i);
 							this.cvfastMsgText = true;
+							checkArray++;
 						}
 						else
 						{
@@ -490,12 +501,13 @@ export class ReferralDetailsComponent implements OnInit {
 								messageReferenceId: this.messagedata[i].messageReferenceId,
 								messagecomment: this.messagedata[i].comments
 							});
+							checkArray++;
 						}  
-						if(this.messagedata.length == (i+1))
-						{
-						this.messageAry = this.messageDataArray;
-						this.messageAry.sort((a, b) => (a.messagedate > b.messagedate) ? -1 : 1);
-						}
+					}
+					if(checkArray == this.messagedata.length)
+					{
+					this.messageAry = this.messageDataArray;
+					this.isLoadingData = false;
 					}
 				}
 			}, (error) => {
@@ -573,6 +585,7 @@ export class ReferralDetailsComponent implements OnInit {
 							});
 						}
 					}
+					//alert(JSON.stringify(NewCommentArray));
 					if(CommentObj.text)
 					{
 						if(NewCommentArray.length > 0)
@@ -595,6 +608,10 @@ export class ReferralDetailsComponent implements OnInit {
 							Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 0, links: NewCommentArray });
 						}
 					}
+					if(CommentObj.links && (CommentObj.text == ''))
+					{
+						Comments.push({ text: this.removeHTML(CommentsText), isShow: 0, isShowLink: 1, links: NewCommentArray });
+					}
 				}
 				
 			}
@@ -605,45 +622,48 @@ export class ReferralDetailsComponent implements OnInit {
 	setcvFastMsg(obj: any, index: any)
 	{
 		let MessageDetails = Array();
-		if(obj.links.length > 0)
+		if(JSON.stringify(obj.links).length > 2)
 		{
-			this.cvfastMsgLinks = true;
-			for(var i = 0; i < obj.links.length; i++)
+			if(obj.links.length > 0)
 			{
-				let ImageName = obj.links[i];
-				let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
-				this.dataService.getallData(url, true)
-				.subscribe(Response => {
-					if (Response)
-					{
-						MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
-						if(obj.links.length == i)
+				this.cvfastMsgLinks = true;
+				for(var i = 0; i < obj.links.length; i++)
+				{
+					let ImageName = obj.links[i];
+					let url = 'https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/objectUrl?name='+obj.links[i]+'&module='+this.module+'&type=get';
+					this.dataService.getallData(url, true)
+					.subscribe(Response => {
+						if (Response)
 						{
-							this.messageDataArray[index].messageimg = MessageDetails; 
-						}						
-					}
-				}, error => {
-					if (error.status === 404)
-					swal('No referral found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Duplicate data entered');
-					else if (error.status === 405)
-					swal({
-					text: 'Due to dependency data unable to complete operation'
-					}).then(function() {
-					window.location.reload();
+							MessageDetails.push({ imgName: ImageName, ImageUrl: Response });
+							if(obj.links.length == i)
+							{
+								this.messageDataArray[index].messageimg = MessageDetails; 
+							}						
+						}
+					}, error => {
+						if (error.status === 404)
+						swal('No referral found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Duplicate data entered');
+						else if (error.status === 405)
+						swal({
+						text: 'Due to dependency data unable to complete operation'
+						}).then(function() {
+						window.location.reload();
+						});
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
 					});
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				});
+				}
 			}
 		}
 		
