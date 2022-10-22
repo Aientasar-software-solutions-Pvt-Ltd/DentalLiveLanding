@@ -335,6 +335,7 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   toothGuide: any = {};
+  toothGuideArray = [];
 
   getToothGuideAsArray() {
     let array = [];
@@ -348,6 +349,7 @@ export class ReferralGuideComponent implements OnInit {
         });
       }
     );
+    this.toothGuideArray = array;
     return array;
   }
 
@@ -388,7 +390,9 @@ export class ReferralGuideComponent implements OnInit {
           this.toothGuide[this.activeAssignedTeeth]['selections'].push(event.target.value);
           this.loopSeelctionParent(event.target);
         } else {
-          this.toothGuide = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          this.toothGuide[this.activeAssignedTeeth]['selections'] = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          if (this.toothGuide[this.activeAssignedTeeth]['selections'].length == 0)
+            delete this.toothGuide[this.activeAssignedTeeth];
         }
       } else {
         //assignment
@@ -403,14 +407,16 @@ export class ReferralGuideComponent implements OnInit {
         } else {
           this.selectedTeeths.forEach(element => {
             if (this.toothGuide[element])
-              this.toothGuide = this.toothGuide[element]['selections'].filter(e => e !== event.target.getAttribute('id'))
+              this.toothGuide[element]['selections'] = this.toothGuide[element]['selections'].filter(e => e !== event.target.getAttribute('id'));
+            if (this.toothGuide[element]['selections'].length == 0)
+              delete this.toothGuide[element];
           });
         }
         if (this.selectedTeeths.length == 1) {
           this.activeAssignedTeeth = this.selectedTeeths[0];
           this.redrawGuide('rcurrmap', [this.activeAssignedTeeth], "rgba(255, 255, 0, 0.9)");
         }
-        this.activeAssignedTeeth = this.selectedTeeths[0];
+        // this.activeAssignedTeeth = this.selectedTeeths[0];
       }
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     } else {
@@ -454,7 +460,6 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   redrawGuide(canvasName: any, teethArray: any, color: any) {
-
     let canvas = document.getElementById(canvasName);
     let cnv = <HTMLCanvasElement>canvas;
     let ctx = cnv.getContext("2d");
@@ -469,5 +474,6 @@ export class ReferralGuideComponent implements OnInit {
       ctx.closePath();
       ctx.fill();
     });
+    this.getToothGuideAsArray();
   }
 }
