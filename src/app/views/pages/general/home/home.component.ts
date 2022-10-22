@@ -17,9 +17,24 @@ const endPoint = 'https://crm.dentallive.com/webservice.php';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+
+	
 	scroll(el: HTMLElement) {
 		el.scrollIntoView({behavior: 'smooth'});
 	}
+	
+	isShowDivPlanner = false;  
+	toggleDisplayPlanner() {  
+		this.isShowDivPlanner = !this.isShowDivPlanner;  
+	} 
+	isShowDivTalk = false;  
+	toggleDisplayTalk() {  
+		this.isShowDivTalk = !this.isShowDivTalk;  
+	} 
+	isShowDivMail = false;  
+	toggleDisplayMail() {  
+		this.isShowDivMail = !this.isShowDivMail;  
+	}  
 	
 	currentYear: number = new Date().getFullYear();
 	solutionform!: FormGroup;

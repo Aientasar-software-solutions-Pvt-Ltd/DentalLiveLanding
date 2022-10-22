@@ -45,14 +45,14 @@
 		<div class="container">
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalPlanner" style="color: #011A3E;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"/></a>        
+					</li>
 					<li class="nav-item ">
 						<a class="nav-link bold py-md-0" routerLink="/" fragment="Products" style="color: #011A3E;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"/></a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalTalk" style="color: #011A3E;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"/></a>        
-					</li>
-					<li class="nav-item">
-						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalPlanner" style="color: #011A3E;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"/></a>        
 					</li>
 				</ul>
 			</div>
@@ -66,11 +66,11 @@
 			<div class="row">
 				<div class="col-md-12">
 				  <h1 class="h1 fw-bold wow fadeInUp pt-1 pt-md-4 text-center so-hero-text" data-wow-delay="0.2s" style="color: #011A3E;"> Solutions for <a style="color: #00D9CC;" class="d-md-inline-block d-none" href="javascript:void(0);" (click)="scroll(Everyone)">Everyone</a>
-				  <span class="dropdown ms-2 mt-1 d-md-none d-inline-block">
+				  <span class="dropdown mt-1 d-md-none d-inline-block">
 					  <span class="dropdown-toggle" style="color: #00D9CC;cursor:pointer;" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Everyone</span>
-						  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+						  <ul class="dropdown-menu dropdown-menu-start sodropdownalign" aria-labelledby="dropdownMenuButton1">
 							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Specialists)">Specialists</a></li>
-							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Dentist)">Dentist</a></li>
+							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Dentist)">Dentists</a></li>
 							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Students)">Students</a></li>
 							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Labs)">Labs</a></li>
 							<li><a class="dropdown-item" href="javascript:void(0);" (click)="scroll(Vendors)">Vendors</a></li>
@@ -88,7 +88,7 @@
 				<div class="col-md-12  align-items-center ">
 					<h4 class=" fw-bold text-center" style="color: #011A3E;">
 					  Optimized communication solution
-					  <span style="color: #0070D2;">internally</span> and <span style="color: #0070D2;">externally for dentistry</span> </h4>
+					  <span style="color: #00D9CC;">internally</span> and <span style="color: #00D9CC;">externally for dentistry</span> </h4>
 				</div>
 			</div>
 		</div>
@@ -97,23 +97,50 @@
 		<div class="container">
 			<div class="d-flex row ">
 				<div class="col-md-12">
-					<ul class="nav panel-tabs mt-5 justify-content-center"> 
-						<li><a href="#tab1" class="me-2 active fw-bold p-3 p-md-4 px-md-5 d-inline-block" data-bs-toggle="tab"> <img src="assets/images/Mailicon.png"></a></li> 
-						<li><a href="#tab2" data-bs-toggle="tab" class="me-2 p-3 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Talkicon.png"></a></li> 
-						<li><a href="#tab3" data-bs-toggle="tab" class="p-3 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Plannericon.png"></a></li> 
+					<ul class="nav panel-tabs justify-content-center">  
+						<li><a href="#tab1" data-bs-toggle="tab" class="active me-2 p-2 mb-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Plannericon.png"></a></li> 
+						<li><a href="#tab2" class="me-2 mb-2 fw-bold p-2 p-md-4 px-md-5 d-inline-block" data-bs-toggle="tab"> <img src="assets/images/Mailicon.png"></a></li> 
+						<li><a href="#tab3" data-bs-toggle="tab" class="mb-2 p-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Talkicon.png"></a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</section>
-	<section class="pb-0">
+	<section>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="tab-content">
 						<div class="tab-pane fade active show" id="tab1">
-							<div class="container p-4 pb-4 ">
-								<div class="d-flex row align-items-center mb-2 pb-4 ">
+							<div class="px-4">
+								<div class="d-flex row align-items-center">
+									<div class=" col-md-12">
+										<div>
+											<div class="row">
+												<div class="col-md-6">
+												  <img src="assets/images/plannerproduct.png">
+												</div>
+												<div class="col-md-6 align-self-center">
+													<div class="pt-4 pt-md-4">
+														<h4 class="fw-bold wow fadeInLeft text-center text-sm-start mb-0" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Case collaboration made easier! </h4>
+														<h4 class="mb-0 pt-4 mb-4 wow fadeInLeft" data-wow-delay="0.3s" style="font-family: system-ui; font-weight: 100; color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">A multi-disciplinary patient-centric case management tool.</h4>
+														<ul class="square-list">
+															<li>Centralized dashboard with all of your patient and case notifications keeping you up-to speed.</li>
+															<li>Create patients and cases to stay organized with all your active treatments.</li>
+															<li>Invite colleagues to collaborate through audio, visual, screen sharing tools for effective streamlined communications.</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="tab-pane fade" id="tab2">
+							<div class="px-4">
+								<div class="d-flex row align-items-center">
 									<div class="col-md-12">
 										<div>
 											<div class="row">
@@ -121,8 +148,8 @@
 													<img src="assets/images/talk.png">
 												</div>
 												<div class="col-md-6 align-self-center">
-													<div class="pt-md-4">
-														<h4 class="fw-bold wow fadeInLeft text-center text-sm-start" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Redefine the way you communicate! </h4>
+													<div class="pt-4 pt-md-4">
+														<h4 class="fw-bold wow fadeInLeft text-center text-sm-start mb-0" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Redefine the way you communicate! </h4>
 														<h4 class="mb-0 pt-4 mb-4 wow fadeInLeft" data-wow-delay="0.3s" style="font-family: system-ui; font-weight: 100; color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">Welcome to your audio-visual emailing platform.</h4>
 														<ul class="square-list">
 															<li>Email powered with video, audio and screen  recording capabilities.</li>
@@ -134,69 +161,34 @@
 											</div>
 										</div>
 									</div>
-								</div>    
-							</div>
-						</div>
-					
-						<div class="tab-pane fade " id="tab2">
-							<div class="d-flex row align-items-center mb-2 pb-4 ">
-							  <div class=" col-md-12">
-								<div class="container p-4 pb-4">
-								  <div class="d-flex row align-items-center mb-2 pb-4">
-									<div class="col-md-12">
-									  <div>
-										<div class="row" >
-											<div class="col-md-6">
-											  <img src="assets/images/talkside.png">
-											</div>
-											<div class="col-md-6 align-self-center">
-												<div class="pt-md-4">
-													<h4 class="fw-bold wow fadeInLeft text-center text-sm-start" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">For all of your Tele-Dental needs!</h4>
-													<h4 class="mb-0 pt-4 mb-4 wow fadeInLeft" data-wow-delay="0.3s" style="font-family: system-ui; font-weight: 100; color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">Virtual meetings to further simplify patient interactions!</h4>
-													<ul class="square-list">
-														<li>Set up virtual meetings for easier collaboration.</li>
-														<li>Schedule tele-dentistry appointments with patients.</li>
-														<li>Engage with provider, labs and more remotely and securely.</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									</div>
-								  </div>    
 								</div>
-							  </div>
 							</div>
 						</div>
 						
-						<div class="tab-pane fade " id="tab3">
-							<div class="d-flex row align-items-center mb-2 pb-4 ">
-							  <div class=" col-md-12">
-								<div class="container p-4 pb-4">
-								  <div class="d-flex row align-items-center mb-2 pb-4">
+						<div class="tab-pane fade" id="tab3">
+							<div class="px-4">
+								<div class="d-flex row align-items-center">
 									<div class="col-md-12">
-									  <div>
-										<div class="row" >
-											<div class="col-md-6">
-											  <img src="assets/images/plannerproduct.png">
-											</div>
-											<div class="col-md-6 align-self-center">
-												<div class="pt-md-4">
-													<h4 class="fw-bold wow fadeInLeft text-center text-sm-start" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Case collaboration made easier! </h4>
-													<h4 class="mb-0 pt-4 mb-4 wow fadeInLeft" data-wow-delay="0.3s" style="font-family: system-ui; font-weight: 100; color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">A multi-disciplinary patient-centric case management tool.</h4>
-													<ul class="square-list">
-														<li>Centralized dashboard with all of your patient and case notifications keeping you up-to speed.</li>
-														<li>Create patients and cases to stay organized with all your active treatments.</li>
-														<li>Invite colleagues to collaborate through audio, visual, screen sharing tools for effective streamlined communications.</li>
-													</ul>
+										<div>
+											<div class="row">
+												<div class="col-md-6">
+													<img src="assets/images/talkside.png">
+												</div>
+												<div class="col-md-6 align-self-center">
+													<div class="pt-4 pt-md-4">
+														<h4 class="fw-bold wow fadeInLeft text-center text-sm-start mb-0" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">For all of your Tele-Dental needs!</h4>
+														<h4 class="mb-0 pt-4 mb-4 wow fadeInLeft" data-wow-delay="0.3s" style="font-family: system-ui; font-weight: 100; color: rgb(93, 106, 126); visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">Virtual meetings to further simplify patient interactions!</h4>
+														<ul class="square-list">
+															<li>Set up virtual meetings for easier collaboration.</li>
+															<li>Schedule tele-dentistry appointments with patients.</li>
+															<li>Engage with provider, labs and more remotely and securely.</li>
+														</ul>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									</div>
-								  </div>    
 								</div>
-							  </div>
 							</div>
 						</div>
 					</div>
@@ -205,10 +197,10 @@
 		</div>
 	</section>
 	
-	<section class="our-solutions-area" id="Everyone" #Everyone>
+	<section class="our-solutions-area">
 		<div id="solutions" >
 			<div class="container">
-				<h4 class="fw-bold wow fadeInLeft section-header_border" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Solutions for everyone</h4>
+				<h4 class="fw-bold wow fadeInLeft section-header_border" data-wow-delay="0.2s" style="color: rgb(53, 64, 83); visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;" id="Everyone" #Everyone>Solutions for <span style="color: #00D9CC;">Everyone</span></h4>
 				<!--<div class="mb-5 tag-list">
 					<span class="btn btn-primary me-2">Video Mail</span>
 					<span class="btn btn-primary me-2">Audio Mail</span>
@@ -271,7 +263,7 @@
 					<div class="col-lg-4 col-md-6 mb-4" id="Dentist" #Dentist>
 						<div class="our-service-card h-100 wow fadeInUp" data-wow-delay="0.2s">
 							<img src="assets/images/solution-icon-2.png">
-							<p class="body1 fw-bold pt-2" style="color: #354053;">For Dentist</p>
+							<p class="body1 fw-bold pt-2" style="color: #354053;">For Dentists</p>
 							<ul class="ul" style="margin-left:-10px;text-align:left;">
 								<li class="mb-2">
 									<div class="form-check">
@@ -443,7 +435,7 @@
 			<div class="d-flex row align-items-center justify-content-center">
 				<div class="col-lg-7 col-md-8">
 					<div class="py-2 text-center ">
-						<h4 class=" wow fadeInUp py-4" data-wow-delay="0.2s">Subscribe to get <img src="assets/images/DentalLIVE.png" height="32px"/> <br/>special features!</h4>
+						<h4 class=" wow fadeInUp py-4" data-wow-delay="0.2s">Subscribe to get <img src="assets/images/DentalLIVE.png" height="30px" style="margin-top: -10px;" class="d-md-inline-block d-none"/><img src="assets/images/DentalLIVE.png" height="30px" class="d-md-none d-inline-block" style="margin-top: -7px;"/> <br/>special features!</h4>
 						<div class="d-flex  align-items-center justify-content-center flex-column"  >
 						<form (ngSubmit)="createProduct()" [formGroup]="solutionform" #myForm="ngForm">	
 							<div *ngIf="success">

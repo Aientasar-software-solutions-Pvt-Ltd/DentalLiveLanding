@@ -635,7 +635,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'workorders/work-orders', 'put', '','comments', '1','Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments', '1','Comments already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
@@ -661,7 +661,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'workorders/work-orders', 'post', '','message','1','Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message','1','Message already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;

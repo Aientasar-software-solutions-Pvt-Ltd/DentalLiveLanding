@@ -45,14 +45,14 @@
 		<div class="container">
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalPlanner" style="color: #011A3E;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"/></a>        
+					</li>
 					<li class="nav-item ">
 						<a class="nav-link bold py-md-0" routerLink="/" fragment="Products" style="color: #011A3E;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"/></a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalTalk" style="color: #011A3E;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"/></a>        
-					</li>
-					<li class="nav-item">
-						<a class="nav-link bold py-md-0" routerLink="/" fragment="DentalPlanner" style="color: #011A3E;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"/></a>        
 					</li>
 				</ul>
 			</div>
@@ -87,9 +87,9 @@
 	</div>
 	 <div class="col-md-12 ">
 	  <ul class="nav panel-tabs mt-5 justify-content-center justify-content-md-start"> 
-		<li><a href="#tab1" class="me-2 me-md-4 active fw-bold p-3 p-md-4 px-md-5 d-inline-block" data-bs-toggle="tab"> <img src="assets/images/Mailicon.png"></a></li> 
-		<li><a href="#tab2" data-bs-toggle="tab" class="me-2 me-md-4 p-3 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Talkicon.png"></a></li> 
-		<li><a href="#tab3" data-bs-toggle="tab" class="p-3 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Plannericon.png"></a></li> 
+		<li><a href="#tab1" data-bs-toggle="tab" class="active me-2 mb-2 p-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Plannericon.png"></a></li> 
+		<li><a href="#tab2" class="me-2 mb-2 me-md-4 fw-bold p-2 p-md-4 px-md-5 d-inline-block" data-bs-toggle="tab"> <img src="assets/images/Mailicon.png"></a></li> 
+		<li><a href="#tab3" data-bs-toggle="tab" class="mb-2 me-md-4 p-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Talkicon.png"></a></li> 
 	   </ul>
 	  </div>
 	</div>
@@ -101,11 +101,121 @@
 <div class=" row ">
   <div class="col-md-12">
 	<div class="tab-content">
-	  <div class="tab-pane fade active show" id="tab1">
+		<div class="tab-pane fade active show" id="tab1">
+		<div class="row mb-2 pb-4 ">
+		  <div class="col-md-12">
+			<div class="accordion accordion-flush" id="accordionTalkFaq">
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingOne">
+				  <button class="accordion-button h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseOne" aria-expanded="true" aria-controls="talk-collapseOne">
+					<img src="assets/images/faq.png" class="me-2"> I forgot my password. How do I reset it? 
+				  </button>
+				</h2>
+				<div id="talk-collapseOne" class="accordion-collapse collapse show" aria-labelledby="talk-headingOne" data-bs-parent="#accordionTalkFaq">
+					<div class="accordion-body h6">No worries, You can request a password reset by using the forgot password link on the login 	screen. You will receive an email to your registered email with the password reset link.
+					</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTwo">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTwo" aria-expanded="false" aria-controls="talk-collapseTwo">
+					<img src="assets/images/faq.png" class="me-2"> Can I use my existing Email ID to create an account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTwo" class="accordion-collapse collapse" aria-labelledby="talk-headingTwo" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive allows you to use your existing email ID to create an account. In addition a new dentallive alias email will be created using your existing email to send emails to the patients or contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingThree">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseThree" aria-expanded="false" aria-controls="talk-collapseThree">
+					<img src="assets/images/faq.png" class="me-2"> Who is a sub-member?
+				  </button>
+				</h2>
+				<div id="talk-collapseThree" class="accordion-collapse collapse" aria-labelledby="talk-headingThree" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Any associate or staff who is authorized to communicate with your patients and contacts is a sub-member.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFour">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFour" aria-expanded="false" aria-controls="talk-collapseFour">
+					<img src="assets/images/faq.png" class="me-2"> Can I assign roles to sub-members?
+				  </button>
+				</h2>
+				<div id="talk-collapseFour" class="accordion-collapse collapse" aria-labelledby="talk-headingFour" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes, you can control the privileges of sub-members by assigning them appropriate roles to manage communication with contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFive">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFive" aria-expanded="false" aria-controls="talk-collapseFive">
+					<img src="assets/images/faq.png" class="me-2"> Is my patient information HIPAA secure?
+				  </button>
+				</h2>
+				<div id="talk-collapseFive" class="accordion-collapse collapse" aria-labelledby="talk-headingFive" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive is fully HIPAA secure and compliant. Any information transmitted is encrypted using the SSL using HIPAA coding standards.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSix">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSix" aria-expanded="false" aria-controls="talk-collapseSix">
+					<img src="assets/images/faq.png" class="me-2"> What happens if exceed my data storage?
+				  </button>
+				</h2>
+				<div id="talk-collapseSix" class="accordion-collapse collapse" aria-labelledby="talk-headingSix" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">To help manage your storage, you can view the usage in my account screen and can purchase storage add-ons assigned to the purchased packages.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSeven">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSeven" aria-expanded="false" aria-controls="talk-collapseSeven">
+					<img src="assets/images/faq.png" class="me-2"> Do you have to pay end of free trial?
+				  </button>
+				</h2>
+				<div id="talk-collapseSeven" class="accordion-collapse collapse" aria-labelledby="talk-headingSeven" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Take advantage of Free Trial and start using Dentallive application for the trial period. After the end of trial period, you can continue using the application by purchasing available packages as needed.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingEight">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseEight" aria-expanded="false" aria-controls="talk-collapseEight">
+					<img src="assets/images/faq.png" class="me-2"> Can a primary member pay for Sub-Members?
+				  </button>
+				</h2>
+				<div id="talk-collapseEight" class="accordion-collapse collapse" aria-labelledby="talk-headingEight" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes. Primary member can pay for authorized sub-members.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingNine">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseNine" aria-expanded="false" aria-controls="talk-collapseNine">
+					<img src="assets/images/faq.png" class="me-2"> Is this a monthly payment?
+				  </button>
+				</h2>
+				<div id="talk-collapseNine" class="accordion-collapse collapse" aria-labelledby="talk-headingNine" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">It varies by package purchased. For Enterprise package it is a month to month payment.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTen">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTen" aria-expanded="false" aria-controls="talk-collapseTen">
+					<img src="assets/images/faq.png" class="me-2"> What is enterprise account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTen" class="accordion-collapse collapse" aria-labelledby="talk-headingTen" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Enterprises who manage and operate from multiple offices, departments, practices with multiple users over 5 accounts are considered as enterprise account. It is highly recommended to take advantage of enterprise account to fully manage locations and accounts from one single console.</div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	 </div>
+	
+	  <div class="tab-pane fade" id="tab2">
 	  <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">Popular FAQ's</h5>
 	<p class="body2">
 	  The types of information that Wiley collects directly from you or through your use of our websites and services may include :</p>
-	  <div class="p-4 pb-4">
+	  <div class="pb-4">
 		<div class="row mb-2 pb-4">
 		  <div class="col-md-12">
 			<div class="accordion accordion-flush" id="accordionMailFaq">
@@ -216,117 +326,7 @@
 	</div>
 </div>
 	
-	  <div class="tab-pane fade " id="tab2">
-		<div class="row mb-2 pb-4 ">
-		  <div class="col-md-12">
-			<div class="accordion accordion-flush" id="accordionTalkFaq">
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingOne">
-				  <button class="accordion-button h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseOne" aria-expanded="true" aria-controls="talk-collapseOne">
-					<img src="assets/images/faq.png" class="me-2"> I forgot my password. How do I reset it? 
-				  </button>
-				</h2>
-				<div id="talk-collapseOne" class="accordion-collapse collapse show" aria-labelledby="talk-headingOne" data-bs-parent="#accordionTalkFaq">
-					<div class="accordion-body h6">No worries, You can request a password reset by using the forgot password link on the login 	screen. You will receive an email to your registered email with the password reset link.
-					</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingTwo">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTwo" aria-expanded="false" aria-controls="talk-collapseTwo">
-					<img src="assets/images/faq.png" class="me-2"> Can I use my existing Email ID to create an account?
-				  </button>
-				</h2>
-				<div id="talk-collapseTwo" class="accordion-collapse collapse" aria-labelledby="talk-headingTwo" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Dentallive allows you to use your existing email ID to create an account. In addition a new dentallive alias email will be created using your existing email to send emails to the patients or contacts.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingThree">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseThree" aria-expanded="false" aria-controls="talk-collapseThree">
-					<img src="assets/images/faq.png" class="me-2"> Who is a sub-member?
-				  </button>
-				</h2>
-				<div id="talk-collapseThree" class="accordion-collapse collapse" aria-labelledby="talk-headingThree" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Any associate or staff who is authorized to communicate with your patients and contacts is a sub-member.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingFour">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFour" aria-expanded="false" aria-controls="talk-collapseFour">
-					<img src="assets/images/faq.png" class="me-2"> Can I assign roles to sub-members?
-				  </button>
-				</h2>
-				<div id="talk-collapseFour" class="accordion-collapse collapse" aria-labelledby="talk-headingFour" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Yes, you can control the privileges of sub-members by assigning them appropriate roles to manage communication with contacts.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingFive">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFive" aria-expanded="false" aria-controls="talk-collapseFive">
-					<img src="assets/images/faq.png" class="me-2"> Is my patient information HIPAA secure?
-				  </button>
-				</h2>
-				<div id="talk-collapseFive" class="accordion-collapse collapse" aria-labelledby="talk-headingFive" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Dentallive is fully HIPAA secure and compliant. Any information transmitted is encrypted using the SSL using HIPAA coding standards.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingSix">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSix" aria-expanded="false" aria-controls="talk-collapseSix">
-					<img src="assets/images/faq.png" class="me-2"> What happens if exceed my data storage?
-				  </button>
-				</h2>
-				<div id="talk-collapseSix" class="accordion-collapse collapse" aria-labelledby="talk-headingSix" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">To help manage your storage, you can view the usage in my account screen and can purchase storage add-ons assigned to the purchased packages.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingSeven">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSeven" aria-expanded="false" aria-controls="talk-collapseSeven">
-					<img src="assets/images/faq.png" class="me-2"> Do you have to pay end of free trial?
-				  </button>
-				</h2>
-				<div id="talk-collapseSeven" class="accordion-collapse collapse" aria-labelledby="talk-headingSeven" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Take advantage of Free Trial and start using Dentallive application for the trial period. After the end of trial period, you can continue using the application by purchasing available packages as needed.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingEight">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseEight" aria-expanded="false" aria-controls="talk-collapseEight">
-					<img src="assets/images/faq.png" class="me-2"> Can a primary member pay for Sub-Members?
-				  </button>
-				</h2>
-				<div id="talk-collapseEight" class="accordion-collapse collapse" aria-labelledby="talk-headingEight" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Yes. Primary member can pay for authorized sub-members.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingNine">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseNine" aria-expanded="false" aria-controls="talk-collapseNine">
-					<img src="assets/images/faq.png" class="me-2"> Is this a monthly payment?
-				  </button>
-				</h2>
-				<div id="talk-collapseNine" class="accordion-collapse collapse" aria-labelledby="talk-headingNine" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">It varies by package purchased. For Enterprise package it is a month to month payment.</div>
-				</div>
-			  </div>
-			  <div class="accordion-item">
-				<h2 class="accordion-header" id="talk-headingTen">
-				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTen" aria-expanded="false" aria-controls="talk-collapseTen">
-					<img src="assets/images/faq.png" class="me-2"> What is enterprise account?
-				  </button>
-				</h2>
-				<div id="talk-collapseTen" class="accordion-collapse collapse" aria-labelledby="talk-headingTen" data-bs-parent="#accordionTalkFaq">
-				  <div class="accordion-body h6">Enterprises who manage and operate from multiple offices, departments, practices with multiple users over 5 accounts are considered as enterprise account. It is highly recommended to take advantage of enterprise account to fully manage locations and accounts from one single console.</div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	 </div>
-	 
-	 <div class="tab-pane fade " id="tab3">
+	  <div class="tab-pane fade " id="tab3">
 		<div class="row mb-2 pb-4 ">
 		  <div class="col-md-12">
 			<div class="accordion accordion-flush" id="accordionTalkFaq">
