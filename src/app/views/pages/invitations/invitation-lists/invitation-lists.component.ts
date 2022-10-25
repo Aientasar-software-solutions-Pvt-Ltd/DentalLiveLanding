@@ -39,7 +39,10 @@ export class InvitationListsComponent implements OnInit {
 	public invited_user_mail: '';
 	public invited_user_id: '';
 	public statusvalue: '';
-	
+	public  invitecvfast = {
+	  text: '',
+	  links: []
+	}
 	public jsonObjInvite = {
 		patientId: '',
 		caseId: '',
@@ -79,6 +82,14 @@ export class InvitationListsComponent implements OnInit {
 	
 	
 	getInviteListing() {
+		this.case_id = '';
+		this.patient_id = '';
+		this.patient_name = '';
+		this.invitation_id = '';
+		this.invited_user_mail = '';
+		this.invited_user_id = '';
+		this.isSendingData = false;
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner="+user.emailAddress;
@@ -247,31 +258,40 @@ export class InvitationListsComponent implements OnInit {
 		}
 		
 		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', '', 'put', '','responseText','','User already invited.').then(
 			(value) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			},
 			(error) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			});
 		}
 		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'invitations/invitation-lists', 'put', '','responseText',1,'User already invited.').then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', '', 'put', '','responseText','','User already invited.').then(
 			(value) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			},
 			(error) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			});
 		}
 		
 	};
 	
 	getInviteSubmitData(invitationId: any, status_value: any) {
+		this.cvfastval.setCvfast(this.invitecvfast);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitationId="+invitationId;
 		this.dataService.getallData(url, true)
@@ -314,6 +334,7 @@ export class InvitationListsComponent implements OnInit {
 	}
 	
 	getInviteListingReceived() {
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitedUserMail="+user.emailAddress;

@@ -121,7 +121,7 @@
             <ul class="list-group">
               <li *ngFor="let files of attachmentFiles;let i=index" #attachment
                 class="animate__animated  animate__faster animate__lightSpeedInLeft list-group-item">
-                <label>{{files['name']}}</label>
+                <label>{{getFileName(files['name'])}}</label>
                 <strong (click)="removeFiles(i,attachment)" style="cursor: pointer;"
                   class="float-end text-danger">Delete</strong>
               </li>
@@ -147,7 +147,7 @@
         <ul class="list-group">
           <li *ngFor="let files of attachmentFiles;let i=index" #attachment
             class="animate__animated  animate__faster animate__lightSpeedInLeft list-group-item">
-            <label>{{files['name']}}</label>
+            <label>{{getFileName(files['name'])}}</label>
             <strong (click)="removeFiles(i,attachment)" style="cursor: pointer;"
               class="float-end text-danger">Delete</strong>
           </li>

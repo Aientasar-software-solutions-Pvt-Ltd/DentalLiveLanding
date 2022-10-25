@@ -23,13 +23,12 @@ export class MilestoneDetailsComponent implements OnInit {
 	show1 = false;
 	id:any = "tab1";
 	shimmer = Array;
-	isCount =0;
 	tabContent(ids:any){
 		this.id = ids;
 		sessionStorage.setItem("milestoneTabActive", ids);
 	}
 	
-	showComment: any;
+	showComment = -1;
 	replyToggle(index){
 		this.setMessageRpValue = false;
 		this.showComment =index;
@@ -37,6 +36,10 @@ export class MilestoneDetailsComponent implements OnInit {
 	public descriptionObj = {
 	  links: Array(),
 	  text: ''
+	}
+	public  invitecvfast = {
+	  text: '',
+	  links: []
 	}
 	public jsonObj = {
 	  title: '',
@@ -118,7 +121,8 @@ export class MilestoneDetailsComponent implements OnInit {
 		  columnDefs: [{
 			"defaultContent": "-",
 			"targets": "_all"
-		  }]
+		  }],
+		  order: [0, 'desc'],
 		};
 		this.getallmilestone();
 		this.getalltasks();
@@ -212,6 +216,8 @@ export class MilestoneDetailsComponent implements OnInit {
 	}
 	
 	getalltasks() {
+		this.taskdata = Array();
+		this.taskdataArray = Array();
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		let milestoneId = this.getmilestoneId;
@@ -313,19 +319,7 @@ export class MilestoneDetailsComponent implements OnInit {
 						  milestoneId: getWorkOrders[k].milestoneId,
 						  taskType: 'WorkOrder',
 						});
-						this.getuserdetailsall(getWorkOrders[k].members,this.indexRow).then(
-						(value) => {
-							if(getWorkOrders.length == this.indexRow)
-							{
-								this.isLoadingData = false;
-							}
-						},
-						(error) => {
-							if(getWorkOrders.length == this.indexRow)
-							{
-								this.isLoadingData = false;
-							}
-						});
+						this.getuserdetailsall(getWorkOrders[k].members,this.indexRow);
 						this.indexRow++;
 					} 
 				}
@@ -394,19 +388,7 @@ export class MilestoneDetailsComponent implements OnInit {
 						  milestoneId: getReferrals[k].milestoneId,
 						  taskType: 'Referral',
 						});
-						this.getuserdetailsall(getReferrals[k].members,this.indexRow).then(
-						(value) => {
-							if(getReferrals.length == (this.indexRow+1))
-							{
-								this.isLoadingData = false;
-							}
-						},
-						(error) => {
-							if(getReferrals.length == (this.indexRow+1))
-							{
-								this.isLoadingData = false;
-							}
-						});
+						this.getuserdetailsall(getReferrals[k].members,this.indexRow);
 						this.indexRow++;
 					}
 					//this.taskdataArray.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
@@ -415,6 +397,7 @@ export class MilestoneDetailsComponent implements OnInit {
 			}, (error) => {
 				//this.taskdataArray.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
 				this.taskdata = this.taskdataArray;
+				this.isLoadingData = false;
 				if (error.status === 404)
 				swal('No milestone found');
 				else if (error.status === 403)
@@ -460,7 +443,8 @@ export class MilestoneDetailsComponent implements OnInit {
 		let url = this.utility.apiData.userTasks.ApiUrl;
 		this.dataService.deleteDataRecord(url, taskId, 'taskId').subscribe(Response => {
 			swal('Task deleted successfully');
-			window.location.reload();
+			this.getallmilestone();
+			this.getalltasks();
 		}, (error) => {
 			if (error.status === 404)
 			swal('No milestone found');
@@ -490,7 +474,7 @@ export class MilestoneDetailsComponent implements OnInit {
 	viewGeneralTask(taskId: any, caseId: any, taskType: any) {
 		sessionStorage.setItem('taskId', taskId);
 		sessionStorage.setItem('caseId', caseId);
-		
+		alert(taskType);
 		if(taskType == 'General'){
 			this.router.navigate(['milestones/general-task-view/'+taskId]);
 		}
@@ -498,7 +482,7 @@ export class MilestoneDetailsComponent implements OnInit {
 			this.router.navigate(['work-orders/work-order-details/'+taskId]);
 		}
 		else{
-			this.router.navigate(['referral/referral-details/'+taskId]);
+			this.router.navigate(['referrals/referral-details/'+taskId]);
 		}
 	}
 	
@@ -867,14 +851,22 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '3';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments',1,'Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'milestones/milestone-list', 'put', '','comments','','Comments already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallmilestone();
+		this.getalltasks();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallmilestone();
+		this.getalltasks();
+		this.showComment = -1;
 		});
 	};
 	onSubmitMessage(form: NgForm){
@@ -894,80 +886,85 @@ export class MilestoneDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		//alert(JSON.stringify(this.jsonObjmsg));
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message',1,'Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'milestones/milestone-list', 'post', '','message','','Message already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallmilestone();
+		this.getalltasks();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallmilestone();
+		this.getalltasks();
+		this.showComment = -1;
 		});
 	};
 	
 	getuserdetailsall(userId, index) {
-		return new Promise((Resolve, myReject) => {
-			let user = this.usr.getUserDetails(false);
-			if(user)
+		let user = this.usr.getUserDetails(false);
+		if(user)
+		{
+			let memberResult = '';
+			let memberCheck = 0;
+			for(var j = 0; j < userId.length; j++)
 			{
-				let memberResult = '';
-				let is_array = 0;
-				for(var j = 0; j < userId.length; j++)
+				let url = this.utility.apiData.userColleague.ApiUrl;
+				if(userId != '')
 				{
-					let url = this.utility.apiData.userColleague.ApiUrl;
-					if(userId != '')
+					url += "?dentalId="+userId[j];
+				}
+				this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response)
+				{
+					let userData = JSON.parse(Response.toString());
+					if(userData)
 					{
-						url += "?dentalId="+userId[j];
-					}
-					this.dataService.getallData(url, true).subscribe(Response => {
-					if (Response)
-					{
-						is_array++;
-						let userData = JSON.parse(Response.toString());
-						if(userData)
+						let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
+						if(memberResult)
 						{
-							let name = userData[0].accountfirstName+' '+userData[0].accountlastName;
-							if(memberResult)
-							{
-								memberResult += ','+name;
-							}
-							else{
-								memberResult += name;
-							}
-							if(is_array == userId.length)
-							{
-								this.taskdataArray[index].memberName = memberResult;
-								Resolve(true);
-							}
+							memberResult += ','+name;
+						}
+						else{
+							memberResult += name;
+						}
+						memberCheck++;
+						if(memberCheck == userId.length)
+						{
+							this.taskdataArray[index].memberName = memberResult;
+							this.isLoadingData = false;
 						}
 					}
-					}, (error) => {
-						Resolve(true);
-						if (error.status === 404)
-						swal('No milestone found');
-						else if (error.status === 403)
-						swal('You are unauthorized to access the data');
-						else if (error.status === 400)
-						swal('Invalid data provided, please try again');
-						else if (error.status === 401)
-						swal('You are unauthorized to access the page');
-						else if (error.status === 409)
-						swal('Duplicate data entered');
-						else if (error.status === 405)
-						swal({
-						text: 'Due to dependency data unable to complete operation'
-						}).then(function() {
-						window.location.reload();
-						});
-						else if (error.status === 500)
-						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-						else
-						swal('Oops something went wrong, please try again');
-						return false;
-					});
 				}
+				}, (error) => {
+					if (error.status === 404)
+					swal('No milestone found');
+					else if (error.status === 403)
+					swal('You are unauthorized to access the data');
+					else if (error.status === 400)
+					swal('Invalid data provided, please try again');
+					else if (error.status === 401)
+					swal('You are unauthorized to access the page');
+					else if (error.status === 409)
+					swal('Duplicate data entered');
+					else if (error.status === 405)
+					swal({
+					text: 'Due to dependency data unable to complete operation'
+					}).then(function() {
+					window.location.reload();
+					});
+					else if (error.status === 500)
+					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+					else
+					swal('Oops something went wrong, please try again');
+					return false;
+				});
 			}
-		});
+		}
 	}
 	
 	getCaseDetails() {
@@ -1028,5 +1025,10 @@ export class MilestoneDetailsComponent implements OnInit {
 		{
 			return "";
 		}
+	}
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
 	}
 }

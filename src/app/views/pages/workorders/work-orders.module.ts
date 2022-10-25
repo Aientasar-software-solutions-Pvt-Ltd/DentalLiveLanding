@@ -69,7 +69,7 @@ const routes: Routes = [
     AutocompleteLibModule,
 	PatientsModule,
     ReactiveFormsModule,				 
-    NgxShimmerLoadingModule	,
+    NgxShimmerLoadingModule,
 	TippyModule.forRoot({
 		defaultVariation: 'tooltip',
 		variations: {

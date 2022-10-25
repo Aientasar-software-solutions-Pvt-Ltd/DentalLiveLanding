@@ -178,4 +178,9 @@ export class FileDetailsComponent implements OnInit {
 
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
   }
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
+	}
 }

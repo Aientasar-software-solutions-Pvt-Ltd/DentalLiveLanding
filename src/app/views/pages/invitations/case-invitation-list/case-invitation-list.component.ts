@@ -43,6 +43,10 @@ export class CaseInvitationListComponent implements OnInit {
 	public invited_user_mail: '';
 	public invited_user_id: '';
 	public statusvalue: '';
+	public  invitecvfast = {
+	  text: '',
+	  links: []
+	}
 	
 	public jsonObjInvite = {
 		patientId: '',
@@ -83,6 +87,14 @@ export class CaseInvitationListComponent implements OnInit {
 	
 	
 	getInviteListing() {
+		this.isLoadingData = true;
+		this.case_id = '';
+		this.patient_id = '';
+		this.patient_name = '';
+		this.invitation_id = '';
+		this.invited_user_mail = '';
+		this.invited_user_id = '';
+		this.isSendingData = false;
 		let user = this.usr.getUserDetails(false);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner="+user.emailAddress;
@@ -252,31 +264,40 @@ export class CaseInvitationListComponent implements OnInit {
 		
 		//alert(JSON.stringify(this.jsonObjInvite));
 		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', 'caseinvites/case-invitation-list', 'put', '','responseText',1,'User already invited.').then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', '', 'put', '','responseText','','User already invited.').then(
 			(value) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			},
 			(error) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			});
 		}
 		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', 'caseinvites/case-invitation-list', 'put', '','responseText',1,'User already invited.').then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', '', 'put', '','responseText','','User already invited.').then(
 			(value) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			},
 			(error) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
+			this.getInviteListingReceived();
 			});
 		}
 		
 	};
 	
 	getInviteSubmitData(invitationId: any, status_value: any) {
+		this.cvfastval.setCvfast(this.invitecvfast);
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitationId="+invitationId;
 		this.dataService.getallData(url, true)

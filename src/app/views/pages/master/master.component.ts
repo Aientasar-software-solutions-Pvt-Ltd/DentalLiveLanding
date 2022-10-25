@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
 import { NgForm } from '@angular/forms';								
 import { CalendarOptions } from '@fullcalendar/angular'; 
@@ -39,10 +40,10 @@ export class MasterComponent implements OnInit {
 	show7 = false;
 	show8 = false;
 	caseEdit = false;
-	showComment: any;
+	showComment = -1;
 	replyToggle(index){
 		this.setMessageRpValue = false;
-		this.showComment =index;
+		this.showComment = index;
 	}
  
 	id:any = "listView";
@@ -637,6 +638,7 @@ export class MasterComponent implements OnInit {
 	}
   
 	getallworkorder() {
+		this.iscount = 0;
 		sessionStorage.removeItem("workorderTabActive");
 		this.isLoadingData = true;
 		this.workordersdata = Array();
@@ -730,6 +732,7 @@ export class MasterComponent implements OnInit {
 		this.router.navigate(['work-orders/work-order-details/'+workorderId]);
 	}
 	getallmilestone() {
+		sessionStorage.removeItem("milestoneTabActive");
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -1118,8 +1121,8 @@ export class MasterComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 		  swal('Files added successfully');
-		  //this.getFilesListing();
-		  window.location.reload();
+		  this.getFilesListing();
+		  //window.location.reload();
 		}, error => {
 			if (error.status === 404)
 			swal('No patient found');
@@ -1223,6 +1226,7 @@ export class MasterComponent implements OnInit {
 	}
 
 	getFilesListing() {
+		this.isLoadingData = true;
 		sessionStorage.setItem('backurl', '/master/master-list/'+this.paramCaseId+'/files');
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let caseId = this.paramCaseId;
@@ -1506,6 +1510,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getReferralListing() {
+		this.iscount = 0;
 		sessionStorage.removeItem("referralTabActive");
 		this.referraldata = Array();
 		this.isLoadingData = true;
@@ -1676,12 +1681,16 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '1';
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', 'cases/case-list', 'put', '','comments', '1','Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments', '','Comments already exists.').then(
 		(value) => {
 		this.sending = false;
+		this.showComment = -1;
+		this.getThread();
 		},
 		(error) => {
 		this.sending = false;
+		this.showComment = -1;
+		this.getThread();
 		});
 	};
 	onSubmitMessage(form: NgForm){
@@ -1697,12 +1706,16 @@ export class MasterComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '1';
 		this.jsonObjmsg['messageReferenceId'] = "31313";
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', 'cases/case-list', 'post', '','message', '1','Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message', '','Message already exists.').then(
 		(value) => {
 		this.sending = false;
+		this.showComment = -1;
+		this.getThread();
 		},
 		(error) => {
 		this.sending = false;
+		this.showComment = -1;
+		this.getThread();
 		});
 	};
 	getAllMembers() {
@@ -1812,14 +1825,16 @@ export class MasterComponent implements OnInit {
 		this.jsonObjInvite['invitedUserId'] = this.allMemberDentalId[i];
 		if(obj.length == 1)
 		{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '1','User already invited.').then(
+			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation send successfully', '', 'post', '','invitationText', '','User already invited.').then(
 			(value) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
 			},
 			(error) => {
 			swal.close();
 			this.sending = false;
+			this.getInviteListing();
 			});
 		}
 		else
@@ -1992,11 +2007,7 @@ export class MasterComponent implements OnInit {
 	}
 	
 	getThread() {
-		/* swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		}); */
-		
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -2016,7 +2027,7 @@ export class MasterComponent implements OnInit {
 				{
 					let treadAllData = JSON.parse(Response.toString());
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					
+					//alert(JSON.stringify(treadAllData));
 					this.messageDataArray = Array();
 					let countIndex = 0;
 					for(var i = 0; i < treadAllData.length; i++)
@@ -2399,45 +2410,58 @@ export class MasterComponent implements OnInit {
 				if(milestoneId != '')
 				{
 					url += "?milestoneId="+milestoneId;
+					this.dataService.getallData(url, true).subscribe(Response => {
+						if (Response)
+						{
+							let milestoneData = JSON.parse(Response.toString());
+							let title = milestoneData.title;
+							if(str == 'workorder')
+							{
+								this.workordersdata[rowIndex].milestoneTitle = title;
+								this.iscount++;
+								Resolve(true);
+							}
+							if(str == 'referal')
+							{
+								this.referraldata[rowIndex].milestoneTitle = title;
+								this.iscount++;
+								Resolve(true);
+							}
+						}
+					}, (error) => {
+						Resolve(true);
+						if (error.status === 404)
+						swal('No milestone found');
+						else if (error.status === 403)
+						swal('You are unauthorized to access the data');
+						else if (error.status === 400)
+						swal('Invalid data provided, please try again');
+						else if (error.status === 401)
+						swal('You are unauthorized to access the page');
+						else if (error.status === 409)
+						swal('Milestone title already exist!');
+						else if (error.status === 405)
+						swal('Due to dependency data unable to complete operation');
+						else if (error.status === 500)
+						swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
+						else
+						swal('Oops something went wrong, please try again');
+					  return false;
+					});
 				}
-				this.dataService.getallData(url, true).subscribe(Response => {
-					if (Response)
+				else
+				{
+					if(str == 'workorder')
 					{
-						let milestoneData = JSON.parse(Response.toString());
-						let title = milestoneData.title;
-						if(str == 'workorder')
-						{
-							this.workordersdata[rowIndex].milestoneTitle = title;
-							this.iscount++;
-							Resolve(true);
-						}
-						if(str == 'referal')
-						{
-							this.referraldata[rowIndex].milestoneTitle = title;
-							this.iscount++;
-							Resolve(true);
-						}
+						this.iscount++;
+						Resolve(true);
 					}
-				}, (error) => {
-					Resolve(true);
-					if (error.status === 404)
-					swal('No milestone found');
-					else if (error.status === 403)
-					swal('You are unauthorized to access the data');
-					else if (error.status === 400)
-					swal('Invalid data provided, please try again');
-					else if (error.status === 401)
-					swal('You are unauthorized to access the page');
-					else if (error.status === 409)
-					swal('Milestone title already exist!');
-					else if (error.status === 405)
-					swal('Due to dependency data unable to complete operation');
-					else if (error.status === 500)
-					swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-					else
-					swal('Oops something went wrong, please try again');
-				  return false;
-				});
+					if(str == 'referal')
+					{
+						this.iscount++;
+						Resolve(true);
+					}
+				}
 			}
 		});
 	}
@@ -2447,6 +2471,7 @@ export class MasterComponent implements OnInit {
 		if(user)
 		{
 			let memberResult = '';
+			let checkArray = 0;
 			for(var j = 0; j < userId.length; j++)
 			{
 				let url = this.utility.apiData.userColleague.ApiUrl;
@@ -2466,7 +2491,8 @@ export class MasterComponent implements OnInit {
 					else{
 						memberResult += name;
 					}
-					if(j == userId.length)
+					checkArray++;
+					if(checkArray == userId.length)
 					{
 						if(str == 'workorder')
 						{
@@ -2572,5 +2598,10 @@ export class MasterComponent implements OnInit {
 		{
 		return "";
 		}
+	}
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
 	}
 }

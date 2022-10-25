@@ -198,13 +198,17 @@ export class WorkOrdersListComponent implements OnInit {
 		}
 		if(form.value.dateTo != '' && form.value.dateTo != null)
 		{
+			const mydate=form.value.dateTo;
+			const newDate = new Date(mydate);
+			const result = new Date(newDate.setDate(newDate.getDate() + 1));
+			
 			if((form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.workorder_title != '' && form.value.workorder_title != null))
 			{
-				url += "&dateTo="+Date.parse(form.value.dateTo);
+				url += "&dateTo="+Date.parse(result);
 			}
 			else
 			{
-				url += "?dateTo="+Date.parse(form.value.dateTo);
+				url += "?dateTo="+Date.parse(result);
 			}
 		}
 		this.dataService.getallData(url, true).subscribe(Response => {

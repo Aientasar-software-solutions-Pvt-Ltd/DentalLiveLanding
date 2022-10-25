@@ -76,6 +76,7 @@ export class AllFilesComponent implements OnInit {
 		}
 	}
 	getAllFiles() {
+		this.isLoadingData = true;
 		sessionStorage.setItem("dateCreated", this.dateCreated);
 		let url = this.utility.apiData.userCaseFiles.ApiUrl;
 		let oneday = (1000*60*60*24);
@@ -209,9 +210,9 @@ export class AllFilesComponent implements OnInit {
 		.subscribe(Response => {
 		  if (Response) Response = JSON.parse(Response.toString());
 			//swal.close();
-			this.isLoadingData = false;
+		  this.isLoadingData = false;
 		  swal('Files added successfully');
-		  window.location.reload();
+		  this.getAllFiles();
 		}, error => {
 			if (error.status)
 			swal(error.error);
@@ -275,4 +276,10 @@ export class AllFilesComponent implements OnInit {
 			this.onGetdateData(form.value);
 		}
 	};
+	
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
+	}
 }

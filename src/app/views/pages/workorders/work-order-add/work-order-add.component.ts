@@ -11,6 +11,7 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import {encode} from 'html-entities';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-work-order-add',
@@ -71,6 +72,8 @@ export class WorkOrderAddComponent implements OnInit {
 	
 	onSubmitWorkOrders(form: NgForm){
 		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
+		console.log("Submit");
+		console.log("Tooth Guide"+toothGuilde);
 		if(Date.parse(form.value.startdate) >= Date.parse(form.value.enddate))
 		{
 			this.isvalidDate =true;
@@ -95,6 +98,13 @@ export class WorkOrderAddComponent implements OnInit {
 		{
 			this.isvalidRefereTo =false;
 		}
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.startdate >= cValue){}else{
+			swal("Workorder start date should be greater than or equal to today date.");
+			return;
+		}
+		
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();

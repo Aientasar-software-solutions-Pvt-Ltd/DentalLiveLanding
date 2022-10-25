@@ -86,10 +86,10 @@
 									</td>
 									<td>
 										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
-											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
+											<a tippy="Accept" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
 											<span class="badge badge-pill body2 px-2" style="background: rgba(0, 182, 128, 0.3);color: #00B680;">Accept</span>&nbsp;
 											</a>
-											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
+											<a  tippy="Decline" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
 											<span class="badge badge-pill body2 px-2" style="background-color: #FEEEF2;color: #F7517F;">Decline</span>
 											</a>
 										</div>

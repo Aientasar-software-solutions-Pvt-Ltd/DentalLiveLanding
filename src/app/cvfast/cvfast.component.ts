@@ -639,4 +639,9 @@ export class Cvfast implements OnInit, OnDestroy, AfterViewInit {
 		return "";
 		}
 	}
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
+	}
 }

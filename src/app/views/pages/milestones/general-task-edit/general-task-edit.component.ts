@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';

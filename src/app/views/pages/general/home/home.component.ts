@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
 	.changeTypeColor('#00d9cc')
 	.type(" Management Platform for Dentistry")
 	.removeCursor()
-	//.rest(500)*/
+	//.rest(500)
 	
 	
       // Wrap every letter in a span
@@ -166,7 +166,7 @@ export class HomeComponent implements OnInit {
 		duration: 1000,
 		easing: "easeOutExpo",
 		delay: 1000
-	});
+	});*/
 
   }
   

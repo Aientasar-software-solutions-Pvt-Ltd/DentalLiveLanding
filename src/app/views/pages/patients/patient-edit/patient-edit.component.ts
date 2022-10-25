@@ -389,6 +389,7 @@ onActiveInactiveChanged(value:boolean){
       id: this.medicationsArray.length + 1
     });
     this.medicationsArray.push({
+      id: this.medicationsArray.length + 1,
       medication: '',
       dosage: '',
       duration: '',
@@ -420,48 +421,48 @@ onActiveInactiveChanged(value:boolean){
 		const duration = "duration_"+this.objMedicationLength[i].id;
 		const notes = "notes_"+this.objMedicationLength[i].id;
 		this.medicationsArray.push({
+		  id: (i+1),
 		  medication: form.value[medication],
 		  dosage: form.value[dosage],
 		  duration: form.value[duration],
 		  notes: form.value[notes]
 		});
 	}
-	alert(JSON.stringify(this.medicationsArray));
   }
   
-  confirmBox(){
-    swal({
-      title: 'Are you sure want to remove?',
-      text: 'You will not be able to recover this file!',
-      icon: 'warning',
-      showCancelButton: true,
-	  confirmButtonColor: '#0070D2',
-	  cancelButtonColor: '#F7517F',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.value) {
-        swal(
-          'Deleted!',
-          'Your imaginary file has been deleted.',
-          'success'
-        )
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swal(
-          'Cancelled',
-          'Your imaginary file is safe :)',
-          'error'
-        )
-      }
-    })
-  }
+	confirmBox(){
+		swal({
+		  title: 'Are you sure want to remove?',
+		  text: 'You will not be able to recover this file!',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#0070D2',
+		  cancelButtonColor: '#F7517F',
+		  confirmButtonText: 'Yes, delete it!',
+		  cancelButtonText: 'No, keep it'
+		}).then((result) => {
+		  if (result.value) {
+			swal(
+			  'Deleted!',
+			  'Your imaginary file has been deleted.',
+			  'success'
+			)
+		  } else if (result.dismiss === Swal.DismissReason.cancel) {
+			swal(
+			  'Cancelled',
+			  'Your imaginary file is safe :)',
+			  'error'
+			)
+		  }
+		})
+	}
 	addMedicationValidation(i: number, str: string, event: any): void {
-	if(this.medicationsArray[i].medication != '' || this.medicationsArray[i].dosage != '' || this.medicationsArray[i].duration != '' || this.medicationsArray[i].notes != ''){
-		this.medicationsArray[i].isRequired=true;
-	}
-	else{
-		this.medicationsArray[i].isRequired=false;
-	}
+		if(this.medicationsArray[i].medication != '' || this.medicationsArray[i].dosage != '' || this.medicationsArray[i].duration != '' || this.medicationsArray[i].notes != ''){
+			this.medicationsArray[i].isRequired=true;
+		}
+		else{
+			this.medicationsArray[i].isRequired=false;
+		}
 		if(str == 'medication')
 		{
 		this.medicationsArray[i].medication=this.removeHTML(event.target.value);
@@ -478,7 +479,8 @@ onActiveInactiveChanged(value:boolean){
 		{
 		this.medicationsArray[i].notes=this.removeHTML(event.target.value);
 		}
-  }
+		//alert(JSON.stringify(this.medicationsArray));
+	}
 	
 	removeHTML(str){ 
 		if((str != '') && (str != 'undefined') && (str != undefined))

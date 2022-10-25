@@ -11,6 +11,7 @@ import { AccdetailsService } from '../../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Cvfast } from '../../../../cvfast/cvfast.component';
 import {encode} from 'html-entities';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-referral-add',
@@ -91,6 +92,14 @@ export class ReferralAddComponent implements OnInit {
 		{
 			this.isvalidRefereTo =false;
 		}
+		
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.startdate >= cValue){}else{
+			swal("Referal start date should be greater than or equal to today date.");
+			return;
+		}
+		
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();

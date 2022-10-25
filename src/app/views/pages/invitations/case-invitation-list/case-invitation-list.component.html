@@ -34,7 +34,6 @@
 						</div>
 					</div>
 					<div class="d-flex align-items-center flex-wrap justify-content-end">
-						<button class="btn filter-btn my-2 me-2" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bx bx-filter-alt"></i> <span class="d-none d-sm-inline-block ms-2">Filter</span></button>
 						<div class="search search-md">
 							<i class="bx bx-search"></i>
 							<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
@@ -91,10 +90,10 @@
 									</td>
 									<td>
 										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
-											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
+											<a  tippy="Accept" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
 											<span class="badge badge-pill body2 px-2" style="background: rgba(0, 182, 128, 0.3);color: #00B680;">Accept</span>&nbsp;
 											</a>
-											<a href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
+											<a  tippy="Decline" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
 											<span class="badge badge-pill body2 px-2" style="background-color: #FEEEF2;color: #F7517F;">Decline</span>
 											</a>
 										</div>

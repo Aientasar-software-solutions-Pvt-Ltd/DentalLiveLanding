@@ -157,6 +157,7 @@ export class PatientsListComponent implements OnInit {
 		});
 	}
 	onSubmit(form: NgForm) {
+		this.isLoadingData = true;
 		let user = this.usr.getUserDetails(false);
 		if(user)
 		{
@@ -201,13 +202,16 @@ export class PatientsListComponent implements OnInit {
 				}
 				if(form.value.dateTo != '' && form.value.dateTo != null)
 				{
+					const mydate=form.value.dateTo;
+					const newDate = new Date(mydate);
+					const result = new Date(newDate.setDate(newDate.getDate() + 1));
 					if(form.value.firstName != '' && form.value.firstName != null)
 					{
-						url += "&dateTo="+Date.parse(form.value.dateTo);
+						url += "&dateTo="+Date.parse(result);
 					}
 					else
 					{
-						url += "?dateTo="+Date.parse(form.value.dateTo);
+						url += "?dateTo="+Date.parse(result);
 					}
 				}
 				this.dataService.getallData(url, true)
@@ -307,14 +311,16 @@ export class PatientsListComponent implements OnInit {
 					}
 					if(form.value.dateTo != '' && form.value.dateTo != null)
 					{
-						//if(patiantName[0] != '' || form.value.dateFrom != '' || patiantName[0] != null)
+						const mydate=form.value.dateTo;
+						const newDate = new Date(mydate);
+						const result = new Date(newDate.setDate(newDate.getDate() + 1));
 						if(form.value.firstName != '' && form.value.firstName != null)
 						{
-							url1 += "&dateTo="+Date.parse(form.value.dateTo);
+							url1 += "&dateTo="+Date.parse(result);
 						}
 						else
 						{
-							url1 += "?dateTo="+Date.parse(form.value.dateTo);
+							url1 += "?dateTo="+Date.parse(result);
 						}
 					}
 					this.dataService.getallData(url1, true).subscribe(Response => {

@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReferralGuideComponent } from '../referral-guide/referral-guide.component';
-import { Location } from '@angular/common';
+import { Location, formatDate } from '@angular/common';
 import * as $ from "jquery";
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
@@ -41,7 +41,7 @@ export class ReferralDetailsComponent implements OnInit {
 		}
 		sessionStorage.setItem("referralTabActive", ids);
 	}
-	showComment: any;
+	showComment = -1;
 	replyToggle(index){
 		this.setMessageRpValue = false;
 		this.showComment =index;
@@ -150,6 +150,7 @@ export class ReferralDetailsComponent implements OnInit {
   
   
 	getReferralDetails() {
+		this.isLoadingData = true;
 		return new Promise((Resolve, myReject) => {
 			this.tabledata = '';
 			let user = this.usr.getUserDetails(false);
@@ -398,6 +399,12 @@ export class ReferralDetailsComponent implements OnInit {
 		else
 		{
 			this.isvalidDate =false;
+		}
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.enddate >= cValue){}else{
+			swal("Referal due date should be greater than or equal to today date.");
+			return;
 		}
 		if ((form.invalid) || (this.isvalidDate == true)) {
 		  form.form.markAllAsTouched();
@@ -685,14 +692,18 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '4';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments',1,'Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments','','Comments already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.getReferralDetails();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.getReferralDetails();
+		this.showComment = -1;
 		});
 	};
 	
@@ -712,16 +723,19 @@ export class ReferralDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '4';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message',1,'Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message','','Message already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.getReferralDetails();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.getReferralDetails();
+		this.showComment = -1;
 		});
-		this.getMessage(this.tabledata.caseId);
 	};
 	@ViewChild('videoPlayer') videoplayer: ElementRef;
 
@@ -739,5 +753,10 @@ export class ReferralDetailsComponent implements OnInit {
 		{
 		return "";
 		}
+	}
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
 	}
 }

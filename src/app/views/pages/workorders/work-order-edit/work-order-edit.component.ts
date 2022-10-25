@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA , AfterViewInit, ChangeDetectorRef} from '@angular/core';
 import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { Location } from '@angular/common';
@@ -11,6 +12,8 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import {encode} from 'html-entities';
 import {decode} from 'html-entities';
+import {formatDate} from '@angular/common';
+
 @Component({
   selector: 'app-work-order-edit',
   templateUrl: './work-order-edit.component.html',
@@ -210,6 +213,14 @@ export class WorkOrderEditComponent implements OnInit {
 		{
 			this.isvalidRefereTo =false;
 		}
+		
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.startdate >= cValue){}else{
+			swal("Workorder start date should be greater than or equal to today date.");
+			return;
+		}
+		
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();

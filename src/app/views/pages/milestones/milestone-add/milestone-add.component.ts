@@ -64,6 +64,12 @@ export class MilestoneAddComponent implements OnInit {
 		{
 			this.isvalidDate =false;
 		}
+		let TodayDate = new Date();
+		if(Date.parse(TodayDate) >= Date.parse(form.value.startdate))
+		{
+		  swal("Mlestone start date should be greater than today date.");
+		  return;
+		}
 		if ((form.invalid) || (this.isvalidDate == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();

@@ -13,6 +13,7 @@ import { Cvfast } from '../../../../cvfast/cvfast.component';
 import { ChangeDetectorRef } from '@angular/core';
 import {encode} from 'html-entities';
 import {decode} from 'html-entities';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-referral-edit',
@@ -207,11 +208,20 @@ export class ReferralEditComponent implements OnInit {
 		{
 			this.isvalidRefereTo =false;
 		}
+		
+		const now = new Date();
+		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
+		if(form.value.startdate >= cValue){}else{
+			swal("Referal start date should be greater than or equal to today date.");
+			return;
+		}
+		
 		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
 		  swal("Please enter values for the mandatory fields");
 		  form.form.markAllAsTouched();
 		  return;
 		}
+		
 		this.sending = true;
 		this.onGetalldata(form.value);
 	}

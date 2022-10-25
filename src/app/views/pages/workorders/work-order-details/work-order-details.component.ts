@@ -39,10 +39,14 @@ export class WorkOrderDetailsComponent implements OnInit {
 		}
 		sessionStorage.setItem("workorderTabActive", ids);
 	}
-	showComment: any;
+	showComment = -1;
 	replyToggle(index){
 		this.setMessageRpValue = false;
 		this.showComment =index;
+	}
+	public  invitecvfast = {
+	  text: '',
+	  links: []
 	}
 	public jsonObj = {
 	  workorderId: '',
@@ -145,6 +149,7 @@ export class WorkOrderDetailsComponent implements OnInit {
 	}
 	
 	getallworkorder() {
+		this.isLoadingData = true;
 		return new Promise((Resolve, myReject) => {
 			this.tabledata = '';
 			let user = this.usr.getUserDetails(false);
@@ -635,14 +640,20 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.CmessageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments', '1','Comments already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Comments added successfully', '', 'put', '','comments', '','Comments already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallworkorder();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallworkorder();
+		this.showComment = -1;
 		});
 	};
 	onSubmitMessage(form: NgForm){
@@ -661,14 +672,20 @@ export class WorkOrderDetailsComponent implements OnInit {
 		this.jsonObjmsg['messageType'] = '2';
 		this.jsonObjmsg['messageReferenceId'] = form.value.messageReferenceId;
 		
-		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message','1','Message already exists.').then(
+		this.cvfastval.processFiles(this.utility.apiData.userMessage.ApiUrl, this.jsonObjmsg, true, 'Message added successfully', '', 'post', '','message','','Message already exists.').then(
 		(value) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallworkorder();
+		this.showComment = -1;
 		},
 		(error) => {
 		swal.close();
 		this.sending = false;
+		this.cvfastval.setCvfast(this.invitecvfast);
+		this.getallworkorder();
+		this.showComment = -1;
 		});
 	};
 	
@@ -727,5 +744,10 @@ export class WorkOrderDetailsComponent implements OnInit {
 		{
 		return "";
 		}
+	}
+	getFileName(fileName) {
+		if (fileName.indexOf('__-__') == -1) return fileName
+		let name = fileName.split(".");
+		return fileName.substring(0, fileName.indexOf('__-__')) + "." + name[name.length - 1]
 	}
 }

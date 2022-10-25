@@ -10,6 +10,7 @@ import { CaseInvitationListComponent } from './case-invitation-list/case-invitat
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 
 const routes: Routes = [
   {
@@ -56,7 +57,14 @@ const routes: Routes = [
 	FormsModule,
 	ReactiveFormsModule,
 	PatientsModule,
-	NgxShimmerLoadingModule
+	NgxShimmerLoadingModule,
+	TippyModule.forRoot({
+		defaultVariation: 'tooltip',
+		variations: {
+		  tooltip: tooltipVariation,
+		  popper: popperVariation,
+		}
+	  })	
   ],
   schemas: [
 	  CUSTOM_ELEMENTS_SCHEMA
