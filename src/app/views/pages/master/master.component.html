@@ -696,7 +696,6 @@
 												</div>
 												<div class="col-md-7"> 
 													<div class="d-flex align-items-center flex-wrap justify-content-end">
-														<button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModalFile"><i class="bx bx-filter-alt"></i></button>
 														<div class="search search-md my-2 me-2">
 															<i class="bx bx-search"></i>
 															<input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)"/>
@@ -732,10 +731,8 @@
 															<td>
 																<span class="d-none">{{this.data.dateCreated}}</span>
 																<div *ngIf="this.filesdata[i].ownerName;">
-																	<a routerLink="/files/files" class="d-flex align-items-center">
-																		<span class="avatar-icon my-2 me-2">{{this.filesdata[i].ownerName.charAt(0)}}</span>
-																		<span class="body2">{{this.filesdata[i].ownerName}}</span>
-																	</a>
+																	<span class="avatar-icon my-2 me-2">{{this.filesdata[i].ownerName.charAt(0)}}</span>
+																	<span class="body2">{{this.filesdata[i].ownerName}}</span>
 																</div>
 															</td>		   
 															<td>  
