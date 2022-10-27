@@ -63,10 +63,10 @@ export class UtilityService {
   subadminValidateURL = "https://dr5ac6u1o6vn9.cloudfront.net/validate";
   locationValidateURL = "https://db50drtz1e1ys.cloudfront.net/validate";
 
-  passwordResetURL = "https://www.qa.dentallive.com/auth/reset";
-  subpasswordResetURL = "https://www.qa.dentallive.com/auth/subreset";
-  etrValidateURL = "https://www.qa.dentallive.com/auth/etrvalidate";
-  accountValidateURL = "https://www.qa.dentallive.com/auth/validate";
+  passwordResetURL = "https://www.dentallive.com/auth/reset";
+  subpasswordResetURL = "https://www.dentallive.com/auth/subreset";
+  etrValidateURL = "https://www.dentallive.com/auth/etrvalidate";
+  accountValidateURL = "https://www.dentallive.com/auth/validate";
 
   Validator = jsonschema.Validator;
   dovValidateSchema = new this.Validator();
