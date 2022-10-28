@@ -126,12 +126,12 @@ color: #ffffff;
 background-color: #00d9cc;
 }
 .sodropdownalign{margin-left: -16px !important;}
-.solution-hero{/* 
-padding: 3rem 0; */
+.solution-hero{
+ padding: 3rem 0; 
 width: 100vw;
-height: 100vh;
+/*height: 100vh;*/
 max-width: 100%;
-background: center / cover no-repeat url('src/assets/images/Solution.png'); 
+/* background: center / cover no-repeat url('src/assets/images/Solution.png');  */
 position: relative;
 }
 .so-hero-text{font-size:64px;color:#011a3e;font-weight:700;line-height: 1.2;}
@@ -142,7 +142,7 @@ position: relative;
 section {
   padding: 2rem 0;
 }
-.solution-hero{/* padding: 2rem 0; */background: none;position: relative;height: auto;}
+.solution-hero{padding: 2rem 0;background: none;position: relative;height: auto;}
 .solution-hero .so-hero-text{font-size:24px; position:absolute;top:0px;left:0px;text-align:center;width:100%;}
 .section-header_border {padding-left: 25px;}
 }
