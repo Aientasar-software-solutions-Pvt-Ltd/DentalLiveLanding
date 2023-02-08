@@ -1,0 +1,13 @@
+.childElements>div,
+.childElements>div>* {
+    max-width: 100%;
+    height: 20em;
+    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.childElements {
+    max-width: 20em;
+}

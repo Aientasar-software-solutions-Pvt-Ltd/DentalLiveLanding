@@ -1,127 +1,165 @@
-<ol class="breadcrumb">
-	<!-- breadcrumb --> 
-	<li class="breadcrumb-item">
-		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
-	</li>
-	<li class="breadcrumb-item">
-		<a routerLink="/milestones">Milestones</a>
-	</li>
-	<li class="breadcrumb-item active" aria-current="page">
-		View General Task
-	</li>
+<ol *ngIf="!hasCase" class="breadcrumb">
+  <!-- breadcrumb -->
+  <li class="breadcrumb-item">
+    <a routerLink="/dashboard"
+      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
+    >
+  </li>
+  <li class="breadcrumb-item">
+    <a routerLink="\milestones">Milestones</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a routerLink="{{ this.backUrl }}">Milestone Detail</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">Task Detail</li>
 </ol>
-<div class="page-header row align-items-center gx-0">
-	<div class="col-md-6">
-		<div class="d-inline-block" *ngIf="tabledata">
-			<h3 class="mt-2 fw-normal">{{this.tabledata.patientName}} <span class="fw-bold d-block">{{this.tabledata.title}}</span>
-				<div class="progress progress-sm mt-2">
-					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-				</div>
-			</h3>
-		</div>
-	</div>	
-	<div class="col-md-6 text-end"> 
-		
-	</div>
+<div *ngIf="isLoadingData" class="row">
+  <div class="col-md-12">
+    <lottie-player
+      class="mt-3 m-auto"
+      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></lottie-player>
+    <h6 class="text-center mt-5">
+      Request Processing …..Please Wait, Do Not Close The Page
+    </h6>
+  </div>
 </div>
 
-<div class="row align-items-center pt-2">
-	<div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header border-bottom-0 bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">View General Task</h5>
-					</div>
-					<div class="col-md-7 text-end"> 
-						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back </a>
-					</div>
-				</div>   
-			</div>
-			<div class="card-body" style="background: #E4F0FF;">
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<div class="row"  *ngIf="editdata">
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Title </label>
-									<input type="text" class="form-control" value="{{this.editdata.title}}" placeholder="Enter Title here " readonly>
-								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Start Date</label>
-									<input type="text" class="form-control" value="{{this.editdata.startdate | date:'MM/dd/yyyy'}}" readonly />
-								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Due Date & Time</label>
-									<input class="form-control" name="dueDatetime" placeholder="Due Date & Time" value="{{this.editdata.duedate | date:'MM/dd/yyyy hh:mm a'}}" readonly />
-								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Status</label>
-									<select class="form-select" disabled ngModel={{this.editdata.presentStatus}}>
-										<option value="">Select</option>
-										<option value="1">Active</option>
-										<option value="2">Inactive</option>
-										<option value="3">Pending</option>
-										<option value="4">Completed</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-4"> 
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Assign Member</label>
-									<input type="text" class="form-control" value="{{this.editdata.memberName}}" placeholder="Enter Title here " readonly>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Add Reminder</label>
-									<select class="form-select" ngModel={{this.editdata.reminder}} disabled>  
-										<option value="">Select</option>
-										<option value="12">12 Hours</option>
-										<option value="24">1 Day</option>
-										<option value="48">2 Days</option>
-										<option value="72">3 Days</option>
-										<option value="120">5 Days</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="mb-4">
-									<label class="form-label body2 text-dark">Description</label>
-									<p>{{this.removeHTML(this.editdata.description.text)}}</p>
-								</div>
-							</div>
-							<div class="col-md-12"> 
-								<div class="col-md-12 col-lg-12" *ngIf="(this.cvfastLinks == true)">
-									<div class="mb-3">
-										<label class="me-2 mb-3 text-muted" >Assets : </label>
-										<div class="row">
-											<div class="col-md-4 col-lg-4" *ngFor="let links of attachmentFiles">
-												<div class="card mb-3" style="border: 1px solid #D0D6DE;">
-													<div class="card-body d-flex align-items-center">
-														&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:350px;height:200px;"/></a>
-														<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()!='png' && links.imgName.split('.').pop()!='jpg' && links.imgName.split('.').pop()!='jpeg' && links.imgName.split('.').pop() !='gif' && links.imgName.split('.').pop()!='PNG' && links.imgName.split('.').pop() !='JPG' && links.imgName.split('.').pop()!='JPEG' && links.imgName.split('.').pop() !='GIF' && links.imgName.split('.').pop()!='mp4' && links.imgName.split('.').pop()!='MP4' && links.imgName.split('.').pop()!='3gp' && links.imgName.split('.').pop()!='3GP' && links.imgName.split('.').pop()!='avi' && links.imgName.split('.').pop()!='AVI' && links.imgName.split('.').pop()!='wmv' && links.imgName.split('.').pop()!='WMV' && links.imgName.split('.').pop()!='mov' && links.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{getFileName(links.imgName)}}</a>
-														<video controls class="video" style="display:inline-block;vertical-align:middle;width:350px;height:200px;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer>
-														<source src="{{links.ImageUrl}}" type="video/mp4">
-														</video>
-													</div>
-												</div>
-											</div>
+<div [hidden]="isLoadingData">
+  <div *ngIf="!hasCase" class="page-header row align-items-center gx-0">
+    <div class="col-md-6">
+      <div class="d-inline-block">
+        <h3 class="mt-2 fw-normal">
+          {{
+            utility.getMetaData(
+              baseData.patientId,
+              "patientId",
+              ["firstName", "lastName"],
+              "patients"
+            )
+          }}
+          <span class="d-block my-2">{{
+            utility.getMetaData(baseData.caseId, "caseId", ["title"], "cases")
+          }}</span>
+          <span class="fw-bold d-block my-2">{{ milestoneObject?.title }}</span>
+          <div class="progress progress-sm mt-2">
+            <div
+              class="progress-bar bg-primary"
+              role="progressbar"
+              style="width: 55%"
+              aria-valuenow="55"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </h3>
+      </div>
+    </div>
+    <div class="col-md-6 text-end"></div>
+  </div>
 
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="row align-items-center pt-2">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <div class="row">
+            <div class="col-md-5 align-self-center">
+              <h5 class="body1 card-title my-2">Task Details</h5>
+            </div>
+            <div class="col-md-7 text-end">
+              <a
+                [routerLink]="[backUrl, { hasTask: true }]"
+                class="btn btn-default"
+                >Back</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-body">
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Owner</label>
+                  <div class="col-sm-8">
+                    <input
+                      class="form-control"
+                      type="text"
+                      value="{{
+                        utility.getMetaData(
+                          baseData['resourceOwner'],
+                          'emailAddress',
+                          ['accountfirstName', 'accountlastName'],
+                          'users'
+                        )
+                      }}"
+                      aria-label="readonly input example"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="mb-3 row">
+                  <label for="title" class="col-sm-3 col-form-label"
+                    >Title</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      class="form-control"
+                      type="text"
+                      name="title"
+                      id="title"
+                      value="{{ baseData.title }}"
+                      aria-label="readonly input example"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label body2 text-gray">Start Date</label>
+                <div class="mb-4">
+                  <input
+                    type="text"
+                    readonly
+                    class="form-control-plaintext"
+                    value="{{ baseData.startdate | date : 'mediumDate' }}"
+                  />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label body2 text-gray">Due Date</label>
+                <div class="mb-4">
+                  <input
+                    type="text"
+                    readonly
+                    class="form-control-plaintext"
+                    value="{{ baseData.duedate | date : 'mediumDate' }}"
+                  />
+                </div>
+              </div>
+
+              <h5 class="body1 card-title my-2 border-top pt-4 mt-4">
+                Description
+              </h5>
+              <app-cvfast-viewer
+                *ngIf="!isLoadingData"
+                [cvfast]="baseData.description"
+              ></app-cvfast-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
 </div>

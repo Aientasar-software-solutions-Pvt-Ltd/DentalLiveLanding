@@ -8,6 +8,7 @@ import { PermissionGuardService } from '../../permission-guard.service';
 import { ApiDataService } from '../../users/api-data.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { UtilityService } from '../../users/utility.service';
+import swal from 'sweetalert';
 
 
 @Component({
@@ -37,6 +38,10 @@ export class AccountsignupComponent implements OnInit {
       form.form.markAllAsTouched();
       return;
     }
+    if (form.value.emailAddress && form.value.emailAddress.toString().includes("+")) {
+      swal("plus(+) symbol is not allowed in email address due to security reasons,please try another Email Address")
+      return
+    }
     this.sending = true;
     let json: JSON = form.value;
     json['url'] = this.utility.accountValidateURL;
@@ -48,7 +53,7 @@ export class AccountsignupComponent implements OnInit {
       }, error => {
         this.sending = false;
         if (error.status == 409)
-          sweetAlert("E-Mail ID exists already,please login to continue");
+          sweetAlert("The E-Mail Already Exists, Please Login To Continue");
         else
           sweetAlert("Unable to signup,please try again");
       })

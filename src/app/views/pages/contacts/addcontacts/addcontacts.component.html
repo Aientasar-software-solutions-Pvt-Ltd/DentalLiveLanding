@@ -1,9 +1,17 @@
 <div *ngIf="isUploadingData || isLoadingData" class="row mt-5">
   <div class="col-md-12">
-    <lottie-player class=" mt-3 m-auto"
+    <lottie-player
+      class="mt-3 m-auto"
       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-    <h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></lottie-player>
+    <h6 class="text-center mt-5">
+      Request Processing …..Please Wait, Do Not Close The Page
+    </h6>
   </div>
 </div>
 <div [hidden]="isUploadingData || isLoadingData">
@@ -11,18 +19,36 @@
     <ol class="breadcrumb">
       <!-- breadcrumb -->
       <li class="breadcrumb-item d-flex">
-        <a routerLink="../"><i style="font-size: 2.5em;color:rgba(0, 0, 0, 0.788)" class='bx bx-chevron-left'></i></a>
+        <a routerLink="../"
+          ><i
+            style="font-size: 2.5em; color: rgba(0, 0, 0, 0.788)"
+            class="bx bx-chevron-left"
+          ></i
+        ></a>
         <h5 class="fw-bold" style="color: #011a3e">Contact Details</h5>
       </li>
     </ol>
-    <button (click)="onDisable();" *ngIf="isEditMode" class="btn btn-primary btn-2 mb-2 border-0"
-      style="background: #f7517f;height: 40px;padding: 10px 31px;box-shadow: 0px 4px 20px #feb3b1;">
-      <span *ngIf="object.status">Disable</span> <span *ngIf="!object.status">Enable</span> Contact
+    <button
+      (click)="onDisable()"
+      *ngIf="isEditMode"
+      class="btn btn-primary btn-2 mb-2 border-0"
+      style="
+        background: #f7517f;
+        height: 40px;
+        padding: 10px 31px;
+        box-shadow: 0px 4px 20px #feb3b1;
+      "
+    >
+      <span *ngIf="object.status">Disable</span>
+      <span *ngIf="!object.status">Enable</span> Contact
     </button>
   </div>
   <div class="row pt-2">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-      <div class="card border-0 mb-1" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)">
+      <div
+        class="card border-0 mb-1"
+        style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)"
+      >
         <div class="card-header" style="background-color: #ffff">
           <div class="row">
             <div class="col-12 card-header_border" *ngIf="isEditMode">
@@ -47,33 +73,60 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="mb-4">
-                          <label class="form-label body2" style="color: #011a3e">First Name
+                          <label class="form-label body2" style="color: #011a3e"
+                            >First Name
                           </label>
-                          <input required type="text" class="form-control" [(ngModel)]="object.firstName"
-                            name="firstName" />
+                          <input
+                            required
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="object.firstName"
+                            name="firstName"
+                          />
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-4">
-                          <label class="form-label body2" style="color: #011a3e">Last Name
+                          <label class="form-label body2" style="color: #011a3e"
+                            >Last Name
                           </label>
-                          <input required type="text" class="form-control" [(ngModel)]="object.lastName"
-                            name="lastName" />
+                          <input
+                            required
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="object.lastName"
+                            name="lastName"
+                          />
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-4">
-                          <label class="form-label body2" style="color: #011a3e">Email ID</label>
-                          <input [disabled]="isEditMode" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required type="email"
-                            class="form-control" [(ngModel)]="object.email" name="email" />
+                          <label class="form-label body2" style="color: #011a3e"
+                            >Email ID</label
+                          >
+                          <input
+                            [disabled]="isEditMode"
+                            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                            required
+                            type="email"
+                            class="form-control"
+                            [(ngModel)]="object.email"
+                            name="email"
+                          />
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-4">
-                          <label class="form-label body2" style="color: #011a3e">Phone Number
+                          <label class="form-label body2" style="color: #011a3e"
+                            >Phone Number
                           </label>
-                          <input pattern="[0-9]{10,10}" type="text" class="form-control"
-                            [(ngModel)]="object.phoneNumber" name="phoneNumber" />
+                          <input
+                            pattern="[0-9]{0,30}"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="object.phoneNumber"
+                            name="phoneNumber"
+                          />
                         </div>
                       </div>
                     </div>
@@ -82,13 +135,29 @@
                     <div class="profile-img justify-content-center p-md-2">
                       <div class="capture">
                         <label for="profileImage">
-                          <img [src]="imageSrc? imageSrc: '../../../../../assets/images/user-circle.png'" alt=""
-                            class="mb-2" />
+                          <img
+                            [src]="
+                              imageSrc
+                                ? imageSrc
+                                : '../../../../../assets/images/user-circle.png'
+                            "
+                            alt=""
+                            class="mb-2"
+                          />
                         </label>
-                        <input type="file" name="profileImage" id="profileImage" style="display: none" accept="image/*"
-                          (change)="loadBinaryFile($event)" />
+                        <input
+                          type="file"
+                          name="profileImage"
+                          id="profileImage"
+                          style="display: none"
+                          accept="image/*"
+                          (change)="loadBinaryFile($event)"
+                        />
                       </div>
-                      <a (click)="object.imageSrc = '';imageSrc=null" class="mb-2 me-2 border-0">
+                      <a
+                        (click)="object.imageSrc = ''; imageSrc = null"
+                        class="mb-2 me-2 border-0"
+                      >
                         Remove picture
                       </a>
                     </div>
@@ -97,22 +166,58 @@
 
                 <div class="row">
                   <div class="col-md-12 mb-2">
-                    <button *ngIf="!isEditMode" type="submit" class="btn btn-primary mt-1 btn-1 me-2 border-0"
-                      style="background-color: #0070d2;height: 40px;padding: 10px 31px;box-shadow: 0px 4px 20px #c3d2ff;">
+                    <button
+                      *ngIf="!isEditMode"
+                      type="submit"
+                      class="btn btn-primary mt-1 btn-1 me-2 border-0"
+                      style="
+                        background-color: #0070d2;
+                        height: 40px;
+                        padding: 10px 31px;
+                        box-shadow: 0px 4px 20px #c3d2ff;
+                      "
+                    >
                       Save
                     </button>
-                    <button *ngIf="!isEditMode" (click)="resetForm();mainForm.form.markAsUntouched();" type="button"
-                      class="btn btn-outline-primary  btn-1 mt-1"
-                      style="height:40px;padding:10px 31px;box-shadow: 0px 4px 20px #c3d2ff00;">
+                    <button
+                      *ngIf="!isEditMode"
+                      (click)="resetForm(); mainForm.form.markAsUntouched()"
+                      type="button"
+                      class="btn btn-outline-primary btn-1 mt-1"
+                      style="
+                        height: 40px;
+                        padding: 10px 31px;
+                        box-shadow: 0px 4px 20px #c3d2ff00;
+                      "
+                    >
                       Reset
                     </button>
-                    <button *ngIf="isEditMode" type="submit" class="btn btn-primary mt-1 btn-1 me-2 border-0"
-                      style="background-color: #0070d2;height: 40px;padding: 10px 31px;box-shadow: 0px 4px 20px #c3d2ff;">
+                    <button
+                      *ngIf="isEditMode"
+                      type="submit"
+                      class="btn btn-primary mt-1 btn-1 me-2 border-0"
+                      style="
+                        background-color: #0070d2;
+                        height: 40px;
+                        padding: 10px 31px;
+                        box-shadow: 0px 4px 20px #c3d2ff;
+                      "
+                    >
                       Update
                     </button>
-                    <button *ngIf="isEditMode" (click)="onDelete();" type="button" href="#"
+                    <button
+                      *ngIf="isEditMode"
+                      (click)="onDelete()"
+                      type="button"
+                      href="#"
                       class="btn btn-primary mt-1 btn-2 me-2 border-0"
-                      style="background-color: #f7517f;height: 40px;padding: 10px 31px;box-shadow: 0px 4px 20px #c3d2ff;">
+                      style="
+                        background-color: #f7517f;
+                        height: 40px;
+                        padding: 10px 31px;
+                        box-shadow: 0px 4px 20px #c3d2ff;
+                      "
+                    >
                       Delete
                     </button>
                   </div>

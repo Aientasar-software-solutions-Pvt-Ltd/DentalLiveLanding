@@ -1,389 +1,149 @@
-//@ts-nocheck
-import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
-import { Location } from '@angular/common';
+import { Component, ViewChild, OnInit, AfterViewInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert';
+import { ActivatedRoute } from '@angular/router';
+import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import { CrudOperationsService } from 'src/app/crud-operations.service';
+import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.component';
 import { ApiDataService } from '../../users/api-data.service';
-import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
-import { AccdetailsService } from '../../accdetails.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Cvfast } from '../../../../cvfast/cvfast.component';
-import {encode} from 'html-entities';
-import {formatDate} from '@angular/common';
+import swal from 'sweetalert';
 
 @Component({
-  selector: 'app-work-order-add',
-  templateUrl: './work-order-add.component.html',
-  styleUrls: ['./work-order-add.component.css']
+	selector: 'app-work-order-add',
+	templateUrl: './work-order-add.component.html',
+	styleUrls: ['./work-order-add.component.css'],
+	providers: [CrudOperationsService]
 })
 export class WorkOrderAddComponent implements OnInit {
-	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	sending: boolean;
-	public allMember: any[] = []
-	public allMemberEmail: any[] = []
-	public allMemberName: any[] = []
-    selectedCity = '';
-	public isvalidDate = false;
-	public isvalidToothGuide = false;
-	public isvalidRefereTo = false;
-	public allcases: any[] = []
-	public caseid = '';
-	public patientid = '';
-	public casesName = '';
-	public patientName = '';
-	public parmCaseId = '';
-	milestoneid = sessionStorage.getItem("checkmilestoneid");
-	checkCase = '';
-	//checkCase = '2';
-	keyword = 'name';
-	public jsonObj = {
-	  caseId: '',
-	  patientId: '',
-	  title: '',
-	  notes: {},
-	  startdate: 0,
-	  enddate: 0,
-	  toothguide: {},
-	  milestoneId: '',
-	  presentStatus: 0,
-	  patientName: '',
+	@ViewChild("mainForm", { static: false }) mainForm: NgForm;
+	@ViewChild(CvfastNewComponent) cvfast!: CvfastNewComponent;
+	@ViewChild(WorkOrderGuideComponent) orders: WorkOrderGuideComponent;
+	module = 'workorders';
+	caseMembers = [];
+	viewInit = false;
+	hasCase = false;
+	mode = "Add"
+	user = this.utility.getUserDetails();
+
+	constructor(
+		private route: ActivatedRoute,
+		public utility: UtilityServiceV2,
+		public formInterface: CrudOperationsService,
+		private dataService: ApiDataService,
+	) { }
+
+	ngAfterViewInit(): void {
+		this.viewInit = true;
+		this.formInterface.mainForm = this.mainForm
+		this.formInterface.cvfast = this.cvfast;
+		if (this.formInterface.object.toothguide)
+			this.orders.setToothGuide(this.formInterface.object.toothguide)
 	}
-	minDate = new Date();
-	tabledata:any;
-	tabledataAll:any;
-	constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) {
-	this.parmCaseId = this.route.snapshot.paramMap.get('caseId');
-	this.checkCase = this.route.snapshot.paramMap.get('caseId');
-	}
-	
-	@ViewChild(WorkOrderGuideComponent)
-	orders: WorkOrderGuideComponent;
-	
-	back(): void {
-		this.location.back()
-	}
-	
+
 	ngOnInit(): void {
-		this.getCaseDetails();
-		this.getAllCases();
+		this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
+		this.formInterface.resetForm();
+		this.formInterface.loadDependencies().then(() => {
+
+			this.route.parent.parent.paramMap.subscribe((parentParams) => {
+
+				if (parentParams.get("caseId") && parentParams.get("caseId") != "")
+					this.hasCase = true
+
+				this.route.paramMap.subscribe((params) => {
+
+					if (params.get("id") && params.get("id") != "") {
+						this.mode = "Update"
+						this.formInterface.hasData(params.get("id")).then((Reposne) => {
+							this.orders.setToothGuide(this.formInterface.object.toothguide);
+							this.populateCaseMembers(this.formInterface.object.caseId)
+						})
+					} else {
+						if (parentParams.get("caseId") && parentParams.get("caseId") != "") {
+							this.formInterface.loadCaseData(parentParams.get("caseId"))
+							this.populateCaseMembers(parentParams.get("caseId"))
+
+						}
+					}
+				});
+			});
+		})
 	}
-	
-	onSubmitWorkOrders(form: NgForm){
-		let toothGuilde = JSON.stringify(this.orders.getToothGuide());
-		console.log("Submit");
-		console.log("Tooth Guide"+toothGuilde);
-		if(Date.parse(form.value.startdate) >= Date.parse(form.value.enddate))
-		{
-			this.isvalidDate =true;
+
+	//Special functions for this class
+	selectCase(event) {
+		this.formInterface.object.caseId = ""
+		this.caseMembers = []
+		this.formInterface.object.members = []
+		if (!event) return;
+		this.formInterface.object.caseId = event.caseId
+		this.formInterface.object.patientId = event.patientId
+		this.formInterface.object.patientName = event.patientName
+		this.populateCaseMembers(this.formInterface.object.caseId)
+	}
+
+	populateCaseMembers(caseId) {
+		//all members
+		// member with caseid filter
+		//selected members
+		//event hadler on selection to populate paent array
+		//if member is existing in memebers array then show remove button,else show add button
+
+		//caseinvites --> get accepted uses of this case --> send api for emailaddressarray --> bind users
+		this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId + "&presentStatus=1", true).subscribe(
+			(Response) => {
+				let data = JSON.parse(Response.toString());
+				let emailArray = data.map((item) => {
+					if (this.user.emailAddress != item.invitedUserMail)
+						return item.invitedUserMail;
+				})
+				if (emailArray.length > 0) {
+					//get all cases data whose cases working on 
+					this.dataService.getallData(this.utility.baseUrl + "users?emailAddressArray=" + emailArray.toString(), true).subscribe(pResponse => {
+						this.caseMembers = JSON.parse(pResponse.toString());
+					}, (error) => {
+						this.utility.showError(error.status)
+						this.formInterface.isLoadingData = false;
+					});
+				}
+			}, (error) => {
+				this.utility.showError(error.status)
+				this.formInterface.isLoadingData = false;
+			});
+	}
+
+	customSubmit() {
+
+		if (this.mode == "Add") {
+			let date1 = new Date(this.formInterface.object.startdate);
+			let date2 = new Date();
+
+			date1.setHours(0, 0, 0, 0);
+			date2.setHours(0, 0, 0, 0);
+
+			if (date1 < date2) {
+				swal("Start Date Should Not Be Less Than Today’s Date")
+				return
+			}
+
 		}
-		else
-		{
-			this.isvalidDate =false;
+
+		if (this.formInterface.object.startdate > this.formInterface.object.enddate) {
+			swal("End Date Should Be Greater Than Start Date")
+			return
 		}
-		if(toothGuilde.length == 2)
-		{
-			this.isvalidToothGuide =true;
+
+		if (this.hasCase)
+			this.formInterface.section.backUrl = '/cases/cases/case-view/' + this.formInterface.object.caseId + '/workorders'
+		this.formInterface.object.toothguide = this.orders.getToothGuide()
+		if (this.formInterface.object.members.length == 0) {
+			swal("Please Assign Member To Continue")
+			return
 		}
-		else
-		{
-			this.isvalidToothGuide =false;
-		}
-		if(this.allMemberEmail.length == 0)
-		{
-			this.isvalidRefereTo =true;
-		}
-		else
-		{
-			this.isvalidRefereTo =false;
-		}
-		const now = new Date();
-		const cValue = formatDate(now, 'yyyy-MM-dd', 'en-US');
-		if(form.value.startdate >= cValue){}else{
-			swal("Workorder start date should be greater than or equal to today date.");
+		if (Object.keys(this.formInterface.object.toothguide).length === 0) {
+			swal("Tooth Guide Should Not be Empty")
 			return;
 		}
-		
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidToothGuide == true) || (this.isvalidRefereTo == true)) {
-		  swal("Please enter values for the mandatory fields");
-		  form.form.markAllAsTouched();
-		  return;
-		}
-		this.sending = true;
-		this.onGetdateData(form.value);
-	}
-	
-	onGetdateData(data: any)
-	{
-		this.jsonObj['caseId'] = data.caseid;
-		this.jsonObj['patientId'] = data.patientid;
-		if(data.milestoneid !='')
-		{
-			this.jsonObj['milestoneId'] = data.milestoneid;
-		}
-		this.jsonObj['title'] = this.removeHTML(data.title);
-		this.jsonObj['startdate'] = Date.parse(data.startdate);
-		this.jsonObj['enddate'] = Date.parse(data.enddate);
-		this.jsonObj['presentStatus'] = Number(data.presentStatus);
-		this.jsonObj['toothguide'] = this.orders.getToothGuide();
-		this.jsonObj['patientName'] = data.patientName;
-		this.jsonObj['members'] = this.allMemberEmail;
-		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-		{
-			this.jsonObj['notes'] = this.cvfastval.returnCvfast();
-		}
-		
-		const backurl = sessionStorage.getItem('backurl');
-		this.cvfastval.processFiles(this.utility.apiData.userWorkOrders.ApiUrl, this.jsonObj, true, 'Work order added successfully', backurl, 'post', '','notes','','Workorder title already exists.').then(
-		(value) => {
-		this.sending = false;
-		},
-		(error) => {
-		this.sending = false;
-		});
-		
-	}
-	
-	getAllMembers(caseId) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			if(caseId != '')
-			{
-				url += "?caseId="+caseId;
-			}
-			url += "&presentStatus="+1;
-			this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response)
-				{
-					let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					this.allMember = Array();
-					for(var k = 0; k < GetAllData.length; k++)
-					{
-						this.allMember.push({
-						  id: k,
-						  avatar: '',
-						  emailAddress: '',
-						  name: '',
-						  memberid: ''
-						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
-					}
-				}
-			}, error => {
-				if (error.status === 404)
-				swal('No workorder found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-			});
-			
-		}
-	}
-	selectEvents(item: any) {
-		this.allMemberEmail = Array();
-		this.allMemberName = Array();
-		for(var k = 0; k < item.length; k++)
-		{
-			this.allMemberEmail.push(item[k].memberid);
-			this.allMemberName.push(item[k].name);
-			this.isvalidRefereTo = false;
-		}
-	}
-	getuserdetailsall(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?emailAddress="+userId;
-		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			let userData = JSON.parse(Response.toString());
-			let avatar = ''
-			if(userData.imageSrc != undefined)
-			{
-			avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData.imageSrc;
-			}
-			else
-			{
-			avatar = 'assets/images/users.png';
-			}
-			let name = userData.accountfirstName+' '+userData.accountlastName;
-			this.allMember[index].name = name;
-			this.allMember[index].emailAddress = userData.emailAddress;
-			this.allMember[index].avatar = avatar;
-			this.allMember[index].memberid = userData.dentalId;
-		}
-		}, (error) => {
-			if (error.status === 404)
-			swal('No workorder found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-		}
-	}
-	getCaseDetails() {
-		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = this.parmCaseId;
-		if(caseId != 0)
-		{
-			this.sending = true;
-			url += "?caseId="+caseId;
-			this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response)
-				{
-					
-					this.tabledata = JSON.parse(Response.toString());
-					this.casesName = this.tabledata.title;
-					this.patientName = this.tabledata.patientName;
-					this.caseid = this.tabledata.caseId;
-					this.patientid = this.tabledata.patientId;
-					this.getAllMembers(this.tabledata.caseId);
-					this.sending = false;
-				}
-			}, error => {
-				if (error.status === 404)
-				swal('No workorder found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-			});
-		}
-	}
-	
-	getAllCases() {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userCases.ApiUrl;
-		this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				this.tabledataAll = JSON.parse(Response.toString());
-				this.allcases = Array();
-				for(var k = 0; k < this.tabledataAll.length; k++)
-				{
-					if(this.tabledataAll[k].caseStatus == true)
-					{
-						let name = this.tabledataAll[k].title;
-						this.allcases.push({
-						  caseId: this.tabledataAll[k].caseId,
-						  patientName: this.tabledataAll[k].patientName,
-						  patientId: this.tabledataAll[k].patientId,
-						  name: name
-						});
-					}
-				}
-			}
-		}, (error) => {
-			if (error.status === 404)
-			swal('No workorder found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-		}
-	}
-	
-	selectEvent(item: any) {
-		this.caseid = item.caseId;
-		this.patientid = item.patientId;
-		this.patientName = item.patientName;
-		this.casesName = item.name;
-		this.getAllMembers(item.caseId);
-	}
-	
-	onChangeSearch(search: string) {
-	// fetch remote data from here
-	// And reassign the 'data' which is binded to 'data' property.
-	}
-	
-	onFocused(e: any) {
-	// do something
-	}
-	
-	removeHTML(str){ 
-		if((str != '') && (str != 'undefined') && (str != undefined))
-		{
-		var tmp = document.createElement("DIV");
-		tmp.innerHTML = str;
-		return tmp.textContent || tmp.innerText || "";
-		}
-		else
-		{
-		return "";
-		}
+		this.formInterface.onSubmit()
 	}
 }

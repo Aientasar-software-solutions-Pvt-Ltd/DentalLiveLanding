@@ -36,7 +36,7 @@ export class SubpasswordresetComponent implements OnInit {
     }
     let json: JSON = form.value;
     if (json['cpassword'] != json['npassword']) {
-      swal('Password did not match');
+      swal('Password Did Not Match');
       return;
     }
     this.sending = true;

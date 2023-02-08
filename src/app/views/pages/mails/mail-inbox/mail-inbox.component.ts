@@ -96,7 +96,6 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
     this.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(this.data), true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
-        ;
         if (Response) {
           //@ts-ignore
           this.dataSource = new MatTableDataSource(Response);

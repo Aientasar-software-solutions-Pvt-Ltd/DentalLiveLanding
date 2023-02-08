@@ -1,32 +1,59 @@
 <div class="container-fluid">
   <!-- top navigation -->
-  <nav class="p-2  navbar navbar-expand-md bg-white navbar-dark fixed-top">
+  <nav class="p-4 navbar navbar-expand-md bg-white navbar-dark fixed-top">
     <a class="navbar-brand mx-auto" href="#">
-      <img src="../../assets/logo.png">
+      <img src="../../../../../assets/images/Logo_Dark.png" />
+    </a>
+    <a href="https://qa.dentallive.com">
+      <button type="submit" class="btn btn-primary btn-small">
+        Join Dental Live
+      </button>
     </a>
   </nav>
-  <div class="row" style="margin-top: 80px;">
+  <div class="row" style="margin-top: 80px">
     <div class="col-12">
-      <video class="mt-2 mb-2 rounded mx-auto w-100" *ngIf="isMedia==1 && fileUrl" autoplay controls>
-        <source [src]="fileUrl" type="video/mp4">
-        <source [src]="fileUrl" type="video/ogg">
-        <source [src]="fileUrl" type="video/webm">
+      <video
+        class="mt-2 mb-2 rounded mx-auto w-100"
+        *ngIf="isMedia == 1 && fileUrl"
+        autoplay
+        controls
+      >
+        <source [src]="fileUrl" type="video/mp4" />
+        <source [src]="fileUrl" type="video/ogg" />
+        <source [src]="fileUrl" type="video/webm" />
         Your browser does not support HTML video.
       </video>
-      <audio class="mt-2 mb-2 rounded mx-auto w-100" *ngIf="isMedia==2 && fileUrl" autoplay controls>
-        <source [src]="fileUrl" type="audio/mpeg">
-        <source [src]="fileUrl" type="audio/ogg">
+      <audio
+        class="mt-2 mb-2 rounded mx-auto w-100"
+        *ngIf="isMedia == 2 && fileUrl"
+        autoplay
+        controls
+      >
+        <source [src]="fileUrl" type="audio/mpeg" />
+        <source [src]="fileUrl" type="audio/ogg" />
         Your browser does not support the HTML Audio element.
       </audio>
-      <img *ngIf="isMedia==3 && fileUrl" [src]="fileUrl" class="mt-2 mb-2 rounded mx-auto w-auto d-block">
-      <iframe *ngIf="isMedia==4 && fileUrl" [src]="fileUrl"
-        class="mt-2 mb-2 rounded position-absolute my-2 mx-auto h-100" style="width: calc(100% - 2em);"
-        frameborder="0"></iframe>
-      <div *ngIf="isMedia==5 && fileUrl" class="text-center">
-        <h6>Selected File has no supported viewer application,you can download the file and view in appropriate viewer
+      <img
+        *ngIf="isMedia == 3 && fileUrl"
+        [src]="fileUrl"
+        class="mt-2 mb-2 rounded mx-auto w-auto d-block"
+      />
+      <iframe
+        *ngIf="isMedia == 4 && fileUrl"
+        [src]="fileUrl"
+        class="mt-2 mb-2 rounded position-absolute my-2 mx-auto h-100"
+        style="width: calc(100% - 2em)"
+        frameborder="0"
+      ></iframe>
+      <div *ngIf="isMedia == 5 && fileUrl" class="text-center">
+        <h6>
+          Selected File has no supported viewer application,you can download the
+          file and view in appropriate viewer
         </h6>
         <a [href]="fileUrl" download>
-          <button class="btn btn-primary"><i class="fa fa-download"></i> Download File</button>
+          <button class="btn btn-primary">
+            <i class="fa fa-download"></i> Download File
+          </button>
         </a>
       </div>
     </div>

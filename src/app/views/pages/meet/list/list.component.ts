@@ -30,7 +30,7 @@ export class ListComponent implements OnInit, ListData {
     public sanitizer: DomSanitizer,
   ) { }
   ngOnInit(): void {
-    console.log(this.datenow);
+
     this.isLoadingData = true;
     this.objectList = [];
     this.user = this.usr.getUserDetails();
@@ -135,11 +135,17 @@ export class ListComponent implements OnInit, ListData {
       this.recordObjectList = this.recordPristineData;
       return;
     }
+    let str = "completed meeting,";
     this.recordObjectList = this.recordPristineData.filter((meeting) => {
-      if (meeting.subject || meeting.datetime)
-        return (
-          meeting.subject.toLowerCase().includes(filterValue) || meeting.datetime.toLowerCase().includes(filterValue)
+      if (meeting.plainText) {
+        var title = meeting.plainText.toString().substring(
+          parseInt(meeting.plainText.toString().search(str)) + str.length,
+          meeting.plainText.toString().search(":")
         );
+        if (title) {
+          return title.toString().toLowerCase().trim().includes(filterValue)
+        }
+      }
     });
   }
   sortDataRecord(sortValue: string) {
@@ -187,7 +193,7 @@ export class ListComponent implements OnInit, ListData {
     this.http.post(`${this.cxDomain}/participants/${id}`, JSON.stringify(this.participants), { headers: this.headers })
       .subscribe(Response => {
         if (!Response || Response['status'] != "success") {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
         swal('Meeting Created Succesfully');
@@ -196,7 +202,7 @@ export class ListComponent implements OnInit, ListData {
         return true;
       },
         error => {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
       )
@@ -212,7 +218,7 @@ export class ListComponent implements OnInit, ListData {
     this.http.patch(`${this.cxDomain}/scheduled/${id}`, JSON.stringify(body), { headers: this.headers })
       .subscribe(Response => {
         if (!Response || Response['status'] != "success") {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
         if (this.participants.length > 0)
@@ -225,7 +231,7 @@ export class ListComponent implements OnInit, ListData {
         return true;
       },
         error => {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
       )
@@ -233,7 +239,7 @@ export class ListComponent implements OnInit, ListData {
   scheduleMeeting(button) {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values in the highlighted fields");
+      swal("Please Enter Values In The Highlighted Fields");
       return false;
     }
     let value = this.mainForm.form.value;
@@ -242,21 +248,21 @@ export class ListComponent implements OnInit, ListData {
       swal('No Id assigned');
       return false;
     }
-    swal("Creating Meeting...please wait...", {
+    swal("Creating Meeting…Please Wait", {
       buttons: [false, false],
       closeOnClickOutside: false,
     });
     this.http.post(`${this.cxDomain}/adhoc?extension=${this.user['cxId']}&subject=${value.subject}`, null, { headers: this.headers })
       .subscribe(Response => {
         if (!Response || !Response['result']['meetingid']) {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
         this.patchMeeting(Response['result']['meetingid'], Response['result']['url'], value.description, value.duration, value.dateTime, button);
         return true;
       },
         error => {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
       )
@@ -276,7 +282,7 @@ export class ListComponent implements OnInit, ListData {
     this.http.get(`${this.cxDomain}/scheduled/${id}`, { headers: this.headers })
       .subscribe(Response => {
         if (!Response || !Response['result']['openlink']) {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
         // if (parseFloat(new Date(Response['result']['datetime']).getTime().toString()) + (parseFloat(Response['result']['duration'].toString()) * 60000) < Date.now()) {
@@ -287,7 +293,7 @@ export class ListComponent implements OnInit, ListData {
         return true;
       },
         error => {
-          swal('Unable to Start Meeting,Please try again later');
+          swal('Unable To Schedule Meeting, Please Try Again');
           return false;
         }
       )
@@ -324,7 +330,7 @@ export class ListComponent implements OnInit, ListData {
   urlify(text) {
     var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;;
     return text.replace(urlRegex, function (url) {
-      return '<br><a target="_blank" routerLink="/' + url + '">' + url + '</a><br>';
+      return '<br><a target="_blank" href="' + url + '">' + url + '</a><br>';
     })
   }
 

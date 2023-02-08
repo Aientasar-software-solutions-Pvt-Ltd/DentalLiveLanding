@@ -119,13 +119,13 @@ export class AddcontactsComponent implements OnInit, AddEditData {
       .postData(this.section.ApiUrl, JSON.stringify(this.object))
       .subscribe((Response) => {
         ;
-        this.isEditMode ? swal("Contact updated succesfully") : swal("Contact added succesfully");
+        this.isEditMode ? swal("Contact Updated Successfully") : swal("Contact Added Successfully");
         this.router.navigate(['contacts']);
       }, (error) => {
         if (error.status == 406)
           swal("Failed to add,E-Mail Address exists");
         else
-          swal("Failed to process request,please try again");
+          swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -134,7 +134,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values in the highlighted fields");
+      swal("Please Enter Values In The Highlighted Fields");
       return false;
     }
     this.isUploadingData = true;
@@ -161,7 +161,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
         swal("Contact Updated Succesfully");
         this.router.navigate(['contacts']);
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -180,7 +180,7 @@ export class AddcontactsComponent implements OnInit, AddEditData {
         this.router.navigate(['contacts']);
       },
       (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });

@@ -1,293 +1,154 @@
-//@ts-nocheck
-import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import { CrudOperationsService } from 'src/app/crud-operations.service';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
-import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
-import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
-import { Cvfast } from '../../../../cvfast/cvfast.component';
-import {encode} from 'html-entities';
 
 @Component({
-  selector: 'app-general-task-add',
-  templateUrl: './general-task-add.component.html',
-  styleUrls: ['./general-task-add.component.css']
+	selector: 'app-general-task-add',
+	templateUrl: './general-task-add.component.html',
+	styleUrls: ['./general-task-add.component.css'],
+	providers: [CrudOperationsService]
 })
 export class GeneralTaskAddComponent implements OnInit {
-	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	sending: boolean;
-	public allMember: any[] = []
-	public allMemberEmail: any[] = []
-	public allMemberName: any[] = []
-    selectedCity = '';
-	public module = 'patient';
-	minDate = new Date();
-	minStartDate = new Date();
-	
-	defaultBindingsList = [
-        { value: 1, label: 'Jhone Duo' },
-        { value: 2, label: 'Danel Gray' },
-        { value: 3, label: 'Pavilnys' }
-    ];
-	selectedMember: any;
-	public isvalidDate = false;
-	public isvalidRefereTo = false;
-	public jsonObj = {
-	  caseId: '',
-	  patientId: '',
-	  patientName: '',
-	  title: '',
-	  description: {},
-	  startdate: 0,
-	  duedate: 0,
-	  presentStatus: 0,
-	  reminder: 0,
-	  memberMail: '',
-	  memberName: '',
-	  milestoneId: '',
-	}
-	tabledata:any;
-	milestoneIdadd:any;
-	invitedata:any;
-	
-    constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService) { }
+	@ViewChild("mainForm", { static: false }) mainForm: NgForm;
+	@ViewChild(CvfastNewComponent) cvfast!: CvfastNewComponent;
+	module = 'tasks';
+	milestoneObject = null;
+	caseMembers = [];
+	hasCase = false;
+	mode = "Add"
+	user = this.utility.getUserDetails();
 
-  back(): void {
-    this.location.back()
-  }
-  
+	constructor(
+		private route: ActivatedRoute,
+		public utility: UtilityServiceV2,
+		public formInterface: CrudOperationsService,
+		private router: Router,
+		private dataService: ApiDataService,
+	) { }
+
+	ngAfterViewInit(): void {
+		this.formInterface.mainForm = this.mainForm
+		this.formInterface.cvfast = this.cvfast;
+	}
+
 	ngOnInit(): void {
-		this.minStartDate.setDate(this.minStartDate.getDate() - 1);
-		this.selectedMember = this.defaultBindingsList[0];
-		this.getCaseDetails();
-		this.getAllMembers();
-		this.milestoneIdadd = sessionStorage.getItem("milestoneId");
-	}
-	getuserdetailsall(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?emailAddress="+userId;
-		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			let userData = JSON.parse(Response.toString());
-			let avatar = ''
-			if(userData.imageSrc != undefined)
-			{
-			avatar = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/'+userData.imageSrc;
-			}
-			else
-			{
-			avatar = 'assets/images/users.png';
-			}
-			let name = userData.accountfirstName+' '+userData.accountlastName;
-			this.allMember[index].name = name;
-			this.allMember[index].emailAddress = userData.emailAddress;
-			this.allMember[index].avatar = avatar;
-		}
-		}, (error) => {
-			if (error.status === 404)
-			swal('No task found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-		}
-	}
-	getAllMembers() {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			this.sending = true;
-			let url = this.utility.apiData.userCaseInvites.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
-			if(caseId != '')
-			{
-				url += "?caseId="+caseId;
-			}
-			url += "&presentStatus="+1;
-			this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response)
-				{
-					let GetAllData = JSON.parse(Response.toString());
-					GetAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1);
-					this.allMember = Array();
-					for(var k = 0; k < GetAllData.length; k++)
-					{
-						this.allMember.push({
-						  id: k,
-						  avatar: '',
-						  emailAddress: '',
-						  name: ''
-						});
-						this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
-					}
-					this.sending = false;
+		this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
+		this.formInterface.resetForm();
+		this.formInterface.loadDependencies().then(() => {
+
+			this.route.parent.paramMap.subscribe(async (milestoneParams) => {
+
+				if (!milestoneParams.get("milestoneId") || milestoneParams.get("milestoneId") == "") {
+					swal("No Milestone exists for selected task")
+					this.router.navigate([this.formInterface.section.backUrl])
+					return;
 				}
-			}, error => {
-				if (error.status === 404)
-				swal('No task found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
+
+				if (this.utility.metadata.patients.length == 0)
+					await this.utility.loadPreFetchData("patients");
+				if (this.utility.metadata.cases.length == 0)
+					await this.utility.loadPreFetchData("cases");
+				if (this.utility.metadata.users.length == 0)
+					await this.utility.loadPreFetchData("users");
+
+				this.formInterface.section.backUrl = '/milestones/milestone-details/' + milestoneParams.get("milestoneId")
+
+				this.loadMilestone(milestoneParams.get("milestoneId")).then((result) => {
+					this.formInterface.object.milestoneId = this.milestoneObject.milestoneId
+					this.formInterface.object.caseId = this.milestoneObject.caseId
+					this.formInterface.object.patientId = this.milestoneObject.patientId
+					this.formInterface.object.patientName = this.milestoneObject.patientName
+					this.populateCaseMembers(this.formInterface.object.caseId)
+
+					this.route.parent.parent.parent.paramMap.subscribe((caseParams) => {
+
+						if (caseParams.get("caseId") && caseParams.get("caseId") != "") {
+							this.hasCase = true;
+							this.formInterface.section.backUrl = '/cases/cases/case-view/' + this.milestoneObject.caseId + '/milestones/milestone-details/' + this.milestoneObject.milestoneId
+						}
+						else
+							this.formInterface.section.backUrl = '/milestones/milestone-details/' + this.milestoneObject.milestoneId
+					});
+
+					this.route.paramMap.subscribe((params) => {
+						if (params.get("taskId") && params.get("taskId") != "") {
+							this.mode = "Update"
+							this.formInterface.hasData(params.get("taskId"))
+						}
+					});
 				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
+
 			});
-			
-		}
+		})
 	}
-	selectEvent(item: any) {
-		this.allMemberEmail = Array();
-		this.allMemberName = Array();
-		for(var k = 0; k < item.length; k++)
-		{
-			this.allMemberEmail.push(item[k].emailAddress);
-			this.allMemberName.push(item[k].name);
-			this.isvalidRefereTo = false;
-		}
+
+
+	//Special functions for this class
+
+	populateCaseMembers(caseId) {
+		//caseinvites --> get accepted uses of this case --> send api for emailaddressarray --> bind users
+		this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId + "&presentStatus=1", true).subscribe(
+			(Response) => {
+				let data = JSON.parse(Response.toString());
+				let emailArray = data.map((item) => {
+					if (this.user.emailAddress != item.invitedUserMail)
+						return item.invitedUserMail;
+				})
+				if (emailArray.length > 0) {
+					//get all cases data whose cases working on 
+					this.dataService.getallData(this.utility.baseUrl + "users?emailAddressArray=" + emailArray.toString(), true).subscribe(pResponse => {
+						this.caseMembers = JSON.parse(pResponse.toString());
+					}, (error) => {
+						this.utility.showError(error.status)
+						this.formInterface.isLoadingData = false;
+					});
+				}
+			}, (error) => {
+				this.utility.showError(error.status)
+				this.formInterface.isLoadingData = false;
+			});
 	}
-	onSubmitTask(form: NgForm){
-		//alert(JSON.stringify(form.value));
-		if(this.allMemberEmail.length == 0)
-		{
-			this.isvalidRefereTo =true;
-		}
-		else
-		{
-			this.isvalidRefereTo =false;
-		}
-		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
-		{
-			this.isvalidDate =true;
-		}
-		else
-		{
-			this.isvalidDate =false;
-		}
-		if ((form.invalid) || (this.isvalidDate == true) || (this.isvalidRefereTo == true)) {
-		  swal("Please enter values for the mandatory fields");
-		  form.form.markAllAsTouched();
-		  return;
-		}
-		this.sending = true;
-		this.onGetdateData(form.value);
-	}
-	onGetdateData(data: any)
-	{
-		this.jsonObj['caseId'] = data.caseid;
-		this.jsonObj['patientId'] = data.patientid;
-		this.jsonObj['patientName'] = data.patientname;
-		this.jsonObj['title'] = this.removeHTML(data.title);
-		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-		{
-		this.jsonObj['description'] = this.cvfastval.returnCvfast();
-		}
-		this.jsonObj['startdate'] = Date.parse(data.startdate);
-		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
-		this.jsonObj['presentStatus'] = Number(data.presentStatus);
-		this.jsonObj['reminder'] = Number(data.reminder);
-		let meberEmail = this.allMemberEmail.join(', ');
-		let meberName = this.allMemberName.join(', ');
-		this.jsonObj['memberMail'] = meberEmail;
-		this.jsonObj['memberName'] = meberName;
-		this.jsonObj['milestoneId'] = this.milestoneIdadd;
-		
-		this.cvfastval.processFiles(this.utility.apiData.userTasks.ApiUrl, this.jsonObj, true, 'Task added successfully', '/milestones/milestone-details/'+this.milestoneIdadd, 'post', '','description','','Task title already exists.').then(
-		(value) => {
-		this.sending = false;
-		},
-		(error) => {
-		this.sending = false;
-		});
-	}
-	
-	getCaseDetails() {
-		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = sessionStorage.getItem("caseId");
-		if(caseId != '')
-		{
-			url += "?caseId="+caseId;
-		}
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
-				this.tabledata = JSON.parse(Response.toString());
-				//alert(JSON.stringify(this.tabledata));
+
+	async loadMilestone(id) {
+		try {
+			let Response = await this.dataService.getallData(this.utility.baseUrl + "milestones?milestoneId" + "=" + id, true).toPromise();
+			if (!Response) {
+				swal("No Milestone exists for selected task")
+				this.router.navigate([this.formInterface.section.backUrl])
+				return;
 			}
-		}, error => {
-			if (error.status === 404)
-			swal('No task found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-		});
+			this.milestoneObject = JSON.parse(Response.toString())
+		} catch (error) {
+			swal("No Milestone exists for selected task")
+			this.router.navigate([this.formInterface.section.backUrl])
+			return;
+		}
 	}
-	
-	removeHTML(str){ 
-		if((str != '') && (str != 'undefined') && (str != undefined))
-		{
-		var tmp = document.createElement("DIV");
-		tmp.innerHTML = str;
-		return tmp.textContent || tmp.innerText || "";
+
+	customSubmit() {
+		if (this.mode == "Add") {
+			let date1 = new Date(this.formInterface.object.startdate);
+			let date2 = new Date();
+
+			date1.setHours(0, 0, 0, 0);
+			date2.setHours(0, 0, 0, 0);
+
+			if (date1 < date2) {
+				swal("Start Date Should Not Be Less Than Today’s Date")
+				return
+			}
+
 		}
-		else
-		{
-		return "";
+		if (this.formInterface.object.startdate > this.formInterface.object.duedate) {
+			swal("Due Date Should Be Greater Than Start Date")
+			return
 		}
+		this.formInterface.onSubmit()
 	}
 
 }

@@ -36,7 +36,6 @@ export class PackagesDetailsComponent implements OnInit {
           this.object = Response;
           this.getStatus(Response);
           this.isLoadingData = false;
-          console.log(this.object);
         }, error => {
           swal("No Package Exists");
           this.router.navigate(['/mail/packages']);

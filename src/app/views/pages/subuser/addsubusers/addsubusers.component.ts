@@ -128,7 +128,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
         if (error.status == 406)
           swal("Failed to add User,E-Mail Address exists");
         else
-          swal("Failed to process request,please try again");
+          swal("Failed To Process Request, Please Try Again");
         this.isUploadingData = false;
       });
   }
@@ -150,7 +150,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values in the highlighted fields");
+      swal("Please Enter Values In The Highlighted Fields");
       return false;
     }
     this.isUploadingData = true;
@@ -177,7 +177,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
         swal("User Updated Succesfully");
         this.router.navigate(['/accounts/details/subusers']);
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -195,7 +195,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
         this.router.navigate(['/accounts/details/subusers']);
       },
       (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
         this.isUploadingData = false;
       });
   }

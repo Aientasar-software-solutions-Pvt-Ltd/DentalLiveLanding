@@ -1,0 +1,9 @@
+.commentStyle {
+    box-sizing: border-box;
+    width: calc(100% - 2em);
+    margin: 1em;
+    margin-top: -2em;
+    padding: 2em;
+    padding-top: 1em;
+    background: aliceblue;
+}

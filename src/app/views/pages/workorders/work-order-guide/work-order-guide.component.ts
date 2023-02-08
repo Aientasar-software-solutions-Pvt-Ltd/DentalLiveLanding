@@ -1,9 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash';
 import 'cardinal-spline-js/src/curve.js'
-import Swal from 'sweetalert2';
-
 
 
 @Component({
@@ -19,101 +16,89 @@ export class WorkOrderGuideComponent implements OnInit {
       "Full contour": [
         "Zirconia",
         "Emax",
-        "Pekkton",
+        "Peek",
         "Gold",
         "Non precious",
         "Wax",
-        "Pmma",
+        "PMMA",
         "Composite",
         "Shade selection"
       ],
       "Layered": [
         "Zirconia",
         "Emax",
-        "Pekkton",
+        "Peek",
         "Gold",
         "Non precious",
         "Wax",
-        "Pmma",
+        "PMMA",
         "Shade selection"
       ],
       "Temporary": {
-        "Pmma": [
+        "PMMA": [
           "Shade selection"
         ],
         "Composite": [
+          "Shade selection"
+        ],
+        "pink": [
           "Shade selection"
         ]
       },
       "Veneer": [
         "Emax",
         "Composite",
-        "HT zirconia",
-        "Pmma",
+        "HT Zirconia",
+        "PMMA",
         "Shade selection"
       ],
       "Inlay/Outlay": [
         "Emax",
         "Composite",
-        "HT zirconia",
-        "Pmma",
+        "HT Zirconia",
+        "PMMA",
         "Shade selection"
       ],
       "Waxup": [
-        "Waxup"
+        "Digital",
+        "Conventional"
       ]
     },
     "Implant": {
       "Fixed": {
-        "Single unit": {
-          "Screw retained": {
-            "Implant brand": {
-              "Restorative material": [
-                "Shade"
-              ]
-            }
-          },
-          "Cement Retained": {
-            "Implant brand": {
-              "Restorative material": [
-                "Shade"
-              ]
-            }
-          }
-        },
-        "Multiple unit": {
-          "Screw retained": {
-            "Implant brand": {
-              "Restorative material": [
-                "Shade"
-              ]
-            }
-          },
-          "Cement retained": {
-            "Implant brand": {
-              "Restorative material": [
-                "Shade"
-              ]
-            }
-          },
-          "Bar": [
-            "Bar"
-          ]
-        }
+        "Single unit": [
+          "Screw Retained",
+          "Screw Retained",
+          "Implant Brand",
+          "Abutment Type",
+          "Crown Restorative Material"
+        ],
+        "Multiple unit": [
+          "Screw Retained",
+          "Implant Brand",
+          "Bridge support material type",
+          "Bridge Restorative Material",
+          "Pontic Design"
+        ],
+        "Full arch": [
+          "Screw Retained",
+          "Implant Brand",
+          "Milled bar type",
+          "Ceramics Restorative Material"
+        ]
       },
       "Removeable": {
-        "Multiple unit": {
-          "Screw retained": {
-            "Implant brand": {
-              "Restorative material": [
-                "Shade"
-              ]
-            }
-          },
-          "Bar": [
-            "Bar"
-          ]
-        }
+        "Independent Attachments": [
+          "Attachment type",
+          "Implant Brand",
+          "Denture Base Material"
+        ],
+        "Bar": [
+          "Bar type",
+          "Implant Brand",
+          "Milled Bar type",
+          "Denture Base Restorative Material"
+        ]
       }
     },
     "Ortho": [
@@ -121,23 +106,26 @@ export class WorkOrderGuideComponent implements OnInit {
       "Retainer"
     ],
     "Removeable": [
-      "Denture",
-      "Partial denture"
+      "Complete Denture",
+      "Partial Denture",
+      "Flexi partial",
+      "Flipper"
     ],
     "Sleep": [
-      "Types of sleep devices"
+      "Types of Sleep Appliance"
     ],
     "Surgical planning": [
-      "Surgical plan",
-      "Surgical guide"
+      "Surgical Plan",
+      "Surgical Guide"
     ]
   }
-  isFdi = false;
+
   @ViewChild('notes')
   notes: ElementRef;
+  @Input() readOnly = false
 
 
-  constructor(private location: Location) { }
+  constructor() { }
   ngOnInit(): void { }
 
   ngAfterViewInit() {
@@ -146,7 +134,8 @@ export class WorkOrderGuideComponent implements OnInit {
 
   selectionCount = 0;
   liCount = 0;
-  showLabel = false;
+  showLabel = true;
+  isFdi = false;
   activeAssignedTeeth = null;
 
   populateListRecurse(object: any, ref: string): void {
@@ -187,11 +176,12 @@ export class WorkOrderGuideComponent implements OnInit {
       if (!ctx) return;
       ctx.clearRect(0, 0, cnv.width, cnv.height);
       if (!isenter) return;
-      let coords = event.target.getAttribute('coords').split(',');
+      if (!event.target.getAttribute('points')) return
+      let points = event.target.getAttribute('points').split(',');
       ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
       ctx.beginPath();
       //@ts-ignore
-      ctx.curve(coords, 1);
+      ctx.curve(points, 1);
       ctx.closePath();
       ctx.fill();
     }
@@ -223,7 +213,19 @@ export class WorkOrderGuideComponent implements OnInit {
     return loop;
   }
 
+
+  // clickIndepednetTeeth(event) {
+  //   let key = event.target.getAttribute('id');
+  //   if (this.toothGuide.hasOwnProperty(key)) {
+  //     console.log("is assigned teeh")
+  //   } else {
+  //     event.target.classList.toggle("selected");
+  //   }
+  // }
+
+
   clickTeeth(event: any, key = null) {
+    if (!event.target.getAttribute('points')) return
     if (!key) key = event.target.getAttribute('id');
     this.resetListandTeeths();
     if (this.activeAssignedTeeth)
@@ -279,6 +281,7 @@ export class WorkOrderGuideComponent implements OnInit {
     let array = [];
     Object.entries(this.toothGuide).forEach(
       ([key, value]) => {
+        if (value['selections'].length == 0 && value['notes'] == '') return;
         array.push({
           name: this.getToothName(key),
           selctions: value['selections'],
@@ -290,9 +293,24 @@ export class WorkOrderGuideComponent implements OnInit {
     return array;
   }
 
-
   getToothGuide() {
     return this.toothGuide;
+  }
+
+  clearToothGuide() {
+    if (Object.keys(this.toothGuide).length == 0) return
+    sweetAlert({
+      title: "Are you sure,Do you want to clear all the selection?",
+      icon: "warning",
+      buttons: [`No`, 'Yes'],
+      dangerMode: true,
+    })
+      .then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result) {
+          this.setToothGuide({})
+        }
+      });
   }
 
   setToothGuide(toothGuide: any) {
@@ -301,6 +319,7 @@ export class WorkOrderGuideComponent implements OnInit {
     this.selectedTeeths = [];
     this.activeAssignedTeeth = null;
     this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
+    this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
   }
 
   addNotes(event: any) {
@@ -327,12 +346,18 @@ export class WorkOrderGuideComponent implements OnInit {
           this.toothGuide[this.activeAssignedTeeth]['selections'].push(event.target.value);
           this.loopSeelctionParent(event.target);
         } else {
-          this.toothGuide = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          this.toothGuide[this.activeAssignedTeeth]['selections'] = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+        }
+        if (this?.toothGuide[this.activeAssignedTeeth] && this.toothGuide[this.activeAssignedTeeth]['selections'].length == 0) {
+          delete this.toothGuide[this.activeAssignedTeeth]
+          this.activeAssignedTeeth = null;
+          this.resetListandTeeths()
+          this.selectedTeeths = [];
+          this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
         }
       } else {
         //assignment
         if (event.target.checked) {
-          //@ts-ignore
           this.selectedTeeths.forEach(element => {
             if (!this.toothGuide[element])
               this.toothGuide[element] = { "selections": [], "notes": "" };
@@ -340,16 +365,19 @@ export class WorkOrderGuideComponent implements OnInit {
           });
           this.loopSeelctionParent(event.target);
         } else {
-          this.selectedTeeths.forEach(element => {
-            if (this.toothGuide[element])
-              this.toothGuide = this.toothGuide[element]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          this.selectedTeeths.forEach(nestedElement => {
+            if (this.toothGuide[nestedElement]) {
+              this.toothGuide[nestedElement]['selections'] = this.toothGuide[nestedElement]['selections'].filter(e => e !== event.target.getAttribute('id'))
+              if (this.toothGuide[nestedElement] && this.toothGuide[nestedElement]['selections'].length == 0) {
+                delete this.toothGuide[nestedElement]
+              }
+            }
           });
         }
         if (this.selectedTeeths.length == 1) {
           this.activeAssignedTeeth = this.selectedTeeths[0];
           this.redrawGuide('rcurrmap', [this.activeAssignedTeeth], "rgba(255, 255, 0, 0.9)");
         }
-        this.activeAssignedTeeth = this.selectedTeeths[0];
       }
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     } else {
@@ -400,11 +428,11 @@ export class WorkOrderGuideComponent implements OnInit {
     ctx.clearRect(0, 0, cnv.width, cnv.height);
 
     teethArray.forEach(element => {
-      let coords = document.getElementById(element).getAttribute('coords').split(',');
+      let points = document.getElementById(element).getAttribute('points').split(',');
       ctx.fillStyle = color;
       ctx.beginPath();
       //@ts-ignore
-      ctx.curve(coords, 1);
+      ctx.curve(points, 1);
       ctx.closePath();
       ctx.fill();
     });

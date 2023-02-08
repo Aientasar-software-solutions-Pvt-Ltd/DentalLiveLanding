@@ -38,7 +38,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'colleagues',
-				loadChildren: () => import('./views/pages/colleagues/colleagues.module').then(m => m.ColleaguesModule),
+				loadChildren: () => import('./views/pages/invitations/invitations.module').then(m => m.InvitationsModule),
 				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
@@ -52,11 +52,6 @@ const routes: Routes = [
 				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
-				path: 'cases-view',
-				loadChildren: () => import('./views/pages/master/master.module').then(m => m.MasterModule),
-				canActivate: [AuthGuard, PermissionGuardService]
-			},
-			{
 				path: 'caseinvites',
 				loadChildren: () => import('./views/pages/invitations/invitations.module').then(m => m.InvitationsModule),
 				canActivate: [AuthGuard, PermissionGuardService]
@@ -67,7 +62,7 @@ const routes: Routes = [
 				canActivate: [AuthGuard, PermissionGuardService]
 			},
 			{
-				path: 'casefiles',
+				path: 'files',
 				loadChildren: () => import('./views/pages/files/files.module').then(m => m.FilesModule),
 				canActivate: [AuthGuard, PermissionGuardService]
 			},

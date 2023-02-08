@@ -53,7 +53,7 @@ export class PasswordresetComponent implements OnInit {
     this.Service.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
-        swal("Password updated successfully")
+        swal("Account Details Updated Successfully")
         this.sending = false;
         this.router.navigate(['/auth/login']);
       }, error => {

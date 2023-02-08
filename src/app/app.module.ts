@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,9 +14,10 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     HttpClientModule,
@@ -27,7 +28,7 @@ import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
     AppRoutingModule,
     LayoutModule,
     PickerModule,
-    NgwWowModule,
+    NgwWowModule
   ],
   providers: [
     DatePipe,

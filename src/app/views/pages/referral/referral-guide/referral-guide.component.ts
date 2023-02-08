@@ -1,5 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash';
 import 'cardinal-spline-js/src/curve.js'
 
@@ -12,193 +11,126 @@ import 'cardinal-spline-js/src/curve.js'
 })
 export class ReferralGuideComponent implements OnInit {
   referralObject = {
-    "Endodontics": {
-      "Consultation for": [
-        "Pulp Exposure",
-        "Vital",
-        "Necrotic",
-        "Emergency treatment provided",
-        "Patient has discomfort please evaluate",
-        "Post space required"
-      ],
-      "Bridge cemented": [
-        "Temporary",
-        "Permanently"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    },
-    "Oral Surgery": {
-      "Consultation for": [
-        "Extraction",
-        "3rd Molar Extractions",
-        "Exposure (s) of teeth",
-        "Impacted teeth/tooth",
-        "Orthognathic surgery",
-        "Oral pathology",
-        "Biopsy",
-        "Dental Implants",
-        "Bone grafting",
-        "TMJ Assessment/Diagnosis",
-        "Socket Grafting",
-        "Sinus Grafting",
-        "Cone Beam CT",
-        "Treatment Planning",
-        "Anesthesia and or Sedation",
-        "Corrective Jaw Surgery",
-        "Trauma",
-        "Fracture"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    },
-    "Prosthodontist": {
-      "Consultation for": [
-        "Comprehensive Prosthodontics Evaluation",
-        "Complete Dentures",
-        "Partial Dentures",
-        "Implant supported overdenture",
-        "Redo prosthesis: Fixed/Removable",
-        "Crowns and Bridges",
-        "Dental Implants",
-        "Broken Prosthesis",
-        "Ill-fitting prosthesis",
-        "Fractured implant parts or components",
-        "Tooth wear",
-        "TMJ Assessment",
-        "Esthetic treatment",
-        "Smile Make over",
-        "Full Mouth Rehabilitation",
-        "Congenitally Missing teeth"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    },
-    "Orthodontist": {
-      "Consultation for": [
-        "Comprehensive Prosthodontics Evaluation",
-        "Early or Interceptive Orthodontic Treatment",
-        "Pre-prosthetic Orthodontic Treatment",
-        "Intrusion",
-        "Extrusion",
-        "Up righting",
-        "Implant site development",
-        "Lost Retainer",
-        "Debonded fixed retainer",
-        "Growth cessation Assessment",
-        "Crowding",
-        "Spaces Issues",
-        "Malocclusion",
-        "Cephalograms Tracing/Assessment"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    },
-    "Periodontist": {
-      "Consultation for": [
-        "Comprehensive Periodontist Evaluation",
-        "Periodontal Disease",
-        "Functional crown lengthening",
-        "Esthetic crown lengthening",
-        "Gingival Recession",
-        "Soft tissue Grafting",
-        "Hard tissue Grafting",
-        "Extraction(s)",
-        "Dental Implant(s)",
-        "Sinus Grafting",
-        "Trauma from Occlusion",
-        "Occlusal Trauma"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    },
-    "Pediodontist": {
-      "Consultation for": [
-        "Comprehensive Pedodontic Evaluation",
-        " Treatment"
-      ],
-      "X-Rays": [
-        "Uploaded",
-        "E-mailed",
-        "Take",
-        "Sent with patient",
-        "Please send a copy once taken",
-        "Upload"
-      ],
-      "Restorative Treatment": [
-        "Planned",
-        "Will be Planned",
-        "Is not indicated",
-        "Will Discuss"
-      ]
-    }
+    "Oral And Maxillofacial Surgeon": [
+      "Consultation",
+      "Extraction(S)",
+      "Orthodontic Exposure",
+      "TMJ – Facial Pain",
+      "Periapical Surgery",
+      "Preprosthetic Surgery/Implants",
+      "Incision and Drainage",
+      "Surgical Impactions",
+      "Pathology/Biopsy",
+      "Exposure (s) of Teeth",
+      "Ridge Augmentation/Grafting",
+      "Oral Pathology",
+      "Bone Grafting / Sinus Lift",
+    ],
+    "Endodontics": [
+      "Consultation",
+      "Emergency Pain Relief",
+      "Endodontic Initial Treatment",
+      "Endodontic Re-Treatment  Or Apical Surgery",
+      "Periapical Surgery",
+      "Endodontic Treatment Initiated Date",
+      "Crown/bridge Cemented?",
+      "Post Space Required?",
+      "Pulp Exposed and Bleeding?",
+      "Tooth is open for Drainage?",
+      "Patient has Pain?"
+    ],
+    "Pediatric Dentistry": [
+      "Consultation",
+      "Complete care Including Hygiene?",
+      "Frenectomy?",
+      "Specific Treatment",
+      "Treatment with Sedation?",
+      "Treatment with General Anesthesia?",
+      "Orthodontic Consultation Comments"
+    ],
+    "Periodontics": [
+      "Comprehensive Periodontal Consultation",
+      "Extraction(S)",
+      "Periodontal Disease",
+      "Socket Preservation",
+      "Functional Crown Lengthening",
+      "Preprosthetic Surgery/Implants",
+      "Esthetic Crown Lengthening",
+      "Surgical Impactions",
+      "Pathology/Biopsy",
+      "Exposure (s) of Teeth",
+      "Ridge Augmentation/Grafting",
+      "Oral Pathology",
+      "Gingival Recession",
+      "Crown Lengthening",
+      "Soft Tissue Graft",
+      "Bone Grafting / Sinus Lift",
+    ],
+    "Oral Radiologist": [
+      "Referral for Diagnostic Imaging",
+      "CBCT",
+      "Area of Interest",
+      "Measurements",
+      "Implant Planning",
+      "Patient will bring stent",
+      "Hard copy prints",
+      "CD with DICOM files",
+      "3D Images",
+      "Email Images",
+      "Panoramic",
+      "Uploaded in Dental Live"
+    ],
+    "TMD/Orofacial Pain & Sleep Apnea": [
+      "TMJ Consultation",
+      "Headaches/Migraines",
+      "Occlusion",
+      "TMJ Clicking",
+      "TMD/Pain",
+      "Locking Jaw (Open or Close)",
+      "Limited Mouth Opening",
+      "Dizziness",
+      "Ear Pain, Ringing or Stuffiness",
+      "Facial or Undiagnosed teeth pain",
+      "Neck or Shoulder pain or stiffness",
+      "Changes in Bite/Occlusion",
+      "Sleep Apnea",
+      "Uploaded in Dental Live"
+    ],
+    "Prosthodontist": [
+      "Prosthodontic Consultation",
+      "Dental Implants",
+      "Occlusion",
+      "Full Mouth Rehab",
+      "TMD/Pain",
+      "Removable Prosthodontics",
+      "Fixed Prosthodontics",
+      "Uploaded in Dental Live"
+    ],
+    "Orthodonstist": [
+      "Orthodontic Consultation",
+      "Early and Interceptive Evaluation",
+      "Comprehensive Evaluation",
+      "Orthognathic Treatment Evaluation",
+      "TMD/Pain",
+      "Habit Correction",
+      "Clear Braces",
+      "Crowding",
+      "Spacing",
+      "Overjet",
+      "Overbite",
+      "Impacted teeth",
+      "Space Maintainer",
+      "Molar Up righting",
+      "Pre-Prosthetic Planning and implant site development?",
+      "Uploaded in Dental Live"
+    ]
   }
-  isFdi = false;
   @ViewChild('notes')
   notes: ElementRef;
+  @Input() readOnly = false
 
 
-  constructor(private location: Location) { }
+  constructor() { }
   ngOnInit(): void { }
 
   ngAfterViewInit() {
@@ -207,7 +139,8 @@ export class ReferralGuideComponent implements OnInit {
 
   selectionCount = 0;
   liCount = 0;
-  showLabel = false;
+  showLabel = true;
+  isFdi = false;
   activeAssignedTeeth = null;
 
   populateListRecurse(object: any, ref: string): void {
@@ -248,11 +181,12 @@ export class ReferralGuideComponent implements OnInit {
       if (!ctx) return;
       ctx.clearRect(0, 0, cnv.width, cnv.height);
       if (!isenter) return;
-      let coords = event.target.getAttribute('coords').split(',');
+      if (!event.target.getAttribute('points')) return
+      let points = event.target.getAttribute('points').split(',');
       ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
       ctx.beginPath();
       //@ts-ignore
-      ctx.curve(coords, 1);
+      ctx.curve(points, 1);
       ctx.closePath();
       ctx.fill();
     }
@@ -285,6 +219,7 @@ export class ReferralGuideComponent implements OnInit {
   }
 
   clickTeeth(event: any, key = null) {
+    if (!event.target.getAttribute('points')) return
     if (!key) key = event.target.getAttribute('id');
     this.resetListandTeeths();
     if (this.activeAssignedTeeth)
@@ -340,6 +275,7 @@ export class ReferralGuideComponent implements OnInit {
     let array = [];
     Object.entries(this.toothGuide).forEach(
       ([key, value]) => {
+        if (value['selections'].length == 0 && value['notes'] == '') return;
         array.push({
           name: this.getToothName(key),
           selctions: value['selections'],
@@ -351,9 +287,24 @@ export class ReferralGuideComponent implements OnInit {
     return array;
   }
 
-
   getToothGuide() {
     return this.toothGuide;
+  }
+
+  clearToothGuide() {
+    if (Object.keys(this.toothGuide).length == 0) return
+    sweetAlert({
+      title: "Are you sure,Do you want to clear all the selection?",
+      icon: "warning",
+      buttons: [`No`, 'Yes'],
+      dangerMode: true,
+    })
+      .then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result) {
+          this.setToothGuide({})
+        }
+      });
   }
 
   setToothGuide(toothGuide: any) {
@@ -362,6 +313,7 @@ export class ReferralGuideComponent implements OnInit {
     this.selectedTeeths = [];
     this.activeAssignedTeeth = null;
     this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
+    this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
   }
 
   addNotes(event: any) {
@@ -388,12 +340,18 @@ export class ReferralGuideComponent implements OnInit {
           this.toothGuide[this.activeAssignedTeeth]['selections'].push(event.target.value);
           this.loopSeelctionParent(event.target);
         } else {
-          this.toothGuide = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          this.toothGuide[this.activeAssignedTeeth]['selections'] = this.toothGuide[this.activeAssignedTeeth]['selections'].filter(e => e !== event.target.getAttribute('id'))
+        }
+        if (this?.toothGuide[this.activeAssignedTeeth] && this.toothGuide[this.activeAssignedTeeth]['selections'].length == 0) {
+          delete this.toothGuide[this.activeAssignedTeeth]
+          this.activeAssignedTeeth = null;
+          this.resetListandTeeths()
+          this.selectedTeeths = [];
+          this.redrawGuide('rclkmap', this.selectedTeeths, "rgba(0, 0, 0, .9)");
         }
       } else {
         //assignment
         if (event.target.checked) {
-          //@ts-ignore
           this.selectedTeeths.forEach(element => {
             if (!this.toothGuide[element])
               this.toothGuide[element] = { "selections": [], "notes": "" };
@@ -401,16 +359,19 @@ export class ReferralGuideComponent implements OnInit {
           });
           this.loopSeelctionParent(event.target);
         } else {
-          this.selectedTeeths.forEach(element => {
-            if (this.toothGuide[element])
-              this.toothGuide = this.toothGuide[element]['selections'].filter(e => e !== event.target.getAttribute('id'))
+          this.selectedTeeths.forEach(nestedElement => {
+            if (this.toothGuide[nestedElement]) {
+              this.toothGuide[nestedElement]['selections'] = this.toothGuide[nestedElement]['selections'].filter(e => e !== event.target.getAttribute('id'))
+              if (this.toothGuide[nestedElement] && this.toothGuide[nestedElement]['selections'].length == 0) {
+                delete this.toothGuide[nestedElement]
+              }
+            }
           });
         }
         if (this.selectedTeeths.length == 1) {
           this.activeAssignedTeeth = this.selectedTeeths[0];
           this.redrawGuide('rcurrmap', [this.activeAssignedTeeth], "rgba(255, 255, 0, 0.9)");
         }
-        this.activeAssignedTeeth = this.selectedTeeths[0];
       }
       this.redrawGuide('rassgmap', Object.keys(this.toothGuide), "rgba(0, 255, 0, 0.7)");
     } else {
@@ -461,11 +422,11 @@ export class ReferralGuideComponent implements OnInit {
     ctx.clearRect(0, 0, cnv.width, cnv.height);
 
     teethArray.forEach(element => {
-      let coords = document.getElementById(element).getAttribute('coords').split(',');
+      let points = document.getElementById(element).getAttribute('points').split(',');
       ctx.fillStyle = color;
       ctx.beginPath();
       //@ts-ignore
-      ctx.curve(coords, 1);
+      ctx.curve(points, 1);
       ctx.closePath();
       ctx.fill();
     });

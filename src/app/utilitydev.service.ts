@@ -25,7 +25,6 @@ export class UtilityServicedev {
   }
 
   uploadBinaryData(objectName, binaryData, module) {
-    console.log(binaryData);
     var that = this;
     return new Promise(function (resolve, reject) {
       that.getPreSignedUrl(objectName, module, 'put', binaryData.type).then((response) => {

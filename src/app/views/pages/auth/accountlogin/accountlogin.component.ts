@@ -22,8 +22,6 @@ export class AccountloginComponent implements OnInit {
   };
 
   onSubmit(form: NgForm, issubuser) {
-
-    console.log('submit');
     if (form.invalid) {
       form.form.markAllAsTouched();
       return;
@@ -53,11 +51,11 @@ export class AccountloginComponent implements OnInit {
           else if (error.status === 400)
             sweetAlert('Wrong Password,please try again');
           else if (error.status === 401)
-            sweetAlert('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+            sweetAlert('Account Not Verified . Please Activate The Account From The Email Sent To The Email Address');
           else if (error.status === 428)
             sweetAlert('Invalid Owner Account');
           else
-            sweetAlert('Unable to login, please try again');
+            sweetAlert('Unable To Login, Please Try Again');
         });
     } else {
       //alert(this.utility.apiData.userAccounts.ApiUrl);
@@ -79,11 +77,11 @@ export class AccountloginComponent implements OnInit {
           else if (error.status === 400)
             sweetAlert('Wrong Password,please try again');
           else if (error.status === 401)
-            sweetAlert('Account Not Verified,Please activate the account from the Email sent to the Email address.');
+            sweetAlert('Account Not Verified . Please Activate The Account From The Email Sent To The Email Address');
           else if (error.status === 428)
             sweetAlert(error.error);
           else
-            sweetAlert('Unable to login, please try again');
+            sweetAlert('Unable To Login, Please Try Again');
         });
     }
   };

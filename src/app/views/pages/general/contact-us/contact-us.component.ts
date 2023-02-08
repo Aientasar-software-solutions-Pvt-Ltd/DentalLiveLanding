@@ -64,7 +64,6 @@ export class ContactUsComponent implements OnInit {
       return false;
     }
     return true;
-
   }
   get f(): { [key: string]: AbstractControl } {
     return this.contactform.controls;

@@ -1,0 +1,162 @@
+<div class="col-md-12 mt-4">
+  <div class="card shadow-sm my-3">
+    <div class="card-header bg-white">
+      <div class="row">
+        <div class="col-md-5 align-self-center">
+          <h5 class="body1 my-2 card-title text-dark fw-bold">
+            Add New Message
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <app-cvfast-new #cvfast></app-cvfast-new>
+      <button
+        [disabled]="formInterface.isUploadingData"
+        (click)="customSubmit()"
+        class="btn btn-primary mb-4 me-3 float-end"
+      >
+        <span
+          *ngIf="formInterface.isUploadingData"
+          class="spinner-border spinner-border-sm col-12 col-md-2"
+          style="max-width: 10em"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Add Message
+      </button>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-white">
+      <div class="row">
+        <div class="col-md-5 align-self-center">
+          <h5 class="body1 my-2 card-title text-dark fw-bold">Messages</h5>
+        </div>
+      </div>
+    </div>
+
+    <ng-container class="mt-5" *ngIf="isLoadingData">
+      <ngx-shimmer-loading
+        class="d-block"
+        *ngFor="let i of shimmer(10).fill(1)"
+        style="margin-top: 1.5em; display: block; transition: all 1s"
+        [height]="'50px'"
+        [width]="'100%'"
+      >
+      </ngx-shimmer-loading>
+    </ng-container>
+
+    <div class="card-body">
+      <div *ngFor="let message of baseData; let i = index">
+        <div style="border-bottom: 2px solid #cbcbcb" class="row py-4 px-2">
+          <div class="col-md-12 d-flex align-items-center">
+            <div
+              class="fw-bold"
+              style="
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              "
+            >
+              <img
+                [src]="utility.getUserImage(message.resourceOwner)"
+                class="avatar avatar-sm rounded-circle me-2"
+              />
+              {{
+                utility.getMetaData(
+                  message.resourceOwner,
+                  "emailAddress",
+                  ["accountfirstName", "accountlastName"],
+                  "users"
+                )
+              }}
+            </div>
+            <span style="position: absolute; right: 3em" class="body2"
+              >{{ message.dateUpdated | date : "MMM d, y h:mm a" }}
+            </span>
+          </div>
+          <div class="col-md-12">
+            <app-cvfast-viewer [cvfast]="message.message"></app-cvfast-viewer>
+            <!-- cvfast message viewer here -->
+          </div>
+          <div class="commentStyle border rounded">
+            <h5 class="body1 my-2 card-title">Comments</h5>
+            <label *ngIf="message.comments.length == 0" class="my-2"
+              >No Comments</label
+            >
+            <ng-container *ngFor="let comment of message.comments">
+              <div
+                class="col-md-12"
+                *ngIf="
+                  comment.resourceOwner && comment.text && comment.dateCreated
+                "
+              >
+                <div
+                  class="col-md-12 d-flex align-items-center position-relative"
+                >
+                  <div
+                    class="fw-bold mb-4"
+                    style="
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    <img
+                      [src]="utility.getUserImage(comment.resourceOwner)"
+                      class="avatar avatar-sm rounded-circle me-2"
+                    />
+                    {{
+                      utility.getMetaData(
+                        comment.resourceOwner,
+                        "emailAddress",
+                        ["accountfirstName", "accountlastName"],
+                        "users"
+                      )
+                    }}
+                  </div>
+                  <span
+                    style="position: absolute; right: 0em"
+                    class="body2 float-end"
+                    >{{ comment.dateCreated | date : "MMM d, y h:mm a" }}
+                  </span>
+                </div>
+                <h6 class="mb-4">{{ comment.text }}</h6>
+                <!-- <app-cvfast-viewer [cvfast]="comment?.message"></app-cvfast-viewer> -->
+                <!-- cvfast comments here viewer here -->
+              </div>
+            </ng-container>
+            <div class="col-md-12 mt-3">
+              <div class="d-flex form-control border-3 align-items-center">
+                <input
+                  #commentInput
+                  type="text"
+                  class="w-100 border-0"
+                  placeholder="Add Comment"
+                />
+                <span>
+                  <span
+                    *ngIf="formInterface.isUploadingData"
+                    class="spinner-border spinner-border-sm col-12 col-md-2"
+                    style="max-width: 10em"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <i
+                    *ngIf="!formInterface.isUploadingData"
+                    (click)="submitComment(message, commentInput.value)"
+                    style="cursor: pointer"
+                    class="fa fa-paper-plane float-end"
+                  ></i>
+                </span>
+              </div>
+              <!-- <app-cvfast-new [isMin]="true"></app-cvfast-new> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

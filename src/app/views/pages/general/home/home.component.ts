@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         packages => {
           this.packages = packages;
-          console.log(packages);
+ 
         },
         error => {
           console.log(error);

@@ -24,9 +24,7 @@ export class UsagestatisticsComponent implements OnInit {
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
         this.object = Response;
-        console.log(this.object);
       }, error => {
-
       }, () => {
         this.isLoadingData = false;
       });

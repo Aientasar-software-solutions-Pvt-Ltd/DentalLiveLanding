@@ -19,8 +19,4 @@ export class BaseComponent implements OnInit {
 
 	ngOnInit(): void { }
 
-	ngOnDestroy() {
-		document.body.style.backgroundColor = "";
-	}
-
 }

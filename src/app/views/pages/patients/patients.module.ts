@@ -1,3 +1,7 @@
+import { CvfastModuleModule } from 'src/app/cvfastFiles/cvfast-module/cvfast-module.module';
+import { CasesModule } from './../cases/cases.module';
+
+import { PatientAddComponent } from './patient-add/patient-add.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -6,13 +10,8 @@ import { DataTablesModule } from "angular-datatables";
 import { PatientsComponent } from './patients.component';
 import { PatientsListComponent } from './patients-list/patients-list.component';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
-import { PatientEditComponent } from './patient-edit/patient-edit.component';
-import { PatientCaseListComponent } from './patient-case-list/patient-case-list.component';
-import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { Cvfast } from 'src/app/cvfast/cvfast.component';
-import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
-
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
   {
@@ -21,27 +20,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'patients-list',
-        pathMatch: 'full',
-      },
-      {
-        path: 'patients-list',
         component: PatientsListComponent
       },
       {
-        path: 'patient-details/:patientId',
+        path: 'patient-detail/:id',
         component: PatientDetailsComponent
       },
       {
-        path: 'patient-edit/:patientId',
-        component: PatientEditComponent
-      },
-      {
-        path: 'patient-case-list/:patientId',
-        component: PatientCaseListComponent
-      },
-      {
         path: 'patient-add',
+        component: PatientAddComponent
+      },
+      {
+        path: 'patient-edit/:id',
         component: PatientAddComponent
       }
     ]
@@ -53,29 +43,26 @@ const routes: Routes = [
     PatientsComponent,
     PatientsListComponent,
     PatientDetailsComponent,
-    PatientEditComponent,
-    PatientCaseListComponent,
-    PatientAddComponent,
-    Cvfast
+    PatientAddComponent
   ],
-  exports: [
-    Cvfast,
-  ],
+
   imports: [
     CommonModule,
     FormsModule,
     PickerModule,
     RouterModule.forChild(routes),
-	NgxShimmerLoadingModule ,
+    NgxShimmerLoadingModule,
     DataTablesModule,
+    CvfastModuleModule,
+    CasesModule,
     ReactiveFormsModule,
-	TippyModule.forRoot({
-		defaultVariation: 'tooltip',
-		variations: {
-		  tooltip: tooltipVariation,
-		  popper: popperVariation,
-		}
-	  })
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

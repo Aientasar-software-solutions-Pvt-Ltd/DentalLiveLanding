@@ -10,8 +10,8 @@ import { PermissionGuardService } from '../../pages/permission-guard.service';
 })
 export class SidebarComponent implements OnInit {
   auth = null;
-  constructor(private router: Router, permAuth: PermissionGuardService) { 
-    this.auth=permAuth;
+  constructor(private router: Router, permAuth: PermissionGuardService) {
+    this.auth = permAuth;
   }
 
   ngOnInit(): void {

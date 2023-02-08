@@ -26,7 +26,6 @@ export class MypurchasesComponent implements OnInit, ListData {
     this.dataService.getallData(this.object.ApiUrl + `?email=${this.user}`, true).subscribe(
       (Response) => {
         if (Response) Response = JSON.parse(Response.toString());
-        console.log(Response);
         this.objectList = Response;
         this.pristineData = Response;
         this.objectList = this.objectList.sort((a, b) => (a.dateCreated > b.dateCreated) ? 1 : -1);

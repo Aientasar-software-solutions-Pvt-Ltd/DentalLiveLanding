@@ -55,7 +55,7 @@ export interface ListData {
 
 export class UtilityService {
 
-  subuserValidateURL = "https://d1eqbgsf09hz76.cloudfront.net/subuservalidate/";
+  subuserValidateURL = "https://www.dentallive.com/subuservalidate/";
   // mailURL = "http://localhost:4200/subuservalidate";
 
   vendorValidateURL = "https://dwr5mpoypj82j.cloudfront.net/validate";
@@ -1031,7 +1031,7 @@ export class UtilityService {
       "ApiUrl": "https://dfgirshn9d.execute-api.us-west-2.amazonaws.com/default/sendMailDental",
       "bucket": 'dentallive-accounts',
       "bucketUrl": "https://dentallive-accounts.s3.us-west-2.amazonaws.com/",
-      "fileURL": "https://d1eqbgsf09hz76.cloudfront.net/file/"
+      "fileURL": "https://www.dentallive.com/file/"
     },
     "userAccounts": {
       "object": {
@@ -1725,7 +1725,7 @@ export class UtilityService {
         "contactID": "",
         "firstName": null,
         "lastName": null,
-        "phoneNumber": null,
+        "phoneNumber": "",
         "email": null,
         "imageSrc": "",
         "dateCreated": 0,

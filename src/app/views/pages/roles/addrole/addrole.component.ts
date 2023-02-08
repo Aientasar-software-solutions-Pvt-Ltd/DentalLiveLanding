@@ -36,7 +36,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   isLoadingData = false;
   binaryFiles = [];
 
-  permissionsArray = ['patients', 'cases', 'cases-view', 'mail', 'meet', 'contacts', 'colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'casefiles', 'accounts'];
+  permissionsArray = ['patients', 'cases', 'mail', 'meet', 'contacts', 'colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'files', 'accounts'];
 
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
 
@@ -105,10 +105,10 @@ export class AddroleComponent implements OnInit, AddEditData {
       .postData(this.section.ApiUrl, JSON.stringify(this.object))
       .subscribe((Response) => {
         ;
-        this.isEditMode ? swal("Role updated succesfully") : swal("Role added succesfully");
+        this.isEditMode ? swal("Role Updated Successfully") : swal("Role Added Successfully");
         this.router.navigate(['/accounts/details/roles']);
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -131,7 +131,7 @@ export class AddroleComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid || this.object.permissionList.length == 0) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please select atleast one permission.");
+      swal("Please Select Atleast One Permission For The Role");
       return false;
     }
     this.isUploadingData = true;
@@ -158,7 +158,7 @@ export class AddroleComponent implements OnInit, AddEditData {
         swal("Role Updated Succesfully");
         this.router.navigate(['/accounts/details/roles']);
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -177,7 +177,7 @@ export class AddroleComponent implements OnInit, AddEditData {
         this.router.navigate(['/accounts/details/roles']);
       },
       (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });

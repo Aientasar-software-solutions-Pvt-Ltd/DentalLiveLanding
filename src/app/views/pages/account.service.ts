@@ -32,84 +32,85 @@ export class AccountService {
   }
   login() {
     let user = this.usr.getUserDetails(false);
-	let url = this.utility.apiData.userLogin.ApiUrl;
-	url += "?emailAddress="+user.emailAddress;
-	this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			//alert(JSON.stringify(3213));
-			let treadAllData = JSON.parse(Response.toString());
-			//alert(JSON.stringify(treadAllData));
-			if((treadAllData[0].lastLoggedIn != undefined) && (treadAllData[0].lastLoggedIn != '') && (treadAllData[0].lastLoggedIn != null))
-			{
-			sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedIn);
-			}
-			if((treadAllData[0].lastLoggedOut != undefined) && (treadAllData[0].lastLoggedOut != '') && (treadAllData[0].lastLoggedOut != null))
-			{
-			sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedOut);
-			}
-		}
-	}, (error) => {
-	  swal("Unable to fetch data, please try again");
-	  return false;
-	});
-	setTimeout(() => {
-    const json1: JSON = {};
-    json1['dentalId'] = user.dentalId;
-    json1['emailAddress'] = user.emailAddress;
-    json1['lastLoggedIn'] = Date.now();
-    //alert(JSON.stringify(json1));
-    this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
-      .subscribe(Response => {
-        if (Response) Response = JSON.parse(Response.toString());
-        //alert(JSON.stringify(Response));
-       // alert(JSON.stringify(Response.resourceId));
-        if (!Response) {
-          swal("Unable to save login time,please try again");
-          return;
-        }
-      }, error => {
-        this.sending = false;
-        if (error.status === 404)
-          swal('E-Mail ID does not exists,please signup to continue');
-        else if (error.status === 403)
-          swal('Account Disabled,contact Dental-Live');
-        else if (error.status === 400)
-          swal('Wrong Password,please try again');
-        else if (error.status === 401)
-          swal('Account Not Verified,Please activate the account from the Email sent to the Email address.');
-        else if (error.status === 428)
-          swal(error.error);
-        else
-          swal('Unable to login, please try again');
-      });
-
-    swal("Login initiated...please wait...", {
-      buttons: [false, false],
-      closeOnClickOutside: false,
-    });
-    let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
-    this.permAuth.isAdmin = true;
-    if (user.Subuser) {
-      url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&issub=true&subuserid=${user.Subuser.subUserID}&type=permission`;
-      this.permAuth.isAdmin = false;
-    }
+    let url = this.utility.apiData.userLogin.ApiUrl;
+    url += "?emailAddress=" + user.emailAddress;
     this.dataService.getallData(url, true).subscribe(Response => {
-      if (Response) Response = JSON.parse(Response.toString());
-      swal.close();
-      this.permAuth.isPristine = false;
-      this.permAuth.products = Response['products'];
-      this.permAuth.permissions = Response['permissions'];
-      if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['/accounts/packages']);
-      else this.router.navigate(['dashboard']);
+      if (Response) {
+        //alert(JSON.stringify(3213));
+        let treadAllData = JSON.parse(Response.toString());
+        //alert(JSON.stringify(treadAllData));
+        if ((treadAllData[0].lastLoggedIn != undefined) && (treadAllData[0].lastLoggedIn != '') && (treadAllData[0].lastLoggedIn != null)) {
+          sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedIn);
+        }
+        if ((treadAllData[0].lastLoggedOut != undefined) && (treadAllData[0].lastLoggedOut != '') && (treadAllData[0].lastLoggedOut != null)) {
+          sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedOut);
+        }
+      }
     }, (error) => {
-      swal("Unable to login, please try again");
+      swal("Unable to fetch data, please try again");
       return false;
     });
-	},1000);
+    setTimeout(() => {
+      const json1: JSON = {};
+      json1['dentalId'] = user.dentalId;
+      json1['emailAddress'] = user.emailAddress;
+      json1['lastLoggedIn'] = Date.now();
+      //alert(JSON.stringify(json1));
+      this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
+        .subscribe(Response => {
+          if (Response) Response = JSON.parse(Response.toString());
+          //alert(JSON.stringify(Response));
+          // alert(JSON.stringify(Response.resourceId));
+          if (!Response) {
+            swal("Unable to save login time,please try again");
+            return;
+          }
+        }, error => {
+          this.sending = false;
+          if (error.status === 404)
+            swal('E-Mail ID does not exists,please signup to continue');
+          else if (error.status === 403)
+            swal('Account Disabled,contact Dental-Live');
+          else if (error.status === 400)
+            swal('Wrong Password,please try again');
+          else if (error.status === 401)
+            swal('Account Not Verified . Please Activate The Account From The Email Sent To The Email Address');
+          else if (error.status === 428)
+            swal(error.error);
+          else
+            swal('Unable To Login, Please Try Again');
+        });
+
+      swal("Login Initiated…. Please Wait.", {
+        buttons: [false, false],
+        closeOnClickOutside: false,
+      });
+      let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
+      this.permAuth.isAdmin = true;
+      if (user.Subuser) {
+        url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&issub=true&subuserid=${user.Subuser.subUserID}&type=permission`;
+        this.permAuth.isAdmin = false;
+      }
+      this.dataService.getallData(url, true).subscribe(Response => {
+        if (Response) Response = JSON.parse(Response.toString());
+        swal.close();
+        this.permAuth.isPristine = false;
+        this.permAuth.products = Response['products'];
+        this.permAuth.permissions = Response['permissions'];
+        if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['/accounts/packages']);
+        else this.router.navigate(['dashboard']);
+      }, (error) => {
+        swal("Unable To Login, Please Try Again");
+        return false;
+      });
+    }, 1000);
   }
   SocailLogin(user) {
     if (!user) return;
+    if (user.email && user.email.toString().includes("+")) {
+      swal("plus(+) symbol is not allowed in email address due to security reasons,please try another Email Address")
+      return
+    }
     swal("Processing request...please wait...", {
       buttons: [false, false],
       closeOnClickOutside: false,
@@ -122,7 +123,7 @@ export class AccountService {
     this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(json), true)
       .subscribe(Response => {
         if (!Response) {
-          swal("Unable to login, please try again");
+          swal("Unable To Login, Please Try Again");
           return;
         }
         if (Response) Response = JSON.parse(Response.toString());
@@ -133,7 +134,7 @@ export class AccountService {
         else if (err.status === 428)
           swal(err.error);
         else
-          swal("Unable to login, please try again");
+          swal("Unable To Login, Please Try Again");
       })
   }
   updateAccountData(message: any) {

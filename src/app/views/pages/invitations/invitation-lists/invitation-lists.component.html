@@ -1,181 +1,585 @@
 <ol class="breadcrumb">
-	<!-- breadcrumb --> 
-	<li class="breadcrumb-item">
-		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
-	</li>
-	<li class="breadcrumb-item active" aria-current="page">
-		Invitations
-	</li>
+  <!-- breadcrumb -->
+  <li class="breadcrumb-item">
+    <a routerLink="/dashboard"
+      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
+    >
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">Invitations</li>
 </ol>
 <div class="page-header row align-items-center gx-0">
-	<div class="col-md-6">
-		<h3>Invitations</h3>
-	</div>	
-	<div class="col-md-6"> 
-		
-	</div>
+  <div class="col-md-6">
+    <h3>Invitations</h3>
+  </div>
+  <div class="col-md-6 text-end">
+    <button
+      (click)="resetInviteForm()"
+      data-bs-toggle="modal"
+      data-bs-target="#addInvite"
+      class="btn btn-default btn-lg"
+    >
+      <i class="bx bx-plus-circle"></i> Send Invites
+    </button>
+  </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header border-bottom-0 bg-white">
-				<div class="d-flex justify-content-between align-items-center flex-wrap">
-					<div class="align-self-center">
-						<h5 class="body1 card-title my-2">Case Invitations</h5>
-					</div>
-					<div class="d-flex align-items-center flex-wrap">
-						<div class="nav nav-pills nav-justified tabview me-3">
-							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'Received'" (click)="tabContent('Received')">Received</a>
-							<a href="javascruipt:void(0);" class="nav-link" [class.active]="id === 'Invited'" (click)="tabContent('Invited')">Send</a>
-						</div>
-					</div>
-					<div class="text-end">
-						<a routerLink="/caseinvites/case-invitation-list" class="btn btn-default me-2">
-							View All
-						</a>
-					</div>
-				</div>
-			</div>
-			<ng-container class="mt-3" *ngIf="isLoadingData">
-				<div class="mt-5 w-100"></div>
-				<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
-				[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
-				</ngx-shimmer-loading>
-			</ng-container>
-			<div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
-				<div *ngIf="id === 'Received'">
-					<div class="table-responsive">
-						<table *ngIf="inviteReceivedData" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
-							<thead class="thead-light">
-								<tr style="text-transform:uppercase;">
-									<th class="body2">MEMBER NAME</th>
-									<th class="body2">PATIENT NAME </th>
-									<th class="body2">CASE TITLE</th>
-									<th class="body2">STATUS</th>
-									<th class="body2" data-orderable="false">Action</th>
-								</tr>
-							</thead>
-							<tbody *ngIf="inviteReceivedData?.length != 0">
-								
-								<tr *ngFor="let invitereceived of inviteReceivedData; let i = index;">
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="d-none" style="color:white;">{{i}}</span>
-											<span class="avatar-icon my-2 me-2">{{invitereceived.userName.charAt(0)}}</span>
-											<span class="body2">{{invitereceived.userName}}</span>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon my-2 me-2">{{invitereceived.patientName.charAt(0)}}</span>
-											<span class="body2">{{invitereceived.patientName}}</span>
-										</div>
-									</td>
-									<td>
-										<span class="body2">{{invitereceived.caseTitle}}</span>
-									</td>
-									<td>
-										<div>
-											<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invitereceived.presentStatus == 0)">Pending</span>
-											<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invitereceived.presentStatus == 1)">Accepted</span>
-											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invitereceived.presentStatus == 2)">Declined</span>
-											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invitereceived.presentStatus == 3)">Removed</span><br/>
-											<small class="text-muted">Received on : {{invitereceived.dateCreated | date:'MM/dd/YYYY'}}</small>
-										</div>                     
-									</td>
-									<td>
-										<div class="dropdown" *ngIf="(invitereceived.presentStatus == 0)">
-											<a tippy="Accept" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 1);">
-											<span class="badge badge-pill body2 px-2" style="background: rgba(0, 182, 128, 0.3);color: #00B680;">Accept</span>&nbsp;
-											</a>
-											<a  tippy="Decline" href="javascript:void(0);" role="button" data-bs-toggle="modal" data-bs-target="#inviteMembersAccepted" (click)="getInviteSubmitData(invitereceived.invitationId, 2);">
-											<span class="badge badge-pill body2 px-2" style="background-color: #FEEEF2;color: #F7517F;">Decline</span>
-											</a>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div *ngIf="id === 'Invited'">
-					<div class="table-responsive">
-						<table *ngIf="invitedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
-							<thead class="thead-light">
-								<tr style="text-transform:uppercase;">
-									<th class="body2">MEMBER NAME</th>
-									<th class="body2">PATIENT NAME </th>
-									<th class="body2">CASE TITLE</th>
-									<th class="body2">STATUS</th>
-								</tr>
-							</thead>
-							<tbody *ngIf="invitedata?.length != 0">
-								
-								<tr *ngFor="let invite of invitedata; let i = index;">
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="d-none" style="color:white;">{{i}}</span>
-											<span class="avatar-icon my-2 me-2">{{invite.userName.charAt(0)}}</span>
-											<span class="body2">{{invite.userName}}</span>
-										</div>
-									</td>
-									<td>
-										<div class="d-flex align-items-center">
-											<span class="avatar-icon my-2 me-2">{{invite.patientName.charAt(0)}}</span>
-											<span class="body2">{{invite.patientName}}</span>
-										</div>
-									</td>
-									<td>
-										<span class="body2">{{invite.caseTitle}}</span>
-									</td>
-									<td>
-										<div>
-											<span class="badge badge-pill badge-info body2 px-2" *ngIf="(invite.presentStatus == 0)">Pending</span>
-											<span class="badge badge-pill badge-success body2 px-2" *ngIf="(invite.presentStatus == 1)">Accepted</span>
-											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 2)">Declined</span>
-											<span class="badge badge-pill badge-warning body2 px-2" *ngIf="(invite.presentStatus == 3)">Removed</span><br/>
-											<small class="text-muted">Invited on : {{invite.dateCreated | date:'MM/dd/YYYY'}}</small>
-										</div>                     
-									</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="row align-items-center">
+  <div class="col-md-12">
+    <div class="card shadow-sm">
+      <div class="card-header border-bottom-0 bg-white">
+        <div
+          class="d-flex justify-content-between align-items-center flex-wrap"
+        >
+          <div class="my-2">
+            <h5 class="body1 card-title mb-0">List of Invitations</h5>
+          </div>
+          <div class="d-flex align-items-center flex-wrap">
+            <div class="nav nav-pills nav-justified tabview me-3">
+              <span
+                class="nav-link isCusrosr"
+                [class.active]="!isOwn"
+                (click)="isOwn = false; loadColleagueData()"
+                >Recieved</span
+              >
+              <span
+                class="nav-link isCusrosr"
+                [class.active]="isOwn"
+                (click)="isOwn = true; loadBaseData()"
+                >Sent</span
+              >
+            </div>
+            <button
+              class="btn filter-btn me-2 my-2"
+              data-bs-toggle="modal"
+              data-bs-target="#filterModal"
+            >
+              <i class="bx bx-filter-alt"></i>
+              <span class="d-none d-sm-inline-block ms-2">Filter</span>
+            </button>
+            <div class="search search-md">
+              <i class="bx bx-search"></i>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search"
+                (keyup)="searchText($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container class="mt-5" *ngIf="isLoadingData">
+        <ngx-shimmer-loading
+          class="d-block"
+          *ngFor="let i of shimmer(10).fill(1)"
+          style="margin-top: 1.5em; display: block; transition: all 1s"
+          [height]="'50px'"
+          [width]="'100%'"
+        >
+        </ngx-shimmer-loading>
+      </ng-container>
+      <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
+        <!-- sent invites -->
+        <div>
+          <div class="table-responsive">
+            <table
+              class="table table-hover table-nowrap align-middle"
+              datatable
+              [dtOptions]="dtOptions"
+              id="dataTables"
+            >
+              <thead class="thead-light text-uppercase">
+                <tr>
+                  <th class="body2">MEMBER NAME</th>
+                  <th class="body2">PATIENT NAME</th>
+                  <th class="body2">CASE TITLE</th>
+                  <th class="body2">STATUS</th>
+                  <th class="body2" data-orderable="false">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let data of isOwn ? baseData : baseColleagueData;
+                    let i = index
+                  "
+                >
+                  <td>
+                    <span class="d-none">{{ i }}</span>
+                    <div class="d-flex align-items-center">
+                      <div *ngIf="isOwn" class="ps-2">
+                        <span class="avatar-icon me-2">{{
+                          utility
+                            .getMetaData(
+                              data.invitedUserMail,
+                              "emailAddress",
+                              ["accountfirstName", "accountlastName"],
+                              "users"
+                            )
+                            .toString()
+                            .charAt(0)
+                        }}</span>
+                        <span class="body2 ms-1">{{
+                          utility.getMetaData(
+                            data.invitedUserMail,
+                            "emailAddress",
+                            ["accountfirstName", "accountlastName"],
+                            "users"
+                          )
+                        }}</span>
+                      </div>
+                      <div *ngIf="!isOwn" class="ps-2">
+                        <span class="avatar-icon me-2">{{
+                          utility
+                            .getMetaData(
+                              data.resourceOwner,
+                              "emailAddress",
+                              ["accountfirstName", "accountlastName"],
+                              "users"
+                            )
+                            .toString()
+                            .charAt(0)
+                        }}</span>
+                        <span class="body2 ms-1">{{
+                          utility.getMetaData(
+                            data.resourceOwner,
+                            "emailAddress",
+                            ["accountfirstName", "accountlastName"],
+                            "users"
+                          )
+                        }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="body2">{{ data.patientName }}</span>
+                  </td>
+                  <td>
+                    <span class="body2">{{ getCaseData(data.caseId) }}</span>
+                  </td>
+                  <td>
+                    <div>
+                      <span
+                        class="badge badge-pill badge-info body2 px-2"
+                        *ngIf="data.presentStatus == 0"
+                        >Pending</span
+                      >
+                      <span
+                        class="badge badge-pill badge-success body2 px-2"
+                        *ngIf="data.presentStatus == 1"
+                        >Accepted</span
+                      >
+                      <span
+                        class="badge badge-pill badge-warning body2 px-2"
+                        *ngIf="data.presentStatus == 2"
+                        >Declined</span
+                      >
+                      <span
+                        class="badge badge-pill badge-warning body2 px-2"
+                        *ngIf="data.presentStatus == 3"
+                        >Removed</span
+                      ><br />
+                      <small class="text-muted"
+                        >Updated on :
+                        {{ data.dateUpdated | date : "mediumDate" }}</small
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <span
+                        (click)="resetResposneForm(data)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#showInvite"
+                        class="isCusrosr badge badge-pill body2 px-3 me-2"
+                        style="
+                          background: rgba(7, 102, 170, 0.745);
+                          color: #fbfbfb;
+                        "
+                        >View</span
+                      >
+                      <ng-container
+                        *ngIf="
+                          data.presentStatus == 0 &&
+                          data.invitedUserMail == user.emailAddress
+                        "
+                      >
+                        <span
+                          (click)="resetResposneForm(data)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#showInvite"
+                          class="isCusrosr badge badge-pill body2 px-2 me-2"
+                          style="
+                            background: rgba(0, 182, 128, 0.3);
+                            color: #00b680;
+                          "
+                          >Accept</span
+                        >
+                        <span
+                          (click)="resetResposneForm(data)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#showInvite"
+                          class="isCusrosr badge badge-pill body2 px-2 me-2"
+                          style="background-color: #feeef2; color: #f7517f"
+                          >Decline</span
+                        >
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          data.presentStatus == 0 &&
+                          data.resourceOwner == user.emailAddress
+                        "
+                      >
+                        <span
+                          (click)="selectedItem = data; updateInvite(true)"
+                          class="isCusrosr badge badge-pill body2 px-2 me-2"
+                          style="background-color: #feeef2; color: #f7517f"
+                          >Remove</span
+                        >
+                      </ng-container>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-<div class="modal fade" id="inviteMembersAccepted" tabindex="-1" aria-labelledby="inviteMembersLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-centered">
-		<div class="modal-content">
-			<form #InviteForm="ngForm" id="InviteForm" (ngSubmit)="onSubmitInvite(InviteForm)">
-				<div class="modal-header">
-					<h5 class="modal-title body1" id="inviteMembersLabel">Send your response</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="row gy-3">
-						<div class="col-md-12">
-							<app-cvfast></app-cvfast>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer text-center justify-content-center border-top-0" *ngIf="this.isSendingData == true">
-					<input type="hidden" name="caseId" id="caseId" ngModel="{{this.case_id}}">
-					<input type="hidden" name="patientId" id="patientId" ngModel="{{this.patient_id}}">
-					<input type="hidden" name="patientName" id="patientName" ngModel="{{this.patient_name}}">
-					<input type="hidden" name="invitationId" id="invitationId" ngModel="{{this.invitation_id}}">
-					<input type="hidden" name="invitedUserMail" id="invitedUserMail" ngModel="{{this.invited_user_mail}}">
-					<input type="hidden" name="invitedUserId" id="invitedUserId" ngModel="{{this.invited_user_id}}">
-					<input type="hidden" name="presentStatus" id="presentStatus" ngModel="{{this.statusvalue}}">
-					<button type="submit" [disabled]="!InviteForm.form.valid" class="btn btn-default" data-bs-dismiss="modal">Submit</button>
-					<button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
-				</div>
-			</form>
-		</div>
-	</div>
+
+<!-- filter modal -->
+<div
+  class="modal fade"
+  id="filterModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
+        <div class="modal-body">
+          <div class="row gy-3">
+            <div class="col-md-12">
+              <label class="form-label body2 text-dark">Search by Date:</label>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label body2 text-dark">From</label>
+              <input
+                #filterDateFrom
+                type="date"
+                name="dateFrom"
+                ngModel
+                id="dateFrom"
+                class="form-control"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label body2 text-dark">To</label>
+              <input
+                [disabled]="!filterDateFrom.value"
+                min="{{ filterDateFrom.value }}"
+                type="date"
+                name="dateTo"
+                ngModel
+                id="dateTo"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
+            Apply
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add non-members -->
+<div
+  class="modal fade"
+  id="addNonMembers"
+  tabindex="-1"
+  aria-labelledby="addNonMembersLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title body1" id="addNonMembersLabel">
+          Invite Non Members
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mb-3 row">
+              <label class="col-sm-3 col-form-label">Email Address :</label>
+              <div class="col-sm-9">
+                <input class="form-control" type="email" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <textarea
+                class="form-control"
+                placeholder="Enter Message here"
+                id="floatingTextarea2"
+                style="height: 100px"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-center justify-content-center border-top-0">
+        <a class="btn btn-default" data-bs-dismiss="modal">Send E-Mail</a>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- create modal to display invite -->
+<!-- Modal to response text -->
+<div class="modal fade" id="showInvite" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div *ngIf="selectedItem" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title body1">Invitation</h5>
+        <button
+          id="showInviteClose"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <h6 class="fw-bold text-dark ms-2">Invitation Text</h6>
+          <app-cvfast-viewer
+            [cvfast]="selectedItem.invitationText"
+          ></app-cvfast-viewer>
+        </div>
+        <div>
+          <h6 class="fw-bold text-dark ms-2">Response</h6>
+          <label
+            class="body-2 my-3 text-primary fw-bold"
+            *ngIf="
+              !selectedItem.responseText &&
+              selectedItem.presentStatus == 0 &&
+              selectedItem.invitedUserMail != user.emailAddress
+            "
+            >Pending Response</label
+          >
+          <app-cvfast-viewer
+            *ngIf="
+              selectedItem.presentStatus == 1 || selectedItem.presentStatus == 2
+            "
+            [cvfast]="selectedItem.responseText"
+          ></app-cvfast-viewer>
+          <app-cvfast-new
+            #cvfastReply
+            [isMin]="true"
+            *ngIf="
+              selectedItem.presentStatus == 0 &&
+              selectedItem.invitedUserMail == user.emailAddress
+            "
+          ></app-cvfast-new>
+        </div>
+      </div>
+      <div
+        *ngIf="
+          selectedItem.presentStatus == 0 &&
+          selectedItem.invitedUserMail == user.emailAddress
+        "
+        class="modal-footer"
+      >
+        <button
+          [disabled]="isUploadingData"
+          (click)="updateInvite(false, cvfastReply, 1)"
+          class="btn btn-primary"
+        >
+          <span
+            *ngIf="isUploadingData"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Accept
+        </button>
+        <button
+          [disabled]="isUploadingData"
+          (click)="updateInvite(false, cvfastReply, 2)"
+          class="btn btn-danger"
+        >
+          <span
+            *ngIf="isUploadingData"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Decline
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal to add members -->
+<!-- 1.dont show existing members
+	2.allow to add multiple members with button checkbox->this adds item to array
+-->
+<div class="modal fade" #modal id="addInvite" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title body1">Add Members</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-4">
+          <ng-select
+            #selectedCase
+            dropdownPosition="bottom"
+            [items]="utility.metadata.cases"
+            [editableSearchTerm]="true"
+            (change)="getNonInvitedMembers($event)"
+            placeholder="Please Select A Case To Continue"
+            bindLabel="title"
+          ></ng-select>
+        </div>
+        <div class="mb-4">
+          <div class="search search-md search-filter search-filter-sm">
+            <i class="bx bx-search"></i>
+            <ng-select
+              dropdownPosition="bottom"
+              [items]="nonInvitedMembers"
+              [multiple]="true"
+              bindLabel="accountfirstName"
+              placeholder="Select Members"
+              [(ngModel)]="selectedUsers"
+            >
+              <ng-template
+                ng-label-tmp
+                let-item="item"
+                let-index="index"
+                let-clear="clear"
+              >
+                <span class="ng-value-label"
+                  ><img
+                    [src]="
+                      item.imageSrc
+                        ? utility.apiData.users.bucketUrl + item.imageSrc
+                        : '../../assets/images/users.png'
+                    "
+                    width="20px"
+                    height="20px"
+                    class="rounded-circle me-1"
+                  />
+                  {{ item.accountfirstName + " " + item.accountlastName }}</span
+                >
+                <span
+                  class="ng-value-icon right"
+                  (click)="clear(item)"
+                  aria-hidden="true"
+                  >×</span
+                >
+              </ng-template>
+              <ng-template
+                ng-option-tmp
+                let-item="item"
+                let-index="index"
+                let-search="searchTerm"
+              >
+                <div class="card card-lists">
+                  <div class="card-body p-0">
+                    <div class="d-flex align-items-center position-realtive">
+                      <img
+                        style="height: 50px; width: 50px"
+                        [src]="
+                          item.imageSrc
+                            ? utility.apiData.users.bucketUrl + item.imageSrc
+                            : '../../assets/images/users.png'
+                        "
+                        class="rounded-circle me-2 img-thumbnail shadow-sm"
+                      />
+                      <div
+                        class="d-flex align-items-center justify-content-between search-list-content"
+                      >
+                        <div>
+                          <strong ngOptionHighlight="search">
+                            {{
+                              item.accountfirstName + " " + item.accountlastName
+                            }}
+                          </strong>
+                          <small class="text-muted d-block">
+                            {{ item.emailAddress }}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div>
+          <h6 class="fw-bold text-dark ms-2">Invitation Text</h6>
+          <app-cvfast-new [isMin]="true" #inviteText></app-cvfast-new>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          [disabled]="isUploadingData"
+          (click)="sendInvite(inviteText)"
+          class="btn btn-primary"
+        >
+          <span
+            *ngIf="isUploadingData"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Send Invite
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

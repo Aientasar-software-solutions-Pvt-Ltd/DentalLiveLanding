@@ -1,284 +1,229 @@
-<ol class="breadcrumb">
-	<!-- breadcrumb --> 
-	<li class="breadcrumb-item">
-		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
-	</li>
-	<li class="breadcrumb-item">
-		<a routerLink="/referrals/referral-list">Referral</a>
-	</li>
-	<li class="breadcrumb-item active" aria-current="page">
-		Referral Details
-	</li>
+<ol *ngIf="!hasCase" class="breadcrumb">
+  <!-- breadcrumb -->
+  <li class="breadcrumb-item">
+    <a routerLink="/dashboard"
+      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
+    >
+  </li>
+  <li class="breadcrumb-item">
+    <a routerLink="{{ backUrl }}">Referrals</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">Referral Details</li>
 </ol>
-<div class="page-header row align-items-center gx-0">
-	<div class="col-md-6" *ngIf="detailsdata">
-		<div class="d-inline-block">
-			<h3 class="mt-2 fw-normal">{{detailsdata.patientName}} <span class="fw-bold d-block">{{detailsdata.title}}</span>
-				<div class="progress progress-sm mt-2">
-					<div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-				</div>
-			</h3>
-		</div>
-	</div>	
-	<div class="col-md-6 text-end"> 
-		
-	</div>
+<div *ngIf="isLoadingData" class="row">
+  <div class="col-md-12">
+    <lottie-player
+      class="mt-3 m-auto"
+      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></lottie-player>
+    <h6 class="text-center mt-5">
+      Request Processing …..Please Wait, Do Not Close The Page
+    </h6>
+  </div>
 </div>
-<ng-container class="mt-3" *ngIf="isLoadingData">
-	<div class="mt-5 w-100"></div>
-	<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
-	[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
-	</ngx-shimmer-loading>
-</ng-container>
-<div class="row align-items-center pt-2">
-	<div class="col-md-12">
-		<div class="card shadow-sm">
-			<div class="card-header bg-white">
-				<div class="row">
-					<div class="col-md-5 align-self-center">
-						<h5 class="body1 card-title my-2">Referral Details</h5>
-					</div>
-					<div class="col-md-7 text-end">
-						<a href="javascript:void(0);" (click)="back()" class="btn btn-default">Back</a>
-					</div>
-					<div class="col-md-5">
-						<div class="panel panel-primary mt-3"> 
-							<div class="tab-menu-heading"> 
-								<div class="tabs-menu"> 
-									<!-- Tabs -->
-									<ul class="nav panel-tabs"> 
-										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab1'" (click)="tabContent('tab1')">Details</a></li> 
-										<li><a href="javascript:void(0);" class="me-1" [class.active]="id === 'tab2'" (click)="tabContent('tab2')">Thread</a></li> 
-									</ul> 
-								</div> 
-							</div>
-						</div>    
-					</div>
-					<div class="col-md-7 text-end">
-						<div class="avatar-list justify-content-end mt-2 my-1 ms-2">
-							<span class="avatar-icon my-1 ms-2" style="background-color: #FFF;">&nbsp;</span>
-						</div>
-					</div>
-				</div>         
-			</div>
-			<div>
-				<div *ngIf="id === 'tab1'">  
-					<div class="card-body">
-						<div class="row mt-2">
-							<div class="col-md-12">
-								<div class="row">
-									<div class="col-md-8"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
-											<div class="col-sm-8">
-												<input class="form-control" type="text" value="{{this.referalmembersName}}" aria-label="readonly input example" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-8"> 
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-3 col-form-label">Title</label>
-											<div class="col-sm-8" *ngIf="tabledata">
-												<input class="form-control" type="text" value="{{tabledata.title}}" aria-label="readonly input example" readonly>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-2"> 
-										<label class="form-label body2 text-gray">Start Date</label>
-										<div class="mb-4" *ngIf="tabledata">
-											<input type="text" readonly class="form-control-plaintext"  value="{{tabledata.startdate | date:'mediumDate'}}">
-										</div>
-									</div>
-									<div class="col-md-2"> 
-										<label class="form-label body2 text-gray">Due Date</label>
-										<div class="mb-4" *ngIf="tabledata">
-											<input type="text" readonly class="form-control-plaintext"  value="{{tabledata.enddate | date:'mediumDate'}}">
-										</div>
-									</div>
-									
-									<div class="col-md-12"> 
-										<div class="mb-3 row" *ngIf="(this.cvfastText == true)">
-											<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
-											<div class="col-sm-10">
-												<div class="card bg-primary" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);">
-													<div class="card-body">
-														<p class="text-light body1">
-														 {{this.removeHTML(this.tabledata.notes.text)}}
-														</p>
-													</div>
-												</div>         
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12"> 
-										<div class="mb-3 row" *ngIf="(this.cvfastLinks == true)">
-											<label class="col-sm-2 col-form-label" >Assets : </label>
-											<div class="col-sm-10">
-												<div class="row">
-													<div class="col-md-4 col-lg-4" *ngFor="let links of attachmentFiles">
-														<div class="card mb-3" style="border: 1px solid #D0D6DE;">
-															<div class="card-body d-flex align-items-center">
-																&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:280px;height:159px;"/></a>
-																<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()!='png' && links.imgName.split('.').pop()!='jpg' && links.imgName.split('.').pop()!='jpeg' && links.imgName.split('.').pop() !='gif' && links.imgName.split('.').pop()!='PNG' && links.imgName.split('.').pop() !='JPG' && links.imgName.split('.').pop()!='JPEG' && links.imgName.split('.').pop() !='GIF' && links.imgName.split('.').pop()!='mp4' && links.imgName.split('.').pop()!='MP4' && links.imgName.split('.').pop()!='3gp' && links.imgName.split('.').pop()!='3GP' && links.imgName.split('.').pop()!='avi' && links.imgName.split('.').pop()!='AVI' && links.imgName.split('.').pop()!='wmv' && links.imgName.split('.').pop()!='WMV' && links.imgName.split('.').pop()!='mov' && links.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{getFileName(links.imgName)}}</a>
-																<video controls class="video" style="display:inline-block;vertical-align:middle;width:100%;height:100%;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer{{links.imgName}}>
-																<source src="{{links.ImageUrl}}" type="video/mp4">
-																</video>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12"> 
-										<div class="mb-3 row">
-											<label class="col-sm-2 col-form-label" >Tooth Guide : </label>
-											<div class="col-sm-12">
-												<div class="row">
-													<app-referral-guide #orders></app-referral-guide>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 my-2 mx-1">
-								<button type="button" class="btn btn-default me-2" data-bs-toggle="modal" data-bs-target="#updateDate"  *ngIf="(this.tabledata.resourceOwner == this.userDetails.emailAddress)">
-									<i class="bx bx-calendar-alt" style="font-size: large;"></i> Update Due Date
-								</button>
-								<a href="javascript:void(0);" (click)="back()" class="btn btn-secondary">Cancel</a>
-							</div>
-						</div>
-					</div> 
-				</div>
-				
-				
-				<div *ngIf="id === 'tab2'">  
-					<div class="card-body"  *ngIf="messageAry">
-						<div class="row py-2 border-bottom px-2" *ngFor="let message of messageAry; let i = index;">
-							<div class="col-md-4 col-lg-6 d-flex">
-								<div class="fw-bold" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">        
-									<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" class="avatar avatar-sm rounded-circle me-2 " />
-									<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="avatar avatar-sm rounded-circle me-2 "/>
-									{{message.patientName}}
-							   </div>
-							   
-							</div>
-							<div class="col-md-8 col-lg-6 text-end ">
-								<div class="row">
-									<div class="col-md-10">
-										<span class="body2">{{message.messagedate | date:'medium'}}</span>  
-									</div>
-									<div class="col-md-2">   
-										<a tippy="Reply" placement="top" href="javascript:void(0);" (click)="replyToggle(i)"><span class="material-icons me-2 " style="color:#D0D6DE;">  reply </span></a>
-									</div>
-								</div>                     
-							</div>
-							<div class=" mt-2 col-md-12" >
-								<div class="ms-5">
-									<p class="body2 mb-0 ">
-										{{message.messagetext}}
-									</p>
-									<div class="mt-2 mb-2" *ngIf="message.messageimg">
-										<span *ngFor="let imgUrl of message.messageimg;">
-										  &nbsp;<a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()=='png' || imgUrl.imgName.split('.').pop()=='jpg' || imgUrl.imgName.split('.').pop()=='jpeg' || imgUrl.imgName.split('.').pop()=='gif' || imgUrl.imgName.split('.').pop()=='PNG' || imgUrl.imgName.split('.').pop()=='JPG' || imgUrl.imgName.split('.').pop()=='JPEG' || imgUrl.imgName.split('.').pop()=='GIF'"><img src="{{imgUrl.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:200px;height:130px;"/></a>
-										  <a target="_tblank" href="{{imgUrl.ImageUrl}}" *ngIf="imgUrl.imgName.split('.').pop()!='png' && imgUrl.imgName.split('.').pop()!='jpg' && imgUrl.imgName.split('.').pop()!='jpeg' && imgUrl.imgName.split('.').pop() !='gif' && imgUrl.imgName.split('.').pop()!='PNG' && imgUrl.imgName.split('.').pop() !='JPG' && imgUrl.imgName.split('.').pop()!='JPEG' && imgUrl.imgName.split('.').pop() !='GIF' && imgUrl.imgName.split('.').pop()!='mp4' && imgUrl.imgName.split('.').pop()!='MP4' && imgUrl.imgName.split('.').pop()!='3gp' && imgUrl.imgName.split('.').pop()!='3GP' && imgUrl.imgName.split('.').pop()!='avi' && imgUrl.imgName.split('.').pop()!='AVI' && imgUrl.imgName.split('.').pop()!='wmv' && imgUrl.imgName.split('.').pop()!='WMV' && imgUrl.imgName.split('.').pop()!='mov' && imgUrl.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{getFileName(imgUrl.imgName)}}</a>
-										  <video controls class="video" style="display:inline-block;vertical-align:middle;width:200px;height:130px;" (play)="video()" *ngIf="imgUrl.imgName.split('.').pop()=='mp4' || imgUrl.imgName.split('.').pop()=='MP4' || imgUrl.imgName.split('.').pop()=='3gp' || imgUrl.imgName.split('.').pop()=='3GP' || imgUrl.imgName.split('.').pop()=='avi' || imgUrl.imgName.split('.').pop()=='AVI' || imgUrl.imgName.split('.').pop()=='wmv' || imgUrl.imgName.split('.').pop()=='WMV' || imgUrl.imgName.split('.').pop()=='mov' || imgUrl.imgName.split('.').pop()=='MOV'"  #videoPlayer{{imgUrl.imgName}}>
-										   <source src="{{imgUrl.ImageUrl}}" type="video/mp4">
-										  </video>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="mt-2 col-md-12" *ngFor="let comments of message.messagecomments; let j = index;">
-								<div class="flex p-2" *ngIf="(comments.isShow == '1' || comments.isShowLink == '1')">
-									<div class="flex-grow p-2"  style="border-radius: 6px;background-color: #F7F9FB;border: 2px solid #EFF3F7;">
-										<div>
-											<p class="body2" *ngIf="comments.isShow == '1'">{{comments.text}}</p>
-											<div class="mt-2 mb-2"  >
-												<span *ngFor="let link of comments.links;">
-													&nbsp;<a target="_tblank" href="{{link.ImageUrl}}" *ngIf="link.imgName.split('.').pop()=='png' || link.imgName.split('.').pop()=='jpg' || link.imgName.split('.').pop()=='jpeg' || link.imgName.split('.').pop()=='gif' || link.imgName.split('.').pop()=='PNG' || link.imgName.split('.').pop()=='JPG' || link.imgName.split('.').pop()=='JPEG' || link.imgName.split('.').pop()=='GIF'"><img src="{{link.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:200px;height:130px;"/></a>
-													<a target="_tblank" href="{{link.ImageUrl}}" *ngIf="link.imgName.split('.').pop()!='png' && link.imgName.split('.').pop()!='jpg' && link.imgName.split('.').pop()!='jpeg' && link.imgName.split('.').pop() !='gif' && link.imgName.split('.').pop()!='PNG' && link.imgName.split('.').pop() !='JPG' && link.imgName.split('.').pop()!='JPEG' && link.imgName.split('.').pop() !='GIF' && link.imgName.split('.').pop()!='mp4' && link.imgName.split('.').pop()!='MP4' && link.imgName.split('.').pop()!='3gp' && link.imgName.split('.').pop()!='3GP' && link.imgName.split('.').pop()!='avi' && link.imgName.split('.').pop()!='AVI' && link.imgName.split('.').pop()!='wmv' && link.imgName.split('.').pop()!='WMV' && link.imgName.split('.').pop()!='mov' && link.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{getFileName(link.imgName)}}</a>
-													<video controls class="video" style="display:inline-block;vertical-align:middle;width:200px;height:130px;" (play)="video()" *ngIf="link.imgName.split('.').pop()=='mp4' || link.imgName.split('.').pop()=='MP4' || link.imgName.split('.').pop()=='3gp' || link.imgName.split('.').pop()=='3GP' || link.imgName.split('.').pop()=='avi' || link.imgName.split('.').pop()=='AVI' || link.imgName.split('.').pop()=='wmv' || link.imgName.split('.').pop()=='WMV' || link.imgName.split('.').pop()=='mov' || link.imgName.split('.').pop()=='MOV'"  #videoPlayer{{link.imgName}}>
-													<source src="{{link.ImageUrl}}" type="video/mp4">
-													</video>
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<ng-container *ngIf="this.showComment == i">
-								<div class="col-md-12" >
-									<form #CommentId="ngForm" id="mainForm" (ngSubmit)="onSubmitComment(CommentId)">
-										<app-cvfast></app-cvfast>
-										<span *ngIf="(this.setMessageRpValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
-										<div class="row">
-											<div class="col-md-12 mb-2">
-												<input type="hidden"  name="CcaseId" id="CcaseId" ngModel="{{message.caseId}}">
-												<input type="hidden" name="CpatientId" id="CpatientId" ngModel="{{message.patientId}}">
-												<input type="hidden" name="CpatientName" id="CpatientName" ngModel="{{message.patientName}}">
-												<input type="hidden" name="CmessageId" id="CmessageId" ngModel="{{message.messageId}}">
-												<input type="hidden" name="CmessageReferenceId" id="CmessageReferenceId" ngModel="{{message.messageReferenceId}}">
-												<input type="hidden" name="Ccomments" id="Ccomments" ngModel="{{i}}">
-												<button type="submit" class="btn btn-default mt-1 me-2" >Comment</button> 
-											</div>
-										</div>
-									</form>
-								</div>
-							</ng-container>
-						</div>
-					</div>
-					<div class="card-footer" style="background-color: #F7F9FB;" *ngIf="detailsdata">
-						<form #MessageId="ngForm" id="mainForm" (ngSubmit)="onSubmitMessage(MessageId)">
-							<app-cvfast></app-cvfast>
-							<span *ngIf="(this.setMessageValue == true)" style="color:red;font-weight:bold;">Message Should Not Be Blank!</span>
-							<div class="row">
-								<div class="col-md-12 mb-2">
-									<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.detailsdata.caseId}}">
-									<input type="hidden" name="patientId" id="patientId" ngModel="{{this.detailsdata.patientId}}">
-									<input type="hidden" name="patientName" id="patientName" ngModel="{{this.detailsdata.patientName}}">
-									<input type="hidden" name="messageReferenceId" id="messageReferenceId" ngModel="{{this.tabledata.referralId}}">
-									<button type="submit" class="btn btn-default mt-1 me-2" >Add Message</button> 
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
+<div [hidden]="isLoadingData">
+  <div *ngIf="!hasCase" class="page-header row align-items-center gx-0">
+    <div class="col-md-6">
+      <div class="d-inline-block">
+        <h3 class="mt-2 fw-normal">
+          {{
+            utility.getMetaData(
+              baseData.patientId,
+              "patientId",
+              ["firstName", "lastName"],
+              "patients"
+            )
+          }}
+          <span class="fw-bold d-block">{{
+            utility.getMetaData(baseData.caseId, "caseId", ["title"], "cases")
+          }}</span>
+          <div class="progress progress-sm mt-2">
+            <div
+              class="progress-bar bg-primary"
+              role="progressbar"
+              style="width: 55%"
+              aria-valuenow="55"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </h3>
+      </div>
+    </div>
+    <div class="col-md-6 text-end"></div>
+  </div>
+
+  <div class="row align-items-center pt-2">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <div class="row">
+            <div class="col-md-5 align-self-center">
+              <h5 class="body1 card-title my-2">Referrals Details</h5>
+            </div>
+            <div class="col-md-7 text-end">
+              <a
+                [routerLink]="
+                  hasCase
+                    ? '/cases/cases/case-view/' + baseData.caseId + '/referrals'
+                    : backUrl
+                "
+                class="btn btn-default"
+                >Back</a
+              >
+            </div>
+            <div class="col-md-5">
+              <div class="panel panel-primary mt-3">
+                <div class="tab-menu-heading">
+                  <div class="tabs-menu">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs">
+                      <li>
+                        <a
+                          class="me-1 isCursor"
+                          [class.active]="isDetail"
+                          (click)="isDetail = true"
+                          >Details</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="me-1 isCursor"
+                          [class.active]="!isDetail"
+                          (click)="isDetail = false"
+                          >Thread</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7 text-end">
+              <div class="avatar-list justify-content-end mt-2 my-1 ms-2">
+                <span
+                  class="avatar-icon my-1 ms-2"
+                  style="background-color: #fff"
+                  >&nbsp;</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div [hidden]="!isDetail">
+          <div class="card-body">
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="mb-3 row">
+                      <label for="staticEmail" class="col-sm-3 col-form-label"
+                        >Assigned To</label
+                      >
+                      <div class="col-sm-8">
+                        <input
+                          class="form-control"
+                          type="text"
+                          value="{{
+                            utility.getMetaData(
+                              baseData.members,
+                              'dentalId',
+                              ['accountfirstName', 'accountlastName'],
+                              'users'
+                            )
+                          }}"
+                          aria-label="readonly input example"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="mb-3 row">
+                      <label for="title" class="col-sm-3 col-form-label"
+                        >Title</label
+                      >
+                      <div class="col-sm-8">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="title"
+                          id="title"
+                          value="{{ baseData.title }}"
+                          aria-label="readonly input example"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label body2 text-gray">Start Date</label>
+                    <div class="mb-4">
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control-plaintext"
+                        value="{{ baseData.startdate | date : 'mediumDate' }}"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label body2 text-gray"
+                      >Expected Date</label
+                    >
+                    <div class="mb-4">
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control-plaintext"
+                        value="{{ baseData.enddate | date : 'mediumDate' }}"
+                      />
+                    </div>
+                  </div>
+
+                  <app-cvfast-viewer
+                    *ngIf="!isLoadingData"
+                    [cvfast]="baseData.notes"
+                  ></app-cvfast-viewer>
+
+                  <div class="col-md-12">
+                    <div class="mb-3 row">
+                      <label class="col-sm-2 col-form-label"
+                        >Tooth Guide :
+                      </label>
+                      <div class="col-sm-12">
+                        <div class="row">
+                          <app-referral-guide
+                            [readOnly]="true"
+                            #orders
+                          ></app-referral-guide>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </form> -->
+        </div>
+        <div *ngIf="!isDetail">
+          <div class="card-body">
+            <app-case-message
+              *ngIf="!isLoadingData"
+              [messageType]="utility.apiData[module].messageType"
+              [messageReferenceId]="baseData.referralId"
+              [caseId]="baseData.caseId"
+            ></app-case-message>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<form #referralForm="ngForm" id="referralForm" (ngSubmit)="onSubmitReferral(referralForm)">
-<div class="modal fade" id="updateDate" tabindex="-1" aria-labelledby="updateDateLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title body1" id="updateDateLabel">Update Due Date</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row gy-3">
-					<div class="col-md-12"> 
-						<label class="form-label body2 text-dark">Choose Due Date</label>
-						<input type="date" class="form-control" name="enddate" id="enddate" min="{{this.minDate | date:'yyyy-MM-dd'}}" ngModel required>
-						<span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Due date should be greater than to start date</span>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer"  *ngIf="detailsdata">
-				<input type="hidden" class="form-control" name="referralId" id="referralId" ngModel={{this.tabledata.referralId}} >
-				<input type="hidden" class="form-control" name="startdate" id="startdate" ngModel={{this.tabledata.startdate}} >
-				<input type="hidden" class="form-control" name="presentStatus" id="presentStatus" ngModel={{this.tabledata.presentStatus}} >
-				<input type="hidden"  name="caseId" id="caseId" ngModel="{{this.detailsdata.caseId}}">
-				<input type="hidden" name="patientId" id="patientId" ngModel="{{this.detailsdata.patientId}}">
-				<input type="hidden" name="patientName" id="patientName" ngModel="{{this.detailsdata.patientName}}">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-default" data-bs-dismiss="modal">Apply</button>
-			</div>
-		</div>
-	</div>
-</div>
-</form>

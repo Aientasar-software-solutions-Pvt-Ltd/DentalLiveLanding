@@ -1,222 +1,96 @@
-//@ts-nocheck
-import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, ViewChild, OnInit, AfterViewInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import { CrudOperationsService } from 'src/app/crud-operations.service';
 import swal from 'sweetalert';
-import { ApiDataService } from '../../users/api-data.service';
-import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
-import { AccdetailsService } from '../../accdetails.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Cvfast } from '../../../../cvfast/cvfast.component';
-import "@lottiefiles/lottie-player";
-import {encode} from 'html-entities';
+
 
 @Component({
-  selector: 'app-milestone-add',
-  templateUrl: './milestone-add.component.html',
-  styleUrls: ['./milestone-add.component.css']
+	selector: 'app-milestone-add',
+	templateUrl: './milestone-add.component.html',
+	styleUrls: ['./milestone-add.component.css'],
+	providers: [CrudOperationsService]
 })
 export class MilestoneAddComponent implements OnInit {
-	sending: boolean;
-	@ViewChild(Cvfast) cvfastval!: Cvfast;
-	public isvalidDate = false;
-	
-	public allcases: any[] = []
-	public caseid = '';
-	public patientid = '';
-	public casesName = '';
-	public patientName = '';
-	public parmCaseId = '';
-	checkCase = '';
-	minDate = new Date();
-	public jsonObj = {
-	  caseId: '',
-	  patientId: '',
-	  patientName: '',
-	  title: '',
-	  description: {},
-	  startdate: 0,
-	  duedate: 0,
-	  presentStatus: 0,
-	  reminder: 0,
+	@ViewChild("mainForm", { static: false }) mainForm: NgForm;
+	@ViewChild(CvfastNewComponent) cvfast!: CvfastNewComponent;
+	module = 'milestones';
+	hasCase = false;
+	mode = "Add"
+	user = this.utility.getUserDetails();
+	constructor(
+		private route: ActivatedRoute,
+		public utility: UtilityServiceV2,
+		public formInterface: CrudOperationsService,
+	) { }
+
+	ngAfterViewInit(): void {
+		this.formInterface.mainForm = this.mainForm
+		this.formInterface.cvfast = this.cvfast;
 	}
-	tabledata:any;
-  constructor(private location: Location, private dataService: ApiDataService, private router: Router, private utility: UtilityService, private utilitydev: UtilityServicedev, private usr: AccdetailsService, private route: ActivatedRoute) { 
-  this.parmCaseId = this.route.snapshot.paramMap.get('caseId');
-  this.checkCase = this.route.snapshot.paramMap.get('caseId');
-  }
-  
-	back(): void {
-		this.location.back()
-	}
+
 	ngOnInit(): void {
-		this.getCaseDetails();
-		this.getAllCases();
-	}
-	
-	onSubmitMilestone(form: NgForm){
-		if(Date.parse(form.value.startdate) >= Date.parse(form.value.dueDatetime))
-		{
-			this.isvalidDate =true;
-		}
-		else
-		{
-			this.isvalidDate =false;
-		}
-		let TodayDate = new Date();
-		if(Date.parse(TodayDate) >= Date.parse(form.value.startdate))
-		{
-		  swal("Mlestone start date should be greater than today date.");
-		  return;
-		}
-		if ((form.invalid) || (this.isvalidDate == true)) {
-		  swal("Please enter values for the mandatory fields");
-		  form.form.markAllAsTouched();
-		  return;
-		}
-		this.sending = true;
-		this.onGetdateData(form.value);
-	}
-	
-	onGetdateData(data: any)
-	{
-		this.jsonObj['caseId'] = data.caseid;
-		this.jsonObj['patientId'] = data.patientid;
-		this.jsonObj['patientName'] = data.patientName;
-		this.jsonObj['title'] = this.removeHTML(data.title);
-		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-		{
-		this.jsonObj['description'] = this.cvfastval.returnCvfast();
-		}
-		this.jsonObj['startdate'] = Date.parse(data.startdate);
-		this.jsonObj['duedate'] = Date.parse(data.dueDatetime);
-		this.jsonObj['presentStatus'] = Number(data.presentStatus);
-		this.jsonObj['reminder'] = Number(data.reminder);
-		
-		const backurl = sessionStorage.getItem('backurl');
-		
-		this.cvfastval.processFiles(this.utility.apiData.userMilestones.ApiUrl, this.jsonObj, true, 'Milestone added successfully', backurl, 'post', '','description','','Milestone title already exists.').then(
-		(value) => {
-		this.sending = false;
-		},
-		(error) => {
-		this.sending = false;
-		});
-	}
-	
-	getAllCases() {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		this.sending = true;
-		let url = this.utility.apiData.userCases.ApiUrl;
-		this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				
-				this.tabledataAll = JSON.parse(Response.toString());
-				this.allcases = Array();
-				for(var k = 0; k < this.tabledataAll.length; k++)
-				{
-					if(this.tabledataAll[k].caseStatus == true)
-					{
-						let name = this.tabledataAll[k].title;
-						this.allcases.push({
-						  value: this.tabledataAll[k].caseId,
-						  caseId: this.tabledataAll[k].caseId,
-						  patientName: this.tabledataAll[k].patientName,
-						  patientId: this.tabledataAll[k].patientId,
-						  name: name,
-						  label: name
-						});
+		this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
+		this.formInterface.resetForm();
+		console.log(this.utility.apiData[this.module]);
+		this.formInterface.loadDependencies().then(() => {
+
+			this.route.parent.parent.paramMap.subscribe((parentParams) => {
+
+				if (parentParams.get("caseId") && parentParams.get("caseId") != "")
+					this.hasCase = true
+
+				this.route.paramMap.subscribe((params) => {
+
+					if (params.get("id") && params.get("id") != "") {
+						this.mode = "Update"
+						this.formInterface.hasData(params.get("id"));
+					} else {
+						if (parentParams.get("caseId") && parentParams.get("caseId") != "") {
+							this.formInterface.loadCaseData(parentParams.get("caseId"))
+
+						}
 					}
-				}
-				this.sending = false;
-			}
-		}, (error) => {
-			if (error.status === 404)
-			swal('No milestone found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-		}
-	}
-	
-	selectEvent(item: any) {
-		this.caseid = item.caseId;
-		this.patientid = item.patientId;
-		this.patientName = item.patientName;
-		this.casesName = item.name;
-	}
-	getCaseDetails() {
-		let url = this.utility.apiData.userCases.ApiUrl;
-		let caseId = this.parmCaseId;
-		if(caseId != 0)
-		{
-			url += "?caseId="+caseId;
-			this.dataService.getallData(url, true)
-			.subscribe(Response => {
-				if (Response)
-				{
-					this.tabledata = JSON.parse(Response.toString());
-					this.casesName = this.tabledata.title;
-					this.patientName = this.tabledata.patientName;
-					this.caseid = this.tabledata.caseId;
-					this.patientid = this.tabledata.patientId;
-				}
-			}, error => {
-				if (error.status === 404)
-				swal('No milestone found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
 				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
 			});
-		}
+		})
 	}
-	
-	removeHTML(str){ 
-		if((str != '') && (str != 'undefined') && (str != undefined))
-		{
-		var tmp = document.createElement("DIV");
-		tmp.innerHTML = str;
-		return tmp.textContent || tmp.innerText || "";
+
+	//Special functions for this class
+	selectCase(event) {
+		if (!event) return;
+		this.formInterface.object.caseId = event.caseId
+		this.formInterface.object.patientId = event.patientId
+		this.formInterface.object.patientName = event.patientName
+	}
+
+	toInt(val, event) {
+		this.formInterface.object[val] = Number(event);
+	}
+
+	customSubmit() {
+		if (this.mode == "Add") {
+			let date1 = new Date(this.formInterface.object.startdate);
+			let date2 = new Date();
+
+			date1.setHours(0, 0, 0, 0);
+			date2.setHours(0, 0, 0, 0);
+
+			if (date1 < date2) {
+				swal("Start Date Should Not Be Less Than Today’s Date")
+				return
+			}
+
 		}
-		else
-		{
-		return "";
+
+		if (this.formInterface.object.startdate > this.formInterface.object.duedate) {
+			swal("Due Date Should Be Greater Than Start Date")
+			return
 		}
+		if (this.hasCase)
+			this.formInterface.section.backUrl = '/cases/cases/case-view/' + this.formInterface.object.caseId + '/milestones'
+		this.formInterface.onSubmit()
 	}
 }

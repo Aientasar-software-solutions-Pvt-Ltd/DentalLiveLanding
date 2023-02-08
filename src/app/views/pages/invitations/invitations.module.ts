@@ -1,16 +1,16 @@
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CvfastModuleModule } from './../../../cvfastFiles/cvfast-module/cvfast-module.module';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
 import { InvitationsComponent } from './invitations.component';
 import { InvitationListsComponent } from './invitation-lists/invitation-lists.component';
-import { WorkOrderInvitationListComponent } from './work-order-invitation-list/work-order-invitation-list.component';
-import { ReferralInvitationListComponent } from './referral-invitation-list/referral-invitation-list.component';
-import { CaseInvitationListComponent } from './case-invitation-list/case-invitation-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientsModule } from '../patients/patients.module';
-import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+import { ColleagueListComponent } from './colleague-list/colleague-list.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routes: Routes = [
   {
@@ -18,26 +18,14 @@ const routes: Routes = [
     component: InvitationsComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'invitations',
-        pathMatch: 'full',
-      },
-	  {
         path: 'invitation-lists',
         component: InvitationListsComponent
       },
-	  {
-        path: 'work-order-invitation-list',
-        component: WorkOrderInvitationListComponent
+      {
+        path: 'colleague-lists',
+        component: ColleagueListComponent
       },
-	  {
-        path: 'referral-invitation-list',
-        component: ReferralInvitationListComponent
-      },
-	  {
-        path: 'case-invitation-list',
-        component: CaseInvitationListComponent
-      }
+
     ]
   }
 ]
@@ -45,29 +33,29 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     InvitationsComponent,
-	InvitationListsComponent,
-	WorkOrderInvitationListComponent,
-	ReferralInvitationListComponent,
-	CaseInvitationListComponent
+    InvitationListsComponent,
+    ColleagueListComponent,
   ],
   imports: [
     CommonModule,
-	RouterModule.forChild(routes),
-	DataTablesModule,
-	FormsModule,
-	ReactiveFormsModule,
-	PatientsModule,
-	NgxShimmerLoadingModule,
-	TippyModule.forRoot({
-		defaultVariation: 'tooltip',
-		variations: {
-		  tooltip: tooltipVariation,
-		  popper: popperVariation,
-		}
-	  })	
+    RouterModule.forChild(routes),
+    DataTablesModule,
+    FormsModule,
+    NgSelectModule,
+    CvfastModuleModule,
+    ReactiveFormsModule,
+    PatientsModule,
+    NgxShimmerLoadingModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    })
   ],
   schemas: [
-	  CUSTOM_ELEMENTS_SCHEMA
-	]
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class InvitationsModule { }

@@ -1,209 +1,267 @@
 <ol class="breadcrumb">
-	<!-- breadcrumb --> 
-	<li class="breadcrumb-item">
-		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
-	</li>
-	<li class="breadcrumb-item">
-		<a routerLink="/patients">Patients</a>
-	</li> 
-	<li class="breadcrumb-item active" aria-current="page">
-		Patient View
-	</li>
+  <!-- breadcrumb -->
+  <li class="breadcrumb-item">
+    <a routerLink="/dashboard"
+      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
+    >
+  </li>
+  <li class="breadcrumb-item">
+    <a routerLink="/patients">Patients</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">Patient View</li>
 </ol>
 <ng-container class="mt-3" *ngIf="isLoadingData">
-	<div class="mt-5 w-100"></div>
-	<ngx-shimmer-loading style="margin-top: 1.5em;display: block;transition: all 1s;"  [width]="'100%'"
-	[height]="'50px'" [margin]="'20px'" *ngFor="let i of shimmer(10).fill(1)" class="vh-100">
-	</ngx-shimmer-loading>
+  <div class="col-md-12">
+    <lottie-player
+      class="mt-3 m-auto"
+      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></lottie-player>
+    <h6 class="text-center mt-5">
+      Request Processing …..Please Wait, Do Not Close The Page
+    </h6>
+  </div>
 </ng-container>
-<div class="page-header row align-items-center gx-0">
-	<div class="col-md-12">
-		<h3 class="my-2 my-md-0" id="heading1">Patient Overview : <button class="accordion-button d-inline-flex" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">{{this.tabledata.firstName}} {{this.tabledata.lastName}}</button></h3>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="accordion-overview" id="accordionOverview">
-			<div class="accordion-item shadow-sm border-0">
-				<div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionOverview">
-					<div class="accordion-body mb-4" style="box-shadow: 0px 12px 22px rgba(203, 237, 253, 0.5);">
-						<div class="row gx-2">
-							<div class="col-md-3 col-lg-3 col-xl-2">
-								<div class="profile-img justify-content-center p-md-2">
-									<div class="">
-										<img src="{{this.patientImg}}" *ngIf="(this.caseImage == true)" alt="" class="mb-2 rounded-circle" />
-										<img src="{{this.Img}}" alt="" *ngIf="(this.caseImage == false)" class="mb-2 rounded-circle"/>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-9 col-lg-9 col-xl-10">
-								<div class="row"  >
-									<div class="col-md-5">
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Patient ID</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.patientId}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Reference ID</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.removeHTML(this.refrernceNo)}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Date of Birth</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.dob | date:'dd/MM/yyyy'}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Gender  </label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Male" *ngIf="(this.tabledata.gender == 0)">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="Female" *ngIf="(this.tabledata.gender == 1)">
-											</div>
-										</div>
-									</div>
-									<div class="col-md-7">
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Insurance Policy No.</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.removeHTML(this.policyNo)}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Insurance Co.</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.removeHTML(this.insurance)}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Email</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.tabledata.email}}">
-											</div>
-										</div>
-										<div class="mb-1 row">
-											<label class="col-sm-5 col-form-label body2">Phone Number</label>
-											<div class="col-sm-7">
-												<input type="text" readonly="" class="form-control-plaintext body2 text-muted" value="{{this.removeHTML(this.mobileNo)}}">
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12" *ngIf="(this.cvfastText == true)">
-										<div class="mb-3 row">
-											<label for="staticEmail" class="col-sm-2 col-form-label">Notes</label>
-											<div class="col-sm-10">
-												{{this.removeHTML(this.tabledata.notes.text)}}
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="mb-3 row" *ngIf="(this.cvfastLinks == true)">
-											<div class="col-sm-12">
-												<div class="row">
-													<div class="col-md-4 col-lg-4" *ngFor="let links of attachmentFiles">
-														<div class="card mb-3" style="border: 1px solid #D0D6DE;">
-															<div class="card-body d-flex align-items-center">
-																&nbsp;<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()=='png' || links.imgName.split('.').pop()=='jpg' || links.imgName.split('.').pop()=='jpeg' || links.imgName.split('.').pop()=='gif' || links.imgName.split('.').pop()=='PNG' || links.imgName.split('.').pop()=='JPG' || links.imgName.split('.').pop()=='JPEG' || links.imgName.split('.').pop()=='GIF'"><img src="{{links.ImageUrl}}" style="display:inline-block;vertical-align:middle;width:280px;height:159px;"/></a>
-																<a target="_tblank" href="{{links.ImageUrl}}" *ngIf="links.imgName.split('.').pop()!='png' && links.imgName.split('.').pop()!='jpg' && links.imgName.split('.').pop()!='jpeg' && links.imgName.split('.').pop() !='gif' && links.imgName.split('.').pop()!='PNG' && links.imgName.split('.').pop() !='JPG' && links.imgName.split('.').pop()!='JPEG' && links.imgName.split('.').pop() !='GIF' && links.imgName.split('.').pop()!='mp4' && links.imgName.split('.').pop()!='MP4' && links.imgName.split('.').pop()!='3gp' && links.imgName.split('.').pop()!='3GP' && links.imgName.split('.').pop()!='avi' && links.imgName.split('.').pop()!='AVI' && links.imgName.split('.').pop()!='wmv' && links.imgName.split('.').pop()!='WMV' && links.imgName.split('.').pop()!='mov' && links.imgName.split('.').pop()!='MOV'"><img src="assets/images/file.png" width="50px" style="display:inline-block;vertical-align:middle;"/>{{getFileName(links.imgName)}}</a>
-																<video controls class="video" style="display:inline-block;vertical-align:middle;width:100%;height:100%;" (play)="video()" *ngIf="links.imgName.split('.').pop()=='mp4' || links.imgName.split('.').pop()=='MP4' || links.imgName.split('.').pop()=='3gp' || links.imgName.split('.').pop()=='3GP' || links.imgName.split('.').pop()=='avi' || links.imgName.split('.').pop()=='AVI' || links.imgName.split('.').pop()=='wmv' || links.imgName.split('.').pop()=='WMV' || links.imgName.split('.').pop()=='mov' || links.imgName.split('.').pop()=='MOV'"  #videoPlayer>
-																<source src="{{links.ImageUrl}}" type="video/mp4">
-																</video>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row align-items-center">
-	<div class="col-md-12">
-		<div class="card shadow-sm" style="box-shadow: 0px 12px 22px rgba(208, 210, 218, 0.15);">
-			<div class="card-header border-bottom-0" style="background-color:#ffff;" *ngIf="tabledata">
-				<div class="mt-2 d-flex justify-content-between align-items-center flex-wrap">
-					<div class="mb-2">
-						<h5 class="card-title mb-0">Recent Cases</h5>
-					</div>
-					<div class="d-flex flex-wrap align-items-center">
-						<a routerLink="/patients/patient-case-list/{{this.tabledata.patientId}}" class="btn btn-light border me-2 mb-2">
-							View All
-						</a>
-						<a routerLink="/cases/case-add/{{this.tabledata.patientId}}" *ngIf="this.tabledata.resourceOwner == this.userDeatils.emailAddress" class="btn btn-light-green me-2 mb-2">
-							<i class="bx bx-briefcase-alt"></i> Add Case
-						</a>
-						<a routerLink="/mail/inbox/{{this.tabledata.patientId}}" class="btn btn-pink me-2 mb-2">
-							<i class="bx bx-envelope"></i> Mail
-						</a> 
-						<a routerLink="/meet/{{this.tabledata.patientId}}" class="btn btn-default mb-2">
-							<i class="bx bx-video"></i> Video Conference 
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="card-body p-0 pb-3">
-				<div class="table-responsive">
-					<table *ngIf="casedata" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions" id="dataTables">
-						<thead class="thead-light text-uppercase">
-							<tr>
-								
-								<th class="body2">PATIENT NAME</th>
-								<th class="body2">CASE TITLE</th>
-								<th class="body2">STATUS</th>
-								<th class="body2">MEMBERS</th>
-								<th class="body2" data-orderable="false">Actions</th>
-							</tr>
-						</thead>
-						<tbody >
-							<tr *ngFor="let data of casedata; let i = index;">
-								
-								<td>
-									<div>
-										<span class="avatar-icon">{{data.patientName.charAt(0)}}</span>
-										<span class="body2 ms-1">{{data.patientName}}</span>
-									</div>
-								</td>		 
-								<td>  
-									<span class="body2">{{this.removeHTML(data.title)}}</span>                
-								</td>
-								<td>
-									<div>
-										<span class="badge rounded-pill badge-success body2" *ngIf="(data.caseStatus == true)">Active</span><br/>
-										<span class="badge rounded-pill badge-warning body2" *ngIf="(data.caseStatus == false)">Inactive</span><br/>
-										<small class="text-muted">Created on : {{data.dateCreated | date:'mediumDate'}}</small>
-									</div>
-								</td>
-								<td>
-									<ul class="avatar-list">
-										<li class="avatar-item" *ngFor="let members of data.memberName; let j = index;"><span class="avatar-icon">{{members.userName.charAt(0)}}</span></li>
-									</ul>
-								</td>
-								<td>
-									<div class="d-flex">
-										<a  routerLink="/cases-view/caseDetails/{{data.caseId}}" tippy="View" placement="top" title="View">
-											<i class="material-icons text-light-green">visibility</i>
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr *ngIf="this.casedata.length == 0">
-								<td colspan="6" class="dataTables_empty" valign="top">No data available in table</td>
-							</tr>
-							
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<ng-container *ngIf="!isLoadingData">
+  <div class="page-header row align-items-center gx-0">
+    <div class="col-md-12">
+      <h3 class="my-2 my-md-0" id="heading1">
+        Patient Overview :
+        <button
+          class="accordion-button d-inline-flex"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapse1"
+          aria-expanded="true"
+          aria-controls="collapse1"
+        >
+          {{ baseData.firstName }} {{ baseData.lastName }}
+        </button>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="accordion-overview" id="accordionOverview">
+        <div class="accordion-item shadow-sm border-0">
+          <div
+            id="collapse1"
+            class="accordion-collapse collapse show"
+            aria-labelledby="heading1"
+            data-bs-parent="#accordionOverview"
+          >
+            <div
+              class="accordion-body mb-4"
+              style="box-shadow: 0px 12px 22px rgba(203, 237, 253, 0.5)"
+            >
+              <div class="row gx-2">
+                <div class="col-md-3 col-lg-3 col-xl-2">
+                  <div class="profile-img justify-content-center p-md-2">
+                    <img
+                      [src]="
+                        baseData.image
+                          ? utility.apiData.patients.bucketUrl + baseData.image
+                          : '../../assets/images/users.png'
+                      "
+                      alt=""
+                      class="mb-2 rounded-circle"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-9 col-lg-9 col-xl-10">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Patient ID</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.patientId }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Reference ID</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.refId }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Date of Birth</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.dob | date : 'dd/MM/yyyy' }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Gender
+                        </label>
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="Male"
+                            *ngIf="baseData.gender == 0"
+                          />
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="Female"
+                            *ngIf="baseData.gender == 1"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-7">
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Insurance Policy No.</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.insurance.policyno }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Insurance Co.</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.insurance.carrier }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Email</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.email }}"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-1 row">
+                        <label class="col-sm-5 col-form-label body2"
+                          >Phone Number</label
+                        >
+                        <div class="col-sm-7">
+                          <input
+                            type="text"
+                            readonly=""
+                            class="form-control-plaintext body2 text-muted"
+                            value="{{ baseData.phone }}"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  baseData.notes &&
+                  (baseData.notes?.text || baseData.notes?.links.length > 0)
+                "
+              >
+                <h5 class="body1 card-title my-2 mt-4">Notes</h5>
+                <app-cvfast-viewer
+                  [cvfast]="baseData.notes"
+                ></app-cvfast-viewer>
+              </div>
+              <div
+                class="d-block text-end my-2"
+                *ngIf="baseData.resourceOwner == user.emailAddress"
+              >
+                <a
+                  routerLink="/patients/patient-edit/{{ baseData.patientId }}"
+                  class="btn btn-light-green px-3"
+                  tippy="Edit"
+                  ><i class="bx bx-pencil fs-5 align-middle"></i> Edit</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row align-items-center">
+    <div class="col-md-12">
+      <div
+        class="card shadow-sm"
+        style="box-shadow: 0px 12px 22px rgba(208, 210, 218, 0.15)"
+      >
+        <div
+          class="card-header border-bottom-0"
+          style="background-color: #ffff"
+        >
+          <div
+            class="mt-2 d-flex justify-content-between align-items-center flex-wrap"
+          >
+            <div class="mb-2">
+              <h5 class="card-title mb-0">Patient Cases</h5>
+            </div>
+            <div class="d-flex flex-wrap align-items-center">
+              <a
+                routerLink="/cases/cases/case-add/{{ baseData.patientId }}"
+                *ngIf="baseData.resourceOwner == this.user.emailAddress"
+                class="btn btn-light-green me-2 mb-2"
+              >
+                <i class="bx bx-briefcase-alt"></i> Add Case
+              </a>
+              <a
+                routerLink="/mail/inbox/{{ baseData.patientId }}"
+                class="btn btn-pink me-2 mb-2"
+              >
+                <i class="bx bx-envelope"></i> Mail
+              </a>
+              <a
+                routerLink="/meet/meet/{{ baseData.patientId }}"
+                class="btn btn-default mb-2"
+              >
+                <i class="bx bx-video"></i> Video Conference
+              </a>
+            </div>
+          </div>
+        </div>
+        <app-case-list *ngIf="id" [patientId]="id"></app-case-list>
+      </div>
+    </div>
+  </div>
+</ng-container>

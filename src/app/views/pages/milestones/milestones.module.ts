@@ -1,4 +1,6 @@
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CasesModule } from './../cases/cases.module';
+import { CvfastModuleModule } from 'src/app/cvfastFiles/cvfast-module/cvfast-module.module';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
@@ -7,16 +9,14 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MilestonesComponent } from './milestones.component';
 import { MilestonesListComponent } from './milestones-list/milestones-list.component';
 import { MilestoneDetailsComponent } from './milestone-details/milestone-details.component';
-import { MilestoneAddMembersComponent } from './milestone-add-members/milestone-add-members.component';
 import { MilestoneAddComponent } from './milestone-add/milestone-add.component';
-import { MilestoneEditComponent } from './milestone-edit/milestone-edit.component';
 import { GeneralTaskAddComponent } from './general-task-add/general-task-add.component';
-import { GeneralTaskEditComponent } from './general-task-edit/general-task-edit.component';
 import { GeneralTaskViewComponent } from './general-task-view/general-task-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PatientsModule } from '../patients/patients.module';
-import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+import { MilestoneDetailMasterComponent } from './milestone-detail-master/milestone-detail-master.component';
+import { GeneralTaskListComponent } from './general-task-list/general-task-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -24,41 +24,39 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'milestones-list',
-        pathMatch: 'full',
-      },
-	  {
-        path: 'milestones-list',
         component: MilestonesListComponent
       },
-	  {
+      {
         path: 'milestone-details/:milestoneId',
-        component: MilestoneDetailsComponent
+        component: MilestoneDetailMasterComponent,
+        children: [
+          {
+            path: '',
+            component: MilestoneDetailsComponent
+          },
+          {
+            path: 'task-add',
+            component: GeneralTaskAddComponent
+          },
+          {
+            path: 'task-edit/:taskId',
+            component: GeneralTaskAddComponent
+          },
+          {
+            path: 'task-details/:taskId',
+            component: GeneralTaskViewComponent
+          }
+        ]
       },
-	  {
-        path: 'milestone-add-members',
-        component: MilestoneAddMembersComponent
-      },
-	  {
-        path: 'milestone-add/:caseId',
+      {
+        path: 'milestone-add',
         component: MilestoneAddComponent
       },
-	  {
-        path: 'milestone-edit/:milestoneId',
-        component: MilestoneEditComponent
+      {
+        path: 'milestone-edit/:id',
+        component: MilestoneAddComponent
       },
-	  {
-        path: 'general-task-add',
-        component: GeneralTaskAddComponent
-      },
-	  {
-        path: 'general-task-edit/:taskId',
-        component: GeneralTaskEditComponent
-      },
-	  {
-        path: 'general-task-view/:taskId',
-        component: GeneralTaskViewComponent
-      }
+
     ]
   }
 ]
@@ -68,34 +66,34 @@ const routes: Routes = [
     MilestonesComponent,
     MilestonesListComponent,
     MilestoneDetailsComponent,
-    MilestoneAddMembersComponent,
     MilestoneAddComponent,
-    MilestoneEditComponent,
     GeneralTaskAddComponent,
-    GeneralTaskEditComponent,
-    GeneralTaskViewComponent
+    GeneralTaskViewComponent,
+    MilestoneDetailMasterComponent,
+    GeneralTaskListComponent
   ],
   imports: [
     CommonModule,
-	RouterModule.forChild(routes),
-	DataTablesModule,
-	NgSelectModule,
-	PatientsModule,
-	OwlDateTimeModule,
+    RouterModule.forChild(routes),
+    DataTablesModule,
+    NgSelectModule,
+    CasesModule,
+    CvfastModuleModule,
+    OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormsModule,
-	NgxShimmerLoadingModule,
+    NgxShimmerLoadingModule,
     ReactiveFormsModule,
-	TippyModule.forRoot({
-		defaultVariation: 'tooltip',
-		variations: {
-		  tooltip: tooltipVariation,
-		  popper: popperVariation,
-		}
-	  })
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    })
   ],
   schemas: [
-	  CUSTOM_ELEMENTS_SCHEMA
-	]
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class MilestonesModule { }

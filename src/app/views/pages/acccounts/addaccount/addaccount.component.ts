@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { v4 as uuidv4 } from "uuid";
 import swal from "sweetalert";
@@ -9,6 +8,7 @@ import { Router } from "@angular/router";
 import { AccdetailsService } from "../../accdetails.service";
 import { environment } from "src/environments/environment";
 import * as CryptoJS from 'crypto-js';
+import { DOCUMENT } from "@angular/common";
 @Component({
   selector: 'app-addaccount',
   templateUrl: './addaccount.component.html',
@@ -35,7 +35,8 @@ export class AddaccountComponent implements OnInit, AddEditData {
     private utility: UtilityService,
     private dataService: ApiDataService,
     private router: Router,
-    private usr: AccdetailsService
+    private usr: AccdetailsService,
+    @Inject(DOCUMENT) document: Document
   ) { }
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
   @ViewChild("subForm", { static: false }) subForm: NgForm;
@@ -57,7 +58,6 @@ export class AddaccountComponent implements OnInit, AddEditData {
     this.dataService.getData(this.section.ApiUrl, id, true).subscribe(
       (Response) => {
         if (Response) Response = JSON.parse(Response.toString());
-        console.log(Response);
         if (!this.utility.dovValidateSchema.validate(Response, this.section.schema).valid) {
           swal("No data exists");
           this.router.navigate(['/auth/login']);
@@ -96,7 +96,6 @@ export class AddaccountComponent implements OnInit, AddEditData {
       });
   }
   updateStorage() {
-    console.log(this.object);
     let usr = this.usr.getUserDetails();
     usr.accountfirstName = this.object.accountfirstName;
     usr.accountlastName = this.object.accountlastName;
@@ -108,10 +107,12 @@ export class AddaccountComponent implements OnInit, AddEditData {
     usr.forwards = this.object.forwards;
     let encrypt = CryptoJS.AES.encrypt(JSON.stringify(usr), environment.decryptKey).toString();
     sessionStorage.setItem('usr', encrypt);
-    window.location.reload();
+    if (usr.imageSrc) {
+      document.getElementById('navbarImg')['src'] = 'https://dentallive-accounts.s3-us-west-2.amazonaws.com/' + usr.imageSrc
+    }
+    document.getElementById('navbarLabel').innerHTML = "Hi, " + usr.accountfirstName + ' ' + usr.accountlastName
   }
   uploadFormData() {
-    console.log(this.object);
     //post request here,both add & update are sent as post
     this.dataService
       .putData(this.section.ApiUrl, JSON.stringify(this.object))
@@ -120,7 +121,7 @@ export class AddaccountComponent implements OnInit, AddEditData {
         this.updateStorage()
         this.isUploadingData = false;
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
         this.isUploadingData = false;
       });
   }
@@ -130,18 +131,17 @@ export class AddaccountComponent implements OnInit, AddEditData {
       this.binaryFiles = [
         { name: uuidv4(), binaryData: event.target.files[0] },
       ];
-      console.log(this.binaryFiles);
       //display selected file in image tag
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); //initiates converting file to blob
       reader.onload = (e) => (this.imageSrc = reader.result); // call back after file is converted to Blob
     }
   }
-  onSubmit() {
+  onSubmit(): void {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values for the mandatory fields");
-      return false;
+      swal("Please Enter Values In The Mandatory Fields");
+      return;
     }
     this.isUploadingData = true;
     if (this.binaryFiles.length > 0) {
@@ -150,11 +150,11 @@ export class AddaccountComponent implements OnInit, AddEditData {
       this.uploadFormData();
     }
   }
-  updatePassword(opass, npass, cpass) {
+  updatePassword(opass, npass, cpass): void {
     if (this.subForm.invalid || (npass != cpass)) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values for the mandatory fields");
-      return false;
+      swal("Please Enter Values In The Mandatory Fields");
+      return;
     }
     this.isUploadingData = true;
     let obj = {
@@ -173,20 +173,25 @@ export class AddaccountComponent implements OnInit, AddEditData {
         if (error.status === 428)
           swal('Wrong Password');
         else
-          swal("Failed to process request,please try again");
+          swal("Failed To Process Request, Please Try Again");
         this.isUploadingData = false;
       });
   }
   mails(value, email: HTMLInputElement, isAdd) {
+    console.log(value)
     if (isAdd) {
       if (!email.validity.valid) {
         swal('Invalid E-Mail Address');
         return;
       }
+      if (this.object.forwards.includes(value)) {
+        swal('E-Mail Address Exists');
+        return;
+      }
       this.object.forwards.push(value);
       email.value = "";
     } else {
-      this.object.forwards = this.object.forwards.filter(value => value !== value)
+      this.object.forwards = this.object.forwards.filter(val => val != value)
     }
   }
 }

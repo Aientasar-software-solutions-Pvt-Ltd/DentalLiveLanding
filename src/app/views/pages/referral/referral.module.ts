@@ -1,21 +1,19 @@
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CvfastModuleModule } from 'src/app/cvfastFiles/cvfast-module/cvfast-module.module';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DataTablesModule } from "angular-datatables";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ReferralComponent } from './referral.component';
 import { ReferralListComponent } from './referral-list/referral-list.component';
 import { ReferralAddComponent } from './referral-add/referral-add.component';
-import { ReferralAddMembersComponent } from './referral-add-members/referral-add-members.component';
 import { ReferralDetailsComponent } from './referral-details/referral-details.component';
-import { ReferralEditComponent } from './referral-edit/referral-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PatientsModule } from '../patients/patients.module';
 import { ReferralGuideComponent } from './referral-guide/referral-guide.component';
-import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+import { CasesModule } from '../cases/cases.module';
 
 const routes: Routes = [
   {
@@ -24,28 +22,19 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'referrals',
-        pathMatch: 'full',
-      },
-	  {
-        path: 'referral-list',
         component: ReferralListComponent
       },
-	  {
-        path: 'referral-add/:caseId',
-        component: ReferralAddComponent
-      },
-	  {
-        path: 'referral-add-members',
-        component: ReferralAddMembersComponent
-      },
-	  {
-        path: 'referral-details/:referralId',
+      {
+        path: 'referral-details/:id',
         component: ReferralDetailsComponent
       },
-	  {
-        path: 'referral-edit/:referralId',
-        component: ReferralEditComponent
+      {
+        path: 'referral-add',
+        component: ReferralAddComponent
+      },
+      {
+        path: 'referral-edit/:id',
+        component: ReferralAddComponent
       }
     ]
   }
@@ -56,30 +45,29 @@ const routes: Routes = [
     ReferralComponent,
     ReferralListComponent,
     ReferralAddComponent,
-    ReferralAddMembersComponent,
     ReferralDetailsComponent,
-    ReferralEditComponent,
-	ReferralGuideComponent
+    ReferralGuideComponent
   ],
   imports: [
     CommonModule,
-	RouterModule.forChild(routes),
-	DataTablesModule,
-	NgSelectModule,
-	FormsModule,
-	ReactiveFormsModule,
-	PatientsModule,
-	NgxShimmerLoadingModule,
-	TippyModule.forRoot({
-		defaultVariation: 'tooltip',
-		variations: {
-		  tooltip: tooltipVariation,
-		  popper: popperVariation,
-		}
-	  })
+    DataTablesModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    CasesModule,
+    CvfastModuleModule,
+    NgxShimmerLoadingModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    })
   ],
   schemas: [
-	  CUSTOM_ELEMENTS_SCHEMA
-	]
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class ReferralModule { }

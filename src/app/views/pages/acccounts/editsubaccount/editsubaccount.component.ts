@@ -112,7 +112,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
         this.isEditMode ? swal("Updated succesfully") : swal("Added succesfully");
         this.isUploadingData = false;
       }, (error) => {
-        swal("Failed to process request,please try again");
+        swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });
@@ -135,7 +135,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values in the highlighted fields");
+      swal("Please Enter Values In The Highlighted Fields");
       return false;
     }
     this.isUploadingData = true;
@@ -150,7 +150,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
   updatePassword(opass, npass, cpass) {
     if (this.subForm.invalid || (npass != cpass)) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please enter values in the highlighted fields");
+      swal("Please Enter Values In The Highlighted Fields");
       return false;
     }
     this.isUploadingData = true;
@@ -171,7 +171,7 @@ export class EditsubaccountComponent implements OnInit, AddEditData {
         if (error.status === 428)
           swal('Wrong Password');
         else
-          swal("Failed to process request,please try again");
+          swal("Failed To Process Request, Please Try Again");
 
         this.isUploadingData = false;
       });

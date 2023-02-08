@@ -1,477 +1,300 @@
-//@ts-nocheck
-import { AfterViewInit, Component, OnInit, ElementRef, ViewChild } from '@angular/core';	
-import { NgForm } from '@angular/forms';								
-import { CalendarOptions } from '@fullcalendar/angular'; 
-import swal from 'sweetalert';
+import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ApiDataService } from '../../users/api-data.service';
-import { UtilityService } from '../../users/utility.service';
-import { UtilityServicedev } from '../../../../utilitydev.service';
-import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
-import { Cvfast } from '../../../../cvfast/cvfast.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import "@lottiefiles/lottie-player";
+import { NgForm } from '@angular/forms';
+import { filter } from 'smart-array-filter';
+import { CrudOperationsService } from 'src/app/crud-operations.service';
+import swal from 'sweetalert';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-invitation-lists',
-  templateUrl: './invitation-lists.component.html',
-  styleUrls: ['./invitation-lists.component.css']
+	selector: 'app-invitation-lists',
+	templateUrl: './invitation-lists.component.html',
+	styleUrls: ['./invitation-lists.component.css'],
+	providers: [CrudOperationsService]
 })
 export class InvitationListsComponent implements OnInit {
-	@ViewChild(Cvfast) cvfastval!: Cvfast;
+	@ViewChild(CvfastNewComponent, { static: false }) inviteText!: CvfastNewComponent;
+	@ViewChild(CvfastNewComponent, { static: false }) cvfastReply!: CvfastNewComponent;
+	@ViewChild(NgSelectComponent) selectedCase: NgSelectComponent;
+
+	module = 'caseinvites';
 	isLoadingData = true;
-	isSendingData = false;
-	id:any = "Received";
+	baseDataPirstine: any;
+	baseData: any;
+	baseColleagueDataPirstine: any;
+	baseColleagueData: any;
 	shimmer = Array;
-	tabContent(ids:any){
-		this.id = ids;
-	}
-	
-  dtOptions: DataTables.Settings = {};
-  
-  constructor(private dataService: ApiDataService, private utility: UtilityService, private usr: AccdetailsService, private router: Router,private utilitydev: UtilityServicedev) { }
-  
-	public invitedata: any;
-	public inviteReceivedData: any;
-	public getSubmitData: any;
-	public case_id: '';
-	public patient_id: '';
-	public patient_name: '';
-	public invitation_id: '';
-	public invited_user_mail: '';
-	public invited_user_id: '';
-	public statusvalue: '';
-	public  invitecvfast = {
-	  text: '',
-	  links: []
-	}
-	public jsonObjInvite = {
-		patientId: '',
-		caseId: '',
-		patientName: '',
-		responseText: {},
-		invitedUserMail: '',
-		invitedUserId: '',
-		presentStatus: 1
-	}
-  ngOnInit(): void {
-    this.dtOptions = {
-	  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
-      pagingType: 'full_numbers',
-	  pageLength: 10,
-      processing: true,
-	  responsive: true,
-	  language: {
-          search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
-		  lengthMenu: "Items per page _MENU_",
-          info: "_START_ - _END_ of _TOTAL_",
-		  paginate: {
-			first : "<i class='bx bx-first-page'></i>",
-			previous: "<i class='bx bx-chevron-left'></i>",
-			next: "<i class='bx bx-chevron-right'></i>",
-			last : "<i class='bx bx-last-page'></i>"
+	isOwn = false;
+	dtOptions: DataTables.Settings = {};
+	user = this.utility.getUserDetails()
+	selectedItem = null;
+	selectedUsers = [];
+	isUploadingData = false;
+	invitations = ""
+	nonInvitedMembers = [];
+	caseDetail = null;
+	allCases: any
+	allPatients: any;
+
+	constructor(
+		private route: ActivatedRoute,
+		private dataService: ApiDataService,
+		private router: Router,
+		public utility: UtilityServiceV2,
+		private cdref: ChangeDetectorRef,
+	) { }
+
+	async ngOnInit(): Promise<void> {
+
+		await this.utility.loadPreFetchData("users");
+		await this.utility.loadPreFetchData("cases");
+		await this.utility.loadPreFetchData("patients");
+		this.allCases = await this.utility.loadAllCases();
+		//this.allPatients = await this.utility.loadAllPatients();
+		this.loadColleagueData();
+
+		this.dtOptions = {
+			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
+			pagingType: 'full_numbers',
+			pageLength: 10,
+			processing: true,
+			responsive: true,
+			language: {
+				search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
+				lengthMenu: "Items per page _MENU_",
+				info: "_START_ - _END_ of _TOTAL_",
+				paginate: {
+					first: "<i class='bx bx-first-page'></i>",
+					previous: "<i class='bx bx-chevron-left'></i>",
+					next: "<i class='bx bx-chevron-right'></i>",
+					last: "<i class='bx bx-last-page'></i>"
+				},
 			},
-      }
-    };
-	this.getInviteListing();
-	this.getInviteListingReceived();
-  }
+			columnDefs: [{
+				"defaultContent": "-",
+				"targets": "_all"
+			}]
+		};
+	}
+
+	getCaseData(caseId) {
+		if (this.allCases && Array.isArray(this.allCases)) {
+			let filterData = this.allCases.find(x => x['caseId'] == caseId);
+			if (filterData)
+				return filterData.title
+		}
+	}
+
+	getPatientData(patientId) {
+		if (this.allPatients && Array.isArray(this.allPatients)) {
+			let filterData = this.allPatients.find(x => x['patientId'] == patientId);
+			if (filterData)
+				return (filterData.firstName + " " + filterData.lastName)
+		}
+		return true
+	}
+
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	
-	
-	
-	getInviteListing() {
-		this.case_id = '';
-		this.patient_id = '';
-		this.patient_name = '';
-		this.invitation_id = '';
-		this.invited_user_mail = '';
-		this.invited_user_id = '';
-		this.isSendingData = false;
+
+	async loadBaseData(reload = false) {
+		if (this.baseData && !reload) return;
 		this.isLoadingData = true;
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?resourceOwner="+user.emailAddress;
-		this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-				//alert(JSON.stringify(GetAllData));
-				this.invitedata = Array();
-				if(GetAllData.length == '0')
-				{
-					//swal.close();
+		try {
+			let url = this.utility.baseUrl + this.module + "?resourceOwner=" + this.user.emailAddress;
+			this.dataService.getallData(url, true).subscribe(Response => {
+				if (Response) {
+					let data = JSON.parse(Response.toString());
+
+					this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateUpdated < second.dateUpdated ? -1 : 1));
 					this.isLoadingData = false;
 				}
-				for(var k = 0; k < GetAllData.length; k++)
-				{
-					this.invitedata.push({
-					  id: k,
-					  patientId: GetAllData[k].patientId,
-					  invitedUserId: GetAllData[k].invitedUserId,
-					  invitedUserMail: GetAllData[k].invitedUserMail,
-					  invitationId: GetAllData[k].invitationId,
-					  userName: '',
-					  presentStatus: GetAllData[k].presentStatus,
-					  invitationText: GetAllData[k].invitationText,
-					  patientName: GetAllData[k].patientName,
-					  caseId: GetAllData[k].caseId,
-					  dateUpdated: GetAllData[k].dateUpdated,
-					  dateCreated: GetAllData[k].dateCreated,
-					  resourceOwner: GetAllData[k].resourceOwner,
-					  dentalId: user.dentalId,
-					  caseTitle: ''
-					});
-					this.getcasedetails(GetAllData[k].caseId,k);
-					this.getuserdetailsall(GetAllData[k].invitedUserMail,k);
-				}
-			}
-		}, error => {
-			if (error.status === 404)
-			swal('No invitation found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-		});
-	}
-	
-	getcasedetails(caseId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let url = this.utility.apiData.userCases.ApiUrl;
-			url += "?caseId="+caseId;
-			this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				let caseData = JSON.parse(Response.toString());
-				this.invitedata[index].caseTitle = caseData.title;
-			}
 			}, (error) => {
-				if (error.status === 404){
-				//swal('No invitation found');
-				}
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-				return false;
-			});
-		}
-	}
-	
-	getuserdetailsall(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?emailAddress="+userId;
-		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			let userData = JSON.parse(Response.toString());
-			let name = userData.accountfirstName+' '+userData.accountlastName;
-			this.invitedata[index].userName = name;
-		}
-		}, (error) => {
-			if (error.status === 404){
-			//swal('No Member found');
-			}
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-		}
-	}
-	
-	onSubmitInvite(form: NgForm){
-		
-		if (form.invalid) {
-		  form.form.markAllAsTouched();
-		  return;
-		}
-		swal("Processing...please wait...", {
-			buttons: [false, false],
-			closeOnClickOutside: false,
-		});
-		this.jsonObjInvite['invitationId'] = form.value.invitationId;
-		this.jsonObjInvite['caseId'] = form.value.caseId;
-		this.jsonObjInvite['patientId'] = form.value.patientId;
-		this.jsonObjInvite['patientName'] = form.value.patientName;
-		this.jsonObjInvite['presentStatus'] = Number(form.value.presentStatus);
-		this.jsonObjInvite['invitedUserMail'] =  form.value.invitedUserMail;
-		this.jsonObjInvite['invitedUserId'] =  form.value.invitedUserId;
-		let status_check = Number(form.value.presentStatus);
-		if((this.cvfastval.returnCvfast().text != '') || (this.cvfastval.returnCvfast().links.length > 0))
-		{
-			this.jsonObjInvite['responseText'] = this.cvfastval.returnCvfast();
-		}
-		
-		if(status_check == 1){
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation accepted successfully', '', 'put', '','responseText','','User already invited.').then(
-			(value) => {
-			swal.close();
-			this.sending = false;
-			this.getInviteListing();
-			this.getInviteListingReceived();
-			},
-			(error) => {
-			swal.close();
-			this.sending = false;
-			this.getInviteListing();
-			this.getInviteListingReceived();
-			});
-		}
-		else{
-			this.cvfastval.processFiles(this.utility.apiData.userCaseInvites.ApiUrl, this.jsonObjInvite, true, 'Invitation declined successfully', '', 'put', '','responseText','','User already invited.').then(
-			(value) => {
-			swal.close();
-			this.sending = false;
-			this.getInviteListing();
-			this.getInviteListingReceived();
-			},
-			(error) => {
-			swal.close();
-			this.sending = false;
-			this.getInviteListing();
-			this.getInviteListingReceived();
-			});
-		}
-		
-	};
-	
-	getInviteSubmitData(invitationId: any, status_value: any) {
-		this.cvfastval.setCvfast(this.invitecvfast);
-		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?invitationId="+invitationId;
-		this.dataService.getallData(url, true)
-		.subscribe(Response => {
-			if (Response)
-			{
+				this.utility.showError(error.status)
 				this.isLoadingData = false;
-				this.getSubmitData = JSON.parse(Response.toString());
-				this.case_id = this.getSubmitData.caseId;
-				this.patient_id = this.getSubmitData.patientId;
-				this.patient_name = this.getSubmitData.patientName;
-				this.invitation_id = this.getSubmitData.invitationId;
-				this.invited_user_mail = this.getSubmitData.invitedUserMail;
-				this.invited_user_id = this.getSubmitData.invitedUserId;
-				this.statusvalue = status_value;
-				this.isSendingData = true;
-			}
-		}, error => {
-			if (error.status === 404)
-			swal('No invitation found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
 			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-		});
+		} catch (error) {
+			console.log(error)
+		}
 	}
-	
-	getInviteListingReceived() {
+
+	async loadColleagueData(reload = false) {
+		if (this.baseColleagueData && !reload) return;
 		this.isLoadingData = true;
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userCaseInvites.ApiUrl;
-		url += "?invitedUserMail="+user.emailAddress;
-		//url += "&presentStatus=0";
-		this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				let GetAllData = JSON.parse(Response.toString());
-				GetAllData.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-				this.inviteReceivedData = Array();
-				this.isLoadingData = false;
-				for(var k = 0; k < GetAllData.length; k++)
-				{
-					this.inviteReceivedData.push({
-					  id: k,
-					  patientId: GetAllData[k].patientId,
-					  invitedUserId: GetAllData[k].invitedUserId,
-					  invitedUserMail: GetAllData[k].invitedUserMail,
-					  invitationId: GetAllData[k].invitationId,
-					  userName: '',
-					  presentStatus: GetAllData[k].presentStatus,
-					  invitationText: GetAllData[k].invitationText,
-					  patientName: GetAllData[k].patientName,
-					  caseId: GetAllData[k].caseId,
-					  dateUpdated: GetAllData[k].dateUpdated,
-					  dateCreated: GetAllData[k].dateCreated,
-					  resourceOwner: GetAllData[k].resourceOwner,
-					  dentalId: user.dentalId,
-					  caseTitle: ''
-					});
-					this.getuserdetailsallRecvd(GetAllData[k].resourceOwner,k);
-					this.getcasedetailsRecvd(GetAllData[k].caseId,k);
-				}
-			}
-		}, error => {
-			if (error.status === 404)
-			swal('No invitation found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-		});
-	}
-	
-	getcasedetailsRecvd(caseId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let url = this.utility.apiData.userCases.ApiUrl;
-			url += "?caseId="+caseId;
+		try {
+			let url = this.utility.baseUrl + this.module + "?invitedUserMail=" + this.user.emailAddress;
 			this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				let caseData = JSON.parse(Response.toString());
-				this.inviteReceivedData[index].caseTitle = caseData.title;
-			}
-			}, (error) => {
-				if (error.status === 404){
-				//swal('No invitation found');
+				if (Response) {
+					let data = JSON.parse(Response.toString());
+
+					this.baseColleagueDataPirstine = this.baseColleagueData = data.sort((first, second) => 0 - (first.dateUpdated < second.dateUpdated ? -1 : 1));
+					this.isLoadingData = false;
 				}
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-				return false;
+			}, (error) => {
+				this.utility.showError(error.status)
+				this.isLoadingData = false;
 			});
+		} catch (error) {
+			console.log(error)
 		}
 	}
-	
-	getuserdetailsallRecvd(userId, index) {
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-		let url = this.utility.apiData.userColleague.ApiUrl;
-		if(userId != '')
-		{
-			url += "?emailAddress="+userId;
+
+
+	filterSubmit(form: NgForm) {
+		let query = "";
+		if (form.value.dateFrom) {
+			query = query + ' dateCreated:>' + new Date(form.value.dateFrom).getTime()
 		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-		if (Response)
-		{
-			let userData = JSON.parse(Response.toString());
-			let name = userData.accountfirstName+' '+userData.accountlastName;
-			this.inviteReceivedData[index].userName = name;
+		if (form.value.dateTo) {
+			query = query + ' dateCreated:>' + new Date(form.value.dateTo).getTime()
 		}
-		}, (error) => {
-			if (error.status === 404){
-			//swal('No invitation found');
-			}
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
+		let filterData = filter(this.baseDataPirstine, {
+			keywords: query
 		});
+		this.isOwn ? this.baseData = filterData : this.baseColleagueData = filterData
+
+	}
+
+	//runs on caseChange 
+	async getNonInvitedMembers(caseDetail) {
+		this.caseDetail = caseDetail
+
+		//get list of invited members
+		this.nonInvitedMembers = [];
+
+		if (!caseDetail) return;
+		try {
+			let url = this.utility.baseUrl + this.module + "?caseId=" + this.caseDetail.caseId;
+			let Response = await this.dataService.getallData(url, true).toPromise()
+			if (Response) {
+				let members = JSON.parse(Response.toString());
+
+				if (!members || members.length == 0) {
+					this.nonInvitedMembers = [...this.utility.metadata.users]
+				} else {
+					let assignMem = []
+
+					this.utility.metadata.users.forEach(arr => {
+						if (!members.find(user => user.invitedUserMail == arr.emailAddress))
+							assignMem.push(arr);
+					});
+					this.nonInvitedMembers = assignMem
+				}
+				//remove case owner from list
+				const index = this.nonInvitedMembers.findIndex(element => element.emailAddress == caseDetail.resourceOwner);
+				if (index >= 0) this.nonInvitedMembers.splice(index, 1);
+			}
+
+		} catch (error) {
+			(error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+			return;
 		}
 	}
+
+	//special function for this class
+	async sendInvite(cvfast: CvfastNewComponent) {
+		if (!this.caseDetail) {
+			swal("Please Select A Case To Continue");
+			return;
+		}
+		if (this.selectedUsers.length == 0) {
+			swal("Please Select Members");
+			return;
+		}
+		this.isUploadingData = true;
+		//process cvfast Files --> send invites
+
+		try {
+			let cvfastText = await cvfast.processFiles();
+			let promises = []
+			this.selectedUsers.forEach(user => {
+				let invite = {
+					"invitationId": "",
+					"caseId": this.caseDetail.caseId,
+					"patientId": this.caseDetail.patientId,
+					"patientName": this.caseDetail.patientName,
+					"invitedUserMail": user.emailAddress,
+					"invitedUserId": user.dentalId,
+					"presentStatus": 0,
+					"invitationText": cvfastText,
+				}
+				promises.push(this.dataService.postData(this.utility.baseUrl + this.module, JSON.stringify(invite), true).toPromise())
+			});
+			console.log(promises)
+			await Promise.all(promises)
+			swal("Invitations sent succesfully")
+			document.getElementById("addInvite").click();
+			this.resetInviteForm()
+			this.isUploadingData = false;
+			this.loadBaseData(true)
+		} catch (error) {
+			(error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+			return;
+		}
+	}
+
+	async updateInvite(isDel, cvfast?: CvfastNewComponent, status?) {
+		if (!this.selectedItem) return
+		let item = { ...this.selectedItem }
+		this.isUploadingData = true;
+		try {
+			if (isDel) {
+				let result = await swal('Do you want to Delete this Invitation?', {
+					buttons: ["Don't delete!", "Yes,Delete it"],
+				})
+
+				if (result) {
+					item.presentStatus = 3;
+					swal("Processing...please wait...", {
+						buttons: [false, false],
+						closeOnClickOutside: false,
+					});
+					await this.dataService.putData(this.utility.baseUrl + this.module, JSON.stringify(item), true).toPromise();
+					swal.close();
+					this.selectedItem = null;
+					this.isUploadingData = false;
+					this.loadBaseData(true)
+				}
+			} else {
+				//process cvfast Files --> update invites
+				let cvfastText = await cvfast.processFiles();
+				item.responseText = cvfastText;
+				item.presentStatus = status;
+				await this.dataService.putData(this.utility.baseUrl + this.module, JSON.stringify(item), true).toPromise();
+				swal("Response sent succesfully");
+				document.getElementById("showInviteClose").click();
+				this.resetResposneForm(null);
+				this.isUploadingData = false;
+				this.loadColleagueData(true)
+			}
+
+		} catch (error) {
+			swal.close();
+			(error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+			return;
+		}
+	}
+
+	resetInviteForm() {
+		this.caseDetail = null;
+		this.selectedCase.handleClearClick();
+		this.selectedUsers = [];
+		this.inviteText.resetForm()
+		this.cdref.detectChanges()
+	}
+
+	resetResposneForm(data) {
+		this.selectedItem = null
+		this.cdref.detectChanges()
+		this.selectedItem = data;
+		this.cvfastReply.resetForm()
+		this.cdref.detectChanges()
+	}
+
 }

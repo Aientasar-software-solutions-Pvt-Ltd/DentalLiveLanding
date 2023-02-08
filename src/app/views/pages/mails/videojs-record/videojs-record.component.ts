@@ -283,7 +283,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
 
 
   addMailOption(value, to) {
-    console.log(value, to);
+
     if (!this.addressList.includes(value)) {
       this.addressList.push(value);
     }
@@ -364,8 +364,6 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
         return null;
       })
   }
-
-
   getRecordingUniqueName(name) {
     let i = 0;
     do {
@@ -399,7 +397,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     let orgName = name.replace(/\s+/g, '') + ".mp3";
     if (this.latestAudioRecord) {
       this.recordings.push({ 'name': this.getRecordingUniqueName(orgName), 'data': this.latestAudioRecord });
-      console.log(this.recordings);
+
       this.latestAudioRecord = null;
       this.audioPlayer.record().reset();
     }
@@ -479,7 +477,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(json))
       .subscribe(Response => {
-        swal("Email sent successfully");
+        swal("Email Sent Successfully");
         this.sending = false;
         this.router.navigate(['/mail/inbox']);
         // if (this.usr.getUserDetails().Subuser) {

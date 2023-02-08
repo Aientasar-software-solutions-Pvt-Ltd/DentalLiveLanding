@@ -1,0 +1,113 @@
+<div class="col-md-12 mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white">
+      <div class="row">
+        <div class="col-md-5 align-self-center">
+          <h5 class="body1 my-2 card-title">Recent Activity</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <ng-container class="mt-5" *ngIf="isLoadingData">
+        <ngx-shimmer-loading
+          class="d-block"
+          *ngFor="let i of shimmer(10).fill(1)"
+          style="margin-top: 1.5em; display: block; transition: all 1s"
+          [height]="'50px'"
+          [width]="'100%'"
+        >
+        </ngx-shimmer-loading>
+      </ng-container>
+      <ng-container *ngIf="!isLoadingData">
+        <div *ngFor="let thread of baseData; let i = index">
+          <div
+            class="row py-3 border-bottom px-2"
+            *ngIf="thread.sk && thread.resourceOwner"
+          >
+            <div class="col-md-12 d-flex align-items-center">
+              <div
+                class="fw-bold mb-4"
+                style="
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                "
+              >
+                <img
+                  [src]="utility.getUserImage(thread.resourceOwner)"
+                  class="avatar avatar-sm rounded-circle me-2"
+                />
+                {{
+                  utility.getMetaData(
+                    thread.resourceOwner,
+                    "emailAddress",
+                    ["accountfirstName", "accountlastName"],
+                    "users"
+                  )
+                }}
+              </div>
+              <span
+                style="position: absolute; right: 3em"
+                class="body2 float-end"
+                >{{ thread.dateCreated | date : "MMM d, y h:mm a" }}
+              </span>
+            </div>
+            <div class="col-md-12">
+              <span class="fw-bold d-inline mb-2">
+                {{ thread.sk.split("#")[0] }} SECTION :
+              </span>
+              <span class="mb-2">
+                {{
+                  utility.getMetaData(
+                    thread.resourceOwner,
+                    "emailAddress",
+                    ["accountfirstName", "accountlastName"],
+                    "users"
+                  ) +
+                    " " +
+                    (thread.dateUpdated > thread.dateCreated
+                      ? "Updated"
+                      : "Added")
+                }}
+                {{ utility.threadMetaData[thread.sk.split("#")[0]]["label"] }}
+                <a
+                  class="text-primary text-small ms-1"
+                  style="cursor: pointer; text-decoration: underline"
+                  [routerLink]="
+                    '/cases/cases/case-view/' +
+                    caseId +
+                    '/' +
+                    utility.threadMetaData[thread.sk.split('#')[0]]['route']
+                  "
+                >
+                  <strong class="fw-bold text-underline">
+                    ({{
+                      utility.threadMetaData[thread.sk.split("#")[0]][
+                        "label"
+                      ] == "File"
+                        ? " Show Files"
+                        : utility.threadMetaData[thread.sk.split("#")[0]][
+                            "label"
+                          ] == "Message"
+                        ? thread[
+                            utility.threadMetaData[thread.sk.split("#")[0]][
+                              "details"
+                            ]
+                          ]["text"]
+                        : thread[
+                            utility.threadMetaData[thread.sk.split("#")[0]][
+                              "details"
+                            ]
+                          ]
+                    }})</strong
+                  ></a
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

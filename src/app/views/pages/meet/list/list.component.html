@@ -29,7 +29,7 @@
     <input type="radio" class="btn-check" value="2" name="btnradio" id="btnrecord" (change)="isMeeting=false">
     <label class="btn btn-outline-primary" for="btnrecord">Summaries</label>
   </div>
-  <div *ngIf="isMeeting" class="col-md-12">
+  <div [hidden]="!isMeeting" class="col-md-12">
     <div class="card border-0 pb-5" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)">
       <div class="card-header border-bottom-0" style="background-color: #ffff">
         <div class="col-md-12">
@@ -117,7 +117,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!isMeeting" class="col-md-12">
+  <div [hidden]="isMeeting" class="col-md-12">
     <div class="card border-0 pb-5" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)">
       <div class="card-header border-bottom-0" style="background-color: #ffff">
         <div class="col-md-12">

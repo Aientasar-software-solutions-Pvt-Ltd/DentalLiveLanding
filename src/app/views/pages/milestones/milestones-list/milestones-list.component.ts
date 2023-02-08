@@ -1,211 +1,106 @@
-//@ts-nocheck
-import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert';
-import { NgForm } from '@angular/forms';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApiDataService } from '../../users/api-data.service';
-import { UtilityService } from '../../users/utility.service';
 import { AccdetailsService } from '../../accdetails.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import "@lottiefiles/lottie-player";
+import { NgForm } from '@angular/forms';
+import { filter } from 'smart-array-filter';
 
 @Component({
-  selector: 'app-milestones-list',
-  templateUrl: './milestones-list.component.html',
-  styleUrls: ['./milestones-list.component.css']
+	selector: 'app-milestones-list',
+	templateUrl: './milestones-list.component.html',
+	styleUrls: ['./milestones-list.component.css']
 })
 
 export class MilestonesListComponent implements OnInit {
+	module = 'milestones';
 	isLoadingData = true;
-	masterSelected:boolean;
-	tabledata:any;
-	checkedList:any;
-	userEmailAddress:any;
+	baseDataPirstine: any;
+	baseData: any;
 	shimmer = Array;
+	caseId = "";
 	dtOptions: DataTables.Settings = {};
-	
-	constructor(private dataService: ApiDataService, private router: Router, private utility: UtilityService, private usr: AccdetailsService) { this.masterSelected = false; }
+	user = this.utility.getUserDetails()
+
+	constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
 
 	ngOnInit(): void {
-		sessionStorage.removeItem("milestoneTabActive");
-		sessionStorage.setItem('checkCase', '');
-		sessionStorage.setItem('caseId', '');
-		this.getallmilestone();
+
+		this.route.parent.parent.paramMap.subscribe((params) => {
+			if (params.get("caseId") && params.get("caseId") != "")
+				this.caseId = params.get("caseId");
+			this.loadBaseData();
+		});
+
 		this.dtOptions = {
-		  dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
-		  pagingType: 'full_numbers',
-		  pageLength: 10,
-		  processing: true,
-		  responsive: true,
-		  language: {
-			  search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
-			  lengthMenu: "Items per page _MENU_",
-			  info: "_START_ - _END_ of _TOTAL_",
-			  paginate: {
-				first : "<i class='bx bx-first-page'></i>",
-				previous: "<i class='bx bx-chevron-left'></i>",
-				next: "<i class='bx bx-chevron-right'></i>",
-				last : "<i class='bx bx-last-page'></i>"
+			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
+			pagingType: 'full_numbers',
+			pageLength: 10,
+			processing: true,
+			responsive: true,
+			language: {
+				search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
+				lengthMenu: "Items per page _MENU_",
+				info: "_START_ - _END_ of _TOTAL_",
+				paginate: {
+					first: "<i class='bx bx-first-page'></i>",
+					previous: "<i class='bx bx-chevron-left'></i>",
+					next: "<i class='bx bx-chevron-right'></i>",
+					last: "<i class='bx bx-last-page'></i>"
 				},
-		  }
+			},
+			columnDefs: [{
+				"defaultContent": "-",
+				"targets": "_all"
+			}]
 		};
 	}
-	
-	
+
 	searchText(event: any) {
 		var v = event.target.value;  // getting search input value
 		$('#dataTables').DataTable().search(v).draw();
 	}
-	
-	getallmilestone() {
-		sessionStorage.setItem('backurl', '/milestones/milestones-list');
-		this.tabledata = '';
-		let user = this.usr.getUserDetails(false);
-		if(user)
-		{
-			let url = this.utility.apiData.userMilestones.ApiUrl;
-			let caseId = sessionStorage.getItem("caseId");
-			if(caseId != '')
-			{
-				url += "?caseId="+caseId;
-			}
+
+	async loadBaseData() {
+		try {
+			await this.utility.loadPreFetchData("users");
+			await this.utility.loadPreFetchData("cases");
+			await this.utility.loadPreFetchData("patients");
+			let url = this.utility.baseUrl + this.module;
+			if (this.caseId) url = url + "?caseId=" + this.caseId
 			this.dataService.getallData(url, true).subscribe(Response => {
-				if (Response)
-				{
-					//swal.close();
-					
-					this.tabledata = JSON.parse(Response.toString());
-					this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-					this.userEmailAddress = user.emailAddress;
+				if (Response) {
+					let data = JSON.parse(Response.toString());
+					this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					this.isLoadingData = false;
 				}
 			}, (error) => {
-				if (error.status === 404)
-				swal('No milestone found');
-				else if (error.status === 403)
-				swal('You are unauthorized to access the data');
-				else if (error.status === 400)
-				swal('Invalid data provided, please try again');
-				else if (error.status === 401)
-				swal('You are unauthorized to access the page');
-				else if (error.status === 409)
-				swal('Duplicate data entered');
-				else if (error.status === 405)
-				swal({
-				text: 'Due to dependency data unable to complete operation'
-				}).then(function() {
-				window.location.reload();
-				});
-				else if (error.status === 500)
-				swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-				else
-				swal('Oops something went wrong, please try again');
-				return false;
-			});
-		}
-	}
-	
-	viewmilestone(milestoneId: any) {
-		this.router.navigate(['milestones/milestone-details/'+milestoneId]);
-	}
-	editMilestone(milestoneId: any) {
-		this.router.navigate(['milestones/milestone-edit/'+milestoneId]);
-	}
-	
-	deletemilestone(milestoneId: any) {
-		let url = this.utility.apiData.userMilestones.ApiUrl;
-		this.dataService.deleteDataRecord(url, milestoneId, 'milestoneId').subscribe(Response => {
-			swal('Milestones deleted successfully');
-			this.getallmilestone();
-		}, (error) => {
-			if (error.status === 404)
-			swal('No milestone found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
-			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
-		});
-	}
-	
-	onSubmit(form: NgForm) {
-		this.tabledata = '';
-		let user = this.usr.getUserDetails(false);
-		let url = this.utility.apiData.userMilestones.ApiUrl;
-		this.isLoadingData = true;
-		if(form.value.title != '' && form.value.title != null)
-		{
-			url += "?title="+form.value.title;
-		}
-		if(form.value.dateFrom != '' && form.value.dateFrom != null)
-		{
-			if(form.value.title != '' && form.value.title != null)
-			{
-				url += "&dateFrom="+Date.parse(form.value.dateFrom);
-			}
-			else
-			{
-				url += "?dateFrom="+Date.parse(form.value.dateFrom);
-			}
-		}
-		if(form.value.dateTo != '' && form.value.dateTo != null)
-		{
-			const mydate=form.value.dateTo;
-			const newDate = new Date(mydate);
-			const result = new Date(newDate.setDate(newDate.getDate() + 1));
-			if((form.value.dateFrom != '' && form.value.dateFrom != null) || (form.value.title != '' && form.value.title != null))
-			{
-				url += "&dateTo="+Date.parse(result);
-			}
-			else
-			{
-				url += "?dateTo="+Date.parse(result);
-			}
-		}
-		this.dataService.getallData(url, true).subscribe(Response => {
-			if (Response)
-			{
-				this.tabledata = JSON.parse(Response.toString());
-				this.tabledata.sort((a, b) => (a.dateCreated > b.dateCreated) ? -1 : 1);
-				this.userEmailAddress = user.emailAddress;
+				this.utility.showError(error.status)
 				this.isLoadingData = false;
-				form.resetForm(); // or form.reset();
-			}
-		}, (error) => {
-			form.resetForm(); // or form.reset();
-			if (error.status === 404)
-			swal('No milestone found');
-			else if (error.status === 403)
-			swal('You are unauthorized to access the data');
-			else if (error.status === 400)
-			swal('Invalid data provided, please try again');
-			else if (error.status === 401)
-			swal('You are unauthorized to access the page');
-			else if (error.status === 409)
-			swal('Duplicate data entered');
-			else if (error.status === 405)
-			swal({
-			text: 'Due to dependency data unable to complete operation'
-			}).then(function() {
-			window.location.reload();
 			});
-			else if (error.status === 500)
-			swal('The server encountered an unexpected condition that prevented it from fulfilling the request');
-			else
-			swal('Oops something went wrong, please try again');
-			return false;
+		} catch (error) {
+			console.log(error)
+			this.isLoadingData = false;
+		}
+	}
+
+
+	filterSubmit(form: NgForm) {
+		let query = "";
+		if (form.value.title) {
+			query = query + ' title:' + form.value.title
+		}
+		if (form.value.dateFrom) {
+			query = query + ' dateCreated:>' + new Date(form.value.dateFrom).getTime()
+		}
+		if (form.value.dateTo) {
+			query = query + ' dateCreated:<' + new Date(form.value.dateTo).getTime()
+		}
+		let filterData = filter(this.baseDataPirstine, {
+			keywords: query
 		});
-	};
+		this.baseData = filterData
+	 
+	}
 }

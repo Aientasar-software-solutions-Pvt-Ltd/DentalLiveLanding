@@ -6,10 +6,9 @@ import {
     HttpEvent,
     HttpInterceptor,
     HttpResponse,
-    HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, delay, map, retry, retryWhen } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, retry } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { AccdetailsService } from './accdetails.service';
@@ -23,7 +22,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     constructor(private usr: AccdetailsService) { }
     msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental', 'cases', 'casefiles', 'milestones', 'tasks', 'workorders', 'referrals', 'messages', 'users', 'caseinvites', 'threads', 'login', 'sendinvite'];
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         //Outgoing Request handler
         let tempRequest = request;
         if (sessionStorage.getItem("usr") && request.url.includes('execute-api.us-west-2.amazonaws.com')) {
@@ -44,7 +42,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         //Incoming Request Handler
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
-                if (event instanceof HttpResponse && request.url.includes('execute-api.us-west-2.amazonaws.com') && this.msArray.some(ms => request.url.includes(ms))) {
+                if (event instanceof HttpResponse && request.url.includes('execute-api.us-west-2.amazonaws.com') && !request.url.includes('objectUrl') && this.msArray.some(ms => request.url.includes(ms))) {
                     let decrypt = CryptoJS.AES.decrypt(event.body, environment.decryptKey).toString(CryptoJS.enc.Utf8);
                     if (tempRequest.body && (JSON.parse(tempRequest.body).isSocialLogin || JSON.parse(tempRequest.body).isLogin || JSON.parse(tempRequest.body).isValidate)) {
                         sessionStorage.setItem('usr', event.body);

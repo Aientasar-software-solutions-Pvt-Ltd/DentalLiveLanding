@@ -58,7 +58,6 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
           this.router.navigate(['/accounts/packages'])
           return;
         }
-        console.log(Response);
         let current = new Date().getTime();
         if (Response['activationDate'] > current || (Response['deactivationDate'] && Response['deactivationDate'] <= current) || (Response['expirationDate'] && Response['expirationDate'] <= current)) {
           swal("Package has Expired");
@@ -223,7 +222,6 @@ export class PurchaseComponent implements OnInit, AfterViewInit {
   }
   saveDetails(details, purchaseObject, purchaseURL, service, permGurd) {
     purchaseObject.payPal = details;
-    console.log(purchaseObject);
     service.postData(purchaseURL, JSON.stringify(purchaseObject))
       .subscribe(() => {
         swal("Payment Made successfully");

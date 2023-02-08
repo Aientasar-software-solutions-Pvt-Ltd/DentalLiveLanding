@@ -24,7 +24,6 @@ export class ForgetsubpaswordComponent implements OnInit {
     let json: JSON = form.value;
     json['isForget'] = true;
     json['url'] = this.utility.subpasswordResetURL + "/" + json['emailAddress'];
-    console.log(json);
     this.dataService.postData(this.utility.apiData.subUserAccounts.ApiUrl, JSON.stringify(json), true)
       .subscribe(Response => {
         this.sending = false;
