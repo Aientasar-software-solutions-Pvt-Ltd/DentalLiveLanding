@@ -31,7 +31,7 @@ export class FilesListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.parent.paramMap.subscribe((params) => {
+    this.route.parent.parent.paramMap.subscribe((params) => {
       if (params.get("caseId") && params.get("caseId") != "")
         this.caseId = params.get("caseId");
       this.loadBaseData();
@@ -72,12 +72,14 @@ export class FilesListComponent implements OnInit {
       await this.utility.loadPreFetchData("users");
       await this.utility.loadPreFetchData("cases");
       let url = this.utility.baseUrl + this.module;
+
       if (this.caseId) url = url + "?caseId=" + this.caseId
       this.dataService.getallData(url, true).subscribe(Response => {
         if (Response) {
           let data = JSON.parse(Response.toString());
+          console.log(data)
           this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
-          
+
           this.isLoadingData = false;
         }
       }, (error) => {
