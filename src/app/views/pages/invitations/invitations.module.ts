@@ -11,6 +11,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 import { ColleagueListComponent } from './colleague-list/colleague-list.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ProfileViewComponent } from '../acccounts/profile-view/profile-view.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'colleague-lists',
         component: ColleagueListComponent
+      },
+      {
+        path: 'colleague-lists/:id',
+        component: ProfileViewComponent
       },
 
     ]

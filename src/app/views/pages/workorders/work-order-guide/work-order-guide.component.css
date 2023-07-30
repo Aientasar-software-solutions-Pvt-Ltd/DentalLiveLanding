@@ -9,6 +9,12 @@
     opacity: .5;
 }
 
+.showLabel .activeLabel label,
+.showLabel .activeLabelClick label {
+    color: green !important;
+    font-weight: bold;
+}
+
 .selectionTree ul {
     display: none;
     animation-name: slidein;
@@ -146,34 +152,39 @@ h6.showNode::before {
 }
 
 .adth li label {
-    color: black;
+    background-color: black;
     font-family: Roboto-Black;
     position: absolute;
-    left: -10em;
-    text-align: center;
+    left: -12em;
     line-height: 1.2em;
     width: 10em;
-    background: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255);
     border-radius: 4px;
     padding: 0.3em;
     top: 0;
     bottom: 0;
     margin: auto;
-    height: 1.6em;
+    height: 1.8em;
     padding-left: 1em;
     opacity: 0;
 }
 
-.showLabel li label {
+.isOpac label {
     opacity: 1 !important;
 }
 
+.showLabel li label {
+    opacity: 1 !important;
+    background-color: transparent;
+    color: black;
+}
+
 .adth li:nth-child(n+9) label {
-    left: 2em;
+    left: 4em;
 }
 
 .adth li:nth-child(n+25) label {
-    left: -10em;
+    left: -12em;
 }
 
 .adth li:nth-child(6) label,

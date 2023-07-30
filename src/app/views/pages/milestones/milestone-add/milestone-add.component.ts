@@ -20,6 +20,8 @@ export class MilestoneAddComponent implements OnInit {
 	hasCase = false;
 	mode = "Add"
 	user = this.utility.getUserDetails();
+	currentDate = new Date()
+
 	constructor(
 		private route: ActivatedRoute,
 		public utility: UtilityServiceV2,
@@ -29,6 +31,7 @@ export class MilestoneAddComponent implements OnInit {
 	ngAfterViewInit(): void {
 		this.formInterface.mainForm = this.mainForm
 		this.formInterface.cvfast = this.cvfast;
+		this.currentDate = new Date();
 	}
 
 	ngOnInit(): void {
@@ -70,7 +73,12 @@ export class MilestoneAddComponent implements OnInit {
 		this.formInterface.object[val] = Number(event);
 	}
 
-	customSubmit() {
+	customSubmit(form) {
+
+		this.formInterface.object.startdate = new Date(form.value.startdate).getTime();
+		this.formInterface.object.duedate = new Date(form.value.duedate).getTime();
+
+
 		if (this.mode == "Add") {
 			let date1 = new Date(this.formInterface.object.startdate);
 			let date2 = new Date();
@@ -82,13 +90,14 @@ export class MilestoneAddComponent implements OnInit {
 				swal("Start Date Should Not Be Less Than Today’s Date")
 				return
 			}
-
 		}
+
 
 		if (this.formInterface.object.startdate > this.formInterface.object.duedate) {
 			swal("Due Date Should Be Greater Than Start Date")
 			return
 		}
+
 		if (this.hasCase)
 			this.formInterface.section.backUrl = '/cases/cases/case-view/' + this.formInterface.object.caseId + '/milestones'
 		this.formInterface.onSubmit()

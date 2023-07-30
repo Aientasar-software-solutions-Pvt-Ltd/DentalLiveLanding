@@ -57,6 +57,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
     this.dataService.getallData(this.utility.apiData.usage.ApiUrl + `?type=subusers&email=${this.object.dentalID}`, true).subscribe(
       (Response) => {
         if (Response) Response = JSON.parse(Response.toString());
+        console.log(Response)
         this.packageList = Response;
       });
 
@@ -119,6 +120,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
   }
   uploadFormData() {
     //post request here,both add & update are sent as post
+    console.log(this.object)
     this.dataService
       .postData(this.section.ApiUrl, JSON.stringify(this.object))
       .subscribe((Response) => {

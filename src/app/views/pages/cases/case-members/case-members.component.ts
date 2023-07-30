@@ -61,6 +61,11 @@ export class CaseMembersComponent implements OnInit {
           this.router.navigate(['/cases/cases'])
         this.loadBaseData()
         this.getNonInvitedMembers(caseDetails)
+
+        this.utility.getArrayObservable().subscribe(array => {
+          if (array.some(el => el.module === this.module && el.isProcessed))
+            this.loadBaseData(true)
+        });
       }
     });
 
@@ -105,6 +110,12 @@ export class CaseMembersComponent implements OnInit {
           let data = JSON.parse(Response.toString());
           this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateUpdated < second.dateUpdated ? -1 : 1));
           this.cdref.detectChanges()
+          //stupid library used-->fix required for no data label
+          if (this.baseData.length > 0) {
+            Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+              element.classList.add('d-none')
+            });
+          }
         }
       }, (error) => {
         this.utility.showError(error.status)

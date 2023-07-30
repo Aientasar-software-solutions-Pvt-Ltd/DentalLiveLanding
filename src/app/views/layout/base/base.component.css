@@ -1,16 +1,30 @@
-.wrapper.toggle-content{margin-left: 50px;}
-.wrapper { padding: 30px 20px; transition: all 0.3s ease-out;margin-top:68px;}
-.clearfix:after {content: "";display: block;clear: both;}
+.wrapper.toggle-content {
+  margin-left: 50px;
+}
+
+.wrapper {
+  padding: 30px 20px;
+  transition: all 0.3s ease-out;
+  margin-top: 68px;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 /* Small devices (tablets)
 ==========================*/
-@media (min-width: 768px) {
-}
+@media (min-width: 768px) {}
+
 /* Medium devices (desktops)
 ==========================*/
 @media (min-width: 992px) {
   body {
     overflow-y: scroll;
   }
+
   .wrapper {
     margin-left: 68px;
   }
@@ -18,4 +32,37 @@
   .wrapper__minify {
     margin-left: 220px;
   }
+}
+
+.logo-style {
+  font-size: 4rem;
+  color: #011a3e;
+  font-family: Poppins;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logo-style .colorfont {
+  color: #00d9cc;
+}
+
+.logo-style sup {
+  font-size: 1.2rem;
+  top: -2em;
+}
+
+.remb-text {
+  color: #000000;
+  font-size: 1rem;
+}
+
+
+.box-message .remb-text {
+  padding: 15px;
+}
+
+.box-message .logo-style {
+  border-bottom: 2px solid #000000;
+  padding: 15px;
 }

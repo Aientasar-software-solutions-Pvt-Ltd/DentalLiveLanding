@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
 
 	ngOnInit(): void {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		this.AccountName = user.accountfirstName + ' ' + user.accountlastName;
 		this.AccountImg = user.imageSrc;
 		if (window.innerWidth <= 575) {

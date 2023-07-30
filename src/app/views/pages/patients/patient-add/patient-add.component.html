@@ -1,3 +1,4 @@
+<!-- @ts-nocheck -->
 <ol class="breadcrumb">
   <!-- breadcrumb -->
   <li class="breadcrumb-item">
@@ -12,7 +13,18 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
   <div class="col-md-12">
-    <h3>Patient Details</h3>
+    <h3>
+      Patient Details
+      <a
+        tippy="Tutorial"
+        target="_blank"
+        [routerLink]="
+          '/tutorial/' + utility.tutorialData['PatientAddComponent'].html
+        "
+      >
+        <i class="bx bxs-info-circle text-primary"></i
+      ></a>
+    </h3>
   </div>
 </div>
 
@@ -53,7 +65,11 @@
             "
             class="col-md-12"
           >
-            <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
+            <form
+              #mainForm="ngForm"
+              id="mainForm"
+              (ngSubmit)="customSubmit(mainForm)"
+            >
               <div class="row p-3">
                 <div class="col-md-6">
                   <div class="row">
@@ -112,7 +128,7 @@
                       >Patient Image</label
                     >
                     <div class="justify-content-center profile-img p-md-2 mt-3">
-                      <div class="capture">
+                      <div class="capture position-relative">
                         <label for="image">
                           <img
                             [src]="
@@ -125,16 +141,47 @@
                             width="100px"
                             height="100px"
                           />
+                          <span
+                            class="text-primary"
+                            style="
+                              position: absolute;
+                              bottom: -2em;
+                              left: 0;
+                              right: 0;
+                              margin: auto;
+                              font-weight: bold;
+                              cursor: pointer;
+                            "
+                            >Upload</span
+                          >
                         </label>
 
                         <input
                           hidden
+                          #file
                           type="file"
                           name="image"
                           accept="image/*"
-                          (change)="formInterface.loadBinaryFile($event)"
+                          (click)="file.value = null"
+                          (change)="addAvatar($event)"
                           id="image"
                         />
+
+                        <span
+                          class="text-danger"
+                          *ngIf="formInterface.tempAvatarImage"
+                          (click)="removeAvatar()"
+                          style="
+                            position: absolute;
+                            bottom: -4em;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            font-weight: bold;
+                            cursor: pointer;
+                          "
+                          >Remove</span
+                        >
                       </div>
                     </div>
                   </div>
@@ -162,15 +209,28 @@
                     <label class="form-label body2 text-dark"
                       >DOB <span class="text-danger">*</span></label
                     >
-                    <input
-                      required
-                      type="date"
-                      class="form-control"
-                      max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
-                      [ngModel]="formInterface.object.dob | date : 'yyyy-MM-dd'"
-                      (ngModelChange)="formInterface.assignDate('dob', $event)"
-                      name="dob"
-                    />
+                    <span style="position: relative; display: block">
+                      <!-- <input
+                        *ngIf="!formInterface.object.dob"
+                        required
+                        type="date"
+                        class="form-control"
+                        max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
+                        name="dob"
+                      /> -->
+                      <input
+                        required
+                        type="date"
+                        class="form-control"
+                        max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
+                        [ngModel]="
+                          formInterface.object.dob
+                            ? (formInterface.object.dob | date : 'yyyy-MM-dd')
+                            : null
+                        "
+                        name="dob"
+                      />
+                    </span>
 
                     <!-- <span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Date Of Birth should not greater than to today date</span> -->
                   </div>
@@ -194,18 +254,78 @@
                 </div>
                 <div class="col-md-6">
                   <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Phone Number</label
+                    <label class="form-label body2 text-dark d-block"
+                      >Phone Number <span class="text-danger">*</span></label
                     >
                     <input
-                      type="tel"
+                      type="text"
+                      required
                       class="form-control"
+                      placeholder="111-111-1111"
                       maxlength="10"
                       minlength="10"
                       (keypress)="formInterface.numberOnly($event)"
-                      name="phone"
                       [(ngModel)]="formInterface.object.phone"
+                      name="phone"
                       id="phone"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="mb-4">
+                    <label class="form-label body2 text-dark"
+                      >Country <span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="form-select"
+                      name="country"
+                      required
+                      [(ngModel)]="formInterface.object.country"
+                      (ngModelChange)="poplStates($event)"
+                      id="country"
+                    >
+                      <option
+                        *ngFor="let country of countries"
+                        [value]="country.isoCode"
+                      >
+                        {{ country.name }}
+                      </option>
+                      name
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-4">
+                    <label class="form-label body2 text-dark"
+                      >State/Province <span class="text-danger">*</span></label
+                    >
+
+                    <select
+                      class="form-select"
+                      name="residingState"
+                      [(ngModel)]="formInterface.object.residingState"
+                      id="residingState"
+                    >
+                      <option
+                        *ngFor="let state of states"
+                        [value]="state.isoCode"
+                      >
+                        {{ state.name }}
+                      </option>
+                      name
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-4">
+                    <label class="form-label body2 text-dark">City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="city"
+                      [(ngModel)]="formInterface.object.city"
+                      id="city"
                     />
                   </div>
                 </div>
@@ -219,35 +339,6 @@
                       name="address"
                       id="address"
                     ></textarea>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      [(ngModel)]="formInterface.object.city"
-                      name="city"
-                      maxlength="100"
-                      id="city"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >State/Province <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="text"
-                      required
-                      class="form-control"
-                      [(ngModel)]="formInterface.object.residingState"
-                      name="residingState"
-                      maxlength="100"
-                      id="residingState"
-                    />
                   </div>
                 </div>
 
@@ -341,103 +432,128 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Insurance Carrier Name</label>
-              <input
-                type="text"
-                [(ngModel)]="formInterface.object.insurance.carrier"
-                name="carrier"
-                id="carrier"
-                class="form-control"
-              />
+        <form
+          #insuranceForm="ngForm"
+          id="insuranceForm"
+          (ngSubmit)="onSubmitMedication(medicationForm)"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2"
+                  >Insurance Policy No <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.policyno"
+                  name="policyno"
+                  required
+                  id="policyno"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2"
+                  >Insurance Carrier Name
+                  <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  required
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.carrier"
+                  name="carrier"
+                  id="carrier"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2">Employer</label>
+                <input
+                  type="text"
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.employer"
+                  name="employer"
+                  id="employer"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2">Group</label>
+                <input
+                  type="text"
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.group"
+                  name="group"
+                  id="group"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2">Policy Holder</label>
+                <input
+                  type="text"
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.policyholder"
+                  name="policyholder"
+                  id="policyholder"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2">Effective Date</label>
+                <input
+                  type="date"
+                  max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
+                  ngModel
+                  [ngModel]="
+                    formInterface.object.insurance.policydate
+                      | date : 'yyyy-MM-dd'
+                  "
+                  ngModel
+                  name="policydate"
+                  id="policydate"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label class="form-label body2">Notes</label>
+                <textarea
+                  rows="2"
+                  class="form-control"
+                  ngModel
+                  [ngModel]="formInterface.object.insurance.noteinc"
+                  name="noteinc"
+                  id="noteinc"
+                ></textarea>
+              </div>
             </div>
           </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Employer</label>
-              <input
-                type="text"
-                [(ngModel)]="formInterface.object.insurance.employer"
-                name="employer"
-                id="employer"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Insurance Policy No</label>
-              <input
-                type="text"
-                [(ngModel)]="formInterface.object.insurance.policyno"
-                name="policyno"
-                id="policyno"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Group</label>
-              <input
-                type="text"
-                [(ngModel)]="formInterface.object.insurance.group"
-                name="group"
-                id="group"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Policy Holder</label>
-              <input
-                type="text"
-                [(ngModel)]="formInterface.object.insurance.policyholder"
-                name="policyholder"
-                id="policyholder"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Effective Date</label>
-              <input
-                type="date"
-                max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
-                [ngModel]="
-                  formInterface.object.insurance.policydate
-                    | date : 'yyyy-MM-dd'
-                "
-                (ngModelChange)="assignCarrierDate($event)"
-                name="policydate"
-                id="policydate"
-                class="form-control"
-              />
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="mb-3">
-              <label class="form-label body2">Notes</label>
-              <textarea
-                rows="2"
-                class="form-control"
-                [(ngModel)]="formInterface.object.insurance.noteinc"
-                name="noteinc"
-                id="noteinc"
-              ></textarea>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+        <button
+          (click)="onSubmitInsurance(insuranceForm)"
+          type="button"
+          class="btn btn-default"
+        >
           Save
         </button>
       </div>
@@ -498,7 +614,6 @@
               />
             </div>
           </div>
-
           <div class="col-12 my-3">
             <label class="form-label mb-2">Notes</label
             ><textarea
@@ -542,6 +657,53 @@
         </table>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Save & Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Image Cropping -->
+<div class="modal fade" id="pictureModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5>Crop Image</h5></div>
+
+      <div class="modal-body p-4 d-flex flex-direction-coloumn">
+        <image-cropper
+          class="border rounded"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1"
+          format="png"
+          [onlyScaleDown]="true"
+          [roundCropper]="true"
+          [transform]="transform"
+          (imageCropped)="imageCropped($event)"
+        ></image-cropper>
+
+        <div class="d-flex justify-content-end mt-2 w-100">
+          <i (click)="zoomOut()" class="bx bx-md bxs-zoom-out"></i>
+          <i (click)="zoomIn()" class="bx bx-md bxs-zoom-in"></i>
+        </div>
+
+        <!-- <img class="mt-3" [src]="croppedImage" /> -->
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary me-2"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          (click)="saveCroppedImage()"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+        >
+          Crop & Save
         </button>
       </div>
     </div>

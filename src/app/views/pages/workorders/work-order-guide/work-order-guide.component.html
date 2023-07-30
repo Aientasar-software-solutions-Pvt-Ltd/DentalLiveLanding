@@ -5,22 +5,10 @@
         class="text-end position-absolute mx-2"
         style="left: 0px; top: 13px; right: 10px"
       >
-        <div class="float-start">
+        <div class="float-start d-flex">
           <span class="me-3">
             <input
-              (change)="showLabel = false"
-              class="form-check-input"
-              type="radio"
-              name="numberingSystem"
-              id="hideNumbers"
-            />
-            <label class="form-check-label ms-2" for="hideNumbers">
-              No label
-            </label>
-          </span>
-          <span class="me-3">
-            <input
-              (change)="isFdi = false; showLabel = true"
+              (change)="isFdi = false"
               class="form-check-input"
               type="radio"
               name="numberingSystem"
@@ -29,9 +17,9 @@
             />
             <label class="form-check-label ms-2" for="isFdi"> Universal </label>
           </span>
-          <span>
+          <span class="me-4">
             <input
-              (change)="isFdi = true; showLabel = true"
+              (change)="isFdi = true"
               class="form-check-input"
               type="radio"
               name="numberingSystem"
@@ -39,13 +27,27 @@
             />
             <label class="form-check-label ms-2" for="isUniversal"> FDI </label>
           </span>
+
+          <div class="form-check form-switch">
+            <input
+              (change)="isChecked($event)"
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="showLabelCheck"
+            />
+            <label class="form-check-label" for="showLabelCheck"
+              >Show Labels</label
+            >
+          </div>
         </div>
         <div
+          *ngIf="!readOnly"
           style="cursor: pointer"
           (click)="clearToothGuide()"
           class="float-end mt-1 d-flex flex-column align-items-center"
         >
-          <i class="mb-2 fa fa-2x fa-trash"></i>
+          <i style="font-size: 1.5em" class="mb-2 fa fa-trash"></i>
           <small>Clear all</small>
         </div>
       </div>
@@ -192,10 +194,11 @@
           />
         </svg>
         <!-- labels of the teetg(eg 1- 32 or 32 -1) -->
-        <ul [ngClass]="{ showLabel: showLabel }" class="adth rdtntn">
+        <ul [class.showLabel]="showLabel" class="adth rdtntn">
           <li class="idth1" style="left: 8.3em; top: 14em">
             <span *ngIf="isFdi">18</span><span *ngIf="!isFdi">1</span>
-            <label>(R)Third Molar</label>
+            <label> (R)Third Molar </label>
+            <!-- <i class="me-2 mt-1 bx-2x bx bxs-trash position-relative"></i> -->
           </li>
           <li class="idth2" style="left: 9em; top: 11.1em">
             <span *ngIf="isFdi">17</span><span *ngIf="!isFdi">2</span>
@@ -322,13 +325,13 @@
             <label>(R)Third Molar</label>
           </li>
         </ul>
+
         <canvas width="480" height="480" id="rclkmap"></canvas>
         <canvas width="480" height="480" id="rassgmap"></canvas>
         <canvas width="480" height="480" id="rhovmap"></canvas>
         <canvas width="480" height="480" id="rcurrmap"></canvas>
         <!--actual svg with event of all teeths ,but opacity is 0 for other canavs elemnts to appear on top-->
         <svg
-          *ngIf="!readOnly"
           style="opacity: 0"
           (mouseleave)="hoverTeeth($event, false)"
           (mouseover)="hoverTeeth($event, true)"

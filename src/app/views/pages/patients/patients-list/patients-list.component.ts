@@ -28,6 +28,12 @@ export class PatientsListComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.loadPatients();
+
+		this.utility.getArrayObservable().subscribe(array => {
+			if (array.some(el => el.module === this.module && el.isProcessed))
+				this.loadPatients(true)
+		});
+
 		this.dtOptions = {
 			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 			pagingType: 'full_numbers',
@@ -57,16 +63,21 @@ export class PatientsListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 
-	loadPatients() {
-		if (this.patientData) return;
+	loadPatients(force = false) {
+		if (!force && this.patientData) return;
 		this.patientData = []
 		this.isLoadingData = true;
 		let url = this.utility.baseUrl + this.module + '?resourceOwner=' + this.user.emailAddress;
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response) {
 				let data = JSON.parse(Response.toString());
-			 
 				this.patientDataPirstine = this.patientData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+				//stupid library used-->fix required for no data label
+				if (this.patientData.length > 0) {
+					Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+						element.classList.add('d-none')
+					});
+				}
 			}
 			this.isLoadingData = false;
 		}, (error) => {
@@ -123,6 +134,6 @@ export class PatientsListComponent implements OnInit {
 			keywords: query
 		});
 		this.isPatient ? this.patientData = filterData : this.colleaguesData = filterData
-	 
+
 	}
 }

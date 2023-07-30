@@ -1,3 +1,6 @@
+import { ViewtutorialComponent } from './views/pages/tutorials/viewtutorial/viewtutorial.component';
+import { TutorialListComponent } from './views/pages/tutorials/tutorial-list/tutorial-list.component';
+import { TutorialsComponent } from './views/pages/tutorials/tutorials.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,6 +11,8 @@ import { PermissionGuardService } from './views/pages/permission-guard.service';
 
 const routes: Routes = [
 	{ path: 'file/:key', component: ViewAttachmentComponent },
+	{ path: 'tutorial/:module', component: ViewtutorialComponent },
+
 	{ path: '', loadChildren: () => import('./views/pages/general/general.module').then(m => m.GeneralModule) },
 	{ path: 'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule) },
 	{
@@ -80,6 +85,25 @@ const routes: Routes = [
 				path: 'contacts',
 				loadChildren: () => import('./views/pages/contacts/contacts.module').then(m => m.ContactsModule),
 				canActivate: [AuthGuard, PermissionGuardService]
+			},
+			{
+				path: 'tutorials',
+				children: [
+					{
+						path: '',
+						component: TutorialListComponent,
+						canActivate: [AuthGuard]
+					},
+					{
+						path: 'details/:module',
+						component: TutorialsComponent,
+					},
+				]
+			},
+			{
+				path: 'tutorials/:module',
+				component: TutorialsComponent,
+				canActivate: [AuthGuard]
 			},
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 		]

@@ -31,6 +31,15 @@
     <div class="col-md-12">
       <h3 class="my-2 my-md-0" id="heading1">
         Patient Overview :
+        <a
+          tippy="Tutorial"
+          target="_blank"
+          [routerLink]="
+            '/tutorial/' + utility.tutorialData['PatientDetailsComponent'].html
+          "
+        >
+          <i class="bx bxs-info-circle text-primary"></i
+        ></a>
         <button
           class="accordion-button d-inline-flex"
           type="button"
@@ -110,7 +119,7 @@
                             type="text"
                             readonly=""
                             class="form-control-plaintext body2 text-muted"
-                            value="{{ baseData.dob | date : 'dd/MM/yyyy' }}"
+                            value="{{ baseData.dob | date : 'mediumDate' }}"
                           />
                         </div>
                       </div>
@@ -185,7 +194,7 @@
                             type="text"
                             readonly=""
                             class="form-control-plaintext body2 text-muted"
-                            value="{{ baseData.phone }}"
+                            value="{{ getPhoneNumber(baseData.phone) }}"
                           />
                         </div>
                       </div>

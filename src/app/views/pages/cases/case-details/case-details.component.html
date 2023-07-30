@@ -21,7 +21,19 @@
         <div class="col-md-12">
           <div class="card shadow-sm">
             <div class="card-header bg-white">
-              <h5 class="body1 card-title my-2">Case Details</h5>
+              <h5 class="body1 card-title my-2">
+                Case Details
+                <a
+                 tippy="Tutorial"
+                  target="_blank"
+                  [routerLink]="
+                    '/tutorial/' +
+                    utility.tutorialData['CaseDetailsComponent'].html
+                  "
+                >
+                  <i class="bx bxs-info-circle text-primary"></i
+                ></a>
+              </h5>
             </div>
             <div class="card-body">
               <div class="row">

@@ -93,10 +93,12 @@ export class WorkOrderAddComponent implements OnInit {
 		this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId + "&presentStatus=1", true).subscribe(
 			(Response) => {
 				let data = JSON.parse(Response.toString());
+
 				let emailArray = data.map((item) => {
 					if (this.user.emailAddress != item.invitedUserMail)
 						return item.invitedUserMail;
 				})
+				console.log(emailArray)
 				if (emailArray.length > 0) {
 					//get all cases data whose cases working on 
 					this.dataService.getallData(this.utility.baseUrl + "users?emailAddressArray=" + emailArray.toString(), true).subscribe(pResponse => {
@@ -112,7 +114,10 @@ export class WorkOrderAddComponent implements OnInit {
 			});
 	}
 
-	customSubmit() {
+	customSubmit(form) {
+
+		this.formInterface.object.startdate = new Date(form.value.startdate).getTime();
+		this.formInterface.object.enddate = new Date(form.value.enddate).getTime();
 
 		if (this.mode == "Add") {
 			let date1 = new Date(this.formInterface.object.startdate);

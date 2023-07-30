@@ -22,7 +22,7 @@ export class AccountlogoutComponent implements OnInit {
 		this.logout();
 	}
 	logout() {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		const json1: JSON = {};
 		json1['dentalId'] = user.dentalId;
 		json1['emailAddress'] = user.emailAddress;

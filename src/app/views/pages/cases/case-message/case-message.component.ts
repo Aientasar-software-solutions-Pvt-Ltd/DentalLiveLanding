@@ -54,6 +54,10 @@ export class CaseMessageComponent implements OnInit, AfterViewInit {
       this.loadCaseData().then((Response) => {
         this.caseDetails = Response
         this.loadBaseData();
+        this.utility.getArrayObservable().subscribe(array => {
+          if (array.some(el => el.module === this.module && el.isProcessed))
+            this.loadBaseData()
+        });
       }, (error) => {
         console.log(error)
         swal("Unable to load case");
@@ -85,9 +89,14 @@ export class CaseMessageComponent implements OnInit, AfterViewInit {
       this.dataService.getallData(url, true).subscribe(Response => {
         if (Response) {
           let data = JSON.parse(Response.toString());
-
           this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateUpdated < second.dateUpdated ? -1 : 1));
           this.isLoadingData = false;
+          //stupid library used-->fix required for no data label
+          if (this.baseData.length > 0) {
+            Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+              element.classList.add('d-none')
+            });
+          }
         }
       }, (error) => {
         console.log(error)
@@ -115,7 +124,7 @@ export class CaseMessageComponent implements OnInit, AfterViewInit {
       this.formInterface.object.messageReferenceId = this.messageReferenceId
       let obj = await this.formInterface.onSubmit(false);
       if (obj) {
-        this.loadBaseData();
+        //this.loadBaseData();
         this.cvfast.resetForm()
       }
     } catch (error) {
@@ -138,8 +147,8 @@ export class CaseMessageComponent implements OnInit, AfterViewInit {
         text: text
       })
       let obj = await this.formInterface.onSubmit(false);
-      if (obj)
-        this.loadBaseData();
+      // if (obj)
+      //   this.loadBaseData();
 
     } catch (error) {
       console.log(error);

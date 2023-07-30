@@ -45,13 +45,25 @@
   "
   class="row align-items-center pt-2"
 >
-  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
+  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
     <div class="col-md-12">
       <div class="card shadow-sm">
         <div class="card-header border-bottom-0 bg-white">
           <div class="row">
             <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">{{ mode }} Work Order</h5>
+              <h5 class="body1 card-title my-2">
+                {{ mode }} Work Order
+                <a
+                  tippy="Tutorial"
+                  target="_blank"
+                  [routerLink]="
+                    '/tutorial/' +
+                    utility.tutorialData['WorkOrderAddComponent'].html
+                  "
+                >
+                  <i class="bx bxs-info-circle text-primary"></i
+                ></a>
+              </h5>
             </div>
             <div class="col-md-7 text-end">
               <a
@@ -203,7 +215,7 @@
                 <div class="col-md-4">
                   <div class="mb-4">
                     <label class="form-label body2 text-dark">Start Date</label>
-                    <input
+                    <!-- <input
                       type="date"
                       class="form-control"
                       name="startdate"
@@ -218,6 +230,21 @@
                         formInterface.assignDate('startdate', $event)
                       "
                       required
+                    /> -->
+                    <input
+                      #startDate
+                      type="date"
+                      class="form-control"
+                      name="startdate"
+                      id="startdate"
+                      max="2050-01-01"
+                      [ngModel]="
+                        formInterface.object.startdate
+                          ? (formInterface.object.startdate
+                            | date : 'yyyy-MM-dd')
+                          : null
+                      "
+                      required
                     />
                   </div>
                 </div>
@@ -226,7 +253,7 @@
                     <label class="form-label body2 text-dark"
                       >Expected Date</label
                     >
-                    <input
+                    <!-- <input
                       type="date"
                       class="form-control"
                       name="enddate"
@@ -245,6 +272,20 @@
                         formInterface.assignDate('enddate', $event)
                       "
                       (change)="$event.stopPropagation()"
+                      required
+                    /> -->
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="enddate"
+                      [min]="startDate.value"
+                      id="enddate"
+                      max="2050-01-01"
+                      [ngModel]="
+                        formInterface.object.enddate
+                          ? (formInterface.object.enddate | date : 'yyyy-MM-dd')
+                          : null
+                      "
                       required
                     />
                   </div>

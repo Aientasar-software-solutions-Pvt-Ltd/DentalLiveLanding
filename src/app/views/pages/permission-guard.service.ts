@@ -10,7 +10,7 @@ import { UtilityService } from './users/utility.service';
   providedIn: 'root'
 })
 export class PermissionGuardService implements CanActivate {
-  products = [];
+  products = ['Mail', 'Meet', 'Planner'];
   permissions = [];
   hasMail = false;
   hasMeet = false;
@@ -22,26 +22,15 @@ export class PermissionGuardService implements CanActivate {
 
   constructor(private router: Router, private utility: UtilityService, private dataService: ApiDataService, private http: HttpClient, private usr: AccdetailsService) { }
 
+  // when URL is changed
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.products.length == 0 || this.forceReload) {
-      let load = this.reloadPermission();
-      if (load) {
-        return new Observable<boolean>(() => {
-          this.dataService.getallData(load, true).subscribe(Response => {
-            if (Response) Response = JSON.parse(Response.toString());
-            this.isPristine = false;
-            this.products = Response['products'];
-            this.permissions = Response['permissions'];
-            this.checkPackages();
-            this.router.navigate([state.url]);
-          }, () => {
-            this.router.navigate(['/auth/login']);
-            return false;
-          });
-        });
-      } else {
+    if (this.isPristine || this.products.length == 0 || this.forceReload) {
+      return this.refreshPermission().then(() => {
         return this.activate(state);
-      }
+      }, (err) => {
+        this.router.navigate(['/auth/login']);
+        return false
+      })
     } else {
       return this.activate(state);
     }
@@ -51,8 +40,9 @@ export class PermissionGuardService implements CanActivate {
   plannerPermissionArray = ['colleagues', 'referrals', 'workorders', 'caseinvites', 'milestones', 'casefiles'];
 
   activate(state): boolean {
-    if (this.products.length == 0) return false;
+    // if (this.products.length == 0) return false;
     if (this.isAdmin || state.url.includes("dashboard") || state.url.includes("accounts")) return true;
+    console.log(this.permissionsArray, this.plannerPermissionArray)
     for (let permission of this.permissionsArray) {
       if (state.url.includes(permission) && this.permissions.includes(permission)) return true
     };
@@ -64,8 +54,10 @@ export class PermissionGuardService implements CanActivate {
     return false;
   }
 
-  hasPermission(module) {
-    if (this.products.length == 0) return false;
+  // Check permissiosn for sideBar
+  async hasPermission(module) {
+    // if (this.products.length == 0) return false;
+    if (this.isPristine) await this.refreshPermission();
     if (this.isAdmin) return true;
     if (this.plannerPermissionArray.includes(module)) {
       if (this.products.includes("Planner") && this.permissions.includes(module)) return true;
@@ -75,30 +67,24 @@ export class PermissionGuardService implements CanActivate {
     return false;
   }
 
-  checkPackages() {
-    if (this.products.length == 0) {
-      if (!this.isPackageSelecetd && !this.usr.getUserDetails().Subuser) {
-        this.isPackageSelecetd = false;
-        this.router.navigate(['/accounts/packages']);
-      }
-      this.hasProducts = false;
-    }
-  }
-
-  reloadPermission(): string {
-    let user = this.usr.getUserDetails();
-    if (!user) return null;
-    if (this.isPristine) {
+  async refreshPermission() {
+    this.isPristine = false
+    try {
+      let user = this.usr.getUserDetails();
+      console.log(user);
       let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
       this.isAdmin = true;
       if (user.Subuser) {
         url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&issub=true&subuserid=${user.Subuser.subUserID}&type=permission`;
         this.isAdmin = false;
       }
-      return url;
-    } else {
-      this.checkPackages();
-      return null;
+      let Response = await this.dataService.getallData(url, true).toPromise();
+      if (Response) Response = JSON.parse(Response.toString());
+      this.products = ['Mail', 'Meet', 'Planner']
+      this.permissions = Response['permissions'];
+    } catch (error) {
+      console.log(error)
+      this.router.navigate(['/auth/login']);
     }
   }
 }

@@ -13,6 +13,8 @@ import { PatientDetailsComponent } from './patient-details/patient-details.compo
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 const routes: Routes = [
   {
     path: '',
@@ -43,7 +45,7 @@ const routes: Routes = [
     PatientsComponent,
     PatientsListComponent,
     PatientDetailsComponent,
-    PatientAddComponent
+    PatientAddComponent,
   ],
 
   imports: [
@@ -63,6 +65,7 @@ const routes: Routes = [
         popper: popperVariation,
       }
     }),
+    ImageCropperModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

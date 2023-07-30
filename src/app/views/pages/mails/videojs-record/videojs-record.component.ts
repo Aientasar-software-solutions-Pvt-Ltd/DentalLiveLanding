@@ -1,3 +1,4 @@
+import { UtilityServiceV2 } from './../../../../utility-service-v2.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import videojs from 'video.js';
 import * as Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
@@ -13,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AccdetailsService } from '../../accdetails.service';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import { v4 as uuidv4 } from "uuid";
 @Component({
   selector: 'app-videojs-record',
   templateUrl: './videojs-record.component.html',
@@ -22,6 +24,9 @@ import { UtilityService } from '../../users/utility.service';
 export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() message: any;
   @Output() closeComp = new EventEmitter<boolean>();
+  
+  
+  currentState = this;
   private VideoConfig: any;
   VideoPlayer: any;
   private audioConfig: any;
@@ -60,9 +65,10 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
   mail: any;
   validNaming = /^([a-zA-Z0-9 _]+)$/;
   private validMail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  // constructor initializes our declared vars
-  constructor(private router: Router, private route: ActivatedRoute, private Service: EmailService, public sanitizer: DomSanitizer, private datePipe: DatePipe, private dataService: ApiDataService, private usr: AccdetailsService, private utility: UtilityService, private cdref: ChangeDetectorRef) {
+
+  constructor(private router: Router, private route: ActivatedRoute, private Service: EmailService, public sanitizer: DomSanitizer, private datePipe: DatePipe, private dataService: ApiDataService, private usr: AccdetailsService, private utility: UtilityService, private cdref: ChangeDetectorRef, private newUtility: UtilityServiceV2) {
   }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       if (params.get('patientId') && params.get('patientId') != "") {
@@ -82,7 +88,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     this.profile = this.usr.getUserDetails().imageSrc ? this.utility.apiData.mails.bucketUrl + this.usr.getUserDetails().imageSrc : this.utility.apiData.mails.bucketUrl + "account.png";
     this.subUserId = 0;
     this.fromAddress = this.usr.getUserDetails()['emailAddress'];
-    this.fetchData();
+    this.fetchCasePatientContactData();
     if (this.message) {
       this.inReplyTo = this.message.messageId;
       this.references = this.message.references + this.message.messageId;
@@ -101,6 +107,8 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
         this.addressList = [...this.usr.getUserDetails().forwards];
     }
   }
+
+
   ngAfterViewInit() {
     this.VideoPlayer = videojs(document.getElementById('videoPlayer'), this.VideoConfig);
     this.VideoPlayer.on('finishRecord', () => {
@@ -261,6 +269,8 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   addPatient(patientId) {
+    this.addressList = []
+    if (!patientId) return;
     let patient = this.patientList.find(element => element.patientId == patientId)
     if (!this.addressList.includes(patient.email)) {
       this.addressList.push(patient.email);
@@ -312,7 +322,7 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
     });
     this.contactFilterdList = newList;
   }
-  fetchData() {
+  fetchCasePatientContactData() {
     let email = this.usr.getUserDetails().emailAddress;
 
     this.dataService.getallData(`https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/patients`, true)
@@ -430,85 +440,6 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
       this.pipEnabled = !this.pipEnabled;
     }
   }
-  //send request for a presigned URL-->put the content with the given URL-->save the name in JSON for main storage
-  saveFiles() {
-    let requests = this.recordings.map(elem => {
-      return this.utility.uploadBinaryData(elem.name, elem.data, "dentalmail-attachments")
-    });
-    Promise.all(requests)
-      .then((responses) => {
-        this.attachmentNames = responses;
-        this.savetoDB();
-      })
-      .catch((error) => {
-        swal("Error sending email,please try again");
-        this.sending = false;
-      });
-  }
-  savetoDB() {
-    //create html div and text using links
-    let htmlText = document.getElementById('message').innerHTML + '<br>';
-    let plainText = document.getElementById('message').textContent + '\n\n';
-    this.attachmentNames.forEach(element => {
-      htmlText = htmlText + '<a style="margin-top:10px;display: inline-block;width: 200px;margin-right: 20px;" href="' + this.utility.apiData.mails.fileURL + element.name + '" target="_blank"><img src="' + this.profile + '" alt="' + element.name + '" width="200"><strong style="display:block;width:100%;text-align:center;margin-top:15px;">' + element.name + '</strong></a>'
-      plainText = plainText + '\n' + element.name + '\n\n' + this.utility.apiData.mails.fileURL + element.name + '\n';
-    });
-    if (document.getElementById('trail')) {
-      htmlText = htmlText + document.getElementById('trail').innerHTML;
-      plainText = plainText + "\n\n" + document.getElementById('trail').textContent;
-    }
-    let json: JSON = this.form.value;
-    json['fromAddress'] = this.fromAddress;
-    json['inReplyTo'] = this.inReplyTo;
-    json['references'] = this.references;
-    json['subUserId'] = this.subUserId;
-    json['htmlText'] = htmlText;
-    json['plainText'] = plainText;
-    json['loggedUser'] = this.usr.getUserDetails()['emailAddress'];
-    json['toAddresses'] = this.addressList.join(',');
-    json['sender'] = this.usr.getUserDetails().accountfirstName + ' ' + this.usr.getUserDetails().accountlastName;
-    json['attachmentList'] = this.attachmentNames;
-    if (this.usr.getUserDetails().Subuser)
-      json['subUserId'] = this.usr.getUserDetails().Subuser.subUserID;
-    if (this.message) {
-      json['patientId'] = this.message.patientId;
-      json['caseId'] = this.message.caseId;
-    }
-
-    this.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(json))
-      .subscribe(Response => {
-        swal("Email Sent Successfully");
-        this.sending = false;
-        this.router.navigate(['/mail/inbox']);
-        // if (this.usr.getUserDetails().Subuser) {
-        //   swal("Email sent successfully");
-        //   this.sending = false;
-        //   this.router.navigate(['/mail/inbox']);
-        //   // let jsonSub = {};
-        //   // jsonSub['emailAddress'] = this.usr.getUserDetails().emailAddress;
-        //   // jsonSub['submailAddress'] = this.usr.getUserDetails().Subuser.email;
-        //   // jsonSub['type'] = 4
-        //   // this.SubuserService.updatesub(jsonSub)
-        //   //   .subscribe(Response => {
-        //   //     ;
-        //   //     swal("Email sent successfully");
-        //   //     this.sending = false;
-        //   //     this.router.navigate(['/mail/inbox']);
-        //   //   }, error => {
-        //   //     
-        //   //     swal("Email sent successfully");
-        //   //     this.sending = false;
-        //   //     this.router.navigate(['/mail/inbox']);
-        //   //   });
-        // } 
-      }, error => {
-        if (error.status == 402)
-          swal("Storage Full,Please add additional storage to send this email");
-        else
-          swal("Error sending email,please try again");
-        this.sending = false;
-      })
-  }
   loadFiles(event) {
     if (event.target.files.length > 0) {
       let allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
@@ -539,6 +470,9 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
         }
       });
   }
+
+  htmlText = ""; plainText = ""; trailText = ""; trailHtml = ""
+
   onSubmit(form: NgForm) {
     if (form.invalid || this.addressList.length == 0) {
       form.form.markAllAsTouched();
@@ -546,8 +480,133 @@ export class VideojsRecordComponent implements OnInit, OnDestroy, AfterViewInit 
       this.invalidForm = true;
       return;
     }
-    this.sending = true;
     this.form = form;
-    this.saveFiles();
+
+    this.htmlText = document.getElementById('message').innerHTML + '<br>';
+    this.plainText = document.getElementById('message').textContent + '\n\n';
+
+    if (document.getElementById('trail')) {
+      this.trailHtml = document.getElementById('trail').innerHTML;
+      this.trailText = document.getElementById('trail').textContent;
+    }
+
+    let pid = uuidv4();
+    let backgroundObject = {
+      'module': 'mail',
+      'title': "Sending Email",
+      'id': pid,
+      'currentState': this.currentState
+    }
+
+    this.newUtility.processingBackgroundData.push(backgroundObject)
+    console.log(this.newUtility.processingBackgroundData)
+    console.log(this.currentState)
+    this.saveFiles(this.currentState, pid)
+
+    swal("Email Sent Successfully");
+    this.router.navigate(['/mail/inbox']);
+  }
+
+  //send request for a presigned URL-->put the content with the given URL-->save the name in JSON for main storage
+  async saveFiles(currenState, id) {
+    try {
+      console.log(currenState)
+      let requests = currenState.recordings.map(elem => {
+        return currenState.utility.uploadBinaryData(elem.name, elem.data, "dentalmail-attachments")
+      });
+      Promise.all(requests)
+        .then((responses) => {
+          currenState.attachmentNames = responses;
+          currenState.savetoDB(currenState, id);
+        })
+        .catch((error) => {
+          currenState.newUtility.processingBackgroundData = currenState.newUtility.processingBackgroundData.map((item) => {
+            if (item.id != id) return item;
+            return {
+              ...item, isFailed: true, isProcessed: false, error: error
+            }
+          })
+        });
+    } catch (error) {
+      currenState.newUtility.processingBackgroundData = currenState.newUtility.processingBackgroundData.map((item) => {
+        if (item.id != id) return item;
+        return {
+          ...item, isFailed: true, isProcessed: false, error: error
+        }
+      })
+    }
+  }
+
+  savetoDB(currenState, id) {
+    //create html div and text using links
+    currenState.attachmentNames.forEach(element => {
+      currenState.htmlText = currenState.htmlText + '<a style="margin-top:10px;display: inline-block;width: 200px;margin-right: 20px;" href="' + currenState.utility.apiData.mails.fileURL + element.name + '" target="_blank"><img src="' + currenState.profile + '" alt="' + element.name + '" width="200"><strong style="display:block;width:100%;text-align:center;margin-top:15px;">' + element.name + '</strong></a>'
+      currenState.plainText = currenState.plainText + '\n' + element.name + '\n\n' + currenState.utility.apiData.mails.fileURL + element.name + '\n';
+    });
+    if (currenState.trailHtml || currenState.trailText) {
+      currenState.htmlText = currenState.htmlText + currenState.trailHtml;
+      currenState.plainText = currenState.plainText + "\n\n" + currenState.trailText;
+    }
+    let json: JSON = currenState.form.value;
+    json['fromAddress'] = currenState.fromAddress;
+    json['inReplyTo'] = currenState.inReplyTo;
+    json['references'] = currenState.references;
+    json['subUserId'] = currenState.subUserId;
+    json['htmlText'] = currenState.htmlText;
+    json['plainText'] = currenState.plainText;
+    json['loggedUser'] = currenState.usr.getUserDetails()['emailAddress'];
+    json['toAddresses'] = currenState.addressList.join(',');
+    json['sender'] = currenState.usr.getUserDetails().accountfirstName + ' ' + currenState.usr.getUserDetails().accountlastName;
+    json['attachmentList'] = currenState.attachmentNames;
+    if (this.usr.getUserDetails().Subuser)
+      json['subUserId'] = currenState.usr.getUserDetails().Subuser.subUserID;
+    if (this.message) {
+      json['patientId'] = currenState.message.patientId;
+      json['caseId'] = currenState.message.caseId;
+    }
+
+    currenState.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(json))
+      .subscribe(Response => {
+
+        currenState.newUtility.processingBackgroundData = currenState.newUtility.processingBackgroundData.map((item) => {
+          if (item.id != id) return item;
+          return {
+            ...item, isProcessed: true
+          }
+        })
+        console.log(currenState.newUtility.processingBackgroundData)
+
+        // swal("Email Sent Successfully");
+        // currenState.sending = false;
+        // currenState.router.navigate(['/mail/inbox']);
+        // if (this.usr.getUserDetails().Subuser) {
+        //   swal("Email sent successfully");
+        //  currenState.sending = false;
+        //  currenState.router.navigate(['/mail/inbox']);
+        //   // let jsonSub = {};
+        //   // jsonSub['emailAddress'] =currenState.usr.getUserDetails().emailAddress;
+        //   // jsonSub['submailAddress'] =currenState.usr.getUserDetails().Subuser.email;
+        //   // jsonSub['type'] = 4
+        //   //currenState.SubuserService.updatesub(jsonSub)
+        //   //   .subscribe(Response => {
+        //   //     ;
+        //   //     swal("Email sent successfully");
+        //   //    currenState.sending = false;
+        //   //    currenState.router.navigate(['/mail/inbox']);
+        //   //   }, error => {
+        //   //     
+        //   //     swal("Email sent successfully");
+        //   //    currenState.sending = false;
+        //   //    currenState.router.navigate(['/mail/inbox']);
+        //   //   });
+        // } 
+      }, error => {
+        currenState.newUtility.processingBackgroundData = currenState.newUtility.processingBackgroundData.map((item) => {
+          if (item.id != id) return item;
+          return {
+            ...item, isFailed: true, isProcessed: false, error: error
+          }
+        })
+      })
   }
 }

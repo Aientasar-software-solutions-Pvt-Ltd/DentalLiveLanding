@@ -38,6 +38,12 @@ export class PatientDetailsComponent implements OnInit {
 		});
 	}
 
+	getPhoneNumber(no) {
+		no = no.slice(0, 3) + "-" + no.slice(3);
+		no = no.slice(0, 7) + "-" + no.slice(7)
+		return no;
+	}
+
 	async loadBaseData() {
 		try {
 			let url = this.utility.baseUrl + this.module;
@@ -45,7 +51,7 @@ export class PatientDetailsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response) {
 					this.baseData = JSON.parse(Response.toString());
-				 
+
 					this.isLoadingData = false;
 				}
 			}, (error) => {

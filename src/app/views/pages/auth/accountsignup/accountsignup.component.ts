@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +20,7 @@ import swal from 'sweetalert';
 export class AccountsignupComponent implements OnInit {
   sending: boolean;
 
-  constructor(private router: Router, private accService: AccountService, private authServiceSocial: SocialAuthService, private route: ActivatedRoute, private utility: UtilityService, private permAuth: PermissionGuardService, private dataService: ApiDataService, private usr: AccdetailsService) { }
+  constructor(private http: HttpClient, private router: Router, private accService: AccountService, private authServiceSocial: SocialAuthService, private route: ActivatedRoute, private utility: UtilityService, private permAuth: PermissionGuardService, private dataService: ApiDataService, private usr: AccdetailsService) { }
 
   package = null;
 
@@ -31,6 +32,48 @@ export class AccountsignupComponent implements OnInit {
     });
     sessionStorage.removeItem("usr");
     this.sending = false;
+  }
+
+  // temp
+  async createAccounts() {
+    let jsonURL = '/assets/users1.json';
+    let json = await this.http.get(jsonURL).toPromise();
+    let reejctedEmails = []
+    let i = 0;
+    await json['data'].forEach(async element => {
+      i = i + 1;
+      // if (i > 5) return;
+      let tempJson = { ...this.utility.apiData.userAccounts.object };
+      tempJson.accountfirstName = element?.name;
+      tempJson.accountlastName = "";
+      tempJson['sno'] = element.sno
+      tempJson['password'] = element.pass
+      tempJson.emailAddress = element?.email;
+      tempJson.address = element.street ?? "" + " " + element.city ?? "" + " " + element.state ?? "" + " " + element.country ?? "" + " " + element.zip ?? ""
+      tempJson.clinicName = element?.prac;
+      tempJson.phoneNumber = element?.phno;
+      tempJson.education = element?.qual;
+      tempJson.country = element?.country
+      tempJson.city = element?.city;;
+      tempJson['cid'] = element?.cid;
+      tempJson['sid'] = element?.sid;
+      tempJson['university'] = element?.university;
+      tempJson['url'] = this.utility.accountValidateURL;
+      tempJson['isOld'] = true;
+
+      Object.keys(tempJson).forEach(function (key) {
+        if (tempJson[key] === null) {
+          tempJson[key] = "";
+        }
+      })
+      try {
+        let Response = await this.dataService.postData(this.utility.apiData.userAccounts.ApiUrl, JSON.stringify(tempJson), true).toPromise();
+        console.log(i);
+      } catch (error) {
+        console.log(error['status'], tempJson.emailAddress)
+      }
+    });
+    console.log(reejctedEmails)
   }
 
   onSubmit(form: NgForm) {
@@ -68,16 +111,16 @@ export class AccountsignupComponent implements OnInit {
     });
   }
 
-  signInWithFB(): void {
-    const fbLoginOptions = {
-      scope: 'email,public_profile',
-      return_scopes: true,
-      enable_profile_selector: true
-    }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
-    this.authServiceSocial.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then((user) => {
-      this.accService.SocailLogin(user);
-    });
-  }
+  // signInWithFB(): void {
+  //   const fbLoginOptions = {
+  //     scope: 'email,public_profile',
+  //     return_scopes: true,
+  //     enable_profile_selector: true
+  //   }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+  //   this.authServiceSocial.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then((user) => {
+  //     this.accService.SocailLogin(user);
+  //   });
+  // }
 }
 
 

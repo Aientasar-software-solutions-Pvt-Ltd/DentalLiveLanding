@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import swal from 'sweetalert';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,19 @@ import swal from 'sweetalert';
 
 export class UtilityServiceV2 {
 
-  constructor(private http: HttpClient) { }
+  maxDate = new Date();
+
+  constructor(private http: HttpClient) {
+    this.maxDate.setDate(new Date().getFullYear() + 1);
+  }
+
+  processingBackgroundData = []
+  arraySubject = new Subject<any[]>();
+
+  getArrayObservable(): Observable<any[]> {
+    return this.arraySubject.asObservable();
+  }
+
 
   // universal object for storing pre fetched data for better performance
   metadata = {
@@ -219,6 +232,7 @@ export class UtilityServiceV2 {
   }
 
   uploadBinaryData(objectName, binaryData, module) {
+    console.log(objectName)
     var that = this;
     return new Promise(function (resolve, reject) {
       that.getPreSignedUrl(objectName, module, 'put', binaryData.type).then((response) => {
@@ -236,13 +250,12 @@ export class UtilityServiceV2 {
     });
   }
 
-
   async getPreSignedUrl(objectName, module, type = 'get', media, responseType = 'json') {
     let headers = new HttpHeaders();
     let auth = sessionStorage.getItem("usr");
     headers = headers.set('authorization', auth);
 
-    let Response = await this.http.get(`${this.baseUrl}/objectUrl?name=${objectName}&module=${module}&type=${type}&media=${media}`, {
+    let Response = await this.http.get(`${this.baseUrl}objectUrl?name=${objectName}&module=${module}&type=${type}&media=${media}`, {
       headers: headers, responseType: responseType
     }).toPromise();
     return Response;
@@ -269,12 +282,13 @@ export class UtilityServiceV2 {
         "refId": "",
         "image": "",
         "gender": 0,
-        "dob": new Date().getTime(),
+        "dob": 0,
         "isActive": true,
         "email": "",
         "phone": "",
         "address": "",
         "city": "",
+        "country": "",
         "residingState": "",
         "notes": {},
         "insurance": {},
@@ -323,6 +337,9 @@ export class UtilityServiceV2 {
           "city": {
             "type": "string"
           },
+          "country": {
+            "type": "string"
+          },
           "residingState": {
             "type": "string"
           },
@@ -341,7 +358,6 @@ export class UtilityServiceV2 {
           "lastName",
           "dob",
           "email",
-          "residingState",
           "isActive"
         ]
       },
@@ -349,7 +365,9 @@ export class UtilityServiceV2 {
       cvfast: "notes",
       bucket: "dentallive-patients",
       bucketUrl: "https://dentallive-patients.s3.us-west-2.amazonaws.com/",
-      backUrl: '/patients'
+      backUrl: '/patients',
+      notifyTitle: ["firstName", "lastName"],
+      notifyFixed: "Patient"
     },
     cases: {
       module: "cases",
@@ -408,7 +426,9 @@ export class UtilityServiceV2 {
       keyName: "caseId",
       cvfast: "description",
       pullDependecies: { "patients": [] },
-      backUrl: '/cases/cases'
+      backUrl: '/cases/cases',
+      notifyTitle: ["title"],
+      notifyFixed: "Case"
     },
     milestones: {
       module: "milestones",
@@ -420,7 +440,7 @@ export class UtilityServiceV2 {
         "title": "",
         "description": {},
         "startdate": new Date().getTime(),
-        "duedate": new Date().getTime(),
+        "duedate": 0,
         "presentStatus": 1,
         "reminder": 0
       },
@@ -478,7 +498,9 @@ export class UtilityServiceV2 {
       cvfast: "description",
       pullDependecies: { "cases": [] },
       messageType: "3",
-      backUrl: '/milestones'
+      backUrl: '/milestones',
+      notifyTitle: ["title"],
+      notifyFixed: "Milestone"
     },
     tasks: {
       module: "tasks",
@@ -491,7 +513,7 @@ export class UtilityServiceV2 {
         "title": "",
         "description": {},
         "startdate": new Date().getTime(),
-        "duedate": new Date().getTime(),
+        "duedate": 0,
         "presentStatus": 1,
         "reminder": 0,
         "memberMail": ""
@@ -557,7 +579,9 @@ export class UtilityServiceV2 {
       keyName: "taskId",
       cvfast: "description",
       pullDependecies: null,
-      backUrl: '/milestones'
+      backUrl: '/milestones',
+      notifyTitle: ["title"],
+      notifyFixed: "Task"
     },
     workorders: {
       module: "workorders",
@@ -569,7 +593,7 @@ export class UtilityServiceV2 {
         "title": "",
         "notes": {},
         "startdate": new Date().getTime(),
-        "enddate": new Date().getTime(),
+        "enddate": 0,
         "toothguide": {},
         "milestoneId": "",
         "presentStatus": 1,
@@ -633,7 +657,8 @@ export class UtilityServiceV2 {
       cvfast: "notes",
       pullDependecies: { "cases": [] },
       messageType: "2",
-      backUrl: '/workorders'
+      backUrl: '/workorders',
+      notifyTitle: ["title"]
     },
     referrals: {
       module: "referrals",
@@ -645,7 +670,7 @@ export class UtilityServiceV2 {
         "title": "",
         "notes": {},
         "startdate": new Date().getTime(),
-        "enddate": new Date().getTime(),
+        "enddate": 0,
         "toothguide": {},
         "milestoneId": "",
         "presentStatus": 1,
@@ -705,7 +730,9 @@ export class UtilityServiceV2 {
       cvfast: "notes",
       pullDependecies: { "cases": [] },
       messageType: "4",
-      backUrl: '/referrals'
+      backUrl: '/referrals',
+      notifyTitle: ["title"],
+      notifyFixed: "Referral"
     },
     casefiles: {
       module: "casefiles",
@@ -752,7 +779,9 @@ export class UtilityServiceV2 {
       keyName: "fileUploadId",
       cvfast: null,
       pullDependecies: { "cases": [] },
-      backUrl: "/files"
+      backUrl: "/files",
+      notifyTitle: [],
+      notifyFixed: "Files"
     },
     threads: {
       module: "threads",
@@ -848,7 +877,9 @@ export class UtilityServiceV2 {
       cvfast: "message",
       pullDependecies: null,
       messageType: "1",
-      backUrl: '/cases/cases'
+      backUrl: '/cases/cases',
+      notifyTitle: ["title"],
+      notifyFixed: "Message"
     },
     caseinvites: {
       module: "caseinvites",
@@ -910,10 +941,134 @@ export class UtilityServiceV2 {
       keyName: "invitationId",
       cvfast: null,
       pullDependecies: null,
-      backUrl: '/caseinvites/invitation-lists'
+      backUrl: '/caseinvites/invitation-lists',
+      notifyTitle: ["invitedUserMail"],
+      notifyFixed: "Invitation"
     },
     users: {
       bucketUrl: "https://dentallive-accounts.s3.us-west-2.amazonaws.com/"
     }
+  }
+
+  tutorialData = {
+    "DashboardComponent": {
+      label: "Dashboard",
+      html: "dashboard-documentation.html"
+    },
+
+    "PatientsListComponent": {
+      label: "Patients",
+      html: "patients-documentation.html"
+    },
+    "PatientDetailsComponent": {
+      label: "Patient Overview",
+      html: "patient-overview-documentation.html"
+    },
+    "PatientAddComponent": {
+      label: "Adding/Editing a Patient",
+      html: "patient-adding-editing-documentation.html"
+    },
+
+
+    "CaseListComponent": {
+      label: "Cases",
+      html: "cases-documentation.html"
+    },
+    "CaseAddComponent": {
+      label: "Add/Editing Cases",
+      html: "cases-adding-editing-documentation.html"
+    },
+    "CaseDetailsComponent": {
+      label: "Case Overview",
+      html: "case-overview-documentation.html"
+    },
+
+
+    "CaseMembersComponent": {
+      label: "Colleagues",
+      html: "colleagues-documentation.html"
+    },
+
+    "WorkOrdersListComponent": {
+      label: "Work Orders",
+      html: "work-orders-documentation.html"
+    },
+    "WorkOrderDetailsComponent": {
+      label: "Work Orders",
+      html: "work-orders-documentation.html",
+      ignore: true
+
+    },
+    "WorkOrderAddComponent": {
+      label: "Work Orders",
+      html: "work-orders-documentation.html",
+      ignore: true
+    },
+
+
+
+    "ReferralListComponent": {
+      label: "Referrals",
+      html: "referrals-documentation.html"
+    },
+    "ReferralDetailsComponent": {
+      label: "Referrals",
+      html: "referrals-documentation.html",
+      ignore: true
+
+    },
+    "ReferralAddComponent": {
+      label: "Referrals",
+      html: "referrals-documentation.html",
+      ignore: true
+    },
+
+    "MilestonesListComponent": {
+      label: "Milestone",
+      html: "milestone-documentation.html"
+    },
+    "MilestoneDetailsComponent": {
+      label: "Milestone ",
+      html: "milestone-documentation.html",
+      ignore: true
+    },
+    "GeneralTaskListComponent": {
+      label: "Milestone",
+      html: "milestone-documentation.html",
+      ignore: true
+    },
+    "GeneralTaskAddComponent": {
+      label: "Milestone",
+      html: "milestone-documentation.html",
+      ignore: true
+    },
+    "GeneralTaskViewComponent": {
+      label: "Milestone",
+      html: "milestone-documentation.html",
+      ignore: true
+    },
+    "MilestoneAddComponent": {
+      label: "Milestone",
+      html: "milestone-documentation.html",
+      ignore: true
+    },
+
+
+    "InvitationListsComponent": {
+      label: "Invitations",
+      html: "invitations-documentation.html"
+    },
+
+    "FilesListComponent": {
+      label: "Files",
+      html: "files-documentation.html"
+    },
+
+
+    "CvfastNewComponent": {
+      label: "CVFAST",
+      html: "cvfast-documentation.html"
+    },
+
   }
 }

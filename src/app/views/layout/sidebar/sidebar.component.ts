@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
   onLogout(e: any) {
     e.preventDefault();
     sessionStorage.removeItem('isLoggedin');
+    
 
     if (!sessionStorage.getItem('isLoggedin')) {
       this.router.navigate(['/auth/login']);

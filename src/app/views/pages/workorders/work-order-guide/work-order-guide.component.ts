@@ -130,11 +130,27 @@ export class WorkOrderGuideComponent implements OnInit {
 
   ngAfterViewInit() {
     this.populateListRecurse(this.workOrderObject, "tree");
+
+    document.querySelectorAll("#rtooth_map polygon").forEach(item => {
+      item.addEventListener('mouseleave', (event: any) => {
+        if (event.target.getAttribute('id') && document.getElementsByClassName(event.target.getAttribute('id'))[0]?.tagName == "LI")
+          document.getElementsByClassName(event.target.getAttribute('id'))[0].classList.remove("isOpac")
+      });
+      item.addEventListener('mouseover', (event: any) => {
+        if (event.target.getAttribute('id') && document.getElementsByClassName(event.target.getAttribute('id'))[0]?.tagName == "LI")
+          document.getElementsByClassName(event.target.getAttribute('id'))[0].classList.add("isOpac")
+      });
+    })
+
+  }
+
+  isChecked(event) {
+    this.showLabel = event.target.checked;
   }
 
   selectionCount = 0;
   liCount = 0;
-  showLabel = true;
+  showLabel = false;
   isFdi = false;
   activeAssignedTeeth = null;
 
@@ -225,6 +241,7 @@ export class WorkOrderGuideComponent implements OnInit {
 
 
   clickTeeth(event: any, key = null) {
+    if (this.readOnly) return;
     if (!event.target.getAttribute('points')) return
     if (!key) key = event.target.getAttribute('id');
     this.resetListandTeeths();
@@ -269,7 +286,10 @@ export class WorkOrderGuideComponent implements OnInit {
 
   resetListandTeeths() {
     //@ts-ignore -- clear all selections
-    document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
+    document.querySelectorAll('input[type=checkbox]').forEach(el => {
+      //@ts-ignore
+      if (el.id != "showLabelCheck") el.checked = false;
+    });
     document.querySelectorAll('.showNode').forEach(el => el.classList.remove('showNode', 'active'));
     this.redrawGuide('rcurrmap', [], "rgba(255, 255, 0, 0.9)");
     this.notes.nativeElement.value = "";
@@ -402,7 +422,7 @@ export class WorkOrderGuideComponent implements OnInit {
     sweetAlert({
       title: "Do you want to delete this selection?",
       icon: "warning",
-      buttons: [`No,don't delete`, 'Yes,delete tooth'],
+      buttons: [`No:Go Back`, 'Yes:Delete'],
       dangerMode: true,
     })
       .then((result) => {
@@ -421,13 +441,26 @@ export class WorkOrderGuideComponent implements OnInit {
   }
 
   redrawGuide(canvasName: any, teethArray: any, color: any) {
-
     let canvas = document.getElementById(canvasName);
     let cnv = <HTMLCanvasElement>canvas;
     let ctx = cnv.getContext("2d");
     ctx.clearRect(0, 0, cnv.width, cnv.height);
+    if (canvasName == "rclkmap") {
+      document.querySelectorAll('.activeLabelClick').forEach((element) => {
+        element.classList.remove('activeLabelClick');
+      });
+    }
+    if (canvasName == "rassgmap") {
+      document.querySelectorAll('.activeLabel').forEach((element) => {
+        element.classList.remove('activeLabel');
+      });
+    }
 
     teethArray.forEach(element => {
+      if (canvasName == "rassgmap")
+        document.querySelector('.' + element).classList.add("activeLabel")
+      if (canvasName == "rclkmap")
+        document.querySelector('.' + element).classList.add("activeLabelClick")
       let points = document.getElementById(element).getAttribute('points').split(',');
       ctx.fillStyle = color;
       ctx.beginPath();

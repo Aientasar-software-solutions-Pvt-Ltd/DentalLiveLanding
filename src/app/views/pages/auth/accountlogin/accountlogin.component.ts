@@ -1,3 +1,4 @@
+import { AccdetailsService } from 'src/app/views/pages/accdetails.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import sweetAlert from 'sweetalert';
@@ -14,10 +15,11 @@ import { AccountService } from '../../account.service';
 export class AccountloginComponent implements OnInit {
   sending: boolean;
 
-  constructor(private authServiceSocial: SocialAuthService, private accService: AccountService, private dataService: ApiDataService, private utility: UtilityService,) { }
+  constructor(private authServiceSocial: SocialAuthService, private accService: AccountService, private accdetails: AccdetailsService, private dataService: ApiDataService, private utility: UtilityService,) { }
 
   ngOnInit() {
     sessionStorage.removeItem("usr");
+    this.accdetails.isIntervalRunning = false;
     this.sending = false;
   };
 
@@ -95,15 +97,15 @@ export class AccountloginComponent implements OnInit {
     });
   }
 
-  signInWithFB(): void {
-    const fbLoginOptions = {
-      scope: 'email,public_profile',
-      return_scopes: true,
-      enable_profile_selector: true
-    }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
-    this.authServiceSocial.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then((user) => {
-      this.accService.SocailLogin(user);
-    });
-  }
+  // signInWithFB(): void {
+  //   const fbLoginOptions = {
+  //     scope: 'email,public_profile',
+  //     return_scopes: true,
+  //     enable_profile_selector: true
+  //   }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+  //   this.authServiceSocial.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then((user) => {
+  //     this.accService.SocailLogin(user);
+  //   });
+  // }
 }
 

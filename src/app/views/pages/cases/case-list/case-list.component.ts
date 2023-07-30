@@ -29,13 +29,17 @@ export class CaseListComponent implements OnInit {
 	constructor(
 		private dataService: ApiDataService,
 		private router: Router,
-		private utility: UtilityServiceV2
+		public utility: UtilityServiceV2
 	) { }
 
 	ngOnInit(): void {
-
 		this.loadCases();
 		if (this.patientId) this.loadColleagues()
+
+		this.utility.getArrayObservable().subscribe(array => {
+			if (array.some(el => el.module === this.module && el.isProcessed))
+				this.loadCases(true)
+		});
 
 		this.dtOptions = {
 			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
@@ -66,8 +70,8 @@ export class CaseListComponent implements OnInit {
 		$('#dataTables').DataTable().search(v).draw();
 	}
 
-	loadCases() {
-		if (this.casesData) return;
+	loadCases(force = false) {
+		if (!force && this.casesData) return;
 		this.casesData = [];
 		this.isLoadingData = true;
 		let url = this.utility.baseUrl + this.module + '?resourceOwner=' + this.user.emailAddress;
@@ -77,6 +81,12 @@ export class CaseListComponent implements OnInit {
 				let data = JSON.parse(Response.toString());
 				this.casesDataPirstine = this.casesData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 				this.isLoadingData = false;
+				//stupid library used-->fix required for no data label
+				if (this.casesData.length > 0) {
+					Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+						element.classList.add('d-none')
+					});
+				}
 			}
 		}, (error) => {
 			this.utility.showError(error.status)

@@ -208,11 +208,13 @@ export class InvitationListsComponent implements OnInit {
 			return;
 		}
 		this.isUploadingData = true;
-		//process cvfast Files --> send invites
 
 		try {
+			//process cvfast Files --> send invites
 			let cvfastText = await cvfast.processFiles();
 			let promises = []
+
+			//create form object and --> process form data to dynaomDB-->this.object
 			this.selectedUsers.forEach(user => {
 				let invite = {
 					"invitationId": "",
@@ -257,6 +259,7 @@ export class InvitationListsComponent implements OnInit {
 					});
 					await this.dataService.putData(this.utility.baseUrl + this.module, JSON.stringify(item), true).toPromise();
 					swal.close();
+					swal("Deleted succesfully");
 					this.selectedItem = null;
 					this.isUploadingData = false;
 					this.loadBaseData(true)
@@ -266,7 +269,12 @@ export class InvitationListsComponent implements OnInit {
 				let cvfastText = await cvfast.processFiles();
 				item.responseText = cvfastText;
 				item.presentStatus = status;
+				swal("Processing...please wait...", {
+					buttons: [false, false],
+					closeOnClickOutside: false,
+				});
 				await this.dataService.putData(this.utility.baseUrl + this.module, JSON.stringify(item), true).toPromise();
+				swal.close();
 				swal("Response sent succesfully");
 				document.getElementById("showInviteClose").click();
 				this.resetResposneForm(null);

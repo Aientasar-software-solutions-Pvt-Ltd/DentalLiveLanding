@@ -39,7 +39,7 @@
     </li>
     <li class="menu--item">
       <a
-        [class.disabled]="!auth.hasPermission('colleagues')"
+        [class.disabled]="!auth.hasPermission('memberss')"
         routerLink="/colleagues/colleague-lists"
         routerLinkActive="active_view"
         (click)="toggleSidebar()"
@@ -125,7 +125,7 @@
         <span class="menu--label">Video conferencing</span>
       </a>
     </li>
-    <li class="menu--item mb-3">
+    <li class="menu--item">
       <a
         [class.disabled]="!auth.hasPermission('contacts')"
         routerLink="/contacts"
@@ -135,6 +135,16 @@
       >
         <i class="menu--icon bx bxs-contact text-center"></i>
         <span class="menu--label">Contacts</span>
+      </a>
+    </li>
+    <li class="menu--item mb-3">
+      <a
+        routerLink="/tutorials"
+        routerLinkActive="active_view"
+        class="menu--link"
+      >
+        <i class="menu--icon bx bx-spreadsheet text-center"></i>
+        <span class="menu--label">Tutorials</span>
       </a>
     </li>
     <span class="body2 ms-4 hide">SETTINGS</span>

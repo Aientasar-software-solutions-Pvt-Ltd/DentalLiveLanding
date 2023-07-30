@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { v4 as uuidv4 } from "uuid";
 import swal from "sweetalert";
@@ -9,12 +9,14 @@ import { AccdetailsService } from "../../accdetails.service";
 import { environment } from "src/environments/environment";
 import * as CryptoJS from 'crypto-js';
 import { DOCUMENT } from "@angular/common";
+import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+
 @Component({
   selector: 'app-addaccount',
   templateUrl: './addaccount.component.html',
   styleUrls: ['./addaccount.component.css']
 })
-export class AddaccountComponent implements OnInit, AddEditData {
+export class AddaccountComponent implements OnInit, AddEditData, AfterViewInit {
   // step 1 : Assign section variable correctly
   // Step 2 : If EditMode validate and Bind Html input to this object using template driven forms (2-way Binding ([ngModel]))
   // Step 3 : If any Binary Data is uploaded add it to Binary Array
@@ -31,6 +33,16 @@ export class AddaccountComponent implements OnInit, AddEditData {
   binaryFiles = [];
   today = new Date();
   isEtr = false;
+
+
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  scale = 1;
+  transform: ImageTransform = {};
+  myModal = null;
+
+
   constructor(
     private utility: UtilityService,
     private dataService: ApiDataService,
@@ -40,10 +52,17 @@ export class AddaccountComponent implements OnInit, AddEditData {
   ) { }
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
   @ViewChild("subForm", { static: false }) subForm: NgForm;
+
   ngOnInit() {
     this.resetForm();
     this.hasData();
   }
+
+  ngAfterViewInit(): void {
+    //@ts-ignore
+    this.myModal = new bootstrap.Modal(document.getElementById('pictureModal'))
+  }
+
   resetForm() {
     this.isUploadingData = false;
     this.isLoadingData = false;
@@ -126,17 +145,39 @@ export class AddaccountComponent implements OnInit, AddEditData {
       });
   }
   loadBinaryFile(event) {
+    // if (event.target.files.length > 0) {
+    //   //reset binaryFiles array to this image --> S3 allows to directly upload file object or Blob data,for simplicity here file object is used
+    //   // this.binaryFiles = [
+    //   //   { name: uuidv4(), binaryData: event.target.files[0] },
+    //   // ];//i give file whihc is cropper after save croppedimage***
+    //   //display selected file in image tag
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(event.target.files[0]); //initiates converting file to blob
+    //   reader.onload = (e) => {// call back after file is converted to Blob
+    //     this.imageSrc = reader.result;
+    //     this.imageChangedEvent = event;
+    //     this.myModal.show();
+    //   }
+    // }
+
     if (event.target.files.length > 0) {
-      //reset binaryFiles array to this image --> S3 allows to directly upload file object or Blob data,for simplicity here file object is used
-      this.binaryFiles = [
-        { name: uuidv4(), binaryData: event.target.files[0] },
-      ];
-      //display selected file in image tag
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); //initiates converting file to blob
-      reader.onload = (e) => (this.imageSrc = reader.result); // call back after file is converted to Blob
+      this.imageChangedEvent = event;
+      this.myModal.show();
     }
   }
+
+  saveCroppedImage() {
+    this.imageSrc = this.croppedImage//this becomes base64
+    this.binaryFiles=[];
+
+    fetch(this.croppedImage)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "File name", { type: "image/png" })
+        this.binaryFiles = [{ name: file.name, binaryData: file }];//this comes from base64tofile
+      })
+  }
+
   onSubmit(): void {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
@@ -194,4 +235,28 @@ export class AddaccountComponent implements OnInit, AddEditData {
       this.object.forwards = this.object.forwards.filter(val => val != value)
     }
   }
+
+  zoomOut() {
+    this.scale -= .1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale
+    };
+  }
+
+  zoomIn() {
+    this.scale += .1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale
+    };
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+
 }

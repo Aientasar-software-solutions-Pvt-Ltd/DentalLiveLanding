@@ -32,6 +32,10 @@ export class CaseDetailsComponent implements OnInit {
       if (params.get("caseId") && params.get("caseId") != "") {
         this.caseId = params.get("caseId");
         this.loadBaseData();
+        this.utility.getArrayObservable().subscribe(array => {
+          if (array.some(el => el.module === this.module && el.isProcessed))
+            this.loadBaseData()
+        });
       } else {
         swal("No Data Found");
         this.router.navigate([this.backTo])
@@ -47,6 +51,12 @@ export class CaseDetailsComponent implements OnInit {
         if (Response) {
           this.baseData = JSON.parse(Response.toString());
           this.isLoadingData = false;
+          //stupid library used-->fix required for no data label
+          if (this.baseData.length > 0) {
+            Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+              element.classList.add('d-none')
+            });
+          }
         }
       }, (error) => {
         this.utility.showError(error.status)

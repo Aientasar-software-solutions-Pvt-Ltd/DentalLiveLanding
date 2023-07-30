@@ -22,6 +22,7 @@ export class GeneralTaskAddComponent implements OnInit {
 	hasCase = false;
 	mode = "Add"
 	user = this.utility.getUserDetails();
+	currentDate = new Date()
 
 	constructor(
 		private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class GeneralTaskAddComponent implements OnInit {
 	ngAfterViewInit(): void {
 		this.formInterface.mainForm = this.mainForm
 		this.formInterface.cvfast = this.cvfast;
+		this.currentDate = new Date();
 	}
 
 	ngOnInit(): void {
@@ -130,7 +132,12 @@ export class GeneralTaskAddComponent implements OnInit {
 		}
 	}
 
-	customSubmit() {
+	customSubmit(form) {
+
+		this.formInterface.object.startdate = new Date(form.value.startdate).getTime();
+		this.formInterface.object.duedate = new Date(form.value.duedate).getTime();
+
+
 		if (this.mode == "Add") {
 			let date1 = new Date(this.formInterface.object.startdate);
 			let date2 = new Date();

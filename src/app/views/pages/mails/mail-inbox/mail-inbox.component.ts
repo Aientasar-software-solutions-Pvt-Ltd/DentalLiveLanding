@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccdetailsService } from '../../accdetails.service';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
   @ViewChild('case') case!: ElementRef;
 
 
-  constructor(private cdref: ChangeDetectorRef, private route: ActivatedRoute, private router: Router, private dataService: ApiDataService, private usr: AccdetailsService, private utility: UtilityService) { }
+  constructor(private cdref: ChangeDetectorRef, private route: ActivatedRoute, private router: Router, private dataService: ApiDataService, private usr: AccdetailsService, private utility: UtilityService, private newUtility: UtilityServiceV2) { }
   ngAfterContentInit(): void {
 
   }
@@ -54,6 +55,13 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
     }
     this.data = { "user": this.user, "mailType": this.type, "pid": this.patientId, "cid": this.caseId, "sid": this.subUserId }
     this.fetchData();
+
+    this.newUtility.getArrayObservable().subscribe(array => {
+      console.log(array)
+      if (array.some(el => el.module === 'mail' && el.isProcessed))
+        this.fetchData()
+    });
+
   }
 
   fetchData() {

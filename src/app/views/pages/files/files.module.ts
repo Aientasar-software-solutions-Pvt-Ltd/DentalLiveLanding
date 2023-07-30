@@ -9,6 +9,7 @@ import { AddFilesComponent } from './add-files/add-files.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilesListComponent } from './files-list/files-list.component';
 import { CvfastModuleModule } from 'src/app/cvfastFiles/cvfast-module/cvfast-module.module';
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 
 const routes: Routes = [
   {
@@ -55,7 +56,14 @@ const routes: Routes = [
     NgSelectModule,
     CvfastModuleModule,
     ReactiveFormsModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    }),
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

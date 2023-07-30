@@ -8,7 +8,18 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
   <div class="col-md-6">
-    <h3 class="fw-bold">Dashboard</h3>
+    <h3 class="fw-bold">
+      Dashboard
+      <a
+       tippy="Tutorial"
+        target="_blank"
+        [routerLink]="
+          '/tutorial/' + utility2.tutorialData['DashboardComponent'].html
+        "
+      >
+        <i class="bx bxs-info-circle text-primary"></i
+      ></a>
+    </h3>
   </div>
   <div class="col-md-6 text-end">
     <a routerLink="/cases/cases/case-add" class="btn btn-pink my-1">
@@ -81,6 +92,28 @@
             </div>
           </div>
         </a>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="card dashboard-card">
+          <div class="card-body align-items-center">
+            <div class="float-start">
+              <i class="bx bxs-data dicon"></i>
+              <h5>Storage</h5>
+            </div>
+            <a routerLink="/accounts/details/usage">
+              <span class="fs-6 fw-bold isCursor"
+                >{{ formatData(storage) }} of {{ storage?.total }} GB Used</span
+              >
+            </a>
+            <button
+              *ngIf="getStoragePercentage(storage) > 90"
+              routerLink="/accounts/packages"
+              class="btn-primary btn mt-4 float-end"
+            >
+              Upgrade Now
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="card shadow-sm mt-4">

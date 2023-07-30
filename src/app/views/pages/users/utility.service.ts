@@ -55,7 +55,7 @@ export interface ListData {
 
 export class UtilityService {
 
-  subuserValidateURL = "https://www.dentallive.com/subuservalidate/";
+  subuserValidateURL = "https://www.dentallive.com/auth/subuservalidate/";
   // mailURL = "http://localhost:4200/subuservalidate";
 
   vendorValidateURL = "https://dwr5mpoypj82j.cloudfront.net/validate";

@@ -31,14 +31,12 @@ export class AccountService {
     this.getInvoice = "https://o4xnrsx427.execute-api.us-west-2.amazonaws.com/default/getInvoice";
   }
   login() {
-    let user = this.usr.getUserDetails(false);
+    let user = this.usr.getUserDetails();
     let url = this.utility.apiData.userLogin.ApiUrl;
     url += "?emailAddress=" + user.emailAddress;
     this.dataService.getallData(url, true).subscribe(Response => {
       if (Response) {
-        //alert(JSON.stringify(3213));
         let treadAllData = JSON.parse(Response.toString());
-        //alert(JSON.stringify(treadAllData));
         if ((treadAllData[0].lastLoggedIn != undefined) && (treadAllData[0].lastLoggedIn != '') && (treadAllData[0].lastLoggedIn != null)) {
           sessionStorage.setItem('loginResourceId', treadAllData[0].lastLoggedIn);
         }
@@ -55,12 +53,9 @@ export class AccountService {
       json1['dentalId'] = user.dentalId;
       json1['emailAddress'] = user.emailAddress;
       json1['lastLoggedIn'] = Date.now();
-      //alert(JSON.stringify(json1));
       this.dataService.postData(this.utility.apiData.userLogin.ApiUrl, JSON.stringify(json1), true)
         .subscribe(Response => {
           if (Response) Response = JSON.parse(Response.toString());
-          //alert(JSON.stringify(Response));
-          // alert(JSON.stringify(Response.resourceId));
           if (!Response) {
             swal("Unable to save login time,please try again");
             return;
@@ -95,7 +90,7 @@ export class AccountService {
         if (Response) Response = JSON.parse(Response.toString());
         swal.close();
         this.permAuth.isPristine = false;
-        this.permAuth.products = Response['products'];
+        this.permAuth.products = ['Mail', 'Meet', 'Planner']
         this.permAuth.permissions = Response['permissions'];
         if (this.permAuth.products.length == 0 && !user.Subuser) this.router.navigate(['/accounts/packages']);
         else this.router.navigate(['dashboard']);

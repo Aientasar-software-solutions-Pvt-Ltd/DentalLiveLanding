@@ -1,45 +1,100 @@
 <div>
-  <h5 *ngIf="!this.message" class="card-title pb-2  border-bottom" style="color: #011A3E;"><a routerLink="../"><i
-        class='bx bxs-chevron-left me-2'></i></a>Compose Mail</h5>
-  <h5 *ngIf="this.message" class="card-title pb-3 mb-4 ms-1 border-bottom" style="color: #011A3E;"><span>Reply
-      Mail</span><i style="cursor: pointer;" [hidden]="sending" (click)="closeComp.emit(true)"
-      class="fa fa-times float-end" aria-hidden="true"></i></h5>
+  <h5
+    *ngIf="!this.message"
+    class="card-title pb-2 border-bottom"
+    style="color: #011a3e"
+  >
+    <a routerLink="../"><i class="bx bxs-chevron-left me-2"></i></a>Compose Mail
+  </h5>
+  <h5
+    *ngIf="this.message"
+    class="card-title pb-3 mb-4 ms-1 border-bottom"
+    style="color: #011a3e"
+  >
+    <span>Reply Mail</span
+    ><i
+      style="cursor: pointer"
+      [hidden]="sending"
+      (click)="closeComp.emit(true)"
+      class="fa fa-times float-end"
+      aria-hidden="true"
+    ></i>
+  </h5>
   <div *ngIf="sending" class="col-md-12">
-    <lottie-player class=" mt-3 m-auto" src="https://assets8.lottiefiles.com/packages/lf20_KwVaqs.json"
-      background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-    <h6 class=" text-center mt-5">Sending Email....please wait,dont close this page</h6>
+    <lottie-player
+      class="mt-3 m-auto"
+      src="https://assets8.lottiefiles.com/packages/lf20_KwVaqs.json"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay
+    ></lottie-player>
+    <h6 class="text-center mt-5">
+      Sending Email....please wait,dont close this page
+    </h6>
   </div>
   <div [hidden]="sending" class="page_card pt-2">
     <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-      <div class="row ">
-        <div class="col-md-12 ">
+      <div class="row">
+        <div class="col-md-12">
           <ng-container *ngIf="!this.message">
             <div class="form-floating mb-3">
-              <select [disabled]="isPatientDisable" #patient (change)="addPatient(patient.value)" class="form-select"
-                id="floatingSelect" ngModel id="patientId" name="patientId">
+              <select
+                [disabled]="isPatientDisable"
+                #patient
+                (change)="addPatient(patient.value)"
+                class="form-select"
+                id="floatingSelect"
+                ngModel
+                id="patientId"
+                name="patientId"
+              >
                 <option selected value="">No Patient</option>
-                <option *ngFor="let patient of patientList" [value]="patient.patientId">
-                  {{patient.firstName+' '+patient.lastName}}</option>
+                <option
+                  *ngFor="let patient of patientList"
+                  [value]="patient.patientId"
+                >
+                  {{ patient.firstName + " " + patient.lastName }}
+                </option>
               </select>
             </div>
             <div class="form-floating mb-3">
-              <select [disabled]="!patient.value || isCaseDisabled" #case class="form-select" id="floatingSelect"
-                ngModel id="caseId" name="caseId">
+              <select
+                [disabled]="!patient.value || isCaseDisabled"
+                #case
+                class="form-select"
+                id="floatingSelect"
+                ngModel
+                id="caseId"
+                name="caseId"
+              >
                 <option selected value="">No Case</option>
                 <option *ngFor="let case of caseList" [value]="case.caseId">
-                  {{case.title}}</option>
+                  {{ case.title }}
+                </option>
               </select>
             </div>
           </ng-container>
           <div class="form-floating mb-3">
-            <div class="d-flex form-control flex-wrap h-auto"
-              [ngClass]="{'ng-invalid':addressList.length==0 && toAddress.value=='','ng-touched':istouched}"
-              (click)="toAddress.focus()">
-
-              <small *ngFor="let mail of addressList;let i=index" style="font-size: 12px;font-weight: 100;"
-                class="badge bg-light text-dark border-2 rounded-pill border align-self-center p-1 m-1 mb-3">{{mail}}<i
-                  (click)="addressList.splice(i,1)" class="fa fa-times m-1"></i></small>
-
+            <div
+              class="d-flex form-control flex-wrap h-auto"
+              [ngClass]="{
+                'ng-invalid': addressList.length == 0 && toAddress.value == '',
+                'ng-touched': istouched
+              }"
+              (click)="toAddress.focus()"
+            >
+              <small
+                *ngFor="let mail of addressList; let i = index"
+                style="font-size: 12px; font-weight: 100"
+                class="badge bg-light text-dark border-2 rounded-pill border align-self-center p-1 m-1 mb-3"
+                >{{ mail
+                }}<i
+                  (click)="addressList.splice(i, 1)"
+                  class="fa fa-times m-1"
+                ></i
+              ></small>
 
               <!-- <input matInput (blur)="istouched=true" #toAddress type="email" autocomplete="email"
                 pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" (keydown)="addMail($event,$any($event.target).value,toAddress);"
@@ -49,46 +104,109 @@
                 [(ngModel)]="mail.toAddresses" placeholder="Eg. jhon@gmail.com" name="toAddresses"
                 [required]="addressList.length==0 && toAddress.value==''"> -->
 
+              <input
+                (blur)="istouched = true"
+                #toAddress
+                type="email"
+                [matAutocomplete]="auto"
+                autocomplete="email"
+                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                (keydown)="
+                  addMail($event, $any($event.target).value, toAddress)
+                "
+                (blur)="addtoList($any($event.target).value, toAddress, auto)"
+                (keyup)="filterContact($any($event.target).value)"
+                class="form-control border-0 p-0 m-0 h-auto w-100 shadow-none"
+                id="floatingInput"
+                [(ngModel)]="mail.toAddresses"
+                placeholder="Eg. jhon@gmail.com"
+                name="toAddresses"
+                [required]="addressList.length == 0 && toAddress.value == ''"
+              />
 
-              <input (blur)="istouched=true" #toAddress type="email" [matAutocomplete]="auto" autocomplete="email"
-                pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" (keydown)="addMail($event,$any($event.target).value,toAddress);"
-                (blur)="addtoList($any($event.target).value,toAddress,auto);"
-                (keyup)="filterContact($any($event.target).value);"
-                class="form-control  border-0 p-0 m-0 h-auto w-100 shadow-none" id="floatingInput"
-                [(ngModel)]="mail.toAddresses" placeholder="Eg. jhon@gmail.com" name="toAddresses"
-                [required]="addressList.length==0 && toAddress.value==''">
-
-              <mat-autocomplete (optionSelected)="addMailOption($any($event.option).value,toAddress);" class="w-100"
-                #auto="matAutocomplete">
-                <mat-option *ngFor="let contact of contactFilterdList" [value]="contact.email">
-                  {{contact.firstName+' '+contact.lastName+' \<'+contact.email+'>'}}
+              <mat-autocomplete
+                (optionSelected)="
+                  addMailOption($any($event.option).value, toAddress)
+                "
+                class="w-100"
+                #auto="matAutocomplete"
+              >
+                <mat-option
+                  *ngFor="let contact of contactFilterdList"
+                  [value]="contact.email"
+                >
+                  {{
+                    contact.firstName +
+                      " " +
+                      contact.lastName +
+                      " \<" +
+                      contact.email +
+                      ">"
+                  }}
                 </mat-option>
               </mat-autocomplete>
-
             </div>
-            <label for="floatingInput">To<small> (Seperated by commas or hit enter for
-                multiple email address)</small></label>
+            <label for="floatingInput"
+              >To<small>
+                (Seperated by commas or hit enter for multiple email
+                address)</small
+              ></label
+            >
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" [(ngModel)]="mail.ccAddresses" name="ccAddresses"
-              class="form-control" id="floatingInput" placeholder="Subject">
-            <label for="floatingInput">CC Address<small> (Optional-Seperated by
-                commas)</small> </label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="mail.ccAddresses"
+              name="ccAddresses"
+              class="form-control"
+              id="floatingInput"
+              placeholder="Subject"
+            />
+            <label for="floatingInput"
+              >CC Address<small> (Optional-Seperated by commas)</small>
+            </label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="Subject" [(ngModel)]="mail.subject"
-              name="subject" required>
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              placeholder="Subject"
+              [(ngModel)]="mail.subject"
+              name="subject"
+              required
+            />
             <label for="floatingInput">Subject : </label>
           </div>
           <div class="form-floating mb-3">
             <div class="form-control h-auto">
-              <div contenteditable="true" style="min-height: 100px;overflow: auto;" id="message"></div>
-              <div *ngIf="mail.trail && mail.trail!=''" class="ellipsis mt-2">
-                <span class="badge rounded-pill bg-light text-dark" data-bs-toggle="collapse"
-                  [attr.data-bs-target]="'#trail'"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></span>
-                <div class="collapse border mt-2 rounded p-2 body2" id="trail" editable contenteditable="true">
-                  <div><br><br>On {{message.mailDateTime | date:'medium'}} ',' {{message.MailFrom}} + wrote:<br></div>
-                  <blockquote [innerHTML]="sanitizer.bypassSecurityTrustHtml(mail.trail)"></blockquote>
+              <div
+                contenteditable="true"
+                style="min-height: 100px; overflow: auto"
+                id="message"
+              ></div>
+              <div *ngIf="mail.trail && mail.trail != ''" class="ellipsis mt-2">
+                <span
+                  class="badge rounded-pill bg-light text-dark"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#trail'"
+                  ><i class="fa fa-ellipsis-h" aria-hidden="true"></i
+                ></span>
+                <div
+                  class="collapse border mt-2 rounded p-2 body2"
+                  id="trail"
+                  editable
+                  contenteditable="true"
+                >
+                  <div>
+                    <br /><br />On
+                    {{ message.mailDateTime | date : "medium" }} ','
+                    {{ message.MailFrom }} + wrote:<br />
+                  </div>
+                  <blockquote
+                    [innerHTML]="sanitizer.bypassSecurityTrustHtml(mail.trail)"
+                  ></blockquote>
                 </div>
               </div>
             </div>
@@ -99,143 +217,393 @@
       <div class="row">
         <h6 class="mb-3">Recordings</h6>
         <div class="col-md-4 mb-4">
-          <p class="body2" style="color:#6E81A4;">Record Screen</p>
+          <p class="body2" style="color: #6e81a4">Record Screen</p>
           <div class="position-relative">
-            <video id="screenPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
-            <button type='button' style="background-color: #01579B;color:white" [hidden]="pipEnabled || StepScreen==1"
-              (click)="togglePictureInPicture()" class="btn mb-2 small position-absolute top-0 end-0"><i
-                class="fa fa-video-camera" aria-hidden="true"></i></button>
+            <video
+              id="screenPlayer"
+              playsinline
+              class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"
+            ></video>
+            <button
+              type="button"
+              style="background-color: #01579b; color: white"
+              [hidden]="pipEnabled || StepScreen == 1"
+              (click)="togglePictureInPicture()"
+              class="btn mb-2 small position-absolute top-0 end-0"
+            >
+              <i class="fa fa-video-camera" aria-hidden="true"></i>
+            </button>
           </div>
           <div class="row gx-0 justify-content-between">
-            <button type='button' *ngIf="StepScreen==1" (click)="screenPlayer.record().getDevice();StepScreen=2"
-              class="btn-primary btn mb-2 small col-md-12">Start Screen</button>
-            <button *ngIf="StepScreen==2" type='button' (click)="screenPlayer.record().reset();StepScreen=1"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button type='button' *ngIf="StepScreen==2" (click)="screenPlayer.record().start();StepScreen=3"
-              class="btn btn-primary mb-2 small  col-md-6">Record</button>
-            <button type='button' *ngIf="StepScreen==3" style="background-color: #EF6C00;"
-              (click)="screenPlayer.record().pause();StepScreen=4"
-              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
-            <button type='button' *ngIf="StepScreen==4" style="background-color: #EF6C00;"
-              (click)="screenPlayer.record().resume();StepScreen=3"
-              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
-            <button type='button' *ngIf="StepScreen==3 || StepScreen==4" style="background-color: #b00020;"
-              (click)="screenPlayer.record().stop();StepScreen=5"
-              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
-            <input [disabled]="latestScreenRecord==null" type="text" [hidden]="StepScreen!=5"
-              class="form-control col-md-12 mb-2" #screenName placeholder="Screen Record Name">
-            <button [disabled]="latestScreenRecord==null" *ngIf="StepScreen==5" type='button'
-              (click)="latestScreenRecord = null;screenPlayer.record().reset(); screenName.value ? '' : null;StepScreen=1;"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button [disabled]="latestScreenRecord==null" type='button' *ngIf="StepScreen==5"
-              (click)="addScreen(screenName.value.trim());validNaming.test(screenName.value.trim())?screenName.value='':screenName.value=screenName.value;"
-              class="btn btn-primary mb-2 small col-md-6">Add
-              Screen</button>
+            <button
+              type="button"
+              *ngIf="StepScreen == 1"
+              (click)="screenPlayer.record().getDevice(); StepScreen = 2"
+              class="btn-primary btn mb-2 small col-md-12"
+            >
+              Start Screen
+            </button>
+            <button
+              *ngIf="StepScreen == 2"
+              type="button"
+              (click)="screenPlayer.record().reset(); StepScreen = 1"
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              *ngIf="StepScreen == 2"
+              (click)="screenPlayer.record().start(); StepScreen = 3"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Record
+            </button>
+            <button
+              type="button"
+              *ngIf="StepScreen == 3"
+              style="background-color: #ef6c00"
+              (click)="screenPlayer.record().pause(); StepScreen = 4"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Pause
+            </button>
+            <button
+              type="button"
+              *ngIf="StepScreen == 4"
+              style="background-color: #ef6c00"
+              (click)="screenPlayer.record().resume(); StepScreen = 3"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Resume
+            </button>
+            <button
+              type="button"
+              *ngIf="StepScreen == 3 || StepScreen == 4"
+              style="background-color: #b00020"
+              (click)="screenPlayer.record().stop(); StepScreen = 5"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Stop
+            </button>
+            <input
+              [disabled]="latestScreenRecord == null"
+              type="text"
+              [hidden]="StepScreen != 5"
+              class="form-control col-md-12 mb-2"
+              #screenName
+              placeholder="Screen Record Name"
+            />
+            <button
+              [disabled]="latestScreenRecord == null"
+              *ngIf="StepScreen == 5"
+              type="button"
+              (click)="
+                latestScreenRecord = null;
+                screenPlayer.record().reset();
+                (screenName.value ? '' : null);
+                StepScreen = 1
+              "
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              [disabled]="latestScreenRecord == null"
+              type="button"
+              *ngIf="StepScreen == 5"
+              (click)="
+                addScreen(screenName.value.trim());
+                validNaming.test(screenName.value.trim())
+                  ? (screenName.value = '')
+                  : (screenName.value = screenName.value)
+              "
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Add Screen
+            </button>
           </div>
         </div>
         <div class="col-md-4 mb-4">
-          <p class="body2" style="color:#6E81A4;">Record Audio</p>
-          <audio id="audioPlayer" class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></audio>
+          <p class="body2" style="color: #6e81a4">Record Audio</p>
+          <audio
+            id="audioPlayer"
+            class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"
+          ></audio>
           <div class="row gx-0 justify-content-between">
-            <button type='button' *ngIf="StepAudio==1" (click)="audioPlayer.record().getDevice();StepAudio=2"
-              class="btn-primary btn mb-2 small col-md-12">Open Audio</button>
-            <button *ngIf="StepAudio==2" type='button' (click)="audioPlayer.record().reset();StepAudio=1"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button type='button' *ngIf="StepAudio==2" (click)="audioPlayer.record().start();StepAudio=3"
-              class="btn btn-primary mb-2 small  col-md-6">Record</button>
-            <button type='button' *ngIf="StepAudio==3" style="background-color: #EF6C00;"
-              (click)="audioPlayer.record().pause();StepAudio=4"
-              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
-            <button type='button' *ngIf="StepAudio==4" style="background-color: #EF6C00;"
-              (click)="audioPlayer.record().resume();StepAudio=3"
-              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
-            <button type='button' *ngIf="StepAudio==3 || StepAudio==4" style="background-color: #b00020;"
-              (click)="audioPlayer.record().stop();StepAudio=5"
-              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
-            <input [disabled]="latestAudioRecord==null" type="text" [hidden]="StepAudio!=5"
-              class="form-control col-md-12 mb-2" #audioName placeholder="Audio Record Name">
-            <button [disabled]="latestAudioRecord==null" *ngIf="StepAudio==5" type='button'
-              (click)="latestAudioRecord = null; audioPlayer.record().reset();audioName.value ? '' : null;StepAudio=1;"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button [disabled]="latestAudioRecord==null" type='button' *ngIf="StepAudio==5"
-              (click)="addAudio(audioName.value.trim());validNaming.test(audioName.value.trim())?audioName.value='':audioName.value=audioName.value;"
-              class="btn btn-primary mb-2 small col-md-6">Add
-              Audio</button>
+            <button
+              type="button"
+              *ngIf="StepAudio == 1"
+              (click)="audioPlayer.record().getDevice(); StepAudio = 2"
+              class="btn-primary btn mb-2 small col-md-12"
+            >
+              Open Audio
+            </button>
+            <button
+              *ngIf="StepAudio == 2"
+              type="button"
+              (click)="audioPlayer.record().reset(); StepAudio = 1"
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              *ngIf="StepAudio == 2"
+              (click)="audioPlayer.record().start(); StepAudio = 3"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Record
+            </button>
+            <button
+              type="button"
+              *ngIf="StepAudio == 3"
+              style="background-color: #ef6c00"
+              (click)="audioPlayer.record().pause(); StepAudio = 4"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Pause
+            </button>
+            <button
+              type="button"
+              *ngIf="StepAudio == 4"
+              style="background-color: #ef6c00"
+              (click)="audioPlayer.record().resume(); StepAudio = 3"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Resume
+            </button>
+            <button
+              type="button"
+              *ngIf="StepAudio == 3 || StepAudio == 4"
+              style="background-color: #b00020"
+              (click)="audioPlayer.record().stop(); StepAudio = 5"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Stop
+            </button>
+            <input
+              [disabled]="latestAudioRecord == null"
+              type="text"
+              [hidden]="StepAudio != 5"
+              class="form-control col-md-12 mb-2"
+              #audioName
+              placeholder="Audio Record Name"
+            />
+            <button
+              [disabled]="latestAudioRecord == null"
+              *ngIf="StepAudio == 5"
+              type="button"
+              (click)="
+                latestAudioRecord = null;
+                audioPlayer.record().reset();
+                (audioName.value ? '' : null);
+                StepAudio = 1
+              "
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              [disabled]="latestAudioRecord == null"
+              type="button"
+              *ngIf="StepAudio == 5"
+              (click)="
+                addAudio(audioName.value.trim());
+                validNaming.test(audioName.value.trim())
+                  ? (audioName.value = '')
+                  : (audioName.value = audioName.value)
+              "
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Add Audio
+            </button>
           </div>
         </div>
-        <div class="col-md-4 mb-4 ">
-          <p class="body2" style="color:#6E81A4;">Record Video</p>
-          <video id="videoPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
+        <div class="col-md-4 mb-4">
+          <p class="body2" style="color: #6e81a4">Record Video</p>
+          <video
+            id="videoPlayer"
+            playsinline
+            class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"
+          ></video>
           <div class="row gx-0 justify-content-between">
-            <button type='button' *ngIf="StepVideo==1" (click)="VideoPlayer.record().getDevice();StepVideo=2"
-              class="btn-primary btn mb-2 small col-md-12">Open Camera</button>
-            <button *ngIf="StepVideo==2" type='button' (click)="VideoPlayer.record().reset();StepVideo=1"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button type='button' *ngIf="StepVideo==2" (click)="VideoPlayer.record().start();StepVideo=3"
-              class="btn btn-primary mb-2 small  col-md-6">Record</button>
-            <button type='button' *ngIf="StepVideo==3" style="background-color: #EF6C00;"
-              (click)="VideoPlayer.record().pause();StepVideo=4"
-              class="btn btn-primary mb-2 small  col-md-5">Pause</button>
-            <button type='button' *ngIf="StepVideo==4" style="background-color: #EF6C00;"
-              (click)="VideoPlayer.record().resume();StepVideo=3"
-              class="btn btn-primary mb-2 small  col-md-5">Resume</button>
-            <button type='button' *ngIf="StepVideo==3 || StepVideo==4" style="background-color: #b00020;"
-              (click)="VideoPlayer.record().stop();StepVideo=5"
-              class="btn btn-primary mb-2 small  col-md-6">Stop</button>
-            <input type="text" [disabled]="latestVideoRecord==null" [hidden]="StepVideo!=5"
-              class="form-control col-md-12 mb-2" #videoName placeholder="Video Record Name">
-            <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
-              (click)="VideoPlayer.record().reset();latestVideoRecord = null;StepVideo=1;videoName.value=''"
-              class="btn btn-primary mb-2 small  col-md-5" style="background-color: #b00020;">Discard</button>
-            <button [disabled]="latestVideoRecord==null" *ngIf="StepVideo==5" type='button'
-              (click)="addVideo(videoName.value.trim());validNaming.test(videoName.value.trim())?videoName.value='':videoName.value=videoName.value;"
-              class="btn btn-primary mb-2 small col-md-6">Add
-              Video</button>
+            <button
+              type="button"
+              *ngIf="StepVideo == 1"
+              (click)="VideoPlayer.record().getDevice(); StepVideo = 2"
+              class="btn-primary btn mb-2 small col-md-12"
+            >
+              Open Camera
+            </button>
+            <button
+              *ngIf="StepVideo == 2"
+              type="button"
+              (click)="VideoPlayer.record().reset(); StepVideo = 1"
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              *ngIf="StepVideo == 2"
+              (click)="VideoPlayer.record().start(); StepVideo = 3"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Record
+            </button>
+            <button
+              type="button"
+              *ngIf="StepVideo == 3"
+              style="background-color: #ef6c00"
+              (click)="VideoPlayer.record().pause(); StepVideo = 4"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Pause
+            </button>
+            <button
+              type="button"
+              *ngIf="StepVideo == 4"
+              style="background-color: #ef6c00"
+              (click)="VideoPlayer.record().resume(); StepVideo = 3"
+              class="btn btn-primary mb-2 small col-md-5"
+            >
+              Resume
+            </button>
+            <button
+              type="button"
+              *ngIf="StepVideo == 3 || StepVideo == 4"
+              style="background-color: #b00020"
+              (click)="VideoPlayer.record().stop(); StepVideo = 5"
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Stop
+            </button>
+            <input
+              type="text"
+              [disabled]="latestVideoRecord == null"
+              [hidden]="StepVideo != 5"
+              class="form-control col-md-12 mb-2"
+              #videoName
+              placeholder="Video Record Name"
+            />
+            <button
+              [disabled]="latestVideoRecord == null"
+              *ngIf="StepVideo == 5"
+              type="button"
+              (click)="
+                VideoPlayer.record().reset();
+                latestVideoRecord = null;
+                StepVideo = 1;
+                videoName.value = ''
+              "
+              class="btn btn-primary mb-2 small col-md-5"
+              style="background-color: #b00020"
+            >
+              Discard
+            </button>
+            <button
+              [disabled]="latestVideoRecord == null"
+              *ngIf="StepVideo == 5"
+              type="button"
+              (click)="
+                addVideo(videoName.value.trim());
+                validNaming.test(videoName.value.trim())
+                  ? (videoName.value = '')
+                  : (videoName.value = videoName.value)
+              "
+              class="btn btn-primary mb-2 small col-md-6"
+            >
+              Add Video
+            </button>
           </div>
         </div>
         <div class="d-none">
-          <video id="popupVideoPlayer" playsinline class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"></video>
+          <video
+            id="popupVideoPlayer"
+            playsinline
+            class="video-js vjs-default-skin w-100 mt-3 mb-3 rounded"
+          ></video>
         </div>
       </div>
-      <div class="row mt-4 ">
+      <div class="row mt-4">
         <h6>Attachments :</h6>
         <div class="card col-md-12 mb-4 rounded p-5">
-          <label class="d-block text-center fw-bold my-3 animate__animated  animate__faster animate__fadeInDown"
-            *ngIf="recordings.length==0">No files added,Click the below button to add files.</label>
+          <label
+            class="d-block text-center fw-bold my-3 animate__animated animate__faster animate__fadeInDown"
+            *ngIf="recordings.length == 0"
+            >No files added,Click the below button to add files.</label
+          >
           <ul class="list-group">
-            <li *ngFor="let files of recordings;let i=index" #attachment
-              class="animate__animated  animate__faster animate__lightSpeedInLeft list-group-item">
-              <label>{{files.name}}</label>
-              <strong (click)="removeFiles(i,attachment)" style="cursor: pointer;"
-                class="float-end text-danger">Delete</strong>
+            <li
+              *ngFor="let files of recordings; let i = index"
+              #attachment
+              class="animate__animated animate__faster animate__lightSpeedInLeft list-group-item"
+            >
+              <label>{{ files.name }}</label>
+              <strong
+                (click)="removeFiles(i, attachment)"
+                style="cursor: pointer"
+                class="float-end text-danger"
+                >Delete</strong
+              >
             </li>
           </ul>
           <div class="custom-file">
-            <input type="file"
+            <input
+              type="file"
               accept="audio/*,video/*,image/*,application/msword, application/vnd.ms-excel,application/pdf"
-              (change)="loadFiles($event)" multiple class="d-none custom-file-input" id="selectedFiles">
-            <label class="btn btn-outline d-block mx-auto my-3" for="selectedFiles"><img
-                src="../../../../../assets/images/file.png"></label>
+              (change)="loadFiles($event)"
+              multiple
+              class="d-none custom-file-input"
+              id="selectedFiles"
+            />
+            <label
+              class="btn btn-outline d-block mx-auto my-3"
+              for="selectedFiles"
+              ><img src="../../../../../assets/images/file.png"
+            /></label>
           </div>
         </div>
-        <!-- <div class="row border-bottom pb-3 mb-3">
+        <div class="row border-bottom pb-3 mb-3">
           <div class="col-md-12">
-            <div class="form-check">
+            <label class="text-danger fw-bold fs-5 my-2">
+              Note : Do not send Patient Health Information in this Mail
+            </label>
+            <!-- <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="agreeTerms">
               <label class="form-check-label" for="agreeTerms">
                 I agree to the accompanying.<label style="color:#00D9CC;" class="ms-1">Attachment copyrights</label>
               </label>
-            </div>
+            </div> -->
           </div>
-        </div> -->
+        </div>
         <div class="row d-flex row justify-content-between p-2">
           <div class="col">
-            <small *ngIf="invalidForm" class="d-block mb-2 text-center w-100 text-danger fw-bold ng-star-inserted">Enter
-              data in required
-              feilds</small>
-            <button type="submit" class="btn  btn-primary add me-2" style="line-height:12px;">Send</button>
-            <a routerLink="/mail/inbox" type="button" class="btn  btn-outline-primary cancel"
-              style="border-color: #00D9CC;text-transform: capitalize;">Discard</a>
+            <small
+              *ngIf="invalidForm"
+              class="d-block mb-2 text-center w-100 text-danger fw-bold ng-star-inserted"
+              >Enter data in required feilds</small
+            >
+            <button
+              type="submit"
+              class="btn btn-primary add me-2"
+              style="line-height: 12px"
+            >
+              Send
+            </button>
+            <a
+              routerLink="/mail/inbox"
+              type="button"
+              class="btn btn-outline-primary cancel"
+              style="border-color: #00d9cc; text-transform: capitalize"
+              >Discard</a
+            >
           </div>
         </div>
       </div>

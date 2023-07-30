@@ -6,6 +6,7 @@ import { CvfastViewerComponent } from '../cvfast-viewer/cvfast-viewer.component'
 import { FormsModule } from '@angular/forms';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,13 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     FormsModule,
     PickerModule,
     NgxShimmerLoadingModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

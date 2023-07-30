@@ -37,6 +37,10 @@ img {
     color: #F7517F;
 }
 
+[data-tippy-root] {
+    z-index: 999999 !important;
+}
+
 .swal-overlay {
     z-index: 999999 !important;
 }

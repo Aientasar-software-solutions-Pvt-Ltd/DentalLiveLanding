@@ -5,3 +5,10 @@
     border: 2px dotted #00D9CC;
     object-fit: cover;
 }
+
+div#pictureModal .modal-body {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+}

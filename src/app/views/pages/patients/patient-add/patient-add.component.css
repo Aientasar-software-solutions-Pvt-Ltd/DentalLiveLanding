@@ -1,4 +1,71 @@
-.repeatbox{background:#F3F6FF;border:1px solid #DDE4EB;border-radius:10px;}
-.repeatsec .repeatbox:nth-child(5) + .remove-button{display:none;}
-.repeatsec .add-button{position:absolute;right:70px;bottom:64px;}
-.repeatsec .repeatbox:nth-child(5) + .remove-button + .add-button{position:relative;right: 0px;bottom: 0px;}
+.repeatbox {
+    background: #F3F6FF;
+    border: 1px solid #DDE4EB;
+    border-radius: 10px;
+}
+
+.repeatsec .repeatbox:nth-child(5)+.remove-button {
+    display: none;
+}
+
+.repeatsec .add-button {
+    position: absolute;
+    right: 70px;
+    bottom: 64px;
+}
+
+.repeatsec .repeatbox:nth-child(5)+.remove-button+.add-button {
+    position: relative;
+    right: 0px;
+    bottom: 0px;
+}
+
+.container {
+    position: relative;
+}
+
+.canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 400px;
+    width: 400px;
+
+}
+
+.canvasContainer {
+    height: 400px;
+    width: 400px;
+}
+
+.canvasResult {
+    border-radius: 1em;
+    background: #e2e2e2;
+}
+
+div#pictureModal .modal-body {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    border: solid 3px white;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    max-width: none;
+    height: 400px;
+    width: 400px;
+}

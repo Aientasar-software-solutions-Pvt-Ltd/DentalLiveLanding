@@ -14,10 +14,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
+import { TutorialsComponent } from './views/pages/tutorials/tutorials.component';
+import { TutorialListComponent } from './views/pages/tutorials/tutorial-list/tutorial-list.component';
+import { ViewtutorialComponent } from './views/pages/tutorials/viewtutorial/viewtutorial.component';
+import { AngularCropperjsModule } from 'angular-cropperjs';
 
 @NgModule({
   declarations: [
     AppComponent,
+    TutorialsComponent,
+    TutorialListComponent,
+    ViewtutorialComponent,
+
   ],
   imports: [
     HttpClientModule,
@@ -28,7 +36,8 @@ import { AuthInterceptorService } from './views/pages/auth-interceptor.service';
     AppRoutingModule,
     LayoutModule,
     PickerModule,
-    NgwWowModule
+    NgwWowModule,
+    AngularCropperjsModule,
   ],
   providers: [
     DatePipe,

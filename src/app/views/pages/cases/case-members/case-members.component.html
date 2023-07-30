@@ -6,7 +6,19 @@
           class="d-flex justify-content-between align-items-center flex-wrap"
         >
           <div class="my-2">
-            <h5 class="body1 card-title mb-0">List of Invitations</h5>
+            <h5 class="body1 card-title mb-0">
+              List of Invitations
+              <a
+                tippy="Tutorial"
+                target="_blank"
+                [routerLink]="
+                  '/tutorial/' +
+                  utility.tutorialData['CaseMembersComponent'].html
+                "
+              >
+                <i class="bx bxs-info-circle text-primary"></i
+              ></a>
+            </h5>
           </div>
           <div class="d-flex align-items-center flex-wrap">
             <button
@@ -388,7 +400,7 @@
           </div>
         </div>
         <div>
-          <h6 class="fw-bold text-dark ms-2">Invitation Text</h6>
+          <h6 class="fw-bold text-dark ms-2">Invitation Attachments</h6>
           <app-cvfast-new [isMin]="true" #inviteText></app-cvfast-new>
         </div>
       </div>

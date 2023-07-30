@@ -1,8 +1,9 @@
-//@ts-nocheck
+
 import { Component, OnInit } from '@angular/core';
 import { AccdetailsService } from '../../accdetails.service';
 import { ApiDataService } from '../../users/api-data.service';
 import { UtilityService } from '../../users/utility.service';
+import prettyBytes from 'pretty-bytes';
 @Component({
   selector: 'app-usagestatistics',
   templateUrl: './usagestatistics.component.html',
@@ -23,6 +24,7 @@ export class UsagestatisticsComponent implements OnInit {
     this.dataService.getallData(this.utility.apiData.usage.ApiUrl + `?email=${this.user}&type=stats`, true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
+        console.log(Response)
         this.object = Response;
       }, error => {
       }, () => {
@@ -49,23 +51,11 @@ export class UsagestatisticsComponent implements OnInit {
   changePage(number: number) {
     this.pageNumber = number * this.itemsPerPage;
   }
-  formatData(val) {
-    if (!val || val == 0) return '0B';
-    let tempval = val;
-    val = tempval.toFixed(2) + 'GB';
-    if (tempval < 1) {
-      tempval = (tempval * 1024);
-      val = tempval.toFixed(2) + 'MB';
-    }
-    if (tempval < 1) {
-      tempval = (tempval * 1024);
-      val = tempval.toFixed(2) + 'KB';
-    }
-    if (tempval < 1) {
-      tempval = (tempval * 1024);
-      val = tempval.toFixed(2) + 'Bytes';
-    }
-    return val
+  formatData(object) {
+    let total = 0;
+    if (object.used)
+      total = object.used.meet + object.used.mail + object.used.planner;
+    return prettyBytes(total);
   }
 }
 

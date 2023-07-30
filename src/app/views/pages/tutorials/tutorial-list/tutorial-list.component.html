@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-12">
+    <a
+      style="cursor: pointer; width: max-content"
+      class="h6 fw-bold m-4 d-block"
+      [routerLink]="'details/' + utility2.tutorialData[module].html"
+      *ngFor="let module of namesArray"
+    >
+      {{
+        !utility2.tutorialData[module].ignore
+          ? utility2.tutorialData[module].label
+          : ""
+      }}
+    </a>
+  </div>
+</div>

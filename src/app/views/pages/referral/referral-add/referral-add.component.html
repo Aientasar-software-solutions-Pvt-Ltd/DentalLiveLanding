@@ -45,13 +45,25 @@
   "
   class="row align-items-center pt-2"
 >
-  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
+  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
     <div class="col-md-12">
       <div class="card shadow-sm">
         <div class="card-header border-bottom-0 bg-white">
           <div class="row">
             <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">{{ mode }} Referral</h5>
+              <h5 class="body1 card-title my-2">
+                {{ mode }} Referral
+                <a
+                  tippy="Tutorial"
+                  target="_blank"
+                  [routerLink]="
+                    '/tutorial/' +
+                    utility.tutorialData['ReferralAddComponent'].html
+                  "
+                >
+                  <i class="bx bxs-info-circle text-primary"></i
+                ></a>
+              </h5>
             </div>
             <div class="col-md-7 text-end">
               <a
@@ -81,7 +93,7 @@
                     [editableSearchTerm]="true"
                     (change)="selectCase($event)"
                     name="caseId"
-                    placeholder="Select"
+                    placeholder="Please Select A Case To Continue"
                     bindLabel="title"
                     bindValue="caseId"
                     required
@@ -203,19 +215,32 @@
                 <div class="col-md-4">
                   <div class="mb-4">
                     <label class="form-label body2 text-dark">Start Date</label>
-                    <input
+                    <!-- <input
                       type="date"
                       class="form-control"
                       name="startdate"
                       id="startdate"
                       min="{{
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
+                        formInterface.object.startdate | date : 'yyyy-dd-mm'
                       }}"
+                      max="2050-01-01"
                       [ngModel]="
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
+                        formInterface.object.startdate | date : 'yyyy-dd-mm'
                       "
-                      (ngModelChange)="
-                        formInterface.assignDate('startdate', $event)
+                      required
+                    /> -->
+                    <input
+                      #startDate
+                      type="date"
+                      class="form-control"
+                      name="startdate"
+                      id="startdate"
+                      max="2050-01-01"
+                      [ngModel]="
+                        formInterface.object.startdate
+                          ? (formInterface.object.startdate
+                            | date : 'yyyy-MM-dd')
+                          : null
                       "
                       required
                     />
@@ -226,23 +251,36 @@
                     <label class="form-label body2 text-dark"
                       >Expected Date</label
                     >
-                    <input
+                    <!-- <input
                       type="date"
                       class="form-control"
                       name="enddate"
                       id="enddate"
+                      max="2050-01-01"
                       min="{{
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
+                        formInterface.object.startdate | date : 'yyyy-dd-mm'
                       }}"
                       [ngModel]="
                         (formInterface.object.enddate >
                         formInterface.object.startdate
                           ? formInterface.object.enddate
                           : formInterface.object.startdate
-                        ) | date : 'yyyy-MM-dd'
+                        ) | date : 'yyyy-dd-mm'
                       "
-                      (ngModelChange)="
-                        formInterface.assignDate('enddate', $event)
+                      required
+                    /> -->
+
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="enddate"
+                      id="enddate"
+                      [min]="startDate.value"
+                      max="2050-01-01"
+                      [ngModel]="
+                        formInterface.object.enddate
+                          ? (formInterface.object.enddate | date : 'yyyy-MM-dd')
+                          : null
                       "
                       required
                     />

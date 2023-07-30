@@ -31,18 +31,20 @@ export class CrudOperationsService {
   // select this appropriately
 
   section = null;
-  tempAvatarImage: any;
-  tempAvatarName: any;
+  mainForm: NgForm;
   object: any;
+
   isEditMode = false;
   isUploadingData = false;
   isLoadingData = false;
   isLoadingDependencies = false;
-  mainForm: NgForm;
+  tempAvatarImage: any;
+  tempAvatarName: any;
   sending = false;
   today = new Date();
   avatarData = {};
   dependentData = {};
+
   allowedtypes = ['image', 'video', 'audio', 'pdf', 'msword', 'ms-excel'];
   @ViewChild(CvfastNewComponent) cvfast!: CvfastNewComponent;
 
@@ -90,6 +92,7 @@ export class CrudOperationsService {
         this.router.navigate([this.section.backUrl])
       }
       this.object = Response;
+      console.log(this.object);
       if (!noCv && this.section.cvfast)
         this.cvfast.cvfast = this.object[this.section.cvfast]
       if (this.object.image) {
@@ -116,6 +119,7 @@ export class CrudOperationsService {
         swal("File format not allowed")
         return
       }
+
       this.avatarData = { name: event.target.files[0].name, binaryData: event.target.files[0] }
       //display selected file in image tag
       const reader = new FileReader();
@@ -125,23 +129,118 @@ export class CrudOperationsService {
     }
   }
 
-  async uploadFormData(hasForm = true) {
-    //post request here,both add & update are sent as post
+  //validates data + uploads any binary files and gets the names of S3 resource --> calls formupload
+  async onSubmit(hasForm = true) {
+    if (hasForm && this.mainForm.invalid) {
+      this.mainForm.form.markAllAsTouched();
+      swal("Please Enter Values In The Highlighted Fields");
+      return false;
+    }
+    if (!this.dovValidateSchema.validate(this.object, this.section.schema).valid || this.isEmptyString()) {
+      swal("Invalid Data,please check data provided and try again");
+      return false;
+    }
     try {
-      let Response = this.isEditMode ? await this.dataService.putData(this.utility.baseUrl + this.section.module, JSON.stringify(this.object), true).toPromise() : await this.dataService.postData(this.utility.baseUrl + this.section.module, JSON.stringify(this.object), true).toPromise();
-      this.isUploadingData = false;
-      let msg = this.section.module.toString().slice(0, -1) + " " + (this.isEditMode ? "Updated Successfully" : "Added Successfully")
+      // update avatar Data (if any) to S3 bukcet -- this.avatarData
+      if (Object.keys(this.avatarData).length > 0) {
+        if (this.section.module == "patients") {
+          this.object.image = await this.uploadBinaryData(uuidv4() + ".jpg", this.avatarData["binaryData"], this.section.bucket);
+        } else {
+          this.object.image = await this.utility.uploadBinaryData(this.avatarData["name"], this.avatarData["binaryData"], this.section.bucket);
+        }
+      }
+
+      //background object creation
+      let pid = uuidv4();
+      let title = ""
+      this.section.notifyTitle.map((item) => {
+        title = title + " " + this.object[item]
+      })
+
+      let backgroundObject = {
+        'module': this.section.module,
+        'title': title,
+        'id': pid,
+        'cvfast': this.cvfast,
+        'object': this.object,
+        'section': this.section,
+        'isEditMode': this.isEditMode
+      }
+
+      this.utility.processingBackgroundData.push(backgroundObject)
+      this.utility.arraySubject.next(this.utility.processingBackgroundData);
+      this.backgroundProcessData(this.cvfast, this.object, this.section, this.isEditMode, pid)
+      let msg = this.section.module.toString().slice(0, -1) + " Data Added for Processing, Check Uploads Tab for Status";
       swal(msg)
       if (hasForm)
         this.section.module == "tasks" ? this.router.navigate([this.section.backUrl, { hasTask: true }]) : this.router.navigate([this.section.backUrl])
       else
         return this.object;
+
+      return true
     } catch (error) {
-      (error['status']) ? this.utility.showError(error['status']) : swal("Failed To Process Request, Please Try Again");
-      console.log(error);
-      this.isUploadingData = false;
+      (error['status']) ? this.utility.showError(error['status']) : swal("Failed to Process files,please try again");
+      this.handleError(error, null)
       return false;
     }
+  }
+
+  async backgroundProcessData(cvfast, object, section, isEditMode, id) {
+    try {
+      if (section.module == "casefiles") {
+        //iterate and save all files in array - without CVFAST
+        let values = await Promise.all(
+          object.newUploadedFiles.map(async (object) => {
+            return this.utility.uploadBinaryData(object["name"], object["binaryData"], "");
+          }))
+        //get array of names of the files stored in S3 bucket
+        values.map((item) => {
+          object.files.push(item)
+        })
+        delete object.newUploadedFiles;
+      } else {
+        // process cvfast binary files to S3 bucket -- this.cvfast
+        if (section.cvfast)
+          object[section.cvfast] = await cvfast.processFiles();
+      }
+      //process form data to dynamoDB -- this.object
+      this.uploadFormData(object, section, isEditMode, id);
+      return true
+    } catch (error) {
+      return this.handleError(error, id)
+    }
+  }
+
+  async uploadFormData(object, section, isEditMode, id) {
+    //post request here,both add & update are sent as post
+    try {
+      isEditMode ? await this.dataService.putData(this.utility.baseUrl + section.module, JSON.stringify(object), true).toPromise() :
+        await this.dataService.postData(this.utility.baseUrl + section.module, JSON.stringify(object), true).toPromise();
+      this.utility.processingBackgroundData = this.utility.processingBackgroundData.map((item) => {
+        if (item.id != id) return item;
+        return {
+          ...item, isProcessed: true
+        }
+      })
+      this.utility.arraySubject.next(this.utility.processingBackgroundData);
+      return true;
+    } catch (error) {
+      return this.handleError(error, id)
+    }
+  }
+
+  handleError(error, id) {
+    console.log(error);
+    if (id) {
+      this.utility.processingBackgroundData = this.utility.processingBackgroundData.map((item) => {
+        if (item.id != id) return item;
+        return {
+          ...item, isFailed: true, isProcessed: false, error: error
+        }
+      })
+      this.utility.arraySubject.next(this.utility.processingBackgroundData);
+    }
+    return false;
   }
 
   uploadBinaryData(objectName, binaryData, s3BucketName) {
@@ -173,39 +272,6 @@ export class CrudOperationsService {
     return false;
   }
 
-  //validates data + uploads any binary files and gets the names of S3 resource --> calls formupload
-  async onSubmit(hasForm = true) {
-    if (hasForm && this.mainForm.invalid) {
-      this.mainForm.form.markAllAsTouched();
-      swal("Please Enter Values In The Highlighted Fields");
-      return false;
-    }
-    if (!this.dovValidateSchema.validate(this.object, this.section.schema).valid || this.isEmptyString()) {
-      swal("Invalid Data,please check data provided and try again");
-      return false;
-    }
-    this.isUploadingData = true;
-    try {
-      // update avatar Data (if any)
-      if (Object.keys(this.avatarData).length > 0) {
-        if (this.section.module == "patients") {
-          this.object.image = await this.uploadBinaryData(uuidv4() + ".jpg", this.avatarData["binaryData"], this.section.bucket);
-        } else {
-          this.object.image = await this.utility.uploadBinaryData(this.avatarData["name"], this.avatarData["binaryData"], this.section.bucket);
-        }
-      }
-      // process cvfast binary files
-      if (this.section.cvfast)
-        this.object[this.section.cvfast] = await this.cvfast.processFiles();
-    } catch (error) {
-      (error['status']) ? this.utility.showError(error['status']) : swal("Failed to Process files,please try again");
-      console.log(error);
-      this.isUploadingData = false;
-      return false;
-    }
-    return this.uploadFormData(hasForm);
-  }
-
   //**only for files section,validates data + uploads any binary files and gets the names of S3 resource --> calls formupload
   async submitFiles() {
     this.section.backUrl = '/cases/cases/case-view/' + this.object.caseId + '/files'
@@ -215,27 +281,29 @@ export class CrudOperationsService {
       return false;
     }
 
-    this.isUploadingData = true;
-    return new Promise((Resolve, Reject) => {
-      Promise.all(
-        this.object.newUploadedFiles.map(async (object) => {
-          return this.utility.uploadBinaryData(object["name"], object["binaryData"], "");
-        }))
-        .then((values) => {
-          //get array of names of the files stored in S3 bucket
-          values.map((item) => {
-            this.object.files.push(item)
-          })
-          delete this.object.newUploadedFiles;
-          this.uploadFormData();
-        })
-        .catch((error) => {
-          (error['status']) ? this.utility.showError(error['status']) : swal("Failed to Process files,please try again");
-          console.log(error);
-          this.isUploadingData = false;
-          return false;
-        });
-    });
+    let pid = uuidv4();
+    let title = ""
+    this.section.notifyTitle.map((item) => {
+      title = title + " " + this.object[item]
+    })
+
+    let backgroundObject = {
+      'module': this.section.module,
+      'title': title,
+      'id': pid,
+      'cvfast': this.cvfast,
+      'object': this.object,
+      'section': this.section,
+      'isEditMode': this.isEditMode
+    }
+
+    this.utility.processingBackgroundData.push(backgroundObject)
+    this.utility.arraySubject.next(this.utility.processingBackgroundData);
+    this.backgroundProcessData(this.cvfast, this.object, this.section, this.isEditMode, pid)
+    let msg = this.section.module.toString().slice(0, -1) + " " + (this.isEditMode ? "Updated Successfully" : "Added Successfully")
+    swal(msg)
+    this.router.navigate([this.section.backUrl])
+    return true;
   }
 
   // add on helper functions 
@@ -270,7 +338,6 @@ export class CrudOperationsService {
       })
     }
   }
-
 
   deleteData(id) {
     Swal.fire({

@@ -1,49 +1,55 @@
 <div *ngIf="isLoadingData" class="row">
   <div class="col-md-12">
-    <lottie-player class="mt-3 m-auto"
+    <lottie-player
+      class="mt-3 m-auto"
       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent" speed="1" style="width: 300px; height: 300px;margin: auto;" loop autoplay>
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px; margin: auto"
+      loop
+      autoplay
+    >
     </lottie-player>
-    <h6 class=" text-center mt-5">Processing request....please wait, don't close this page</h6>
+    <h6 class="text-center mt-5">
+      Processing request....please wait, don't close this page
+    </h6>
   </div>
 </div>
 <div *ngIf="!isLoadingData" class="container-fluid p-0 overflow-hidden">
   <div class="col-12 pt-2">
     <div class="row align-items-center pt-2" id="packageDetail">
       <div class="col-md-12">
-        <div class="card border-0  p-4">
+        <div class="card border-0 p-4">
           <div class="row my-2">
             <div class="col-md-6">
-              <h5 style="color: #0070d2;">Total Storage</h5>
-              <img src="../../../../../assets/images/data.png">
-              <br>
-              <h6>Total Available</h6>
-              <label class="body2" style="color: #354053;">{{object.total}}GB</label>
-              <h6>Used</h6>
-              <strong>Mail : </strong> <label class="body2"
-                style="color: #354053;">{{formatData(object.used.mail)}}</label>
-              <strong> Meet : </strong> <label class="body2"
-                style="color: #354053;">{{formatData(object.used.meet)}}</label>
-              <strong> Planner : </strong> <label class="body2"
-                style="color: #354053;">{{formatData(object.used.planner)}}</label>
+              <h5 style="color: #0070d2">Total Storage</h5>
+              <img src="../../../../../assets/images/data.png" />
+              <label class="body2 ms-2" style="color: #354053"
+                >{{ formatData(object) }} of {{ object.total }} GB Used</label
+              >
             </div>
             <div class="col-md-6">
-              <h5 style="color: #0070d2;">Total Users</h5>
-              <img src="../../../../../assets/images/users.png">
-              <br>
-              <div *ngFor="let subuser of object.subusers" class="body2 my-1" style="color: #354053;">
-                <strong>{{subuser.package.packageName}}</strong> :
-                {{subuser.used}} of {{subuser.allowed}} Users used
+              <h5 style="color: #0070d2">Total Users</h5>
+              <div
+                *ngFor="let subuser of object.subusers"
+                class="body2 my-1"
+                style="color: #354053"
+              >
+                <strong>{{ subuser.package.packageName }}</strong> :
+                {{ subuser.used }} of {{ subuser.allowed }} Users used
               </div>
             </div>
           </div>
         </div>
-        <div class="card border-0  p-4 mt-4">
+        <div class="card border-0 p-4 mt-4">
           <h5>Active Packages and Add-Ons</h5>
           <div class="table-responsive space">
-            <table class="table table-hover table-nowrap align-items-center" style="min-width: 768px;">
+            <table
+              class="table table-hover table-nowrap align-items-center"
+              style="min-width: 768px"
+            >
               <thead class="thead-light mb-2">
-                <tr style="text-transform:uppercase;">
+                <tr style="text-transform: uppercase">
                   <th class="body2">PACKAGE /ADD-ON- DETAIL</th>
                   <th class="body2">TYPE</th>
                   <th class="body2">STORAGE ALLOCATED</th>
@@ -51,54 +57,92 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of this.object.stats"
-                  style="vertical-align: middle;background: #F7F9FB;border: 2px solid #EFF3F7;border-radius: 6px!important;">
+                <tr
+                  *ngFor="let item of this.object.stats"
+                  style="
+                    vertical-align: middle;
+                    background: #f7f9fb;
+                    border: 2px solid #eff3f7;
+                    border-radius: 6px !important;
+                  "
+                >
                   <td>
-                    <span class="body2 " style="color: #354053;">{{item.datePurchased | date:'mediumDate'}}
+                    <span class="body2" style="color: #354053"
+                      >{{ item.datePurchased | date : "mediumDate" }}
                     </span>
-                    <br>
-                    <span class="body1 fw-bold " style="color: #354053;">{{item.package.packageName}}
-                      <span *ngIf="item.isAddon"> ({{item.package.addonName}})</span>
-                    </span> <br>
-                    <span class="body2 fw-bold " style="color: #354053;">
-                      Description : {{item.package.description}}</span>
+                    <br />
+                    <span class="body1 fw-bold" style="color: #354053"
+                      >{{ item.package.packageName }}
+                      <span *ngIf="item.isAddon">
+                        ({{ item.package.addonName }})</span
+                      >
+                    </span>
+                    <br />
+                    <span class="body2 fw-bold" style="color: #354053">
+                      Description : {{ item.package.description }}</span
+                    >
                   </td>
                   <td>
-                    <span class="body2 my-2" style="color: #354053;">
+                    <span class="body2 my-2" style="color: #354053">
                       <span *ngIf="item.isAddon">Add-On</span>
                       <span *ngIf="!item.isAddon">Package</span>
                     </span>
                   </td>
                   <td>
-                    <img src="../../../../../assets/images/data.png">
-                    <br>
-                    <span class="body2 my-2" style="color: #354053;">{{item.storage}}GB</span>
+                    <img src="../../../../../assets/images/data.png" />
+                    <br />
+                    <span class="body2 my-2" style="color: #354053"
+                      >{{ item.storage }}GB</span
+                    >
                   </td>
                   <td>
-                    <img src="../../../../../assets/images/users.png">
-                    <br>
-                    <span class="body2 my-2" style="color: #354053;">{{item.users.allowed}} Users</span>
+                    <img src="../../../../../assets/images/users.png" />
+                    <br />
+                    <span class="body2 my-2" style="color: #354053"
+                      >{{ item.users.allowed }} Users</span
+                    >
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="py-3  row justify-content-end align-items-start" style="background-color:#F7F9FB;">
+          <div
+            class="py-3 row justify-content-end align-items-start"
+            style="background-color: #f7f9fb"
+          >
             <div class="text-end w-auto">
-              <label style="color: #5D6A7E;">Items per page
-                <select [(ngModel)]="itemsPerPage" class="form-select form-select-sm"
-                  style="font-size: 15px;width:70px;display: inline-block;height:31px;">
+              <label style="color: #5d6a7e"
+                >Items per page
+                <select
+                  [(ngModel)]="itemsPerPage"
+                  class="form-select form-select-sm"
+                  style="
+                    font-size: 15px;
+                    width: 70px;
+                    display: inline-block;
+                    height: 31px;
+                  "
+                >
                   <option>10</option>
                   <option>20</option>
                   <option>30</option>
                   <option>40</option>
-                </select></label>
+                </select></label
+              >
             </div>
             <div class="w-auto">
               <nav aria-label="Page navigation example">
-                <ul *ngIf="object.length>10" class="pagination justify-content-end me-3">
-                  <li (click)="changePage(i)" *ngFor="let in of counter(object.length) ;let i = index"
-                    class="page-item"><span class="page-link">{{i+1}}</span></li>
+                <ul
+                  *ngIf="object.length > 10"
+                  class="pagination justify-content-end me-3"
+                >
+                  <li
+                    (click)="changePage(i)"
+                    *ngFor="let in of counter(object.length); let i = index"
+                    class="page-item"
+                  >
+                    <span class="page-link">{{ i + 1 }}</span>
+                  </li>
                 </ul>
               </nav>
             </div>

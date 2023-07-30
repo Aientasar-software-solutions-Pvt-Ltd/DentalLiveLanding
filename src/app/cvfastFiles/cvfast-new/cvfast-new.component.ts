@@ -25,6 +25,7 @@ export class CvfastNewComponent implements AfterViewInit {
 
   // @Input() module: any;
   @Input() isMin = false;
+  @Input() isHideText = false;
   private VideoConfig: any;
   VideoPlayer: any;
   private audioConfig: any;
@@ -62,7 +63,7 @@ export class CvfastNewComponent implements AfterViewInit {
 
   constructor(
     private usr: AccdetailsService,
-    private utility: UtilityServiceV2,
+    public utility: UtilityServiceV2,
     private cdref: ChangeDetectorRef) { }
 
   setCvfast(cvfast) {
@@ -229,9 +230,15 @@ export class CvfastNewComponent implements AfterViewInit {
       links: []
     };
     this.attachmentFiles = []
-    this.latestVideoRecord = null; this.VideoPlayer.record().reset(); this.StepVideo = 1;
-    this.latestAudioRecord = null; this.audioPlayer.record().reset(); this.StepAudio = 1;
-    this.latestScreenRecord = null; this.screenPlayer.record().reset(); this.StepScreen = 1;
+    this.latestVideoRecord = null;
+    if (this.VideoPlayer) this?.VideoPlayer.record().reset();
+    this.StepVideo = 1;
+    this.latestAudioRecord = null;
+    if (this.audioPlayer) this?.audioPlayer.record().reset();
+    this.StepAudio = 1;
+    this.latestScreenRecord = null;
+    if (this.screenPlayer) this?.screenPlayer.record().reset();
+    this.StepScreen = 1;
     if (this.webcam) this.webcam.stop();
     this.showAttachments = this.showVideo = this.showEmoji = this.showScreen = this.showAudio = this.showCamera = false;
   }

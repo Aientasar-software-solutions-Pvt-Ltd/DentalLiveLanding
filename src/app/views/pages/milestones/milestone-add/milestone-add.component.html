@@ -45,13 +45,25 @@
   "
   class="row align-items-center pt-2"
 >
-  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
+  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
     <div class="col-md-12">
       <div class="card shadow-sm">
         <div class="card-header border-bottom-0 bg-white">
           <div class="row">
             <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">{{ mode }} Milestone</h5>
+              <h5 class="body1 card-title my-2">
+                {{ mode }} Milestone
+                <a
+                  tippy="Tutorial"
+                  target="_blank"
+                  [routerLink]="
+                    '/tutorial/' +
+                    utility.tutorialData['MilestoneAddComponent'].html
+                  "
+                >
+                  <i class="bx bxs-info-circle text-primary"></i
+                ></a>
+              </h5>
             </div>
             <div class="col-md-7 text-end">
               <a
@@ -115,20 +127,16 @@
                       >Start Date & Time</label
                     >
                     <input
+                      #startDate
                       type="datetime-local"
                       class="form-control"
                       name="startdate"
                       id="startdate"
-                      min="{{
-                        formInterface.object.startdate
-                          | date : 'yyyy-MM-dd hh:mm'
-                      }}"
+                      max="2050-01-01"
+                      [min]="currentDate | date : 'yyyy-MM-dd hh:mm'"
                       [ngModel]="
                         formInterface.object.startdate
                           | date : 'yyyy-MM-dd hh:mm'
-                      "
-                      (ngModelChange)="
-                        formInterface.assignDate('startdate', $event)
                       "
                       required
                     />
@@ -143,20 +151,14 @@
                       type="datetime-local"
                       class="form-control"
                       name="duedate"
+                      max="2050-01-01"
                       id="duedate"
-                      min="{{
-                        formInterface.object.startdate
-                          | date : 'yyyy-MM-dd hh:mm'
-                      }}"
+                      [min]="startDate.value"
                       [ngModel]="
-                        (formInterface.object.duedate >
-                        formInterface.object.startdate
-                          ? formInterface.object.duedate
-                          : formInterface.object.startdate
-                        ) | date : 'yyyy-MM-dd hh:mm'
-                      "
-                      (ngModelChange)="
-                        formInterface.assignDate('duedate', $event)
+                        formInterface.object.duedate
+                          ? (formInterface.object.duedate
+                            | date : 'yyyy-MM-dd hh:mm')
+                          : null
                       "
                       required
                     />

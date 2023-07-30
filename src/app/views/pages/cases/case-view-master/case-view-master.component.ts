@@ -23,7 +23,7 @@ export class CaseViewMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      
+
       if (params.get("caseId") && params.get("caseId") != "") {
         this.caseId = params.get("caseId");
         this.loadBaseData();
@@ -31,13 +31,25 @@ export class CaseViewMasterComponent implements OnInit {
     });
   }
 
+  getDate(): string {
+    return this.utility.getMetaData(
+      this.baseData?.patientId,
+      'patientId',
+      ['dob'],
+      'patients'
+    ).toString()
+  }
+
   async loadBaseData() {
     try {
       let url = this.utility.baseUrl + this.module;
       if (this.caseId) url = url + "?caseId=" + this.caseId
+      await this.utility.loadPreFetchData("patients");
       this.dataService.getallData(url, true).subscribe(Response => {
         if (Response) {
           this.baseDataPirstine = this.baseData = JSON.parse(Response.toString());
+          console.log(this.baseData)
+          console.log()
           this.isLoadingData = false;
         }
       }, (error) => {

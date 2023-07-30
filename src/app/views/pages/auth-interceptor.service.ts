@@ -24,13 +24,16 @@ export class AuthInterceptorService implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         //Outgoing Request handler
         let tempRequest = request;
+        if (tempRequest.method == "POST") console.log(tempRequest)
         if (sessionStorage.getItem("usr") && request.url.includes('execute-api.us-west-2.amazonaws.com')) {
             let authHeader = {
                 aut: this.usr.getUserDetails().aut,
                 userid: this.usr.getUserDetails().dentalId,
                 addressid: '192.168.0.1'
             }
-            request = request.clone({ headers: request.headers.set('authorization', CryptoJS.AES.encrypt(JSON.stringify(authHeader), environment.decryptKey).toString()) });
+            if (!(tempRequest?.body && JSON.parse(tempRequest.body).isRefreshToken)) {
+                request = request.clone({ headers: request.headers.set('authorization', CryptoJS.AES.encrypt(JSON.stringify(authHeader), environment.decryptKey).toString()) });
+            }
         } else if (!sessionStorage.getItem("usr") && request.url.includes('execute-api.us-west-2.amazonaws.com')) {
             request = request.clone({ headers: request.headers.set('authorization', "") });
         }
@@ -44,14 +47,17 @@ export class AuthInterceptorService implements HttpInterceptor {
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse && request.url.includes('execute-api.us-west-2.amazonaws.com') && !request.url.includes('objectUrl') && this.msArray.some(ms => request.url.includes(ms))) {
                     let decrypt = CryptoJS.AES.decrypt(event.body, environment.decryptKey).toString(CryptoJS.enc.Utf8);
-                    if (tempRequest.body && (JSON.parse(tempRequest.body).isSocialLogin || JSON.parse(tempRequest.body).isLogin || JSON.parse(tempRequest.body).isValidate)) {
+                    if (tempRequest.body && (JSON.parse(tempRequest.body).isSocialLogin || JSON.parse(tempRequest.body).isLogin || JSON.parse(tempRequest.body).isValidate || JSON.parse(tempRequest.body).isRefreshToken)) {
+                        //if its a login save the data as cookie 
                         sessionStorage.setItem('usr', event.body);
-                    }//if its a login save the data as cookie 
+                        // console.log(event.body)
+                        // console.log(decrypt);
+                    }
                     event = event.clone({ body: decrypt });
                 }
                 return event;
             }),
-            retry(2)
+            retry(0)
         );
     }
 }

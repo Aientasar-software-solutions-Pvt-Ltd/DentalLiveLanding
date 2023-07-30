@@ -1,8 +1,5 @@
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { ApiDataService } from '../../users/api-data.service';
-import { AccdetailsService } from '../../accdetails.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import "@lottiefiles/lottie-player";
 import { NgForm } from '@angular/forms';
 import { filter } from 'smart-array-filter';
@@ -21,7 +18,7 @@ export class ColleagueListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   user = this.utility.getUserDetails()
 
-  constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
+  constructor(public utility: UtilityServiceV2) { }
 
   ngOnInit(): void {
     this.loadBaseData();
@@ -59,7 +56,6 @@ export class ColleagueListComponent implements OnInit {
     try {
       await this.utility.loadPreFetchData("users");
       let data = this.utility.metadata.users;
-      console.log(data)
       if (data) {
         this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
         this.isLoadingData = false;
@@ -91,7 +87,7 @@ export class ColleagueListComponent implements OnInit {
       keywords: query
     });
     this.baseData = filterData
-  
+
   }
 
 }

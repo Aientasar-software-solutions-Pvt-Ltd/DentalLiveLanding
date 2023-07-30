@@ -416,6 +416,7 @@
     <div class="d-flex flex-column" style="border: #ddd 2px">
       <div class="mb-2">
         <textarea
+          [hidden]="isHideText"
           [ngStyle]="!isMin ? { height: '100px' } : null"
           (keyup)="autoGrowTextZone($event)"
           style="resize: none"
@@ -578,6 +579,16 @@
             </label>
           </div>
         </button>
+        <a
+          tippy="Tutorial"
+          class="float-end"
+          target="_blank"
+          [href]="
+            '/tutorial/' + utility.tutorialData['CvfastNewComponent'].html
+          "
+        >
+          <i class="bx bxs-info-circle text-primary bx-md mt-3"></i
+        ></a>
       </div>
     </div>
   </div>

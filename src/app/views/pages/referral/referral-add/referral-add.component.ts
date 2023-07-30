@@ -36,6 +36,7 @@ export class ReferralAddComponent implements OnInit {
 		this.viewInit = true;
 		this.formInterface.mainForm = this.mainForm
 		this.formInterface.cvfast = this.cvfast;
+		console.log(this.formInterface.object);
 		if (this.formInterface.object.toothguide)
 			this.orders.setToothGuide(this.formInterface.object.toothguide)
 	}
@@ -112,7 +113,10 @@ export class ReferralAddComponent implements OnInit {
 			});
 	}
 
-	customSubmit() {
+	customSubmit(form) {
+		this.formInterface.object.startdate = new Date(form.value.startdate).getTime();
+		this.formInterface.object.enddate = new Date(form.value.enddate).getTime();
+
 		if (this.mode == "Add") {
 			let date1 = new Date(this.formInterface.object.startdate);
 			let date2 = new Date();

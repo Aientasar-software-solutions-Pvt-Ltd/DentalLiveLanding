@@ -69,7 +69,18 @@
         <div class="card-header bg-white">
           <div class="row">
             <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">Task Details</h5>
+              <h5 class="body1 card-title my-2">
+                Task Details
+                <a  tippy="Tutorial"
+                  target="_blank"
+                  [routerLink]="
+                    '/tutorial/' +
+                    utility.tutorialData['GeneralTaskViewComponent'].html
+                  "
+                >
+                  <i class="bx bxs-info-circle text-primary"></i
+                ></a>
+              </h5>
             </div>
             <div class="col-md-7 text-end">
               <a

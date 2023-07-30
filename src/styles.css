@@ -28,3 +28,4 @@
 @import 'assets/css/mailStyle.css';
 @import 'assets/css/style.css';
 
+@import '../node_modules/intl-tel-input/build/css/intlTelInput.css';

@@ -18,6 +18,8 @@ import { PurchaseComponent } from './purchases/purchase/purchase.component';
 import { PackagesListComponent } from './purchases/packages-list/packages-list.component';
 import { PackagesDetailsComponent } from './purchases/packages-details/packages-details.component';
 import "@lottiefiles/lottie-player";
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 const routes: Routes = [
   {
@@ -67,12 +69,14 @@ const routes: Routes = [
     EditsubaccountComponent,
     PurchaseComponent,
     PackagesListComponent,
-    PackagesDetailsComponent
+    PackagesDetailsComponent,
+    ProfileViewComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
+    ImageCropperModule
   ],
   providers: [
     DatePipe

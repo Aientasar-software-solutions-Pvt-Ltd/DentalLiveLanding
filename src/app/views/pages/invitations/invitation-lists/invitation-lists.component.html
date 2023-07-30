@@ -9,7 +9,18 @@
 </ol>
 <div class="page-header row align-items-center gx-0">
   <div class="col-md-6">
-    <h3>Invitations</h3>
+    <h3>
+      Invitations
+      <a
+        tippy="Tutorial"
+        target="_blank"
+        [routerLink]="
+          '/tutorial/' + utility.tutorialData['InvitationListsComponent'].html
+        "
+      >
+        <i class="bx bxs-info-circle text-primary"></i
+      ></a>
+    </h3>
   </div>
   <div class="col-md-6 text-end">
     <button
@@ -204,10 +215,22 @@
                           data.invitedUserMail == user.emailAddress
                         "
                       >
-                        <span
+                        <!-- <span
                           (click)="resetResposneForm(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#showInvite"
+                          class="isCusrosr badge badge-pill body2 px-2 me-2"
+                          style="
+                            background: rgba(0, 182, 128, 0.3);
+                            color: #00b680;
+                          "
+                          >Accept</span
+                        > -->
+                        <span
+                          (click)="
+                            selectedItem = data;
+                            updateInvite(false, cvfastReply, 1)
+                          "
                           class="isCusrosr badge badge-pill body2 px-2 me-2"
                           style="
                             background: rgba(0, 182, 128, 0.3);
@@ -425,7 +448,7 @@
         "
         class="modal-footer"
       >
-        <button
+        <!-- <button
           [disabled]="isUploadingData"
           (click)="updateInvite(false, cvfastReply, 1)"
           class="btn btn-primary"
@@ -437,7 +460,7 @@
             aria-hidden="true"
           ></span>
           Accept
-        </button>
+        </button> -->
         <button
           [disabled]="isUploadingData"
           (click)="updateInvite(false, cvfastReply, 2)"
@@ -562,7 +585,7 @@
         </div>
         <div>
           <h6 class="fw-bold text-dark ms-2">Invitation Text</h6>
-          <app-cvfast-new [isMin]="true" #inviteText></app-cvfast-new>
+          <app-cvfast-new [isMin]="true"></app-cvfast-new>
         </div>
       </div>
       <div class="modal-footer">

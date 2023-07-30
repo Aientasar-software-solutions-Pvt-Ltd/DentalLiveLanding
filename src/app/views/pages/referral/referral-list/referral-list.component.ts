@@ -33,6 +33,11 @@ export class ReferralListComponent implements OnInit {
 			this.loadBaseData();
 		});
 
+		this.utility.getArrayObservable().subscribe(array => {
+			if (array.some(el => el.module === this.module && el.isProcessed))
+				this.loadBaseData()
+		});
+
 		this.dtOptions = {
 			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
 			pagingType: 'full_numbers',
@@ -75,6 +80,12 @@ export class ReferralListComponent implements OnInit {
 					let data = JSON.parse(Response.toString());
 					this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					this.isLoadingData = false;
+					//stupid library used-->fix required for no data label
+					if (this.baseData.length > 0) {
+						Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+							element.classList.add('d-none')
+						});
+					}
 				}
 			}, (error) => {
 				this.utility.showError(error.status)
@@ -102,6 +113,6 @@ export class ReferralListComponent implements OnInit {
 			keywords: query
 		});
 		this.baseData = filterData
-	 
+
 	}
 }

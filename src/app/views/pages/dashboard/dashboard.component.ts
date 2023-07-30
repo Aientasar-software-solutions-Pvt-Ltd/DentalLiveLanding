@@ -7,6 +7,7 @@ import { AccdetailsService } from '../accdetails.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
+import prettyBytes from 'pretty-bytes';
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
 	public inboxCount = 0;
 	upcomingMeetings = [];
 	milestones = [];
+	public storage: any = {};
 	constructor(private dataService: ApiDataService, private http: HttpClient, public utility2: UtilityServiceV2, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	}
 
@@ -31,10 +33,11 @@ export class DashboardComponent implements OnInit {
 		this.getInviteListingReceived(sessionStorage.getItem('loginResourceId'));
 		this.getUpcomingMeetings()
 		this.getMilestoneAlerts()
+		this.getStorageDetails()
 		//this.getInviteListing(sessionStorage.getItem('loginResourceId'));
 	}
 	getInviteListingReceived(fromDate) {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?invitedUserMail=" + user.emailAddress;
 		let toDate: Date = new Date();
@@ -60,7 +63,7 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 	getUpcomingMeetings() {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		if (!user['cxId']) return;
 		let cxDomain = 'https://dentallive.my3cx.ca:5001/webmeeting/api/v1';
 		let cxAPI = "65n2D8eEVwCfcUUb3J5McsLAveZzgkqZRc1YyQo17lPnnMJL2j4TDhJM4RjwfH36";
@@ -78,7 +81,7 @@ export class DashboardComponent implements OnInit {
 			)
 	}
 	getMilestoneAlerts() {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		let url = this.utility2.baseUrl + 'milestones';
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response) {
@@ -91,8 +94,30 @@ export class DashboardComponent implements OnInit {
 			}
 		});
 	}
+
+	getStorageDetails() {
+		let user = this.usr.getUserDetails();
+		let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=stats`
+		this.dataService.getallData(url, true).subscribe(Response => {
+			if (Response) {
+				let data = JSON.parse(Response.toString());
+				if (data) {
+					this.storage = data;
+					console.log(data);
+				}
+			}
+		});
+	}
+
+	formatData(object) {
+		let total = 0;
+		if (object.used)
+			total = object.used.meet + object.used.mail + object.used.planner;
+		return prettyBytes(total);
+	}
+
 	getInviteListing(fromDate) {
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
 		url += "?resourceOwner=" + user.emailAddress;
 		let toDate: Date = new Date();
@@ -122,7 +147,7 @@ export class DashboardComponent implements OnInit {
 			buttons: [false, false],
 			closeOnClickOutside: false,
 		});
-		let user = this.usr.getUserDetails(false);
+		let user = this.usr.getUserDetails();
 		if (user) {
 			let url = this.utility.apiData.userThreads.ApiUrl;
 			let toDate: Date = new Date();
@@ -181,5 +206,16 @@ export class DashboardComponent implements OnInit {
 			});
 
 		}
+	}
+
+	getStoragePercentage(object) {
+		let total, used, percentage = 0;
+		if (object.total)
+			total = object.total * 1024 * 1024 * 1024
+		if (object.used)
+			used = object.used.meet + object.used.mail + object.used.planner;
+
+		percentage = total == 0 ? 0 : used / total * 100
+		return percentage == 0 ? 0 : Math.round(percentage);
 	}
 }

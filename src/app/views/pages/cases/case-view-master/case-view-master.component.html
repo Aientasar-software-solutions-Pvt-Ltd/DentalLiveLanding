@@ -1,26 +1,38 @@
 <div>
   <div class="page-header d-sm-flex">
     <div class="d-sm-flex d-block">
-      <div class="profile-img justify-content-center p-md-2 me-3">
-        <div class="">
-          <!-- <img
-            src="{{ this.patientImg }}"
-            *ngIf="this.caseImage == true"
-            alt=""
-            class="mb-2 rounded-circle"
-          />
-          <img
-            src="{{ this.Img }}"
-            alt=""
-            *ngIf="this.caseImage == false"
-            class="mb-2 rounded-circle"
-          /> -->
-        </div>
-      </div>
-      <div class="d-inline-block">
-        <h3 class="mt-2 fw-normal">
-          {{ this.baseData?.patientName }}
-          <span class="fw-bold d-block">{{ this.baseData?.title }}</span>
+      <div class="d-flex align-items-center">
+        <img
+          style="width: 7em; height: 7em"
+          *ngIf="this.baseData?.patientId"
+          [src]="
+            utility.getMetaData(
+              this.baseData?.patientId,
+              'patientId',
+              ['image'],
+              'patients'
+            )
+              ? utility.apiData.patients.bucketUrl +
+                utility.getMetaData(
+                  this.baseData?.patientId,
+                  'patientId',
+                  ['image'],
+                  'patients'
+                )
+              : '../../assets/images/users.png'
+          "
+          alt=""
+          class="mb-2 rounded-circle me-4"
+        />
+        <h3
+          style="flex-direction: column; gap: 0px; align-items: start"
+          class="mt-2 fw-normal"
+        >
+          <span> {{ this.baseData?.patientName }}</span>
+          <span class="fw-bold mb-2">{{ this.baseData?.title }}</span>
+          <small *ngIf="this.baseData"
+            >({{ getDate() | date : "MMM d, y" }})</small
+          >
           <div class="progress progress-sm mt-3">
             <div
               class="progress-bar bg-primary"
@@ -45,7 +57,7 @@
           <i class="bx bx-envelope"></i> Mail
         </a>
         <a
-          routerLink="/mail/inbox/{{ this.baseData?.patientId }}/{{
+          routerLink="/meet/meet/{{ this.baseData?.patientId }}/{{
             this.baseData?.caseId
           }}"
           class="btn btn-default mb-2"
@@ -87,7 +99,7 @@
               ><img
                 class="me-2"
                 src="assets/images/planner/Thread.svg"
-              />Messages</a
+              />Chat/Discussion</a
             >
           </li>
           <li class="nav-item" style="min-width: 168px">
