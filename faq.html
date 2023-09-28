@@ -1,536 +1,729 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Dental-Live Mail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"/>
-  <style>
-    .accordion-header_border :before {
-    border-top-left-radius: 80px;
-    top: 0;
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 6px;
-    height:  -webkit-fill-available;
-    background-color: #0070D2;
-    margin-top: 0;
-}
-    .nav.panel-tabs li a.active {
-      background: #F7F9FB;
-      box-shadow: 0px 4px 50px #D0D6DE;
-}
-.nav.panel-tabs a {
-  background: #F7F9FB;
-  border-radius: 15px;
+	<meta charset="utf-8">
+	<title>Dental-Live Planner</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"/>
+	<link rel="stylesheet" href="vertical-responsive-menu.min.css"/>
+	<link rel="stylesheet" href="style.css"/>
+	<style>
+		.accordion-header_border :before {
+			border-top-left-radius: 80px;
+			border-bottom-left-radius: 80px;
+			top: 0;
+			content: '';
+			position: absolute;
+			left: 0;
+			width: 6px;
+			height: 100%;
+			height:  -webkit-fill-available;
+			background-color: #0070D2;
+			margin-top: 0;
+		}
+		.nav.panel-tabs li a.active {
+			background: #F7F9FB;
+			box-shadow: 0px 4px 50px #D0D6DE;
+		}
+		.nav.panel-tabs a {
+		  background: #F7F9FB;
+		  border-radius: 15px;
 
-}
-.tabs-menu ul li a {
-    padding: 10px 12px 11px 13px;
-    display: block;
-}
-.tabs-menu ul li a {
-    padding: 10px 20px !important;
-}
+		}
+		.tabs-menu ul li a {
+			padding: 10px 12px 11px 13px;
+			display: block;
+		}
+		.tabs-menu ul li a {
+			padding: 10px 20px !important;
+		}
+		@media (max-width:575px){
+			.nav.panel-tabs a img{
+				height:30px;
+			}
+		}
 
-  .accordion-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  font-size: 1rem;
-  color: #6c757d;
-  background-color:#00000000!important;
-  border-radius: 0;
-  overflow-anchor: none;
-}
-.accordion-button::after {
-  transform: rotate(-90deg);
-  flex-shrink: 0;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-left: auto;
-  content: "";
-  background-image: url(assets/downarrow.png);
-  background-repeat: no-repeat;
-  background-size: 1.25rem;
-  transition: transform .2s ease-in-out;
-}
-.accordion-button:not(.collapsed) {
-  color: #5D6A7E;
-  background-color: #e7f1ff;
-  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
-}
-.accordion-button:not(.collapsed)::after {
-  background-image: url(assets/downarrow.png);
-  transform: rotate(-180deg);
-}
-.accordion-item {
-  background-color: #ebf5fb00!important;
-  border: 1px solid rgba(0,0,0,.125);
-}
-section {
-  padding: 5rem 0;
-  }
-  </style>
+		.accordion-item {
+		  background-color: #ebf5fb00!important;
+		}
+		section {
+		  padding: 5rem 0;
+		}
+		button:focus{box-shadow:none!important;}
+		.accordion-button {
+		  color: #6c757d;
+		}
+		.accordion-button:after {
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+		}
+		.accordion-button[aria-expanded="true"] {
+		  color: #222222;
+		  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+		}
+		.accordion-button.style1, .accordion-button.style2{
+			padding-left:40px;
+			box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
+			line-height:1.7;
+		}
+		.accordion-button.style1:after, .accordion-button.style2:after{
+			background-image: url(assets/images/right-arrow.png);
+			transform: rotate(0deg);
+		}
+		.accordion-button.style2:before {
+		  background-color: #00D9CC;
+		}
+		.subscriptions-list li{
+			position:relative;
+			list-style:none;
+			display:flex;
+			color:#5D6A7E;
+			margin-bottom:15px;
+		}
+		.subscriptions-list li:before {
+		  margin-top: 2px;
+		  margin-right: 5px;
+		  flex-shrink: 0;
+		  width: 16px;
+		  height: 16px;
+		  content: "";
+		  background-image: url(assets/images/right-arrow.png);
+		  background-repeat: no-repeat;
+		  background-size: 16px 16px;
+		  transition: transform .2s ease-in-out;
+		}
+	</style>
 </head>
-
 <body>
-  
- 
-  <header class="w-100 overflow-hidden main_landing">
-    <nav class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" data-wow-delay="0.4s"  style=" background-color: #fff !important;">
+<header class="w-100 overflow-hidden header-style">
+    <nav data-wow-delay="0.4s" class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" style="background-color: rgb(255, 255, 255) !important; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><img src="asset/Logo_Dark.png" /></a>
-            <button class="navbar-toggler collapsed" data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false">
-                <span class="navbar-toggler-icon"> <i class="fa fa-bars"></i></span>
-            </button>
-            <div class="collapse navbar-collapse mt-1" id="collapsibleNavbar">
+            <a class="navbar-brand" href="index.html"><img src="assets/images/Logo_Dark.png"></a>
+            <div class="text-center hipaa-logo"><img src="assets/images/hipaa-logo.png" class="minlg"><img src="assets/images/logo_footer3.png" class="maxmd"></div>
+            <button data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span></button>
+            <div id="collapsibleNavbar" class="collapse navbar-collapse mt-1">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link bold" href="#Products" style="color:#011A3E;">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link bold" href="#Solutions" style="color: #011A3E;">Solutions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link bold" href="#Plans" style="color: #011A3E;">Plans</a>
-                    </li>
+                    <li class="nav-item"><a href="index.html#DentalPlanner" class="nav-link bold" style="color: #011a3e;">Products</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="solutions.html">Solutions</a></li>
+                    <li class="nav-item"><a href="index.html#Plans" class="nav-link bold" style="color: #011a3e;">Plans</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="become-vendor.html">Vendor</a></li>
                 </ul>
                 <div class="dropdown-divider"></div>
-                <ul class="navbar-nav mb-md-0 ml-auto  ">
-                
+                <div data-wow-delay="0.6s" class="text-center social wow fadeInUp me-md-2 me-lg-4 d-none d-lg-block" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+					<a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a>
+					<a href="https://twitter.com/dentalliveplans" target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a>
+					<a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a>
+				</div>
+				<ul class="navbar-nav mb-md-0 ml-auto">
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/login" class="btn btn-primary me-2 my-1">Login</a></li>
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/signup" class="btn btn-dark my-1">Sign Up </a></li>
+				</ul>
+            </div>
+        </div>
+    </nav>
+    <nav data-wow-delay="0.4s" class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" style="height: 50px; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+        <div class="container">
+            <div id="collapsibleNavbar" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                      <a href="https://d1eqbgsf09hz76.cloudfront.net/login" target="_blank" class="btn btn-primary me-2 my-1" style="height: 40px;line-height: 12px;">Login</a>
+                        <a href="dentallive-planner.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
                     </li>
                     <li class="nav-item">
-                      <a href="https://d1eqbgsf09hz76.cloudfront.net/signup" target="_blank" class="btn btn-dark my-1" style="height: 40px;line-height: 12px;">Sign Up </a>                 
-                      </li>
+                        <a href="dentallive-mail.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dentallive-talk.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <nav class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" data-wow-delay="0.4s"  style="height: 50px;">
-        <div class="container">
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item ">
-                      <a class="nav-link bold" href="DentalLiveMail.html" style="color: #011A3E;">Dental Live Mail</a>                  
-                      </li>
-                      <li class="nav-item ">
-                        <a class="nav-link bold" href="DentalLiveMail.html" style="color: #011A3E;">Dental LIVE Talk </a>                  
-                        </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
- 
-    </div>
- 
 </header>
-  <main class="overflow-hidden w-100">
-    <section style=" padding: 3rem 0;background: linear-gradient(95.59deg, #1991EB 45.54%, #00D9CC 107.04%);    ">
-    <div class="container ">
-      <div class=" row ">
-        <div class="col-md-7">
-          <h1 class="h1 fw-bold wow fadeInUp pb-2 text-light" data-wow-delay="0.2s" style=" visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">FAQ’s</h1>
-          <div class="input-group " style="border: 1px solid #1991EB;border-radius: 6px;">
-            <input type="text" class="form-control border-0" placeholder="I am looking for">
-            <div class="input-group-append" style="background: white; border-top-right-radius: 6px;border-bottom-right-radius: 6px;">
-                <button class="btn border-0 " type="button" style="height:50px;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0);">
-                  <i class="bx bx-search" style="color: #1991EB; font-size:xx-large;"></i>         
-                 </button>
-            </div>
-        </div>
-        </div> 
-     
-       </div>
-      </div>
-    </section>
-    <section class=" pb-0">
-      <div class="container ">
-        <div class="d-flex row ">
-          <div class="col-md-12 ">
-          <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">Find FAQ’s related to products</h5>
-        </div>
-         <div class="col-md-12 ">
-          <ul class="nav panel-tabs mt-5 "> 
-            <li>
-              <a href="#tab1" class="me-2 active p-3 fw-bold p-md-5" data-bs-toggle="tab"> <img src="asset/Mailicon.png"></a></li> 
-            <li><a href="#tab2" data-bs-toggle="tab" class="  p-3 p-md-5 fw-bold"> <img src="asset/Talkicon.png"></a></li> 
-           
-           </ul>
-          </div>
-        </div>
-          </div>
-    </section>
-    <section class="pb-0">
-      <div class="container ">
-    <div class=" row ">
-      <div class="col-md-12">
-        <div class="tab-content">
-          <div class="tab-pane fade active show" id="tab1">
-          <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">Popular FAQ’s</h5>
-        <p class="body2">
-          The types of information that Wiley collects directly from you or through your use of our websites and services may include :</p>
-          <div class="container p-4 pb-4 ">
-        <div class="d-flex row align-items-center mb-2 pb-4 ">
-          <div class=" col-md-12">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-              <div class="accordion-item show">
-                <h2 class="accordion-header" id="flush-headingOne">
-                  <button class="accordion-button  h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <img src="assets/faq.png" class="me-2"> Forget Password 
-                  </button>
-                </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse show " aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                <br>
-                If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    <img src="assets/faq.png" class="me-2"> Unable to see email ID 
-                  </button>
-                </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                     <br>
-                    If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingThree">
-                  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    <img src="assets/faq.png" class="me-2"> Videos are not uploading 
-                  </button>
-                </h2>
-                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    <br>
-                    If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingfour">
-                  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapsefour">
-                    <img src="assets/faq.png" class="me-2">Security Concern
-                  </button>
-                </h2>
-                <div id="flush-collapsefour" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body h6">We will use appropriate physical, technical and administrative safeguards to protect your data.  Access to your personal data will be restricted to only those who need to know that information and required to perform their job function.  In addition, we train our employees about the importance of maintaining the confidentiality and security of your information.
-                    <br>
-                    If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-headingfive">
-                  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapseTfive">
-                    <img src="assets/faq.png" class="me-2"> Deletion of Data
-                  </button>
-                </h2>
-                <div id="flush-collapsefive" class="accordion-collapse collapse" aria-labelledby="flush-headingfive" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                   <br>
-                    If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>    
-      </div>
-    </div>
-        
-          <div class="tab-pane fade " id="tab2">
-            <div class="d-flex row align-items-center mb-2 pb-4 ">
-              <div class=" col-md-12">
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item show">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                      <button class="accordion-button  h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        <img src="assets/faq.png" class="me-2">  Can I use Dental LIVE for free?
-                      </button>
-                    </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse show " aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    <br>
-                    If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                      <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        <img src="assets/faq.png" class="me-2">  What happens when the trial period ends?
-                      </button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                         <br>
-                        If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                      <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                        <img src="assets/faq.png" class="me-2"> What happens when I add a 6th member into my account?
-                      </button>
-                    </h2>
-                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                        <br>
-                        If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingfour">
-                      <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefour" aria-expanded="false" aria-controls="flush-collapsefour">
-                        <img src="assets/faq.png" class="me-2"> What happens when I upgrade my plan? 
-                      </button>
-                    </h2>
-                    <div id="flush-collapsefour" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                        <br>
-                        If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingfive">
-                      <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsefive" aria-expanded="false" aria-controls="flush-collapseTfive">
-                        <img src="assets/faq.png" class="me-2"> What payment methods do you accept?
-                      </button>
-                    </h2>
-                    <div id="flush-collapsefive" class="accordion-collapse collapse" aria-labelledby="flush-headingfive" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body h6">Absolutely! Dental LIVE  is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                       <br>
-                        If you are a startup trying to get off the ground, that’s another monthly bill you don’t have to worry about.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-         </div>
-        </div>
-     
-      </div>
-    </div>
+
+<main class="overflow-hidden w-100">
+<section style=" padding: 3rem 0;background: linear-gradient(95.59deg, #1991EB 45.54%, #00D9CC 107.04%);">
+<div class="container ">
+  <div class=" row ">
+	<div class="col-md-7">
+	  <h1 class="h1 fw-bold wow fadeInUp pb-0 mb-0 text-light" data-wow-delay="0.2s" style=" visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">FAQ's</h1>
+		<!-- <div class="input-group " style="border: 1px solid #1991EB;border-radius: 6px;">
+			<input type="text" class="form-control border-0" placeholder="I am looking for" [(ngModel)]="searchText" autocomplete="off">
+			<div class="input-group-append" style="background: white; border-top-right-radius: 6px;border-bottom-right-radius: 6px;">
+				<button class="btn border-0 " type="button" style="height:50px;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0);">
+				  <i class="bx bx-search" style="color: #1991EB; font-size:xx-large;"></i>         
+				 </button>
+			</div>
+		</div> -->
+	</div> 
+ 
+   </div>
   </div>
-    </section>
-    <section class="pt-0">
-      <div class="container ">
-        <div class="d-flex row justify-content-between">
-          <div class="col-md-12 ">
-          <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">FAQ’s Topics</h5>
-        </div>
-        <div class="col-md-7 col-12 pt-2">
-          <div class="row">
-            <div class="col-md-6  mt-2">
-              <div class="accordion " id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
-                <div class="accordion-item border-0">
-                  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                      Usage Guide for Dental LIVE 
-                    </button>
-                  </h2>
-                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse border-0" aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
-                      Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    </div>
-                  </div>
-                </div>
-               
-              </div>
-            </div>
-            <div class="col-md-6 mt-2 ">
-              <div class="accordion" id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
-                <div class="accordion-item border-0">
-                  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                      Usage Guide for Dental LIVE 
-                    </button>
-                  </h2>
-                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse border-0" aria-labelledby="panelsStayOpen-headingTwo">
-                    <div class="accordion-body">
-                      Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    </div>
-                  </div>
-                </div>
-               
-              </div>
-            </div>
-          </div>
-            <div class="row pt-4">
-            <div class="col-md-6  mt-2">
-              <div class="accordion " id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
-                <div class="accordion-item border-0">
-                  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                      Account and Sub-User Settings
-                    </button>
-                  </h2>
-                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                    <div class="accordion-body">
-                      Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    </div>
-                  </div>
-                </div>
-               
-              </div>
-            </div>
-            <div class="col-md-6  mt-2">
-              <div class="accordion" id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
-                <div class="accordion-item border-0">
-                  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingfour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefour" aria-expanded="false" aria-controls="panelsStayOpen-collapsefour">
-                      Technical Support 
-                    </button>
-                  </h2>
-                  <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingfour">
-                    <div class="accordion-body">
-                      Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
-                    </div>
-                  </div>
-                </div>
-               
-              </div>
-            </div>
+</section>
+<section class=" pb-0">
+  <div class="container ">
+	<div class="d-flex row ">
+	  <div class="col-md-12 ">
+	  <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">Find FAQ's related to products</h5>
+	</div>
+	 <div class="col-md-12 ">
+	  <ul class="nav panel-tabs mt-5 justify-content-center justify-content-md-start"> 
+		<li><a href="#tab1" data-bs-toggle="tab" class="active me-2 mb-2 p-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Plannericon.png"></a></li> 
+		<li><a href="#tab2" class="me-2 mb-2 me-md-4 fw-bold p-2 p-md-4 px-md-5 d-inline-block" data-bs-toggle="tab"> <img src="assets/images/Mailicon.png"></a></li> 
+		<li><a href="#tab3" data-bs-toggle="tab" class="mb-2 me-md-4 p-2 p-md-4 px-md-5 d-inline-block fw-bold"> <img src="assets/images/Talkicon.png"></a></li> 
+	   </ul>
+	  </div>
+	</div>
+	  </div>
+</section>
 
-          </div>
-      
-
-        </div>
-        <div class="col-md-4 ">
-          <p class="body1 fw-bold " style="color: rgb(53, 64, 83);">Subscriptions FAQ’s</p>
-          <ul class="ps-0">
-            <li><p class="body2" style="color:#5D6A7E">Automatic renewal</p></li>
-            <li><p class="body2" style="color:#5D6A7E">Subscription invoices</p></li>
-
-            <li><p class="body2" style="color:#5D6A7E">Understand Account settings</p></li>
-            <li><p class="body2" style="color:#5D6A7E">Change payment method</p></li>
-
-          </ul>
-    
-        </div>
-        
-        </div>
-          </div>
-    </section>
-
-     
-  </main>
-  <!-- Footer-->
-
-  <footer class="container-fluid " style="color: #5D6A7E;">
-    <div class="container footer">
-    <div class="row ">
-        <div class="col-12 col-md-3 pt-5 pb-md-4">
-          <h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.1s" style="color: #011A3E;">Products</h5>
-            <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.1s">
-              <li><a class="text-muted body2" href="DentalLiveMail.html" style="color: #AEB4BF;">Dental LIVE Mail</a></li> 
-              <li><a class="text-muted body2" href="DentalLiveMail.html"  style="color: #AEB4BF;">Dental LIVE Talk</a></li> 
-             </ul>
-        </div>
-        <div class="col-12 col-md-3 pt-md-5 pb-md-4">
-          <h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.3s" style="color: #011A3E;">Contact</h5>
-            <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.2s">
-                <li><a class="text-muted body2" href="#">Call us @ 999 999 9999</a></li>
-                <li><a class="text-muted body2" href="#">support@ dental live .com</a></li>
-            </ul>
-        </div>
-        <div class="col-12 col-md-3 pt-md-5 pb-md-4">
-          <h5 class="footer-header wow fadeInUp fw-bold" data-wow-delay="0.3s" style="color: #011A3E;">Links</h5>
-          <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.3s">
-            <li><a class="text-muted body2" href="Becomevendor.html">Become  Vendor</a></li>
-            <li><a class="text-muted body2" href="faq.html">FAQ’s</a></li>
-        </ul>
-        
-        </div>
-        <div class="col-12 col-md-3 pt-4 ">
-          <div class=" wow fadeInUp" data-wow-delay="0.4s">
-              <img src="assets/safe-and-secure.png"  />
-              <img src="assets/logo_footer3.png" />
-          </div>
-      </div>
-      <div>
-
-      </div>
-    </div>
-  </div>
-    <div class="my-2 footer-bottom" style="border-top:1px solid #D0D6DE;">
-      <div class="container ">
-        <div class="row pt-4">
-          <div class="col-md-4 pb-4">
-            <a href="index-2.html">  <img src="asset/Logo_Dark.png" class="wow fadeInUp" data-wow-delay="0.5s"></a>
-          
-          </div>
-
-
-          <div class="col-md-4 ">
-            <div class=" wow fadeInUp" data-wow-delay="0.6s">
-            <i class="fa fa-facebook-square" aria-hidden="true" style="color: #354053;"></i>
-            <i class="fa fa-linkedin-square" aria-hidden="true" style="color: #354053;"></i>
-            <i class="fa fa-twitter" aria-hidden="true" style="color: #354053;"></i>
-          </div>
-        </div>
-          <div class="col-md-4 ">
-            <div class="pt-2">
-             <p class="text-secondary small wow fadeInUp" data-wow-delay="0.7s">
-             © All Rights Reserved
-               Terms of Use  | <a href="Privacypolicy.html" style="color: #5D6A7E;">Privacy Policy</a>  
-              </p>
-        </div>
-     </div>
-    </div>
-    </div>
-    </div>
-   
+<section class="pb-0">
+  <div class="container">
+<div class=" row ">
+  <div class="col-md-12">
+	<div class="tab-content">
+		<div class="tab-pane fade active show" id="tab1">
+		<div class="row mb-2 pb-4 ">
+		  <div class="col-md-12">
+			<div class="accordion accordion-flush" id="accordionTalkFaq">
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingOne">
+				  <button class="accordion-button h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseOne" aria-expanded="true" aria-controls="talk-collapseOne">
+					<img src="assets/images/faq.png" class="me-2"> I forgot my password. How do I reset it? 
+				  </button>
+				</h2>
+				<div id="talk-collapseOne" class="accordion-collapse collapse show" aria-labelledby="talk-headingOne" data-bs-parent="#accordionTalkFaq">
+					<div class="accordion-body h6">No worries, You can request a password reset by using the forgot password link on the login 	screen. You will receive an email to your registered email with the password reset link.
+					</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTwo">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTwo" aria-expanded="false" aria-controls="talk-collapseTwo">
+					<img src="assets/images/faq.png" class="me-2"> Can I use my existing Email ID to create an account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTwo" class="accordion-collapse collapse" aria-labelledby="talk-headingTwo" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive allows you to use your existing email ID to create an account. In addition a new dentallive alias email will be created using your existing email to send emails to the patients or contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingThree">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseThree" aria-expanded="false" aria-controls="talk-collapseThree">
+					<img src="assets/images/faq.png" class="me-2"> Who is a sub-member?
+				  </button>
+				</h2>
+				<div id="talk-collapseThree" class="accordion-collapse collapse" aria-labelledby="talk-headingThree" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Any associate or staff who is authorized to communicate with your patients and contacts is a sub-member.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFour">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFour" aria-expanded="false" aria-controls="talk-collapseFour">
+					<img src="assets/images/faq.png" class="me-2"> Can I assign roles to sub-members?
+				  </button>
+				</h2>
+				<div id="talk-collapseFour" class="accordion-collapse collapse" aria-labelledby="talk-headingFour" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes, you can control the privileges of sub-members by assigning them appropriate roles to manage communication with contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFive">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFive" aria-expanded="false" aria-controls="talk-collapseFive">
+					<img src="assets/images/faq.png" class="me-2"> Is my patient information HIPAA secure?
+				  </button>
+				</h2>
+				<div id="talk-collapseFive" class="accordion-collapse collapse" aria-labelledby="talk-headingFive" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive is fully HIPAA secure and compliant. Any information transmitted is encrypted using the SSL using HIPAA coding standards.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSix">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSix" aria-expanded="false" aria-controls="talk-collapseSix">
+					<img src="assets/images/faq.png" class="me-2"> What happens if exceed my data storage?
+				  </button>
+				</h2>
+				<div id="talk-collapseSix" class="accordion-collapse collapse" aria-labelledby="talk-headingSix" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">To help manage your storage, you can view the usage in my account screen and can purchase storage add-ons assigned to the purchased packages.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSeven">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSeven" aria-expanded="false" aria-controls="talk-collapseSeven">
+					<img src="assets/images/faq.png" class="me-2"> Do you have to pay end of free trial?
+				  </button>
+				</h2>
+				<div id="talk-collapseSeven" class="accordion-collapse collapse" aria-labelledby="talk-headingSeven" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Take advantage of Free Trial and start using Dentallive application for the trial period. After the end of trial period, you can continue using the application by purchasing available packages as needed.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingEight">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseEight" aria-expanded="false" aria-controls="talk-collapseEight">
+					<img src="assets/images/faq.png" class="me-2"> Can a primary member pay for Sub-Members?
+				  </button>
+				</h2>
+				<div id="talk-collapseEight" class="accordion-collapse collapse" aria-labelledby="talk-headingEight" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes. Primary member can pay for authorized sub-members.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingNine">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseNine" aria-expanded="false" aria-controls="talk-collapseNine">
+					<img src="assets/images/faq.png" class="me-2"> Is this a monthly payment?
+				  </button>
+				</h2>
+				<div id="talk-collapseNine" class="accordion-collapse collapse" aria-labelledby="talk-headingNine" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">It varies by package purchased. For Enterprise package it is a month to month payment.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTen">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTen" aria-expanded="false" aria-controls="talk-collapseTen">
+					<img src="assets/images/faq.png" class="me-2"> What is enterprise account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTen" class="accordion-collapse collapse" aria-labelledby="talk-headingTen" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Enterprises who manage and operate from multiple offices, departments, practices with multiple users over 5 accounts are considered as enterprise account. It is highly recommended to take advantage of enterprise account to fully manage locations and accounts from one single console.</div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	 </div>
+	
+	  <div class="tab-pane fade" id="tab2">
+	  <h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">Popular FAQ's</h5>
+	<p class="body2">
+	  The types of information that Wiley collects directly from you or through your use of our websites and services may include :</p>
+	  <div class="pb-4">
+		<div class="row mb-2 pb-4">
+		  <div class="col-md-12">
+			<div class="accordion accordion-flush" id="accordionMailFaq">
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingOne">
+				  <button class="accordion-button h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseOne" aria-expanded="true" aria-controls="mail-collapseOne">
+					<img src="assets/images/faq.png" class="me-2"> I forgot my password. How do I reset it? 
+				  </button>
+				</h2>
+				<div id="mail-collapseOne" class="accordion-collapse collapse show" aria-labelledby="mail-headingOne" data-bs-parent="#accordionMailFaq">
+					<div class="accordion-body h6">No worries, You can request a password reset by using the forgot password link on the login 	screen. You will receive an email to your registered email with the password reset link.
+					</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingTwo">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseTwo" aria-expanded="false" aria-controls="mail-collapseTwo">
+					<img src="assets/images/faq.png" class="me-2"> Can I use my existing Email ID to create an account?
+				  </button>
+				</h2>
+				<div id="mail-collapseTwo" class="accordion-collapse collapse" aria-labelledby="mail-headingTwo" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Dentallive allows you to use your existing email ID to create an account. In addition a new dentallive alias email will be created using your existing email to send emails to the patients or contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingThree">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseThree" aria-expanded="false" aria-controls="mail-collapseThree">
+					<img src="assets/images/faq.png" class="me-2"> Who is a sub-member?
+				  </button>
+				</h2>
+				<div id="mail-collapseThree" class="accordion-collapse collapse" aria-labelledby="mail-headingThree" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Any associate or staff who is authorized to communicate with your patients and contacts is a sub-member.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingFour">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseFour" aria-expanded="false" aria-controls="mail-collapseFour">
+					<img src="assets/images/faq.png" class="me-2"> Can I assign roles to sub-members?
+				  </button>
+				</h2>
+				<div id="mail-collapseFour" class="accordion-collapse collapse" aria-labelledby="mail-headingfour" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Yes, you can control the privileges of sub-members by assigning them appropriate roles to manage communication with contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingFive">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseFive" aria-expanded="false" aria-controls="mail-collapseFive">
+					<img src="assets/images/faq.png" class="me-2"> Is my patient information HIPAA secure?
+				  </button>
+				</h2>
+				<div id="mail-collapseFive" class="accordion-collapse collapse" aria-labelledby="mail-headingFive" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Dentallive is fully HIPAA secure and compliant. Any information transmitted is encrypted using the SSL using HIPAA coding standards.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingSix">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseSix" aria-expanded="false" aria-controls="mail-collapseSix">
+					<img src="assets/images/faq.png" class="me-2"> What happens if exceed my data storage?
+				  </button>
+				</h2>
+				<div id="mail-collapseSix" class="accordion-collapse collapse" aria-labelledby="mail-headingSix" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">To help manage your storage, you can view the usage in my account screen and can purchase storage add-ons assigned to the purchased packages.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingSeven">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseSeven" aria-expanded="false" aria-controls="mail-collapseSeven">
+					<img src="assets/images/faq.png" class="me-2"> Do you have to pay end of free trial?
+				  </button>
+				</h2>
+				<div id="mail-collapseSeven" class="accordion-collapse collapse" aria-labelledby="mail-headingSeven" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Take advantage of Free Trial and start using Dentallive application for the trial period. After the end of trial period, you can continue using the application by purchasing available packages as needed.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingEight">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseEight" aria-expanded="false" aria-controls="mail-collapseEight">
+					<img src="assets/images/faq.png" class="me-2"> Can a primary member pay for Sub-Members?
+				  </button>
+				</h2>
+				<div id="mail-collapseEight" class="accordion-collapse collapse" aria-labelledby="mail-headingEight" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Yes. Primary member can pay for authorized sub-members.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="mail-headingNine">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseNine" aria-expanded="false" aria-controls="mail-collapseNine">
+					<img src="assets/images/faq.png" class="me-2"> Is this a monthly payment?
+				  </button>
+				</h2>
+				<div id="mail-collapseNine" class="accordion-collapse collapse" aria-labelledby="mail-headingNine" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">It varies by package purchased. For Enterprise package it is a month to month payment.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item" >
+				<h2 class="accordion-header" id="mail-headingTen">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#mail-collapseTen" aria-expanded="false" aria-controls="mail-collapseTen">
+					<img src="assets/images/faq.png" class="me-2"> What is enterprise account?
+				  </button>
+				</h2>
+				<div id="mail-collapseTen" class="accordion-collapse collapse" aria-labelledby="mail-headingTen" data-bs-parent="#accordionMailFaq">
+				  <div class="accordion-body h6">Enterprises who manage and operate from multiple offices, departments, practices with multiple users over 5 accounts are considered as enterprise account. It is highly recommended to take advantage of enterprise account to fully manage locations and accounts from one single console.</div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>    
+	</div>
 </div>
+	
+	  <div class="tab-pane fade " id="tab3">
+		<div class="row mb-2 pb-4 ">
+		  <div class="col-md-12">
+			<div class="accordion accordion-flush" id="accordionTalkFaq">
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingOne">
+				  <button class="accordion-button h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseOne" aria-expanded="true" aria-controls="talk-collapseOne">
+					<img src="assets/images/faq.png" class="me-2"> I forgot my password. How do I reset it? 
+				  </button>
+				</h2>
+				<div id="talk-collapseOne" class="accordion-collapse collapse show" aria-labelledby="talk-headingOne" data-bs-parent="#accordionTalkFaq">
+					<div class="accordion-body h6">No worries, You can request a password reset by using the forgot password link on the login 	screen. You will receive an email to your registered email with the password reset link.
+					</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTwo">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTwo" aria-expanded="false" aria-controls="talk-collapseTwo">
+					<img src="assets/images/faq.png" class="me-2"> Can I use my existing Email ID to create an account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTwo" class="accordion-collapse collapse" aria-labelledby="talk-headingTwo" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive allows you to use your existing email ID to create an account. In addition a new dentallive alias email will be created using your existing email to send emails to the patients or contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingThree">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseThree" aria-expanded="false" aria-controls="talk-collapseThree">
+					<img src="assets/images/faq.png" class="me-2"> Who is a sub-member?
+				  </button>
+				</h2>
+				<div id="talk-collapseThree" class="accordion-collapse collapse" aria-labelledby="talk-headingThree" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Any associate or staff who is authorized to communicate with your patients and contacts is a sub-member.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFour">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFour" aria-expanded="false" aria-controls="talk-collapseFour">
+					<img src="assets/images/faq.png" class="me-2"> Can I assign roles to sub-members?
+				  </button>
+				</h2>
+				<div id="talk-collapseFour" class="accordion-collapse collapse" aria-labelledby="talk-headingFour" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes, you can control the privileges of sub-members by assigning them appropriate roles to manage communication with contacts.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingFive">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseFive" aria-expanded="false" aria-controls="talk-collapseFive">
+					<img src="assets/images/faq.png" class="me-2"> Is my patient information HIPAA secure?
+				  </button>
+				</h2>
+				<div id="talk-collapseFive" class="accordion-collapse collapse" aria-labelledby="talk-headingFive" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Dentallive is fully HIPAA secure and compliant. Any information transmitted is encrypted using the SSL using HIPAA coding standards.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSix">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSix" aria-expanded="false" aria-controls="talk-collapseSix">
+					<img src="assets/images/faq.png" class="me-2"> What happens if exceed my data storage?
+				  </button>
+				</h2>
+				<div id="talk-collapseSix" class="accordion-collapse collapse" aria-labelledby="talk-headingSix" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">To help manage your storage, you can view the usage in my account screen and can purchase storage add-ons assigned to the purchased packages.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingSeven">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseSeven" aria-expanded="false" aria-controls="talk-collapseSeven">
+					<img src="assets/images/faq.png" class="me-2"> Do you have to pay end of free trial?
+				  </button>
+				</h2>
+				<div id="talk-collapseSeven" class="accordion-collapse collapse" aria-labelledby="talk-headingSeven" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Take advantage of Free Trial and start using Dentallive application for the trial period. After the end of trial period, you can continue using the application by purchasing available packages as needed.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingEight">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseEight" aria-expanded="false" aria-controls="talk-collapseEight">
+					<img src="assets/images/faq.png" class="me-2"> Can a primary member pay for Sub-Members?
+				  </button>
+				</h2>
+				<div id="talk-collapseEight" class="accordion-collapse collapse" aria-labelledby="talk-headingEight" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Yes. Primary member can pay for authorized sub-members.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingNine">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseNine" aria-expanded="false" aria-controls="talk-collapseNine">
+					<img src="assets/images/faq.png" class="me-2"> Is this a monthly payment?
+				  </button>
+				</h2>
+				<div id="talk-collapseNine" class="accordion-collapse collapse" aria-labelledby="talk-headingNine" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">It varies by package purchased. For Enterprise package it is a month to month payment.</div>
+				</div>
+			  </div>
+			  <div class="accordion-item">
+				<h2 class="accordion-header" id="talk-headingTen">
+				  <button class="accordion-button collapsed h5 bold" type="button" data-bs-toggle="collapse" data-bs-target="#talk-collapseTen" aria-expanded="false" aria-controls="talk-collapseTen">
+					<img src="assets/images/faq.png" class="me-2"> What is enterprise account?
+				  </button>
+				</h2>
+				<div id="talk-collapseTen" class="accordion-collapse collapse" aria-labelledby="talk-headingTen" data-bs-parent="#accordionTalkFaq">
+				  <div class="accordion-body h6">Enterprises who manage and operate from multiple offices, departments, practices with multiple users over 5 accounts are considered as enterprise account. It is highly recommended to take advantage of enterprise account to fully manage locations and accounts from one single console.</div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	 </div>
+	 
+	</div>
+ 
+  </div>
+</div>
+</div>
+</section>
+<!--<section class="pt-0">
+  <div class="container">
+	<div class="d-flex row justify-content-between">
+		<div class="col-md-12 ">
+			<h5 class="h2 wow fadeInUp" style="font-weight: 600; color: rgb(53, 64, 83); visibility: visible; animation-name: fadeInUp;">FAQ's Topics</h5>
+		</div>
+		<div class="col-md-7 col-12 pt-2">
+			<div class="row">
+				<div class="col-md-6  mt-2">
+				  <div class="accordion " id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
+					<div class="accordion-item border-0">
+					  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingOne">
+						<button class="accordion-button style1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+						  Usage Guide for Dental LIVE 
+						</button>
+					  </h2>
+					  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse border-0" aria-labelledby="panelsStayOpen-headingOne">
+						<div class="accordion-body">
+						  Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
+						</div>
+					  </div>
+					</div>
+				   
+				  </div>
+				</div>
+				<div class="col-md-6 mt-2 ">
+				  <div class="accordion" id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
+					<div class="accordion-item border-0">
+					  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingTwo">
+						<button class="accordion-button style2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+						  Usage Guide for Dental LIVE 
+						</button>
+					  </h2>
+					  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse border-0" aria-labelledby="panelsStayOpen-headingTwo">
+						<div class="accordion-body">
+						  Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
+						</div>
+					  </div>
+					</div>
+				   
+				  </div>
+				</div>
+			</div>
+			<div class="row pt-4">
+				<div class="col-md-6 mt-2">
+					<div class="accordion" id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
+						<div class="accordion-item border-0">
+						  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingThree">
+							<button class="accordion-button style2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+							  Account and Sub-User Settings
+							</button>
+						  </h2>
+						  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							<div class="accordion-body">
+							  Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6  mt-2">
+					<div class="accordion" id="accordionPanelsStayOpenExample" style="background-color: #F7F9FB;">
+						<div class="accordion-item border-0">
+						  <h2 class="accordion-header accordion-header_border" id="panelsStayOpen-headingfour">
+							<button class="accordion-button style1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefour" aria-expanded="false" aria-controls="panelsStayOpen-collapsefour">
+							  Technical Support for Dental Live 
+							</button>
+						  </h2>
+						  <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingfour">
+							<div class="accordion-body">
+							  Absolutely! Dental LIVE is completely free for trial to use indefinitely with all the features you would need in a project management tool with a cap of 5 members in an account.
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 ">
+			<p class="body1 fw-bold " style="color: rgb(53, 64, 83);">Subscriptions FAQ's</p>
+			<ul class="ps-0 subscriptions-list">
+				<li>Automatic renewal</li>
+				<li>Subscription invoices</li>
+				<li>Understand Account settings</li>
+				<li>Change payment method</li>
+			</ul>
+		</div>
+	
+	</div>
+	  </div>
+</section>-->
+ 
+</main>
+
+<!-- Footer-->
+<footer class="container-fluid" style="color: #5d6a7e;">
+    <div class="container footer">
+        <div class="row">
+            <div class="col-12 col-md-3 pt-5 pb-md-4">
+                <h5 data-wow-delay="0.1s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;"> Products </h5>
+                <ul data-wow-delay="0.1s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <li class="mb-3">
+                        <a href="dentallive-mail.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="dentallive-talk.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
+                    <li>
+                        <a href="dentallive-planner.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Contact </h5>
+                <ul data-wow-delay="0.2s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                    <li ><span class="text-muted body2 d-flex align-items-center"><i class="bx bx-phone me-1"></i> +1 289 474-5200</span></li>
+                    <li class="d-flex align-items-center"><i class="bx bx-envelope me-1"></i><a href="mailto:support@dentallive.com;" class="text-muted body2">support@dentallive.com</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Links </h5>
+                <ul data-wow-delay="0.3s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+					<li><a class="text-muted body2" href="contact-us.html">Contact Us</a></li>
+                    <li><a class="text-muted body2" href="become-vendor.html">Become Vendor</a></li>
+                    <li><a class="text-muted body2" href="solutions.html">Solutions</a></li>
+                    <li><a class="text-muted body2" href="terms-of-use.html">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-4">
+                <div data-wow-delay="0.4s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;"><img src="assets/images/safe-and-secure.png" width="80px"><img src="assets/images/hipaa-logo.png" width="80px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="my-2 footer-bottom" style="border-top: 1px solid #d0d6de;">
+        <div class="container">
+            <div class="row pt-4">
+                <div class="col-md-4 pb-4">
+                    <a href="index.html"><img src="assets/images/Logo_Dark.png" data-wow-delay="0.5s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;"></a>
+                </div>
+                <div class="col-md-3">
+                    <div data-wow-delay="0.6s" class="text-center social wow fadeInUp" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"><a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a><a href="https://twitter.com/dentalliveplans"
+                        target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a><a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a></div>
+                </div>
+                <div class="col-md-5 text-md-end text-center">
+                    <div class="pt-2">
+                        <p data-wow-delay="0.7s" class="text-secondary small wow fadeInUp" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;"> &copy; <script>document.write(new Date().getFullYear());</script> DentalLive<sup >TM</sup> All rights reserved. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
-
-
 <!-- Footer end-->
-  <div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
-   
-  
-  
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  
-  
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous">
-</script>
-    
- <script type="text/javascript">
-  
-   
 
-  $(function(){$(window).on('scroll',function(){var scrolled=$(window).scrollTop();
-    if(scrolled>600)$('.go-top').addClass('active');
-    if(scrolled<600)$('.go-top').removeClass('active');});
-    $('.go-top').on('click',function(){$("html, body").animate({scrollTop:"0"},500);});});
+	<div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
   
-   
-      
-  
-    </script>
-    
-  
-  
-
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="assets/js/vertical-responsive-menu.min.js"></script>
+	<script>
+		$(function(){
+			new WOW().init(); 
+		});
+	</script>
+	<script type="text/javascript">
+		  $(document).ready(function () {
+			  $("#content-slider").owlCarousel({
+				items:1,
+				loop:true,
+				margin:10,
+				autoplay:true,
+				autoplayHoverPause:true,
+				dots: true,
+				animateIn: 'fadeIn',
+				animateOut: 'fadeOut',
+				smartSpeed:550,
+				nav: false
+			  });
+		  
+		  });
+		  $(function () {
+			  $(window).on("scroll", function () {
+				  var scrolled = $(window).scrollTop();
+				  if (scrolled > 600) $(".go-top").addClass("active");
+				  if (scrolled < 600) $(".go-top").removeClass("active");
+			  });
+			  $(".go-top").on("click", function () {
+				  $("html, body").animate({ scrollTop: "0" }, 500);
+			  });
+		  });
+	</script>
 </body>
-
 </html>

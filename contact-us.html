@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Dental-Live Planner</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"/>
+	<link rel="stylesheet" href="vertical-responsive-menu.min.css"/>
+	<link rel="stylesheet" href="style.css"/>
+	<style>
+		section {
+		  padding: 5rem 0;
+		}
+
+		.contact-info{
+		  background: #f1fffe;
+		  padding: 50px 60px;
+		  border-radius: 15px 0px 0px 15px;
+		}
+		@media(max-width:991px){
+			.contact-info {
+			  border-radius: 15px;
+			}
+		}
+		.single-contact-location{
+		  position: relative;
+		  padding: 20px 0 0 100px;
+		  min-height:80px;
+		}
+		.single-contact-location-icon{
+		  height: 50px;
+		  width: 50px;
+		  text-align: center;
+		  line-height: 50px;
+		  position: absolute;
+		  left: 20px;
+		  top: 50%;
+		  margin-top: -25px;
+		}
+		.single-contact-location-icon-bg{
+		  position: relative;
+		  z-index: 2;
+		}
+		.single-contact-location-icon-bg:after {
+		  position: absolute;
+		  content: "";
+		  height: 70px;
+		  width: 35px;
+		  background: #a2f9f3;
+		  border-radius: 50%;
+		  transform: rotate(-45deg);
+		  z-index: -1;
+		  left: 0;
+		  top: 0;
+		}
+		.single-contact-location h6 {
+		  font-size: 16px;
+		  line-height: 26px;
+		  color: #011A3E;
+		  font-family: "Rubik";
+		  font-weight: 500;
+		}
+		.single-contact-location h6 i {
+		  margin-left: 6px;
+		}
+		@media(min-width:992px) and (max-width:1200px){
+		.contact-info{padding: 35px;}
+		}
+		@media(max-width:575px){
+		.contact-info{padding: 35px 20px;}
+		.single-contact-location{padding: 20px 0 0 80px;}
+		}
+	</style>
+</head>
+<body>
+<header class="w-100 overflow-hidden header-style">
+    <nav data-wow-delay="0.4s" class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" style="background-color: rgb(255, 255, 255) !important; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="assets/images/Logo_Dark.png"></a>
+            <div class="text-center hipaa-logo"><img src="assets/images/hipaa-logo.png" class="minlg"><img src="assets/images/logo_footer3.png" class="maxmd"></div>
+            <button data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span></button>
+            <div id="collapsibleNavbar" class="collapse navbar-collapse mt-1">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a href="index.html#DentalPlanner" class="nav-link bold" style="color: #011a3e;">Products</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="solutions.html">Solutions</a></li>
+                    <li class="nav-item"><a href="index.html#Plans" class="nav-link bold" style="color: #011a3e;">Plans</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="become-vendor.html">Vendor</a></li>
+                </ul>
+                <div class="dropdown-divider"></div>
+                <div data-wow-delay="0.6s" class="text-center social wow fadeInUp me-md-2 me-lg-4 d-none d-lg-block" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+					<a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a>
+					<a href="https://twitter.com/dentalliveplans" target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a>
+					<a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a>
+				</div>
+				<ul class="navbar-nav mb-md-0 ml-auto">
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/login" class="btn btn-primary me-2 my-1">Login</a></li>
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/signup" class="btn btn-dark my-1">Sign Up </a></li>
+				</ul>
+            </div>
+        </div>
+    </nav>
+    <nav data-wow-delay="0.4s" class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" style="height: 50px; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+        <div class="container">
+            <div id="collapsibleNavbar" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a href="dentallive-planner.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dentallive-mail.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dentallive-talk.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main class="overflow-hidden w-100">
+	<section style="padding: 1rem 0;background:#EFF3F7;" id="contact" #contact>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7">
+					<h1 class="h2 mb-0 fw-bold wow fadeInUp text-dark" data-wow-delay="0.2s">Contact Us</h1>
+				</div> 
+			</div>
+		</div>
+	</section>
+	
+	<section class="sign-up-in-section pt-5" >
+		<div class="container">
+			<div class="row gx-0 justify-content-between">
+				<div class="col-xl-6 col-lg-5 col-md-12 order-1 order-lg-0 align-self-center">
+					<div class="contact-info">
+						<h4 class="contact-info-heading">Office in Canada</h4>
+						<div class="contact-locations">
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/location-marker.png" alt="">
+                                    </div>
+								</div>
+								<h6>ATP Group Inc. <br/>6175 Highway 7, Unit 2B<br/> Woodbridge, ON - Canada - L4H 0P6 <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/phone-icon.png" alt="">
+                                    </div>
+								</div>
+								<h6>+ (1) 289 474-5200 <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+							<div class="single-contact-location">
+								<div class="single-contact-location-icon">
+									<div class="single-contact-location-icon-bg">
+                                        <img src="assets/images/envelope-icon.png" alt="">
+                                    </div>
+								</div>
+								<h6>support@dentallive.com <i class="fa fa-long-arrow-right"></i></h6>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-7 col-md-12 order-0 order-lg-1">
+					<div class="p-4 p-sm-5 mb-5 mb-lg-0 mt-xl-0" style="border-radius: 15px;box-shadow: 0px 4px 50px #D0D6DE;background-color: #fffefe80;" >
+						<form class="contact-form">	
+							<div class="row gx-3">
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control" id="first_name" name="first_name" maxlength="80"  placeholder="First Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control" id="last_name" name="last_name" maxlength="50" placeholder="Last Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="email" id="email_id" maxlength="150" name="email_id" class="form-control" placeholder="Email Address *" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control"  maxlength="13" id="mobile_no" name="mobile_no">
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="mb-3">
+										<input type="text" class="form-control" id="job_title" name="job_title"  maxlength="150" placeholder="Job Title Company Name *">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<input type="text" class="form-control"  maxlength="50" id="company_size" name="company_size"  placeholder="Company Size">
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-6 col-lg-6">
+									<div class="mb-3">
+										<select class="form-select"  id="country" name="country">
+											<option value="" [selected]="true">Select Country</option>
+											<option value="Afghanistan">Afghanistan</option>
+											<option value="Albania">Albania</option>
+											<option value="Algeria">Algeria</option>
+											<option value="American Samoa">American Samoa</option>
+											<option value="Andorra">Andorra</option>
+											<option value="Angola">Angola</option>
+											<option value="Anguilla">Anguilla</option>
+											<option value="Antarctica">Antarctica</option>
+											<option value="Antigua and Barbuda">Antigua and Barbuda</option>
+											<option value="Argentina">Argentina</option>
+											<option value="Armenia">Armenia</option>
+											<option value="Aruba">Aruba</option>
+											<option value="Australia">Australia</option>
+											<option value="Austria">Austria</option>
+											<option value="Azerbaijan">Azerbaijan</option>
+											<option value="Bahamas">Bahamas</option>
+											<option value="Bahrain">Bahrain</option>
+											<option value="Bangladesh">Bangladesh</option>
+											<option value="Barbados">Barbados</option>
+											<option value="Belarus">Belarus</option>
+											<option value="Belgium">Belgium</option>
+											<option value="Belize">Belize</option>
+											<option value="Benin">Benin</option>
+											<option value="Bermuda">Bermuda</option>
+											<option value="Bhutan">Bhutan</option>
+											<option value="Bolivia">Bolivia</option>
+											<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+											<option value="Botswana">Botswana</option>
+											<option value="Bouvet Island">Bouvet Island</option>
+											<option value="Brazil">Brazil</option>
+											<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+											<option value="Brunei Darussalam">Brunei Darussalam</option>
+											<option value="Bulgaria">Bulgaria</option>
+											<option value="Burkina Faso">Burkina Faso</option>
+											<option value="Burundi">Burundi</option>
+											<option value="Cambodia">Cambodia</option>
+											<option value="Cameroon">Cameroon</option>
+											<option value="Canada">Canada</option>
+											<option value="Cape Verde">Cape Verde</option>
+											<option value="Cayman Islands">Cayman Islands</option>
+											<option value="Central African Republic">Central African Republic</option>
+											<option value="Chad">Chad</option>
+											<option value="Chile">Chile</option>
+											<option value="China">China</option>
+											<option value="Christmas Island">Christmas Island</option>
+											<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+											<option value="Colombia">Colombia</option>
+											<option value="Comoros">Comoros</option>
+											<option value="Congo">Congo</option>
+											<option value="Congo, the Democratic Republic of the">Congo, the Democratic Republic of the</option>
+											<option value="Cook Islands">Cook Islands</option>
+											<option value="Costa Rica">Costa Rica</option>
+											<option value="Cote D'Ivoire">Cote D'Ivoire</option>
+											<option value="Croatia">Croatia</option>
+											<option value="Cuba">Cuba</option>
+											<option value="Cyprus">Cyprus</option>
+											<option value="Czech Republic">Czech Republic</option>
+											<option value="Denmark">Denmark</option>
+											<option value="Djibouti">Djibouti</option>
+											<option value="Dominica">Dominica</option>
+											<option value="Dominican Republic">Dominican Republic</option>
+											<option value="Ecuador">Ecuador</option>
+											<option value="Egypt">Egypt</option>
+											<option value="El Salvador">El Salvador</option>
+											<option value="Equatorial Guinea">Equatorial Guinea</option>
+											<option value="Eritrea">Eritrea</option>
+											<option value="Estonia">Estonia</option>
+											<option value="Ethiopia">Ethiopia</option>
+											<option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+											<option value="Faroe Islands">Faroe Islands</option>
+											<option value="Fiji">Fiji</option>
+											<option value="Finland">Finland</option>
+											<option value="France">France</option>
+											<option value="French Guiana">French Guiana</option>
+											<option value="French Polynesia">French Polynesia</option>
+											<option value="French Southern Territories">French Southern Territories</option>
+											<option value="Gabon">Gabon</option>
+											<option value="Gambia">Gambia</option>
+											<option value="Georgia">Georgia</option>
+											<option value="Germany">Germany</option>
+											<option value="Ghana">Ghana</option>
+											<option value="Gibraltar">Gibraltar</option>
+											<option value="Greece">Greece</option>
+											<option value="Greenland">Greenland</option>
+											<option value="Grenada">Grenada</option>
+											<option value="Guadeloupe">Guadeloupe</option>
+											<option value="Guam">Guam</option>
+											<option value="Guatemala">Guatemala</option>
+											<option value="Guinea">Guinea</option>
+											<option value="Guinea-Bissau">Guinea-Bissau</option>
+											<option value="Guyana">Guyana</option>
+											<option value="Haiti">Haiti</option>
+											<option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
+											<option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+											<option value="Honduras">Honduras</option>
+											<option value="Hong Kong">Hong Kong</option>
+											<option value="Hungary">Hungary</option>
+											<option value="Iceland">Iceland</option>
+											<option value="India">India</option>
+											<option value="Indonesia">Indonesia</option>
+											<option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
+											<option value="Iraq">Iraq</option>
+											<option value="Ireland">Ireland</option>
+											<option value="Israel">Israel</option>
+											<option value="Italy">Italy</option>
+											<option value="Jamaica">Jamaica</option>
+											<option value="Japan">Japan</option>
+											<option value="Jordan">Jordan</option>
+											<option value="Kazakhstan">Kazakhstan</option>
+											<option value="Kenya">Kenya</option>
+											<option value="Kiribati">Kiribati</option>
+											<option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+											<option value="Korea, Republic of">Korea, Republic of</option>
+											<option value="Kuwait">Kuwait</option>
+											<option value="Kyrgyzstan">Kyrgyzstan</option>
+											<option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+											<option value="Latvia">Latvia</option>
+											<option value="Lebanon">Lebanon</option>
+											<option value="Lesotho">Lesotho</option>
+											<option value="Liberia">Liberia</option>
+											<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+											<option value="Liechtenstein">Liechtenstein</option>
+											<option value="Lithuania">Lithuania</option>
+											<option value="Luxembourg">Luxembourg</option>
+											<option value="Macao">Macao</option>
+											<option value="Macedonia, the Former Yugoslav Republic of">Macedonia, the Former Yugoslav Republic of</option>
+											<option value="Madagascar">Madagascar</option>
+											<option value="Malawi">Malawi</option>
+											<option value="Malaysia">Malaysia</option>
+											<option value="Maldives">Maldives</option>
+											<option value="Mali">Mali</option>
+											<option value="Malta">Malta</option>
+											<option value="Marshall Islands">Marshall Islands</option>
+											<option value="Martinique">Martinique</option>
+											<option value="Mauritania">Mauritania</option>
+											<option value="Mauritius">Mauritius</option>
+											<option value="Mayotte">Mayotte</option>
+											<option value="Mexico">Mexico</option>
+											<option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+											<option value="Moldova, Republic of">Moldova, Republic of</option>
+											<option value="Monaco">Monaco</option>
+											<option value="Mongolia">Mongolia</option>
+											<option value="Montserrat">Montserrat</option>
+											<option value="Morocco">Morocco</option>
+											<option value="Mozambique">Mozambique</option>
+											<option value="Myanmar">Myanmar</option>
+											<option value="Namibia">Namibia</option>
+											<option value="Nauru">Nauru</option>
+											<option value="Nepal">Nepal</option>
+											<option value="Netherlands">Netherlands</option>
+											<option value="Netherlands Antilles">Netherlands Antilles</option>
+											<option value="New Caledonia">New Caledonia</option>
+											<option value="New Zealand">New Zealand</option>
+											<option value="Nicaragua">Nicaragua</option>
+											<option value="Niger">Niger</option>
+											<option value="Nigeria">Nigeria</option>
+											<option value="Niue">Niue</option>
+											<option value="Norfolk Island">Norfolk Island</option>
+											<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+											<option value="Norway">Norway</option>
+											<option value="Oman">Oman</option>
+											<option value="Pakistan">Pakistan</option>
+											<option value="Palau">Palau</option>
+											<option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
+											<option value="Panama">Panama</option>
+											<option value="Papua New Guinea">Papua New Guinea</option>
+											<option value="Paraguay">Paraguay</option>
+											<option value="Peru">Peru</option>
+											<option value="Philippines">Philippines</option>
+											<option value="Pitcairn">Pitcairn</option>
+											<option value="Poland">Poland</option>
+											<option value="Portugal">Portugal</option>
+											<option value="Puerto Rico">Puerto Rico</option>
+											<option value="Qatar">Qatar</option>
+											<option value="Reunion">Reunion</option>
+											<option value="Romania">Romania</option>
+											<option value="Russian Federation">Russian Federation</option>
+											<option value="Rwanda">Rwanda</option>
+											<option value="Saint Helena">Saint Helena</option>
+											<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+											<option value="Saint Lucia">Saint Lucia</option>
+											<option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+											<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+											<option value="Samoa">Samoa</option>
+											<option value="San Marino">San Marino</option>
+											<option value="Sao Tome and Principe">Sao Tome and Principe</option>
+											<option value="Saudi Arabia">Saudi Arabia</option>
+											<option value="Senegal">Senegal</option>
+											<option value="Serbia and Montenegro">Serbia and Montenegro</option>
+											<option value="Seychelles">Seychelles</option>
+											<option value="Sierra Leone">Sierra Leone</option>
+											<option value="Singapore">Singapore</option>
+											<option value="Slovakia">Slovakia</option>
+											<option value="Slovenia">Slovenia</option>
+											<option value="Solomon Islands">Solomon Islands</option>
+											<option value="Somalia">Somalia</option>
+											<option value="South Africa">South Africa</option>
+											<option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
+											<option value="Spain">Spain</option>
+											<option value="Sri Lanka">Sri Lanka</option>
+											<option value="Sudan">Sudan</option>
+											<option value="Suriname">Suriname</option>
+											<option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
+											<option value="Swaziland">Swaziland</option>
+											<option value="Sweden">Sweden</option>
+											<option value="Switzerland">Switzerland</option>
+											<option value="Syrian Arab Republic">Syrian Arab Republic</option>
+											<option value="Taiwan, Province of China">Taiwan, Province of China</option>
+											<option value="Tajikistan">Tajikistan</option>
+											<option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
+											<option value="Thailand">Thailand</option>
+											<option value="Timor-Leste">Timor-Leste</option>
+											<option value="Togo">Togo</option>
+											<option value="Tokelau">Tokelau</option>
+											<option value="Tonga">Tonga</option>
+											<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+											<option value="Tunisia">Tunisia</option>
+											<option value="Turkey">Turkey</option>
+											<option value="Turkmenistan">Turkmenistan</option>
+											<option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+											<option value="Tuvalu">Tuvalu</option>
+											<option value="Uganda">Uganda</option>
+											<option value="Ukraine">Ukraine</option>
+											<option value="United Arab Emirates">United Arab Emirates</option>
+											<option value="United Kingdom">United Kingdom</option>
+											<option value="United States">United States</option>
+											<option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
+											<option value="Uruguay">Uruguay</option>
+											<option value="Uzbekistan">Uzbekistan</option>
+											<option value="Vanuatu">Vanuatu</option>
+											<option value="Venezuela">Venezuela</option>
+											<option value="Viet Nam">Viet Nam</option>
+											<option value="Virgin Islands, British">Virgin Islands, British</option>
+											<option value="Virgin Islands, U.s">Virgin Islands, U.s.</option>
+											<option value="Wallis and Futuna">Wallis and Futuna</option>
+											<option value="Western Sahara">Western Sahara</option>
+											<option value="Yemen">Yemen</option>
+											<option value="Zambia">Zambia</option>
+											<option value="Zimbabwe">Zimbabwe</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<div class="mb-3">
+										<textarea rows="2" class="form-control"  maxlength="500" id="description" name="description" placeholder="Question *"></textarea>
+									</div>
+								</div>
+								
+								<div class="col-12">
+									<button type="submit" class="btn btn-dark mt-4 d-block">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<!-- Footer-->
+<footer class="container-fluid" style="color: #5d6a7e;">
+    <div class="container footer">
+        <div class="row">
+            <div class="col-12 col-md-3 pt-5 pb-md-4">
+                <h5 data-wow-delay="0.1s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;"> Products </h5>
+                <ul data-wow-delay="0.1s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <li class="mb-3">
+                        <a href="dentallive-mail.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="dentallive-talk.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
+                    <li>
+                        <a href="dentallive-planner.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Contact </h5>
+                <ul data-wow-delay="0.2s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                    <li ><span class="text-muted body2 d-flex align-items-center"><i class="bx bx-phone me-1"></i> +1 289 474-5200</span></li>
+                    <li class="d-flex align-items-center"><i class="bx bx-envelope me-1"></i><a href="mailto:support@dentallive.com;" class="text-muted body2">support@dentallive.com</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Links </h5>
+                <ul data-wow-delay="0.3s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                    <li><a class="text-muted body2" href="contact-us.html">Contact Us</a></li>
+                    <li><a class="text-muted body2" href="become-vendor.html">Become Vendor</a></li>
+                    <li><a class="text-muted body2" href="solutions.html">Solutions</a></li>
+                    <li><a class="text-muted body2" href="terms-of-use.html">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-4">
+                <div data-wow-delay="0.4s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;"><img src="assets/images/safe-and-secure.png" width="80px"><img src="assets/images/hipaa-logo.png" width="80px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="my-2 footer-bottom" style="border-top: 1px solid #d0d6de;">
+        <div class="container">
+            <div class="row pt-4">
+                <div class="col-md-4 pb-4">
+                    <a href="index.html"><img src="assets/images/Logo_Dark.png" data-wow-delay="0.5s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;"></a>
+                </div>
+                <div class="col-md-3">
+                    <div data-wow-delay="0.6s" class="text-center social wow fadeInUp" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"><a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a><a href="https://twitter.com/dentalliveplans"
+                        target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a><a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a></div>
+                </div>
+                <div class="col-md-5 text-md-end text-center">
+                    <div class="pt-2">
+                        <p data-wow-delay="0.7s" class="text-secondary small wow fadeInUp" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;"> &copy; <script>document.write(new Date().getFullYear());</script> DentalLive<sup >TM</sup> All rights reserved. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer end-->
+
+	<div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
+  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="assets/js/vertical-responsive-menu.min.js"></script>
+	<script>
+		$(function(){
+			new WOW().init(); 
+		});
+	</script>
+	<script type="text/javascript">
+		  $(document).ready(function () {
+			  $("#content-slider").owlCarousel({
+				items:1,
+				loop:true,
+				margin:10,
+				autoplay:true,
+				autoplayHoverPause:true,
+				dots: true,
+				animateIn: 'fadeIn',
+				animateOut: 'fadeOut',
+				smartSpeed:550,
+				nav: false
+			  });
+		  
+		  });
+		  $(function () {
+			  $(window).on("scroll", function () {
+				  var scrolled = $(window).scrollTop();
+				  if (scrolled > 600) $(".go-top").addClass("active");
+				  if (scrolled < 600) $(".go-top").removeClass("active");
+			  });
+			  $(".go-top").on("click", function () {
+				  $("html, body").animate({ scrollTop: "0" }, 500);
+			  });
+		  });
+	</script>
+</body>
+</html>

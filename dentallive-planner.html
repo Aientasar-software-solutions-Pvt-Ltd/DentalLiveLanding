@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Dental-Live Planner</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet"/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"/>
+	<link rel="stylesheet" href="vertical-responsive-menu.min.css"/>
+	<link rel="stylesheet" href="style.css"/>
+	<style>
+		section {
+		  padding: 5rem 0;
+		}
+		@media (min-width: 320px) and (max-width: 991px){
+			section {padding: 2rem 0;}
+		}
+
+		@media screen and (min-width:1400px) {.box .nav-pills .nav-link {width: 235px!important;  } }
+		@media (min-width: 768px){.flex-md-row { flex-direction: row!important;}}
+		@media (min-width: 576px){.card-group {flex-flow: row wrap;}}
+		.animation-one {
+			-webkit-animation: move-one 7s ease-in-out infinite;
+			animation: move-one 7s ease-in-out infinite;
+			animation-delay: 0.5s
+		}
+		@keyframes move-one {
+			0% {
+				-webkit-transform: translateX(0) translateY(5px);
+				transform: translateX(0) translateY(5px)
+			}
+			50% {
+				-webkit-transform: translateX(0) translateY(-5px);
+				transform: translateX(0) translateY(-5px)
+			}
+			100% {
+				-webkit-transform: translateX(0) translateY(5px);
+				transform: translateX(0) translateY(5px)
+			}
+		}
+		@keyframes fadeInUp {
+		  0% {
+			opacity: 0;
+			-webkit-transform: translateY(20px);
+			-ms-transform: translateY(20px);
+			transform: translateY(20px);
+		  }
+
+		  100% {
+			opacity: 1;
+			-webkit-transform: translateY(0);
+			-ms-transform: translateY(0);
+			transform: translateY(0);
+		  }
+		}
+		@keyframes fadeInLeft {0% { opacity: 0;-webkit-transform: translateX(-20px);-ms-transform: translateX(-20px); transform: translateX(-20px);
+		  }100% { opacity: 1;-webkit-transform: translateX(0);-ms-transform: translateX(0); transform: translateX(0);}} @keyframes fadeInRight {0% { opacity: 0; -webkit-transform: translateX(20px); -ms-transform: translateX(20px);transform: translateX(20px);
+		  }100% {opacity: 1;-webkit-transform: translateX(0);-ms-transform: translateX(0);transform: translateX(0);}}
+			
+
+		.nav-pills .nav-link{font-family: Sintony;font-size: 16px;font-style: normal;color: #5D6A7E;text-align: center;padding: 20px;height: 65px;width: 200px;border-radius: 5px;font-weight: 400;text-transform: capitalize;border: 1px solid #C9D6D5!important;}
+		.nav-pills .nav-link:hover{color:#fdfdfd!important; background-color:#0070D2!important; }
+		.nav-pills .nav-link img:last-child,
+		.nav-pills .nav-link.active img:first-child,
+		.nav-pills .nav-link:hover img:first-child { display: none;}
+		.nav-pills .nav-link.active img:last-child,
+		.nav-pills .nav-link:hover img:last-child { display: inline-block; }
+		.activenav{position:relative;}
+		.activenav:after{content: "";background: #00D9CC;position: absolute;left: 8px;bottom: -10px;width: calc(100% - 16px);height: 4px;}
+
+
+		.scrolling-wrapper::-webkit-scrollbar { display: none;-webkit-overflow-scrolling: touch;-ms-overflow-style: none;}
+
+		.hero-section{height:auto;}
+		.hero-image{position: relative;top:-82px;transform: translateZ(0);z-index: -1;}
+		@media(max-width:991px){
+		.hero-image{top:-80px;}
+		}
+		@media(max-width:767px){
+		.hero-image{top:-50px;}
+		.hero-section{height:auto;}
+		}
+		@media(max-width:575px){
+		.hero-image{top:-20px;}
+		.hero-section{height:auto;}
+		}
+	</style>
+</head>
+<body>
+<header class="w-100 overflow-hidden header-style">
+    <nav data-wow-delay="0.4s" class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown" style="background-color: rgb(255, 255, 255) !important; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="assets/images/Logo_Dark.png"></a>
+            <div class="text-center hipaa-logo"><img src="assets/images/hipaa-logo.png" class="minlg"><img src="assets/images/logo_footer3.png" class="maxmd"></div>
+            <button data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span></button>
+            <div id="collapsibleNavbar" class="collapse navbar-collapse mt-1">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a href="index.html#DentalPlanner" class="nav-link bold" style="color: #011a3e;">Products</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="solutions.html">Solutions</a></li>
+                    <li class="nav-item"><a href="index.html#Plans" class="nav-link bold" style="color: #011a3e;">Plans</a></li>
+                    <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" href="become-vendor.html">Vendor</a></li>
+                </ul>
+                <div class="dropdown-divider"></div>
+                <div data-wow-delay="0.6s" class="text-center social wow fadeInUp me-md-2 me-lg-4 d-none d-lg-block" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+					<a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a>
+					<a href="https://twitter.com/dentalliveplans" target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a>
+					<a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a>
+				</div>
+				<ul class="navbar-nav mb-md-0 ml-auto">
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/login" class="btn btn-primary me-2 my-1">Login</a></li>
+					<li class="nav-item"><a href="https://www.dentallive.com/auth/signup" class="btn btn-dark my-1">Sign Up </a></li>
+				</ul>
+            </div>
+        </div>
+    </nav>
+    <nav data-wow-delay="0.4s" class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown" style="height: 50px; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
+        <div class="container">
+            <div id="collapsibleNavbar" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a href="dentallive-planner.html" class="nav-link bold py-md-0 activenav" style="color: #011a3e;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dentallive-mail.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dentallive-talk.html" class="nav-link bold py-md-0" style="color: #011a3e;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="hero-section">
+	<div class="container">
+		<div class="d-flex row  align-items-md-center justify-content-center">
+			<div class="col-md-12 pt-4 text-center">
+			  <h3 class="h1 text-dark wow fadeInUp" data-wow-delay="0.5s">Seamlessly organize all of your Patients and Cases.</h3>
+			  <h3 class="h1 text-dark  wow fadeInUp" data-wow-delay="0.6s"> Welcome to your new <span class="bold" style="color:#2f80ed;">case management platform.</span></h3>
+				<div class="text-center my-2 wow fadeInUp" data-wow-delay="0.7s"  style="justify-content: center;" >
+					<a  href="https://www.dentallive.com/auth/signup" class="btn btn-pink mt-2" target="_blank" style="color:#fff;width: 150px;height: 50px;line-height: 32px;">
+						Try Now
+					</a>
+				</div> 
+			</div>
+		</div>
+    </div>
+	<div class="container-fluid text-center">
+		<img src="assets/images/dentallive-planner-hero.png" class="hero-image wow fadeIn animated" style="" data-wow-delay="0.6s">
+	</div>
+</div>
+
+<!-- main section -->
+<main class="w-100">
+	<section class="pb-0 pt-0">
+    <div class="container " id="Products">
+      <div class="d-flex row align-items-center justify-content-between ">
+        <div class="col-md-6 order-md-first order-last">
+          <img src="assets/images/sideicon1.png" style="max-width:50%;" class="wow fadeInLeft" data-wow-delay="0.2s">
+
+          <h1 class="h2 mt-4 wow fadeInLeft" data-wow-delay="0.3s" >Create new patients or work together with colleagues on their patients.
+          </h1>
+         <p class="body1 py-4 wow fadeInLeft" style="color:#5D6A7E;" data-wow-delay="0.4s">Quickly share and/or receive all the pertinent details of the patient such as demographic information, insurance details, medication history and more all in real-time.
+         </p>
+        </div>
+        <div class="col-md-6  mb-5 mb-lg-0">
+          <img src="assets/images/create-new-patients.png" style="transform: translateZ(0);" class="wow fadeIn" data-wow-delay="0.1s">
+        </div>
+      </div>
+     
+    </div>
+  </section>
+  <section class="pt-2 pb-2">
+    <div class="container ">
+      <div class="d-flex row align-items-center justify-content-between ">
+        <div class="col-md-6  mb-5 mb-lg-0">
+          <img src="assets/images/planner-dashboard.png" style="transform: translateZ(0);" class="wow fadeIn" data-wow-delay="0.1s">
+        </div>
+        <div class="col-md-6 justify-content-between ">
+          <img src="assets/images/sideicon2.png" style="max-width:50%;" class="wow fadeInRight" data-wow-delay="0.2s">
+
+          <h1 class="h2 mt-4 wow fadeInRight" data-wow-delay="0.3s">Manage all of your active patients and cases from a single consolidated dashboard.
+          </h1>
+         <p class="body1 py-4 wow fadeInRight" style="color:#5D6A7E;" data-wow-delay="0.4s">With our hover to discover functionality, quickly manage all of your patient workflows from a single convenient screen.
+         </p>
+        </div>
+      
+      </div>
+     
+    </div>
+  </section>
+  <section class="pt-0 ">
+    <div class="container ">
+      <div class="d-flex row align-items-center justify-content-between ">
+        <div class="col-md-6 order-md-first order-last">
+          <img src="assets/images/sideicon3.png" style="max-width:50%;" class="wow fadeInLeft" data-wow-delay="0.2s" >
+
+          <h1 class="h2 mt-4 wow fadeInLeft" data-wow-delay="0.3s">Collaboration has never been easier.
+          </h1>
+         <p class="body1 pt-4 wow fadeInLeft" data-wow-delay="0.4s" style="color:#5D6A7E;">Working with colleagues has never been easier. Invite members to join a case, and collaborate securely with the HIPAA-compliant DentalLive.
+         </p>
+        </div>
+        <div class="col-md-6  mb-5 mb-lg-0">
+          <img src="assets/images/case-colleagues.png" style="transform: translateZ(0);" class="wow fadeIn" data-wow-delay="0.1s">
+        </div>
+      </div>
+     
+    </div>
+  </section>
+  
+	<!-- Subscribe  -->
+	<section class="Subscribe-banner-area">
+		<div class="container bg-color-three">
+			<div class="d-flex row align-items-center justify-content-center">
+				<div class="col-lg-7 col-md-8">
+					<div class="py-2 text-center">
+						<h4 data-wow-delay="0.2s" class="wow fadeInUp py-4" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;"> Subscribe to get <img src="assets/images/DentalLIVE.png" height="30px" class="d-md-inline-block d-none" style="margin-top: -10px;"><img src="assets/images/DentalLIVE.png" height="30px" class="d-md-none d-inline-block" style="margin-top: -7px;"><br>special features! </h4>
+						<div class="d-flex align-items-center justify-content-center flex-column">
+							<form novalidate="" class="ng-untouched ng-pristine ng-invalid">
+								<div class="d-flex align-items-center justify-content-center flex-column flex-xs-row" style="flex-direction: row !important;">
+									<input type="email" id="email_id" name="email_id" formcontrolname="email_id" required="" placeholder="Enter Your Email " class="form-control me-2 ng-untouched ng-pristine ng-invalid">
+									<button type="submit" class="btn btn-primary" style="padding: 11px 20px;"> Subscribe </button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Subscribe end  -->
+</main>
+<!-- main section end -->
+
+<!-- Footer-->
+<footer class="container-fluid" style="color: #5d6a7e;">
+    <div class="container footer">
+        <div class="row">
+            <div class="col-12 col-md-3 pt-5 pb-md-4">
+                <h5 data-wow-delay="0.1s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;"> Products </h5>
+                <ul data-wow-delay="0.1s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <li class="mb-3">
+                        <a href="dentallive-mail.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="dentallive-talk.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
+                    </li>
+                    <li>
+                        <a href="dentallive-planner.html" class="text-muted body2" style="color: #aeb4bf;"><img src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Contact </h5>
+                <ul data-wow-delay="0.2s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                    <li ><span class="text-muted body2 d-flex align-items-center"><i class="bx bx-phone me-1"></i> +1 289 474-5200</span></li>
+                    <li class="d-flex align-items-center"><i class="bx bx-envelope me-1"></i><a href="mailto:support@dentallive.com;" class="text-muted body2">support@dentallive.com</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-md-5 pb-md-4">
+                <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold" style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Links </h5>
+                <ul data-wow-delay="0.3s" class="list-unstyled text-small wow fadeInUp" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                    <li><a class="text-muted body2" href="contact-us.html">Contact Us</a></li>
+                    <li><a class="text-muted body2" href="become-vendor.html">Become Vendor</a></li>
+                    <li><a class="text-muted body2" href="solutions.html">Solutions</a></li>
+                    <li><a class="text-muted body2" href="terms-of-use.html">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 pt-4">
+                <div data-wow-delay="0.4s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;"><img src="assets/images/safe-and-secure.png" width="80px"><img src="assets/images/hipaa-logo.png" width="80px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="my-2 footer-bottom" style="border-top: 1px solid #d0d6de;">
+        <div class="container">
+            <div class="row pt-4">
+                <div class="col-md-4 pb-4">
+                    <a href="index.html"><img src="assets/images/Logo_Dark.png" data-wow-delay="0.5s" class="wow fadeInUp" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;"></a>
+                </div>
+                <div class="col-md-3">
+                    <div data-wow-delay="0.6s" class="text-center social wow fadeInUp" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"><a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true" class="bx bxl-facebook-circle"></i></a><a href="https://twitter.com/dentalliveplans"
+                        target="_blank" title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a><a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true" class="bx bxl-instagram"></i></a></div>
+                </div>
+                <div class="col-md-5 text-md-end text-center">
+                    <div class="pt-2">
+                        <p data-wow-delay="0.7s" class="text-secondary small wow fadeInUp" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;"> &copy; <script>document.write(new Date().getFullYear());</script> DentalLive<sup >TM</sup> All rights reserved. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer end-->
+
+	<div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
+  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="assets/js/vertical-responsive-menu.min.js"></script>
+	<script>
+		$(function(){
+			new WOW().init(); 
+		});
+	</script>
+	<script type="text/javascript">
+		  $(document).ready(function () {
+			  $("#content-slider").owlCarousel({
+				items:1,
+				loop:true,
+				margin:10,
+				autoplay:true,
+				autoplayHoverPause:true,
+				dots: true,
+				animateIn: 'fadeIn',
+				animateOut: 'fadeOut',
+				smartSpeed:550,
+				nav: false
+			  });
+		  
+		  });
+		  $(function () {
+			  $(window).on("scroll", function () {
+				  var scrolled = $(window).scrollTop();
+				  if (scrolled > 600) $(".go-top").addClass("active");
+				  if (scrolled < 600) $(".go-top").removeClass("active");
+			  });
+			  $(".go-top").on("click", function () {
+				  $("html, body").animate({ scrollTop: "0" }, 500);
+			  });
+		  });
+	</script>
+</body>
+</html>
