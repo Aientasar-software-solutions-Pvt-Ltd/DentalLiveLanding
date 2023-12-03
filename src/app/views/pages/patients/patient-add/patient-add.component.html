@@ -1,149 +1,92 @@
 <!-- @ts-nocheck -->
 <ol class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="{{ formInterface.section.backUrl }}">Patients</a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">{{ mode }} Patient</li>
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a routerLink="{{ formInterface.section.backUrl }}">Patients</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ mode }} Patient</li>
 </ol>
 <div class="page-header row align-items-center gx-0">
-  <div class="col-md-12">
-    <h3>
-      Patient Details
-      <a
-        tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
+    <div class="col-md-12">
+        <h3>
+            {{ mode }} Patient
+            <a tippy="Tutorial" target="_blank" [routerLink]="
           '/tutorial/' + utility.tutorialData['PatientAddComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
-    </h3>
-  </div>
+        ">
+                <i class="bx bxs-info-circle text-primary"></i></a>
+        </h3>
+    </div>
 </div>
 
 <div class="row pt-2">
-  <div class="col-md-10">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <div class="row mt-2">
-          <!-- Lottie Section -->
-          <div
-            *ngIf="
+    <div class="col-md-10">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="row mt-2">
+                    <!-- Lottie Section -->
+                    <div *ngIf="
               formInterface.isUploadingData ||
               formInterface.isLoadingData ||
               formInterface.isLoadingDependencies
-            "
-            class="row"
-          >
-            <div class="col-md-12">
-              <lottie-player
-                class="mt-3 m-auto"
-                src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-                background="transparent"
-                speed="1"
-                style="width: 300px; height: 300px"
-                loop
-                autoplay
-              ></lottie-player>
-              <h6 class="text-center mt-5">
-                Request Processing …..Please Wait, Do Not Close The Page
-              </h6>
-            </div>
-          </div>
+            " class="row">
+                        <div class="col-md-12">
+                            <lottie-player class="mt-3 m-auto"
+                                           src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+                                           background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
+                            <h6 class="text-center mt-5">
+                                Request Processing …..Please Wait, Do Not Close The Page
+                            </h6>
+                        </div>
+                    </div>
 
-          <!-- Form Section -->
-          <div
-            [hidden]="
-              formInterface.isUploadingData || formInterface.isLoadingData
-            "
-            class="col-md-12"
-          >
-            <form
-              #mainForm="ngForm"
-              id="mainForm"
-              (ngSubmit)="customSubmit(mainForm)"
-            >
-              <div class="row p-3">
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="mb-4">
-                        <label class="form-label body2 text-dark"
-                          >First Name <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          required
-                          class="form-control"
-                          maxlength="40"
-                          [(ngModel)]="formInterface.object.firstName"
-                          name="firstName"
-                          id="firstName"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="mb-4">
-                        <label class="form-label body2 text-dark"
-                          >Last Name <span class="text-danger">*</span></label
-                        >
-                        <input
-                          type="text"
-                          required
-                          class="form-control"
-                          maxlength="40"
-                          [(ngModel)]="formInterface.object.lastName"
-                          name="lastName"
-                          id="lastName"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="mb-4">
-                        <label class="form-label body2 text-dark"
-                          >Reference ID</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          maxlength="30"
-                          [(ngModel)]="formInterface.object.refId"
-                          name="refId"
-                          id="refId"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-5 text-center">
-                    <label class="form-label body2 text-dark"
-                      >Patient Image</label
-                    >
-                    <div class="justify-content-center profile-img p-md-2 mt-3">
-                      <div class="capture position-relative">
-                        <label for="image">
-                          <img
-                            [src]="
+                    <!-- Form Section -->
+                    <div [hidden]="
+              formInterface.isUploadingData ||
+              formInterface.isLoadingData ||
+              formInterface.isLoadingDependencies
+            " class="col-md-12">
+                        <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
+                            <div class="row p-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <label class="form-label body2 text-dark">First Name <span class="text-danger">*</span></label>
+                                                <input type="text" required class="form-control" maxlength="40"
+                                                       [(ngModel)]="formInterface.object.firstName" name="firstName" id="firstName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <label class="form-label body2 text-dark">Last Name <span class="text-danger">*</span></label>
+                                                <input type="text" required class="form-control" maxlength="40"
+                                                       [(ngModel)]="formInterface.object.lastName" name="lastName" id="lastName" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <label class="form-label body2 text-dark">Reference ID</label>
+                                                <input type="text" class="form-control" maxlength="30" [(ngModel)]="formInterface.object.refId"
+                                                       name="refId" id="refId" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-5 text-center">
+                                        <label class="form-label body2 text-dark">Patient Image</label>
+                                        <div class="justify-content-center profile-img p-md-2 mt-3">
+                                            <div class="capture position-relative">
+                                                <label for="image">
+                                                    <img [src]="
                               formInterface.tempAvatarImage
                                 ? formInterface.tempAvatarImage
                                 : '../../assets/images/users.png'
-                            "
-                            alt=""
-                            class="mb-2 rounded-circle"
-                            width="100px"
-                            height="100px"
-                          />
-                          <span
-                            class="text-primary"
-                            style="
+                            " alt="" class="mb-2 rounded-circle" width="100px" height="100px" />
+                                                    <span class="text-primary" style="
                               position: absolute;
                               bottom: -2em;
                               left: 0;
@@ -151,27 +94,13 @@
                               margin: auto;
                               font-weight: bold;
                               cursor: pointer;
-                            "
-                            >Upload</span
-                          >
-                        </label>
+                            ">Upload</span>
+                                                </label>
 
-                        <input
-                          hidden
-                          #file
-                          type="file"
-                          name="image"
-                          accept="image/*"
-                          (click)="file.value = null"
-                          (change)="addAvatar($event)"
-                          id="image"
-                        />
+                                                <input hidden #file type="file" name="image" accept="image/*" (click)="file.value = null"
+                                                       (change)="addAvatar($event)" id="image" />
 
-                        <span
-                          class="text-danger"
-                          *ngIf="formInterface.tempAvatarImage"
-                          (click)="removeAvatar()"
-                          style="
+                                                <span class="text-danger" *ngIf="formInterface.tempAvatarImage" (click)="removeAvatar()" style="
                             position: absolute;
                             bottom: -4em;
                             left: 0;
@@ -179,38 +108,31 @@
                             margin: auto;
                             font-weight: bold;
                             cursor: pointer;
-                          "
-                          >Remove</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                          ">Remove</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Gender</label>
-                    <div>
-                      <select
-                        class="form-select"
-                        name="gender"
-                        [ngModel]="formInterface.object.gender"
-                        (ngModelChange)="formInterface.toInt('gender', $event)"
-                        id="gender"
-                      >
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >DOB <span class="text-danger">*</span></label
-                    >
-                    <span style="position: relative; display: block">
-                      <!-- <input
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Gender</label>
+                                        <div>
+                                            <select class="form-select" name="gender" [ngModel]="formInterface.object.gender"
+                                                    (ngModelChange)="formInterface.toInt('gender', $event)" id="gender">
+                                                <option value="0">Male</option>
+                                                <option value="1">Female</option>
+                                                <option value="2">Non-Binary</option>
+                                                <option value="3">Not-Specified</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
+                                        <span style="position: relative; display: block">
+                                            <!-- <input
                         *ngIf="!formInterface.object.dob"
                         required
                         type="date"
@@ -218,494 +140,319 @@
                         max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
                         name="dob"
                       /> -->
-                      <input
-                        required
-                        type="date"
-                        class="form-control"
-                        max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
-                        [ngModel]="
+                                            <input required type="date" class="form-control"
+                                                   max="{{ formInterface.today | date : 'yyyy-MM-dd' }}" [ngModel]="
                           formInterface.object.dob
                             ? (formInterface.object.dob | date : 'yyyy-MM-dd')
                             : null
-                        "
-                        name="dob"
-                      />
-                    </span>
+                        " name="dob" />
+                                        </span>
 
-                    <!-- <span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Date Of Birth should not greater than to today date</span> -->
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Email <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="email"
-                      class="form-control"
-                      maxlength="150"
-                      pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-                      [(ngModel)]="formInterface.object.email"
-                      required
-                      name="email"
-                      id="email"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark d-block"
-                      >Phone Number <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="text"
-                      required
-                      class="form-control"
-                      placeholder="111-111-1111"
-                      maxlength="10"
-                      minlength="10"
-                      (keypress)="formInterface.numberOnly($event)"
-                      [(ngModel)]="formInterface.object.phone"
-                      name="phone"
-                      id="phone"
-                    />
-                  </div>
-                </div>
+                                        <!-- <span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Date Of Birth should not greater than to today date</span> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Email <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" maxlength="150" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                                               [(ngModel)]="formInterface.object.email" required name="email" id="email" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark d-block">Phone Number <span
+                                                  class="text-danger">*</span></label>
+                                        <input type="text" required class="form-control" placeholder="111-111-1111" maxlength="10"
+                                               minlength="10" (keypress)="formInterface.numberOnly($event)"
+                                               [(ngModel)]="formInterface.object.phone" name="phone" id="phone" />
+                                    </div>
+                                </div>
 
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Country <span class="text-danger">*</span></label
-                    >
-                    <select
-                      class="form-select"
-                      name="country"
-                      required
-                      [(ngModel)]="formInterface.object.country"
-                      (ngModelChange)="poplStates($event)"
-                      id="country"
-                    >
-                      <option
-                        *ngFor="let country of countries"
-                        [value]="country.isoCode"
-                      >
-                        {{ country.name }}
-                      </option>
-                      name
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >State/Province <span class="text-danger">*</span></label
-                    >
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Country <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="country" required [(ngModel)]="formInterface.object.country"
+                                                (ngModelChange)="poplStates($event)" id="country">
+                                            <option *ngFor="let country of countries" [value]="country.isoCode">
+                                                {{ country.name }}
+                                            </option>
 
-                    <select
-                      class="form-select"
-                      name="residingState"
-                      [(ngModel)]="formInterface.object.residingState"
-                      id="residingState"
-                    >
-                      <option
-                        *ngFor="let state of states"
-                        [value]="state.isoCode"
-                      >
-                        {{ state.name }}
-                      </option>
-                      name
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="city"
-                      [(ngModel)]="formInterface.object.city"
-                      id="city"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Address</label>
-                    <textarea
-                      rows="2"
-                      class="form-control"
-                      [(ngModel)]="formInterface.object.address"
-                      name="address"
-                      id="address"
-                    ></textarea>
-                  </div>
-                </div>
+                                            name
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">State/Province <span class="text-danger">*</span></label>
 
-                <div class="col-md-12 mb-4">
-                  <label class="form-label body2 text-dark">Notes</label>
-                  <app-cvfast-new #cvfast></app-cvfast-new>
-                </div>
-              </div>
+                                        <select class="form-select" name="residingState" [(ngModel)]="formInterface.object.residingState"
+                                                id="residingState">
+                                            <option *ngFor="let state of states" [value]="state.isoCode">
+                                                {{ state.name }}
+                                            </option>
+                                            name
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">City</label>
+                                        <input type="text" class="form-control" name="city" [(ngModel)]="formInterface.object.city"
+                                               id="city" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Address</label>
+                                        <textarea rows="2" class="form-control" [(ngModel)]="formInterface.object.address" name="address"
+                                                  id="address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Practice <span class="text-danger">*</span></label>
+                                        <div class="dropdown">
+                                            <select required [(ngModel)]="formInterface.object.practiceId" name="practiceId"
+                                                    class="form-select">
+                                                <option class="p-2" *ngFor="let practice of practicesList" [value]="practice.practiceId">
+                                                    {{practice.practiceName}}
+                                                </option>
+                                            </select>
 
-              <div class="row">
-                <div class="col-md-12 mb-2">
-                  <button type="submit" class="btn btn-default mt-1 me-2">
-                    {{ mode }}
-                  </button>
-                  <a
-                    routerLink="{{ formInterface.section.backUrl }}"
-                    class="btn btn-pink mt-1 me-2"
-                  >
-                    Cancel
-                  </a>
-                  <button
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addInsuranceModal"
-                    class="btn btn-light-green mt-1 me-2"
-                  >
-                    {{ mode }} Insurance
-                  </button>
-                  <button
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addMedicationModal"
-                    class="btn btn-dark mt-1 me-2"
-                    (click)="medicationForm.reset()"
-                  >
-                    {{ mode }} Medication
-                  </button>
-                  <div
-                    *ngIf="this.formInterface.object.patientId"
-                    class="form-check form-check-inline form-switch mt-2"
-                  >
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [(ngModel)]="formInterface.object.isActive"
-                      name="isActive"
-                      id="activeInactive"
-                      #activeInactive
-                    />
-                    <label class="form-check-label fs-6" for="activeInactive"
-                      ><ng-container *ngIf="activeInactive.checked"
-                        >Active</ng-container
-                      ><ng-container *ngIf="!activeInactive.checked"
-                        >Inactive</ng-container
-                      ></label
-                    >
-                  </div>
-                  <button
-                    *ngIf="formInterface.object.patientId"
-                    (click)="
+                                            <!-- <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
+                        <li class="p-2" *ngFor="let practice of practicesList" [value]="practice.practiceId">
+                          <div class="form-check">
+                            <input class="form-check-input" (change)="togglePractice($event)"
+                              [checked]="formInterface.object.practiceId && formInterface.object.practiceId.includes(practice.practiceId)"
+                              type="checkbox" [name]="practice.practiceId" [value]="practice.practiceId">
+                            <label class="form-check-label body-2 " [for]="practice.practiceId"> {{
+                              practice.practiceName
+                              }}</label>
+                          </div>
+                        </li>
+                      </ul> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-4">
+                                    <label class="form-label body2 text-dark">Notes</label>
+                                    <app-cvfast-new #cvfast></app-cvfast-new>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <button type="submit" class="btn btn-default mt-1 me-2">
+                                        {{ mode }}
+                                    </button>
+                                    <a routerLink="{{ formInterface.section.backUrl }}" class="btn btn-pink mt-1 me-2">
+                                        Cancel
+                                    </a>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#addInsuranceModal"
+                                            class="btn btn-light-green mt-1 me-2">
+                                        {{ mode }} Insurance
+                                    </button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#addMedicationModal"
+                                            class="btn btn-dark mt-1 me-2" (click)="medicationForm.reset()">
+                                        {{ mode }} Medication
+                                    </button>
+                                    <div *ngIf="this.formInterface.object.patientId"
+                                         class="form-check form-check-inline form-switch mt-2">
+                                        <input class="form-check-input" type="checkbox" [(ngModel)]="formInterface.object.isActive"
+                                               name="isActive" id="activeInactive" #activeInactive />
+                                        <label class="form-check-label fs-6" for="activeInactive"><ng-container
+                                                          *ngIf="activeInactive.checked">Active</ng-container><ng-container
+                                                          *ngIf="!activeInactive.checked">Inactive</ng-container></label>
+                                    </div>
+                                    <button *ngIf="formInterface.object.patientId" (click)="
                       formInterface.deleteData(formInterface.object.patientId)
-                    "
-                    type="button"
-                    class="btn btn-danger me-2 float-end"
-                  >
-                    Delete
-                  </button>
+                    " type="button" class="btn btn-danger me-2 float-end">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="addInsuranceModal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title" id="addInsuranceModalLabel">
-          {{ mode }} Insurance
-        </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form
-          #insuranceForm="ngForm"
-          id="insuranceForm"
-          (ngSubmit)="onSubmitMedication(medicationForm)"
-        >
-          <div class="row">
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2"
-                  >Insurance Policy No <span class="text-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.policyno"
-                  name="policyno"
-                  required
-                  id="policyno"
-                  class="form-control"
-                />
-              </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="addInsuranceModalLabel">
+                    {{ mode }} Insurance
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2"
-                  >Insurance Carrier Name
-                  <span class="text-danger">*</span></label
-                >
-                <input
-                  type="text"
-                  required
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.carrier"
-                  name="carrier"
-                  id="carrier"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2">Employer</label>
-                <input
-                  type="text"
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.employer"
-                  name="employer"
-                  id="employer"
-                  class="form-control"
-                />
-              </div>
-            </div>
+            <div class="modal-body">
+                <form #insuranceForm="ngForm" id="insuranceForm" (ngSubmit)="onSubmitMedication(medicationForm)">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Insurance Policy No <span class="text-danger">*</span></label>
+                                <input type="text" ngModel [ngModel]="formInterface.object.insurance.policyno" name="policyno" required
+                                       id="policyno" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Insurance Carrier Name
+                                    <span class="text-danger">*</span></label>
+                                <input type="text" required ngModel [ngModel]="formInterface.object.insurance.carrier" name="carrier"
+                                       id="carrier" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Employer</label>
+                                <input type="text" ngModel [ngModel]="formInterface.object.insurance.employer" name="employer"
+                                       id="employer" class="form-control" />
+                            </div>
+                        </div>
 
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2">Group</label>
-                <input
-                  type="text"
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.group"
-                  name="group"
-                  id="group"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2">Policy Holder</label>
-                <input
-                  type="text"
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.policyholder"
-                  name="policyholder"
-                  id="policyholder"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2">Effective Date</label>
-                <input
-                  type="date"
-                  max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
-                  ngModel
-                  [ngModel]="
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Group</label>
+                                <input type="text" ngModel [ngModel]="formInterface.object.insurance.group" name="group" id="group"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Policy Holder</label>
+                                <input type="text" ngModel [ngModel]="formInterface.object.insurance.policyholder" name="policyholder"
+                                       id="policyholder" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Effective Date</label>
+                                <input type="date" max="{{ formInterface.today | date : 'yyyy-MM-dd' }}" ngModel [ngModel]="
                     formInterface.object.insurance.policydate
                       | date : 'yyyy-MM-dd'
-                  "
-                  ngModel
-                  name="policydate"
-                  id="policydate"
-                  class="form-control"
-                />
-              </div>
+                  " ngModel name="policydate" id="policydate" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label body2">Notes</label>
+                                <textarea rows="2" class="form-control" ngModel [ngModel]="formInterface.object.insurance.noteinc"
+                                          name="noteinc" id="noteinc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label class="form-label body2">Notes</label>
-                <textarea
-                  rows="2"
-                  class="form-control"
-                  ngModel
-                  [ngModel]="formInterface.object.insurance.noteinc"
-                  name="noteinc"
-                  id="noteinc"
-                ></textarea>
-              </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button (click)="onSubmitInsurance(insuranceForm)" type="button" class="btn btn-default">
+                    Save
+                </button>
             </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button
-          (click)="onSubmitInsurance(insuranceForm)"
-          type="button"
-          class="btn btn-default"
-        >
-          Save
-        </button>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="addMedicationModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title" id="addMedicationModalLabel">
-          {{ mode }} Medication
-        </h6>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body repeatbox p-4">
-        <form
-          #medicationForm="ngForm"
-          id="medicationForm"
-          (ngSubmit)="onSubmitMedication(medicationForm)"
-        >
-          <div class="col-12 my-3">
-            <label class="form-label mb-2">Medication name</label
-            ><input
-              type="text"
-              name="medication"
-              required
-              class="form-control"
-              ngModel
-            />
-          </div>
-          <div class="row">
-            <div class="col-6 my-3">
-              <label class="form-label mb-2">Dosage</label
-              ><input
-                type="text"
-                name="dosage"
-                required
-                class="form-control"
-                ngModel
-              />
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="addMedicationModalLabel">
+                    {{ mode }} Medication
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-6 my-3">
-              <label class="form-label mb-2">Duration</label
-              ><input
-                type="text"
-                name="duration"
-                required
-                class="form-control"
-                ngModel
-              />
+            <div class="modal-body repeatbox p-4">
+                <form #medicationForm="ngForm" id="medicationForm" (ngSubmit)="onSubmitMedication(medicationForm)">
+                    <div class="col-12 my-3">
+                        <label class="form-label mb-2">Medication name</label><input type="text" name="medication" required
+                               class="form-control" ngModel />
+                    </div>
+                    <div class="row">
+                        <div class="col-6 my-3">
+                            <label class="form-label mb-2">Dosage</label><input type="text" name="dosage" required
+                                   class="form-control" ngModel />
+                        </div>
+                        <div class="col-6 my-3">
+                            <label class="form-label mb-2">Duration</label><input type="text" name="duration" required
+                                   class="form-control" ngModel />
+                        </div>
+                    </div>
+                    <div class="col-12 my-3">
+                        <label class="form-label mb-2">Notes</label><textarea type="text" name="notes" class="form-control"
+                                  ngModel></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary my-3 px-4 float-end">
+                        Add
+                    </button>
+                </form>
             </div>
-          </div>
-          <div class="col-12 my-3">
-            <label class="form-label mb-2">Notes</label
-            ><textarea
-              type="text"
-              name="notes"
-              class="form-control"
-              ngModel
-            ></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary my-3 px-4 float-end">
-            Add
-          </button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <table
-          *ngIf="formInterface.object.medication.length > 0"
-          class="table my-2"
-        >
-          <thead>
-            <tr>
-              <th scope="col">Medication name</th>
-              <th scope="col">Dosage</th>
-              <th scope="col">Duration</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of formInterface.object.medication">
-              <td class="body-2">{{ item.medication }}</td>
-              <td class="body-2">{{ item.dosage }}</td>
-              <td class="body-2">{{ item.duration }}</td>
-              <td>
-                <i
-                  class="text-center isCursor bx bxs-trash bx-sm text-danger"
-                  (click)="removeMedication(item)"
-                ></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Save & Close
-        </button>
-      </div>
+            <div class="modal-footer">
+                <table *ngIf="formInterface.object.medication.length > 0" class="table my-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">Medication name</th>
+                            <th scope="col">Dosage</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of formInterface.object.medication">
+                            <td class="body-2">{{ item.medication }}</td>
+                            <td class="body-2">{{ item.dosage }}</td>
+                            <td class="body-2">{{ item.duration }}</td>
+                            <td>
+                                <i class="text-center isCursor bx bxs-trash bx-sm text-danger" (click)="removeMedication(item)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Save & Close
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal Image Cropping -->
 <div class="modal fade" id="pictureModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header"><h5>Crop Image</h5></div>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Crop Image</h5>
+            </div>
 
-      <div class="modal-body p-4 d-flex flex-direction-coloumn">
-        <image-cropper
-          class="border rounded"
-          [imageChangedEvent]="imageChangedEvent"
-          [maintainAspectRatio]="true"
-          [aspectRatio]="1 / 1"
-          format="png"
-          [onlyScaleDown]="true"
-          [roundCropper]="true"
-          [transform]="transform"
-          (imageCropped)="imageCropped($event)"
-        ></image-cropper>
+            <div class="modal-body p-4 d-flex flex-direction-coloumn">
+                <image-cropper class="border rounded" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                               [aspectRatio]="1 / 1" format="png" [onlyScaleDown]="true" [roundCropper]="true" [transform]="transform"
+                               (imageCropped)="imageCropped($event)"></image-cropper>
 
-        <div class="d-flex justify-content-end mt-2 w-100">
-          <i (click)="zoomOut()" class="bx bx-md bxs-zoom-out"></i>
-          <i (click)="zoomIn()" class="bx bx-md bxs-zoom-in"></i>
+                <div class="d-flex justify-content-end mt-2 w-100">
+                    <i (click)="zoomOut()" class="bx bx-md bxs-zoom-out"></i>
+                    <i (click)="zoomIn()" class="bx bx-md bxs-zoom-in"></i>
+                </div>
+
+                <!-- <img class="mt-3" [src]="croppedImage" /> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" (click)="saveCroppedImage()" class="btn btn-primary" data-bs-dismiss="modal">
+                    Crop & Save
+                </button>
+            </div>
         </div>
-
-        <!-- <img class="mt-3" [src]="croppedImage" /> -->
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary me-2"
-          data-bs-dismiss="modal"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          (click)="saveCroppedImage()"
-          class="btn btn-primary"
-          data-bs-dismiss="modal"
-        >
-          Crop & Save
-        </button>
-      </div>
     </div>
-  </div>
 </div>

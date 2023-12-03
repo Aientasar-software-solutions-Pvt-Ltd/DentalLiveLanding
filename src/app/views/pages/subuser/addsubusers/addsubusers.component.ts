@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import swal from "sweetalert";
 import { AddEditData, UtilityService } from "../../users/utility.service";
 import { ApiDataService } from "../../users/api-data.service";
+import { UtilityServiceV2 } from "src/app/utility-service-v2.service";
 
 @Component({
   selector: 'app-addsubusers',
@@ -29,13 +30,15 @@ export class AddsubusersComponent implements OnInit, AddEditData {
   isLoadingData = false;
   binaryFiles = [];
   rolesList: any = [];
+  practicesList: any = [];
   packageList: any = [];
 
   constructor(
     private route: ActivatedRoute,
     private utility: UtilityService,
     private dataService: ApiDataService,
-    private router: Router
+    private router: Router,
+    public utility2: UtilityServiceV2,
   ) { }
 
   @ViewChild("mainForm", { static: false }) mainForm: NgForm;
@@ -44,6 +47,7 @@ export class AddsubusersComponent implements OnInit, AddEditData {
     this.resetForm();
     this.hasData();
     this.rolesList = [];
+    this.practicesList = [];
     this.getDependencies();
   }
 
@@ -57,10 +61,15 @@ export class AddsubusersComponent implements OnInit, AddEditData {
     this.dataService.getallData(this.utility.apiData.usage.ApiUrl + `?type=subusers&email=${this.object.dentalID}`, true).subscribe(
       (Response) => {
         if (Response) Response = JSON.parse(Response.toString());
-        console.log(Response)
         this.packageList = Response;
       });
 
+    let url = this.utility2.baseUrl + 'practices?resourceOwner=' + this.utility2.getUserDetails().emailAddress;
+    this.dataService.getallData(url, true).subscribe(
+      (Response) => {
+        if (Response) Response = JSON.parse(Response.toString());
+        this.practicesList = Response;
+      });
   }
 
   resetForm() {
@@ -120,7 +129,6 @@ export class AddsubusersComponent implements OnInit, AddEditData {
   }
   uploadFormData() {
     //post request here,both add & update are sent as post
-    console.log(this.object)
     this.dataService
       .postData(this.section.ApiUrl, JSON.stringify(this.object))
       .subscribe((Response) => {
@@ -200,5 +208,20 @@ export class AddsubusersComponent implements OnInit, AddEditData {
         swal("Failed To Process Request, Please Try Again");
         this.isUploadingData = false;
       });
+  }
+
+  togglePractice(event: any) {
+    if (!this.object.practiceId) this.object.practiceId = [];
+    const index = this.object.practiceId.indexOf(event.target.value);
+    index !== -1 ? this.object.practiceId.splice(index, 1) : this.object.practiceId.push(event.target.value);
+  }
+
+  getPracticeName() {
+    if (!this.object.practiceId || this.object.practiceId.length == 0) return "Select Practice"
+    let practice = "";
+    this.practicesList.map((item) => {
+      if (this.object.practiceId.includes(item.practiceId)) practice = practice ? (practice + "," + item.practiceName) : item.practiceName;
+    });
+    return practice;
   }
 }

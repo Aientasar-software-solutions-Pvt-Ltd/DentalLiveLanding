@@ -1,11 +1,12 @@
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ApiDataService } from '../../users/api-data.service';
 import { AccdetailsService } from '../../accdetails.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import "@lottiefiles/lottie-player";
 import { NgForm } from '@angular/forms';
 import { filter } from 'smart-array-filter';
+import { GeneralTaskAddComponent } from '../general-task-add/general-task-add.component';
 
 @Component({
   selector: 'app-general-task-list',
@@ -22,15 +23,24 @@ export class GeneralTaskListComponent implements OnInit {
   milestoneId = "";
   dtOptions: DataTables.Settings = {};
   user = this.utility.getUserDetails()
+  currentTime = Date.now();
+  PendingcaseMembers = [];
+  @Output() getData = new EventEmitter<any>();
+  @Input() isModal = false;
+  showTaskModal = false;
+  caseDetail = null;
+  @ViewChild(GeneralTaskAddComponent) addEditTask!: GeneralTaskAddComponent;
 
   constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((params) => {
-      if (params.get("milestoneId") && params.get("milestoneId") != "")
+      if (params.get("milestoneId") && params.get("milestoneId") != "") {
         this.milestoneId = params.get("milestoneId");
-      this.loadBaseData();
+        if (!this.milestoneId) return
+        this.loadBaseData();
+      }
     });
 
     this.utility.getArrayObservable().subscribe(array => {
@@ -69,16 +79,26 @@ export class GeneralTaskListComponent implements OnInit {
 
   async loadBaseData() {
     try {
+
       await this.utility.loadPreFetchData("users");
       await this.utility.loadPreFetchData("cases");
       await this.utility.loadPreFetchData("patients");
       let url = this.utility.baseUrl + this.module;
+
       if (this.milestoneId) url = url + "?milestoneId=" + this.milestoneId
       this.dataService.getallData(url, true).subscribe(Response => {
         if (Response) {
           let data = JSON.parse(Response.toString());
           this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
+          this.getData.emit(this.baseData);
           this.isLoadingData = false;
+          if (this.baseData && this.baseData.length > 0) {
+            this.populatePendingCaseMembers(this.baseData[0].caseId);
+            let caseDetails = this.utility.metadata.cases.find((item) => item.caseId == this.baseData[0].caseId)
+            if (caseDetails)
+              this.caseDetail = { ...caseDetails }
+          }
+
           //stupid library used-->fix required for no data label
           if (this.baseData.length > 0) {
             Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
@@ -96,7 +116,6 @@ export class GeneralTaskListComponent implements OnInit {
     }
   }
 
-
   filterSubmit(form: NgForm) {
     let query = "";
     if (form.value.title) {
@@ -112,6 +131,56 @@ export class GeneralTaskListComponent implements OnInit {
       keywords: query
     });
     this.baseData = filterData
+  }
 
+  populatePendingCaseMembers(caseId) {
+    this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId + "&presentStatus=0", true).subscribe(
+      (Response) => {
+        let data = JSON.parse(Response.toString());
+        this.PendingcaseMembers = []
+        data.forEach((item) => {
+          if (this.user.emailAddress != item.invitedUserMail)
+            this.PendingcaseMembers.push(item.invitedUserMail);
+        })
+        console.log(this.PendingcaseMembers)
+      }, (error) => {
+        this.utility.showError(error.status)
+      });
+  }
+
+  hasPendingRequest(memberMail) {
+    return this.PendingcaseMembers.includes(memberMail)
+  }
+
+  getUserImage(mail) {
+    let img = this.utility.getMetaData(
+      mail,
+      "emailAddress",
+      ["imageSrc"],
+      "users"
+    )
+    return (img) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=" + this.utility.apiData.users.bucketUrl + encodeURIComponent(img.toString()) + ">" : " <span class='avatar-icon my-2 me-2' > " +
+      this.utility.getMetaData(
+        mail,
+        "emailAddress",
+        ["accountfirstName", "accountlastName"],
+        "users"
+      ).toString().charAt(0)
+      + " </span>"
+  }
+
+  isTaskEdit = false;
+
+  assignTask(taskId) {
+    this.isTaskEdit = taskId;
+    this.addEditTask.updateTaskId(taskId);
+    this.showTaskModal = true;
+  }
+
+  closeTask() {
+    this.isTaskEdit = false;
+    this.addEditTask.formInterface.resetForm();
+    this.addEditTask.cvfast.resetForm();
+    this.showTaskModal = false;
   }
 }

@@ -1,354 +1,267 @@
 <ol class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">Patients</li>
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Patients</li>
 </ol>
 
 <div class="page-header row align-items-center gx-0">
-  <div class="col-md-6">
-    <h3>
-      Patients
-      <a  tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
+    <div class="col-md-6">
+        <h3>
+            Patients
+            <a tippy="Tutorial" target="_blank" [routerLink]="
           '/tutorial/' + utility.tutorialData['PatientsListComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
-    </h3>
-  </div>
-  <div class="col-md-6 text-end">
-    <a routerLink="patient-add" class="btn btn-default btn-lg"
-      ><i class="bx bx-plus-circle"></i> Add Patient</a
-    >
-  </div>
+        ">
+                <i class="bx bxs-info-circle text-primary"></i></a>
+        </h3>
+    </div>
+    <div class="col-md-6 text-end">
+        <a routerLink="cases/case-add" class="btn btn-pink btn-lg me-2"><i class="bx bx-briefcase-alt"></i> Start
+            Case</a>
+        <a routerLink="patient-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Patient</a>
+    </div>
 </div>
 
 <div class="row align-items-center">
-  <div class="col-md-12">
-    <div class="card shadow-sm">
-      <div class="card-header border-bottom-0 bg-white">
-        <div
-          class="d-flex justify-content-between align-items-center flex-wrap"
-        >
-          <div class="my-2">
-            <h5 class="body1 card-title mb-0">List of Patients</h5>
-          </div>
-          <div class="d-flex align-items-center flex-wrap">
-            <div class="nav nav-pills nav-justified tabview me-3">
-              <span
-                class="nav-link isCusrosr"
-                [class.active]="isPatient"
-                (click)="isPatient = true; loadPatients()"
-                >My Patients</span
-              >
-              <span
-                class="nav-link isCusrosr"
-                [class.active]="!isPatient"
-                (click)="isPatient = false; loadColleagues()"
-                >Colleagues Patients</span
-              >
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header border-bottom-0 bg-white">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="my-2">
+                        <h5 class="body1 card-title mb-0">List of Patients</h5>
+                    </div>
+                    <div class="d-flex align-items-center flex-wrap">
+                        <button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal">
+                            <i class="bx bx-filter-alt"></i>
+                            <span class="d-none d-sm-inline-block ms-2">Filter</span>
+                        </button>
+                        <div class="search search-md">
+                            <i class="bx bx-search"></i>
+                            <input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button
-              class="btn filter-btn me-2 my-2"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-            >
-              <i class="bx bx-filter-alt"></i>
-              <span class="d-none d-sm-inline-block ms-2">Filter</span>
-            </button>
-            <div class="search search-md">
-              <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search"
-                (keyup)="searchText($event)"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <ng-container class="mt-5" *ngIf="isLoadingData">
-        <ngx-shimmer-loading
-          class="d-block"
-          *ngFor="let i of shimmer(10).fill(1)"
-          style="margin-top: 1.5em; display: block; transition: all 1s"
-          [height]="'50px'"
-          [width]="'100%'"
-        >
-        </ngx-shimmer-loading>
-      </ng-container>
-      <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
-        <div *ngIf="isPatient" class="table-responsive">
-          <table
-            class="table table-hover table-nowrap align-middle"
-            datatable
-            [dtOptions]="dtOptions"
-            id="dataTables"
-          >
-            <thead class="thead-light text-uppercase">
-              <tr>
-                <th class="body2">PATIENT NAME</th>
-                <th class="body2">DATE OF BIRTH</th>
-                <th class="body2">EMAIL</th>
-                <th class="body2">DATE ADDED</th>
-                <th class="body2">STATUS</th>
-                <th class="body2" data-orderable="false">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of patientData; let i = index">
-                <td>
-                  <span class="d-none">{{ i }}</span>
-                  <div class="d-flex align-items-center">
-                    <img
-                      *ngIf="data.image"
-                      [src]="
+            <ng-container class="mt-5" *ngIf="isLoadingData">
+                <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+                                     style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'" [width]="'100%'">
+                </ngx-shimmer-loading>
+            </ng-container>
+            <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+                           id="dataTables">
+                        <thead class="thead-light text-uppercase">
+                            <tr>
+                                <th class="body2">PATIENT NAME</th>
+                                <th class="body2">DATE OF BIRTH</th>
+                                <th class="body2">DATE ADDED</th>
+                                <th class="body2">CASES</th>
+                                <th class="body2">PATIENT</th>
+                                <th class="body2">PATIENT STATUS</th>
+                                <th class="body2" data-orderable="false">QUICK ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of data; let i = index">
+                                <td>
+                                    <span [hidden]="true" class="avatar-icon">{{
+                                        data.firstName.trim()
+                                        }}</span>
+                                    <a tippy='{{(data.resourceOwner==this.user.emailAddress)?"Edit Patient":"View Patient"}}'
+                                       placement="top-start"
+                                       [routerLink]="data.resourceOwner==user.emailAddress?'/patients/patient-edit/'+data.patientId:'/patients/patient-detail/'+data.patientId">
+                                        <span class="d-none">{{ i }}</span>
+                                        <div class="d-flex align-items-center">
+                                            <img *ngIf="data.image" [src]="
                         data.image
                           ? utility.apiData.patients.bucketUrl + data.image
                           : '../../assets/images/users.png'
-                      "
-                      class="avatar-icon bg-white"
-                    />
-                    <span *ngIf="!data.image" class="avatar-icon">{{
-                      data.firstName.charAt(0)
-                    }}</span>
-                    <span class="body2 ms-4"
-                      >{{ data.firstName }} {{ data.lastName }}</span
-                    >
-                  </div>
-                </td>
-                <td>
-                  <span class="body2">{{
-                    data.dob | date : "mediumDate"
-                  }}</span>
-                </td>
-                <td>
-                  <span class="body2">{{ data.email }}</span>
-                </td>
-                <td>
-                  <span class="body2">
-                    {{ data.dateCreated | date : "mediumDate" }}</span
-                  >
-                </td>
-                <td>
-                  <div>
-                    <span
-                      class="badge rounded-pill badge-success body2"
-                      *ngIf="data.isActive == true"
-                      >Active</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.isActive == false"
-                      >Inactive</span
-                    >
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a
-                      routerLink="patient-edit/{{ data.patientId }}"
-                      tippy="Edit"
-                      placement="top"
-                      title="Edit"
-                      class="me-2"
-                    >
-                      <i class="material-icons text-bright-blue">edit</i>
-                    </a>
-                    <a
-                      routerLink="patient-detail/{{ data.patientId }}"
-                      tippy="View"
-                      placement="top"
-                      title="View"
-                      class="me-2"
-                    >
-                      <i class="material-icons text-light-green">visibility</i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr *ngIf="!this.patientData || this.patientData.length == 0">
-                <td colspan="6" class="dataTables_empty" valign="top">
-                  No Patients Available In The Table
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                      " class="avatar-icon bg-white" />
+                                            <span *ngIf="!data.image" class="avatar-icon">{{
+                                                data.firstName.charAt(0)
+                                                }}</span>
+                                            <span class="body2 ms-4">{{ data.firstName }} {{
+                                                data.lastName }}</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span [hidden]="true">{{data.dob}}</span>
+                                    <span class="body2">{{
+                                        data.dob | date : "dd/MM/YYY"
+                                        }}</span>
+                                </td>
+                                <td>
+                                    <span [hidden]="true">{{data.dateCreated}}</span>
+                                    <span class="body2">
+                                        {{ data.dateCreated | date : "dd/MM/YYY" }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span [hidden]="true">{{getCaseCount(data.caseList,true)}}</span>
+                                        <ng-container>
+                                            <a tippy="Open Case"
+                                               [class.isDisabled]="!data.caseList || getCaseCount(data.caseList,true)==0"
+                                               [routerLink]="getCaseCount(data.caseList,true)==1?'/cases/cases/case-view/'+data.caseList[0].caseId:'/patients/patient-detail/'+data.patientId">
+                                                <span
+                                                      class="case-circle me-2">{{(getCaseCount(data.caseList,true))}}</span>
+                                            </a>
+                                            <a tippy="Closed Case"
+                                               [class.isDisabled]="!data.caseList || getCaseCount(data.caseList,false)==0"
+                                               [routerLink]="getCaseCount(data.caseList,false)==1?'/cases/cases/case-view/'+data.caseList[0].caseId:'/patients/patient-detail/'+data.patientId">
+                                                <span class="case-circle2">{{getCaseCount(data.caseList,false)}}</span>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span [hidden]="true">{{data.resourceOwner==this.user.emailAddress}}</span>
+                                    <a [routerLink]="'/patients/patient-detail/'+data.patientId">
+                                        <span *ngIf="data.resourceOwner!=this.user.emailAddress">
+                                            <span class="colleagues-patient-tag"><i tippy="Colleague's Patient"
+                                                   placement="top" title="Colleague's Patient"
+                                                   class="bx bx-user p-2 isCursor"></i></span>
+                                        </span>
+                                        <span *ngIf="data.resourceOwner==this.user.emailAddress">
+                                            <span class="my-patient-tag"><i tippy="My Patient" placement="top"
+                                                   title="My Patient" class="bx bx-user p-2 isCursor"></i></span>
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span
+                                              *ngIf="getCaseCount(data.caseList,true)>0 ||(getCaseCount(data.caseList,false)==0)  else elseBlock"
+                                              class="badge rounded-pill badge-success body2">Active</span>
+                                        <ng-template #elseBlock>
+                                            <span class="badge rounded-pill badge-warning body2">In
+                                                Active</span>
+                                        </ng-template>
+                                        <br><small class="text-muted">Last Update: {{
+                                            data.dateUpdated | date : "dd MMM, y"
+                                            }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/workorders/work-order-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
+                                           tippy="Create Lab Script" placement="top" title="Create Lab Script"
+                                           class="me-1" [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                                            <i class="bx bx-folder-plus fs-4 text-bright-blue"></i>
+                                        </a>
+                                        <a routerLink="/milestones/milestone-add/pid_{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
+                                           tippy="Create Milestone" placement="top" title="Create Milestone"
+                                           class="me-1" [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                                            <i class="bx bx-award fs-4 text-light-green"></i>
+                                        </a>
+                                        <a *ngIf="data?.caseList && data.caseList.length==1"
+                                           [class.isDisabled]="getCaseCount(data.caseList,true)==0"
+                                           routerLink="/cases/cases/case-view/{{data.caseList[0].caseId}}/files"
+                                           tippy="View Files" placement="top" title="View Files">
+                                            <i class="bx bx-file-blank fs-4 text-light-orange"></i>
+                                        </a>
+                                        <span
+                                              *ngIf="!data.caseList || (data.caseList.length==0 || data.caseList.length>1) "
+                                              style="cursor: pointer;" (click)="caseList=data.caseList"
+                                              data-bs-toggle="modal" data-bs-target="#caseModal"
+                                              class="me-1 cursor-pointer"
+                                              [class.isDisabled]="getCaseCount(data.caseList,true)==0" tippy="View Files"
+                                              placement="top" title="View Files">
+                                            <i class="bx bx-file-blank fs-4 text-light-orange"></i>
+                                        </span>
+                                        <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/referrals/referral-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
+                                           tippy="Send Referral"
+                                           [class.isDisabled]="getCaseCount(data.caseList,true)==0" placement="top"
+                                           title="Send Referral">
+                                            <i class="bx bx-user-plus fs-4 text-light-pink"></i>
+                                        </a>
+                                        <a routerLink="/mail/compose/0/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
+                                           tippy="Send Email" placement="top" title="Send Email">
+                                            <i class=" bx bx-envelope fs-4 text-danger"></i>
+                                        </a>
+                                        <a routerLink="/mail/compose/1/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
+                                           tippy="Schedule Meeting" placement="top" title="Schedule Meeting">
+                                            <i class=" bx bx-video fs-4 text-blue"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!this.data || this.data.length == 0">
+                                <td colspan="6" class="dataTables_empty text-center" valign="top">
+                                    No Patients Available In The Table
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-        <div *ngIf="!isPatient" class="table-responsive">
-          <table
-            class="table table-hover table-nowrap align-middle"
-            datatable
-            [dtOptions]="dtOptions"
-            id="dataTables"
-          >
-            <thead class="thead-light text-uppercase">
-              <tr>
-                <th class="body2">PATIENT NAME</th>
-                <th class="body2">OWNER</th>
-                <th class="body2">DATE OF BIRTH</th>
-                <th class="body2">DATE ADDED</th>
-                <th class="body2">STATUS</th>
-                <th class="body2" data-orderable="false">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of colleaguesData; let i = index">
-                <td>
-                  <span class="d-none">{{ i }}</span>
-                  <div class="d-flex align-items-center">
-                    <span class="avatar-icon">{{
-                      data.firstName.charAt(0)
-                    }}</span>
-                    <span class="body2 ms-1"
-                      >{{ data.firstName }} {{ data.lastName }}</span
-                    >
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="avatar-icon">{{
-                      data.resourceOwner.charAt(0)
-                    }}</span>
-                    <span class="body2 ms-1">{{ data.resourceOwner }}</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="body2">{{
-                    data.dob | date : "mediumDate"
-                  }}</span>
-                </td>
-                <td>
-                  <span class="body2">
-                    {{ data.dateCreated | date : "mediumDate" }}</span
-                  >
-                </td>
-                <td>
-                  <div>
-                    <span
-                      class="badge rounded-pill badge-success body2"
-                      *ngIf="data.isActive == true"
-                      >Active</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.isActive == false"
-                      >Inactive</span
-                    >
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a
-                      routerLink="patient-detail/{{ data.patientId }}"
-                      tippy="View"
-                      placement="top"
-                      title="View"
-                      class="me-2"
-                    >
-                      <i class="material-icons text-light-green">visibility</i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr
-                *ngIf="!this.colleaguesData || this.colleaguesData.length == 0"
-              >
-                <td colspan="7" class="dataTables_empty" valign="top">
-                  No Patients Available In The Table
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
-<div
-  class="modal fade"
-  id="filterModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
-        <div class="modal-body">
-          <div class="row gy-3">
-            <div class="col-md-12">
-              <div class="search">
-                <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="firstName"
-                  id="firstName"
-                  placeholder="Search by Patients Name"
-                />
-              </div>
+<div class="modal fade" id="caseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Case</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12">
-              <label class="form-label body2 text-dark">Search by Date:</label>
+
+            <div class="modal-body">
+                <div class="row gy-3">
+                    <a *ngFor="let case of caseList" class="fs-6 border-bottom p-2"
+                       routerLink="/cases/cases/case-view/{{case.caseId}}/files">
+                        {{ case.title}}
+                    </a>
+                </div>
             </div>
-            <div class="col-md-6">
-              <label class="form-label body2 text-dark">From</label>
-              <input
-                #filterDateFrom
-                type="date"
-                name="dateFrom"
-                ngModel
-                id="dateFrom"
-                class="form-control"
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label body2 text-dark">To</label>
-              <input
-                [disabled]="!filterDateFrom.value"
-                min="{{ filterDateFrom.value }}"
-                type="date"
-                name="dateTo"
-                ngModel
-                id="dateTo"
-                class="form-control"
-              />
-            </div>
-          </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
-            Apply
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
+</div>
+
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
+                <div class="modal-body">
+                    <div class="row gy-3">
+                        <div class="col-md-12">
+                            <div class="search">
+                                <i class="bx bx-search"></i>
+                                <input type="text" class="form-control" ngModel name="firstName" id="firstName"
+                                       placeholder="Search by Patients Name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label body2 text-dark">Search by Date:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">From</label>
+                            <input #filterDateFrom type="date" name="dateFrom" ngModel id="dateFrom"
+                                   class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">To</label>
+                            <input [disabled]="!filterDateFrom.value" min="{{ filterDateFrom.value }}" type="date"
+                                   name="dateTo" ngModel id="dateTo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
+                        Apply
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

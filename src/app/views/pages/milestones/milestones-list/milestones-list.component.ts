@@ -22,14 +22,21 @@ export class MilestonesListComponent implements OnInit {
 	caseId = "";
 	dtOptions: DataTables.Settings = {};
 	user = this.utility.getUserDetails()
+	currentTime = Date.now();
+	caseDetail = null;
 
 	constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
 
 	ngOnInit(): void {
 
-		this.route.parent.parent.paramMap.subscribe((params) => {
-			if (params.get("caseId") && params.get("caseId") != "")
+		this.route.parent.parent.paramMap.subscribe(async (params) => {
+			if (params.get("caseId") && params.get("caseId") != "") {
+				await this.utility.loadPreFetchData("cases");
 				this.caseId = params.get("caseId");
+				let caseDetails = this.utility.metadata.cases.find((item) => item.caseId == this.caseId)
+				if (caseDetails)
+					this.caseDetail = { ...caseDetails }
+			}
 			this.loadBaseData();
 		});
 
@@ -72,6 +79,7 @@ export class MilestonesListComponent implements OnInit {
 			await this.utility.loadPreFetchData("users");
 			await this.utility.loadPreFetchData("cases");
 			await this.utility.loadPreFetchData("patients");
+			await this.utility.loadPreFetchData("practices");
 			let url = this.utility.baseUrl + this.module;
 			if (this.caseId) url = url + "?caseId=" + this.caseId
 			this.dataService.getallData(url, true).subscribe(Response => {
@@ -113,5 +121,39 @@ export class MilestonesListComponent implements OnInit {
 		});
 		this.baseData = filterData
 
+	}
+
+	getUserImage(mail) {
+		let img = this.utility.getMetaData(
+			mail,
+			"emailAddress",
+			["imageSrc"],
+			"users"
+		)
+		return (img) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=" + this.utility.apiData.users.bucketUrl + encodeURIComponent(img.toString()) + ">" : " <span class='avatar-icon my-2 me-2' > " +
+			this.utility.getMetaData(
+				mail,
+				"emailAddress",
+				["accountfirstName", "accountlastName"],
+				"users"
+			).toString().charAt(0)
+			+ " </span>"
+	}
+
+	getPatientImage(pid) {
+		let img = this.utility.getMetaData(
+			pid,
+			"patientId",
+			["image"],
+			"patients"
+		)
+		return (img) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=" + this.utility.apiData.patients.bucketUrl + encodeURIComponent(img.toString()) + ">" : " <span class='avatar-icon my-2 me-2' > " +
+			this.utility.getMetaData(
+				pid,
+				"patientId",
+				["firstName", "lastName"],
+				"patients"
+			).toString().charAt(0)
+			+ " </span>"
 	}
 }

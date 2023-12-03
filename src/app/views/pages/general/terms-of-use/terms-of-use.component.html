@@ -1,146 +1,57 @@
 <header class="w-100 overflow-hidden header-style">
-  <nav
-    class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown"
-    data-wow-delay="0.4s"
-    style="background-color: #fff !important"
-  >
+  <nav data-wow-delay="0.4s" class="navbar navbar-expand-md navbar-dark border-bottom wow fadeInDown"
+    style="background-color: rgb(255, 255, 255) !important; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
     <div class="container">
-      <a class="navbar-brand" routerLink="/"
-        ><img src="assets/images/Logo_Dark.png"
-      /></a>
-      <div class="text-center hipaa-logo">
-        <img src="assets/images/hipaa-logo.png" class="minlg" />
-        <img src="assets/images/logo_footer3.png" class="maxmd" />
-      </div>
-      <button
-        class="navbar-toggler collapsed"
-        data-bs-target="#collapsibleNavbar"
-        data-bs-toggle="collapse"
-        type="button"
-        aria-expanded="false"
-      >
-        <span class="navbar-toggler-icon"> <i class="fa fa-bars"></i></span>
-      </button>
-      <div class="collapse navbar-collapse mt-1" id="collapsibleNavbar">
+      <a class="navbar-brand" routerLink=""><img src="assets/images/Logo_Dark.png"></a>
+      <a class="text-center hipaa-logo" href="https://compliancy-group.com/" target="_blank"><img
+          src="assets/images/hipaa-logo.png" class="minlg"><img src="assets/images/logo_footer3.png" class="maxmd"></a>
+      <button data-bs-target="#collapsibleNavbar" data-bs-toggle="collapse" type="button" aria-expanded="false"
+        class="navbar-toggler collapsed"><span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span></button>
+      <div id="collapsibleNavbar" class="collapse navbar-collapse mt-1">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a
-              class="nav-link bold"
-              routerLink="/"
-              fragment="Products"
-              style="color: #011a3e"
-              >Products</a
-            >
+          <li class="nav-item"><a routerLink="/home" fragment="DentalPlanner" class="nav-link bold"
+              style="color: #011a3e;">Products</a></li>
+          <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" routerLink="/solutions">Solutions</a>
           </li>
-          <li class="nav-item">
-            <a
-              class="nav-link bold"
-              routerLink="/solutions"
-              routerLinkActive="active"
-              style="color: #011a3e"
-              >Solutions</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link bold"
-              routerLink="/"
-              fragment="Plans"
-              style="color: #011a3e"
-              >Plans</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link bold"
-              routerLink="/become-vendor"
-              routerLinkActive="active"
-              style="color: #011a3e"
-              >Vendor</a
-            >
+          <li class="nav-item"><a routerLink="/home" fragment="Plans" class="nav-link bold"
+              style="color: #011a3e;">Plans</a></li>
+          <li class="nav-item"><a class="nav-link bold" style="color: #011a3e;" routerLink="/become-vendor">Vendor</a>
           </li>
         </ul>
         <div class="dropdown-divider"></div>
-        <div
-          class="text-center social wow fadeInUp me-md-2 me-lg-4 d-none d-lg-block"
-          data-wow-delay="0.6s"
-        >
-          <a
-            href="https://www.facebook.com/dentalive"
-            target="_blank"
-            title="Facebook"
-            ><i class="bx bxl-facebook-circle" aria-hidden="true"></i
-          ></a>
-          <a
-            href="https://twitter.com/dentalliveplans"
-            target="_blank"
-            title="Twitter"
-            ><i class="bx bxl-twitter" aria-hidden="true"></i
-          ></a>
-          <a
-            href="https://www.instagram.com/dentalliveplans"
-            target="_blank"
-            title="Instagram"
-            ><i class="bx bxl-instagram" aria-hidden="true"></i
-          ></a>
+        <div data-wow-delay="0.6s" class="text-center social wow fadeInUp me-md-2 me-lg-4 d-none d-lg-block"
+          style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+          <a href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true"
+              class="bx bxl-facebook-circle"></i></a>
+          <a href="https://twitter.com/dentalliveplans" target="_blank" title="Twitter"><i aria-hidden="true"
+              class="bx bxl-twitter"></i></a>
+          <a href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true"
+              class="bx bxl-instagram"></i></a>
         </div>
         <ul class="navbar-nav mb-md-0 ml-auto">
-          <li class="nav-item">
-            <a
-              href="/auth/login"
-              routerLinkActive="active"
-              class="btn btn-primary me-2 my-1"
-              >Login</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              href="/auth/signup"
-              routerLinkActive="active"
-              class="btn btn-dark my-1"
-              >Sign Up
-            </a>
+          <li class="nav-item"><a routerLink="/auth/login" class="btn btn-primary me-2 my-1">Login</a></li>
+          <li class="nav-item"><a routerLink="/auth/signup" class="btn btn-dark my-1">Sign Up </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <nav
-    class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown"
-    data-wow-delay="0.4s"
-    style="height: 50px"
-  >
+  <nav data-wow-delay="0.4s" class="navbar-expand-md nav_bar pt-1 border-bottom wow fadeInDown"
+    style="height: 50px; visibility: visible; animation-delay: 0.4s; animation-name: fadeInDown;">
     <div class="container">
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <div id="collapsibleNavbar" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a
-              class="nav-link bold py-md-0"
-              routerLink="/"
-              fragment="DentalPlanner"
-              style="color: #011a3e"
-              ><img
-                src="assets/images/plannerlogom.png"
-                alt="Dental LIVE Planner"
-            /></a>
+            <a routerLink="/dentallive-planner" class="nav-link bold py-md-0" style="color: #011a3e;"><img
+                src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link bold py-md-0"
-              routerLink="/"
-              fragment="Products"
-              style="color: #011a3e"
-              ><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"
-            /></a>
+            <a routerLink="/dentallive-mail" class="nav-link bold py-md-0" style="color: #011a3e;"><img
+                src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link bold py-md-0"
-              routerLink="/"
-              fragment="DentalTalk"
-              style="color: #011a3e"
-              ><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"
-            /></a>
+            <a routerLink="/dentallive-talk" class="nav-link bold py-md-0" style="color: #011a3e;"><img
+                src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
           </li>
         </ul>
       </div>
@@ -152,11 +63,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-          <h1
-            class="h1 fw-bold wow fadeInUp pb-2"
-            data-wow-delay="0.2s"
-            style="color: #011a3e"
-          >
+          <h1 class="h1 fw-bold wow fadeInUp pb-2" data-wow-delay="0.2s" style="color: #011a3e">
             Terms and Condition
           </h1>
         </div>
@@ -232,151 +139,82 @@
 </main>
 
 <!-- Footer-->
-<footer class="container-fluid" style="color: #5d6a7e">
+<footer class="container-fluid" style="color: #5d6a7e;">
   <div class="container footer">
     <div class="row">
       <div class="col-12 col-md-3 pt-5 pb-md-4">
-        <h5
-          class="footer-header wow fadeInUp fw-bold"
-          data-wow-delay="0.1s"
-          style="color: #011a3e"
-        >
-          Products
+        <h5 data-wow-delay="0.1s" class="footer-header wow fadeInUp fw-bold"
+          style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;"> Products
         </h5>
-        <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.1s">
+        <ul data-wow-delay="0.1s" class="list-unstyled text-small wow fadeInUp"
+          style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
           <li class="mb-3">
-            <a
-              class="text-muted body2"
-              routerLink="/"
-              fragment="Products"
-              style="color: #aeb4bf"
-              ><img src="assets/images/maillogom.png" alt="Dental LIVE Mail"
-            /></a>
+            <a routerLink="/dentallive-mail" class="text-muted body2" style="color: #aeb4bf;"><img
+                src="assets/images/maillogom.png" alt="Dental LIVE Mail"></a>
           </li>
           <li class="mb-3">
-            <a
-              class="text-muted body2"
-              routerLink="/"
-              fragment="DentalTalk"
-              style="color: #aeb4bf"
-              ><img src="assets/images/talklogom.png" alt="Dental LIVE Talk"
-            /></a>
+            <a routerLink="/dentallive-talk" class="text-muted body2" style="color: #aeb4bf;"><img
+                src="assets/images/talklogom.png" alt="Dental LIVE Talk"></a>
           </li>
           <li>
-            <a
-              class="text-muted body2"
-              routerLink="/"
-              fragment="DentalPlanner"
-              style="color: #aeb4bf"
-              ><img
-                src="assets/images/plannerlogom.png"
-                alt="Dental LIVE Planner"
-            /></a>
+            <a routerLink="/dentallive-planner" class="text-muted body2" style="color: #aeb4bf;"><img
+                src="assets/images/plannerlogom.png" alt="Dental LIVE Planner"></a>
           </li>
         </ul>
       </div>
       <div class="col-12 col-md-3 pt-md-5 pb-md-4">
-        <h5
-          class="footer-header wow fadeInUp fw-bold"
-          data-wow-delay="0.3s"
-          style="color: #011a3e"
-        >
-          Contact
+        <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold"
+          style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Contact
         </h5>
-        <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.2s">
-          <li>
-            <span class="text-muted body2 d-flex align-items-center"
-              ><i class="bx bx-phone me-1"></i> +1 289 474-5200</span
-            >
-          </li>
-          <li class="d-flex align-items-center">
-            <i class="bx bx-envelope me-1"></i>
-            <a class="text-muted body2" href="mailto:support@dentallive.com;"
-              >support@dentallive.com</a
-            >
-          </li>
+        <ul data-wow-delay="0.2s" class="list-unstyled text-small wow fadeInUp"
+          style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <li><span class="text-muted body2 d-flex align-items-center"><i class="bx bx-phone me-1"></i> +1 289
+              474-5200</span></li>
+          <li class="d-flex align-items-center"><i class="bx bx-envelope me-1"></i><a
+              href="mailto:support@dentallive.com;" class="text-muted body2">support@dentallive.com</a></li>
         </ul>
       </div>
       <div class="col-12 col-md-3 pt-md-5 pb-md-4">
-        <h5
-          class="footer-header wow fadeInUp fw-bold"
-          data-wow-delay="0.3s"
-          style="color: #011a3e"
-        >
-          Links
+        <h5 data-wow-delay="0.3s" class="footer-header wow fadeInUp fw-bold"
+          style="color: rgb(1, 26, 62); visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;"> Links
         </h5>
-        <ul class="list-unstyled text-small wow fadeInUp" data-wow-delay="0.3s">
-          <li>
-            <a
-              class="text-muted body2"
-              routerLink="/contact-us"
-              fragment="contact"
-              >Contact Us</a
-            >
-          </li>
-          <li>
-            <a class="text-muted body2" routerLink="/become-vendor"
-              >Become Vendor</a
-            >
-          </li>
-          <li>
-            <a class="text-muted body2" routerLink="/solutions">Solutions</a>
-          </li>
-          <!--<li><a class="text-muted body2" routerLink="/faq">FAQ's</a></li>
-					<li><a class="text-muted body2" routerLink="/privacy-policy">Privacy Policy</a></li>-->
-          <li>
-            <a class="text-muted body2" routerLink="/terms-of-use"
-              >Terms and Conditions</a
-            >
-          </li>
+        <ul data-wow-delay="0.3s" class="list-unstyled text-small wow fadeInUp"
+          style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+          <li><a class="text-muted body2" routerLink="/contact-us">Contact Us</a></li>
+          <li><a class="text-muted body2" routerLink="/become-vendor">Become Vendor</a></li>
+          <li><a class="text-muted body2" routerLink="/solutions">Solutions</a></li>
+          <li><a class="text-muted body2" routerLink="/terms-of-use">Terms and Conditions</a></li>
         </ul>
       </div>
       <div class="col-12 col-md-3 pt-4">
-        <div class="wow fadeInUp" data-wow-delay="0.4s">
-          <img src="assets/images/safe-and-secure.png" width="80px" />
-          <img src="assets/images/hipaa-logo.png" width="80px" />
+        <div data-wow-delay="0.4s" class="wow fadeInUp"
+          style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;"><img
+            src="assets/images/safe-and-secure.png" width="80px"><img src="assets/images/hipaa-logo.png" width="80px">
         </div>
       </div>
     </div>
   </div>
-  <div class="my-2 footer-bottom" style="border-top: 1px solid #d0d6de">
+  <div class="my-2 footer-bottom" style="border-top: 1px solid #d0d6de;">
     <div class="container">
       <div class="row pt-4">
         <div class="col-md-4 pb-4">
-          <a routerLink="/"
-            ><img
-              src="assets/images/Logo_Dark.png"
-              class="wow fadeInUp"
-              data-wow-delay="0.5s"
-          /></a>
+          <a routerLink=""><img src="assets/images/Logo_Dark.png" data-wow-delay="0.5s" class="wow fadeInUp"
+              style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;"></a>
         </div>
         <div class="col-md-3">
-          <div class="text-center social wow fadeInUp" data-wow-delay="0.6s">
-            <a
-              href="https://www.facebook.com/dentalive"
-              target="_blank"
-              title="Facebook"
-              ><i class="bx bxl-facebook-circle" aria-hidden="true"></i
-            ></a>
-            <a
-              href="https://twitter.com/dentalliveplans"
-              target="_blank"
-              title="Twitter"
-              ><i class="bx bxl-twitter" aria-hidden="true"></i
-            ></a>
-            <a
-              href="https://www.instagram.com/dentalliveplans"
-              target="_blank"
-              title="Instagram"
-              ><i class="bx bxl-instagram" aria-hidden="true"></i
-            ></a>
-          </div>
+          <div data-wow-delay="0.6s" class="text-center social wow fadeInUp"
+            style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"><a
+              href="https://www.facebook.com/dentalive" target="_blank" title="Facebook"><i aria-hidden="true"
+                class="bx bxl-facebook-circle"></i></a><a href="https://twitter.com/dentalliveplans" target="_blank"
+              title="Twitter"><i aria-hidden="true" class="bx bxl-twitter"></i></a><a
+              href="https://www.instagram.com/dentalliveplans" target="_blank" title="Instagram"><i aria-hidden="true"
+                class="bx bxl-instagram"></i></a></div>
         </div>
         <div class="col-md-5 text-md-end text-center">
           <div class="pt-2">
-            <p class="text-secondary small wow fadeInUp" data-wow-delay="0.7s">
-              &copy; {{ currentYear }} DentalLive<sup>TM</sup> All rights
-              reserved.
+            <p data-wow-delay="0.7s" class="text-secondary small wow fadeInUp"
+              style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;"> &copy;
+              <script>document.write(new Date().getFullYear());</script> DentalLive<sup>TM</sup> All rights reserved.
             </p>
           </div>
         </div>
@@ -386,6 +224,4 @@
 </footer>
 <!-- Footer end-->
 
-<div ngxScrollTop [ngxScrollTopMode]="'classic'" class="go-top active">
-  <i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i>
-</div>
+<div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>

@@ -71,6 +71,12 @@
           <td style="max-width: 20%;" mat-cell *matCellDef="let row">
             {{row.mailDateTime | date:'MMM d, y, h:mm a'}} </td>
         </ng-container>
+        <ng-container *ngIf="type=='OUT'" matColumnDef="isSchedule">
+          <th style="max-width: 20%;" mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <td style="max-width: 20%;" mat-cell *matCellDef="let row">
+            {{row.isSchedule? "Meeting" : "Mail" }} </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="cursor: pointer;"
           [routerLink]="['/mail/view',pathType, row.mailDateTime]">

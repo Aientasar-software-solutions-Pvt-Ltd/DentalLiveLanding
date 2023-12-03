@@ -29,6 +29,10 @@ const routes: Routes = [
         component: PatientDetailsComponent
       },
       {
+        path: 'patient-detail/:id/:isScroll',
+        component: PatientDetailsComponent
+      },
+      {
         path: 'patient-add',
         component: PatientAddComponent
       },

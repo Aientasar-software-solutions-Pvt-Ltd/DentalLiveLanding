@@ -1,0 +1,4 @@
+.table .dropdown-menu::before,
+.dropdown-menu::before {
+    display: none !important;
+}

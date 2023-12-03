@@ -39,7 +39,6 @@ export class CaseThreadsComponent implements OnInit {
       this.dataService.getallData(url, true).subscribe(Response => {
         if (Response) {
           let data = JSON.parse(Response.toString());
-          
           this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
           this.isLoadingData = false;
         }

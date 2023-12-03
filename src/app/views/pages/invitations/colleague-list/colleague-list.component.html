@@ -1,9 +1,7 @@
 <ol class="breadcrumb">
   <!-- breadcrumb -->
   <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
+    <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">Members</li>
 </ol>
@@ -16,93 +14,71 @@
   <div class="col-md-12">
     <div class="card shadow-sm">
       <div class="card-header border-bottom-0 bg-white">
-        <div
-          class="d-flex justify-content-between align-items-center flex-wrap"
-        >
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
           <div class="my-2">
             <h5 class="body1 card-title mb-0">List of Members</h5>
           </div>
           <div class="d-flex align-items-center flex-wrap">
-            <button
-              class="btn filter-btn me-2 my-2"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-            >
+            <!-- <button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal">
               <i class="bx bx-filter-alt"></i>
               <span class="d-none d-sm-inline-block ms-2">Filter</span>
-            </button>
+            </button> -->
             <div class="search search-md">
               <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search"
-                (keyup)="searchText($event)"
-              />
+              <input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)" />
             </div>
           </div>
         </div>
       </div>
       <ng-container class="mt-5" *ngIf="isLoadingData">
-        <ngx-shimmer-loading
-          class="d-block"
-          *ngFor="let i of shimmer(10).fill(1)"
-          style="margin-top: 1.5em; display: block; transition: all 1s"
-          [height]="'50px'"
-          [width]="'100%'"
-        >
+        <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+          style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'" [width]="'100%'">
         </ngx-shimmer-loading>
       </ng-container>
       <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
         <div class="table-responsive">
-          <table
-            *ngIf="baseData"
-            class="table table-hover table-nowrap align-middle"
-            datatable
-            [dtOptions]="dtOptions"
-            id="dataTables"
-          >
+          <table *ngIf="baseData" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+            id="dataTables">
             <thead class="thead-light">
               <tr style="text-transform: uppercase">
                 <th class="body2">NAME</th>
-                <th class="body2">CLINIC NAME</th>
-                <th class="body2">EDUCATION</th>
+                <th class="body2">PRACTICE</th>
+                <th class="body2">SPECIALTY</th>
                 <th class="body2">COUNTRY</th>
                 <th class="body2">CITY</th>
-                <!-- <th class="body2">JOINING DATE</th> -->
-                <th class="body2" data-orderable="false">ACTIONS</th>
+                <th class="body2" data-orderable="false">QUICK ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let data of baseData; let i = index">
-                <td data-sort="data.dateCreated">
+                <td>
+                  <span [hidden]="true">
+                    {{data.accountfirstName.trim()}}</span>
                   <div class="d-flex align-items-center">
                     <span *ngIf="!data.imageSrc" class="avatar-icon my-2">{{
                       data.accountfirstName.charAt(0)
-                    }}</span>
-                    <img
-                      [src]="utility.apiData.users.bucketUrl + data.imageSrc"
-                      *ngIf="data.imageSrc"
-                      class="avatar-icon my-2"
-                      style="object-fit: cover"
-                    />
+                      }}</span>
+                    <img [src]="utility.apiData.users.bucketUrl + data.imageSrc" *ngIf="data.imageSrc"
+                      class="avatar-icon my-2" style="object-fit: cover" />
                     <div class="ps-2">
-                      <span #label class="body2 d-block"
-                        >{{
-                          data.accountfirstName + " " + data.accountlastName
-                        }}
+                      <span #label class="body2 d-block">
+                        {{data.accountfirstName + " " + data.accountlastName}}
                         <small class="text-muted d-block">
-                          {{ data.emailAddress }}</small
-                        ></span
-                      >
+                          {{ data.emailAddress }}</small></span>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="body2">{{ data.clinicName }}</span>
+                  <span class="body2">{{ utility
+                    .getMetaData(
+                    data.primaryPractice,
+                    "practiceId",
+                    ["practiceName"],
+                    "practices"
+                    ) }}</span>
                 </td>
                 <td>
-                  <span class="body2">{{ data.education }}</span>
+                  <span class="body2">{{ data.speciality }}</span>
                 </td>
                 <td>
                   <span class="body2">{{ data.country }}</span>
@@ -114,11 +90,8 @@
                   <span class="body2">{{ data.dateCreated }}</span>
                 </td> -->
                 <td>
-                  <i
-                    [routerLink]="data.emailAddress"
-                    style="cursor: pointer"
-                    class="material-icons fs-4 text-light-green"
-                  >
+                  <i [routerLink]="data.emailAddress" style="cursor: pointer"
+                    class="material-icons fs-4 text-light-green">
                     visibility
                   </i>
                 </td>
@@ -131,23 +104,12 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="filterModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
         <div class="modal-body">
@@ -155,76 +117,41 @@
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="accountFirstName"
-                  id="accountFirstName"
-                  placeholder="Search by First name"
-                />
+                <input type="text" class="form-control" ngModel name="accountFirstName" id="accountFirstName"
+                  placeholder="Search by First name" />
               </div>
             </div>
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="accountLastName"
-                  id="accountLastName"
-                  placeholder="Search by Last name"
-                />
+                <input type="text" class="form-control" ngModel name="accountLastName" id="accountLastName"
+                  placeholder="Search by Last name" />
               </div>
             </div>
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="emailAddress"
-                  id="emailAddress"
-                  placeholder="Search by Email"
-                />
+                <input type="text" class="form-control" ngModel name="emailAddress" id="emailAddress"
+                  placeholder="Search by Email" />
               </div>
             </div>
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="city"
-                  id="city"
-                  placeholder="Search by City"
-                />
+                <input type="text" class="form-control" ngModel name="city" id="city" placeholder="Search by City" />
               </div>
             </div>
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="country"
-                  id="country"
-                  placeholder="Search by Country"
-                />
+                <input type="text" class="form-control" ngModel name="country" id="country"
+                  placeholder="Search by Country" />
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-default" data-bs-dismiss="modal">

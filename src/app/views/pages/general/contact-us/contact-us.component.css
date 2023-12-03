@@ -1,62 +1,78 @@
-section {
-  padding: 5rem 0;
-}
+ section {
+   padding: 5rem 0;
+ }
 
-.contact-info{
-  background: #f1fffe;
-  padding: 50px 60px;
-  border-radius: 15px 0px 0px 15px;
-}
-@media(max-width:991px){
-	.contact-info {
-	  border-radius: 15px;
-	}
-}
-.single-contact-location{
-  position: relative;
-  padding: 20px 0 0 100px;
-  min-height:80px;
-}
-.single-contact-location-icon{
-  height: 50px;
-  width: 50px;
-  text-align: center;
-  line-height: 50px;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  margin-top: -25px;
-}
-.single-contact-location-icon-bg{
-  position: relative;
-  z-index: 2;
-}
-.single-contact-location-icon-bg:after {
-  position: absolute;
-  content: "";
-  height: 70px;
-  width: 35px;
-  background: #a2f9f3;
-  border-radius: 50%;
-  transform: rotate(-45deg);
-  z-index: -1;
-  left: 0;
-  top: 0;
-}
-.single-contact-location h6 {
-  font-size: 16px;
-  line-height: 26px;
-  color: #011A3E;
-  font-family: "Rubik";
-  font-weight: 500;
-}
-.single-contact-location h6 i {
-  margin-left: 6px;
-}
-@media(min-width:992px) and (max-width:1200px){
-.contact-info{padding: 35px;}
-}
-@media(max-width:575px){
-.contact-info{padding: 35px 20px;}
-.single-contact-location{padding: 20px 0 0 80px;}
-}
+ .contact-info {
+   background: #f1fffe;
+   padding: 50px 60px;
+   border-radius: 15px 0px 0px 15px;
+ }
+
+ @media(max-width:991px) {
+   .contact-info {
+     border-radius: 15px;
+   }
+ }
+
+ .single-contact-location {
+   position: relative;
+   padding: 20px 0 0 100px;
+   min-height: 80px;
+ }
+
+ .single-contact-location-icon {
+   height: 50px;
+   width: 50px;
+   text-align: center;
+   line-height: 50px;
+   position: absolute;
+   left: 20px;
+   top: 50%;
+   margin-top: -25px;
+ }
+
+ .single-contact-location-icon-bg {
+   position: relative;
+   z-index: 2;
+ }
+
+ .single-contact-location-icon-bg:after {
+   position: absolute;
+   content: "";
+   height: 70px;
+   width: 35px;
+   background: #a2f9f3;
+   border-radius: 50%;
+   transform: rotate(-45deg);
+   z-index: -1;
+   left: 0;
+   top: 0;
+ }
+
+ .single-contact-location h6 {
+   font-size: 16px;
+   line-height: 26px;
+   color: #011A3E;
+   font-family: "Rubik";
+   font-weight: 500;
+ }
+
+ .single-contact-location h6 i {
+   margin-left: 6px;
+ }
+
+ @media(min-width:992px) and (max-width:1200px) {
+   .contact-info {
+     padding: 35px;
+   }
+ }
+
+ @media(max-width:575px) {
+   .contact-info {
+     padding: 35px 20px;
+   }
+
+   .single-contact-location {
+     padding: 20px 0 0 80px;
+   }
+ }

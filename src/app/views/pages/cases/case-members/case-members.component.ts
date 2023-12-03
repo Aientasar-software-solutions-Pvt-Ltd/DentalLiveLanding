@@ -1,12 +1,13 @@
 import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiDataService } from '../../users/api-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import "@lottiefiles/lottie-player";
 import { NgForm } from '@angular/forms';
 import { filter } from 'smart-array-filter';
 import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-case-members',
@@ -30,6 +31,10 @@ export class CaseMembersComponent implements OnInit {
   invitations = ""
   nonInvitedMembers = [];
   caseDetail = null;
+  checkboxedUsers = [];
+  @ViewChild('selectAll') selectAll: ElementRef;
+  isInvite = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +45,7 @@ export class CaseMembersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.route.parent.paramMap.subscribe(async (params) => {
 
       if (!this.caseId) {
@@ -52,6 +58,7 @@ export class CaseMembersComponent implements OnInit {
       await this.utility.loadPreFetchData("users");
       await this.utility.loadPreFetchData("cases");
       await this.utility.loadPreFetchData("patients");
+      await this.utility.loadPreFetchData("practices");
 
       if (this.caseId) {
         let caseDetails = this.utility.metadata.cases.find((item) => item.caseId == this.caseId)
@@ -126,7 +133,6 @@ export class CaseMembersComponent implements OnInit {
       this.isLoadingData = false;
     }
   }
-
 
   filterSubmit(form: NgForm) {
     let query = "";
@@ -210,6 +216,7 @@ export class CaseMembersComponent implements OnInit {
       this.loadBaseData(true)
     } catch (error) {
       (error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+      this.isUploadingData = false;
       return;
     }
   }
@@ -219,8 +226,8 @@ export class CaseMembersComponent implements OnInit {
     let item = { ...this.selectedItem }
     this.isUploadingData = true;
     try {
-      let result = await swal('Do you want to Delete this Invitation?', {
-        buttons: ["Don't delete!", "Yes,Delete it"],
+      let result = await swal('Are you sure want to delete this invitation?', {
+        buttons: ["Cancel", "Continue"],
       })
       if (result) {
         item.presentStatus = 3;
@@ -243,7 +250,8 @@ export class CaseMembersComponent implements OnInit {
 
   resetInviteForm() {
     this.selectedUsers = [];
-    this.inviteText.resetForm()
+    this.inviteText.resetForm();
+    this.isInvite = false;
   }
 
   async addNewMember(form: NgForm) {
@@ -271,21 +279,86 @@ export class CaseMembersComponent implements OnInit {
       closeOnClickOutside: false,
     });
 
-    let url = this.utility.baseUrl + "sendinvite" + "?caseId=" + this.caseDetail.caseId + '&name=' + form.value.name + '&email=' + form.value.email;
-    this.dataService.getallData(url, true)
-      .subscribe(Response => {
-        if (Response) Response = JSON.parse(Response.toString());
-        swal.close();
-        swal('New member invited successfully');
-        form.reset()
-      }, error => {
-        swal.close();
-        if (error.status == 418)
-          swal("User already a member of Dental-Live")
-        else
-          (error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
-        return;
+    this.dataService.getallData(this.utility.baseUrl + "sendinvite?caseId=" + this.caseDetail.caseId + "&name=" + form.value.name + "&email=" + form.value.email, true).subscribe(Response => {
+      if (Response) Response = JSON.parse(Response.toString());
+      swal.close();
+      swal('New member invited successfully');
+      form.reset()
+    }, error => {
+      if (error.status == 418)
+        swal("User already a member of Dental-Live")
+      else
+        (error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+      return;
+    });
+  }
+
+  toggleSelectAll(e) {
+    this.checkboxedUsers = [];
+    if (e.currentTarget.checked) this.checkboxedUsers = [...this.baseData];
+    this.baseData.map(item => item.isChecked = !item.isChecked)
+  }
+
+  checkMember(e, member) {
+    if (e.currentTarget.checked)
+      this.checkboxedUsers.push(member)
+    else {
+      this.checkboxedUsers = this.checkboxedUsers.filter(object => {
+        return member !== object;
       });
+    }
+  }
+
+  sendMailAll(isSchedule) {
+    console.log(isSchedule)
+    if (this.checkboxedUsers.length == 0) {
+      swal("Please Select Members");
+      return;
+    }
+
+    if (this.selectAll.nativeElement.checked) {
+      // Swal.fire({
+      //   title: `You have initiated a ${isSchedule ? 'Schedule Meeting' : 'Email'}  with all the Colleagues,Would you like to continue?`,
+      //   showCancelButton: true,
+      //   confirmButtonText: 'Yes,Continue',
+      //   denyButtonText: `Cacnel`,
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+      //     let emails = this.checkboxedUsers.map(item => { return item.invitedUserMail })
+      //     let link = `/mail/compose/${isSchedule ? 1 : 0}/${this.caseDetail?.patientId}/${this.caseDetail?.caseId
+      //       }/${emails.join(",")}"`
+      //     this.router.navigate([link]);
+      //   }
+      // })
+      let emails = this.checkboxedUsers.map(item => { return item.invitedUserMail })
+      let link = `/mail/compose/${isSchedule ? 1 : 0}/${this.caseDetail?.patientId}/${this.caseDetail?.caseId
+        }/${emails.join(",")}"`
+      this.router.navigate([link]);
+    } else {
+      let emails = this.checkboxedUsers.map(item => { return item.invitedUserMail })
+      let link = `/mail/compose/${isSchedule ? 1 : 0}/${this.caseDetail?.patientId}/${this.caseDetail?.caseId
+        }/${emails.join(",")}"`
+      this.router.navigate([link]);
+    }
+  }
+
+  getUserImage(email) {
+    let img = this.utility.getMetaData(
+      email,
+      "emailAddress",
+      ["imageSrc"],
+      "users"
+    )
+    let imgArray = img && img.toString().split(",")
+    return (imgArray && imgArray.length > 0) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=" + this.utility.apiData.users.bucketUrl + imgArray[0] + ">" : " <span class='avatar-icon my-2 me-2' > " +
+      this.utility
+        .getMetaData(
+          email,
+          "emailAddress",
+          ["accountfirstName", "accountlastName"],
+          "users"
+        ).toString().charAt(0)
+      + " </span>"
   }
 
 }

@@ -1,240 +1,213 @@
 <ol *ngIf="!hasCase" class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="{{ backUrl }}">Referrals</a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">Referral Details</li>
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a routerLink="{{ backUrl }}">Referrals</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Referral Details</li>
 </ol>
 <div *ngIf="isLoadingData" class="row">
-  <div class="col-md-12">
-    <lottie-player
-      class="mt-3 m-auto"
-      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></lottie-player>
-    <h6 class="text-center mt-5">
-      Request Processing …..Please Wait, Do Not Close The Page
-    </h6>
-  </div>
+    <div class="col-md-12">
+        <lottie-player class="mt-3 m-auto"
+                       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+                       background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
+        <h6 class="text-center mt-5">
+            Request Processing …..Please Wait, Do Not Close The Page
+        </h6>
+    </div>
 </div>
 
 <div [hidden]="isLoadingData">
-  <div *ngIf="!hasCase" class="page-header row align-items-center gx-0">
-    <div class="col-md-6">
-      <div class="d-inline-block">
-        <h3 class="mt-2 fw-normal">
-          {{
-            utility.getMetaData(
-              baseData.patientId,
-              "patientId",
-              ["firstName", "lastName"],
-              "patients"
-            )
-          }}
-          <span class="fw-bold d-block">{{
-            utility.getMetaData(baseData.caseId, "caseId", ["title"], "cases")
-          }}</span>
-          <div class="progress progress-sm mt-2">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              style="width: 55%"
-              aria-valuenow="55"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            ></div>
-          </div>
-        </h3>
-      </div>
-    </div>
-    <div class="col-md-6 text-end"></div>
-  </div>
 
-  <div class="row align-items-center pt-2">
-    <div class="col-md-12">
-      <div class="card shadow-sm">
-        <div class="card-header bg-white">
-          <div class="row">
-            <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">
-                Referrals Details
-                <a  tippy="Tutorial"
-                  target="_blank"
-                  [routerLink]="
+    <!-- Header Section -->
+    <div *ngIf="baseData" class="page-header d-sm-flex">
+        <div class="d-sm-flex d-block">
+            <div class="profile-img justify-content-center p-md-2 me-3">
+                <img [src]="
+                    utility.getMetaData(
+                      baseData?.patientId,
+                      'patientId',
+                      ['image'],
+                      'patients'
+                    )
+                      ? utility.apiData.patients.bucketUrl +
+                        utility.getMetaData(
+                          baseData?.patientId,
+                          'patientId',
+                          ['image'],
+                          'patients'
+                        )
+                      : '../../assets/images/users.png'
+                  " alt="" alt="" class="mb-2">
+            </div>
+        </div>
+        <div class=" d-inline-block">
+            <h3 class="mt-2 fw-normal">{{utility.getMetaData(
+                baseData.patientId,
+                "patientId",
+                ["firstName", "lastName"],
+                "patients"
+                ) }} <small>({{( baseData.patientId ? this.utility.getMetaData(
+                    baseData.patientId,
+                    'patientId',
+                    ['dob'],
+                    'patients'
+                    ).toString() : "")| date : "MMM d, y" }})</small>
+                <span class="fw-bold d-block">{{ utility.getMetaData(baseData.caseId, "caseId", ["title"], "cases")}}</span>
+            </h3>
+            <div>
+                <strong>{{this.utility
+                    .getMetaData(
+                    this.baseData?.resourceOwner,
+                    "emailAddress",
+                    ["accountfirstName","accountlastName"],
+                    "users"
+                    )}}
+                </strong>
+            </div>
+            <div class="text-blue fw-bold">
+                {{this.utility
+                .getMetaData(
+                this.utility
+                .getMetaData(
+                this.baseData?.resourceOwner,
+                "emailAddress",
+                ["primaryPractice"],
+                "users"
+                ),
+                "practiceId",
+                ["practiceName"],
+                "practices"
+                )}}
+            </div>
+            <div class="text-danger mt-1 fw-bold">
+                {{utility.getMetaData(baseData.caseId, "caseId", ["caseRunningStatus"], "cases")>'1'?"(Case Closed)":""}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-center pt-2">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <div class="row">
+                        <div class="col-md-5 align-self-center">
+                            <h5 class="body1 card-title my-2">
+                                Referrals Details
+                                <a tippy="Tutorial" target="_blank" [routerLink]="
                     '/tutorial/' +
                     utility.tutorialData['ReferralDetailsComponent'].html
-                  "
-                >
-                  <i class="bx bxs-info-circle text-primary"></i
-                ></a>
-              </h5>
-            </div>
-            <div class="col-md-7 text-end">
-              <a
-                [routerLink]="
+                  ">
+                                    <i class="bx bxs-info-circle text-primary"></i></a>
+                            </h5>
+                        </div>
+                        <div class="col-md-7 my-1 mb-2 text-end">
+                            <a [routerLink]="
                   hasCase
                     ? '/cases/cases/case-view/' + baseData.caseId + '/referrals'
                     : backUrl
-                "
-                class="btn btn-default"
-                >Back</a
-              >
-            </div>
-            <div class="col-md-5">
-              <div class="panel panel-primary mt-3">
-                <div class="tab-menu-heading">
-                  <div class="tabs-menu">
-                    <!-- Tabs -->
-                    <ul class="nav panel-tabs">
-                      <li>
-                        <a
-                          class="me-1 isCursor"
-                          [class.active]="isDetail"
-                          (click)="isDetail = true"
-                          >Details</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          class="me-1 isCursor"
-                          [class.active]="!isDetail"
-                          (click)="isDetail = false"
-                          >Thread</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
+                " class="btn btn-default">Back</a>
+                        </div>
+                        <div class="col-md-5 mb-4">
+                            <div class="panel panel-primary mt-3">
+                                <div class="tab-menu-heading">
+                                    <div class="tabs-menu">
+                                        <!-- Tabs -->
+                                        <ul class="nav panel-tabs">
+                                            <li>
+                                                <a class="me-1 isCursor" [class.active]="isDetail" (click)="isDetail = true">Details</a>
+                                            </li>
+                                            <li>
+                                                <a class="me-1 isCursor" [class.active]="!isDetail" (click)="isDetail = false">Thread</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="baseData.members[0]==user.dentalId" class=" col-md-7 text-end">
+                            <select (change)="changeStatus($event)" [value]="baseData.presentStatus" class="me-1 status-dropdown">
+                                <option *ngIf="baseData.presentStatus==1" value=1>Pending</option>
+                                <option value=2>Accepted</option>
+                                <option value=3>Rejected</option>
+                                <option value=4>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-7 text-end">
-              <div class="avatar-list justify-content-end mt-2 my-1 ms-2">
-                <span
-                  class="avatar-icon my-1 ms-2"
-                  style="background-color: #fff"
-                  >&nbsp;</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div [hidden]="!isDetail">
-          <div class="card-body">
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-8">
-                    <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-3 col-form-label"
-                        >Assigned To</label
-                      >
-                      <div class="col-sm-8">
-                        <input
-                          class="form-control"
-                          type="text"
-                          value="{{
+                <div [hidden]="!isDetail">
+                    <div class="card-body">
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="mb-3 row">
+                                            <label for="staticEmail" class="col-sm-3 col-form-label">Assigned To</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" value="{{
                             utility.getMetaData(
                               baseData.members,
                               'dentalId',
                               ['accountfirstName', 'accountlastName'],
                               'users'
                             )
-                          }}"
-                          aria-label="readonly input example"
-                          readonly
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="mb-3 row">
-                      <label for="title" class="col-sm-3 col-form-label"
-                        >Title</label
-                      >
-                      <div class="col-sm-8">
-                        <input
-                          class="form-control"
-                          type="text"
-                          name="title"
-                          id="title"
-                          value="{{ baseData.title }}"
-                          aria-label="readonly input example"
-                          readonly
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <label class="form-label body2 text-gray">Start Date</label>
-                    <div class="mb-4">
-                      <input
-                        type="text"
-                        readonly
-                        class="form-control-plaintext"
-                        value="{{ baseData.startdate | date : 'mediumDate' }}"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <label class="form-label body2 text-gray"
-                      >Expected Date</label
-                    >
-                    <div class="mb-4">
-                      <input
-                        type="text"
-                        readonly
-                        class="form-control-plaintext"
-                        value="{{ baseData.enddate | date : 'mediumDate' }}"
-                      />
-                    </div>
-                  </div>
+                          }}" aria-label="readonly input example" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label body2 text-gray">Referral Date</label>
+                                        <div class="mb-4">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                   value="{{ baseData.dateCreated| date : 'mediumDate' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="mb-3 row">
+                                            <label for="title" class="col-sm-3 col-form-label">Title</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" name="title" id="title" value="{{ baseData.title }}"
+                                                       aria-label="readonly input example" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                  <app-cvfast-viewer
-                    *ngIf="!isLoadingData"
-                    [cvfast]="baseData.notes"
-                  ></app-cvfast-viewer>
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label for="title" class="col-sm-3 col-form-label">Notes</label>
+                                            <div class="col-sm-8">
+                                                <app-cvfast-viewer *ngIf="!isLoadingData" [cvfast]="baseData.notes"></app-cvfast-viewer>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                  <div class="col-md-12">
-                    <div class="mb-3 row">
-                      <label class="col-sm-2 col-form-label"
-                        >Tooth Guide :
-                      </label>
-                      <div class="col-sm-12">
-                        <div class="row">
-                          <app-referral-guide
-                            [readOnly]="true"
-                            #orders
-                          ></app-referral-guide>
+                                    <div class="col-md-12">
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Tooth Guide :
+                                            </label>
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <app-referral-guide [readOnly]="true" #orders></app-referral-guide>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
+                    <!-- </form> -->
                 </div>
-              </div>
+                <div *ngIf="!isDetail">
+                    <div class="card-body">
+                        <app-case-message [noEdit]="baseData.presentStatus!=2" *ngIf="!isLoadingData"
+                                          [messageType]="utility.apiData[module].messageType" [messageReferenceId]="baseData.referralId"
+                                          [caseId]="baseData.caseId"></app-case-message>
+                    </div>
+                </div>
             </div>
-          </div>
-          <!-- </form> -->
         </div>
-        <div *ngIf="!isDetail">
-          <div class="card-body">
-            <app-case-message
-              *ngIf="!isLoadingData"
-              [messageType]="utility.apiData[module].messageType"
-              [messageReferenceId]="baseData.referralId"
-              [caseId]="baseData.caseId"
-            ></app-case-message>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

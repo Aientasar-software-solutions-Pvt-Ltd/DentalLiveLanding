@@ -1,0 +1,28 @@
+edit case
+
+addd message / comment
+
+invite members button
+quick actions --> delete
+
+create labscript-- i
+edit labscript -- i
+add LS page
+view--> active incative drop down
+view --> thread msg + comments
+
+ref same
+
+create MS
+edit MS
+add MS page
+view MS --> status update
+
+add task
+edit task
+add task page
+view task --> status update
+
+add files
+edit files
+add files page

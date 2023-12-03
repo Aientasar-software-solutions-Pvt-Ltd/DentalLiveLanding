@@ -1052,7 +1052,9 @@ export class UtilityService {
         "forwards": [],
         "education": "",
         "country": "",
-        "city": ""
+        "city": "",
+        "speciality": "",
+        "primaryPractice": ""
       },
       "schema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -1094,6 +1096,9 @@ export class UtilityService {
           "clinicName": {
             "type": "string"
           },
+          "speciality": {
+            "type": "string"
+          },
           "imageSrc": {
             "type": "any"
           },
@@ -1111,7 +1116,10 @@ export class UtilityService {
           },
           "city": {
             "type": "string"
-          }
+          },
+          "primaryPractice": {
+            "type": "string"
+          },
         },
         "required": [
           "accountfirstName",
@@ -1196,6 +1204,7 @@ export class UtilityService {
         "status": true,
         "isValid": false,
         "packageID": null,
+        "practiceId": [],
         "dependencies": {
           "mails": []
         }
@@ -1210,7 +1219,7 @@ export class UtilityService {
           "dentalID": {
             "type": "string"
           },
-          "subAdminID": {
+          "subUserID": {
             "type": "string"
           },
           "firstName": {
@@ -1245,6 +1254,9 @@ export class UtilityService {
           },
           "packageID": {
             "type": "string"
+          },
+          "practiceId": {
+            "type": "array"
           },
           "dependencies": {
             "type": "object",

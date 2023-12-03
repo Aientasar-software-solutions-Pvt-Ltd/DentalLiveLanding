@@ -1,326 +1,249 @@
 <ol *ngIf="!hasCase" class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="{{ formInterface.section.backUrl }}">Work Orders</a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">
-    {{ mode }} Work Order
-  </li>
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a routerLink="{{ formInterface.section.backUrl }}">Lab Scripts</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+        {{ mode }} Lab Script
+    </li>
 </ol>
 
-<div
-  *ngIf="
+<div *ngIf="
     formInterface.isUploadingData ||
     formInterface.isLoadingData ||
     formInterface.isLoadingDependencies
-  "
-  class="row"
->
-  <div class="col-md-12">
-    <lottie-player
-      class="mt-3 m-auto"
-      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></lottie-player>
-    <h6 class="text-center mt-5">
-      Request Processing …..Please Wait, Do Not Close The Page
-    </h6>
-  </div>
+  " class="row">
+    <div class="col-md-12">
+        <lottie-player class="mt-3 m-auto"
+                       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+                       background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
+        <h6 class="text-center mt-5">
+            Request Processing …..Please Wait, Do Not Close The Page
+        </h6>
+    </div>
 </div>
 
-<div
-  [hidden]="
+<div [hidden]="
     formInterface.isUploadingData ||
     formInterface.isLoadingData ||
     formInterface.isLoadingDependencies
-  "
-  class="row align-items-center pt-2"
->
-  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
-    <div class="col-md-12">
-      <div class="card shadow-sm">
-        <div class="card-header border-bottom-0 bg-white">
-          <div class="row">
-            <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">
-                {{ mode }} Work Order
-                <a
-                  tippy="Tutorial"
-                  target="_blank"
-                  [routerLink]="
-                    '/tutorial/' +
-                    utility.tutorialData['WorkOrderAddComponent'].html
-                  "
-                >
-                  <i class="bx bxs-info-circle text-primary"></i
-                ></a>
-              </h5>
+  " class="row align-items-center pt-2">
+
+    <div *ngIf="!hasCase && patientObject" class="page-header d-sm-flex">
+        <div class="d-sm-flex d-block">
+            <div class="profile-img justify-content-center p-md-2 me-3">
+                <img [src]="
+                                    patientObject?.image
+                                      ? utility.apiData.patients.bucketUrl +
+                                        patientObject.image
+                                      : '../../assets/images/users.png'" alt="" class="mb-2">
             </div>
-            <div class="col-md-7 text-end">
-              <a
-                [routerLink]="
+        </div>
+        <div class=" d-inline-block">
+            <h3 class="mt-2 fw-normal">
+                {{patientObject?.firstName+"
+                "+patientObject?.lastName}} <small>({{
+                    patientObject?.dob
+                    ? (patientObject.dob | date :"MMM d, y")
+                    : null
+                    }})</small>
+                <span *ngIf="caseObject" class="fw-bold d-block">{{ caseObject?.title}}</span>
+            </h3>
+            <div *ngIf="caseObject">
+                <div>
+                    <strong>{{this.utility
+                        .getMetaData(
+                        caseObject?.resourceOwner,
+                        "emailAddress",
+                        ["accountfirstName","accountlastName"],
+                        "users"
+                        )}}
+                    </strong>
+                </div>
+                <div class="text-blue fw-bold">
+                    {{this.utility
+                    .getMetaData(
+                    this.utility
+                    .getMetaData(
+                    caseObject?.resourceOwner,
+                    "emailAddress",
+                    ["primaryPractice"],
+                    "users"
+                    ),
+                    "practiceId",
+                    ["practiceName"],
+                    "practices"
+                    )}}
+                </div>
+                <div class="text-danger mt-1 fw-bold">
+                    {{caseObject?.caseRunningStatus && caseObject?.caseRunningStatus>'1'?"(Case Closed)":""}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
+        <div class="col-md-12">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header border-bottom-0 bg-white">
+                    <div class="row">
+                        <div class="col-md-5 align-self-center">
+                            <h5 class="body1 card-title my-2">
+                                {{ mode }} Lab Script
+                                <a tippy="Tutorial" target="_blank" [routerLink]="'/tutorial/' +utility.tutorialData['WorkOrderAddComponent'].html">
+                                    <i class="bx bxs-info-circle text-primary"></i></a>
+                            </h5>
+                        </div>
+                        <div class="col-md-7 text-end">
+                            <a [routerLink]="
                   hasCase
                     ? '/cases/cases/case-view/' +
                       this.formInterface.object.caseId +
                       '/workorders'
                     : formInterface.section.backUrl
-                "
-                class="btn btn-default"
-                >Back
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body" style="background: #e4f0ff">
-          <div class="row mt-2">
-            <div class="col-md-12">
-              <div class="row">
-                <div *ngIf="!hasCase" class="col-md-12 mb-4">
-                  <label class="form-label body2 text-dark">Case Title</label>
-                  <ng-select
-                    dropdownPosition="bottom"
-                    [items]="formInterface.dependentData['cases']"
-                    [(ngModel)]="formInterface.object.caseId"
-                    [editableSearchTerm]="true"
-                    (change)="selectCase($event)"
-                    name="caseId"
-                    placeholder="Please Select A Case To Continue"
-                    bindLabel="title"
-                    bindValue="caseId"
-                    required
-                  ></ng-select>
+                " class="btn btn-default">Back
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Title </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      value=""
-                      placeholder="Enter Title here "
-                      name="title"
-                      id="title"
-                      [(ngModel)]="formInterface.object.title"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Referred To
-                    </label>
-                    <div
-                      class="search search-md search-filter search-filter-sm"
-                    >
-                      <i class="bx bx-search"></i>
-
-                      <ng-select
-                        dropdownPosition="bottom"
-                        [items]="caseMembers"
-                        [(ngModel)]="formInterface.object.members"
-                        name="members"
-                        bindLabel="accountfirstName"
-                        [multiple]="true"
-                        bindValue="dentalId"
-                        placeholder="Select"
-                        required
-                      >
-                        <ng-template
-                          ng-label-tmp
-                          let-item="item"
-                          let-index="index"
-                        >
-                          <span
-                            *ngIf="item.accountfirstName"
-                            class="ng-value-label"
-                            ><img
-                              [src]="
+                <div class="card-body" style="background: #e4f0ff">
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label body2 text-dark">Patient</label>
+                                    <ng-select [disabled]="hasPatient" [ngModel]="formInterface.object.patientId"
+                                               dropdownPosition="bottom" [items]="formInterface.dependentData['patients']"
+                                               [editableSearchTerm]="true" (change)="selectPatient($event?.patientId?$event?.patientId:null)"
+                                               name="patientId" placeholder="Please Select A Patient To Continue" bindLabel="fullName"
+                                               bindValue="patientId" required>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label body2 text-dark">Case</label>
+                                    <ng-select [disabled]="hasCase" #caseSelect dropdownPosition="bottom" [items]="currentCases"
+                                               [(ngModel)]="formInterface.object.caseId" [editableSearchTerm]="true"
+                                               (change)="selectCase($event?.caseId?$event?.caseId:null)" name="caseId"
+                                               placeholder="Please Select A Case To Continue" bindLabel="title" bindValue="caseId"
+                                               required></ng-select>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Title </label>
+                                        <input type="text" class="form-control" value="" placeholder="Enter Title here " name="title"
+                                               id="title" [(ngModel)]="formInterface.object.title" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Referred To
+                                        </label>
+                                        <div class="search search-md search-filter search-filter-sm">
+                                            <i class="bx bx-search"></i>
+                                            <ng-select dropdownPosition="bottom" [items]="caseMembers"
+                                                       (change)="this.formInterface.object.recieverEmail = $event?.emailAddress ? $event.emailAddress : ''"
+                                                       [(ngModel)]="formInterface.object.members" name="members" bindLabel="accountfirstName"
+                                                       bindValue="dentalId">
+                                                <ng-template ng-label-tmp let-item="item" let-index="index">
+                                                    <span *ngIf="item.accountfirstName" class="ng-value-label"><img [src]="
                                 item.imageSrc
                                   ? utility.apiData.users.bucketUrl +
                                     item.imageSrc
                                   : '../../assets/images/users.png'
-                              "
-                              width="20px"
-                              height="20px"
-                              class="rounded-circle me-1"
-                            />
-                            {{
-                              item.accountfirstName + " " + item.accountlastName
-                            }}</span
-                          >
-                        </ng-template>
-                        <ng-template
-                          ng-option-tmp
-                          let-item="item"
-                          let-index="index"
-                          let-search="searchTerm"
-                        >
-                          <div class="card card-lists">
-                            <div class="card-body p-0">
-                              <div class="d-flex align-items-center">
-                                <img
-                                  style="height: 50px; width: 50px"
-                                  [src]="
+                              " width="20px" height="20px" class="rounded-circle me-1" />
+                                                        {{
+                                                        item.accountfirstName + " " + item.accountlastName
+                                                        }}</span>
+                                                </ng-template>
+                                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                    <div *ngIf="emailArray[item.emailAddress].presentStatus<2" class="card card-lists">
+                                                        <div class="card-body p-0">
+                                                            <div class="d-flex align-items-center">
+                                                                <img style="height: 50px; width: 50px" [src]="
                                     item.imageSrc
                                       ? utility.apiData.users.bucketUrl +
                                         item.imageSrc
                                       : '../../assets/images/users.png'
-                                  "
-                                  class="rounded-circle me-2 img-thumbnail shadow-sm"
-                                />
-                                <div
-                                  class="d-flex align-items-center justify-content-between search-list-content"
-                                >
-                                  <div>
-                                    <h5
-                                      class="card-title"
-                                      style="white-space: normal"
-                                      ngOptionHighlight="search"
-                                    >
-                                      {{
-                                        item.accountfirstName +
-                                          " " +
-                                          item.accountlastName
-                                      }}
-                                    </h5>
-                                    <h6
-                                      style="
+                                  " class="rounded-circle me-2 img-thumbnail shadow-sm" />
+                                                                <div class="d-flex flex-column search-list-content p-2">
+
+                                                                    <h5 class="card-title mb-2" style="white-space: normal" ngOptionHighlight="search">
+                                                                        {{
+                                                                        item.accountfirstName +
+                                                                        " " +
+                                                                        item.accountlastName
+                                                                        }}
+                                                                    </h5>
+                                                                    <h6 style="
                                         white-space: normal;
                                         word-wrap: anywhere;
-                                      "
-                                      class="card-subtitle text-muted"
-                                    >
-                                      {{ item.emailAddress }}
-                                    </h6>
-                                  </div>
+                                      " class="card-subtitle text-muted mb-2">
+                                                                        {{ item.emailAddress }}
+                                                                    </h6>
+                                                                    <label class="badge badge-pill badge-info body2 px-2"
+                                                                           *ngIf="emailArray[item.emailAddress].presentStatus==0">Pending</label>
+                                                                    <label class="badge badge-pill badge-success body2 px-2"
+                                                                           *ngIf="emailArray[item.emailAddress].presentStatus==1">Accepted</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ng-footer-tmp>
+                                                    <button (click)="resetInviteForm();" data-bs-toggle="modal" data-bs-target="#addInvite"
+                                                            type="button" class="btn btn-light-green my-1 me-2">
+                                                        <i class="bx bx-plus-circle"></i> Invite Members
+                                                    </button>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
+                                <div class="col-md-4">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Start Date</label>
+                                        <input #startDate type="datetime-local" class="form-control" name="startdate" id="startdate" [min]="today | date : 'yyyy-MM-dd hh:mm'" [ngModel]="formInterface.object.startdate? (  formInterface.object.startdate  | date : 'yyyy-MM-dd hh:mm'): null" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Expected Date</label>
+                                        <input type="datetime-local" class="form-control" name="enddate" [min]="startDate.value" id="enddate" [ngModel]="formInterface.object.enddate? (formInterface.object.enddate | date : 'yyyy-MM-dd hh:mm'): null" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label body2 text-dark">Notes</label>
+                                        <app-cvfast-new #cvfast></app-cvfast-new>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <app-work-order-guide #orders></app-work-order-guide>
+                                </div>
                             </div>
-                          </div>
-                        </ng-template>
-                      </ng-select>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Start Date</label>
-                    <!-- <input
-                      type="date"
-                      class="form-control"
-                      name="startdate"
-                      id="startdate"
-                      min="{{
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
-                      }}"
-                      [ngModel]="
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
-                      "
-                      (ngModelChange)="
-                        formInterface.assignDate('startdate', $event)
-                      "
-                      required
-                    /> -->
-                    <input
-                      #startDate
-                      type="date"
-                      class="form-control"
-                      name="startdate"
-                      id="startdate"
-                      max="2050-01-01"
-                      [ngModel]="
-                        formInterface.object.startdate
-                          ? (formInterface.object.startdate
-                            | date : 'yyyy-MM-dd')
-                          : null
-                      "
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Expected Date</label
-                    >
-                    <!-- <input
-                      type="date"
-                      class="form-control"
-                      name="enddate"
-                      id="enddate"
-                      min="{{
-                        formInterface.object.startdate | date : 'yyyy-MM-dd'
-                      }}"
-                      [ngModel]="
-                        (formInterface.object.enddate >
-                        formInterface.object.startdate
-                          ? formInterface.object.enddate
-                          : formInterface.object.startdate
-                        ) | date : 'yyyy-MM-dd'
-                      "
-                      (ngModelChange)="
-                        formInterface.assignDate('enddate', $event)
-                      "
-                      (change)="$event.stopPropagation()"
-                      required
-                    /> -->
-                    <input
-                      type="date"
-                      class="form-control"
-                      name="enddate"
-                      [min]="startDate.value"
-                      id="enddate"
-                      max="2050-01-01"
-                      [ngModel]="
-                        formInterface.object.enddate
-                          ? (formInterface.object.enddate | date : 'yyyy-MM-dd')
-                          : null
-                      "
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="form-label body2 text-dark">Notes</label>
-                    <app-cvfast-new #cvfast></app-cvfast-new>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <app-work-order-guide #orders></app-work-order-guide>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-12 mt-3">
-      <button type="submit" class="btn btn-default me-2">
-        <i class="bx bx-folder-plus"></i> {{ mode }} Order
-      </button>
-      <a
-        [routerLink]="
+        <div class="col-md-12 mt-3">
+            <button *ngIf=" !formInterface.object.workorderId" (click)="customSubmit(mainForm,true)" type="button"
+                    class="btn btn-light-green me-2"><i class="bx bx-save"></i> Save As Draft</button>
+            <button type="submit" class="btn btn-default me-2">
+                <i class="bx bx-folder-plus"></i> {{ mode }} Lab Script
+            </button>
+
+            <a [routerLink]="
           hasCase
             ? '/cases/cases/case-view/' +
               this.formInterface.object.caseId +
               '/workorders'
             : formInterface.section.backUrl
-        "
-        class="btn btn-secondary"
-        >Cancel</a
-      >
-      <!-- <button
+        " class="btn btn-secondary">Cancel</a>
+            <!-- <button
         *ngIf="formInterface.object.workorderId"
         (click)="formInterface.deleteData(formInterface.object.workorderId)"
         type="button"
@@ -328,6 +251,106 @@
       >
         Delete Order
       </button> -->
+        </div>
+    </form>
+</div>
+
+
+<!-- Modal to add members -->
+<!-- 1.dont show existing members
+	2.allow to add multiple members with button checkbox->this adds item to array
+-->
+<div class="modal fade" #modal id="addInvite" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div [hidden]="isInvite" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title body1">Add Members</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <div class="search search-md search-filter search-filter-sm">
+                        <i class="bx bx-search"></i>
+                        <ng-select dropdownPosition="bottom" [items]="nonInvitedMembers" [multiple]="true"
+                                   bindLabel="accountfirstName" placeholder="Select Members" [(ngModel)]="selectedUsers">
+                            <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                <span class="ng-value-label"><img [src]="
+                      item.imageSrc
+                        ? utility.apiData.users.bucketUrl + item.imageSrc
+                        : '../../assets/images/users.png'
+                    " width="20px" height="20px" class="rounded-circle me-1" />
+                                    {{ item.accountfirstName + " " + item.accountlastName }}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <div class="card card-lists">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex align-items-center position-realtive">
+                                            <img style="height: 50px; width: 50px" [src]="
+                          item.imageSrc
+                            ? utility.apiData.users.bucketUrl + item.imageSrc
+                            : '../../assets/images/users.png'
+                        " class="rounded-circle me-2 img-thumbnail shadow-sm" />
+                                            <div class="d-flex align-items-center justify-content-between search-list-content">
+                                                <div>
+                                                    <strong ngOptionHighlight="search">
+                                                        {{
+                                                        item.accountfirstName + " " + item.accountlastName
+                                                        }}
+                                                    </strong>
+                                                    <small class="text-muted d-block">
+                                                        {{ item.emailAddress }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="fw-bold text-dark ms-2">Invitation Attachments</h6>
+                    <app-cvfast-new [isMin]="true" #inviteText></app-cvfast-new>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <label (click)="isInvite=!isInvite;inviteForm.reset()" class="text-primary me-3 float-start">
+                    <i class="bx bx-plus-circle isCursor"></i> Invite Someone to Join
+                    Dental-Live
+                </label>
+                <button [disabled]="isUploadingData" (click)="sendInvite(inviteText)" class="btn btn-primary">
+                    <span *ngIf="isUploadingData" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
+                    Send Invite
+                </button>
+            </div>
+        </div>
+
+        <div [hidden]="!isInvite" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title body1" id="addNonMembersLabel">
+                    Invite Non Members
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #inviteForm="ngForm" id="inviteNewForm" (submit)="addNewMember(inviteForm)">
+                <div class="modal-body">
+                    <div class="row p-2">
+                        <div class="col-md-12">
+                            <input placeholder="Enter Name" class="form-control mb-4" required name="name" ngModel type="text" />
+                        </div>
+                        <div class="col-md-12">
+                            <input placeholder="Enter E-Mail Address" class="form-control mb-4" required name="email" ngModel
+                                   type="email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center justify-content-center border-top-0">
+                    <button type="submit" class="btn btn-default">Send E-Mail</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </form>
 </div>

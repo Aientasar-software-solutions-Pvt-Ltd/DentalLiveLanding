@@ -15,6 +15,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sintony:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 @import '~@ctrl/ngx-emoji-mart/picker';
+
 /* You can add global styles to this file, and also import other style files */
 @import '~video.js/dist/video-js.css';
 @import '~videojs-record/dist/css/videojs.record.css';
@@ -25,7 +26,10 @@
 
 @import 'assets/css/boxicons.min.css';
 @import 'assets/css/font-awesome.min.css';
+
+@import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
+
 @import 'assets/css/mailStyle.css';
 @import 'assets/css/style.css';
 
-@import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
+@import "app/views/pages/workorders/work-order-guide/work-order-guide.component.css"

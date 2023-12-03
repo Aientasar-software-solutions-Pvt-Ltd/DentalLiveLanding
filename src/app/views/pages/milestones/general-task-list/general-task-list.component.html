@@ -1,149 +1,104 @@
-<div class="page-header px-3 row align-items-center gx-0">
-  <div class="col-md-6">
-    <h3>
-      Tasks
-      <a  tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
-          '/tutorial/' + utility.tutorialData['GeneralTaskListComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
-    </h3>
-  </div>
-  <div class="col-md-6 text-end">
-    <a routerLink="task-add" class="btn btn-default my-1 me-2"
-      ><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Task</a
-    >
-  </div>
-</div>
 <div class="row align-items-center">
   <div class="col-md-12">
+
     <div class="card shadow-sm">
-      <div class="card-header border-bottom-0 bg-white">
-        <div
-          class="d-flex justify-content-between align-items-center flex-wrap"
-        >
-          <div class="my-2">
-            <h5 class="body1 card-title mb-0">List of Tasks</h5>
+      <div _ngcontent-hyi-c160="" class="card-header border-bottom-0 bg-white">
+        <div _ngcontent-hyi-c160="" class="d-flex justify-content-between align-items-center flex-wrap">
+          <div _ngcontent-hyi-c160="" class="my-2">
+            <h5 _ngcontent-hyi-c160="" class="body1 card-title mb-0">List of Tasks</h5>
           </div>
-          <div class="d-flex align-items-center flex-wrap">
-            <button
-              class="btn filter-btn me-2 my-2"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-            >
-              <i class="bx bx-filter-alt"></i>
-              <span class="d-none d-sm-inline-block ms-2">Filter</span>
-            </button>
-            <div class="search search-md">
-              <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search"
-                (keyup)="searchText($event)"
-              />
-            </div>
+          <div _ngcontent-hyi-c160="" class="d-flex align-items-center flex-wrap"><button _ngcontent-hyi-c160=""
+              data-bs-toggle="modal" data-bs-target="#filterModal" class="btn filter-btn me-2 my-2"><i
+                _ngcontent-hyi-c160="" class="bx bx-filter-alt"></i><span _ngcontent-hyi-c160=""
+                class="d-none d-sm-inline-block ms-2">Filter</span></button>
+            <div _ngcontent-hyi-c160="" class="search search-md"><i _ngcontent-hyi-c160=""
+                class="bx bx-search"></i><input _ngcontent-hyi-c160="" type="text" placeholder="Search"
+                class="form-control"></div><a *ngIf="!isModal" _ngcontent-hyi-c160="" routerlink="task-add"
+              class="btn btn-default my-1 mx-2" ng-reflect-router-link="task-add"
+              href="/cases/cases/case-view/78a0b12c-9353-47af-b2a6-0fc34d2c4a69/milestones/milestone-details/beadbaee-9e8c-425a-89fa-e647e37d7a3e/task-add"><i
+                _ngcontent-hyi-c160="" aria-hidden="true" class="bx bx-plus-circle me-2"></i>Add Task</a>
+            <button (click)="assignTask(null)"
+              *ngIf="(!caseDetail?.caseRunningStatus || caseDetail?.caseRunningStatus==1) && isModal"
+              class="btn btn-default my-1 mx-2"><i _ngcontent-hyi-c160="" aria-hidden="true"
+                class="bx bx-plus-circle me-2"></i>Add Task</button>
           </div>
         </div>
       </div>
-      <ng-container class="mt-5" *ngIf="isLoadingData">
-        <ngx-shimmer-loading
-          class="d-block"
-          *ngFor="let i of shimmer(10).fill(1)"
-          style="margin-top: 1.5em; display: block; transition: all 1s"
-          [height]="'50px'"
-          [width]="'100%'"
-        >
-        </ngx-shimmer-loading>
-      </ng-container>
-      <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
-        <div class="table-responsive">
-          <table
-            *ngIf="baseData"
-            class="table table-hover table-nowrap align-middle"
-            datatable
-            [dtOptions]="dtOptions"
-            id="dataTables"
-          >
-            <thead class="thead-light text-uppercase">
-              <tr>
+      <div class="card-body p-0 pb-3">
+        <ng-container class="mt-5" *ngIf="isLoadingData">
+          <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+            style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'" [width]="'100%'">
+          </ngx-shimmer-loading>
+        </ng-container>
+        <div *ngIf="!isLoadingData" class="table-responsive">
+          <table *ngIf="baseData" class="table table-hover table-nowrap align-middle"
+            style="margin-top: 0px !important;" datatable [dtOptions]="dtOptions" id="dataTables">
+            <thead class="thead-light">
+              <tr style="text-transform:uppercase;">
                 <th class="body2">ASSIGNED TO</th>
                 <th class="body2">TITLE</th>
+                <th class="body2">DUE DATE</th>
                 <th class="body2">STATUS</th>
-                <th class="body2" data-orderable="false">ACTIONS</th>
+                <th class="body2">QUICK ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let data of baseData; let i = index">
                 <td>
                   <span class="d-none">{{ i }}</span>
-                  <div>
+                  <div class="d-flex align-items-center">
+                    <span [innerHTML]="getUserImage(data.memberMail)"></span>
                     <span class="body2">{{
                       utility.getMetaData(
-                        data.memberMail,
-                        "emailAddress",
-                        ["accountfirstName", "accountlastName"],
-                        "users"
+                      data.memberMail,
+                      "emailAddress",
+                      ["accountfirstName", "accountlastName"],
+                      "users"
                       )
-                    }}</span>
+                      }}</span>
                   </div>
                 </td>
                 <td>
                   <span class="body2">{{ data.title }}</span>
                 </td>
                 <td>
-                  <div>
-                    <span
-                      class="badge rounded-pill badge-info body2"
-                      *ngIf="data.presentStatus == 1"
-                      >Active</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.presentStatus == 2"
-                      >Inactive</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.presentStatus == 3"
-                      >Pending</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-success body2"
-                      *ngIf="data.presentStatus == 4"
-                      >Completed</span
-                    >
-                    <small class="text-muted d-block"
-                      >Created on :
-                      {{ data.dateCreated | date : "mediumDate" }}</small
-                    >
-                  </div>
+
+                  <span class="body2">{{ data.duedate | date : "dd/MM/yyyy" }}</span>
+                </td>
+                <td>
+                  <ng-container *ngIf="data.presentStatus ==1 && data.duedate<currentTime">
+                    <span class="badge rounded-pill badge-warning body2 px-2">Overdue</span>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="data.presentStatus ==1  && data.duedate>=currentTime && hasPendingRequest(data.memberMail)">
+                    <span class="badge rounded-pill badge-warning body2 px-2">Pending</span>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="data.presentStatus >1 || (!hasPendingRequest(data.memberMail) && data.duedate>=currentTime)"
+                    [ngSwitch]="data.presentStatus">
+                    <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="1">Active</span>
+                    <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="2">Inactive</span>
+                    <span class="badge rounded-pill badge-success body2 px-2" *ngSwitchCase="3">Completed</span>
+                  </ng-container>
+
+                  <small class="text-muted d-block">Last Update: {{ data.dateUpdated | date : "mediumDate" }}</small>
                 </td>
                 <td>
                   <div class="d-flex">
-                    <a
-                      tippy="Edit"
-                      placement="top"
-                      routerLink="task-edit/{{ data.taskId }}"
-                      *ngIf="data.resourceOwner == user.emailAddress"
-                      class="mx-1"
-                    >
-                      <i class="material-icons text-bright-blue">edit</i>
+                    <span style="cursor: pointer;"
+                      *ngIf="(!caseDetail?.caseRunningStatus || caseDetail?.caseRunningStatus==1) && data.resourceOwner==user.emailAddress"
+                      (click)="assignTask(data.taskId)" class="me-1 " tippy="Edit">
+                      <i class="material-icons text-light-green">edit</i>
+                    </span>
+                    <a routerLink="task-details/{{ data.taskId }}" class="me-1" tippy="View">
+                      <i class="material-icons text-bright-blue">visibility</i>
                     </a>
-
-                    <a
-                      tippy="View"
-                      placement="top"
-                      routerLink="task-details/{{ data.taskId }}"
-                      class="mx-1"
-                    >
-                      <i class="material-icons fs-4 text-light-green">
-                        visibility
-                      </i>
-                    </a>
+                    <span *ngIf="data.presentStatus==2" class="me-1" tippy="Inactive">
+                      <i class="bx bx-x-circle fs-4 text-gray"></i>
+                    </span>
+                    <span *ngIf="data.presentStatus==3" class="me-1" tippy="Completed">
+                      <i class="bx bx-check-circle fs-4 text-light-green"></i>
+                    </span>
                   </div>
                 </td>
               </tr>
@@ -155,23 +110,12 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="filterModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="filterModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
         <div class="modal-body">
@@ -179,14 +123,8 @@
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  name="title"
-                  ngModel
-                  id="title"
-                  class="form-control"
-                  placeholder="Search by Task Title"
-                />
+                <input type="text" name="title" ngModel id="title" class="form-control"
+                  placeholder="Search by Task Title" />
               </div>
             </div>
             <div class="col-md-12">
@@ -194,35 +132,17 @@
             </div>
             <div class="col-md-6">
               <label class="form-label body2 text-dark">From</label>
-              <input
-                #filterDateFrom
-                type="date"
-                name="dateFrom"
-                ngModel
-                id="dateFrom"
-                class="form-control"
-              />
+              <input #filterDateFrom type="date" name="dateFrom" ngModel id="dateFrom" class="form-control" />
             </div>
             <div class="col-md-6">
               <label class="form-label body2 text-dark">To</label>
-              <input
-                [disabled]="!filterDateFrom.value"
-                min="{{ filterDateFrom.value }}"
-                type="date"
-                name="dateTo"
-                ngModel
-                id="dateTo"
-                class="form-control"
-              />
+              <input [disabled]="!filterDateFrom.value" min="{{ filterDateFrom.value }}" type="date" name="dateTo"
+                ngModel id="dateTo" class="form-control" />
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
@@ -233,3 +153,23 @@
     </div>
   </div>
 </div>
+
+<!-- Modal to add tasks-->
+<div class="modal fade" [class.showTask]="showTaskModal" id="addTask">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex align-middle ">
+        <h5 class="modal-title body1">{{isTaskEdit?"Edit":"Add"}} Task</h5>
+        <a tippy="Tutorial" className="" target="_blank" [routerLink]="
+                            '/tutorial/' +
+                            utility.tutorialData['GeneralTaskAddComponent'].html
+                          ">
+          <i class="bx bxs-info-circle text-primary ms-2 mb-0 h5"></i></a>
+        <button type="button" class="btn-close" (click)="closeTask()" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-general-task-add (closeModal)="closeTask()" #addEditTask *ngIf="milestoneId"></app-general-task-add>
+      </div>
+    </div>
+  </div>

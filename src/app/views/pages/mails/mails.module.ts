@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { MailDashboardComponent } from './mail-dashboard/mail-dashboard.component';
 import "@lottiefiles/lottie-player";
+import { CvfastModuleModule } from 'src/app/cvfastFiles/cvfast-module/cvfast-module.module';
 
 const routes: Routes = [
   {
@@ -33,9 +34,10 @@ const routes: Routes = [
 
     ]
   },
-  { path: 'compose', component: VideojsRecordComponent },
-  { path: 'compose/:patientId', component: VideojsRecordComponent },
-  { path: 'compose/:patientId/:caseId', component: VideojsRecordComponent },
+  { path: 'compose/:type', component: VideojsRecordComponent },
+  { path: 'compose/:type/:patientId', component: VideojsRecordComponent },
+  { path: 'compose/:type/:patientId/:caseId', component: VideojsRecordComponent },
+  { path: 'compose/:type/:patientId/:caseId/:emails', component: VideojsRecordComponent },
   { path: 'view/:type/:id', component: ViewMailComponent }
 ]
 
@@ -55,6 +57,7 @@ const routes: Routes = [
     FormsModule,
     SocialLoginModule,
     MatFormFieldModule,
+    CvfastModuleModule,
     MatInputModule,
     CdkTableModule,
     MatTableModule,

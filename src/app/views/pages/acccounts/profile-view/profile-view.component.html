@@ -1,9 +1,7 @@
 <ol class="breadcrumb">
   <!-- breadcrumb -->
   <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
+    <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
   </li>
   <li class="breadcrumb-item">
     <a routerLink="/colleagues/colleague-lists"> Members</a>
@@ -17,15 +15,9 @@
 </div>
 <div *ngIf="isLoadingData" class="row">
   <div class="col-md-12">
-    <lottie-player
-      class="mt-3 m-auto"
+    <lottie-player class="mt-3 m-auto"
       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></lottie-player>
+      background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
     <h6 class="text-center mt-5">
       Request Processing …..Please Wait, Do Not Close The Page
     </h6>
@@ -39,15 +31,11 @@
           <div class="row mt-3">
             <div class="col-lg-3 mb-5">
               <div class="d-flex align-items-center">
-                <img
-                  [src]="
+                <img [src]="
                     data?.imageSrc
                       ? section.bucketUrl + data?.imageSrc
                       : '../../../../../../assets/images/user-circle.png'
-                  "
-                  class="img-thumbnail m-auto"
-                  style="object-fit: cover"
-                />
+                  " class="img-thumbnail m-auto" style="object-fit: cover" />
               </div>
             </div>
             <div class="col-lg-9">
@@ -62,46 +50,84 @@
                   {{ data?.accountlastName }}
                 </dd>
 
-                <dt class="col-sm-3 mb-3">Email Address</dt>
+                <dt class="col-sm-3 mb-3">Speciality
                 <dd class="col-sm-9 mb-3">
-                  {{ data?.emailAddress }}
+                  {{ data?.speciality }}
                 </dd>
 
-                <dt class="col-sm-3 mb-3">Education</dt>
+                <dt class="col-sm-3 mb-3">Practice Name</dt>
                 <dd class="col-sm-9 mb-3">
-                  {{ data?.education }}
-                </dd>
-
-                <dt class="col-sm-3 mb-3">Clinic Name</dt>
-                <dd class="col-sm-9 mb-3">
-                  {{ data?.clinicName }}
+                  {{ utility2
+                  .getMetaData(
+                  data?.primaryPractice,
+                  "practiceId",
+                  ["practiceName"],
+                  "practices"
+                  )}}
                 </dd>
 
                 <dl class="row">
-                  <dt class="col-sm-3 mb-3">Phone Number</dt>
+                  <dt class="col-sm-3 mb-3">Practice Phone Number</dt>
                   <dd class="col-sm-9 mb-3">
-                    {{ data?.phoneNumber }}
+                    {{ utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["phone"],
+                    "practices"
+                    )}}
                   </dd>
 
-                  <dt class="col-sm-3 mb-3">Birth Date</dt>
+                  <dt class="col-sm-3 mb-3">Practice Website</dt>
                   <dd class="col-sm-9 mb-3">
-                    {{ data?.dob | date : "mediumDate" }}
+                    {{ utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["website"],
+                    "practices"
+                    )}}
                   </dd>
 
-                  <dt class="col-sm-3 mb-3">Address</dt>
+                  <dt class="col-sm-3 mb-3">Practice City</dt>
                   <dd class="col-sm-9 mb-3">
-                    {{ data?.address }}
+                    {{ utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["city"],
+                    "practices"
+                    )}}
                   </dd>
 
-                  <dt class="col-sm-3 mb-3">City</dt>
+                  <dt class="col-sm-3 mb-3">Practice State</dt>
                   <dd class="col-sm-9 mb-3">
-                    {{ data?.city }}
+                    {{getState( utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["practicestate"],
+                    "practices"
+                    ),utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["country"],
+                    "practices"
+                    ))}}
                   </dd>
 
-                  <dt class="col-sm-3 mb-3">Country</dt>
+                  <dt class="col-sm-3 mb-3">Practice Country</dt>
                   <dd class="col-sm-9 mb-3">
-                    {{ data?.country }}
+                    {{getCountry( utility2
+                    .getMetaData(
+                    data?.primaryPractice,
+                    "practiceId",
+                    ["country"],
+                    "practices"
+                    ))}}
                   </dd>
+
                 </dl>
               </dl>
             </div>

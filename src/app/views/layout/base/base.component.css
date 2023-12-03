@@ -66,3 +66,70 @@
   border-bottom: 2px solid #000000;
   padding: 15px;
 }
+
+.m_logo-style {
+  font-size: 4rem;
+  color: #011a3e;
+  font-family: Poppins;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0px
+}
+
+.m_logo-style .m_colorfont {
+  color: #00d9cc
+}
+
+.m_remb-text {
+  color: #000000;
+  font-size: 1rem
+}
+
+.m_box-message {
+  border: 2px solid #000000
+}
+
+.m_box-message .m_remb-text {
+  padding: 15px
+}
+
+.m_box-message .m_logo-style {
+  border-bottom: 2px solid #000000;
+  padding: 15px
+}
+
+.logo-style {
+  font-size: 4rem;
+  color: #011a3e;
+  font-family: Poppins;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logo-style .colorfont {
+  color: #00d9cc;
+}
+
+.logo-style sup {
+  font-size: 1.2rem;
+  top: -2em;
+}
+
+.remb-text {
+  color: #000000;
+  font-size: 1rem;
+}
+
+.box-message {
+  border: 2px solid #000000;
+}
+
+.box-message .remb-text {
+  padding: 15px;
+}
+
+.box-message .logo-style {
+  border-bottom: 2px solid #000000;
+  padding: 15px;
+}

@@ -1,5 +1,4 @@
 import { ReferralDetailsComponent } from './../referral/referral-details/referral-details.component';
-import { InvitationListsComponent } from './../invitations/invitation-lists/invitation-lists.component';
 import { WorkOrdersListComponent } from './../workorders/work-orders-list/work-orders-list.component';
 import { FilesListComponent } from './../files/files-list/files-list.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -39,195 +38,201 @@ import { MilestoneDetailMasterComponent } from '../milestones/milestone-detail-m
 
 
 const routes: Routes = [
-  {
-    path: 'cases',
-    component: CasesComponent,
-    children: [
       {
-        path: '',
-        component: CaseListComponent
-      },
-      {
-        path: 'case-add',
-        component: CaseAddComponent
-      },
-      {
-        path: 'case-add/:patientId',
-        component: CaseAddComponent
-      },
-      {
-        path: 'case-edit/:id',
-        component: CaseAddComponent
-      },
-      {
-        path: 'case-view/:caseId',
-        component: CaseViewMasterComponent,
-        children: [
-          {
-            path: '',
-            redirectTo: 'details',
-            pathMatch: 'full',
-          },
-          {
-            path: 'details',
-            component: CaseDetailsComponent,
-          },
-          {
-            path: 'messages',
-            component: CaseMessageComponent,
-          },
-          {
-            path: 'colleagues',
-            component: CaseMembersComponent,
-          },
-          {
-            path: 'workorders',
-            component: WorkOrdersComponent,
+            path: 'cases',
+            component: CasesComponent,
             children: [
-              {
-                path: '',
-                component: WorkOrdersListComponent
-              },
-              {
-                path: 'work-order-details/:id',
-                component: WorkOrderDetailsComponent
-              },
-              {
-                path: 'work-order-add',
-                component: WorkOrderAddComponent
-              },
-              {
-                path: 'work-order-edit/:id',
-                component: WorkOrderAddComponent
-              }
-            ]
-          },
-          {
-            path: 'referrals',
-            component: ReferralComponent,
-            children: [
-              {
-                path: '',
-                component: ReferralListComponent
-              },
-              {
-                path: 'referral-details/:id',
-                component: ReferralDetailsComponent
-              },
-              {
-                path: 'referral-add',
-                component: ReferralAddComponent
-              },
-              {
-                path: 'referral-edit/:id',
-                component: ReferralAddComponent
-              }
-            ]
-          },
-          {
-            path: 'milestones',
-            component: MilestonesComponent,
-            children: [
-              {
-                path: '',
-                component: MilestonesListComponent
-              },
-              {
-                path: 'milestone-details/:milestoneId',
-                component: MilestoneDetailMasterComponent,
-                children: [
                   {
-                    path: '',
-                    component: MilestoneDetailsComponent
+                        path: '',
+                        component: CaseListComponent
                   },
                   {
-                    path: 'task-add',
-                    component: GeneralTaskAddComponent
+                        path: 'case-add',
+                        component: CaseAddComponent
                   },
                   {
-                    path: 'task-edit/:taskId',
-                    component: GeneralTaskAddComponent
+                        path: 'case-add/:patientId',
+                        component: CaseAddComponent
                   },
                   {
-                    path: 'task-details/:taskId',
-                    component: GeneralTaskViewComponent
-                  }
-                ]
-              },
-              {
-                path: 'milestone-add',
-                component: MilestoneAddComponent
-              },
-              {
-                path: 'milestone-edit/:id',
-                component: MilestoneAddComponent
-              },
+                        path: 'case-edit/:id',
+                        component: CaseAddComponent
+                  },
+                  {
+                        path: 'case-view/:caseId',
+                        component: CaseViewMasterComponent,
+                        children: [
+                              {
+                                    path: '',
+                                    redirectTo: 'details',
+                                    pathMatch: 'full',
+                              },
+                              {
+                                    path: 'details',
+                                    component: CaseDetailsComponent,
+                              },
+                              {
+                                    path: 'messages',
+                                    component: CaseMessageComponent,
+                              },
+                              {
+                                    path: 'colleagues',
+                                    component: CaseMembersComponent,
+                              },
+                              {
+                                    path: 'workorders',
+                                    component: WorkOrdersComponent,
+                                    children: [
+                                          {
+                                                path: '',
+                                                component: WorkOrdersListComponent
+                                          },
+                                          {
+                                                path: 'work-order-details/:id',
+                                                component: WorkOrderDetailsComponent
+                                          },
+                                          {
+                                                path: 'work-order-add',
+                                                component: WorkOrderAddComponent
+                                          },
+                                          {
+                                                path: 'work-order-edit/:id',
+                                                component: WorkOrderAddComponent
+                                          }
+                                    ]
+                              },
+                              {
+                                    path: 'referrals',
+                                    component: ReferralComponent,
+                                    children: [
+                                          {
+                                                path: '',
+                                                component: ReferralListComponent
+                                          },
+                                          {
+                                                path: 'referral-details/:id',
+                                                component: ReferralDetailsComponent
+                                          },
+                                          {
+                                                path: 'referral-add',
+                                                component: ReferralAddComponent
+                                          },
+                                          {
+                                                path: 'referral-edit/:id',
+                                                component: ReferralAddComponent
+                                          }
+                                    ]
+                              },
+                              {
+                                    path: 'milestones',
+                                    component: MilestonesComponent,
+                                    children: [
+                                          {
+                                                path: '',
+                                                component: MilestonesListComponent
+                                          },
+                                          {
+                                                path: 'milestone-details/:milestoneId',
+                                                component: MilestoneDetailMasterComponent,
+                                                children: [
+                                                      {
+                                                            path: '',
+                                                            component: MilestoneDetailsComponent
+                                                      },
+                                                      {
+                                                            path: 'task-add',
+                                                            component: GeneralTaskAddComponent
+                                                      },
+                                                      {
+                                                            path: 'task-edit/:taskId',
+                                                            component: GeneralTaskAddComponent
+                                                      },
+                                                      {
+                                                            path: 'task-details/:taskId',
+                                                            component: GeneralTaskViewComponent
+                                                      }
+                                                ]
+                                          },
+                                          {
+                                                path: 'milestone-add',
+                                                component: MilestoneAddComponent
+                                          },
+                                          {
+                                                path: 'milestone-edit/:id',
+                                                component: MilestoneAddComponent
+                                          },
 
+                                    ]
+                              },
+                              //speical case as currently only files in case
+                              {
+                                    path: 'files',
+                                    component: FilesComponent,
+                                    children: [
+                                          {
+                                                path: '',
+                                                component: FilesListComponent
+                                          },
+                                          {
+                                                path: 'files-add',
+                                                component: AddFilesComponent
+                                          },
+                                          {
+                                                path: 'files-edit/:id',
+                                                component: AddFilesComponent
+                                          }
+                                    ]
+                              },
+                        ]
+                  }
             ]
-          },
-          //speical case as currently only files in case
-          {
-            path: 'files',
-            component: FilesComponent,
-            children: [
-              {
-                path: '',
-                component: FilesListComponent
-              },
-              {
-                path: 'files-add',
-                component: AddFilesComponent
-              },
-              {
-                path: 'files-edit/:id',
-                component: AddFilesComponent
-              }
-            ]
-          },
-        ]
       }
-    ]
-  }
 ]
 
 @NgModule({
-  declarations: [
-    CasesComponent,
-    CaseListComponent,
-    CaseAddComponent,
-    CaseViewMasterComponent,
-    CaseDetailsComponent,
-    CaseThreadsComponent,
-    CaseMessageComponent,
-    CaseMembersComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DataTablesModule,
-    NgSelectModule,
-    CvfastModuleModule,
-    OwlDateTimeModule,
-    FormsModule,
-    AutocompleteLibModule,
-    ReactiveFormsModule,
-    OwlNativeDateTimeModule,
-    NgxShimmerLoadingModule,
-    TippyModule.forRoot({
-      defaultVariation: 'tooltip',
-      variations: {
-        tooltip: tooltipVariation,
-        popper: popperVariation,
-      }
-    })
-  ],
-  exports: [
-    CaseThreadsComponent,
-    CaseListComponent,
-    CaseMessageComponent
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
+      declarations: [
+            CasesComponent,
+            CaseListComponent,
+            CaseAddComponent,
+            CaseViewMasterComponent,
+            CaseDetailsComponent,
+            CaseThreadsComponent,
+            CaseMessageComponent,
+            CaseMembersComponent
+      ],
+      imports: [
+            CommonModule,
+            RouterModule.forChild(routes),
+            DataTablesModule,
+            NgSelectModule,
+            CvfastModuleModule,
+            OwlDateTimeModule,
+            FormsModule,
+            AutocompleteLibModule,
+            ReactiveFormsModule,
+            OwlNativeDateTimeModule,
+            NgxShimmerLoadingModule,
+            TippyModule.forRoot({
+                  defaultVariation: 'tooltip',
+                  variations: {
+                        tooltip: {
+                              theme: null,
+                              arrow: true,
+                              animation: 'scale',
+                              trigger: 'mouseenter',
+                              offset: [0, 5]
+                        },
+                        popper: popperVariation,
+                  }
+            })
+      ],
+      exports: [
+            CaseThreadsComponent,
+            CaseListComponent,
+            CaseMessageComponent
+      ],
+      schemas: [
+            CUSTOM_ELEMENTS_SCHEMA
+      ],
 })
 export class CasesModule { }

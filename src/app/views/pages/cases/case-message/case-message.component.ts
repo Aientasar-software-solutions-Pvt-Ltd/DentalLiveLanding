@@ -20,6 +20,7 @@ export class CaseMessageComponent implements OnInit, AfterViewInit {
   @Input() messageType = "0";
   @Input() messageReferenceId = "0";
   @Input() caseId = "";
+  @Input() noEdit = false;
   module = 'messages';
   isLoadingData = true;
   baseDataPirstine: any;

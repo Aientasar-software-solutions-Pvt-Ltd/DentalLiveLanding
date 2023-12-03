@@ -1,272 +1,226 @@
-<ol *ngIf="!this.caseId" class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">Referral</li>
+<ol *ngIf="!caseId" class="breadcrumb">
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Referral</li>
 </ol>
 <div class="page-header row align-items-center gx-0">
-  <div class="col-md-6">
-    <h3>
-      Referral
-      <a  tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
+    <div class="col-md-6">
+        <h3>
+            Referral
+            <a tippy="Tutorial" target="_blank" [routerLink]="
           '/tutorial/' + utility.tutorialData['ReferralListComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
-    </h3>
-  </div>
-  <div class="col-md-6 text-end">
-    <a routerLink="referral-add" class="btn btn-default my-1 me-2"
-      ><i class="bx bx-plus-circle me-2" aria-hidden="true"></i>Add Referral</a
-    >
-  </div>
+        ">
+                <i class="bx bxs-info-circle text-primary"></i></a>
+        </h3>
+    </div>
+    <div *ngIf="!caseDetail?.caseRunningStatus || caseDetail?.caseRunningStatus==1" class="col-md-6 text-end">
+        <a routerLink="referral-add" class="btn btn-default my-1">
+            <i class="bx bx-plus-circle"></i>Send Referral</a>
+    </div>
 </div>
 
 <div class="row align-items-center">
-  <div class="col-md-12">
-    <div class="card shadow-sm">
-      <div class="card-header border-bottom-0 bg-white">
-        <div
-          class="d-flex justify-content-between align-items-center flex-wrap"
-        >
-          <div class="my-2">
-            <h5 class="body1 card-title mb-0">List of Referral</h5>
-          </div>
-          <div class="d-flex align-items-center flex-wrap">
-            <button
-              class="btn filter-btn me-2 my-2"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-            >
-              <i class="bx bx-filter-alt"></i>
-              <span class="d-none d-sm-inline-block ms-2">Filter</span>
-            </button>
-            <div class="search search-md">
-              <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search"
-                (keyup)="searchText($event)"
-              />
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header border-bottom-0 bg-white">
+                <div class="row">
+                    <div class="col-md-5 align-self-center">
+                        <h5 class="body1 card-title my-2">List of Referrals</h5>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="search search-md my-1 me-2 float-end">
+                            <i class="bx bx-search"></i>
+                            <input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)">
+                        </div>
+                        <button class="btn filter-btn my-1 me-2 float-end" data-bs-toggle="modal" data-bs-target="#filterModal"><i
+                               class="bx bx-filter-alt"></i> Filter</button>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <ng-container class="mt-5" *ngIf="isLoadingData">
-        <ngx-shimmer-loading
-          class="d-block"
-          *ngFor="let i of shimmer(10).fill(1)"
-          style="margin-top: 1.5em; display: block; transition: all 1s"
-          [height]="'50px'"
-          [width]="'100%'"
-        >
-        </ngx-shimmer-loading>
-      </ng-container>
-      <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
-        <div class="table-responsive">
-          <table
-            *ngIf="baseData"
-            class="table table-hover table-nowrap align-middle"
-            datatable
-            [dtOptions]="dtOptions"
-            id="dataTables"
-          >
-            <thead class="thead-light text-uppercase">
-              <tr>
-                <th class="body2">ASSIGNED TO</th>
-                <th class="body2">REFERRAL TITLE</th>
-                <th class="body2">STATUS</th>
-                <th *ngIf="!this.caseId" class="body2">PATIENT NAME</th>
-                <th *ngIf="!this.caseId" class="body2">CASE TITLE</th>
-                <th class="body2" data-orderable="false">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of baseData; let i = index">
-                <td>
-                  <span class="d-none">{{ i }}</span>
-                  <div>
-                    <span class="body2">{{
-                      utility.getMetaData(
-                        data.members,
-                        "dentalId",
-                        ["accountfirstName", "accountlastName"],
-                        "users"
-                      )
-                    }}</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="body2">{{ data.title }}</span>
-                </td>
-                <td>
-                  <div>
-                    <span class="d-none">{{
-                      data.dateCreated | date : "mediumDate"
-                    }}</span>
-                    <span
-                      class="badge rounded-pill badge-info body2"
-                      *ngIf="data.presentStatus == 1"
-                      >Active</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.presentStatus == 2"
-                      >Inactive</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-warning body2"
-                      *ngIf="data.presentStatus == 3"
-                      >Pending</span
-                    >
-                    <span
-                      class="badge rounded-pill badge-success body2"
-                      *ngIf="data.presentStatus == 4"
-                      >Completed</span
-                    >
-                    <small class="text-muted d-block"
-                      >Created on :
-                      {{ data.dateCreated | date : "mediumDate" }}</small
-                    >
-                  </div>
-                </td>
-                <td *ngIf="!this.caseId">
-                  <span class="body2"
-                    >{{
-                      utility.getMetaData(
-                        data.patientId,
-                        "patientId",
-                        ["firstName", "lastName"],
-                        "patients"
-                      )
-                    }}
-                  </span>
-                </td>
-                <td *ngIf="!this.caseId">
-                  <span class="body2">{{
-                    utility.getMetaData(
-                      data.caseId,
-                      "caseId",
-                      ["title"],
-                      "cases"
-                    )
-                  }}</span>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <a
-                      tippy="Edit"
-                      placement="top"
-                      routerLink="referral-edit/{{ data.referralId }}"
-                      *ngIf="data.resourceOwner == user.emailAddress"
-                      class="mx-1"
-                    >
-                      <i class="material-icons text-bright-blue">edit</i>
-                    </a>
+            <ng-container class="mt-5" *ngIf="isLoadingData">
+                <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+                                     style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'" [width]="'100%'">
+                </ngx-shimmer-loading>
+            </ng-container>
+            <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
+                <div class="table-responsive">
+                    <table *ngIf="baseData" class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+                           id="dataTables">
+                        <thead class="thead-light text-uppercase">
+                            <tr>
+                                <th *ngIf="!this.caseId" class="body2">PATIENT</th>
+                                <th *ngIf="!this.caseId" class="body2">PRACTICE</th>
+                                <th *ngIf="!this.caseId" class="body2">CASE TITLE</th>
+                                <th class="body2">REFERRED TO</th>
+                                <th class="body2">REFERRAL TITLE</th>
+                                <th class="body2">REFERRAL DATE</th>
+                                <th class="body2">STATUS</th>
+                                <th class="body2" data-orderable="false">QUICK ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of baseData; let i = index">
+                                <td *ngIf="!this.caseId">
+                                    <span [hidden]="true">{{
+                                        utility.getMetaData(
+                                        data.patientId,
+                                        "patientId",
+                                        ["firstName", "lastName"],
+                                        "patients"
+                                        ).toString().trim()
+                                        }}</span>
+                                    <span class="d-none">{{ i }}</span>
+                                    <span [innerHTML]="getPatientImage(data.patientId)"></span>
+                                    <span class="body2">{{
+                                        utility.getMetaData(
+                                        data.patientId,
+                                        "patientId",
+                                        ["firstName", "lastName"],
+                                        "patients"
+                                        )
+                                        }}
+                                    </span>
+                                </td>
+                                <td *ngIf="!this.caseId">
+                                    <span class="body2">{{
+                                        utility.getMetaData(
+                                        data.practiceId,
+                                        "practiceId",
+                                        ["practiceName"],
+                                        "practices"
+                                        )
+                                        }}
+                                    </span>
+                                </td>
+                                <td *ngIf="!this.caseId">
+                                    <span class="body2">{{
+                                        utility.getMetaData(
+                                        data.caseId,
+                                        "caseId",
+                                        ["title"],
+                                        "cases"
+                                        )
+                                        }}</span>
+                                    <small class="body2 text-danger ms-1 fw-bold ">
+                                        {{utility.getMetaData(
+                                        data.caseId,
+                                        "caseId",
+                                        ["caseRunningStatus"],
+                                        "cases"
+                                        )>'1'?"(Closed)":""}}</small>
+                                </td>
+                                <td>
+                                    <span *ngIf="data.isDraft" class="body-2">No User Assigned</span>
+                                    <div *ngIf="!data.isDraft" class="d-flex align-items-center">
+                                        <span *ngIf="this.caseId" [innerHTML]="getUserImage(data.members)"></span>
+                                        <span class="body2">{{
+                                            utility.getMetaData(
+                                            data.members,
+                                            "dentalId",
+                                            ["accountfirstName", "accountlastName"],
+                                            "users"
+                                            )
+                                            }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="body2">{{ data.title }}</span>
+                                </td>
+                                <td>
+                                    <span class="body2">{{ data.dateCreated | date : "dd/MM/yyyy" }}</span>
+                                </td>
+                                <td>
+                                    <div>
+                                        <!-- <ng-container *ngIf="data.enddate<currentTime">
+                      <span class="badge rounded-pill badge-warning body2 px-2">Overdue</span>
+                    </ng-container> -->
+                                        <ng-container *ngIf="data?.isDraft">
+                                            <span class="badge rounded-pill badge-secondary body2 px-2">Draft</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="!data.isDraft && data.presentStatus ==2 && hasPendingRequest(data.members)">
+                                            <span class="badge rounded-pill badge-warning body2 px-2">Pending</span>
+                                        </ng-container>
+                                        <!-- <ng-container *ngIf="!hasPendingRequest(data.members) && data.enddate>=currentTime"
+                      [ngSwitch]="data.presentStatus"> -->
+                                        <ng-container [ngSwitch]="!data.isDraft && data.presentStatus">
+                                            <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="1">Pending</span>
+                                            <ng-container *ngIf="!data.isDraft && !hasPendingRequest(data.members)">
+                                                <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="2">Accepted</span>
+                                            </ng-container>
+                                            <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="3">Rejected</span>
+                                            <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="4">Inactive</span>
+                                        </ng-container>
 
-                    <a
-                      tippy="View"
-                      placement="top"
-                      routerLink="referral-details/{{ data.referralId }}"
-                      class="mx-1"
-                    >
-                      <i class="material-icons fs-4 text-light-green">
-                        visibility
-                      </i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                                        <small class="text-muted d-block">Last Update :
+                                            {{ data.dateUpdated | date : "dd/MM/yyyy" }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a tippy="Edit" placement="top" routerLink="referral-edit/{{ data.referralId }}"
+                                           *ngIf="(!caseDetail?.caseRunningStatus || caseDetail?.caseRunningStatus==1) && (data.resourceOwner == user.emailAddress)"
+                                           class="mx-1">
+                                            <i class="material-icons text-bright-blue">edit</i>
+                                        </a>
+
+                                        <a tippy="View" placement="top" routerLink="referral-details/{{ data.referralId }}" class="mx-1">
+                                            <i class="material-icons fs-4 text-light-green">
+                                                visibility
+                                            </i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
-<div
-  class="modal fade"
-  id="filterModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
-        <div class="modal-body">
-          <div class="row gy-3">
-            <div class="col-md-12">
-              <div class="search">
-                <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  name="title"
-                  ngModel
-                  id="title"
-                  class="form-control"
-                  placeholder="Search by Referral Title"
-                />
-              </div>
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-12">
-              <label class="form-label body2 text-dark">Search by Date:</label>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label body2 text-dark">From</label>
-              <input
-                #filterDateFrom
-                type="date"
-                name="dateFrom"
-                ngModel
-                id="dateFrom"
-                class="form-control"
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label body2 text-dark">To</label>
-              <input
-                [disabled]="!filterDateFrom.value"
-                min="{{ filterDateFrom.value }}"
-                type="date"
-                name="dateTo"
-                ngModel
-                id="dateTo"
-                class="form-control"
-              />
-            </div>
-          </div>
+            <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
+                <div class="modal-body">
+                    <div class="row gy-3">
+                        <div class="col-md-12">
+                            <div class="search">
+                                <i class="bx bx-search"></i>
+                                <input type="text" name="title" ngModel id="title" class="form-control"
+                                       placeholder="Search by Referral Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label body2 text-dark">Search by Date:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">From</label>
+                            <input #filterDateFrom type="date" name="dateFrom" ngModel id="dateFrom" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">To</label>
+                            <input [disabled]="!filterDateFrom.value" min="{{ filterDateFrom.value }}" type="date" name="dateTo"
+                                   ngModel id="dateTo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
+                        Apply
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
-            Apply
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>

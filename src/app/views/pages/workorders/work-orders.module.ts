@@ -16,60 +16,68 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 const routes: Routes = [
-  {
-    path: '',
-    component: WorkOrdersComponent,
-    children: [
-      {
+    {
         path: '',
-        component: WorkOrdersListComponent
-      },
-      {
-        path: 'work-order-details/:id',
-        component: WorkOrderDetailsComponent
-      },
-      {
-        path: 'work-order-add',
-        component: WorkOrderAddComponent
-      },
-      {
-        path: 'work-order-edit/:id',
-        component: WorkOrderAddComponent
-      }
-    ]
-  }
+        component: WorkOrdersComponent,
+        children: [
+            {
+                path: '',
+                component: WorkOrdersListComponent
+            },
+            {
+                path: 'work-order-details/:id',
+                component: WorkOrderDetailsComponent
+            },
+            {
+                path: 'work-order-add',
+                component: WorkOrderAddComponent
+            },
+            {
+                path: 'work-order-add/:id',
+                component: WorkOrderAddComponent
+            },
+            {
+                path: 'work-order-add/:id/:cid',
+                component: WorkOrderAddComponent
+            },
+            {
+                path: 'work-order-edit/:id',
+                component: WorkOrderAddComponent
+            }
+        ]
+    }
 ]
 
 @NgModule({
-  declarations: [
-    WorkOrdersComponent,
-    WorkOrdersListComponent,
-    WorkOrderDetailsComponent,
-    WorkOrderAddComponent,
-    WorkOrderGuideComponent
-  ],
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    DataTablesModule,
-    FormsModule,
-    NgSelectModule,
-    AutocompleteLibModule,
-    CasesModule,
-    CvfastModuleModule,
-    ReactiveFormsModule,
-    NgxShimmerLoadingModule,
-    TippyModule.forRoot({
-      defaultVariation: 'tooltip',
-      variations: {
-        tooltip: tooltipVariation,
-        popper: popperVariation,
-      }
-    })
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-    NO_ERRORS_SCHEMA
-  ]
+    declarations: [
+        WorkOrdersComponent,
+        WorkOrdersListComponent,
+        WorkOrderDetailsComponent,
+        WorkOrderAddComponent,
+        WorkOrderGuideComponent
+    ],
+    imports: [
+        RouterModule.forChild(routes),
+        CommonModule,
+        DataTablesModule,
+        FormsModule,
+        NgSelectModule,
+        AutocompleteLibModule,
+        CasesModule,
+        CvfastModuleModule,
+        ReactiveFormsModule,
+        NgxShimmerLoadingModule,
+        TippyModule.forRoot({
+            defaultVariation: 'tooltip',
+            variations: {
+                tooltip: tooltipVariation,
+                popper: popperVariation,
+            }
+        })
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA
+    ]
 })
 export class WorkOrdersModule { }

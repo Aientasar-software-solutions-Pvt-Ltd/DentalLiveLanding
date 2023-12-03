@@ -9,6 +9,10 @@ body * {
     outline: none;
 }
 
+.ng-select.ng-invalid.ng-touched>div {
+    border: #F7517F solid 2px
+}
+
 .isCusrosr {
     cursor: pointer !important;
 }

@@ -1,364 +1,268 @@
-<ol *ngIf="!hasCase" class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="/milestones">Milestones</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="{{ formInterface.section.backUrl }}">Milestone Detail</a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">{{ mode }} Task</li>
-</ol>
-
-<div
-  *ngIf="
+<div *ngIf="
     formInterface.isUploadingData ||
     formInterface.isLoadingData ||
     formInterface.isLoadingDependencies
-  "
-  class="row"
->
-  <div class="col-md-12">
-    <lottie-player
-      class="mt-3 m-auto"
-      src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></lottie-player>
-    <h6 class="text-center mt-5">
-      Request Processing …..Please Wait, Do Not Close The Page
-    </h6>
-  </div>
+  " class="row">
+    <div class="col-md-12">
+        <lottie-player class="mt-3 m-auto"
+                       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+                       background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
+        <h6 class="text-center mt-5">
+            Request Processing …..Please Wait, Do Not Close The Page
+        </h6>
+    </div>
 </div>
 
-<div
-  [hidden]="
+<div [hidden]="
     formInterface.isUploadingData ||
     formInterface.isLoadingData ||
     formInterface.isLoadingDependencies
-  "
-  class="row align-items-center pt-2"
->
-  <div *ngIf="!hasCase" class="page-header row align-items-center gx-0">
-    <div class="col-md-6">
-      <div class="d-inline-block">
-        <h3 class="mt-2 fw-normal">
-          {{
-            utility.getMetaData(
-              milestoneObject?.patientId,
-              "patientId",
-              ["firstName", "lastName"],
-              "patients"
-            )
-          }}
-          <span class="d-block my-2">{{
-            utility.getMetaData(
-              milestoneObject?.caseId,
-              "caseId",
-              ["title"],
-              "cases"
-            )
-          }}</span>
-          <span class="fw-bold d-block my-2">{{ milestoneObject?.title }}</span>
-          <div class="progress progress-sm mt-2">
-            <div
-              class="progress-bar bg-primary"
-              role="progressbar"
-              style="width: 55%"
-              aria-valuenow="55"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            ></div>
-          </div>
-        </h3>
-      </div>
-    </div>
-    <div class="col-md-6 text-end"></div>
-  </div>
-  <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
-    <div class="col-md-12">
-      <div class="card shadow-sm">
-        <div class="card-header border-bottom-0 bg-white">
-          <div class="row">
-            <div class="col-md-5 align-self-center">
-              <h5 class="body1 card-title my-2">
-                {{ mode }} Task
-                <a
-                  tippy="Tutorial"
-                  target="_blank"
-                  [routerLink]="
-                    '/tutorial/' +
-                    utility.tutorialData['GeneralTaskAddComponent'].html
-                  "
-                >
-                  <i class="bx bxs-info-circle text-primary"></i
-                ></a>
-              </h5>
-            </div>
-            <div class="col-md-7 text-end">
-              <a
-                [routerLink]="[
-                  formInterface.section.backUrl,
-                  { hasTask: true }
-                ]"
-                class="btn btn-default"
-                >Back
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body" style="background: #e4f0ff">
-          <div class="row mt-2">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-4">
+  " class="row align-items-center pt-2">
+    <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit(mainForm)">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body" style="background: #e4f0ff">
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <!-- <div class="col-md-6">
                   <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >For Milestone
+                    <label class="form-label body2 text-dark">For Milestone
                     </label>
-                    <input
-                      type="text"
-                      class="form-control disabled"
-                      readonly
-                      disabled
-                      name="milestoneTitle"
-                      [ngModel]="milestoneObject?.title"
-                    />
+                    <input type="text" class="form-control disabled" readonly disabled name="milestoneTitle"
+                      [ngModel]="milestoneObject?.title" />
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Title </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter Title here"
-                      name="title"
-                      id="title"
-                      required
-                      [(ngModel)]="formInterface.object.title"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Start Date</label>
-                    <input
-                      #startDate
-                      type="datetime-local"
-                      class="form-control"
-                      name="startdate"
-                      id="startdate"
-                      max="2050-01-01"
-                      [min]="currentDate | date : 'yyyy-MM-dd hh:mm'"
-                      [ngModel]="
+                </div> -->
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Title </label>
+                                        <input type="text" class="form-control" placeholder="Enter Title here" name="title" id="title"
+                                               required [(ngModel)]="formInterface.object.title" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Assign Member</label>
+                                        <div class="search search-md search-filter search-filter-sm">
+                                            <i class="bx bx-search"></i>
+                                            <ng-select dropdownPosition="bottom" [items]="caseMembers"
+                                                       [(ngModel)]="formInterface.object.memberMail" bindLabel="accountfirstName"
+                                                       bindValue="emailAddress" name="memberMail" placeholder="Select" required>
+                                                <ng-template ng-label-tmp let-item="item" let-index="index">
+                                                    <span *ngIf="item.accountfirstName" class="ng-value-label"><img [src]="
+                                                                item.imageSrc
+                                                                  ? utility.apiData.users.bucketUrl +
+                                                                    item.imageSrc
+                                                                  : '../../assets/images/users.png'
+                                                              " width="20px" height="20px"
+                                                             class="rounded-circle me-1" />
+                                                        {{
+                                                        item.accountfirstName + " " + item.accountlastName
+                                                        }}</span>
+                                                </ng-template>
+
+                                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                    <div *ngIf="emailArray[item.emailAddress].presentStatus<2" class="card card-lists">
+                                                        <div class="card-body p-0">
+                                                            <div class="d-flex align-items-center">
+                                                                <img style="height: 50px; width: 50px" [src]="
+                                                                    item.imageSrc
+                                                                      ? utility.apiData.users.bucketUrl +
+                                                                        item.imageSrc
+                                                                      : '../../assets/images/users.png'
+                                                                  "
+                                                                     class="rounded-circle me-2 img-thumbnail shadow-sm" />
+                                                                <div class="d-flex align-items-center justify-content-between search-list-content">
+                                                                    <div>
+                                                                        <h5 class="card-title" style="white-space: normal" ngOptionHighlight="search">
+                                                                            {{
+                                                                            item.accountfirstName +
+                                                                            " " +
+                                                                            item.accountlastName
+                                                                            }}
+                                                                        </h5>
+                                                                        <h6 style="
+                                                                        white-space: normal;
+                                                                        word-wrap: anywhere;
+                                                                      " class="card-subtitle text-muted">
+                                                                            {{ item.emailAddress }}
+                                                                        </h6>
+                                                                        <label class="badge badge-pill badge-info body2 px-2"
+                                                                               *ngIf="emailArray[item.emailAddress].presentStatus==0">Pending</label>
+                                                                        <label class="badge badge-pill badge-success body2 px-2"
+                                                                               *ngIf="emailArray[item.emailAddress].presentStatus==1">Accepted</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+
+                                                <ng-template ng-footer-tmp>
+                                                    <button (click)="resetInviteForm()" data-bs-toggle="modal" data-bs-target="#addInvite"
+                                                            type="button" class="btn btn-light-green my-1 me-2">
+                                                        <i class="bx bx-plus-circle"></i> Invite Members
+                                                    </button>
+                                                </ng-template>
+
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Add Reminder</label>
+                                        <select class="form-select" name="reminder" id="reminder" [ngModel]="formInterface.object.reminder"
+                                                (ngModelChange)="formInterface.toInt('reminder', $event)" required>
+                                            <option value="0">No Reminder</option>
+                                            <option value="12" selected>12 Hours</option>
+                                            <option value="24">1 Day</option>
+                                            <option value="48">2 Days</option>
+                                            <option value="72">3 Days</option>
+                                            <option value="120">5 Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Start Date</label>
+                                        <input #startDate type="datetime-local" class="form-control" name="startdate" id="startdate"
+                                               max="2050-01-01" [min]="currentDate | date : 'yyyy-MM-dd hh:mm'" [ngModel]="
                         formInterface.object.startdate
                           | date : 'yyyy-MM-dd hh:mm'
-                      "
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Due Date & Time</label
-                    >
-                    <input
-                      type="datetime-local"
-                      class="form-control"
-                      name="duedate"
-                      id="duedate"
-                      max="2050-01-01"
-                      [min]="startDate.value"
-                      [ngModel]="
+                      " required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Due Date & Time</label>
+                                        <input type="datetime-local" class="form-control" name="duedate" id="duedate" max="2050-01-01"
+                                               [min]="startDate.value" [ngModel]="
                         formInterface.object.duedate
                           ? (formInterface.object.duedate
                             | date : 'yyyy-MM-dd hh:mm')
                           : null
-                      "
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark">Status</label>
-                    <select
-                      class="form-select"
-                      name="presentStatus"
-                      id="presentStatus"
-                      required
-                      [ngModel]="formInterface.object.presentStatus"
-                      (ngModelChange)="
-                        formInterface.toInt('presentStatus', $event)
-                      "
-                    >
-                      <option value="1">Active</option>
-                      <option value="2">Inactive</option>
-                      <option value="3">Pending</option>
-                      <option value="4">Completed</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Assign Member</label
-                    >
-                    <div
-                      class="search search-md search-filter search-filter-sm"
-                    >
-                      <i class="bx bx-search"></i>
-                      <ng-select
-                        dropdownPosition="bottom"
-                        [items]="caseMembers"
-                        [(ngModel)]="formInterface.object.memberMail"
-                        bindLabel="accountfirstName"
-                        bindValue="emailAddress"
-                        name="memberMail"
-                        placeholder="Select"
-                        required
-                      >
-                        <ng-template
-                          ng-label-tmp
-                          let-item="item"
-                          let-index="index"
-                        >
-                          <span
-                            *ngIf="item.accountfirstName"
-                            class="ng-value-label"
-                            ><img
-                              [src]="
-                                item.imageSrc
-                                  ? utility.apiData.users.bucketUrl +
-                                    item.imageSrc
-                                  : '../../assets/images/users.png'
-                              "
-                              width="20px"
-                              height="20px"
-                              class="rounded-circle me-1"
-                            />
-                            {{
-                              item.accountfirstName + " " + item.accountlastName
-                            }}</span
-                          >
-                        </ng-template>
-
-                        <ng-template
-                          ng-option-tmp
-                          let-item="item"
-                          let-index="index"
-                          let-search="searchTerm"
-                        >
-                          <div class="card card-lists">
-                            <div class="card-body p-0">
-                              <div class="d-flex align-items-center">
-                                <img
-                                  style="height: 50px; width: 50px"
-                                  [src]="
-                                    item.imageSrc
-                                      ? utility.apiData.users.bucketUrl +
-                                        item.imageSrc
-                                      : '../../assets/images/users.png'
-                                  "
-                                  class="rounded-circle me-2 img-thumbnail shadow-sm"
-                                />
-                                <div
-                                  class="d-flex align-items-center justify-content-between search-list-content"
-                                >
-                                  <div>
-                                    <h5
-                                      class="card-title"
-                                      style="white-space: normal"
-                                      ngOptionHighlight="search"
-                                    >
-                                      {{
-                                        item.accountfirstName +
-                                          " " +
-                                          item.accountlastName
-                                      }}
-                                    </h5>
-                                    <h6
-                                      style="
-                                        white-space: normal;
-                                        word-wrap: anywhere;
-                                      "
-                                      class="card-subtitle text-muted"
-                                    >
-                                      {{ item.emailAddress }}
-                                    </h6>
-                                  </div>
+                      " required />
+                                    </div>
                                 </div>
-                              </div>
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <label class="form-label body2 text-dark">Description</label>
+                                        <app-cvfast-new #cvfast></app-cvfast-new>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                        </ng-template>
-                      </ng-select>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Add Reminder</label
-                    >
-                    <select
-                      class="form-select"
-                      name="reminder"
-                      id="reminder"
-                      [ngModel]="formInterface.object.reminder"
-                      (ngModelChange)="formInterface.toInt('reminder', $event)"
-                      required
-                    >
-                      <option value="0">No Reminder</option>
-                      <option value="12" selected>12 Hours</option>
-                      <option value="24">1 Day</option>
-                      <option value="48">2 Days</option>
-                      <option value="72">3 Days</option>
-                      <option value="120">5 Days</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-4">
-                    <label class="form-label body2 text-dark"
-                      >Description</label
-                    >
-                    <app-cvfast-new #cvfast></app-cvfast-new>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+        <div class="col-md-12 mt-3">
+            <button type="submit" class="btn btn-light-green  me-2">
+                <i class="bx bx-save"></i>
+                Save Task
+            </button>
+            <button type="button" (click)="closeModal.emit()" class="btn btn-secondary">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal to add members -->
+<!-- 1.dont show existing members
+	2.allow to add multiple members with button checkbox->this adds item to array
+-->
+<div class="modal fade" #modal id="addInvite" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div [hidden]="isInvite" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title body1">Add Members</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <div class="search search-md search-filter search-filter-sm">
+                        <i class="bx bx-search"></i>
+                        <ng-select dropdownPosition="bottom" [items]="nonInvitedMembers" [multiple]="true"
+                                   bindLabel="accountfirstName" placeholder="Select Members" [(ngModel)]="selectedUsers">
+                            <ng-template ng-label-tmp let-item="item" let-index="index" let-clear="clear">
+                                <span class="ng-value-label"><img [src]="
+                      item.imageSrc
+                        ? utility.apiData.users.bucketUrl + item.imageSrc
+                        : '../../assets/images/users.png'
+                    " width="20px" height="20px" class="rounded-circle me-1" />
+                                    {{ item.accountfirstName + " " + item.accountlastName }}</span>
+                                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <div class="card card-lists">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex align-items-center position-realtive">
+                                            <img style="height: 50px; width: 50px" [src]="
+                          item.imageSrc
+                            ? utility.apiData.users.bucketUrl + item.imageSrc
+                            : '../../assets/images/users.png'
+                        " class="rounded-circle me-2 img-thumbnail shadow-sm" />
+                                            <div class="d-flex align-items-center justify-content-between search-list-content">
+                                                <div>
+                                                    <strong ngOptionHighlight="search">
+                                                        {{
+                                                        item.accountfirstName + " " + item.accountlastName
+                                                        }}
+                                                    </strong>
+                                                    <small class="text-muted d-block">
+                                                        {{ item.emailAddress }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="fw-bold text-dark ms-2">Invitation Attachments</h6>
+                    <app-cvfast-new [isMin]="true" #inviteText></app-cvfast-new>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <label (click)="isInvite=!isInvite;inviteForm.reset()" class="text-primary me-3 float-start">
+                    <i class="bx bx-plus-circle isCursor"></i> Invite Someone to Join
+                    Dental-Live
+                </label>
+                <button [disabled]="isUploadingData" (click)="sendInvite(inviteText)" class="btn btn-primary">
+                    <span *ngIf="isUploadingData" class="spinner-border spinner-border-sm" role="status"
+                          aria-hidden="true"></span>
+                    Send Invite
+                </button>
+            </div>
+        </div>
+
+        <div [hidden]="!isInvite" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title body1" id="addNonMembersLabel">
+                    Invite Non Members
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #inviteForm="ngForm" id="inviteNewForm" (submit)="addNewMember(inviteForm)">
+                <div class="modal-body">
+                    <div class="row p-2">
+                        <div class="col-md-12">
+                            <input placeholder="Enter Name" class="form-control mb-4" required name="name" ngModel type="text" />
+                        </div>
+                        <div class="col-md-12">
+                            <input placeholder="Enter E-Mail Address" class="form-control mb-4" required name="email" ngModel
+                                   type="email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center justify-content-center border-top-0">
+                    <button type="submit" class="btn btn-default">Send E-Mail</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="col-md-12 mt-3">
-      <button type="submit" class="btn btn-default me-2">
-        <i class="bx bx-save"></i>
-        {{ mode }} task
-      </button>
-      <a
-        [routerLink]="[formInterface.section.backUrl, { hasTask: true }]"
-        class="btn btn-secondary"
-        >Cancel</a
-      >
-      <!-- <button
-        *ngIf="formInterface.object.taskId"
-        (click)="formInterface.deleteData(formInterface.object.taskId)"
-        type="button"
-        class="btn btn-danger me-2 float-end"
-      >
-        Delete Milestone
-      </button> -->
-    </div>
-  </form>
 </div>

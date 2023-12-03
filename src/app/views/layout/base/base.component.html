@@ -3,153 +3,108 @@
 <app-sidebar></app-sidebar>
 
 <div class="wrapper">
-  <router-outlet></router-outlet>
-  <div
-    class="animate__animated animate__slideInUp"
-    *ngIf="utility.processingBackgroundData.length > 0"
-    style="
+    <router-outlet></router-outlet>
+    <div class="animate__animated animate__slideInUp" *ngIf="utility.processingBackgroundData.length > 0" style="
       position: fixed;
       bottom: -10px;
       right: 10px;
       background: #f0f0f0;
       border-radius: 1em;
-    "
-  >
-    <label
-      style="padding-right: 5em"
-      class="fw-bold fs-6 px-4 py-3 text-left w-100 d-flex justify-content-between"
-      style="border-bottom: solid 1px #cbcbcb; min-width: 300px"
-      >Uploads ({{ utility.processingBackgroundData.length }})
-      <i
-        (click)="isOpen = !isOpen"
-        [class]="
+    ">
+        <label style="padding-right: 5em" class="fw-bold fs-6 px-4 py-3 text-left w-100 d-flex justify-content-between"
+               style="border-bottom: solid 1px #cbcbcb; min-width: 300px">Uploads ({{ utility.processingBackgroundData.length }})
+            <i (click)="isOpen = !isOpen" [class]="
           !isOpen
             ? 'bx bx-sm bx-chevron-up-circle isCusrosr'
             : 'bx bx-sm bx-chevron-down-circle isCusrosr'
-        "
-      ></i>
-    </label>
-
-    <ng-container *ngIf="isOpen">
-      <div
-        style="border-bottom: solid 1px #cbcbcb; padding-right: 5em"
-        *ngFor="let task of utility.processingBackgroundData"
-        class="d-flex flex-row justify-content-between align-items-center px-4 py-3 position-relative w-100"
-      >
-        <label class="text-capitalize text-truncate" style="max-width: 300px"
-          >{{ task.module + (task.title ? " : " + task.title : "") }}
+        "></i>
         </label>
-        <label class="d-flex align-items-center">
-          <span *ngIf="!task.isFailed">
-            <lottie-player
-              *ngIf="!task.isProcessed"
-              src="https://assets9.lottiefiles.com/private_files/lf30_7T1LT4.json"
-              background="transparent"
-              speed="1"
-              style="
+
+        <ng-container *ngIf="isOpen">
+            <div style="border-bottom: solid 1px #cbcbcb; padding-right: 5em"
+                 *ngFor="let task of utility.processingBackgroundData"
+                 class="d-flex flex-row justify-content-between align-items-center px-4 py-3 position-relative w-100">
+                <label class="text-capitalize text-truncate" style="max-width: 300px">{{ task.module + (task.title ? " : " +
+                    task.title : "") }}
+                </label>
+                <label class="d-flex align-items-center">
+                    <span *ngIf="!task.isFailed">
+                        <lottie-player *ngIf="!task.isProcessed"
+                                       src="https://assets9.lottiefiles.com/private_files/lf30_7T1LT4.json" background="transparent" speed="1"
+                                       style="
                 width: 30px;
                 height: 30px;
                 transform: scale(1.2);
                 right: -15px;
                 bottom: 20px;
-              "
-              loop
-              autoplay
-            ></lottie-player>
-          </span>
-          <strong
-            class="isCusrosr text-danger mx-3"
-            (click)="processBackgroundAgain(task)"
-            *ngIf="task.isFailed"
-            ><u>(Failed,click to Retry)</u></strong
-          >
-          <i
-            *ngIf="task.isProcessed"
-            class="bx bx-sm bxs-check-circle text-success"
-          ></i>
-          <i
-            (click)="showError(task.error)"
-            *ngIf="task.isFailed"
-            class="text-info bx bx-sm bxs-info-circle ms-1 isCusrosr"
-          ></i>
-          <i
-            (click)="clearTask(task)"
-            *ngIf="task.isFailed || task.isProcessed"
-            class="bx bx-sm bxs-x-circle ms-1 isCusrosr"
-          ></i>
-        </label>
-      </div>
-    </ng-container>
-  </div>
-
-  <!-- Modal Image Cropping -->
-  <div class="modal fade" id="infoModal">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <section class="py-2">
-          <div class="container">
-            <div class="box-message">
-              <h2 class="logo-style mb-2">
-                Dental <strong class="colorfont">LIVE</strong><sup>TM</sup>
-              </h2>
-              <div class="remb-text">
-                <div class="mb-4">Welcome to DentalLive<sup>TM</sup>!</div>
-                <div class="mb-4">
-                  As this is your first time logging in, please carefully read
-                  the information below.
-                </div>
-                <div class="mb-4">
-                  If at any time you have any questions about how to use any of
-                  the different modules on DentalLive<sup>TM</sup>, simply click
-                  <a href="javascript:void(0);"
-                    ><i class="fa fa-info-circle"></i
-                  ></a>
-                  on the page to navigate to the associated tutorial page.
-                </div>
-                <div class="mb-4">
-                  Alternatively, you can also access the entire tutorial page
-                  from the Side Menu
-                  <i class="bx bx-right-arrow-alt"></i> Tutorials Section.
-                </div>
-                <div class="mb-4">
-                  You are currently on the free version of
-                  DentalLive<sup>TM</sup>. With the free trial, you are allowed
-                  an additional sub-user and upto 2 GBs of data for storage. At
-                  any point in time, you can purchase additional storage
-                  packages.
-                </div>
-                <div class="mb-4">
-                  For a full list of packages, navigate to the page from the
-                  Side Menu <i class="bx bx-right-arrow-alt"></i> Account
-                  Settings <i class="bx bx-right-arrow-alt"></i> My Purchases.
-                </div>
-                <div class="mb-4">
-                  As we are a growing company, we appreciate all feedback. For
-                  any questions or suggestions, please contact us at
-                  <a href="mailto:info@dentallive.com;">info@dentallive.com</a>.
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    For Terms and Conditions, please visit our website at
-                    <a href="https://www.dentallive.com">www.DentalLive.com</a>
-                  </div>
-                  <div class="col-4 text-end">
-                    <button
-                      (click)="updateUserState()"
-                      class="btn btn-outline-primary"
-                      data-bs-dismiss="modal"
-                      tyle="width: 150px; padding: 14px 20px; box-shadow: 0px 4px 20px #c3d2ff00;"
-                    >
-                      CONTINUE
-                    </button>
-                  </div>
-                </div>
-              </div>
+              " loop autoplay></lottie-player>
+                    </span>
+                    <strong class="isCusrosr text-danger mx-3" (click)="processBackgroundAgain(task)"
+                            *ngIf="task.isFailed"><u>(Failed,click to Retry)</u></strong>
+                    <i *ngIf="task.isProcessed" class="bx bx-sm bxs-check-circle text-success"></i>
+                    <i (click)="showError(task.error)" *ngIf="task.isFailed"
+                       class="text-info bx bx-sm bxs-info-circle ms-1 isCusrosr"></i>
+                    <i (click)="clearTask(task)" *ngIf="task.isFailed || task.isProcessed"
+                       class="bx bx-sm bxs-x-circle ms-1 isCusrosr"></i>
+                </label>
             </div>
-          </div>
-        </section>
-      </div>
+        </ng-container>
     </div>
-  </div>
+
+    <!-- Modal Image Cropping -->
+    <div class="modal fade" id="infoModal">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <main class="overflow-hidden w-100">
+                    <section class="py-2">
+                        <div class="container">
+                            <div class="box-message">
+                                <h2 class="logo-style">Dental <strong class="colorfont">LIVE</strong><sup>TM</sup></h2>
+                                <div class="remb-text">
+                                    <div class="mb-4">Welcome to DentalLive<sup>TM</sup>!</div>
+                                    <div class="mb-4">As this is your first time logging in, please carefully read the information below.
+                                    </div>
+                                    <div class="mb-4">If at any time you have any questions about how to use any of the different modules
+                                        on
+                                        DentalLive<sup>TM</sup>, simply click <a href="javascript:void(0);"><i
+                                               class="fa fa-info-circle"></i></a> on
+                                        the page to navigate to the associated tutorial page. </div>
+                                    <div class="mb-4">Alternatively, you can also access the entire tutorial page from the Side Menu
+                                        <span>&#8594;</span> Tutorials Section.
+                                    </div>
+                                    <div class="mb-4">You are currently on the free version of DentalLive<sup>TM</sup>. With DentalLive-
+                                        Basic,
+                                        you are allowed 2 additional sub-users and upto 5 GBs of data for storage. Please upgrade your
+                                        current
+                                        package by going to Account Settings. My purchases and selecting either DentalLive - Basic or
+                                        Premium based
+                                        off your needs. </div>
+                                    <div class="mb-4"><b>Before you can go ahead and get access to the application, you must navigate to
+                                            the
+                                            account settings page to complete your user profile.</b></div>
+                                    <div class="mb-4">As we are a growing community, we appreciate all feedback. For any questions or
+                                        suggestions,
+                                        please contact us at <a href="mailto:info@dentallive.com;">info@dentallive.com</a>.</div>
+                                    <div class="row align-items-center">
+                                        <div class="col-8">For any questions, please visit our website at <a
+                                               href="https://www.dentallive.com">www.DentalLive.com</a></div>
+                                        <div class="col-4 text-end"><button routerLink="/accounts/details" class="btn btn-outline-primary"
+                                                    data-bs-dismiss="modal"
+                                                    tyle="width: 150px; padding: 14px 20px; box-shadow: 0px 4px 20px #c3d2ff00;">Account
+                                                Settings</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+                <!-- main section end -->
+
+
+                <!-- Footer end-->
+                <div class="go-top d-none d-md-block"><i class="fa fa-chevron-up"></i><i class="fa fa-chevron-up"></i></div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- <app-footer></app-footer> -->

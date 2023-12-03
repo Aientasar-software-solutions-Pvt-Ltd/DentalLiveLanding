@@ -55,6 +55,7 @@ export class ColleagueListComponent implements OnInit {
   async loadBaseData() {
     try {
       await this.utility.loadPreFetchData("users");
+      await this.utility.loadPreFetchData("practices");
       let data = this.utility.metadata.users;
       if (data) {
         this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));

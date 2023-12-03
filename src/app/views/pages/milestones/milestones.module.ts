@@ -53,6 +53,14 @@ const routes: Routes = [
         component: MilestoneAddComponent
       },
       {
+        path: 'milestone-add/:id',
+        component: MilestoneAddComponent
+      },
+      {
+        path: 'milestone-add/:id/:cid',
+        component: MilestoneAddComponent
+      },
+      {
         path: 'milestone-edit/:id',
         component: MilestoneAddComponent
       },

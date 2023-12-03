@@ -1,14 +1,8 @@
 <div *ngIf="isUploadingData || isLoadingData" class="row">
   <div class="col-md-12">
-    <lottie-player
-      class="mt-3 m-auto"
+    <lottie-player class="mt-3 m-auto"
       src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-      background="transparent"
-      speed="1"
-      style="width: 300px; height: 300px"
-      loop
-      autoplay
-    ></lottie-player>
+      background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></lottie-player>
     <h6 class="text-center mt-5">
       Request Processing …..Please Wait, Do Not Close The Page
     </h6>
@@ -18,10 +12,7 @@
   <div class="col-md-12">
     <div class="page_card">
       <div class="card">
-        <div
-          class="card-header card-header_border"
-          style="background-color: #ffff"
-        >
+        <div class="card-header card-header_border" style="background-color: #ffff">
           <p class="body1 card-title mt-2" style="color: #354053">
             Basic Details
           </p>
@@ -31,134 +22,79 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="First Name"
-                    [(ngModel)]="object.accountfirstName"
-                    name="accountfirstName"
-                    required
-                  />
-                  <label for="floatingInput">First Name</label>
+                  <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="object.accountfirstName"
+                    name="accountfirstName" required />
+                  <label for="floatingInput">First Name<span class="text-danger"> *</span></label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Last Name"
-                    [(ngModel)]="object.accountlastName"
-                    name="accountlastName"
-                    required
-                  />
-                  <label for="floatingPassword">Last Name</label>
+                  <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="object.accountlastName"
+                    name="accountlastName" required />
+                  <label for="floatingPassword">Last Name<span class="text-danger"> *</span></label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="E-Mail"
-                    [ngModel]="object.emailAddress"
-                    disabled
-                    name="emailAddress"
-                  />
-                  <label for="exampleDatepicker" class="form-label"
-                    >E-Mail</label
-                  >
+                  <input type="email" class="form-control" placeholder="E-Mail" [ngModel]="object.emailAddress" disabled
+                    name="emailAddress" />
+                  <label for="exampleDatepicker" class="form-label">E-Mail</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="date"
-                    class="form-control"
-                    max="{{ today }}"
-                    placeholder="DOB"
-                    [(ngModel)]="object.dob"
-                    name="dob"
-                  />
+                  <input type="date" class="form-control" max="{{ today }}" placeholder="DOB" [(ngModel)]="object.dob"
+                    name="dob" />
                   <label for="exampleDatepicker" class="form-label">DOB</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    pattern="[0-9]{0,30}"
-                    class="form-control"
-                    placeholder="Phone Number"
-                    [(ngModel)]="object.phoneNumber"
-                    name="phoneNumber"
-                  />
-                  <label for="floatingPassword">Phone Number</label>
+                  <input type="text" pattern="[0-9]{0,30}" class="form-control" placeholder="Phone Number"
+                    [(ngModel)]="object.phoneNumber" name="phoneNumber" required />
+                  <label for="floatingPassword">Phone Number<span class="text-danger"> *</span></label>
                 </div>
-                <div *ngIf="!isEtr" class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Practice/Clinic Name"
-                    [(ngModel)]="object.clinicName"
-                    name="clinicName"
-                  />
+                <!-- <div *ngIf="!isEtr" class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="Practice/Clinic Name"
+                    [(ngModel)]="object.clinicName" name="clinicName" />
                   <label for="floatingPassword">Practice/Clinic Name</label>
-                </div>
+                </div> -->
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Address"
-                    [(ngModel)]="object.address"
-                    name="address"
-                  />
+                  <input type="text" class="form-control" placeholder="Address" [(ngModel)]="object.address"
+                    name="address" />
                   <label for="floatingPassword">Address</label>
                 </div>
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Education"
-                    [(ngModel)]="object.education"
-                    name="education"
-                  />
+                <!-- <div class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="Education" [(ngModel)]="object.education"
+                    name="education" />
                   <label for="floatingPassword">Education</label>
-                </div>
+                </div> -->
+
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="City"
-                    [(ngModel)]="object.city"
-                    name="city"
-                  />
+                  <select name="specialty" class="form-select" placeholder="Specialty" [(ngModel)]="object.speciality"
+                    name="speciality">
+                    <option value="Endodontics">Endodontics</option>
+                    <option value="Orthodontics">Orthodontics</option>
+                    <option value="Oral Radiology">Oral Radiology</option>
+                    <option value="Denturist">Denturist</option>
+                    <option value="Periodontics">Periodontics</option>
+                    <option value="Prosthodontics">Prosthodontics</option>
+                  </select>
+                  <label for="floatingPassword">Specialty</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" placeholder="City" [(ngModel)]="object.city" name="city" />
                   <label for="floatingPassword">City</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Country"
-                    [(ngModel)]="object.country"
-                    name="country"
-                  />
+                  <input type="text" class="form-control" placeholder="Country" [(ngModel)]="object.country"
+                    name="country" />
                   <label for="floatingPassword">Country</label>
                 </div>
               </div>
-              <div
-                class="order-first order-md-last col-md-6 p-md-5 text-center"
-              >
-                <div
-                  class="profile-img justify-content-center p-md-2 position-relative"
-                >
+              <div class="order-first order-md-last col-md-6 p-md-5 text-center">
+                <div class="profile-img justify-content-center p-md-2 position-relative">
                   <div class="capture">
                     <label for="profileImage">
-                      <img
-                        style="width: 13em"
-                        [src]="
+                      <img style="width: 13em" [src]="
                           imageSrc
                             ? imageSrc
                             : '../../../../../assets/images/user-circle.png'
-                        "
-                        alt=""
-                        class="mb-2"
-                      />
-                      <span
-                        class="text-primary"
-                        style="
+                        " alt="" class="mb-2" />
+                      <span class="text-primary" style="
                           position: absolute;
                           bottom: -1.5em;
                           left: 0;
@@ -166,23 +102,12 @@
                           margin: auto;
                           font-weight: bold;
                           cursor: pointer;
-                        "
-                        >Upload</span
-                      >
+                        ">Upload</span>
                     </label>
-                    <input
-                      #file
-                      type="file"
-                      name="profileImage"
-                      id="profileImage"
-                      style="display: none"
-                      accept="image/*"
-                      (click)="file.value = null"
-                      (change)="loadBinaryFile($event)"
-                    />
+                    <input #file type="file" name="profileImage" id="profileImage" style="display: none"
+                      accept="image/*" (click)="file.value = null" (change)="loadBinaryFile($event)" />
                   </div>
-                  <label
-                    style="
+                  <label style="
                       position: absolute;
                       bottom: -4em;
                       left: 0;
@@ -190,10 +115,7 @@
                       margin: auto;
                       font-weight: bold;
                       cursor: pointer;
-                    "
-                    (click)="object.imageSrc = ''; imageSrc = null"
-                    class="mb-2 me-2 border-0 text-danger"
-                  >
+                    " (click)="object.imageSrc = ''; imageSrc = null" class="mb-2 me-2 border-0 text-danger">
                     Remove picture
                   </label>
                 </div>
@@ -204,52 +126,26 @@
               <h6 class="fw-bold text-dark pb-2">Mail Fowarders</h6>
               <div class="col-md-12 d-flex align-items-center">
                 <div class="flex-grow-1 me-2 form-floating">
-                  <input
-                    #fwdemail
-                    type="email"
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-                    class="form-control"
-                    id="email"
-                    placeholder="E-Mail Address"
-                    ngModel
-                    name="email"
-                  />
+                  <input #fwdemail type="email" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" class="form-control" id="email"
+                    placeholder="E-Mail Address" ngModel name="email" />
                   <label for="email">Enter Email Address</label>
                 </div>
-                <button
-                  (click)="mails(fwdemail.value, fwdemail, true)"
-                  type="button"
-                  class="btn btn-primary add"
-                >
+                <button (click)="mails(fwdemail.value, fwdemail, true)" type="button" class="btn btn-primary add">
                   Add Mail
                 </button>
               </div>
-              <ul
-                *ngIf="object.forwards.length > 0"
-                class="col-md-12 bg-light list-group my-3 p-3"
-              >
-                <li
-                  *ngFor="let mail of object.forwards"
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+              <ul *ngIf="object.forwards.length > 0" class="col-md-12 bg-light list-group my-3 p-3">
+                <li *ngFor="let mail of object.forwards"
+                  class="list-group-item d-flex justify-content-between align-items-center">
                   {{ mail }}
-                  <small
-                    (click)="mails(mail, null, false)"
-                    role="button"
-                    class="text-danger float-end"
-                    >delete</small
-                  >
+                  <small (click)="mails(mail, null, false)" role="button" class="text-danger float-end">delete</small>
                 </li>
               </ul>
             </div>
 
             <div class="row border-top pt-4 pb-2">
               <div class="col">
-                <button
-                  type="submit"
-                  class="btn btn-primary add me-2 me-2"
-                  style="line-height: 12px"
-                >
+                <button type="submit" class="btn btn-primary add me-2 me-2" style="line-height: 12px">
                   Update
                 </button>
               </div>
@@ -260,76 +156,37 @@
     </div>
   </div>
   <div class="col-md-12 mt-4">
-    <div
-      class="card border-0"
-      style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)"
-    >
-      <div
-        class="card-header card-header_border"
-        style="background-color: #ffff"
-      >
+    <div class="card border-0" style="box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1)">
+      <div class="card-header card-header_border" style="background-color: #ffff">
         <p class="body1 card-title mt-2" style="color: #354053">
           Reset Password
         </p>
       </div>
-      <form
-        #subForm="ngForm"
-        (ngSubmit)="updatePassword(opass.value, npass.value, cpass.value)"
-      >
+      <form #subForm="ngForm" (ngSubmit)="updatePassword(opass.value, npass.value, cpass.value)">
         <div class="card-body">
           <div class="row mt-2">
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-floating mb-3">
-                    <input
-                      #opass
-                      required
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      type="password"
-                      autocomplete="new-opassword"
-                      ngModel
-                      name="opassword"
-                      class="form-control"
-                      id="floatingPassword0"
-                      placeholder="Password"
-                    />
+                    <input #opass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
+                      autocomplete="new-opassword" ngModel name="opassword" class="form-control" id="floatingPassword0"
+                      placeholder="Password" />
                     <label for="floatingPassword0">Enter old password</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input
-                      #npass
-                      required
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      type="password"
-                      autocomplete="new-npassword"
-                      ngModel
-                      name="npassword"
-                      class="form-control"
-                      id="floatingPassword1"
-                      placeholder="Password"
-                    />
+                    <input #npass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
+                      autocomplete="new-npassword" ngModel name="npassword" class="form-control" id="floatingPassword1"
+                      placeholder="Password" />
                     <label for="floatingPassword1">Enter new password</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input
-                      #cpass
-                      required
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      type="password"
-                      autocomplete="new-cpassword"
-                      ngModel
-                      name="cpassword"
-                      class="form-control"
-                      id="floatingPassword2"
-                      placeholder="Password"
-                    />
+                    <input #cpass required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password"
+                      autocomplete="new-cpassword" ngModel name="cpassword" class="form-control" id="floatingPassword2"
+                      placeholder="Password" />
                     <label for="floatingPassword2">Re-enter new password</label>
-                    <small
-                      *ngIf="npass.value != cpass.value"
-                      class="d-block text-danger mt-2"
-                      >Password did not match</small
-                    >
+                    <small *ngIf="npass.value != cpass.value" class="d-block text-danger mt-2">Password did not
+                      match</small>
                   </div>
                   <label style="color: #1991eb" class="body2 my-3">
                     Must contain atleast one number and one uppercase and
@@ -339,15 +196,12 @@
               </div>
               <div class="row mt-2">
                 <div class="col-md-12 mt-2">
-                  <button
-                    class="btn btn-primary btn-1 mb-2 me-2 border-0"
-                    style="
+                  <button class="btn btn-primary btn-1 mb-2 me-2 border-0" style="
                       box-shadow: 0px 4px 20px #c3d2ff;
                       background: #0070d2;
                       height: 40px;
                       padding: 10px 31px;
-                    "
-                  >
+                    ">
                     Update
                   </button>
                 </div>
@@ -363,20 +217,14 @@
 <div class="modal fade" id="pictureModal">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header"><h5>Crop Image</h5></div>
+      <div class="modal-header">
+        <h5>Crop Image</h5>
+      </div>
 
       <div class="modal-body p-4 d-flex flex-direction-coloumn">
-        <image-cropper
-          class="border rounded"
-          [imageChangedEvent]="imageChangedEvent"
-          [maintainAspectRatio]="true"
-          [aspectRatio]="1 / 1"
-          format="png"
-          [onlyScaleDown]="true"
-          [roundCropper]="true"
-          [transform]="transform"
-          (imageCropped)="imageCropped($event)"
-        ></image-cropper>
+        <image-cropper class="border rounded" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1" format="png" [onlyScaleDown]="true" [roundCropper]="true" [transform]="transform"
+          (imageCropped)="imageCropped($event)"></image-cropper>
 
         <div class="d-flex justify-content-end mt-2 w-100">
           <i (click)="zoomOut()" class="bx bx-md bxs-zoom-out"></i>
@@ -386,19 +234,10 @@
         <img class="mt-3" [src]="croppedImage" />
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary me-2"
-          data-bs-dismiss="modal"
-        >
+        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
           Cancel
         </button>
-        <button
-          type="button"
-          (click)="saveCroppedImage()"
-          class="btn btn-primary"
-          data-bs-dismiss="modal"
-        >
+        <button type="button" (click)="saveCroppedImage()" class="btn btn-primary" data-bs-dismiss="modal">
           Crop & Save
         </button>
       </div>

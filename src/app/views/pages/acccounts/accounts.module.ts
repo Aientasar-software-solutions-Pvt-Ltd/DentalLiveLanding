@@ -13,13 +13,18 @@ import { AddaccountComponent } from './addaccount/addaccount.component';
 import { MypurchasesComponent } from './purchases/mypurchases/mypurchases.component';
 import { UsagestatisticsComponent } from './usagestatistics/usagestatistics.component';
 import { EditsubaccountComponent } from './editsubaccount/editsubaccount.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PurchaseComponent } from './purchases/purchase/purchase.component';
 import { PackagesListComponent } from './purchases/packages-list/packages-list.component';
 import { PackagesDetailsComponent } from './purchases/packages-details/packages-details.component';
 import "@lottiefiles/lottie-player";
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { AddPracticeComponent } from './practice/add-practice/add-practice.component';
+import { ListPracticeComponent } from './practice/list-practice/list-practice.component';
+import { DataTablesModule } from 'angular-datatables';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 
 const routes: Routes = [
   {
@@ -35,8 +40,12 @@ const routes: Routes = [
     component: AccountDashboardComponent,
     canActivate: [AccountGuardServiceService],
     children: [
-      { path: '', component: AddaccountComponent },
+      { path: '', redirectTo: 'account', pathMatch: 'full' },
       { path: 'account', component: AddaccountComponent },
+
+      { path: 'practices', component: ListPracticeComponent },
+      { path: 'practices/practice-add', component: AddPracticeComponent },
+      { path: 'practices/practice-edit/:id', component: AddPracticeComponent },
 
       { path: 'roles', component: RolelistComponent },
       { path: 'roles/role', component: AddroleComponent },
@@ -70,13 +79,25 @@ const routes: Routes = [
     PurchaseComponent,
     PackagesListComponent,
     PackagesDetailsComponent,
-    ProfileViewComponent
+    ProfileViewComponent,
+    AddPracticeComponent,
+    ListPracticeComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    ImageCropperModule
+    ImageCropperModule,
+    NgxShimmerLoadingModule,
+    DataTablesModule,
+    ReactiveFormsModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    }),
   ],
   providers: [
     DatePipe

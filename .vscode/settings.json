@@ -1,0 +1,5 @@
+{
+  "prettier.useTabs": true,
+  "editor.autoIndent": "full",
+  "editor.detectIndentation": false
+}

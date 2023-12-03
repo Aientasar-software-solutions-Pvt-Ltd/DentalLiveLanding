@@ -11,8 +11,10 @@ export class NavbarComponent implements OnInit {
 	AccountName: string;
 	AccountImg: any;
 	imgSrc: any;
+	isShowDropDown = false;
 	constructor(private usr: AccdetailsService) { }
 	@HostListener('window:resize', ['$event'])
+
 
 
 	ngOnInit(): void {

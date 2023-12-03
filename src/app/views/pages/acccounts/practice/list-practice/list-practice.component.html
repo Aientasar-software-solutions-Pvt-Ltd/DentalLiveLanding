@@ -1,0 +1,168 @@
+<div class="page-header row align-items-center gx-0">
+    <div class="col-md-6">
+        <h3>
+            Practices
+            <!-- <a tippy="Tutorial" target="_blank" [routerLink]="
+          '/tutorial/' + utility.tutorialData['PatientsListComponent'].html
+        ">
+                <i class="bx bxs-info-circle text-primary"></i></a> -->
+        </h3>
+    </div>
+    <div class="col-md-6 text-end">
+        <a routerLink="practice-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add
+            Practice</a>
+    </div>
+</div>
+
+<div class="row align-items-center">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header border-bottom-0 bg-white">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="my-2">
+                        <h5 class="body1 card-title mb-0">List of Practices</h5>
+                    </div>
+                    <div class="d-flex align-items-center flex-wrap">
+                        <button class="btn filter-btn me-2 my-2" data-bs-toggle="modal"
+                                data-bs-target="#filterModal">
+                            <i class="bx bx-filter-alt"></i>
+                            <span class="d-none d-sm-inline-block ms-2">Filter</span>
+                        </button>
+                        <div class="search search-md">
+                            <i class="bx bx-search"></i>
+                            <input type="text" class="form-control" placeholder="Search"
+                                   (keyup)="searchText($event)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-container class="mt-5" *ngIf="isLoadingData">
+                <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+                                     style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'"
+                                     [width]="'100%'">
+                </ngx-shimmer-loading>
+            </ng-container>
+            <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap align-middle" datatable
+                           [dtOptions]="dtOptions" id="dataTables">
+                        <thead class="thead-light text-uppercase">
+                            <tr>
+                                <th class="body2">PRACTICE NAME</th>
+                                <th class="body2">CITY</th>
+                                <th class="body2">COUNTRY</th>
+                                <th class="body2">DATE CREATED</th>
+                                <th class="body2">PRIMARY</th>
+                                <th class="body2" data-orderable="false">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of practiceData; let i = index">
+                                <td>
+                                    <span class="body2">{{ data.practiceName}}</span>
+                                    <small *ngIf="data.isPrimary" class="fw-bold text-info ms-2">
+                                        (Primary)</small>
+                                </td>
+                                <td>
+                                    <span class="body2">{{ data.city }}</span>
+                                </td>
+                                <td>
+                                    <span class="body2">{{ data.country }}</span>
+                                </td>
+                                <td>
+                                    <span class="body2">{{
+                                        data.dateCreated | date : "mediumDate"
+                                        }}</span>
+                                </td>
+                                <td>
+                                    <i *ngIf="user?.primaryPractice && user.primaryPractice==data.practiceId; else elseBlock"
+                                       class="bx bx-x-circle fs-4 text-gray"></i>
+                                    <ng-template #elseBlock>
+                                        <i tippy="Change to Primary" placement="top"
+                                           (click)="makePrimary(data.practiceId)"
+                                           class="bx bx-check-circle fs-4 text-light-green isCursor"
+                                           style="cursor: pointer;"></i>
+                                    </ng-template>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex">
+                                        <a routerLink="practice-edit/{{ data.practiceId }}"
+                                           tippy="Edit" placement="top" title="Edit"
+                                           class="me-2">
+                                            <i class="material-icons text-bright-blue">edit</i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!this.practiceData || this.practiceData.length == 0">
+                                <td colspan="6" class="dataTables_empty" valign="top">
+                                    No Practices Available In The Table
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
+                <div class="modal-body">
+                    <div class="row gy-3">
+                        <div class="col-md-12">
+                            <div class="search">
+                                <i class="bx bx-search"></i>
+                                <input type="text" class="form-control" ngModel name="practiceName"
+                                       id="practiceName" placeholder="Search by Practice Name" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="search">
+                                <i class="bx bx-search"></i>
+                                <input type="text" class="form-control" ngModel name="city" id="city"
+                                       placeholder="Search by City" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="search">
+                                <i class="bx bx-search"></i>
+                                <input type="text" class="form-control" ngModel name="country"
+                                       id="country" placeholder="Search by Country" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label body2 text-dark">Search by Date:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">From</label>
+                            <input #filterDateFrom type="date" name="dateFrom" ngModel id="dateFrom"
+                                   class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label body2 text-dark">To</label>
+                            <input [disabled]="!filterDateFrom.value" min="{{ filterDateFrom.value }}"
+                                   type="date" name="dateTo" ngModel id="dateTo" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-default" data-bs-dismiss="modal">
+                        Apply
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

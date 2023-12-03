@@ -1,9 +1,7 @@
 <ol *ngIf="!patientId" class="breadcrumb">
   <!-- breadcrumb -->
   <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
+    <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">Cases</li>
 </ol>
@@ -11,99 +9,55 @@
   <div class="col-md-6">
     <h3>
       Cases
-      <a
-        tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
+      <a tippy="Tutorial" target="_blank" [routerLink]="
           '/tutorial/' + utility.tutorialData['CaseListComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
+        ">
+        <i class="bx bxs-info-circle text-primary"></i></a>
     </h3>
   </div>
   <div class="col-md-6 text-end">
-    <a
-      *ngIf="user?.isOld"
-      target="_blank"
-      href="https://www.atpplanner.com/caseoverview.php?documentCookieId={{
+    <a *ngIf="user?.isOld" target="_blank" href="https://www.atpplanner.com/caseoverview.php?documentCookieId={{
         user.sno
-      }}"
-      class="btn btn-info btn-lg me-2 text-white"
-      ><i class="bx bx-link-external me-2"></i>ATP Planner</a
-    >
-    <a routerLink="/cases/cases/case-add" class="btn btn-default btn-lg"
-      ><i class="bx bx-plus-circle"></i> Add Case</a
-    >
+      }}" class="btn btn-info btn-lg me-2 text-white"><i class="bx bx-link-external me-2"></i>ATP Planner</a>
+    <a routerLink="/cases/cases/case-add" class="btn btn-default btn-lg"><i class="bx bx-plus-circle"></i> Add Case</a>
   </div>
 </div>
 <div class="row align-items-center">
   <div class="col-md-12">
     <div class="card shadow-sm">
       <div class="card-header border-bottom-0 bg-white">
-        <div
-          class="d-flex justify-content-between align-items-center flex-wrap"
-        >
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
           <div class="my-2">
             <h5 class="body1 card-title mb-0">List of Cases</h5>
           </div>
           <div class="d-flex align-items-center flex-wrap">
-            <div
-              [hidden]="patientId"
-              class="nav nav-pills nav-justified tabview me-3"
-            >
-              <span
-                class="nav-link isCusrosr"
-                [class.active]="isCase"
-                (click)="isCase = true; loadCases()"
-                >My Cases</span
-              >
-              <span
-                class="nav-link isCusrosr"
-                [class.active]="!isCase"
-                (click)="isCase = false; loadColleagues()"
-                >Colleagues Cases</span
-              >
+            <div [hidden]="patientId" class="nav nav-pills nav-justified tabview me-3">
+              <span class="nav-link isCusrosr" [class.active]="isCase" (click)="isCase = true; loadCases()">My
+                Cases</span>
+              <span class="nav-link isCusrosr" [class.active]="!isCase"
+                (click)="isCase = false; loadColleagues()">Colleagues Cases</span>
             </div>
-            <button
-              class="btn filter-btn me-2 my-2"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-            >
+            <button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal">
               <i class="bx bx-filter-alt"></i>
               <span class="d-none d-sm-inline-block ms-2">Filter</span>
             </button>
             <div class="search search-md">
               <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search"
-                (keyup)="searchText($event)"
-              />
+              <input type="text" class="form-control" placeholder="Search" (keyup)="searchText($event)" />
             </div>
           </div>
         </div>
       </div>
       <ng-container class="mt-5" *ngIf="isLoadingData">
-        <ngx-shimmer-loading
-          class="d-block"
-          *ngFor="let i of shimmer(10).fill(1)"
-          style="margin-top: 1.5em; display: block; transition: all 1s"
-          [height]="'50px'"
-          [width]="'100%'"
-        >
+        <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+          style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'" [width]="'100%'">
         </ngx-shimmer-loading>
       </ng-container>
       <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
         <div>
           <div class="table-responsive">
-            <table
-              class="table table-hover table-nowrap align-middle"
-              datatable
-              [dtOptions]="dtOptions"
-              id="dataTables"
-            >
+            <table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+              id="dataTables">
               <thead class="thead-light text-uppercase">
                 <tr>
                   <th class="body2">PATIENT NAME</th>
@@ -114,22 +68,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  *ngFor="
+                <tr *ngFor="
                     let data of patientId
                       ? casesData.concat(colleaguesData)
                       : isCase
                       ? casesData
                       : colleaguesData;
                     let i = index
-                  "
-                >
+                  ">
                   <td>
                     <span class="d-none">{{ i }}</span>
                     <div>
                       <span class="avatar-icon">{{
                         data.patientName.charAt(0)
-                      }}</span>
+                        }}</span>
                       <span class="body2 ms-1">{{ data.patientName }}</span>
                     </div>
                   </td>
@@ -138,56 +90,38 @@
                   </td>
                   <td>
                     <span class="body2">
-                      {{ data.dateCreated | date : "mediumDate" }}</span
-                    >
+                      {{ data.dateCreated | date : "mediumDate" }}</span>
                   </td>
                   <td>
                     <div>
-                      <span
-                        class="badge rounded-pill badge-success body2"
-                        *ngIf="data.caseStatus == true"
-                        >Active</span
-                      >
-                      <span
-                        class="badge rounded-pill badge-warning body2"
-                        *ngIf="data.caseStatus == false"
-                        >Inactive</span
-                      >
+                      <ng-container [ngSwitch]="data.caseRunningStatus">
+                        <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchDefault>Active</span>
+                        <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="1">Active</span>
+                        <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="2">Inactive</span>
+                        <span class="badge rounded-pill badge-success body2 px-2" *ngSwitchCase="3">Completed</span>
+                      </ng-container>
                     </div>
                   </td>
                   <td>
                     <div class="d-flex">
-                      <a
-                        *ngIf="data.resourceOwner == user.emailAddress"
-                        routerLink="/cases/cases/case-edit/{{ data.caseId }}"
-                        tippy="Edit"
-                        placement="top"
-                        title="Edit"
-                        class="me-2"
-                      >
+                      <a *ngIf="data.resourceOwner == user.emailAddress"
+                        routerLink="/cases/cases/case-edit/{{ data.caseId }}" tippy="Edit" placement="top" title="Edit"
+                        class="me-2">
                         <i class="material-icons text-bright-blue">edit</i>
                       </a>
-                      <a
-                        routerLink="/cases/cases/case-view/{{ data.caseId }}"
-                        tippy="View"
-                        placement="top"
-                      >
-                        <i class="material-icons text-light-green"
-                          >visibility</i
-                        >
+                      <a routerLink="/cases/cases/case-view/{{ data.caseId }}" tippy="View" placement="top">
+                        <i class="material-icons text-light-green">visibility</i>
                       </a>
                     </div>
                   </td>
                 </tr>
-                <tr
-                  *ngIf="
+                <tr *ngIf="
                     patientId
                       ? casesData.concat(colleaguesData).length == 0
                       : isCase
                       ? casesData.length == 0
                       : colleaguesData.length == 0
-                  "
-                >
+                  ">
                   <td colspan="6" class="dataTables_empty" valign="top">
                     No Cases Available In The Table
                   </td>
@@ -201,23 +135,12 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="filterModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form #f="ngForm" id="mainForm" (submit)="filterSubmit(f)">
         <div class="modal-body">
@@ -225,27 +148,15 @@
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="patientName"
-                  id="patientName"
-                  placeholder="Search by Patients Name"
-                />
+                <input type="text" class="form-control" ngModel name="patientName" id="patientName"
+                  placeholder="Search by Patients Name" />
               </div>
             </div>
             <div class="col-md-12">
               <div class="search">
                 <i class="bx bx-search"></i>
-                <input
-                  type="text"
-                  class="form-control"
-                  ngModel
-                  name="title"
-                  id="title"
-                  placeholder="Search by Case Name"
-                />
+                <input type="text" class="form-control" ngModel name="title" id="title"
+                  placeholder="Search by Case Name" />
               </div>
             </div>
             <div class="col-md-12">
@@ -253,35 +164,17 @@
             </div>
             <div class="col-md-6">
               <label class="form-label body2 text-dark">From</label>
-              <input
-                #filterDateFrom
-                type="date"
-                name="dateFrom"
-                ngModel
-                id="dateFrom"
-                class="form-control"
-              />
+              <input #filterDateFrom type="date" name="dateFrom" ngModel id="dateFrom" class="form-control" />
             </div>
             <div class="col-md-6">
               <label class="form-label body2 text-dark">To</label>
-              <input
-                [disabled]="!filterDateFrom.value"
-                min="{{ filterDateFrom.value }}"
-                type="date"
-                name="dateTo"
-                ngModel
-                id="dateTo"
-                class="form-control"
-              />
+              <input [disabled]="!filterDateFrom.value" min="{{ filterDateFrom.value }}" type="date" name="dateTo"
+                ngModel id="dateTo" class="form-control" />
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
           <button type="submit" class="btn btn-default" data-bs-dismiss="modal">

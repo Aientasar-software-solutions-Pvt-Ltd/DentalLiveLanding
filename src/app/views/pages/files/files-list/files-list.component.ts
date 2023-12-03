@@ -25,15 +25,21 @@ export class FilesListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   user = this.utility.getUserDetails()
   @ViewChild(CvfastViewerComponent, { static: false }) cvfast!: CvfastViewerComponent;
+  caseDetail = null;
 
 
   constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
 
   ngOnInit(): void {
 
-    this.route.parent.parent.paramMap.subscribe((params) => {
-      if (params.get("caseId") && params.get("caseId") != "")
+    this.route.parent.parent.paramMap.subscribe(async (params) => {
+      if (params.get("caseId") && params.get("caseId") != "") {
+        await this.utility.loadPreFetchData("cases");
         this.caseId = params.get("caseId");
+        let caseDetails = this.utility.metadata.cases.find((item) => item.caseId == this.caseId)
+        if (caseDetails)
+          this.caseDetail = { ...caseDetails }
+      }
       this.loadBaseData();
     });
 

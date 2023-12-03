@@ -31,9 +31,10 @@ export class SubuserslistComponent implements OnInit, ListData {
     this.dataService.getallData(this.object.ApiUrl + `?did=${this.user}`, true)
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
+        console.log(Response)
         this.objectList = Response;
         this.pristineData = Response;
-     
+
       }, error => {
 
       }, () => {

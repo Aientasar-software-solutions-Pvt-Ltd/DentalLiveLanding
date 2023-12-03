@@ -47,7 +47,7 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.username = this.usr.getUserDetails().accountfirstName + " " + this.usr.getUserDetails().accountlastName;
     if (this.router.url == "/mail/sent") {
-      this.displayedColumns = ['MailTo', 'subject', 'mailDateTime'];
+      this.displayedColumns = ['MailTo', 'subject', 'mailDateTime', 'isSchedule'];
       this.type = "OUT"
       this.typename = "Sent";
       this.typecol = "MailTo";
@@ -57,7 +57,6 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
     this.fetchData();
 
     this.newUtility.getArrayObservable().subscribe(array => {
-      console.log(array)
       if (array.some(el => el.module === 'mail' && el.isProcessed))
         this.fetchData()
     });
@@ -70,7 +69,6 @@ export class MailInboxComponent implements OnInit, AfterContentInit {
       .subscribe(Response => {
         if (Response) Response = JSON.parse(Response.toString());
         this.patientList = Response;
-
         this.route.paramMap.subscribe(params => {
           if (params.get('patientId') && params.get('patientId') != "") {
             const found = this.patientList.some(el => el.patientId === params.get('patientId'));

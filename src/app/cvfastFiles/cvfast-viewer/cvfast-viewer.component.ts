@@ -14,6 +14,7 @@ export class CvfastViewerComponent implements AfterViewInit {
 
   @Input() module = ""
   @Input() cvfast: any;
+  @Input() showText = true;
 
   isLoading = false;
   urls = [];

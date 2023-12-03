@@ -48,12 +48,8 @@ export class InvitationListsComponent implements OnInit {
 		private cdref: ChangeDetectorRef,
 	) { }
 
-	async ngOnInit(): Promise<void> {
+	ngOnInit(): void {
 
-		await this.utility.loadPreFetchData("users");
-		await this.utility.loadPreFetchData("cases");
-		await this.utility.loadPreFetchData("patients");
-		this.allCases = await this.utility.loadAllCases();
 		//this.allPatients = await this.utility.loadAllPatients();
 		this.loadColleagueData();
 
@@ -108,6 +104,7 @@ export class InvitationListsComponent implements OnInit {
 		this.isLoadingData = true;
 		try {
 			let url = this.utility.baseUrl + this.module + "?resourceOwner=" + this.user.emailAddress;
+			console.log(url)
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response) {
 					let data = JSON.parse(Response.toString());
@@ -125,6 +122,12 @@ export class InvitationListsComponent implements OnInit {
 	}
 
 	async loadColleagueData(reload = false) {
+
+		await this.utility.loadPreFetchData("users");
+		await this.utility.loadPreFetchData("cases");
+		await this.utility.loadPreFetchData("patients");
+		this.allCases = await this.utility.loadAllCases();
+
 		if (this.baseColleagueData && !reload) return;
 		this.isLoadingData = true;
 		try {
@@ -132,7 +135,6 @@ export class InvitationListsComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response) {
 					let data = JSON.parse(Response.toString());
-
 					this.baseColleagueDataPirstine = this.baseColleagueData = data.sort((first, second) => 0 - (first.dateUpdated < second.dateUpdated ? -1 : 1));
 					this.isLoadingData = false;
 				}
@@ -228,7 +230,6 @@ export class InvitationListsComponent implements OnInit {
 				}
 				promises.push(this.dataService.postData(this.utility.baseUrl + this.module, JSON.stringify(invite), true).toPromise())
 			});
-			console.log(promises)
 			await Promise.all(promises)
 			swal("Invitations sent succesfully")
 			document.getElementById("addInvite").click();
@@ -248,7 +249,7 @@ export class InvitationListsComponent implements OnInit {
 		try {
 			if (isDel) {
 				let result = await swal('Do you want to Delete this Invitation?', {
-					buttons: ["Don't delete!", "Yes,Delete it"],
+					buttons: ["Cancel", "Continue"],
 				})
 
 				if (result) {

@@ -21,16 +21,25 @@ export class WorkOrdersListComponent implements OnInit {
 	caseId = "";
 	dtOptions: DataTables.Settings = {};
 	user = this.utility.getUserDetails()
+	currentTime = Date.now();
+	PendingcaseMembers = [];
+	caseDetail = null;
 
 	constructor(private route: ActivatedRoute, private dataService: ApiDataService, private router: Router, public utility: UtilityServiceV2, private usr: AccdetailsService) { }
 
 	ngOnInit(): void {
 
-		this.route.parent.parent.paramMap.subscribe((params) => {
-			if (params.get("caseId") && params.get("caseId") != "")
+		this.route.parent.parent.paramMap.subscribe(async (params) => {
+			if (params.get("caseId") && params.get("caseId") != "") {
+				await this.utility.loadPreFetchData("cases");
 				this.caseId = params.get("caseId");
+				let caseDetails = this.utility.metadata.cases.find((item) => item.caseId == this.caseId)
+				if (caseDetails)
+					this.caseDetail = { ...caseDetails }
+			}
 			this.loadBaseData();
 		});
+
 
 		this.utility.getArrayObservable().subscribe(array => {
 			if (array.some(el => el.module === this.module && el.isProcessed))
@@ -71,13 +80,16 @@ export class WorkOrdersListComponent implements OnInit {
 			await this.utility.loadPreFetchData("users");
 			await this.utility.loadPreFetchData("cases");
 			await this.utility.loadPreFetchData("patients");
+			await this.utility.loadPreFetchData("practices");
 			let url = this.utility.baseUrl + this.module;
 			if (this.caseId) url = url + "?caseId=" + this.caseId
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response) {
 					let data = JSON.parse(Response.toString());
+					data = data.filter(obj => !obj.isDraft || (obj.isDraft && obj.resourceOwner == this.user.emailAddress));
 					this.baseDataPirstine = this.baseData = data.sort((first, second) => 0 - (first.dateCreated > second.dateCreated ? -1 : 1));
 					this.isLoadingData = false;
+					this.populatePendingCaseMembers();
 					//stupid library used-->fix required for no data label
 					if (this.baseData.length > 0) {
 						Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
@@ -111,6 +123,58 @@ export class WorkOrdersListComponent implements OnInit {
 			keywords: query
 		});
 		this.baseData = filterData
+	}
 
+	getUserImage(members) {	
+		let img = this.utility.getMetaData(
+			members,
+			"dentalId",
+			["imageSrc"],
+			"users"
+		)
+		let user = this.utility.getMetaData(
+			members,
+			"dentalId",
+			["accountfirstName", "accountlastName"],
+			"users"
+		)?.toString()?.charAt(0)
+		let imgArray = img && img.toString().split(",")
+		return (imgArray && imgArray.length > 0) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=" + this.utility.apiData.users.bucketUrl + encodeURIComponent(imgArray[0]) + ">" : " <span class='avatar-icon my-2 me-2' > " + user + " </span>"
+	}
+
+	populatePendingCaseMembers() {
+		if (!this.caseId) return;
+		this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + this.caseId + "&presentStatus=0", true).subscribe(
+			(Response) => {
+				let data = JSON.parse(Response.toString());
+				this.PendingcaseMembers = []
+				data.forEach((item) => {
+					if (this.user.emailAddress != item.invitedUserMail)
+						this.PendingcaseMembers.push(item.invitedUserMail);
+				})
+			}, (error) => {
+				this.utility.showError(error.status)
+			});
+	}
+
+	hasPendingRequest(members) {
+		return members.some(item => this.PendingcaseMembers.includes(item))
+	}
+
+	getPatientImage(pid) {
+		let img = this.utility.getMetaData(
+			pid,
+			"patientId",
+			["image"],
+			"patients"
+		)
+		return (img) ? "<img class='avatar avatar-icon avatar-sm rounded-circle my-2 me-2' src=https://dentallive-patients.s3.us-west-2.amazonaws.com/" + encodeURIComponent(img.toString()) + ">" : " <span class='avatar-icon my-2 me-2' > " +
+			this.utility.getMetaData(
+				pid,
+				"patientId",
+				["firstName", "lastName"],
+				"patients"
+			).toString().charAt(0)
+			+ " </span>"
 	}
 }

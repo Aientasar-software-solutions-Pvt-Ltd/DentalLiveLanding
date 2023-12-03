@@ -25,17 +25,107 @@ export class DashboardComponent implements OnInit {
 	upcomingMeetings = [];
 	milestones = [];
 	public storage: any = {};
+	showNotification = false;
+
+	module = 'patients';
+	isLoadingData = true;
+	data: any;
+	shimmer = Array;
+	dtOptions: DataTables.Settings = {};
+	user = this.utility.getUserDetails()
+	caseList: any;
+
 	constructor(private dataService: ApiDataService, private http: HttpClient, public utility2: UtilityServiceV2, private utility: UtilityService, private usr: AccdetailsService, private router: Router, private utilitydev: UtilityServicedev, private route: ActivatedRoute) {
 	}
 
 	ngOnInit(): void {
+
+		this.dtOptions = {
+			dom: '<"datatable-top"f>rt<"datatable-bottom"lip><"clear">',
+			pagingType: 'full_numbers',
+			pageLength: 10,
+			processing: true,
+			responsive: true,
+			language: {
+				search: " <div class='search'><i class='bx bx-search'></i> _INPUT_</div>",
+				lengthMenu: "Items per page _MENU_",
+				info: "_START_ - _END_ of _TOTAL_",
+				paginate: {
+					first: "<i class='bx bx-first-page'></i>",
+					previous: "<i class='bx bx-chevron-left'></i>",
+					next: "<i class='bx bx-chevron-right'></i>",
+					last: "<i class='bx bx-last-page'></i>"
+				},
+			},
+			columnDefs: [{
+				"defaultContent": "-",
+				"targets": "_all"
+			}]
+		};
+
 		this.getThread(sessionStorage.getItem('loginResourceId'));
 		this.getInviteListingReceived(sessionStorage.getItem('loginResourceId'));
 		this.getUpcomingMeetings()
 		this.getMilestoneAlerts()
 		this.getStorageDetails()
 		//this.getInviteListing(sessionStorage.getItem('loginResourceId'));
+		this.loadPatients(true);
+		this.utility2.getArrayObservable().subscribe(array => {
+			if (array.some(el => el.module === this.module && el.isProcessed))
+				this.loadPatients(true);
+		});
 	}
+
+	searchText(event: any) {
+		var v = event.target.value;  // getting search input value
+		$('#dataTables').DataTable().search(v).draw();
+	}
+
+	async loadPatients(force = false) {
+		if (!force && this.data) return;
+		await this.utility2.loadPreFetchData("cases", true);
+		await this.utility2.loadPreFetchData("patients", true);
+		await this.utility2.loadPreFetchData("practices", true);
+		this.data = this.utility2.metadata["patients"];
+		this.isLoadingData = true;
+
+		//apply default sorting and attach caselist
+		this.data = this.data.sort((first, second) => {
+
+			if (!first.hasOwnProperty("caseList"))
+				first['caseList'] = this.utility2.metadata.cases.filter((item) => item.patientId == first.patientId);
+
+			if (!second.hasOwnProperty("caseList"))
+				second['caseList'] = this.utility2.metadata.cases.filter((item) => item.patientId == second.patientId);
+
+			return 0 - (first.firstName > second.firstName ? -1 : 1);
+		});
+
+		//filter out inactive cases
+		this.data = this.data.filter(item => (this.getCaseCount(item.caseList, true) > 0 || this.getCaseCount(item.caseList, false) == 0))
+
+		//stupid library used-->fix required for no data label
+		if (this.data.length > 0) {
+			Array.from(document.getElementsByClassName('dataTables_empty')).forEach(element => {
+				element.classList.add('d-none')
+			});
+		}
+		this.isLoadingData = false;
+	}
+
+	getCaseCount(data, type) {
+		let count = 0;
+		if (!data) return count;
+		data.forEach(element => {
+			if (type) {
+				if (!element["caseRunningStatus"] || element["caseRunningStatus"] <= 1) count = count + 1;
+			}
+			else
+				if (element["caseRunningStatus"] > 1) count = count + 1
+		});
+		return count;
+	}
+
 	getInviteListingReceived(fromDate) {
 		let user = this.usr.getUserDetails();
 		let url = this.utility.apiData.userCaseInvites.ApiUrl;
@@ -62,6 +152,7 @@ export class DashboardComponent implements OnInit {
 				swal('Unable to fetch the data, please try again');
 		});
 	}
+
 	getUpcomingMeetings() {
 		let user = this.usr.getUserDetails();
 		if (!user['cxId']) return;
@@ -80,6 +171,7 @@ export class DashboardComponent implements OnInit {
 			}
 			)
 	}
+
 	getMilestoneAlerts() {
 		let user = this.usr.getUserDetails();
 		let url = this.utility2.baseUrl + 'milestones';
@@ -101,10 +193,7 @@ export class DashboardComponent implements OnInit {
 		this.dataService.getallData(url, true).subscribe(Response => {
 			if (Response) {
 				let data = JSON.parse(Response.toString());
-				if (data) {
-					this.storage = data;
-					console.log(data);
-				}
+				if (data) this.storage = data;
 			}
 		});
 	}
@@ -162,21 +251,19 @@ export class DashboardComponent implements OnInit {
 				if (Response) {
 					swal.close();
 					let treadAllData = JSON.parse(Response.toString());
-
 					treadAllData.sort((a, b) => (a.dateUpdated > b.dateUpdated) ? -1 : 1)
-					this.inboxCount = treadAllData[0].mailCount ? treadAllData[0].mailCount : 0;
+					//this.inboxCount = treadAllData[0].mailCount ? treadAllData[0].mailCount : 0;
 					this.messageDataArray = Array();
 					for (var i = 0; i < treadAllData.length; i++) {
 						let skVal = treadAllData[i].sk;
 						if (skVal) {
-							var skarray = skVal.split("#");
-							if (skarray[0] == 'DETAILS') {
+							if (skVal.startsWith('DETAILS')) {
 								this.caseCount++;
 							}
-							else if (skarray[0] == 'WORKORDERS') {
+							else if (skVal.startsWith('WORKORDERS')) {
 								this.workworderCount++;
 							}
-							else if (skarray[0] == 'MILESTONES') {
+							else if (skVal.startsWith('MILESTONES')) {
 								this.messageDataArray.push({
 									patientId: treadAllData[i].patientId,
 									caseId: treadAllData[i].caseId,

@@ -71,7 +71,6 @@ export class PermissionGuardService implements CanActivate {
     this.isPristine = false
     try {
       let user = this.usr.getUserDetails();
-      console.log(user);
       let url = this.utility.apiData.usage.ApiUrl + `?email=${user.emailAddress}&type=permission`
       this.isAdmin = true;
       if (user.Subuser) {

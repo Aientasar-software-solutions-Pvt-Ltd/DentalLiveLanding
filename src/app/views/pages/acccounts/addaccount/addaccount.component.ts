@@ -168,7 +168,7 @@ export class AddaccountComponent implements OnInit, AddEditData, AfterViewInit {
 
   saveCroppedImage() {
     this.imageSrc = this.croppedImage//this becomes base64
-    this.binaryFiles=[];
+    this.binaryFiles = [];
 
     fetch(this.croppedImage)
       .then(res => res.blob())

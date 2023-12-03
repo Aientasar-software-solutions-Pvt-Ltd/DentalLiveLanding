@@ -38,6 +38,7 @@ export class CaseAddComponent implements OnInit, AfterViewInit {
 		this.formInterface.section = this.utility.apiData[this.module]
 		this.formInterface.resetForm();
 		this.formInterface.loadDependencies().then(() => {
+			console.log(this.formInterface.dependentData['patients'])
 			this.route.paramMap.subscribe((params) => {
 				if (params.get("id") && params.get("id") != "") {
 					this.formInterface.hasData(params.get("id"));

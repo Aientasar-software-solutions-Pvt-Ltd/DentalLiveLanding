@@ -11,8 +11,8 @@ import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.compone
 
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
+    GoogleLoginProvider,
+    FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
 import { ForgetsubpaswordComponent } from './forgetsubpasword/forgetsubpasword.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
@@ -24,80 +24,80 @@ import { ValidatepasswordComponent } from './validatepassword/validatepassword.c
 import { SetpasswordComponent } from '../subuser/setpassword/setpassword.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AuthComponent,
-    children: [
-      {
+    {
         path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-      },
-      { path: 'login', component: AccountloginComponent },
-      { path: 'logout', component: AccountlogoutComponent },
-      { path: 'signup', component: AccountsignupComponent },
-      { path: 'signup/:package', component: AccountsignupComponent },
-      { path: 'dovalidate/:mail', component: ValidateComponent },
-      { path: 'validate/:mail/:random', component: ValidateSucessComponent },
-      { path: 'subvalidate/:mail/:submail/:random', component: SubpasswordComponent },
-      { path: 'forget', component: ForgetpasswordComponent },
-      { path: 'reset/:email/:randNo', component: PasswordresetComponent },
-      { path: 'subforget', component: ForgetsubpaswordComponent },
-      { path: 'subreset/:email/:submail/:randNo', component: SubpasswordresetComponent },
+        component: AuthComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'login',
+                pathMatch: 'full'
+            },
+            { path: 'login', component: AccountloginComponent },
+            { path: 'logout', component: AccountlogoutComponent },
+            { path: 'signup', component: AccountsignupComponent },
+            { path: 'signup/:package', component: AccountsignupComponent },
+            { path: 'dovalidate/:mail', component: ValidateComponent },
+            { path: 'validate/:mail/:random', component: ValidateSucessComponent },
+            { path: 'subvalidate/:mail/:submail/:random', component: SubpasswordComponent },
+            { path: 'forget', component: ForgetpasswordComponent },
+            { path: 'reset/:email/:randNo', component: PasswordresetComponent },
+            { path: 'subforget', component: ForgetsubpaswordComponent },
+            { path: 'subreset/:email/:submail/:randNo', component: SubpasswordresetComponent },
 
 
-      { path: 'etrvalidate/:id/:random', component: ValidatepasswordComponent },
-      { path: 'subuservalidate/:dentalID/:subUserId/:verification', component: SetpasswordComponent },
-    ]
-  },
+            { path: 'etrvalidate/:id/:random', component: ValidatepasswordComponent },
+            { path: 'subuservalidate/:dentalID/:subUserId/:verification', component: SetpasswordComponent },
+        ]
+    },
 ]
 
 @NgModule({
-  declarations: [
-    AuthComponent,
-    AccountloginComponent,
-    AccountlogoutComponent,
-    AccountsignupComponent,
-    ForgetpasswordComponent,
-    ForgetsubpaswordComponent,
-    ValidateComponent,
-    ValidateSucessComponent,
-    SubpasswordComponent,
-    PasswordresetComponent,
-    SubpasswordresetComponent,
-    ValidatepasswordComponent,
-    SetpasswordComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SocialLoginModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule
-  ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '791590883710-6qpkgpv988sbhgsu8dih0jo7ju993ock.apps.googleusercontent.com'
-            )
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('860555611481538')
-          }
-        ],
-        onError: (err: any) => {
-          console.error(err);
+    declarations: [
+        AuthComponent,
+        AccountloginComponent,
+        AccountlogoutComponent,
+        AccountsignupComponent,
+        ForgetpasswordComponent,
+        ForgetsubpaswordComponent,
+        ValidateComponent,
+        ValidateSucessComponent,
+        SubpasswordComponent,
+        PasswordresetComponent,
+        SubpasswordresetComponent,
+        ValidatepasswordComponent,
+        SetpasswordComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        SocialLoginModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule
+    ],
+    providers: [
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider(
+                            '791590883710-6qpkgpv988sbhgsu8dih0jo7ju993ock.apps.googleusercontent.com'
+                        )
+                    },
+                    {
+                        id: FacebookLoginProvider.PROVIDER_ID,
+                        provider: new FacebookLoginProvider('860555611481538')
+                    }
+                ],
+                onError: (err: any) => {
+                    console.error(err);
+                }
+            } as SocialAuthServiceConfig,
         }
-      } as SocialAuthServiceConfig,
-    }
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthModule { }

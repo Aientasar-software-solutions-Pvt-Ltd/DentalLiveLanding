@@ -1,4 +1,7 @@
-.progress .bg-primary {background-color: #1991EB !important;}
-.progress-sm {height: .5rem;}
+.progress .bg-primary {
+    background-color: #1991EB !important;
+}
 
-.form-control[readonly] {background-color: #ffffff;opacity: 1;}
+.progress-sm {
+    height: .5rem;
+}

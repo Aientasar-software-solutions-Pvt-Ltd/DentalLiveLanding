@@ -1,229 +1,427 @@
-<ol class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-</ol>
-<div class="page-header row align-items-center gx-0">
-  <div class="col-md-6">
-    <h3 class="fw-bold">
-      Dashboard
-      <a
-       tippy="Tutorial"
-        target="_blank"
-        [routerLink]="
-          '/tutorial/' + utility2.tutorialData['DashboardComponent'].html
-        "
-      >
-        <i class="bx bxs-info-circle text-primary"></i
-      ></a>
-    </h3>
-  </div>
-  <div class="col-md-6 text-end">
-    <a routerLink="/cases/cases/case-add" class="btn btn-pink my-1">
-      <i class="bx bx-briefcase-alt"></i> Start a Case
-    </a>
-    <a routerLink="/patients/patient-add" class="btn btn-default my-1 ms-2">
-      <i class="bx bx-plus-circle"></i> Add Patient
-    </a>
-  </div>
-</div>
 <div class="row">
-  <div class="col-12 col-sm-12 col-lg-7">
-    <div class="row gy-4">
-      <div class="col-sm-6 col-md-6 col-lg-6">
-        <a routerLink="/cases/cases">
-          <div class="card dashboard-card">
-            <div class="card-body">
-              <div class="float-start">
-                <i class="bx bx-refresh dicon"></i>
-                <h5>Case Updates</h5>
-              </div>
-              <div class="counter">
-                <span>{{ this.caseCount }}</span>
-              </div>
+    <div [class.col-lg-8]="showNotification">
+        <div class="d-flex flex-wrap justify-content-between">
+            <ol class="breadcrumb">
+                <!-- breadcrumb -->
+                <li class="breadcrumb-item">
+                    <i class="bx bxs-home" aria-hidden="true"></i> Dashboard
+                </li>
+            </ol>
+            <div *ngIf="!showNotification" class="storage-short-msg">
+                <div class="dataicon">
+                    <i class="bx bx-data"></i>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h6>Storage</h6>
+                    <span class="data-text">{{ formatData(storage) }} of {{ storage?.total }} GB Used</span>
+                </div>
             </div>
-          </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header row align-items-center gx-0">
+                    <div class="col-md-12 col-lg-4">
+                        <h3 class="fw-bold mb-2 mb-sm-0">Dashboard<a tippy="Tutorial" target="_blank" [routerLink]="
+                      '/tutorial/' + utility2.tutorialData['DashboardComponent'].html
+                    ">
+                                <i class="bx bxs-info-circle text-primary"></i></a></h3>
+                    </div>
+                    <div class="col-md-12 col-lg-8 text-end">
+                        <div class="d-flex flex-wrap align-items-center justify-content-end">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <a routerLink="/cases/cases/case-add" class="btn btn-pink px-2 px-sm-4 my-1">
+                                    <i class="bx bx-briefcase-alt"></i> Start a Case
+                                </a>
+                                <a routerLink="/patients/patient-add" class="btn btn-default px-2 px-sm-4 ms-2 my-1">
+                                    <i class="bx bx-plus-circle"></i> Add Patient
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3 mt-3 ms-3">
+                                <h5 class="fw-bold mb-0">Notifications</h5>
+                                <span style="cursor: pointer;" *ngIf="showNotification"
+                                      (click)="showNotification=!showNotification" class="text-light-green ms-4"><i
+                                       class="bx bx-arrow-back fs-4"></i></span>
+                                <span style="cursor: pointer;" *ngIf="!showNotification"
+                                      (click)="showNotification=!showNotification" class="text-light-green ms-4"><i
+                                       style="transform: rotate(-180deg);" class="bx bx-arrow-back fs-4"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-header py-3 border-bottom-0 bg-white">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="my-2">
+                                <h5 class="body1 card-title mb-0 fw-bold">Active Patients</h5>
+                            </div>
+                            <div class="search search-md lg-40">
+                                <i class="bx bx-search"></i>
+                                <input type="text" class="form-control" placeholder="Search"
+                                       (keyup)="searchText($event)" />
+                            </div>
+                            <!-- <a href="#" class="d-inline-block ms-3"><i class="bx bx-plus fs-4"></i></a> -->
+                        </div>
+                    </div>
+                    <ng-container class="mt-5" *ngIf="isLoadingData">
+                        <ngx-shimmer-loading class="d-block" *ngFor="let i of shimmer(10).fill(1)"
+                                             style="margin-top: 1.5em; display: block; transition: all 1s" [height]="'50px'"
+                                             [width]="'100%'">
+                        </ngx-shimmer-loading>
+                    </ng-container>
+                    <div *ngIf="!isLoadingData" class="card-body p-0 pb-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-nowrap align-middle" datatable [dtOptions]="dtOptions"
+                                   id="dataTables">
+                                <thead class="thead-light">
+                                    <tr style="text-transform:uppercase;">
+                                        <th class="body2">PATIENT NAME</th>
+                                        <th class="body2">DOB</th>
+                                        <th class="body2 text-center">GENDER</th>
+                                        <th class="body2">PRACTICE</th>
+                                        <th class="body2">CASES</th>
+                                        <th class="body2">PATIENT</th>
+                                        <th class="body2" data-orderable="false">QUICK ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of data; let i = index">
+                                        <td>
+                                            <span [hidden]="true" class="avatar-icon">{{
+                                                data.firstName.toString().trim()
+                                                }}</span>
+                                            <a
+                                               [routerLink]="data.resourceOwner==user.emailAddress?'/patients/patient-edit/'+data.patientId:'/patients/patient-detail/'+data.patientId">
+                                                <span class="d-none">{{ i }}</span>
+                                                <div class="d-flex align-items-center">
+                                                    <img *ngIf="data.image" [src]="
+                                      data.image
+                                        ? utility2.apiData.patients.bucketUrl + data.image
+                                        : '../../assets/images/users.png'
+                                    " class="avatar-icon bg-white" />
+                                                    <span *ngIf="!data.image" class="avatar-icon">{{
+                                                        data.firstName.charAt(0)
+                                                        }}</span>
+                                                    <span
+                                                          tippy="{{data.resourceOwner==user.emailAddress?'Edit Patient':'View Patient'}}"
+                                                          class="body2 ms-4">{{ data.firstName }} {{ data.lastName
+                                                        }}</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span [hidden]="true">{{data.dob}}</span>
+                                            <span class="body2">
+                                                {{ data.dob | date : "dd/MM/yyyy" }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="body2">
+                                                <ng-container [ngSwitch]="data.gender">
+                                                    <span *ngSwitchCase="0">M</span>
+                                                    <span *ngSwitchCase="1">F</span>
+                                                    <span *ngSwitchCase="2">N</span>
+                                                    <span *ngSwitchCase="3">U</span>
+                                                </ng-container>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <label *ngIf="!data.practiceId">-</label>
+                                            <span *ngIf="data.practiceId" class="body2">{{
+                                                utility2.getMetaData(
+                                                data.practiceId,
+                                                "practiceId",
+                                                ["practiceName"],
+                                                "practices"
+                                                )
+                                                }}</span>
+                                        </td>
+                                        <td>
+                                            <span [hidden]="true">{{getCaseCount(data.caseList,true)}}</span>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <ng-container *ngIf="data?.caseList && data.caseList.length>1">
+                                                    <a [class.isDisabled]="!data.caseList || data.caseList.length==0"
+                                                       tippy="Open Case"
+                                                       [routerLink]="'/patients/patient-detail/'+data.patientId">
+                                                        <span
+                                                              class="case-circle me-2">{{(getCaseCount(data.caseList,true))}}</span>
+                                                    </a>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="data?.caseList && data.caseList.length<=1">
+                                                    <a tippy="Open Case"
+                                                       [class.isDisabled]="data?.caseList && data.caseList.length==0"
+                                                       [routerLink]="getCaseCount(data.caseList,true)==1?'/cases/cases/case-view/'+data.caseList[0].caseId:'#'">
+                                                        <span
+                                                              class="case-circle me-2">{{(getCaseCount(data.caseList,true))}}</span>
+                                                    </a>
+                                                </ng-container>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span [hidden]="true">{{data.resourceOwner==this.user.emailAddress}}</span>
+                                            <a [routerLink]="'/patients/patient-detail/'+data.patientId">
+                                                <span *ngIf="data.resourceOwner!=this.user.emailAddress">
+                                                    <span class="colleagues-patient-tag"><i tippy="Colleague's Patient"
+                                                           title="Colleague's Patient" placement="top"
+                                                           class="bx bx-user p-2 isCursor"></i></span>
+                                                </span>
+                                                <span *ngIf="data.resourceOwner==this.user.emailAddress">
+                                                    <span class="my-patient-tag"><i tippy="My Patient"
+                                                           title="My Patient" placement="top"
+                                                           class="bx bx-user p-2"></i></span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between align-items-center">
+
+                                                <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/workorders/work-order-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
+                                                   tippy="Create Lab Script" placement="top" title="Create Lab Script"
+                                                   class="me-1"
+                                                   [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                                                    <i class="bx bx-folder-plus fs-4 text-bright-blue"></i>
+                                                </a>
+
+                                                <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/milestones/milestone-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
+                                                   tippy="Create Milestone" placement="top" title="Create Milestone"
+                                                   class="me-1"
+                                                   [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                                                    <i class="bx bx-award fs-4 text-light-green"></i>
+                                                </a>
+
+                                                <!-- <span *ngIf="!data.caseList || (data.caseList.length==0 || data.caseList.length>1) "
+                          style="pointer-events: none;opacity: .7;" class="me-1 cursor-pointer" tippy="View Files"
+                          placement="top" title="View Files" [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                          <i class="bx bx-file-blank fs-4 text-light-orange"></i>
+                        </span> -->
+
+                                                <a *ngIf="data?.caseList && data.caseList.length==1"
+                                                   [class.isDisabled]="getCaseCount(data.caseList,true)==0"
+                                                   routerLink="/cases/cases/case-view/{{data.caseList[0].caseId}}/files"
+                                                   tippy="View Files" placement="top" title="View Files">
+                                                    <i class="bx bx-file-blank fs-4 text-light-orange"></i>
+                                                </a>
+                                                <span
+                                                      *ngIf="!data.caseList || (data.caseList.length==0 || data.caseList.length>1) "
+                                                      style="cursor: pointer;" (click)="caseList=data.caseList"
+                                                      data-bs-toggle="modal" data-bs-target="#caseModal"
+                                                      class="me-1 cursor-pointer"
+                                                      [class.isDisabled]="getCaseCount(data.caseList,true)==0"
+                                                      tippy="View Files" placement="top" title="View Files">
+                                                    <i class="bx bx-file-blank fs-4 text-light-orange"></i>
+                                                </span>
+
+                                                <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/referrals/referral-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
+                                                   tippy="Send Referral" placement="top" title="Send Referral"
+                                                   [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                                                    <i class="bx bx-user-plus fs-4 text-light-pink"></i>
+                                                </a>
+
+                                                <a routerLink="/mail/compose/0/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
+                                                   tippy="Send Email" placement="top" title="Send Email">
+                                                    <i class="bx bx-envelope fs-4 text-danger"></i>
+                                                </a>
+
+                                                <a routerLink="/mail/compose/1/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
+                                                   tippy="Schedule Meeting" placement="top" title="Schedule Meeting">
+                                                    <i class="bx bx-video fs-4 text-blue"></i>
+                                                </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!this.data || this.data.length == 0">
+                                        <td colspan="6" class="dataTables_empty text-center" valign="top">
+                                            No Patients Available In The Table
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showNotification" class="col-lg-4">
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <h5 class="fw-bold mb-0">Notifications</h5>
+        </div>
+        <a routerLink="/patients">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="float-start d-flex align-items-center">
+                        <i class="bx bx-user dicon"></i>
+                        <h5>Patient Updates</h5>
+                    </div>
+                    <div class="counter"><span>{{ this.caseCount }}</span></div>
+                </div>
+            </div>
         </a>
-      </div>
-      <div class="col-sm-6 col-md-6 col-lg-6">
         <a routerLink="/workorders">
-          <div class="card dashboard-card2">
-            <div class="card-body">
-              <div class="float-start">
-                <i class="bx bx-briefcase-alt dicon"></i>
-                <h5>Work Orders</h5>
-              </div>
-              <div class="counter">
-                <span>{{ this.workworderCount }}</span>
-              </div>
+            <div class="card dashboard-card2 mt-3">
+                <div class="card-body">
+                    <div class="float-start d-flex align-items-center">
+                        <i class="bx bx-folder-plus dicon"></i>
+                        <h5>Lab Scripts</h5>
+                    </div>
+                    <div class="counter"><span>{{ this.workworderCount }}</span></div>
+                </div>
             </div>
-          </div>
         </a>
-      </div>
-      <div class="col-sm-6 col-md-6 col-lg-6">
-        <a routerLink="/caseinvites/invitation-lists">
-          <div class="card dashboard-card3">
-            <div class="card-body">
-              <div class="float-start">
-                <i class="bx bx-file dicon"></i>
-                <h5>Invitations</h5>
-              </div>
-              <div class="counter">
-                <span>{{ this.caseinvitationCount }}</span>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-md-6 col-lg-6">
         <a routerLink="/mail">
-          <div class="card dashboard-card4">
-            <div class="card-body">
-              <div class="float-start">
-                <i class="bx bxs-inbox dicon"></i>
-                <h5>Inbox</h5>
-              </div>
-              <div class="counter">
-                <span>{{ this.inboxCount }}</span>
-              </div>
+            <div class="card dashboard-card3 mt-3">
+                <div class="card-body">
+                    <div class="float-start d-flex align-items-center">
+                        <i class="bx bx-mail-send dicon"></i>
+                        <h5>Inbox</h5>
+                    </div>
+                    <div class="counter"><span>{{ this.inboxCount }}</span></div>
+                </div>
             </div>
-          </div>
         </a>
-      </div>
-      <div class="col-sm-6 col-md-6 col-lg-6">
-        <div class="card dashboard-card">
-          <div class="card-body align-items-center">
-            <div class="float-start">
-              <i class="bx bxs-data dicon"></i>
-              <h5>Storage</h5>
+        <a routerLink="/caseinvites/invitation-lists">
+            <div class="card dashboard-card4 mt-3">
+                <div class="card-body">
+                    <div class="float-start d-flex align-items-center">
+                        <i class="bx bx-file-blank dicon"></i>
+                        <h5>Invitations</h5>
+                    </div>
+                    <div class="counter"><span>{{ this.caseinvitationCount }}</span></div>
+                </div>
             </div>
-            <a routerLink="/accounts/details/usage">
-              <span class="fs-6 fw-bold isCursor"
-                >{{ formatData(storage) }} of {{ storage?.total }} GB Used</span
-              >
-            </a>
-            <button
-              *ngIf="getStoragePercentage(storage) > 90"
-              routerLink="/accounts/packages"
-              class="btn-primary btn mt-4 float-end"
-            >
-              Upgrade Now
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card shadow-sm mt-4">
-      <div class="card-header border-bottom-0 bg-white">
-        <div class="row">
-          <div class="col-7 col-md-7 align-self-center">
-            <h5 class="body1 card-title my-2">Upcoming Meetings</h5>
-          </div>
-          <div class="col-5 col-md-5">
-            <div
-              class="d-flex flex-wrap align-items-center justify-content-end"
-            >
-              <a routerLink="/meet" class="btn btn-light-green my-1 py-1 px-2"
-                >View All</a
-              >
+        </a>
+        <a routerLink="/accounts/details/usage">
+            <div class="card dashboard-card3 mt-3">
+                <div class="card-body align-items-center">
+                    <div class="float-start d-flex align-items-center">
+                        <i class="bx bx-data dicon"></i>
+                        <h5>Storage</h5>
+                    </div>
+                    <div class="fw-bold" style="color:#1991EB;"><span>{{ formatData(storage) }} of {{ storage?.total }}
+                            GB
+                            Used</span></div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body p-0 pb-1">
-        <div class="table-responsive">
-          <table class="table table-hover table-nowrap align-middle mb-2">
-            <thead class="thead-light">
-              <tr style="text-transform: uppercase">
-                <th class="body2" width="65%">MEETING TITLE</th>
-                <th class="body2" width="35%">MEETING DATE/TIME</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let meeting of upcomingMeetings">
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="avatar-icon avatar-vs"></span>
-                    <a routerLink="/meet">
-                      <span class="ps-2 body2 d-block">{{
-                        meeting.subject
-                      }}</span>
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <span class="body2 text-muted">{{
-                    meeting.datetime | date : "short"
-                  }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-sm-12 col-lg-5">
-    <div class="card shadow-sm mt-4 mt-lg-0">
-      <div class="card-header border-bottom-0 bg-white">
-        <div class="row">
-          <div class="col-7 col-md-7 align-self-center">
-            <h5 class="body1 card-title my-2">Milestones Alert</h5>
-          </div>
-          <div class="col-5 col-md-5">
-            <div
-              class="d-flex flex-wrap align-items-center justify-content-end"
-            >
-              <a
-                routerLink="/milestones"
-                class="btn btn-light-green my-1 py-1 px-2"
-                >View All</a
-              >
+        </a>
+        <div class="card shadow-sm mt-3">
+            <div class="card-header border-bottom-0 bg-white">
+                <div class="row">
+                    <div class="col-7 col-md-7 align-self-center">
+                        <h5 class="body1 card-title my-2">Upcoming Meetings</h5>
+                    </div>
+                    <div class="col-5 col-md-5">
+                        <div class="d-flex flex-wrap align-items-center justify-content-end">
+                            <a routerLink="/meet" class="btn btn-light-green my-1 py-1 px-2">View All</a>
+                            <a class="fs-4 ms-2" style="color:#AEB4BF;" data-bs-toggle="collapse"
+                               href="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting"><i
+                                   class="bx bx-down-arrow-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="card-body p-0 pb-1 collapse show" id="collapseMeeting">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap align-middle mb-2">
+                        <thead class="thead-light">
+                            <tr style="text-transform:uppercase;">
+                                <th class="body2" width="55%">MEETING TITLE</th>
+                                <th class="body2" width="45%">MEETING DATE/TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let meeting of upcomingMeetings">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar-icon avatar-vs"></span>
+                                        <a routerLink="/meet">
+                                            <span class="ps-2 body2 d-block">{{
+                                                meeting.subject
+                                                }}</span>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="body2 text-muted">{{
+                                        meeting.datetime | date : "short"
+                                        }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card-body p-0 pb-1">
-        <div class="table-responsive">
-          <table
-            *ngIf="messageAry"
-            class="table table-hover table-nowrap align-middle mb-2"
-          >
-            <thead class="thead-light">
-              <tr style="text-transform: uppercase">
-                <th class="body2" width="50%">MILESTONE NAME</th>
-                <th class="body2" width="50%">DUE DATE</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let milestone of milestones">
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="avatar-icon avatar-vs"></span>
-                    <a
-                      routerLink="/milestones/milestone-details/{{
-                        milestone.milestoneId
-                      }}"
-                    >
-                      <span class="ps-2 body2 d-block">{{
-                        milestone.title
-                      }}</span>
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <span class="body2 text-muted">{{
-                    milestone.duedate | date : "MM/dd/yyyy"
-                  }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card shadow-sm mt-3">
+            <div class="card-header border-bottom-0 bg-white">
+                <div class="row">
+                    <div class="col-7 col-md-7 align-self-center">
+                        <h5 class="body1 card-title my-2">Milestones Alert</h5>
+                    </div>
+                    <div class="col-5 col-md-5">
+                        <div class="d-flex flex-wrap align-items-center justify-content-end">
+                            <a routerLink="/milestones" class="btn btn-light-green my-1 py-1 px-2">View All</a>
+                            <a class="fs-4 ms-2" style="color:#AEB4BF;" data-bs-toggle="collapse"
+                               href="#collapseMilestonesAlert" aria-expanded="true"
+                               aria-controls="collapseMilestonesAlert"><i class="bx bx-down-arrow-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0 pb-1 collapse show" id="collapseMilestonesAlert">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap align-middle mb-2">
+                        <thead class="thead-light">
+                            <tr style="text-transform:uppercase;">
+                                <th class="body2" width="50%">MILESTONE NAME</th>
+                                <th class="body2" width="50%">MILESTION DATE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let milestone of milestones">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar-icon avatar-vs"></span>
+                                        <a routerLink="/milestones/milestone-details/{{
+                                            milestone.milestoneId
+                                          }}">
+                                            <span class="ps-2 body2 d-block">{{
+                                                milestone.title
+                                                }}</span>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="body2 text-muted">{{
+                                        milestone.duedate | date : "MM/dd/yyyy"
+                                        }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
+
+<div class="modal fade" id="caseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select Case</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row gy-3">
+                    <a data-bs-dismiss="modal" *ngFor="let case of caseList" class="fs-6 border-bottom p-2"
+                       routerLink="/cases/cases/case-view/{{case.caseId}}/files">
+                        {{ case.title}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>

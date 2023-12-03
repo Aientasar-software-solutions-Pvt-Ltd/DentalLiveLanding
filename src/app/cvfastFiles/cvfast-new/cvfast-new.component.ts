@@ -1,5 +1,5 @@
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
-import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import 'video.js/dist/video-js.min.css';
 import videojs from 'video.js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
@@ -26,6 +26,8 @@ export class CvfastNewComponent implements AfterViewInit {
   // @Input() module: any;
   @Input() isMin = false;
   @Input() isHideText = false;
+  @Output() getEmoji = new EventEmitter<any>();
+
   private VideoConfig: any;
   VideoPlayer: any;
   private audioConfig: any;
@@ -398,13 +400,21 @@ export class CvfastNewComponent implements AfterViewInit {
   takePicture() {
     this.pic = this.dataURItoBlob(this.webcam.snap());
   }
-  addPicture() {
-    this.attachmentFiles.push({ name: this.getUniqueName(uuidv4() + ".jpg"), binaryData: this.pic });
+  addPicture(name) {
+    if (name && !this.validNaming.test(name)) {
+      sweetAlert("Update File Name,only numbers,alphabets and underscore is allowed");
+      return;
+    }
+    if (!name)
+      name = this.usr.getUserDetails().accountfirstName + "_" + this.usr.getUserDetails().accountlastName + "_" + new Date().getTime();
+    let orgName = name.replace(/\s+/g, '') + ".jpg";
+    this.attachmentFiles.push({ name: this.getUniqueName(orgName), binaryData: this.pic });
     this.resetAll('showCamera')
   }
 
   addEmoji(event) {
     this.cvfast.text = this.cvfast.text + event.emoji.native
+    this.getEmoji.emit(event.emoji.native);
   }
 
   processFiles() {
@@ -415,6 +425,7 @@ export class CvfastNewComponent implements AfterViewInit {
       this.processing = true;
       Promise.all(
         this.attachmentFiles.map(async (object) => {
+          console.log(this.module)
           return this.utility.uploadBinaryData(object["name"], object["binaryData"], this.module);
         }))
         .then((values) => {

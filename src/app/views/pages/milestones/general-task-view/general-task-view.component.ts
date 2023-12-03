@@ -19,6 +19,7 @@ export class GeneralTaskViewComponent implements OnInit {
 	section = this.utility.apiData[this.module]
 	backUrl = this.section.backUrl
 	milestoneObject = null;
+	user = this.utility.getUserDetails()
 
 	constructor(
 		private router: Router,
@@ -61,7 +62,7 @@ export class GeneralTaskViewComponent implements OnInit {
 				});
 
 				this.route.parent.parent.parent.paramMap.subscribe((caseParams) => {
-				 
+
 					if (caseParams.get("caseId") && caseParams.get("caseId") != "") {
 						this.hasCase = true
 						this.backUrl = '/cases/cases/case-view/' + this.milestoneObject.caseId + '/milestones/milestone-details/' + this.milestoneObject.milestoneId
@@ -96,7 +97,7 @@ export class GeneralTaskViewComponent implements OnInit {
 			this.dataService.getallData(url, true).subscribe(Response => {
 				if (Response) {
 					this.baseData = JSON.parse(Response.toString());
-				 
+
 					this.isLoadingData = false;
 				}
 			}, (error) => {
@@ -108,6 +109,37 @@ export class GeneralTaskViewComponent implements OnInit {
 			swal("No Data Found");
 			console.log(error)
 			this.router.navigate([this.backUrl])
+		}
+	}
+
+	async changeStatus(e) {
+		try {
+			let result = await swal('Do you want to change the staus of the Task?', {
+				buttons: ["No", "Yes,Update Status"],
+			})
+			if (!result) {
+				e.target.value = this.baseData.presentStatus;
+				return;
+			}
+			this.baseData.presentStatus = parseInt(e.target.value)
+			swal("Processing request...please wait...", {
+				buttons: [false, false],
+				closeOnClickOutside: false,
+			});
+			let url = this.utility.baseUrl + this.module;
+			if (this.id) url = url + "?" + this.section.keyName + "=" + this.id
+			try {
+				await this.dataService
+					.putData(url, JSON.stringify(this.baseData), true).toPromise();
+				swal("Status Updated");
+			} catch (error) {
+				console.log(error)
+				swal("Unable To Update, Please Try Again");
+			}
+		} catch (error) {
+			swal.close();
+			(error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+			return;
 		}
 	}
 }

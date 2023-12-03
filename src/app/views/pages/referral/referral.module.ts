@@ -33,6 +33,14 @@ const routes: Routes = [
         component: ReferralAddComponent
       },
       {
+        path: 'referral-add/:id',
+        component: ReferralAddComponent
+      },
+      {
+        path: 'referral-add/:id/:cid',
+        component: ReferralAddComponent
+      },
+      {
         path: 'referral-edit/:id',
         component: ReferralAddComponent
       }

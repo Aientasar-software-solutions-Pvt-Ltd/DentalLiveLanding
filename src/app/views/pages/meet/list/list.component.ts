@@ -30,7 +30,6 @@ export class ListComponent implements OnInit, ListData {
     public sanitizer: DomSanitizer,
   ) { }
   ngOnInit(): void {
-
     this.isLoadingData = true;
     this.objectList = [];
     this.user = this.usr.getUserDetails();
@@ -43,7 +42,7 @@ export class ListComponent implements OnInit, ListData {
       'Content-Type': 'application/json'
     });
     this.loadData();
-    this.loadRecording();
+    // this.loadRecording();
   }
   isLoadingData = false;
   objectList: any;
@@ -59,23 +58,28 @@ export class ListComponent implements OnInit, ListData {
   datenow = new Date().getUTCFullYear() + '-' + ('0' + (new Date().getUTCMonth() + 1)).slice(-2) + '-' + ('0' + (new Date().getUTCDate() + 1)).slice(-2) + 'T' + ('0' + new Date().getUTCHours()).slice(-2) + ':' + ('0' + new Date().getUTCMinutes()).slice(-2);
   // select this appropriately
   object = this.utility.apiData.contacts;
+
+
   loadData() {
     this.isLoadingData = true;
     this.objectList = [];
     this.pristineData = [];
-    this.http.get(`${this.cxDomain}/meetings/list?extension=${this.user['cxId']}`, { headers: this.headers })
+    let data = { "user": this.user['emailAddress'], "mailType": "OUT", "isSchedule": true }
+
+    this.dataService.postData(this.utility.apiData.mails.ApiUrl, JSON.stringify(data), true)
       .subscribe(Response => {
-        if (Response['result']['scheduledMeetings']) {
-          this.objectList = Response['result']['scheduledMeetings'];
-          this.pristineData = Response['result']['scheduledMeetings'];
-        }
+        if (Response) Response = JSON.parse(Response.toString());
+        this.objectList = Response;
+        this.pristineData = Response
         this.isLoadingData = false;
-      },
-        error => {
-          this.isLoadingData = false;
-        }
-      )
+
+      }, error => {
+        this.isLoadingData = false;
+        return null;
+      })
   }
+
+
   loadRecording() {
     this.isLoadingData = true;
     let data = { "user": this.user['emailAddress'], "mailType": "INC", "cxMail": this.user['cxMail'].split('@')[0] }
@@ -92,6 +96,7 @@ export class ListComponent implements OnInit, ListData {
           return null;
         })
   }
+
   getTitle(text) {
     let str = "completed meeting,";
     var title = text.toString().substring(
@@ -159,6 +164,7 @@ export class ListComponent implements OnInit, ListData {
   getCountRecord() {
     return parseInt(this.recorditemsPerPage.toString()) + parseInt(this.recordpageNumber.toString());
   }
+
   // helper function
   changePageRecord(number: number) {
     this.recordpageNumber = number * this.recorditemsPerPage;
@@ -268,63 +274,10 @@ export class ListComponent implements OnInit, ListData {
       )
     return true;
   }
-  getMeetingEndTime(start, duration) {
-    return new Date((parseFloat(new Date(start).getTime().toString()) + (parseFloat(duration.toString()) * 60000)));
-  }
-  getMeetingStatus(start, duration) {
-    if (new Date(start).getTime() < Date.now()) {
-      if ((parseFloat(new Date(start).getTime().toString()) + (parseFloat(duration.toString()) * 60000)) < Date.now()) return 2;
-      else return 1;
-    } else
-      return 0;
-  }
-  openMeeting(id) {
-    this.http.get(`${this.cxDomain}/scheduled/${id}`, { headers: this.headers })
-      .subscribe(Response => {
-        if (!Response || !Response['result']['openlink']) {
-          swal('Unable To Schedule Meeting, Please Try Again');
-          return false;
-        }
-        // if (parseFloat(new Date(Response['result']['datetime']).getTime().toString()) + (parseFloat(Response['result']['duration'].toString()) * 60000) < Date.now()) {
-        //   swal('Meeting past scheduled time');
-        //   return false;
-        // }
-        window.open(Response['result']['openlink'], "_blank");
-        return true;
-      },
-        error => {
-          swal('Unable To Schedule Meeting, Please Try Again');
-          return false;
-        }
-      )
-  }
-  deleteMeeting(id) {
-    swal({
-      title: "Are you sure?",
-      text: "Do you want to Delete this Meeting!",
-      icon: "warning",
-      buttons: ['NO', 'YES'],
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          this.http.delete(`${this.cxDomain}/scheduled/${id}`, { headers: this.headers })
-            .subscribe(Response => {
-              if (!Response || Response['status'] != "success") {
-                swal('Unable to Delete Meeting,Please try again later');
-                return false;
-              }
-              swal('Meeting Deleted Succesfully');
-              this.loadData();
-              return true;
-            },
-              error => {
-                swal('Unable to Delete Meeting,Please try again later');
-                return false;
-              }
-            )
-        }
-      })
+  getMeetingStatus(start, end) {
+    if (start < Date.now()) return 0;
+    else if (start > Date.now() && end < Date.now()) return 1;
+    else return 2;
   }
 
   urlify(text) {
