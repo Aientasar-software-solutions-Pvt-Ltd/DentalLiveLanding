@@ -91,7 +91,6 @@ export class BaseComponent implements OnInit, AfterViewInit {
     clearTask(task) {
         if (task.id)
             this.utility.processingBackgroundData.splice(this.utility.processingBackgroundData.findIndex(item => item.id == task.id), 1)
-        console.log(this.utility.processingBackgroundData);
     }
 
     showError(error) {

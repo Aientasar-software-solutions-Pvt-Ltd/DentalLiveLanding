@@ -73,8 +73,11 @@ export class ReferralAddComponent implements OnInit {
             this.currentCases = this.formInterface.dependentData['cases']
 
             this.route.parent.parent.paramMap.subscribe((parentParams) => {
-                if (parentParams.get("caseId") && parentParams.get("caseId") != "")
+                if (parentParams.get("caseId") && parentParams.get("caseId") != "") {
+                    this.hasPatient = true
                     this.hasCase = true
+                }
+
 
                 this.route.paramMap.subscribe((params) => {
                     if (params.get("id") && params.get("id") != "") {
@@ -288,6 +291,7 @@ export class ReferralAddComponent implements OnInit {
             this.populateCaseMembers(this.formInterface.object.caseId)
         } catch (error) {
             (error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+            this.isUploadingData = false;
             return;
         }
     }

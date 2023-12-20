@@ -302,7 +302,10 @@ export class VideojsRecordComponent implements OnInit {
         this.saveFiles(this.currentState, pid)
 
         swal("Email Sent Successfully");
-        this.router.navigate(['/mail/inbox']);
+        if (this.isSchedule)
+            this.router.navigate(['/meet']);
+        else
+            this.router.navigate(['/mail/inbox']);
     }
 
     //send request for a presigned URL-->put the content with the given URL-->save the name in JSON for main storage

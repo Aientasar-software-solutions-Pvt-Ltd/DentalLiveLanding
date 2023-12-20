@@ -19,6 +19,7 @@ export class UtilityServicedev {
         return false;
       return decrypt;
     } catch (e) {
+        sessionStorage.setItem("loggedOutUser", sessionStorage.getItem("usr"))
       sessionStorage.removeItem("usr");
       return false;
     }

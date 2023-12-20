@@ -10,7 +10,7 @@
             </a>
             <ul class="navbar-nav me-auto mt-1 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link" [ngClass]="classFlag ? '' : 'fs-5'" style="color: #5d6a7e">Planner 5.34</a>
+                    <a class="nav-link" [ngClass]="classFlag ? '' : 'fs-5'" style="color: #5d6a7e">Planner 5.38</a>
                 </li>
             </ul>
             <button type="button" id="toggleMenu" class="toggle_menu" (click)="toggleMenu($event)">
@@ -26,18 +26,18 @@
                                      height="36" />
                             </a>
                         </span>
-                        <div (click)="isShowDropDown=!isShowDropDown"
-                             class="nav-link body2 px-0 d-none d-md-inline dropdown-toggle isCusrosr ">Hi,
+                        <div (click)="isShowDropDown=!isShowDropDown" id="navbarLabel"
+                             class="nav-link body2 px-0 d-none d-md-inline dropdown-toggle isCusrosr  ">Hi,
                             {{ this.AccountName
                             }}</div>
                         <div class="dropdown-menu dropdown-menu-end text-sm position-absolute"
                              [ngClass]="{'d-block': isShowDropDown}">
                             <ul class="profile-nav p-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" routerLink="/accounts/details"><i class="bx bx-user"></i><span>Profile</span></a>
+                                    <a [class.disabled]="usr.getUserDetails()?.Subuser" class="nav-link" routerLink="/accounts/details"><i class="bx bx-user"></i><span>Profile</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" routerLink="/auth/logout"><i class="bx bx-log-out"></i><span>Logout</span></a>
+                                    <label (click)="onLogout()" class="nav-link"><i class="bx bx-log-out"></i><span>Logout</span></label>
                                 </li>
                             </ul>
                         </div>

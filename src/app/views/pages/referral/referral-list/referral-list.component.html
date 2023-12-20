@@ -139,14 +139,14 @@
                                         <ng-container *ngIf="data?.isDraft">
                                             <span class="badge rounded-pill badge-secondary body2 px-2">Draft</span>
                                         </ng-container>
-                                        <ng-container *ngIf="!data.isDraft && data.presentStatus ==2 && hasPendingRequest(data.members)">
+                                        <ng-container *ngIf="!data.isDraft && data.presentStatus ==2 && hasPendingRequest(data.members,data.caseId)">
                                             <span class="badge rounded-pill badge-warning body2 px-2">Pending</span>
                                         </ng-container>
                                         <!-- <ng-container *ngIf="!hasPendingRequest(data.members) && data.enddate>=currentTime"
                       [ngSwitch]="data.presentStatus"> -->
                                         <ng-container [ngSwitch]="!data.isDraft && data.presentStatus">
                                             <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="1">Pending</span>
-                                            <ng-container *ngIf="!data.isDraft && !hasPendingRequest(data.members)">
+                                            <ng-container *ngIf="!data.isDraft && !hasPendingRequest(data.members,data.caseId)">
                                                 <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="2">Accepted</span>
                                             </ng-container>
                                             <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="3">Rejected</span>

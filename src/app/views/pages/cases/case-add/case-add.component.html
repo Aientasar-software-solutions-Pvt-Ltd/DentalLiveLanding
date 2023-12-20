@@ -1,199 +1,182 @@
 <ol class="breadcrumb">
-  <!-- breadcrumb -->
-  <li class="breadcrumb-item">
-    <a routerLink="/dashboard"
-      ><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a
-    >
-  </li>
-  <li class="breadcrumb-item">
-    <a routerLink="/cases/cases">Cases</a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">{{ mode }} Case</li>
+    <!-- breadcrumb -->
+    <li class="breadcrumb-item">
+        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a (click)="goBack()">Cases</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ mode }} Case</li>
 </ol>
 <div class="page-header row align-items-center gx-0">
-  <div class="col-md-6">
-    <div class="d-inline-block">
-      <h3>{{ mode }} Case</h3>
+    <div class="col-md-6">
+        <div class="d-inline-block">
+            <h3>{{ mode }} Case</h3>
+        </div>
     </div>
-  </div>
-  <div class="col-md-6 text-end"></div>
+    <div class="col-md-6 text-end"></div>
 </div>
 
 <div class="row pt-2">
-  <div class="col-md-10">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <div class="row mt-2">
-          <!-- Lottie Section -->
-          <div
-            *ngIf="
+    <div class="col-md-10">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="row mt-2">
+                    <!-- Lottie Section -->
+                    <div
+                         *ngIf="
               formInterface.isUploadingData ||
               formInterface.isLoadingData ||
               formInterface.isLoadingDependencies
             "
-            class="row"
-          >
-            <div class="col-md-12">
-              <lottie-player
-                class="mt-3 m-auto"
-                src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
-                background="transparent"
-                speed="1"
-                style="width: 300px; height: 300px"
-                loop
-                autoplay
-              ></lottie-player>
-              <h6 class="text-center mt-5">
-                Request Processing …..Please Wait, Do Not Close The Page
-              </h6>
-            </div>
-          </div>
+                         class="row">
+                        <div class="col-md-12">
+                            <lottie-player
+                                           class="mt-3 m-auto"
+                                           src="https://assets6.lottiefiles.com/packages/lf20_fhsx0ijl/lottie/collections-feature.json"
+                                           background="transparent"
+                                           speed="1"
+                                           style="width: 300px; height: 300px"
+                                           loop
+                                           autoplay></lottie-player>
+                            <h6 class="text-center mt-5">
+                                Request Processing …..Please Wait, Do Not Close The Page
+                            </h6>
+                        </div>
+                    </div>
 
-          <!-- Form Section -->
-          <div
-            [hidden]="
+                    <!-- Form Section -->
+                    <div
+                         [hidden]="
               formInterface.isUploadingData ||
               formInterface.isLoadingData ||
               formInterface.isLoadingDependencies
             "
-            class="col-md-12"
-          >
-            <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
-              <div class="row">
-                <div class="col-md-6 mb-5">
-                  <label class="form-label body2 text-dark">Patient Name</label>
-                  <select
-                    [disabled]="hasPatient"
-                    required
-                    [(ngModel)]="formInterface.object.patientId"
-                    name="patientId"
-                    class="form-control"
-                  >
-                    <option
-                      *ngFor="let patient of filteredPatients()"
-                      value="{{ patient.patientId }}"
-                    >
-                      {{ patient.firstName + " " + patient.lastName }}
-                    </option>
-                  </select>
+                         class="col-md-12">
+                        <form #mainForm="ngForm" id="mainForm" (ngSubmit)="customSubmit()">
+                            <div class="row">
+                                <div class="col-md-6 mb-5">
+                                    <label class="form-label body2 text-dark">Patient Name</label>
+                                    <select
+                                            [disabled]="hasPatient"
+                                            required
+                                            [(ngModel)]="formInterface.object.patientId"
+                                            name="patientId"
+                                            class="form-control">
+                                        <option
+                                                *ngFor="let patient of filteredPatients()"
+                                                value="{{ patient.patientId }}">
+                                            {{ patient.firstName + " " + patient.lastName }}
+                                        </option>
+                                    </select>
 
-                  <ng-template #itemTemplate let-item>
-                    <a [innerHTML]="item.firstName + ' ' + item.lastName"></a>
-                  </ng-template>
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.firstName + ' ' + item.lastName"></a>
+                                    </ng-template>
 
-                  <ng-template #notFoundTemplate let-notFound>
-                    <div [innerHTML]="notFound"></div>
-                  </ng-template>
-                </div>
-                <div class="col-md-6 mb-5">
-                  <label class="form-label body2 text-dark">Case Title</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                    [(ngModel)]="formInterface.object.title"
-                    name="title"
-                  />
-                </div>
-                <div class="col-md-12 mb-5">
-                  <label class="form-label body2 text-dark">Description </label>
-                  <app-cvfast-new #cvfast></app-cvfast-new>
-                </div>
-                <div class="col-md-12">
-                  <div>
-                    <label class="form-label body2 text-dark mb-2"
-                      >Case Type
-                      <strong
-                        *ngIf="formInterface.object.caseType.length == 0"
-                        class="form-check-label text-danger"
-                      >
-                        (select atleast one )
-                      </strong></label
-                    >
-                    <div class="row">
-                      <div
-                        class="col-6 col-sm-4 col-md-3 mb-2"
-                        *ngFor="let type of utility.casetype"
-                      >
-                        <div class="form-check form-check-inline">
-                          <input
-                            class="form-check-input"
-                            (change)="checkCase(type.id)"
-                            id="{{ type.id }}"
-                            name="casetypeArray"
-                            type="checkbox"
-                            [checked]="
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <label class="form-label body2 text-dark">Case Title</label>
+                                    <input
+                                           type="text"
+                                           class="form-control"
+                                           required
+                                           [(ngModel)]="formInterface.object.title"
+                                           name="title" />
+                                </div>
+                                <div class="col-md-12 mb-5">
+                                    <label class="form-label body2 text-dark">Description </label>
+                                    <app-cvfast-new #cvfast></app-cvfast-new>
+                                </div>
+                                <div class="col-md-12">
+                                    <div>
+                                        <label class="form-label body2 text-dark mb-2">Case Type
+                                            <strong
+                                                    *ngIf="formInterface.object.caseType.length == 0"
+                                                    class="form-check-label text-danger">
+                                                (select atleast one )
+                                            </strong></label>
+                                        <div class="row">
+                                            <div
+                                                 class="col-6 col-sm-4 col-md-3 mb-2"
+                                                 *ngFor="let type of utility.casetype">
+                                                <div class="form-check form-check-inline">
+                                                    <input
+                                                           class="form-check-input"
+                                                           (change)="checkCase(type.id)"
+                                                           id="{{ type.id }}"
+                                                           name="casetypeArray"
+                                                           type="checkbox"
+                                                           [checked]="
                               this.formInterface.object.caseType.includes(
                                 type.id
                               )
-                            "
-                          />
-                          <label class="form-check-label" for="{{ type.id }}">
-                            {{ type.name }}
-                          </label>
-                        </div>
-                      </div>
+                            " />
+                                                    <label class="form-check-label" for="{{ type.id }}">
+                                                        {{ type.name }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col-md-12 mb-2">
+                                    <button type="submit" class="btn btn-default mt-1 me-2">
+                                        {{ mode }}
+                                    </button>
+                                    <a (click)="goBack()" class="btn btn-pink mt-1 me-2">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="row my-4">
-                <div class="col-md-12 mb-2">
-                  <button type="submit" class="btn btn-default mt-1 me-2">
-                    {{ mode }}
-                  </button>
-                  <a routerLink="/cases/cases" class="btn btn-pink mt-1 me-2"
-                    >Cancel</a
-                  >
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <div class="modal fade" id="inviteMembers" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title body1" id="inviteMembersLabel">
-          Invite Members
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="row gy-3">
-          <div class="col-md-12">
-            <div class="search">
-              <i class="bx bx-search"></i>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search here"
-              />
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title body1" id="inviteMembersLabel">
+                    Invite Members
+                </h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
-          </div>
-          <div class="col-md-12 text-end">
-            <button type="button" class="btn btn-default btn-sm px-2">
-              <i class="bx bx-plus me-0"></i>
-            </button>
-          </div>
+            <div class="modal-body">
+                <div class="row gy-3">
+                    <div class="col-md-12">
+                        <div class="search">
+                            <i class="bx bx-search"></i>
+                            <input
+                                   type="text"
+                                   class="form-control"
+                                   placeholder="Search here" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-end">
+                        <button type="button" class="btn btn-default btn-sm px-2">
+                            <i class="bx bx-plus me-0"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center justify-content-center border-top-0">
+                <a class="btn btn-default" data-bs-dismiss="modal">Save</a>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
+                    Cancel
+                </button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer text-center justify-content-center border-top-0">
-        <a class="btn btn-default" data-bs-dismiss="modal">Save</a>
-        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">
-          Cancel
-        </button>
-      </div>
     </div>
-  </div>
 </div>

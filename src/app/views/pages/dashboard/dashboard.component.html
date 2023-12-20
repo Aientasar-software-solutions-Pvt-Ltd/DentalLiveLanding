@@ -75,7 +75,7 @@
                                 <thead class="thead-light">
                                     <tr style="text-transform:uppercase;">
                                         <th class="body2">PATIENT NAME</th>
-                                        <th class="body2">DOB</th>
+                                        <th class="body2" data-orderable="false">DOB</th>
                                         <th class="body2 text-center">GENDER</th>
                                         <th class="body2">PRACTICE</th>
                                         <th class="body2">CASES</th>
@@ -103,8 +103,7 @@
                                                         }}</span>
                                                     <span
                                                           tippy="{{data.resourceOwner==user.emailAddress?'Edit Patient':'View Patient'}}"
-                                                          class="body2 ms-4">{{ data.firstName }} {{ data.lastName
-                                                        }}</span>
+                                                          class="body2 ms-4">{{ data.firstName }} {{ data.lastName}}</span>
                                                 </div>
                                             </a>
                                         </td>
@@ -116,10 +115,10 @@
                                         <td class="text-center">
                                             <span class="body2">
                                                 <ng-container [ngSwitch]="data.gender">
-                                                    <span *ngSwitchCase="0">M</span>
-                                                    <span *ngSwitchCase="1">F</span>
-                                                    <span *ngSwitchCase="2">N</span>
-                                                    <span *ngSwitchCase="3">U</span>
+                                                    <span tippy="Male" *ngSwitchCase="0">M</span>
+                                                    <span tippy="Female" *ngSwitchCase="1">F</span>
+                                                    <span tippy="Non-Binary" *ngSwitchCase="2">N</span>
+                                                    <span tippy="Not-Specified" *ngSwitchCase="3">U</span>
                                                 </ng-container>
                                             </span>
                                         </td>
@@ -141,7 +140,7 @@
 
                                                 <ng-container *ngIf="data?.caseList && data.caseList.length>1">
                                                     <a [class.isDisabled]="!data.caseList || data.caseList.length==0"
-                                                       tippy="Open Case"
+                                                       tippy="View Cases"
                                                        [routerLink]="'/patients/patient-detail/'+data.patientId">
                                                         <span
                                                               class="case-circle me-2">{{(getCaseCount(data.caseList,true))}}</span>
@@ -164,12 +163,12 @@
                                             <a [routerLink]="'/patients/patient-detail/'+data.patientId">
                                                 <span *ngIf="data.resourceOwner!=this.user.emailAddress">
                                                     <span class="colleagues-patient-tag"><i tippy="Colleague's Patient"
-                                                           title="Colleague's Patient" placement="top"
+                                                           placement="top"
                                                            class="bx bx-user p-2 isCursor"></i></span>
                                                 </span>
                                                 <span *ngIf="data.resourceOwner==this.user.emailAddress">
                                                     <span class="my-patient-tag"><i tippy="My Patient"
-                                                           title="My Patient" placement="top"
+                                                           placement="top"
                                                            class="bx bx-user p-2"></i></span>
                                                 </span>
                                             </a>
@@ -178,14 +177,14 @@
                                             <div class="d-flex justify-content-between align-items-center">
 
                                                 <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/workorders/work-order-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
-                                                   tippy="Create Lab Script" placement="top" title="Create Lab Script"
+                                                   tippy="Create Lab Script" placement="top"
                                                    class="me-1"
                                                    [class.isDisabled]="getCaseCount(data.caseList,true)==0">
                                                     <i class="bx bx-folder-plus fs-4 text-bright-blue"></i>
                                                 </a>
 
                                                 <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/milestones/milestone-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
-                                                   tippy="Create Milestone" placement="top" title="Create Milestone"
+                                                   tippy="Create Milestone" placement="top"
                                                    class="me-1"
                                                    [class.isDisabled]="getCaseCount(data.caseList,true)==0">
                                                     <i class="bx bx-award fs-4 text-light-green"></i>
@@ -193,14 +192,14 @@
 
                                                 <!-- <span *ngIf="!data.caseList || (data.caseList.length==0 || data.caseList.length>1) "
                           style="pointer-events: none;opacity: .7;" class="me-1 cursor-pointer" tippy="View Files"
-                          placement="top" title="View Files" [class.isDisabled]="getCaseCount(data.caseList,true)==0">
+                          placement="top" [class.isDisabled]="getCaseCount(data.caseList,true)==0">
                           <i class="bx bx-file-blank fs-4 text-light-orange"></i>
                         </span> -->
 
                                                 <a *ngIf="data?.caseList && data.caseList.length==1"
                                                    [class.isDisabled]="getCaseCount(data.caseList,true)==0"
                                                    routerLink="/cases/cases/case-view/{{data.caseList[0].caseId}}/files"
-                                                   tippy="View Files" placement="top" title="View Files">
+                                                   tippy="View Files" placement="top">
                                                     <i class="bx bx-file-blank fs-4 text-light-orange"></i>
                                                 </a>
                                                 <span
@@ -209,23 +208,23 @@
                                                       data-bs-toggle="modal" data-bs-target="#caseModal"
                                                       class="me-1 cursor-pointer"
                                                       [class.isDisabled]="getCaseCount(data.caseList,true)==0"
-                                                      tippy="View Files" placement="top" title="View Files">
+                                                      tippy="View Files" placement="top">
                                                     <i class="bx bx-file-blank fs-4 text-light-orange"></i>
                                                 </span>
 
                                                 <a routerLink="{{data?.caseList && data.caseList.length==1?'/cases/cases/case-view/'+data.caseList[0].caseId:''}}/referrals/referral-add/{{data?.caseList && data.caseList.length==1?'':'pid_'+data.patientId}}"
-                                                   tippy="Send Referral" placement="top" title="Send Referral"
+                                                   tippy="Send Referral" placement="top"
                                                    [class.isDisabled]="getCaseCount(data.caseList,true)==0">
                                                     <i class="bx bx-user-plus fs-4 text-light-pink"></i>
                                                 </a>
 
                                                 <a routerLink="/mail/compose/0/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
-                                                   tippy="Send Email" placement="top" title="Send Email">
+                                                   tippy="Send Email" placement="top">
                                                     <i class="bx bx-envelope fs-4 text-danger"></i>
                                                 </a>
 
                                                 <a routerLink="/mail/compose/1/{{data.patientId }}{{data?.caseList && data.caseList.length==1?'/'+data.caseList[0].caseId:''}}"
-                                                   tippy="Schedule Meeting" placement="top" title="Schedule Meeting">
+                                                   tippy="Schedule Meeting" placement="top">
                                                     <i class="bx bx-video fs-4 text-blue"></i>
                                                 </a>
 
@@ -249,47 +248,47 @@
         <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
             <h5 class="fw-bold mb-0">Notifications</h5>
         </div>
-        <a routerLink="/patients">
+        <a (click)="updateDashboardCount('patient')" routerLink="/patients">
             <div class="card dashboard-card">
                 <div class="card-body">
                     <div class="float-start d-flex align-items-center">
                         <i class="bx bx-user dicon"></i>
                         <h5>Patient Updates</h5>
                     </div>
-                    <div class="counter"><span>{{ this.caseCount }}</span></div>
+                    <div class="counter"><span>{{checkDashbboardClicked('patient',this.caseCount) }}</span></div>
                 </div>
             </div>
         </a>
-        <a routerLink="/workorders">
+        <a (click)="updateDashboardCount('lab')" routerLink="/workorders">
             <div class="card dashboard-card2 mt-3">
                 <div class="card-body">
                     <div class="float-start d-flex align-items-center">
                         <i class="bx bx-folder-plus dicon"></i>
                         <h5>Lab Scripts</h5>
                     </div>
-                    <div class="counter"><span>{{ this.workworderCount }}</span></div>
+                    <div class="counter"><span>{{checkDashbboardClicked('lab',this.workworderCount) }}</span></div>
                 </div>
             </div>
         </a>
-        <a routerLink="/mail">
+        <a (click)="updateDashboardCount('inbox')" routerLink="/mail">
             <div class="card dashboard-card3 mt-3">
                 <div class="card-body">
                     <div class="float-start d-flex align-items-center">
                         <i class="bx bx-mail-send dicon"></i>
                         <h5>Inbox</h5>
                     </div>
-                    <div class="counter"><span>{{ this.inboxCount }}</span></div>
+                    <div class="counter"><span>{{ checkDashbboardClicked('inbox',this.inboxCount) }}</span></div>
                 </div>
             </div>
         </a>
-        <a routerLink="/caseinvites/invitation-lists">
+        <a (click)="updateDashboardCount('invitation')" routerLink="/caseinvites/invitation-lists">
             <div class="card dashboard-card4 mt-3">
                 <div class="card-body">
                     <div class="float-start d-flex align-items-center">
                         <i class="bx bx-file-blank dicon"></i>
                         <h5>Invitations</h5>
                     </div>
-                    <div class="counter"><span>{{ this.caseinvitationCount }}</span></div>
+                    <div class="counter"><span>{{checkDashbboardClicked('inbox',this.caseinvitationCount) }}</span></div>
                 </div>
             </div>
         </a>

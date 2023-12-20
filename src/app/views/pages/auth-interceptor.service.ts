@@ -17,7 +17,6 @@ import { AccdetailsService } from './accdetails.service';
     providedIn: 'root'
 })
 
-
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private usr: AccdetailsService) { }
     msArray = ['useraccounts', 'customerroles', 'subusernew', 'subuseraccountsnew', 'patients', 'contacts', 'userpurchases', 'usage', 'sendMailDental', 'cases', 'casefiles', 'milestones', 'tasks', 'workorders', 'referrals', 'messages', 'users', 'caseinvites', 'threads', 'login', 'sendinvite', 'practices', 'usersNew', 'updateStatus'];
@@ -49,6 +48,14 @@ export class AuthInterceptorService implements HttpInterceptor {
                     if (tempRequest.body && (JSON.parse(tempRequest.body).isSocialLogin || JSON.parse(tempRequest.body).isLogin || JSON.parse(tempRequest.body).isValidate || JSON.parse(tempRequest.body).isRefreshToken)) {
                         //if its a login save the data as cookie 
                         sessionStorage.setItem('usr', event.body);
+                        sessionStorage.setItem("login", new Date().getTime().toString())
+                        let dashboardClicked = {
+                            patient: false,
+                            lab: false,
+                            inbox: false,
+                            invitation: false
+                        }
+                        sessionStorage.setItem("dashboard", JSON.stringify(dashboardClicked))
                     }
                     event = event.clone({ body: decrypt });
                 }

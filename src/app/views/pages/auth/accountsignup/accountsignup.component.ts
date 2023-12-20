@@ -30,6 +30,7 @@ export class AccountsignupComponent implements OnInit {
         this.package = params.get('package');
       }
     });
+      sessionStorage.setItem("loggedOutUser", sessionStorage.getItem("usr"))
     sessionStorage.removeItem("usr");
     this.sending = false;
   }

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.component';
@@ -6,6 +6,7 @@ import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
 import { CrudOperationsService } from 'src/app/crud-operations.service';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-general-task-add',
@@ -30,7 +31,7 @@ export class GeneralTaskAddComponent implements OnInit {
     isUploadingData = false;
     @Output() closeModal = new EventEmitter<boolean>();
     isInvite = false;
-
+    currentCase = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class GeneralTaskAddComponent implements OnInit {
         public formInterface: CrudOperationsService,
         private router: Router,
         private dataService: ApiDataService,
+        private cdref: ChangeDetectorRef
     ) { }
 
     updateTaskId(taskId) {
@@ -45,7 +47,7 @@ export class GeneralTaskAddComponent implements OnInit {
         this.cvfast.resetForm();
         if (taskId) {
             this.mode = "Update"
-            this.formInterface.hasData(taskId)
+            this.formInterface.hasData(taskId).then(() => this.cdref.detectChanges());
         }
     }
 
@@ -58,6 +60,7 @@ export class GeneralTaskAddComponent implements OnInit {
     ngOnInit(): void {
         this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
         this.formInterface.resetForm();
+        this.formInterface.object.startDate = new Date().getTime();
         this.formInterface.loadDependencies().then(() => {
             this.route.parent.paramMap.subscribe((milestoneParams) => {
                 if (!milestoneParams.get("milestoneId") || milestoneParams.get("milestoneId") == "") {
@@ -106,6 +109,7 @@ export class GeneralTaskAddComponent implements OnInit {
 
     //Special functions for this class
     populateCaseMembers(caseId) {
+        this.currentCase = this.utility.metadata.cases.find((cs) => cs.caseId == this.formInterface.object.caseId)
         //caseinvites --> get accepted uses of this case --> send api for emailaddressarray --> bind users
         this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId, true).subscribe(
             (Response) => {
@@ -118,6 +122,7 @@ export class GeneralTaskAddComponent implements OnInit {
                 let invited = []
                 let nonInvited = [];
                 this.formInterface.dependentData['users'].forEach((item) => {
+                    if (item.emailAddress == this.currentCase.resourceOwner && this.user.emailAddress != item.emailAddress) invited.push(item)
                     if (Object.keys(this.emailArray).includes(item.emailAddress)) {
                         invited.push(item)
                     } else {
@@ -140,13 +145,21 @@ export class GeneralTaskAddComponent implements OnInit {
             todaysDate.setHours(0, 0, 0, 0);
 
             if (startDate < todaysDate) {
-                swal("Start Date Should Not Be Less Than Today’s Date")
+                Swal.fire({
+                    title: 'The Due Date must be later than the Start Date. Please select a different date and time..',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                })
                 return
             }
         }
 
         if (!form.value.duedate) {
-            swal("Enter Due Date")
+            Swal.fire({
+                title: 'Please enter the Due Date.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return
         }
 
@@ -163,7 +176,15 @@ export class GeneralTaskAddComponent implements OnInit {
         this.formInterface.object.patientId = this.milestoneObject.patientId
         this.formInterface.object.patientName = this.milestoneObject.patientName
 
-        this.formInterface.onSubmit().then((response) => { if (response) this.closeModal.emit() }, (error) => { console.log(error) })
+
+        this.formInterface.onSubmit().then((response) => {
+            console.log(this.formInterface.object);
+            console.log(response)
+            if (response) {
+                // this.mainForm.reset()
+                this.closeModal.emit()
+            }
+        }, (error) => { console.log(error) })
     }
 
     async addNewMember(form: NgForm) {

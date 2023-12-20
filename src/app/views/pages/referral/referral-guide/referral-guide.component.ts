@@ -313,9 +313,7 @@ export class ReferralGuideComponent implements OnInit {
         if (Object.keys(this.toothGuide).length == 0) return
         sweetAlert({
             title: "Are you sure,Do you want to clear all the selection?",
-            icon: "warning",
             buttons: [`No`, 'Yes'],
-            dangerMode: true,
         })
             .then((result) => {
                 /* Read more about isConfirmed, isDenied below */

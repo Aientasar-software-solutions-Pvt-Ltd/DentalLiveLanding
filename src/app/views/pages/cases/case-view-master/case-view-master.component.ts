@@ -47,6 +47,7 @@ export class CaseViewMasterComponent implements OnInit {
             this.dataService.getallData(url, true).subscribe(Response => {
                 if (Response) {
                     this.baseDataPirstine = this.baseData = JSON.parse(Response.toString());
+                    console.log(this.baseData)
                     this.caseOwnerDetails = this.utility.metadata["users"].find(x => x["emailAddress"] == this.baseData.resourceOwner);
                     this.isLoadingData = false;
                 }

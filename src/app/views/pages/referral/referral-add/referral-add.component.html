@@ -53,6 +53,20 @@
                     }})</small>
                 <span *ngIf="caseObject" class="fw-bold d-block">{{ caseObject?.title}}</span>
             </h3>
+            <div *ngIf="!caseObject" class="text-blue fw-bold">
+                {{this.utility
+                .getMetaData(
+                this.utility.getMetaData(
+                patientObject?.patientId,
+                'patientId',
+                ['practiceId'],
+                'patients'
+                ),
+                "practiceId",
+                ["practiceName"],
+                "practices"
+                )}}
+            </div>
             <div *ngIf="caseObject">
                 <div>
                     <strong>{{this.utility
@@ -64,21 +78,23 @@
                         )}}
                     </strong>
                 </div>
+
+
                 <div class="text-blue fw-bold">
                     {{this.utility
                     .getMetaData(
-                    this.utility
-                    .getMetaData(
-                    caseObject?.resourceOwner,
-                    "emailAddress",
-                    ["primaryPractice"],
-                    "users"
+                    this.utility.getMetaData(
+                    caseObject?.patientId,
+                    'patientId',
+                    ['practiceId'],
+                    'patients'
                     ),
                     "practiceId",
                     ["practiceName"],
                     "practices"
                     )}}
                 </div>
+
                 <div class="text-danger mt-1 fw-bold">
                     {{caseObject?.caseRunningStatus && caseObject?.caseRunningStatus>'1'?"(Case Closed)":""}}
                 </div>
@@ -197,7 +213,7 @@
                                             <ng-template ng-footer-tmp>
                                                 <button (click)="resetInviteForm()" data-bs-toggle="modal" data-bs-target="#addInvite"
                                                         type="button" class="btn btn-light-green my-1 me-2">
-                                                    <i class="bx bx-plus-circle"></i> Invite Members
+                                                    <i class="bx bx-plus-circle"></i> Invite Member
                                                 </button>
                                             </ng-template>
 

@@ -25,7 +25,6 @@ export class UtilityServiceV2 {
     getArrayObservable(): Observable<any[]> {
         return this.arraySubject.asObservable();
     }
-
     // universal object for storing pre fetched data for better performance
     metadata = {
         patients: [],
@@ -212,14 +211,6 @@ export class UtilityServiceV2 {
 
     baseUrl = "https://hx4mf30vd7.execute-api.us-west-2.amazonaws.com/development/"
 
-    convertToDateInMs(datePickerValue) {
-        if (!datePickerValue) return Date.now();
-        let selectedDate = new Date(datePickerValue);
-        let timeZoneOffset = selectedDate.getTimezoneOffset();
-        selectedDate.setMinutes(selectedDate.getMinutes() - timeZoneOffset);
-        return selectedDate.getTime();
-    }
-
     showError(code) {
         if (code === 404)
             swal('No case found');
@@ -249,6 +240,7 @@ export class UtilityServiceV2 {
                 return false;
             return decrypt;
         } catch (e) {
+            sessionStorage.setItem("loggedOutUser", sessionStorage.getItem("usr"))
             sessionStorage.removeItem("usr");
             return false;
         }
@@ -307,7 +299,7 @@ export class UtilityServiceV2 {
                 "refId": "",
                 "image": "",
                 "gender": 0,
-                "dob": 0,
+                "dob": null,
                 "isActive": true,
                 "email": "",
                 "phone": "",
@@ -348,7 +340,7 @@ export class UtilityServiceV2 {
                         "type": "integer"
                     },
                     "dob": {
-                        "type": "integer"
+                        "type": "any"
                     },
                     "isActive": {
                         "type": "boolean"
@@ -976,7 +968,6 @@ export class UtilityServiceV2 {
                 "required": [
                     "caseId",
                     "patientId",
-                    "patientName",
                     "invitedUserMail",
                     "invitedUserId",
                     "presentStatus"

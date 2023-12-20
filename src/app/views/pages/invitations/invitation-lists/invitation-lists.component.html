@@ -26,11 +26,11 @@
                     <div class="my-2">
                         <h5 class="body1 card-title mb-0">List of Invitations</h5>
                     </div>
-                    <div class="d-flex align-items-center flex-wrap">
+                    <div class="d-flex align-items-center flex-wrap" style="cursor: pointer;">
                         <div class="nav nav-pills nav-justified tabview me-3">
                             <span [class.active]="!isOwn" (click)="isOwn = false; loadColleagueData()"
-                                  class="nav-link active">Received</span>
-                            <span [class.active]="isOwn" (click)="isOwn = true; loadBaseData()" class="nav-link">Sent</span>
+                                  class="nav-link active isCursor">Received</span>
+                            <span [class.active]="isOwn" (click)="isOwn = true; loadBaseData()" class="nav-link isCursor">Sent</span>
                         </div>
                         <button class="btn filter-btn me-2 my-2" data-bs-toggle="modal" data-bs-target="#filterModal">
                             <i class="bx bx-filter-alt"></i>

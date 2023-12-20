@@ -132,23 +132,9 @@
                                     <div class="mb-4">
                                         <label class="form-label body2 text-dark">DOB <span class="text-danger">*</span></label>
                                         <span style="position: relative; display: block">
-                                            <!-- <input
-                        *ngIf="!formInterface.object.dob"
-                        required
-                        type="date"
-                        class="form-control"
-                        max="{{ formInterface.today | date : 'yyyy-MM-dd' }}"
-                        name="dob"
-                      /> -->
                                             <input required type="date" class="form-control"
-                                                   max="{{ formInterface.today | date : 'yyyy-MM-dd' }}" [ngModel]="
-                          formInterface.object.dob
-                            ? (formInterface.object.dob | date : 'yyyy-MM-dd')
-                            : null
-                        " name="dob" />
+                                                   max="{{ formInterface.today | date : 'yyyy-MM-dd' }}" [(ngModel)]="formInterface.object.dob" name="dob" />
                                         </span>
-
-                                        <!-- <span style="color: #F7517F;font-weight: bold;" *ngIf="(this.isvalidDate == true)"> Date Of Birth should not greater than to today date</span> -->
                                     </div>
                                 </div>
                                 <div class="col-md-6">

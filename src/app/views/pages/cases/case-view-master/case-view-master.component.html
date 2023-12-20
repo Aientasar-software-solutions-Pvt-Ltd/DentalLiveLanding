@@ -1,21 +1,21 @@
 <ol class="breadcrumb">
-    <!-- breadcrumb -->
-    <li class="breadcrumb-item">
-        <a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
-    </li>
-    <li class="breadcrumb-item">
-        <a routerLink="/patients">Patients</a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">
-        Case Details
-    </li>
+	<!-- breadcrumb -->
+	<li class="breadcrumb-item">
+		<a routerLink="/dashboard"><i class="bx bxs-home" aria-hidden="true"></i> Dashboard</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a routerLink="/patients">Patients</a>
+	</li>
+	<li class="breadcrumb-item active" aria-current="page">
+		Case Details
+	</li>
 </ol>
 
 <div class="page-header d-sm-flex">
-    <div class="d-sm-flex d-block">
-        <div class="profile-img justify-content-center p-md-2 me-3">
-            <div>
-                <img [src]="
+	<div class="d-sm-flex d-block">
+		<div class="profile-img justify-content-center p-md-2 me-3">
+			<div>
+				<img [src]="
             utility.getMetaData(
               this.baseData?.patientId,
               'patientId',
@@ -31,101 +31,102 @@
                 )
               : '../../assets/images/users.png'
           " alt="" alt="" class="mb-2">
-            </div>
-        </div>
-        <div *ngIf="this?.baseData && caseOwnerDetails" class=" d-inline-block">
-            <h3 class="mt-2 fw-normal">{{ this?.baseData?.patientName }}
-                <small>(
-                    {{
-                    ( baseData.patientId ? this.utility.getMetaData(
-                    baseData.patientId,
-                    'patientId',
-                    ['dob'],
-                    'patients'
-                    ).toString() : "")| date : "MMM d, y" }})</small>
-                <span class="fw-bold d-block">{{ this.baseData?.title }}</span>
-            </h3>
-            <div><strong>{{caseOwnerDetails?.accountfirstName+" "+caseOwnerDetails?.accountlastName}}</strong>
-            </div>
-            <div class="text-blue fw-bold">
-                {{this.utility
-                .getMetaData(
-                this.utility
-                .getMetaData(
-                this.baseData?.resourceOwner,
-                "emailAddress",
-                ["primaryPractice"],
-                "users"
-                ),
-                "practiceId",
-                ["practiceName"],
-                "practices"
-                )}}
-            </div>
-            <div class="text-danger mt-1 fw-bold">
-                {{baseData?.caseRunningStatus && baseData.caseRunningStatus>'1'?"(Case Closed)":""}}
-            </div>
-        </div>
-    </div>
-    <div class="ms-auto mt-ms-0 mt-3">
-        <div>
-            <a routerLink="/mail/compose/0/{{ this.baseData?.patientId }}/{{
+			</div>
+		</div>
+		<div *ngIf="this?.baseData && caseOwnerDetails" class=" d-inline-block">
+			<h3 class="mt-2 fw-normal">{{ this?.baseData?.patientName }}
+				<small>(
+					{{
+					( baseData.patientId ? this.utility.getMetaData(
+					baseData.patientId,
+					'patientId',
+					['dob'],
+					'patients'
+					).toString() : "")| date : "MMM d, y" }})</small>
+				<span class="fw-bold d-block">{{ this.baseData?.title }}</span>
+			</h3>
+			<div><strong>{{caseOwnerDetails?.accountfirstName+" "+caseOwnerDetails?.accountlastName}}</strong>
+			</div>
+
+			<div class="text-blue fw-bold">
+				{{this.utility
+				.getMetaData(
+				this.utility.getMetaData(
+				baseData?.patientId,
+				'patientId',
+				['practiceId'],
+				'patients'
+				),
+				"practiceId",
+				["practiceName"],
+				"practices"
+				)}}
+			</div>
+
+			<div class="text-danger mt-1 fw-bold">
+				{{baseData?.caseRunningStatus && baseData.caseRunningStatus>'1'?"(Case Closed)":""}}
+			</div>
+		</div>
+	</div>
+	<div class="ms-auto mt-ms-0 mt-3">
+		<div>
+			<a routerLink="/mail/compose/0/{{ this.baseData?.patientId }}/{{
                   this.baseData?.caseId
                 }}" class="btn btn-pink me-2 mb-2" arrow="true" tippy="Email Patient">
-                <i class="bx bx-envelope"></i> Mail
-            </a>
-            <a routerLink="/mail/compose/1/{{ this.baseData?.patientId }}/{{
+				<i class="bx bx-envelope"></i> Mail
+			</a>
+			<a routerLink="/mail/compose/1/{{ this.baseData?.patientId }}/{{
                   this.baseData?.caseId
                 }}" class="btn btn-default mb-2" tippy="Schedule meeting with patient">
-                <i class="bx bx-video"></i> Video Conference
-            </a>
-        </div>
-    </div>
+				<i class="bx bx-video"></i> Video Conference
+			</a>
+		</div>
+	</div>
 </div>
 
 <div class="row">
-    <div class="col-12">
-        <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-                <!-- Nav tabs -->
-                <ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist"
-                    style="overflow-x: auto">
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="details" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/CaseDetails.svg" />Case Details
-                        </a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="messages" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/Thread.svg" />Chat/Discussion</a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="colleagues" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/Colleagues.svg" />Colleagues</a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="workorders" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/WorkOrders.svg" />Lab Scripts
-                        </a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="referrals" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/refferal.svg" />Referral
-                        </a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="milestones" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/milstone.svg" />Milestone
-                        </a>
-                    </li>
-                    <li class="nav-item" style="min-width: 168px">
-                        <a routerLink="files" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
-                                 src="assets/images/planner/file.svg" />Files</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+	<div class="col-12">
+		<div class="box">
+			<!-- /.box-header -->
+			<div class="box-body">
+				<!-- Nav tabs -->
+				<ul class="mb-4 nav nav-pills flex-nowrap nav-justified align-items-end" role="tablist"
+					style="overflow-x: auto">
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="details" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/CaseDetails.svg" />Case Details
+						</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="messages" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/Thread.svg" />Chat/Discussion</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="colleagues" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/Colleagues.svg" />Colleagues</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="workorders" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/WorkOrders.svg" />Lab Scripts
+						</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="referrals" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/refferal.svg" />Referral
+						</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="milestones" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/milstone.svg" />Milestone
+						</a>
+					</li>
+					<li class="nav-item" style="min-width: 168px">
+						<a routerLink="files" [routerLinkActive]="['active']" class="nav-link"><img class="me-2"
+								 src="assets/images/planner/file.svg" />Files</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
 <router-outlet></router-outlet>

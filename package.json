@@ -46,6 +46,7 @@
     "datatables.net": "^1.11.5",
     "datatables.net-bs5": "^1.11.5",
     "datatables.net-dt": "^1.11.5",
+    "date-and-time": "^3.0.3",
     "force": "0.0.3",
     "html-entities": "^2.3.3",
     "http-server": "^14.1.0",

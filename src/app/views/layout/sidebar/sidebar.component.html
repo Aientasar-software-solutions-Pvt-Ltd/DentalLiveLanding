@@ -1,20 +1,20 @@
 <nav class="vertical_nav" style="position: fixed">
-  <ul id="js-menu" class="menu">
-    <li class="menu--item">
-      <a routerLink="/dashboard" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-tachometer text-center"></i>
-        <span class="menu--label">DashBoard</span>
-      </a>
-    </li>
+    <ul id="js-menu" class="menu">
+        <li class="menu--item">
+            <a routerLink="/dashboard" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-tachometer text-center"></i>
+                <span class="menu--label">DashBoard</span>
+            </a>
+        </li>
 
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('patients')" routerLink="/patients" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-user text-center"></i>
-        <span class="menu--label">Patients</span>
-      </a>
-    </li>
-    <!-- 
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('patients')" routerLink="/patients" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-user text-center"></i>
+                <span class="menu--label">Patients</span>
+            </a>
+        </li>
+        <!-- 
     <li class="menu--item">
       <a [class.disabled]="!auth.hasPermission('cases')" routerLink="/cases/cases" routerLinkActive="active_view"
         (click)="toggleSidebar()" class="menu--link">
@@ -22,81 +22,81 @@
         <span class="menu--label">Cases</span>
       </a>
     </li> -->
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('memberss')" routerLink="/colleagues/colleague-lists"
-        routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
-        <i style="color: #444343; font-size: 1.1em" class="menu--icon fa fa-users text-center"></i>
-        <span class="menu--label">Members</span>
-      </a>
-    </li>
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('referrals')" routerLink="/referrals" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-user-plus text-center"></i>
-        <span class="menu--label">Referral</span>
-      </a>
-    </li>
-    <li class="menu--item mb-3">
-      <a [class.disabled]="!auth.hasPermission('workorders')" routerLink="/workorders" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-folder-plus text-center"></i>
-        <span class="menu--label">Lab Scripts</span>
-      </a>
-    </li>
-    <span class="body2 ms-4 hide">COMMUNICATION</span>
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('caseinvites')" routerLink="/caseinvites/invitation-lists"
-        routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-file-blank text-center"></i>
-        <span class="menu--label">Invitations</span>
-      </a>
-    </li>
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('milestones')" routerLink="/milestones" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-calendar-alt text-center"></i>
-        <span class="menu--label">Milestones</span>
-      </a>
-    </li>
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('mail')" routerLink="/mail" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-mail-send text-center"></i>
-        <span class="menu--label">Emails</span>
-      </a>
-    </li>
-    <li class="menu--item">
-      <a [class.disabled]="!auth.hasPermission('meet')" routerLink="/meet" routerLinkActive="active_view"
-        (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-video text-center"></i>
-        <span class="menu--label">Video conferencing</span>
-      </a>
-    </li>
-    <!-- <li class="menu--item">
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('memberss')" routerLink="/colleagues/colleague-lists"
+               routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+                <i style="color: #444343; font-size: 1.1em" class="menu--icon fa fa-users text-center"></i>
+                <span class="menu--label">Members</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('referrals')" routerLink="/referrals" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-user-plus text-center"></i>
+                <span class="menu--label">Referral</span>
+            </a>
+        </li>
+        <li class="menu--item mb-3">
+            <a [class.disabled]="!auth.hasPermission('workorders')" routerLink="/workorders" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-folder-plus text-center"></i>
+                <span class="menu--label">Lab Scripts</span>
+            </a>
+        </li>
+        <span class="body2 ms-4 hide">COMMUNICATION</span>
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('caseinvites')" routerLink="/caseinvites/invitation-lists"
+               routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-file-blank text-center"></i>
+                <span class="menu--label">Invitations</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('milestones')" routerLink="/milestones" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-calendar-alt text-center"></i>
+                <span class="menu--label">Milestones</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('mail')" routerLink="/mail" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-mail-send text-center"></i>
+                <span class="menu--label">Emails</span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <a [class.disabled]="!auth.hasPermission('meet')" routerLink="/meet" routerLinkActive="active_view"
+               (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-video text-center"></i>
+                <span class="menu--label">Video conferencing</span>
+            </a>
+        </li>
+        <!-- <li class="menu--item">
       <a [class.disabled]="!auth.hasPermission('contacts')" routerLink="/contacts" routerLinkActive="active_view"
         (click)="toggleSidebar()" class="menu--link">
         <i class="menu--icon bx bxs-contact text-center"></i>
         <span class="menu--label">Contacts</span>
       </a>
     </li> -->
-    <li class="menu--item mb-3">
-      <a routerLink="/tutorials" routerLinkActive="active_view" class="menu--link">
-        <i class="menu--icon bx bx-spreadsheet text-center"></i>
-        <span class="menu--label">Tutorials</span>
-      </a>
-    </li>
-    <span class="body2 ms-4 hide">SETTINGS</span>
-    <li class="menu--item">
-      <a routerLink="/accounts/details" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
-        <i class="menu--icon bx bx-cog text-center"></i>
-        <span class="menu--label">Account Settings </span>
-      </a>
-    </li>
-    <li class="menu--item">
-      <a href="javascript:void(0);" (click)="onLogout($event)" class="menu--link">
-        <i class="menu--icon bx bx-log-out text-center"></i>
-        <span class="menu--label">Logout</span>
-      </a>
-    </li>
-  </ul>
+        <li class="menu--item mb-3">
+            <a routerLink="/tutorials" routerLinkActive="active_view" class="menu--link">
+                <i class="menu--icon bx bx-spreadsheet text-center"></i>
+                <span class="menu--label">Tutorials</span>
+            </a>
+        </li>
+        <span class="body2 ms-4 hide">SETTINGS</span>
+        <li class="menu--item">
+            <a [class.disabled]="usr.getUserDetails()?.Subuser" routerLink="/accounts/details" routerLinkActive="active_view" (click)="toggleSidebar()" class="menu--link">
+                <i class="menu--icon bx bx-cog text-center"></i>
+                <span class="menu--label">Account Settings </span>
+            </a>
+        </li>
+        <li class="menu--item">
+            <label (click)="onLogout()" class="menu--link">
+                <i class="menu--icon bx bx-log-out text-center"></i>
+                <span class="menu--label">Logout</span>
+            </label>
+        </li>
+    </ul>
 </nav>

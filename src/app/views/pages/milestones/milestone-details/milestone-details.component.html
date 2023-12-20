@@ -22,7 +22,7 @@
 <div [hidden]="isLoadingData">
 
     <!-- Header Section -->
-    <div *ngIf="baseData" class="page-header d-sm-flex">
+    <div *ngIf="!hasCase && baseData" class="page-header d-sm-flex">
         <div class="d-sm-flex d-block">
             <div class="profile-img justify-content-center p-md-2 me-3">
                 <img [src]="
@@ -58,30 +58,33 @@
                 <span class="fw-bold d-block">{{ utility.getMetaData(baseData.caseId, "caseId", ["title"], "cases")}}</span>
             </h3>
             <div>
+                <!-- case Owner label -->
                 <strong>{{this.utility
                     .getMetaData(
-                    this.baseData?.resourceOwner,
+                    utility.getMetaData(baseData.caseId, "caseId", ["resourceOwner"], "cases"),
                     "emailAddress",
                     ["accountfirstName","accountlastName"],
                     "users"
                     )}}
                 </strong>
             </div>
+
             <div class="text-blue fw-bold">
                 {{this.utility
                 .getMetaData(
-                this.utility
-                .getMetaData(
-                this.baseData?.resourceOwner,
-                "emailAddress",
-                ["primaryPractice"],
-                "users"
+                this.utility.getMetaData(
+                baseData?.patientId,
+                'patientId',
+                ['practiceId'],
+                'patients'
                 ),
                 "practiceId",
                 ["practiceName"],
                 "practices"
                 )}}
             </div>
+
+
             <div class="text-danger mt-1 fw-bold">
                 {{utility.getMetaData(baseData.caseId, "caseId", ["caseRunningStatus"], "cases")>'1'?"(Case Closed)":""}}
             </div>
@@ -103,7 +106,7 @@
                                 <div class="tab-menu-heading">
                                     <div class="tabs-menu">
                                         <!-- Tabs -->
-                                        <ul class="nav panel-tabs">
+                                        <ul class="nav panel-tabs" style="cursor:pointer">
                                             <li><a [class.active]="tab == 0" (click)="tab = 0" class="me-1 nav-link active">Details</a>
                                             </li>
                                             <li><a [class.active]="tab == 1" (click)="tab = 1" class="me-1 nav-link">Thread</a></li>

@@ -48,8 +48,11 @@ export class PatientsListComponent implements OnInit {
         this.loadPatients(true);
         this.utility.getArrayObservable().subscribe(array => {
             console.log(array)
-            if (array.some(el => el.module === this.module && el.isProcessed))
-                this.loadPatients(true);
+            if (array.some(el => el.isProcessed && (el.module === this.module || el.module == "cases"))) {
+                setTimeout(() => {
+                    this.loadPatients(true);
+                }, 5000);
+            }
         });
     }
 
@@ -58,19 +61,19 @@ export class PatientsListComponent implements OnInit {
         $('#dataTables').DataTable().search(v).draw();
     }
 
+    // counterId is used to increase count  of the cases if its not null
     async loadPatients(force = false) {
         if (!force && this.data) return;
         await this.utility.loadPreFetchData("cases", true);
         await this.utility.loadPreFetchData("patients", true);
+
         this.data = [];
         this.pristineData = [];
         this.isLoadingData = true;
 
-
         //edge case when there is only one patient
         if (this.utility.metadata["patients"].length == 1)
             this.utility.metadata["patients"][0]['caseList'] = this.utility.metadata.cases.filter((item) => item.patientId == this.utility.metadata["patients"][0].patientId);
-
 
         this.data = this.utility.metadata["patients"].sort((first, second) => {
             if (!first.hasOwnProperty("caseList"))
@@ -109,6 +112,10 @@ export class PatientsListComponent implements OnInit {
             else if (element["caseRunningStatus"] > 1) count = count + 1
         });
         return count;
+    }
+
+    getTime(date) {
+        return new Date(date).getTime();
     }
 
     filterSubmit(form: NgForm) {

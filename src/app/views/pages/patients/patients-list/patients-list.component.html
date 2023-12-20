@@ -55,7 +55,7 @@
                         <thead class="thead-light text-uppercase">
                             <tr>
                                 <th class="body2">PATIENT NAME</th>
-                                <th class="body2">DATE OF BIRTH</th>
+                                <th class="body2" data-orderable="false">DATE OF BIRTH</th>
                                 <th class="body2">DATE ADDED</th>
                                 <th class="body2">CASES</th>
                                 <th class="body2">PATIENT</th>
@@ -88,8 +88,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <span [hidden]="true">{{data.dob}}</span>
-                                    <span class="body2">{{
+                                    <span class="body2"> {{
                                         data.dob | date : "dd/MM/YYY"
                                         }}</span>
                                 </td>
@@ -102,13 +101,13 @@
                                     <div class="d-flex align-items-center">
                                         <span [hidden]="true">{{getCaseCount(data.caseList,true)}}</span>
                                         <ng-container>
-                                            <a tippy="Open Case"
+                                            <a tippy="{{getCaseCount(data.caseList,true)==1?'Open Case':'View Cases'}}"
                                                [class.isDisabled]="!data.caseList || getCaseCount(data.caseList,true)==0"
                                                [routerLink]="getCaseCount(data.caseList,true)==1?'/cases/cases/case-view/'+data.caseList[0].caseId:'/patients/patient-detail/'+data.patientId">
                                                 <span
                                                       class="case-circle me-2">{{(getCaseCount(data.caseList,true))}}</span>
                                             </a>
-                                            <a tippy="Closed Case"
+                                            <a tippy="{{getCaseCount(data.caseList,false)==1?'Closed Case':'Closed Cases'}}"
                                                [class.isDisabled]="!data.caseList || getCaseCount(data.caseList,false)==0"
                                                [routerLink]="getCaseCount(data.caseList,false)==1?'/cases/cases/case-view/'+data.caseList[0].caseId:'/patients/patient-detail/'+data.patientId">
                                                 <span class="case-circle2">{{getCaseCount(data.caseList,false)}}</span>
@@ -136,8 +135,7 @@
                                               *ngIf="getCaseCount(data.caseList,true)>0 ||(getCaseCount(data.caseList,false)==0)  else elseBlock"
                                               class="badge rounded-pill badge-success body2">Active</span>
                                         <ng-template #elseBlock>
-                                            <span class="badge rounded-pill badge-warning body2">In
-                                                Active</span>
+                                            <span class="badge rounded-pill badge-warning body2">Inactive</span>
                                         </ng-template>
                                         <br><small class="text-muted">Last Update: {{
                                             data.dateUpdated | date : "dd MMM, y"

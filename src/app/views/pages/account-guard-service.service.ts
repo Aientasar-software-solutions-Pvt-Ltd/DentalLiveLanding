@@ -5,18 +5,18 @@ import { Observable } from 'rxjs';
 import { AccdetailsService } from './accdetails.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AccountGuardServiceService implements CanActivate {
 
-  constructor(private usr: AccdetailsService) { }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    let user = this.usr.getUserDetails();
-    if (!user.Subuser && state.url.includes("subaccount"))
-      return false;
-    else if (user.Subuser && !state.url.includes("subaccount"))
-      return false;
-    else
-      return true;
-  }
+    constructor(private usr: AccdetailsService) { }
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+        let user = this.usr.getUserDetails();
+        if (!user?.Subuser && state.url.includes("subaccount"))
+            return false;
+        else if (user?.Subuser && !state.url.includes("subaccount"))
+            return false;
+        else
+            return true;
+    }
 }

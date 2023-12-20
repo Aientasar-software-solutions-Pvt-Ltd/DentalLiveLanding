@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import swal from "sweetalert";
 import { ApiDataService } from "../../users/api-data.service";
 import { AddEditData, UtilityService } from "../../users/utility.service";
+import Swal from "sweetalert2";
 
 
 
@@ -134,7 +135,11 @@ export class AddcontactsComponent implements OnInit, AddEditData {
   onSubmit() {
     if (this.mainForm.invalid) {
       this.mainForm.form.markAllAsTouched();
-      swal("Please Enter Values In The Highlighted Fields");
+        Swal.fire({
+            title: 'Please enter values in all the highlighted fields.',
+            showCancelButton: false,
+            confirmButtonText: 'OK'
+        })
       return false;
     }
     this.isUploadingData = true;

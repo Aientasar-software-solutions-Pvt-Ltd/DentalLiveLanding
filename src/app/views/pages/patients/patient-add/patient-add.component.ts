@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
 import swal from 'sweetalert';
+import Swal from "sweetalert2";
 import { Country, State } from 'country-state-city';
 import { v4 as uuidv4 } from "uuid";
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
@@ -97,7 +98,11 @@ export class PatientAddComponent implements OnInit, AfterViewInit {
     //special function for this component
     onSubmitInsurance(form: NgForm) {
         if (form.invalid) {
-            swal("Enter Required Fields")
+            Swal.fire({
+                title: 'Please enter values in all the highlighted fields.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             form.form.markAllAsTouched();
             return;
         }
@@ -109,7 +114,11 @@ export class PatientAddComponent implements OnInit, AfterViewInit {
     //special function for this component
     onSubmitMedication(form: NgForm) {
         if (form.invalid) {
-            swal("Enter required feilds")
+            Swal.fire({
+                title: 'Please enter values in all the highlighted fields.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             form.form.markAllAsTouched();
             return;
         }
@@ -125,10 +134,6 @@ export class PatientAddComponent implements OnInit, AfterViewInit {
     // }
 
     customSubmit(form) {
-        // if (!this.formInterface.object.phone || this.formInterface.object.phone.toString().length < 11) {
-        // 	swal("Invalid Phone Number")
-        // 	return
-        // }
 
         let date1 = new Date(this.formInterface.object.dob);
         let date2 = new Date();
@@ -140,10 +145,13 @@ export class PatientAddComponent implements OnInit, AfterViewInit {
             swal("DOB Should Be Less Than Today’s Date")
             return
         }
-        this.formInterface.object.dob = new Date(this.formInterface.object.dob);
 
         if (!this.formInterface.object.practiceId || this.formInterface.object.practiceId.length == 0) {
-            swal("Select a Practice Location")
+            Swal.fire({
+                title: 'Please select a Practice from the dropdown. If there are no practices listed, please navigate to Account Settings to set up a Practice.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return
         }
 

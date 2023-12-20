@@ -57,6 +57,7 @@ export class CrudOperationsService {
         this.isEditMode = false;
         // change
         this.object = JSON.parse(JSON.stringify(this.section.object));
+        console.log(this.object)
         this.tempAvatarImage = null;
         this.tempAvatarName = null;
     }
@@ -129,12 +130,15 @@ export class CrudOperationsService {
         }
     }
 
-
     //validates data + uploads any binary files and gets the names of S3 resource --> calls formupload
     async onSubmit(hasForm = true, noBackground = false) {
         if (hasForm && this.mainForm.invalid) {
             this.mainForm.form.markAllAsTouched();
-            swal("Please Enter Values In The Highlighted Fields");
+            Swal.fire({
+                title: 'Please enter values in all the highlighted fields.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return false;
         }
         if (!this.dovValidateSchema.validate(this.object, this.section.schema).valid || this.isEmptyString()) {
@@ -151,7 +155,6 @@ export class CrudOperationsService {
                 }
             }
 
-            console.log(noBackground)
             //if u want to save directly-->call uploadFormData / create a background object and save as background
             if (noBackground) {
                 try {
@@ -350,10 +353,10 @@ export class CrudOperationsService {
 
     deleteData(id) {
         Swal.fire({
-            title: 'Do You Want To Delete This Record?',
+            title: 'Do you want to delete this record?',
             showCancelButton: true,
-            confirmButtonText: 'Yes,Delete it',
-            denyButtonText: `Don't delete`,
+            confirmButtonText: 'CONTINUE',
+            denyButtonText: `CANCEL`,
         }).then((result) => {
             if (result.isConfirmed) {
                 this.isUploadingData = true;

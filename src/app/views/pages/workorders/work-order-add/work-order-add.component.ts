@@ -8,6 +8,7 @@ import { WorkOrderGuideComponent } from '../work-order-guide/work-order-guide.co
 import { ApiDataService } from '../../users/api-data.service';
 import swal from 'sweetalert';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-work-order-add',
@@ -37,6 +38,7 @@ export class WorkOrderAddComponent implements OnInit {
     patientObject = null;
     caseObject = null;
     today = new Date();
+    currentCase = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -62,6 +64,7 @@ export class WorkOrderAddComponent implements OnInit {
         this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
         this.formInterface.resetForm();
         this.loadData();
+        this.formInterface.object.startDate = new Date().getTime();
         this.formInterface.object.members = [];
     }
 
@@ -75,11 +78,12 @@ export class WorkOrderAddComponent implements OnInit {
                 return item
             })
             this.currentCases = this.formInterface.dependentData['cases']
-
             this.route.parent.parent.paramMap.subscribe((parentParams) => {
 
-                if (parentParams.get("caseId") && parentParams.get("caseId") != "")
+                if (parentParams.get("caseId") && parentParams.get("caseId") != "") {
+                    this.hasPatient = true
                     this.hasCase = true
+                }
 
                 this.route.paramMap.subscribe((params) => {
                     if (params.get("id") && params.get("id") != "") {
@@ -134,6 +138,7 @@ export class WorkOrderAddComponent implements OnInit {
     }
 
     populateCaseMembers(caseId) {
+        this.currentCase = this.utility.metadata.cases.find((cs) => cs.caseId == this.formInterface.object.caseId)
         //caseinvites --> get accepted uses of this case --> send api for emailaddressarray --> bind users
         this.dataService.getallData(this.utility.baseUrl + "caseinvites?caseId=" + caseId, true).subscribe(
             (Response) => {
@@ -146,6 +151,7 @@ export class WorkOrderAddComponent implements OnInit {
                 let invited = []
                 let nonInvited = [];
                 this.formInterface.dependentData['users'].forEach((item) => {
+                    if (item.emailAddress == this.currentCase?.resourceOwner && this.user.emailAddress != item.emailAddress) invited.push(item)
                     if (Object.keys(this.emailArray).includes(item.emailAddress)) {
                         invited.push(item)
                     } else {
@@ -178,18 +184,30 @@ export class WorkOrderAddComponent implements OnInit {
             todaysDate.setHours(0, 0, 0, 0);
 
             if (startDate < todaysDate) {
-                swal("Start Date Should Not Be Less Than Today’s Date")
+                Swal.fire({
+                    title: 'The Start Date can not be earlier than today’s date. Please select a different date and time.',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                })
                 return
             }
         }
 
         if (!form.value.enddate) {
-            swal("Enter Expected Date")
+            Swal.fire({
+                title: 'Please enter the Expected Date.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return
         }
 
         if (form.value.startdate > form.value.enddate) {
-            swal("Expected Date Should Be Greater Than Start Date")
+            Swal.fire({
+                title: 'The Expected Date must be later than the Start Date. Please select a different date and time.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return
         }
 
@@ -301,6 +319,7 @@ export class WorkOrderAddComponent implements OnInit {
             this.populateCaseMembers(this.formInterface.object.caseId)
         } catch (error) {
             (error['status']) ? this.utility.showError(error['status']) : swal("Error processing request,please try again");
+            this.isUploadingData = false;
             return;
         }
     }

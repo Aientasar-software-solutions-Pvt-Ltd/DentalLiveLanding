@@ -140,12 +140,12 @@
                                             <ng-container *ngIf="!data.isDraft && data.presentStatus ==1 && data.enddate<currentTime">
                                                 <span class="badge rounded-pill badge-warning body2 px-2">Overdue</span>
                                             </ng-container>
-                                            <ng-container *ngIf="!data.isDraft && data.presentStatus ==1 && hasPendingRequest(data.members)">
+                                            <ng-container *ngIf="!data.isDraft && data.presentStatus ==1 &&  data.enddate>=currentTime &&  hasPendingRequest(data.members, data.caseId)">
                                                 <span class="badge rounded-pill badge-warning body2 px-2">Pending</span>
                                             </ng-container>
                                             <ng-container [ngSwitch]="data.presentStatus">
                                                 <ng-container
-                                                              *ngIf="!data.isDraft && (data.presentStatus >1 || (!hasPendingRequest(data.members) && data.enddate>=currentTime))">
+                                                              *ngIf="!data.isDraft && (data.presentStatus >1 || (!hasPendingRequest(data.members,data.caseId) && data.enddate>=currentTime))">
                                                     <span class="badge rounded-pill badge-info body2 px-2" *ngSwitchCase="1">Active</span>
                                                 </ng-container>
                                                 <span class="badge rounded-pill badge-warning body2 px-2" *ngSwitchCase="2">Inactive</span>

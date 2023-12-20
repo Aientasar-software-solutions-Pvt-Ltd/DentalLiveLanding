@@ -4,6 +4,7 @@ import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
 import { ReferralGuideComponent } from '../referral-guide/referral-guide.component';
 import swal from 'sweetalert';
 import { ApiDataService } from '../../users/api-data.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -93,10 +94,13 @@ export class ReferralDetailsComponent implements OnInit {
 
     async changeStatus(e) {
         try {
-            let result = await swal('Do you want to change the staus of the Referral?', {
-                buttons: ["No", "Yes,Update Status"],
+            let result = await Swal.fire({
+                title: 'Do you want to change the Status of this Referral?',
+                showCancelButton: true,
+                confirmButtonText: 'CONTINUE',
+                denyButtonText: `CANCEL`,
             })
-            if (!result) {
+            if (!result.isConfirmed) {
                 e.target.value = this.baseData.presentStatus;
                 return;
             }

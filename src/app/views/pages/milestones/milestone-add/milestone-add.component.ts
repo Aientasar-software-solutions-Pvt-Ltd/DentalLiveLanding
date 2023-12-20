@@ -5,6 +5,7 @@ import { CvfastNewComponent } from 'src/app/cvfastFiles/cvfast-new/cvfast-new.co
 import { UtilityServiceV2 } from 'src/app/utility-service-v2.service';
 import { CrudOperationsService } from 'src/app/crud-operations.service';
 import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-milestone-add',
@@ -41,6 +42,7 @@ export class MilestoneAddComponent implements OnInit {
 
     async loadDep() {
         await this.utility.loadPreFetchData("practices");
+        await this.utility.loadPreFetchData("patients");
         await this.utility.loadPreFetchData("users");
     }
 
@@ -48,6 +50,7 @@ export class MilestoneAddComponent implements OnInit {
 
         this.formInterface.section = JSON.parse(JSON.stringify(this.utility.apiData[this.module]));
         this.formInterface.resetForm();
+        this.formInterface.object.startDate = new Date().getTime();
         this.formInterface.loadDependencies().then(() => {
 
             this.formInterface.dependentData['patients'] = this.formInterface.dependentData['patients'].map(item => {
@@ -58,14 +61,12 @@ export class MilestoneAddComponent implements OnInit {
             this.currentCases = this.formInterface.dependentData['cases']
 
             this.route.parent.parent.paramMap.subscribe((parentParams) => {
-
                 this.loadDep();
-
-                if (parentParams.get("caseId") && parentParams.get("caseId") != "")
+                if (parentParams.get("caseId") && parentParams.get("caseId") != "") {
+                    this.hasPatient = true
                     this.hasCase = true
-
+                }
                 this.route.paramMap.subscribe((params) => {
-
                     if (params.get("id") && params.get("id") != "") {
                         if (params.get("id").startsWith('pid_')) {
                             this.hasPatient = true
@@ -127,7 +128,11 @@ export class MilestoneAddComponent implements OnInit {
         }
 
         if (!form.value.duedate) {
-            swal("Enter Due Date")
+            Swal.fire({
+                title: 'Please enter the Due Date.',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            })
             return
         }
 

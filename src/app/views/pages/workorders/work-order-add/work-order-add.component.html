@@ -52,6 +52,20 @@
                     }})</small>
                 <span *ngIf="caseObject" class="fw-bold d-block">{{ caseObject?.title}}</span>
             </h3>
+            <div *ngIf="!caseObject" class="text-blue fw-bold">
+                {{this.utility
+                .getMetaData(
+                this.utility.getMetaData(
+                patientObject?.patientId,
+                'patientId',
+                ['practiceId'],
+                'patients'
+                ),
+                "practiceId",
+                ["practiceName"],
+                "practices"
+                )}}
+            </div>
             <div *ngIf="caseObject">
                 <div>
                     <strong>{{this.utility
@@ -63,21 +77,22 @@
                         )}}
                     </strong>
                 </div>
+
                 <div class="text-blue fw-bold">
                     {{this.utility
                     .getMetaData(
-                    this.utility
-                    .getMetaData(
-                    caseObject?.resourceOwner,
-                    "emailAddress",
-                    ["primaryPractice"],
-                    "users"
+                    this.utility.getMetaData(
+                    caseObject?.patientId,
+                    'patientId',
+                    ['practiceId'],
+                    'patients'
                     ),
                     "practiceId",
                     ["practiceName"],
                     "practices"
                     )}}
                 </div>
+
                 <div class="text-danger mt-1 fw-bold">
                     {{caseObject?.caseRunningStatus && caseObject?.caseRunningStatus>'1'?"(Case Closed)":""}}
                 </div>
@@ -159,7 +174,7 @@
                                                         }}</span>
                                                 </ng-template>
                                                 <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                                                    <div *ngIf="emailArray[item.emailAddress].presentStatus<2" class="card card-lists">
+                                                    <div *ngIf="(currentCase && item.emailAddress==currentCase.resourceOwner) || emailArray[item.emailAddress]?.presentStatus<2" class="card card-lists">
                                                         <div class="card-body p-0">
                                                             <div class="d-flex align-items-center">
                                                                 <img style="height: 50px; width: 50px" [src]="
@@ -183,10 +198,12 @@
                                       " class="card-subtitle text-muted mb-2">
                                                                         {{ item.emailAddress }}
                                                                     </h6>
-                                                                    <label class="badge badge-pill badge-info body2 px-2"
-                                                                           *ngIf="emailArray[item.emailAddress].presentStatus==0">Pending</label>
                                                                     <label class="badge badge-pill badge-success body2 px-2"
-                                                                           *ngIf="emailArray[item.emailAddress].presentStatus==1">Accepted</label>
+                                                                           *ngIf="currentCase && item.emailAddress==currentCase.resourceOwner">Owner</label>
+                                                                    <label class="badge badge-pill badge-info body2 px-2"
+                                                                           *ngIf="emailArray[item.emailAddress]?.presentStatus==0">Pending</label>
+                                                                    <label class="badge badge-pill badge-success body2 px-2"
+                                                                           *ngIf="emailArray[item.emailAddress]?.presentStatus==1">Accepted</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -195,7 +212,7 @@
                                                 <ng-template ng-footer-tmp>
                                                     <button (click)="resetInviteForm();" data-bs-toggle="modal" data-bs-target="#addInvite"
                                                             type="button" class="btn btn-light-green my-1 me-2">
-                                                        <i class="bx bx-plus-circle"></i> Invite Members
+                                                        <i class="bx bx-plus-circle"></i> Invite Member
                                                     </button>
                                                 </ng-template>
                                             </ng-select>
